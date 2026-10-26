@@ -16,7 +16,7 @@ Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser imp
 | Composable content blocks and layouts | Planned; existing parser has some block primitives | Mixed typed/handwritten/media blocks, stable source order, accessible reordering and responsive/print layouts |
 | Journaling methods | 55 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
 | Paper sizes | 27 presets in spec; common/custom sizes in app | Expose complete preset registry and physical print proofs |
-| Perspective scanner | Core geometry/detection tests and sample browser flow pass | Real Pixel camera, varied lighting, small pages and long pages |
+| Perspective scanner | Hidden from the site while unfinished (no links, noindex); core geometry/detection tests pass | Real Pixel camera, varied lighting, small pages and long pages |
 | PDF export | Generated multi-page PDF validated for page count and physical geometry | Verify download flow across Android browsers |
 | Handwriting | Canvas, pressure-aware pen, eraser, undo/redo, stroke import/export implemented | Mouse stroke, undo/redo and image handoff checked; physical stylus/palm testing remains |
 | Spelling | Native browser spellcheck plus optional supplied word list | Locale selection, personal dictionary persistence |
