@@ -87,6 +87,10 @@ are. A repository ZIP contains the project itself; it is a different download fr
 
 ## Features
 
+The site and journal preview share one handwriting stylesheet, with cream paper in light mode and charcoal paper in dark mode.
+The homepage demonstrates ink colors, highlights and other Jot marks without a writing editor; open **Write** to make your own page.
+
+
 ### Numbers, charts and the weekly dashboard
 
 Numbers you write (sleep hours, steps, a 1–5 mood) are `measurement` records; a `:::record chart` asks for them to be drawn, one small
@@ -205,11 +209,13 @@ node site/test-core.cjs
 # Verify the published site and tracked file manifest
 node tools/privacy-check.mjs site/dist
 node tools/manifest.cjs --check
+node tools/build-handwriting-css.mjs --check
 ```
 
 Browser regression checks require Playwright, Chromium and the root `axe-core` dependency. With Playwright available, run
 `npm install`, then `node site/test-editor-ui.cjs` and `node site/test-colors-ui.cjs`.
 Run `node site/test-layout-ui.cjs` for grid sizing, page starts, save/reopen, overflow and HTML export checks.
+Run `node site/test-paper-ui.cjs` to check shared styling, paper modes, homepage examples and accessibility across the site.
 These browser checks are separate from the Node.js tests above.
 
 Before changing behavior, read [DECISIONS.md](DECISIONS.md) and the relevant component README. Parser code is copied into the site and

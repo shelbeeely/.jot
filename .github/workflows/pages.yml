@@ -31,6 +31,7 @@ jobs:
 
       - name: The site is built from the current sources
         run: |
+          node tools/build-handwriting-css.mjs --check
           node tools/sync-roadmap.mjs --check
           node site/build-guides.mjs --check
           node tools/build-examples.mjs --check

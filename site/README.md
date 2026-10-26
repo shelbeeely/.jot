@@ -117,3 +117,13 @@ To turn it on once: the repository's **Settings → Pages → Source: GitHub Act
 `https://<owner>.github.io/<repository>/`; every link in it is relative, so it works there or on a custom domain.
 
 Template layout browser regression: `node site/test-layout-ui.cjs` from the project root (Playwright with Chromium).
+
+## Shared paper and handwriting styles
+
+All site pages and journal previews load `dist/jot/handwriting.css`. Generate it from the renderer with
+`node tools/build-handwriting-css.mjs` at the project root; CI checks it with `--check`. Existing page styles define structure.
+The shared sheet supplies the same bundled fonts, cream/charcoal paper, grain, dots and ink palette for the site and preview.
+System light/dark mode is supported; print uses light paper. Exports embed the linked sheet and fonts to stay standalone.
+
+The homepage has no editor or form. Its color and formatting gallery uses actual Jot previews with expandable source examples.
+Browser regression: `node site/test-paper-ui.cjs` (Chromium, Playwright and axe-core).

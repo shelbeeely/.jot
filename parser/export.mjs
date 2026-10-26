@@ -34,7 +34,13 @@ export async function exportHTML(page, { title = 'Journal', lang = 'en', pageCss
   for (const img of clone.querySelectorAll('img[src^="blob:"]')) { try { img.src = await dataURL(img.src, fetchImpl); } catch { img.replaceWith(doc.createTextNode(`[Image: ${img.alt}]`)); } }
   for (const a of clone.querySelectorAll('a[href^="blob:"]')) { try { a.href = await dataURL(a.href, fetchImpl); } catch { a.removeAttribute('href'); } }
   // the styles that drew it, the fonts inside them embedded
-  let css = STYLE_IDS.map((id) => doc.getElementById(id)).filter(Boolean).map((s) => s.textContent).join('\n');
+  const sheets = await Promise.all(STYLE_IDS.map((id) => doc.getElementById(id)).filter(Boolean).map(async (sheet) => {
+    if (sheet.tagName !== 'LINK') return sheet.textContent;
+    const response = await fetchImpl(sheet.href);
+    if (!response.ok) throw new Error(`Could not read shared page stylesheet: ${response.status}`);
+    return (await response.text()).replace(/url\((['"])(.*?)\1\)/g, (match, quote, url) => /^(data:|blob:|#)/.test(url) ? match : `url('${new URL(url, sheet.href).href}')`);
+  }));
+  let css = sheets.join('\n');
   const fonts = [...new Set([...css.matchAll(/url\('([^']+\.woff2)'\)/g)].map((m) => m[1]))];
   const used = page.classList.contains('jot-hand') ? (doc.defaultView.getComputedStyle(page).getPropertyValue('--hw-family') || '').replace(/['"\s]/g, '') : '';
   for (const f of fonts) {

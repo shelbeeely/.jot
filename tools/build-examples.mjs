@@ -89,8 +89,9 @@ export function page(index) {
 <meta name="description" content="Real diaries as Jot: public-domain diaries converted to dated .jot entries, to read, download and learn from.">
 <link rel="stylesheet" href="../editor/editor.css">
 <link rel="stylesheet" href="examples.css">
+<link id="jot-hand-css" rel="stylesheet" href="../jot/handwriting.css">
 </head>
-<body>
+<body class="jot-site">
 <a class="skip" href="#diaries">Skip to the diaries</a>
 <header class="top">
   <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>

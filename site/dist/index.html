@@ -7,8 +7,9 @@
 <title>Jot · jot it down, get a beautiful page</title>
 <meta name="description" content="Jot things down in plain text and get beautifully formatted journal and note pages back: dates, tasks, tags and margin notes laid out for reading, printing and sharing. The file stays plain text, private and yours.">
 <link rel="stylesheet" href="home.css">
+<link id="jot-hand-css" rel="stylesheet" href="jot/handwriting.css">
 </head>
-<body>
+<body class="jot-site">
 <a class="skip" href="#why">Skip to why Jot</a>
 <header class="top">
   <a class="brand" href="./" aria-current="page"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
@@ -44,12 +45,20 @@ o Dinner with Ana at 7
 [[Worth noticing.]]</code></pre>
         </div>
         <div class="sample-file sample-out">
-          <p class="tab">You get <span>Journal style</span></p>
+          <p class="tab">You get <span>Handwritten on paper</span></p>
           <article class="jot-page" id="sample-page" aria-label="What you get: the same note as a formatted journal page"></article>
         </div>
       </div>
-      <figcaption id="sample-cap">What you jot is the whole file, plain text any editor opens; what you get is the same words as Jot lays them out. Switch to Notes, print it, or save it as one page to share.</figcaption>
+      <figcaption id="sample-cap">What you jot is the whole file, plain text any editor opens; what you get is the same words as Jot lays them out. Open Write to change ink, highlight a thought, print it, or save one page to share.</figcaption>
     </figure>
+  </section>
+
+  <section class="feature-gallery" aria-labelledby="features-h">
+    <p class="eyebrow">THE SAME WORDS. YOUR OWN WAY.</p>
+    <h2 id="features-h">A notebook with room for every kind of thought.</h2>
+    <p class="lead">Ink in more than one color. Highlights that look like a pen has been here. Tasks, tables, numbers, little notes in the margin. These examples are real Jot, drawn by the same renderer as your journal.</p>
+    <div class="feature-samples" id="feature-samples"></div>
+    <p><a class="btn primary" href="write/">Make a page your own</a> <a class="btn quiet" href="guide/writing-jot.html">All the marks you can use</a></p>
   </section>
 
   <section class="why" id="why" aria-labelledby="why-h">
@@ -59,9 +68,9 @@ o Dinner with Ana at 7
       <article><span class="num">02</span><h3>It's yours, and only yours.</h3><p>Nothing here has an account, a server or analytics. The workspace, the template editor and the converter run in your browser, and nothing you write is uploaded. Copy the file wherever you like.</p></article>
       <article><span class="num">03</span><h3>Write anywhere you can type.</h3><p>A phone notes app, a laptop, an e-ink typewriter like InkDeck, VS Code. The same file works in all of them, and the marks are easy to type by hand: <code>[ ]</code> for a task, <code>o</code> for an event, <code>### 2026-10-26</code> for a day.</p></article>
       <article><span class="num">04</span><h3>Mix methods freely.</h3><p>Bullet journal, morning pages, gratitude, CBT thought records, habit trackers, a weekly dashboard. 46 method guides, and none of them owns the file: use one, use five, change your mind next month.</p></article>
-      <article><span class="num">05</span><h3>Quick notes, beautiful pages.</h3><p>Jot things down in a few keystrokes and get formatted pages back: dates in words, tasks ticked off, tags, margin notes, in a book-like Journal style or clean Notes. Print them or save one page to share.</p></article>
+      <article><span class="num">05</span><h3>Quick notes, beautiful pages.</h3><p>Jot things down in a few keystrokes and get formatted pages back: dates in words, tasks ticked off, tags, margin notes, in the same handwritten style you see here, or a typed Journal or Notes style. Print them or save one page to share.</p></article>
       <article><span class="num">06</span><h3>Numbers become charts.</h3><p>Track sleep, steps, hours worked or mood as numbers, not just checkmarks. Add a chart and the week draws itself, so patterns show at a glance, while the file stays readable text.</p></article>
-      <article><span class="num">07</span><h3>Paper when you want it.</h3><p>Print your journal handwritten on a dot grid, every line on its row of dots, in A5, A4, Letter or pocket size, and keep pictures and sketches beside the words in a <code>.jotz</code>.</p></article>
+      <article><span class="num">07</span><h3>Paper when you want it.</h3><p>Print your journal handwritten on a dot grid, text and checkboxes aligned to the dot grid, in A5, A4, Letter or pocket size, and keep pictures and sketches beside the words in a <code>.jotz</code>.</p></article>
     </div>
   </section>
 
@@ -83,7 +92,7 @@ o Dinner with Ana at 7
     <div>
       <p class="eyebrow">NEW · HANDWRITTEN PAGES</p>
       <h2 id="written-h">Typed when you write it. Handwritten when you print it.</h2>
-      <p>Turn on <b>Handwritten</b> in the workspace and your journal is written out in a pen hand, every line sitting on a row of dots, and printed that way: the dots and the writing come out together on A5, A4, Letter or pocket paper.</p>
+      <p>Turn on <b>Handwritten</b> in the workspace and your journal is written out in a pen hand, the text centred between the dot rows, and printed that way: the dots and the writing come out together on A5, A4, Letter or pocket paper.</p>
       <p>Each letter of the pen hand comes in three shapes and every word leans a little differently, so it reads like a notebook, not a font. Boxes are drawn in pencil and ticked with a scribble. Your words stay exactly what you typed.</p>
       <div class="cta"><a class="btn primary" href="write/">Write and print a page</a><a class="btn quiet" href="guide/writing-jot.html#handwritten-pages-on-a-dot-grid">How it works</a></div>
     </div>

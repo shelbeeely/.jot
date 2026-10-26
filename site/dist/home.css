@@ -95,3 +95,13 @@ h3 { font: 650 18px/1.3 var(--sans); margin: 0 0 6px; }
 .written-page { overflow-x: auto; }
 .written-page .jot-page { padding: 18px 20px; border-radius: 6px; box-shadow: 0 10px 30px rgb(0 0 0 / .08); border: 1px solid var(--line); max-width: 460px; }
 @media (max-width: 860px) { .written { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+
+/* Homepage structure only. Paper, ink, fonts and renderer marks come from jot/handwriting.css. */
+.feature-samples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:24px 0}
+.feature-example{min-width:0;border:1px solid var(--jot-edge);background:var(--jot-paper);border-radius:4px 8px 6px 3px;overflow:hidden;box-shadow:2px 3px 0 color-mix(in srgb,var(--jot-edge) 30%,transparent)}
+.feature-example>h3{margin:0;padding:16px 20px;border-bottom:1px solid var(--jot-edge)}
+.feature-example .jot-page{padding:20px;min-height:180px;overflow-wrap:anywhere}
+.feature-example details{padding:12px 20px;border-top:1px solid var(--jot-edge)}
+.feature-example summary{cursor:pointer;min-height:44px;display:list-item;align-content:center;color:var(--jot-accent)}
+.feature-example pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:18px;line-height:1.5;padding:12px;background:var(--jot-back);border-radius:4px}
+@media(max-width:700px){.feature-samples{grid-template-columns:minmax(0,1fr)}}

@@ -27,7 +27,13 @@ import { styleCSS, isStyle } from './styles.mjs';
 export { CHART_CSS };
 const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
-const themeOf = (el) => { const cs = el.ownerDocument.defaultView.getComputedStyle(el), v = (k, d) => cs.getPropertyValue(k).trim() || d; return { series: v('--jc-series', '#2a78d6'), muted: v('--jc-muted', '#5f675f'), grid: v('--jc-grid', '#e2e3dc'), ink: v('--jc-ink', '#242927'), surface: v('--jc-surface', '#fffefa'), font: el.closest('.jot-hand') ? el.ownerDocument.defaultView.getComputedStyle(el.closest('.jot-hand')).fontFamily : '' }; };
+const themeOf = (el) => {
+  const cs = el.ownerDocument.defaultView.getComputedStyle(el), v = (k, d) => cs.getPropertyValue(k).trim() || d;
+  const hand = el.closest('.jot-hand');
+  return { series: hand ? cs.color : v('--jc-series', v('--jot-ink', '#2a78d6')), muted: hand ? cs.color : v('--jc-muted', v('--jot-muted', '#5f675f')),
+    grid: v('--jc-grid', v('--jot-edge', '#e2e3dc')), ink: hand ? cs.color : v('--jc-ink', v('--jot-ink', '#242927')),
+    surface: v('--jc-surface', v('--jot-paper', '#fffefa')), font: el.ownerDocument.defaultView.getComputedStyle(hand || el).fontFamily };
+};
 /** Draws one chart record into section (an element already in the page): a figure per metric, then the numbers as a table. */
 export function drawChart(section, model) {
   const doc = section.ownerDocument, el = (tag, text, cls) => { const n = doc.createElement(tag); if (text !== undefined) n.textContent = text; if (cls) n.className = cls; return n; };
@@ -107,7 +113,7 @@ export function renderPreview(ast, target, opts = {}) {
           for (const [key, value] of Object.entries(t.colors || {})) {
             if (key === 'highlight-style') { if (['marker','brush','pencil'].includes(value)) n.dataset.highlightStyle = value; continue; }
             if (!/^#[0-9a-f]{6}$/i.test(value)) continue;
-            if (key === 'ink') n.style.color = value;
+            if (key === 'ink') { n.style.color = value; n.style.setProperty('--jot-source-ink', value); n.dataset.ink = 'true'; }
             if (key === 'highlight') { n.style.setProperty('--jot-highlight', value); n.classList.add('jot-highlight'); }
             if (key === 'strike' || key === 'underline') {
               n.style.setProperty('--jot-' + key, value);
@@ -297,7 +303,7 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-task{display:flex;gap:.45em;align-items:baseline;margin:.15em 0}.jot-box{flex:none;width:1.1em;text-align:center}.jot-task-completed .jot-task-text,.jot-task-cancelled .jot-task-text{opacity:.72}.jot-task-cancelled .jot-task-text{text-decoration:line-through}.jot-priority{font-weight:700;color:#cf222e}
 .jot-sign{display:flex;gap:.45em;align-items:baseline}.jot-sym{flex:none;width:1.1em;text-align:center;font-weight:700;opacity:.7}
 .jot-margin{font-size:.88em;font-style:italic;opacity:.8;border-left:2px solid color-mix(in srgb,currentColor 25%,transparent);padding-left:.7em;margin:.4em 0}
-.jot-tag,.jot-context{white-space:nowrap}.jot-tag{color:#8250df}.jot-context{color:#1a7f37}
+.jot-tag,.jot-context{white-space:nowrap}.jot-tag{color:var(--jot-tag-ink,#8250df)}.jot-context{color:var(--jot-context-ink,#1a7f37)}
 .jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;

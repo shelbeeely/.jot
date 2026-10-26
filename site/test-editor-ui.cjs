@@ -102,7 +102,7 @@ const srv = http.createServer((q, r) => {
   // dragging (a tall window, so the source and the target are both on screen)
   await p.setViewportSize({ width: 1280, height: 2400 }); await p.evaluate(() => window.scrollTo(0, 0));
   const box = async (sel) => (await p.locator(sel).first().boundingBox());
-  const dragTo = async (from, to, below = false) => { const a = await box(from), b = await box(to); await p.mouse.move(a.x + a.width / 2, a.y + a.height / 2); await p.mouse.down(); await p.mouse.move(a.x + a.width / 2, a.y + a.height / 2 + 12, { steps: 3 }); await p.mouse.move(b.x + 40, b.y + (below ? b.height - 4 : 6), { steps: 10 }); return p; };
+  const dragTo = async (from, to, below = false) => { await p.evaluate(() => document.fonts.ready); await p.setViewportSize({ width: 1280, height: Math.max(2400, await p.evaluate(() => document.documentElement.scrollHeight) + 200) }); await p.evaluate(() => window.scrollTo(0, 0)); const a = await box(from), b = await box(to); await p.mouse.move(a.x + a.width / 2, a.y + a.height / 2); await p.mouse.down(); await p.mouse.move(a.x + a.width / 2, a.y + a.height / 2 + 12, { steps: 3 }); await p.mouse.move(b.x + 40, b.y + (below ? b.height - 4 : 6), { steps: 10 }); return p; };
   const firstTitle = (await dayTitles())[0], lastSel = '[data-zone="day"] .blk:last-child';
   await dragTo('[data-zone="day"] .blk:first-child .drag', lastSel, true);
   ok(await p.evaluate(() => !!document.querySelector('.blk.dragging') && !document.querySelector('.drop-mark').hidden), 'dragging dims the block and shows where it will land');
@@ -112,7 +112,7 @@ const srv = http.createServer((q, r) => {
   await p.click('[data-act="add"][data-zone="front"]'); await p.click('#palette [data-type="page"]');
   await dragTo('[data-zone="front"] .blk:first-child .drag', '[data-zone="day"] .blk:first-child');
   ok(await p.evaluate(() => document.querySelector('.drop-mark').classList.contains('bad')), 'a block that cannot go there shows a warning line');
-  await p.mouse.up(); ok((await p.$$eval('[data-zone="front"] .blk', (e) => e.length)) === 1 && /can't go in Each day/.test(await p.textContent('#toast')), 'and stays where it was, saying why');
+  await p.mouse.up(); const rejected = { count: await p.$$eval('[data-zone="front"] .blk', (e) => e.length), toast: await p.textContent('#toast') }; ok(rejected.count === 1 && /can't go in Each day/.test(rejected.toast), 'and stays where it was, saying why: ' + JSON.stringify(rejected));
 
   await p.setViewportSize({ width: 1280, height: 900 });
   // a downloaded .jot brings its template back
@@ -193,7 +193,7 @@ const srv = http.createServer((q, r) => {
     const hrefs = await h.$$eval('a[href]', (as) => [...new Set(as.map((a) => a.href))].filter((u) => u.startsWith(location.origin)));
     for (const u of hrefs) { const res = await h.request.get(u.split('#')[0]); assert.equal(res.status(), 200, u); }
     ok(hrefs.length >= 10, `home: every link on the page answers (${hrefs.length})`);
-    ok(/Jot things down\. Get beautiful pages back\./.test(await h.textContent('h1')) && await h.$eval('#sample-page', (p) => p.classList.contains('jot-style-journal') && /Monday, 26 October 2026/.test(p.querySelector('.jot-date').textContent) && !!p.querySelector('.jot-task-completed') && !!p.querySelector('.jot-tag') && !!p.querySelector('.jot-margin')), `home (${scheme}): the promise, and the jotted note beside the Journal page it becomes`);
+    ok(/Jot things down\. Get beautiful pages back\./.test(await h.textContent('h1')) && await h.$eval('#sample-page', (p) => p.classList.contains('jot-hand') && /Monday, 26 October 2026/.test(p.querySelector('.jot-date').textContent) && !!p.querySelector('.jot-task-completed') && !!p.querySelector('.jot-tag') && !!p.querySelector('.jot-margin')), `home (${scheme}): the promise, and the jotted note beside the handwritten page it becomes`);
     ok(await h.$$eval('main input, main textarea, main select, main [contenteditable], main form', (e) => e.length) === 0, `home (${scheme}): no editor and nothing to fill in, only reasons and pictures`);
     ok(await h.evaluate(() => { const p = document.querySelector('#written-demo'); return p.classList.contains('jot-hand') && p.querySelectorAll('svg.hw-box[role="img"][aria-label="done"]').length === 2 && p.querySelectorAll('svg.hw-box[aria-label="to do"]').length === 1; }), `home (${scheme}): a sample page written by hand, its tasks in pencil boxes a screen reader can name`);
     if (fs.existsSync(AXE)) {

@@ -158,16 +158,16 @@ dialog::backdrop { background: rgb(0 0 0 / .35); }
 .layout-tools legend { font-weight: 650; padding: 0 4px; }
 .page-view { padding: 12px; max-height: 78vh; }
 #paper-stage { position: relative; margin: 0 auto; }
-#page.jot-hand { color: #244d75; background-color: #fffefa; border-radius: 0; box-shadow: 0 2px 12px #0002; max-width: none; }
+#page.jot-hand {  border-radius: 0; box-shadow: 0 2px 12px #0002; max-width: none; }
 #page.jot-hand .jot-layout-block { outline: 1px dashed #8b9eb0; outline-offset: -1px; cursor: pointer; }
-#page.jot-hand .jot-layout-block.layout-selected { outline: 2px solid #326cac; background-color: #327acc0c; }
-#page.jot-hand .jot-layout-block:focus-visible { outline: 3px solid #326cac; }
-#page.jot-hand .jot-layout-block::after { content: attr(data-caption); position: absolute; right: 3px; top: 0; font: 11px/16px system-ui, sans-serif; color: #354c63; background: #fffefa; padding: 0 3px; pointer-events: none; }
+#page.jot-hand .jot-layout-block.layout-selected { outline: 2px solid var(--jot-accent, #326cac); background-color: #327acc0c; }
+#page.jot-hand .jot-layout-block:focus-visible { outline: 3px solid var(--jot-accent, #326cac); }
+#page.jot-hand .jot-layout-block::after { content: attr(data-caption); position: absolute; right: 3px; top: 0; font: 11px/16px system-ui, sans-serif; color: var(--jot-muted, #354c63); background: var(--jot-paper, #fffefa); padding: 0 3px; pointer-events: none; }
 #page.jot-hand .layout-spills::after { content: attr(data-caption) ' · continues'; color: #864c17; }
-#page .layout-resize { position: absolute; bottom: -12px; left: calc(50% - 22px); z-index: 2; width: 44px; height: 44px; min-height: 44px; padding: 0; border: 1px solid #326cac; border-radius: 8px; background: #fffefa; color: #244d75; font: 22px/1 system-ui, sans-serif; cursor: ns-resize; touch-action: none; visibility: hidden; }
+#page .layout-resize { position: absolute; bottom: -12px; left: calc(50% - 22px); z-index: 2; width: 44px; height: 44px; min-height: 44px; padding: 0; border: 1px solid #326cac; border-radius: 8px; background: var(--jot-paper, #fffefa); color: var(--jot-ink, #244d75); font: 22px/1 system-ui, sans-serif; cursor: ns-resize; touch-action: none; visibility: hidden; }
 #page .layout-selected .layout-resize, #page .jot-layout-block:focus-within .layout-resize { visibility: visible; }
 #page .hw-page-edge { z-index: 3; border-top: 2px dashed #9b609a; }
-#page .hw-page-edge::after { content: 'Page break'; position: absolute; right: 0; top: 0; color: #764374; background: #fffefa; font: 11px/18px system-ui, sans-serif; }
+#page .hw-page-edge::after { content: 'Page break'; position: absolute; right: 0; top: 0; color: #764374; background: var(--jot-paper, #fffefa); font: 11px/18px system-ui, sans-serif; }
 @media print { #page .jot-layout-block { outline: none !important; background: none !important; } #page .jot-layout-block::after, #page .layout-resize { display: none; } }
 
 .page-settings summary{cursor:pointer;min-height:32px;font-weight:600}.page-settings[open] .layout-fields{margin-top:8px}.layout-tools>.note{margin:6px 0;font-size:13px;line-height:1.45}

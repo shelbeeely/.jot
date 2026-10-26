@@ -63,12 +63,56 @@ export function pageGeometry([wMm, hMm], pitchMm = 5, minMarginMm = 8) {
   return { pitch: p, cols, rows, width: cols * p, height: rows * p, marginX: mx, marginY: my, css: `@page { size: ${wMm}mm ${hMm}mm; margin: ${my}px ${mx}px; }` };
 }
 
+/** The site and rendered pages share the same paper, ink, fonts and grid stylesheet. */
+export function dotGridImage(p) {
+  return `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${p}' height='${p}'><circle cx='${p / 2}' cy='${p / 2}' r='${Math.max(0.55, p * 0.032).toFixed(2)}' fill='#87917c' fill-opacity='.55'/></svg>`)}")`;
+}
+function paperCSS() {
+  return `
+:root{--jot-paper:#fffdf6;--jot-tag-ink:#8250df;--jot-context-ink:#1a7f37;--jot-back:#ede9df;--jot-ink:${INKS.blue};--jot-muted:#56617a;--jot-edge:#d2cbbc;--jot-accent:#65508f;--jot-accent-ink:#fffdf6;--jot-soft:#eeE8f2;--jot-ink-ratio:100%;--jot-grid:${dotGridImage(pitchPx(5))};--jot-texture:repeating-linear-gradient(0deg,#8d795405 0 1px,transparent 1px 3px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--jot-paper:#242622;--jot-back:#191c18;--jot-ink:#cbd5eb;--jot-tag-ink:#c2a6fa;--jot-context-ink:#91c9a0;--jot-muted:#aeb9b0;--jot-edge:#505649;--jot-accent:#c3afe7;--jot-accent-ink:#241f2e;--jot-soft:#37323f;--jot-ink-ratio:42%;--jot-texture:repeating-linear-gradient(0deg,#e6dbb704 0 1px,transparent 1px 3px);color-scheme:dark}}
+:root[data-theme=dark]{--jot-paper:#242622;--jot-back:#191c18;--jot-ink:#cbd5eb;--jot-tag-ink:#c2a6fa;--jot-context-ink:#91c9a0;--jot-muted:#aeb9b0;--jot-edge:#505649;--jot-accent:#c3afe7;--jot-accent-ink:#241f2e;--jot-soft:#37323f;--jot-ink-ratio:42%;--jot-texture:repeating-linear-gradient(0deg,#e6dbb704 0 1px,transparent 1px 3px);color-scheme:dark}
+body.jot-site{--hw-family:'${HANDS.pen.family}';--hw-pitch:${pitchPx(5)}px;--sans:var(--hw-family),cursive;--serif:var(--hw-family),cursive;--mono:var(--hw-family),cursive;--bg:var(--jot-back);--surface:var(--jot-paper);--sunk:var(--jot-back);--ink:var(--jot-ink);--muted:var(--jot-muted);--line:var(--jot-edge);--line-2:var(--jot-edge);--accent:var(--jot-accent);--accent-ink:var(--jot-accent-ink);--accent-soft:var(--jot-soft);--focus:var(--jot-accent);margin:0;color:var(--jot-ink);font:23px/1.5 var(--hw-family),cursive;background-color:var(--jot-back);background-image:var(--jot-grid),var(--jot-texture);background-size:var(--hw-pitch) var(--hw-pitch),3px 3px;color-scheme:light dark}
+.jot-site :is(button,input,select,textarea,code,pre){font-family:var(--hw-family),cursive}
+.jot-site :is(button,input,select,textarea){color:var(--jot-ink);accent-color:var(--jot-accent)}
+.jot-site :is(h1,h2,h3,h4,h5,h6){font-family:var(--hw-family),cursive;letter-spacing:normal;font-weight:700}
+.jot-site h1{font-size:clamp(44px,6vw,76px);line-height:1.1}.jot-site h2{font-size:36px;line-height:1.2}.jot-site h3{font-size:28px;line-height:1.25}
+.jot-site :is(.lead,.subtitle){font-size:25px;line-height:1.5;color:var(--jot-muted)}
+.jot-site :is(header,.top){height:auto;min-height:80px;flex-wrap:wrap;background:var(--jot-paper);border-color:var(--jot-edge)}
+.jot-site :is(nav a,nav button,.brand,.privacy,.btn,.button,.quiet){font-family:var(--hw-family),cursive;font-size:21px;min-height:44px}
+.jot-site header nav{display:flex;flex-wrap:wrap;min-width:0}
+.jot-site :is(#docExt,#saveState,#wordCount,#assetCount,#assetSaveState){font-size:18px;color:var(--jot-muted)}
+.jot-site .preview-note,.jot-site .asset-shelf p{font-size:18px;line-height:1.5;color:var(--jot-muted)}
+.jot-site .method-card p{font-size:20px;color:var(--jot-ink)}
+.jot-site #documentName{font-size:22px}.jot-site #saveState{font-size:18px}.jot-site .studio-bar>div>span{font-size:18px}
+.jot-site :is(nav a,.brand){color:var(--jot-ink)}
+.jot-site :is(.btn,.button,.icon-btn,select,textarea){background-color:var(--jot-paper);border-color:var(--jot-edge);border-radius:5px 9px 6px 8px}
+.jot-site input:not([type=checkbox]):not([type=radio]):not([type=color]){background-color:var(--jot-paper);border-color:var(--jot-edge)}
+.jot-site :is(.btn.primary,.button.primary){background:var(--jot-accent);color:var(--jot-accent-ink);border-color:var(--jot-accent)}
+.jot-site :is(.studio-workspace,.preview-pane,.settings,.zone,.preview,.diary,dialog,.sample-file,.written-page,.dash-chart,.card,.toc,.asset-shelf){background-color:var(--jot-paper);border-color:var(--jot-edge);box-shadow:1px 2px 0 color-mix(in srgb,var(--jot-edge) 40%,transparent)}
+.jot-site :is(.eyebrow,.tab,.pane-title,.pane-tabs button,.paper-tools,.tool-row,.format-tools,.format-tools select,.format-tools button,.writing-footer,.studio-bar,.studio-bar input,.check,.hint,.note,.small,.f-meta,.foot,footer,.resource-links a){font-family:var(--hw-family),cursive;font-size:19px;letter-spacing:normal;color:var(--jot-muted)}
+.jot-site :is(.paper-tools select,.paper-tools input,.format-tools input,.format-tools select,.format-tools button){font-size:19px}
+.jot-site #writing{font:23px/1.6 var(--hw-family),cursive;color:var(--jot-ink);background:var(--jot-paper);tab-size:2}
+.jot-site :is(.jot,.sample-file pre,.guide pre,.guide code){background-color:var(--jot-back);color:var(--jot-ink)}
+.jot-site :is(.studio-bar,.pane-tabs,.writing-footer,.format-tools,.tool-row){height:auto;min-height:54px;flex-wrap:wrap;border-color:var(--jot-edge)}
+.jot-site :is(.pane-tabs button,.studio-bar input,.paper-tools select){height:auto;min-height:44px}
+.jot-site .privacy{white-space:normal}.jot-site .studio-bar>div{min-width:0}.jot-site .studio-bar input{max-width:150px}
+.jot-site :is(.jot-record,.method-card,.check-card){background:var(--jot-paper);border-color:var(--jot-edge)}
+.jot-site :is(.feature-grid p,.reasons p,.card p,.dash-copy p,.written p,.compare td,.compare th){font-size:22px;color:var(--jot-ink)}
+.jot-site .tab span{font-size:17px}.jot-site .sample-file pre{font-size:19px}
+.jot-site :is(.table-wrap,.jc-scroll){max-width:100%;overflow:auto}
+@media(max-width:600px){.jot-site :is(header,.top){padding:12px 16px;gap:10px}.jot-site nav{flex-wrap:wrap;gap:8px;flex-basis:100%}.jot-site nav a{padding:6px 8px}.jot-site :is(.format-tools,.paper-tools){gap:10px}.jot-site .format-tools label{flex-wrap:wrap;max-width:100%}.jot-site select{max-width:100%}.jot-site .pane-tabs{gap:12px}.jot-site .pane-tabs button{font-size:18px}}
+@media print{:root:not([data-theme]),:root[data-theme]{--jot-paper:#fff;--jot-tag-ink:#8250df;--jot-context-ink:#1a7f37;--jot-ink-ratio:100%;--jot-texture:none}.jot-site{background:none}}
+`;
+}
+
 /** The fonts and the look. fontBase: the URL of the fonts folder (ends with /). */
 export function handwritingCSS(fontBase) {
   const face = (h) => [['latin', LATIN], ['latin-ext', LATIN_EXT]].flatMap(([sub, range]) => [400, 700].map((w) => `@font-face{font-family:'${h.family}';font-style:normal;font-weight:${w};font-display:block;src:url('${fontBase}${h.file}-${sub}-${w}-normal.woff2') format('woff2');unicode-range:${range}}`)).join('\n');
   return `${Object.values(HANDS).map(face).join('\n')}
+${paperCSS()}
 .jot-hand{position:relative;--hw-pitch:18.890625px;--hw-ink:${INKS.blue};--hw-dot:#9aa0a6;--hw-size:1;color:var(--hw-ink);font-family:var(--hw-family),cursive;font-size:calc(var(--hw-pitch)*var(--hw-size));line-height:var(--hw-pitch);font-weight:400;font-kerning:normal;
-  background-color:#fffffd;background-image:var(--hw-dots);background-size:var(--hw-pitch) var(--hw-pitch);background-position:var(--hw-dx,0) var(--hw-dy,0);background-origin:content-box;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  background-color:var(--jot-paper,#fffffd);background-image:var(--hw-dots),var(--jot-texture);background-size:var(--hw-pitch) var(--hw-pitch),3px 3px;background-position:var(--hw-dx,0) var(--hw-dy,0),0 0;background-origin:content-box,border-box;print-color-adjust:exact;-webkit-print-color-adjust:exact}
 .jot-hand *{line-height:inherit;margin-top:0;margin-bottom:0}
 .jot-hand :is(h1,h2,h3,h4,h5,h6,p,ul,ol,li,blockquote,pre,table,figure,dl,dd,dt,section,div,hr){font-family:inherit;font-weight:inherit;color:inherit;letter-spacing:normal}
 .jot-hand :is(h1,h2){font-size:1.7em;line-height:calc(var(--hw-pitch)*2);font-weight:700}
@@ -78,9 +122,9 @@ export function handwritingCSS(fontBase) {
 .jot-hand :is(code,pre,kbd){font-family:inherit;font-size:1em;background:none;padding:0;border:0}
 .jot-hand pre{white-space:pre-wrap}
 .jot-hand :is(ul,ol){padding-left:calc(var(--hw-pitch)*1.5)}
-.jot-hand blockquote{padding-left:calc(var(--hw-pitch) - 2px);border-left:2px solid color-mix(in srgb,var(--hw-ink) 45%,transparent);box-shadow:none;font-style:normal}
-.jot-hand hr{border:0;height:var(--hw-pitch);background:linear-gradient(transparent calc(50% - 1px),color-mix(in srgb,var(--hw-ink) 60%,transparent) calc(50% - 1px),color-mix(in srgb,var(--hw-ink) 60%,transparent) calc(50% + 1px),transparent calc(50% + 1px))}
-.jot-hand table{border-collapse:collapse;border:0;--hw-rule:color-mix(in srgb,var(--hw-ink) 45%,transparent)}.jot-hand :is(th,td){padding:0 .4em;border:0;box-shadow:none;height:auto;font-weight:inherit;background:linear-gradient(var(--hw-rule),var(--hw-rule)) right/1px 100% no-repeat,linear-gradient(var(--hw-rule),var(--hw-rule)) bottom/100% 1px no-repeat}
+.jot-hand blockquote{padding-left:calc(var(--hw-pitch) - 2px);border-left:2px solid color-mix(in srgb,currentColor 45%,transparent);box-shadow:none;font-style:normal}
+.jot-hand hr{border:0;height:var(--hw-pitch);background:linear-gradient(transparent calc(50% - 1px),color-mix(in srgb,currentColor 60%,transparent) calc(50% - 1px),color-mix(in srgb,currentColor 60%,transparent) calc(50% + 1px),transparent calc(50% + 1px))}
+.jot-hand table{border-collapse:collapse;border:0;--hw-rule:color-mix(in srgb,currentColor 45%,transparent)}.jot-hand :is(th,td){padding:0 .4em;border:0;box-shadow:none;height:auto;font-weight:inherit;background:linear-gradient(var(--hw-rule),var(--hw-rule)) right/1px 100% no-repeat,linear-gradient(var(--hw-rule),var(--hw-rule)) bottom/100% 1px no-repeat}
 .jot-hand th{font-weight:700}
 .jot-hand a{color:inherit;text-decoration:underline}
 .jot-hand img{display:block;max-width:100%}
@@ -108,7 +152,7 @@ export function handwritingCSS(fontBase) {
 .jot-hand .jot-mark{display:inline-flex;justify-content:center;flex:0 0 var(--hw-pitch);min-width:var(--hw-pitch);height:var(--hw-pitch)}
 .jot-hand .hw-check-mark{align-items:flex-start}
 .jot-hand .hw-check-mark .hw-box{width:calc(var(--hw-pitch)*.78);height:calc(var(--hw-pitch)*.78);margin:calc(var(--hw-pitch)*.11) 0 0}
-.jot-hand .jot-record,.jot-hand .jot-callout{border:0;border-left:2px solid color-mix(in srgb,var(--hw-ink) 35%,transparent);background:none;padding:0 0 0 calc(var(--hw-pitch) - 2px);box-shadow:none}
+.jot-hand .jot-record,.jot-hand .jot-callout{border:0;border-left:2px solid color-mix(in srgb,currentColor 35%,transparent);background:none;padding:0 0 0 calc(var(--hw-pitch) - 2px);box-shadow:none}
 .jot-hand .jot-record strong{text-transform:none;letter-spacing:0;font-size:1em}
 .jot-hand .jot-record dl{display:block}.jot-hand .jot-record dt{display:inline;font-weight:700}.jot-hand .jot-record dt::after{content:': '}.jot-hand .jot-record dd{display:inline;margin:0}.jot-hand .jot-record dd::after{content:'';display:block}
 .jot-hand .jot-chart{font:inherit;border:0;background:transparent;padding:0;margin:0;--jc-surface:transparent;--jc-grid:transparent;--jc-ink:var(--hw-ink);--jc-muted:var(--hw-ink);--jc-series:var(--hw-ink)}
@@ -119,7 +163,11 @@ export function handwritingCSS(fontBase) {
 .jot-hand .jot-layout-block{position:relative;display:flow-root;box-sizing:border-box;break-inside:auto}
 .jot-hand .jot-layout-block>*{box-sizing:border-box}
 .jot-hand .hw-page-edge{position:absolute;left:0;right:0;height:0;border-top:1px dashed #c7a7ff;pointer-events:none}
-@media print{.jot-hand .hw-page-edge{display:none}}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .jot-hand{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}:root:not([data-theme=light]) .jot-hand .jot-colors[data-ink]:not(.jot-highlight):not(.jot-highlight .jot-colors){color:color-mix(in srgb,var(--jot-source-ink) var(--jot-ink-ratio),#e1e5fa)!important}:root:not([data-theme=light]) .jot-hand :is(mark,.jot-highlight){color:#172c5c;background-color:#fff5c6!important}}
+:root[data-theme=dark] .jot-hand{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}
+:root[data-theme=dark] .jot-hand .jot-colors[data-ink]:not(.jot-highlight):not(.jot-highlight .jot-colors){color:color-mix(in srgb,var(--jot-source-ink) var(--jot-ink-ratio),#e1e5fa)!important}
+:root[data-theme=dark] .jot-hand :is(mark,.jot-highlight){color:#172c5c;background-color:#fff5c6!important}
+@media print{.jot-hand{color:var(--hw-ink)!important}.jot-hand .hw-page-edge{display:none}.jot-hand .jot-colors[data-ink]{color:var(--jot-source-ink)!important}.jot-hand :is(mark,.jot-highlight){color:inherit;background-color:transparent!important}}
 ${BOX_CSS}`.replace(/\.jot-hand(?![\w-])/g, '.jot-hand.jot-hand'); // doubled: the hand's rules win over a page's own typed styles
 }
 
@@ -278,7 +326,7 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
 export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {}) {
   const doc = page.ownerDocument, p = pitchPx(pitchMm);
   page.style.setProperty('--hw-pitch', `${p}px`);
-  page.style.setProperty('--hw-dots', dots ? `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${p}' height='${p}'><circle cx='${p / 2}' cy='${p / 2}' r='${Math.max(0.55, p * 0.032).toFixed(2)}' fill='#9aa0a6'/></svg>`)}")` : 'none');
+  page.style.setProperty('--hw-dots', dots ? dotGridImage(p) : 'none');
   for (const e of page.querySelectorAll('.hw-page-edge')) e.remove();
   // Measure the font's visible ink, rather than centring its em box (the handwriting fonts have different ascenders).
   const canvas = doc.createElement('canvas'), context = canvas.getContext('2d');

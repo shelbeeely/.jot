@@ -1,5 +1,20 @@
 # Latest Jot v1 decisions
 
+## One paper stylesheet for the site and preview (26 October 2026)
+
+Every site page links to `jot/handwriting.css`, including the workspace that renders journal previews. The sheet is generated from
+`handwritingCSS()` in the shared renderer; `tools/build-handwriting-css.mjs --check` prevents drift. Standalone renderer consumers
+use the same generator. Page-specific styles retain their layout responsibilities; paper, handwriting fonts, ink and mode colors
+come from this sheet.
+
+Light mode uses warm cream paper and blue ink. Dark mode uses charcoal paper, subtle grain/dots and lighter ink. Color hints keep
+their original source values: dark previews adapt ink for legibility, while print returns to light paper and the original ink colors.
+Standalone HTML export embeds the shared stylesheet and handwriting fonts, including when the site loaded the sheet through a link.
+
+The homepage remains informational, with no editor, form or writing input. Its feature gallery uses real renderer output for multiple
+ink/highlight colors, decoration strokes, tasks, tables, callouts, footnotes and measurements; readers can reveal each example's Jot
+source. The writing workspace remains at `/write/`.
+
 ## Text and checkbox alignment within grid cells (26 October 2026)
 
 Dots now mark cell boundaries. The handwritten renderer measures each font's visible letter height and centres body text within one

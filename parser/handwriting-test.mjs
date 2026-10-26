@@ -35,7 +35,7 @@ test('the look outranks a page\'s own typed styles, and asks the printer to prin
   const css = handwritingCSS('./fonts/');
   assert.ok(!/(^|[^.\w-])\.jot-hand(?!\.jot-hand|[\w-])/.test(css.replace(/\.jot-hand\.jot-hand/g, '')), 'every rule is .jot-hand.jot-hand');
   assert.match(css, /print-color-adjust:exact/);
-  assert.match(css, /@media print\{\.jot-hand\.jot-hand \.hw-page-edge\{display:none\}\}/);
+  assert.match(css, /\.jot-hand\.jot-hand \.hw-page-edge\{display:none\}/);
   assert.ok(!/box-shadow:inset/.test(css), 'no inset shadows: a PDF draws them as pictures that hide the dots');
 });
 
@@ -89,4 +89,12 @@ test('optional layout hints accept bounded numbers and known paper names, never 
   assert.deepEqual(normalizePageLayout({ paper: { toString: 0 }, pitchMm: {}, marginMm: {} }), { paper: 'A5', pitchMm: 5, marginMm: 8 });
   assert.deepEqual(blockLayoutFromComment('/*\njot-block: {"id":"notes","rows":9999,"gap":-1,"newPage":"false","style":"url(evil)"}\n*/'), { id: 'notes', rows: 200, gap: 0, newPage: false });
   assert.equal(pageLayoutFromAst({ nodes: [{ type: 'comment', raw: '/*\njot-page: broken\n*/' }] }), null);
+});
+
+test('the site and standalone renderer use the exact same generated stylesheet', () => {
+  const generated = handwritingCSS('./fonts/') + '\n';
+  assert.equal(fs.readFileSync(new URL('./handwriting.css', import.meta.url), 'utf8'), generated);
+  assert.equal(fs.readFileSync(new URL('../site/dist/jot/handwriting.css', import.meta.url), 'utf8'), generated);
+  assert.match(generated, /prefers-color-scheme:dark/);
+  assert.match(generated, /body\.jot-site/);
 });
