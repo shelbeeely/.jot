@@ -68,7 +68,8 @@ Beyond GFM, the lexer understands `==highlight==` (`mark` tokens), `++underline+
 `handwriting.mjs` makes a rendered page look written by hand on a dot grid: `handwrite(page, {hand, ink, seed})`, then
 `alignToGrid(page, {pitchMm, dots, pageRows})` once the font has loaded; `pageGeometry(paperMm, pitchMm)` gives the `@page` box whose
 writing area is whole rows of dots. `renderPreview(ast, el, { hand: {…} })` does all three and resolves `el.jotReady` when the page is
-aligned. The hands are open fonts in `fonts/` (SIL OFL 1.1, each with its licence): Caveat (Pen), Playpen Sans (Neat print) and
+aligned. Task boxes are hand-drawn SVG (`boxSVG`: a wobbly square and a scribbled tick that draws itself; `BOX_CSS` also makes
+`<label class="hw-check"><input type="checkbox"> …</label>` a pencil checkbox in pure CSS). The hands are open fonts in `fonts/` (SIL OFL 1.1, each with its licence): Caveat (Pen), Playpen Sans (Neat print) and
 Shantell Sans (Marker), Latin and Latin Extended, regular and bold. Tests: `node --test handwriting-test.mjs` (the browser side is in
 `site/test-editor-ui.cjs` and `vscode/test-preview.cjs`).
 

@@ -48,6 +48,19 @@ value: 7.5
 
   <section class="why" id="why" aria-labelledby="why-h">
     <h2 id="why-h">Why keep a journal in Jot?</h2>
+    <div class="why-intro">
+      <p class="lead">Six reasons, in a list you can tick. Tick the ones that matter to you; the details are below.</p>
+      <fieldset class="notebook" id="why-list">
+        <legend>What matters to you in a journal?</legend>
+        <label class="hw-check"><input type="checkbox" name="why" value="lasts"> <span class="hw-text">It still opens in fifty years</span></label>
+        <label class="hw-check"><input type="checkbox" name="why" value="private"> <span class="hw-text">Nobody else reads it</span></label>
+        <label class="hw-check"><input type="checkbox" name="why" value="anywhere"> <span class="hw-text">I can write on whatever is in my hand</span></label>
+        <label class="hw-check"><input type="checkbox" name="why" value="methods"> <span class="hw-text">I can change how I journal</span></label>
+        <label class="hw-check"><input type="checkbox" name="why" value="numbers"> <span class="hw-text">I can see my habits add up</span></label>
+        <label class="hw-check"><input type="checkbox" name="why" value="paper"> <span class="hw-text">It can be on paper too</span></label>
+        <p class="why-answer" id="why-answer" aria-live="polite"></p>
+      </fieldset>
+    </div>
     <div class="reasons">
       <article><span class="num">01</span><h3>It outlives the app.</h3><p>Journals last decades; apps don't. A <code>.jot</code> file is plain UTF-8 text, the most durable digital format there is. If every Jot tool disappeared tomorrow, your journal would still open in Notepad.</p></article>
       <article><span class="num">02</span><h3>It's yours, and only yours.</h3><p>Nothing here has an account, a server or analytics. The workspace, the editor and the scanner run in your browser, and nothing you write is uploaded. Copy the file wherever you like.</p></article>
@@ -68,6 +81,17 @@ value: 7.5
     </div>
     <div class="dash-chart">
       <section class="jot-chart" id="demo-chart" aria-label="Example chart: a week of sleep and steps"><p class="jot-chart-note">A week of sleep and steps, drawn from a .jot file.</p></section>
+    </div>
+  </section>
+
+  <section class="written" aria-labelledby="written-h">
+    <div class="written-page"><article class="jot-page" id="written-demo" aria-label="A sample journal page, handwritten on a dot grid"></article></div>
+    <div>
+      <p class="eyebrow">NEW · HANDWRITTEN PAGES</p>
+      <h2 id="written-h">Typed when you write it. Handwritten when you print it.</h2>
+      <p>Turn on <b>Handwritten</b> in the workspace and your journal is written out in a pen hand, every line sitting on a row of dots, and printed that way: the dots and the writing come out together on A5, A4, Letter or pocket paper.</p>
+      <p>Each letter of the pen hand comes in three shapes and every word leans a little differently, so it reads like a notebook, not a font. Boxes are drawn in pencil and ticked with a scribble. Your words stay exactly what you typed.</p>
+      <div class="cta"><a class="btn primary" href="write/">Write and print a page</a><a class="btn quiet" href="guide/writing-jot.html#handwritten-pages-on-a-dot-grid">How it works</a></div>
     </div>
   </section>
 

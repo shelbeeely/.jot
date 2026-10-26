@@ -38,3 +38,15 @@ test('the look outranks a page\'s own typed styles, and asks the printer to prin
   assert.match(css, /@media print\{\.jot-hand\.jot-hand \.hw-page-edge\{display:none\}\}/);
   assert.ok(!/box-shadow:inset/.test(css), 'no inset shadows: a PDF draws them as pictures that hide the dots');
 });
+
+test('hand-drawn boxes: a wobbly square and a scribbled tick, different for each seed, the same for the same seed', async () => {
+  const { squarePath, tickPath, BOX_CSS, handwritingCSS: css } = await import('./handwriting.mjs');
+  assert.equal(squarePath(4), squarePath(4)); assert.notEqual(squarePath(4), squarePath(5)); assert.notEqual(tickPath(4), tickPath(5));
+  assert.match(squarePath(1), /^M[\d.]+,[\d.]+(Q[\d.]+,[\d.]+ [\d.]+,[\d.]+){4}L[\d.]+,[\d.]+$/, 'four bowed sides and the pencil\'s overlap');
+  assert.match(tickPath(1), /^M[\d.-]+,[\d.-]+Q[\d.-]+,[\d.-]+ [\d.-]+,[\d.-]+Q[\d.-]+,[\d.-]+ [\d.-]+,[\d.-]+$/, 'one stroke, down then up');
+  for (let s = 1; s < 50; s++) for (const n of squarePath(s).match(/-?[\d.]+/g).map(Number)) assert.ok(n > 0 && n < 24, `square ${s} stays in its box`);
+  assert.match(BOX_CSS, /stroke-dashoffset:1/); assert.match(BOX_CSS, /input:checked \+ \.hw-box \.hw-tick\{stroke-dashoffset:0\}/, 'pure CSS: a checked input draws its tick');
+  assert.match(BOX_CSS, /@media \(prefers-reduced-motion:reduce\)\{[^}]*transition:none/); assert.match(BOX_CSS, /@media print\{[^}]*transition:none/);
+  assert.match(BOX_CSS, /\.hw-check:has\(\.hw-box\) input\{[^}]*opacity:0/, 'the real checkbox hides only once its drawing is there');
+  assert.ok(css('./f/').includes(BOX_CSS));
+});

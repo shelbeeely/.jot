@@ -66,8 +66,7 @@ export function handwritingCSS(fontBase) {
 .jot-hand :is(.jot-task,.jot-blank-line,.jot-measure,.jot-record,.jot-record strong,.jot-record dt,.jot-record dd,.jot-chart,.jot-callout,.jot-callout-title,.jot-footnotes,.eyebrow,p,li,td,th,blockquote,figcaption,.jc-sum,.jc-name,.jc-unit,.jc-anchors){font-family:inherit;font-size:inherit;color:inherit;letter-spacing:normal;text-transform:none}
 .jot-hand :is(h1,h2,h3,h4,h5,h6){letter-spacing:normal;text-transform:none}
 .jot-hand :is(.jot-task,.jot-record,.jot-measure,.jot-blanks,.jot-blank-line,.jot-footnotes,.jot-callout,dl,figure,figcaption,details){padding-top:0;padding-bottom:0;margin:0;border-top:0;border-bottom:0;border-radius:0}
-.jot-hand .hw-box{display:inline-block;width:.55em;height:.55em;border:1.5px solid currentColor;border-radius:2px;transform:rotate(-3deg);margin-right:.35em;vertical-align:baseline;position:relative;top:.02em}
-.jot-hand .hw-box.done::after{content:'';position:absolute;left:.1em;top:-.2em;width:.25em;height:.55em;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(40deg)}
+.jot-hand .hw-box{width:.78em;height:.78em;margin-right:.3em;vertical-align:-.08em}
 .jot-hand .jot-record,.jot-hand .jot-callout{border:0;border-left:2px solid color-mix(in srgb,var(--hw-ink) 35%,transparent);background:none;padding:0 0 0 calc(var(--hw-pitch) - 2px);box-shadow:none}
 .jot-hand .jot-record strong{text-transform:none;letter-spacing:0;font-size:1em}
 .jot-hand .jot-record dl{display:block}.jot-hand .jot-record dt{display:inline;font-weight:700}.jot-hand .jot-record dt::after{content:': '}.jot-hand .jot-record dd{display:inline;margin:0}.jot-hand .jot-record dd::after{content:'';display:block}
@@ -77,7 +76,54 @@ export function handwritingCSS(fontBase) {
 .jot-hand .jot-footnotes{border-top:0;font-size:.9em}
 .jot-hand .diagram-note,.jot-hand .raw-html{opacity:.6}
 .jot-hand .hw-page-edge{position:absolute;left:0;right:0;height:0;border-top:1px dashed #c7a7ff;pointer-events:none}
-@media print{.jot-hand .hw-page-edge{display:none}}`.replace(/\.jot-hand(?![\w-])/g, '.jot-hand.jot-hand'); // doubled: the hand's rules win over a page's own typed styles
+@media print{.jot-hand .hw-page-edge{display:none}}
+${BOX_CSS}`.replace(/\.jot-hand(?![\w-])/g, '.jot-hand.jot-hand'); // doubled: the hand's rules win over a page's own typed styles
+}
+
+// ---- hand-drawn checkboxes: a wobbly pencil square and a scribbled tick that draws itself ----
+// Inline SVG, so it scales with the writing and prints as lines. Every box is a little different (from its seed); the tick's stroke is
+// animated from nothing to whole with stroke-dashoffset (pathLength 1, so no measuring), finished at once in print and for reduced motion.
+// Used on handwritten pages (a task's box), and for real checkboxes: a native <input> kept for keyboard and screen readers, visually
+// hidden, with the drawing beside it (.hw-check: <label class="hw-check"><input type="checkbox"> <svg …/> words</label>).
+export const BOX_CSS = `.hw-box{display:inline-block;width:1.1em;height:1.1em;overflow:visible;vertical-align:-.2em;color:inherit;flex:none}
+.hw-box .hw-square{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.hw-box .hw-tick{fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.hw-box.done .hw-tick{stroke-dashoffset:0}
+.hw-check{display:inline-flex;align-items:baseline;gap:.45em;cursor:pointer;position:relative}
+.hw-check:has(.hw-box) input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none} /* until the drawing is there, the real box shows */
+.hw-check .hw-tick{transition:stroke-dashoffset .38s cubic-bezier(.6,.05,.35,1)}
+.hw-check input:checked + .hw-box .hw-tick{stroke-dashoffset:0}
+.hw-check input:focus-visible + .hw-box{outline:2px solid currentColor;outline-offset:3px;border-radius:3px}
+.hw-check:hover .hw-square{stroke-width:2.2}
+.hw-box.drawn .hw-tick{animation:hw-draw .45s cubic-bezier(.6,.05,.35,1) both}
+@keyframes hw-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.hw-check .hw-tick{transition:none}.hw-box.drawn .hw-tick{animation:none}}
+@media print{.hw-check .hw-tick{transition:none}.hw-box.drawn .hw-tick{animation:none}}`;
+const SVGNS = 'http://www.w3.org/2000/svg';
+const r1 = (v) => Math.round(v * 10) / 10;
+/** The path of a wobbly pencil square on a 24 x 24 box: four bowed sides, the pencil overshooting where it began. */
+export function squarePath(seed = 1) {
+  const r = rng(seed * 2654435761), j = (a) => (r() - 0.5) * 2 * a;
+  const c = [[3 + j(1), 4 + j(1)], [21 + j(1), 3 + j(1)], [21 + j(1), 21 + j(1)], [3 + j(1), 20.5 + j(1)]];
+  let d = `M${r1(c[0][0])},${r1(c[0][1])}`;
+  for (let i = 1; i <= 4; i++) {
+    const a = c[i - 1], b = c[i % 4], mx = (a[0] + b[0]) / 2 + j(1.2), my = (a[1] + b[1]) / 2 + j(1.2);
+    d += `Q${r1(mx)},${r1(my)} ${r1(b[0])},${r1(b[1])}`;
+  }
+  return `${d}L${r1(c[0][0] + 2.5 + j(0.8))},${r1(c[0][1] - 0.6 + j(0.6))}`; // the overlap where the pencil comes round
+}
+/** The path of a scribbled tick, one stroke, running a little past the box like a quick pen. */
+export function tickPath(seed = 1) {
+  const r = rng(seed * 40503 + 7), j = (a) => (r() - 0.5) * 2 * a;
+  return `M${r1(5.5 + j(1))},${r1(12.5 + j(1))}Q${r1(8 + j(1))},${r1(15 + j(1))} ${r1(10 + j(0.8))},${r1(19 + j(0.8))}Q${r1(14 + j(1.5))},${r1(9 + j(1.5))} ${r1(24.5 + j(1.2))},${r1(1 + j(1.2))}`;
+}
+/** A hand-drawn box as an SVG element. done: ticked. label: what a screen reader hears (none: hidden, when a real input speaks for it). */
+export function boxSVG(doc, { done = false, seed = 1, label = '', drawn = false } = {}) {
+  const svg = doc.createElementNS(SVGNS, 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('class', `hw-box${done ? ' done' : ''}${drawn ? ' drawn' : ''}`); svg.setAttribute('focusable', 'false');
+  if (label) { svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', label); } else svg.setAttribute('aria-hidden', 'true');
+  for (const [cls, d] of [['hw-square', squarePath(seed)], ['hw-tick', tickPath(seed)]]) { const p = doc.createElementNS(SVGNS, 'path'); p.setAttribute('class', cls); p.setAttribute('d', d); p.setAttribute('pathLength', '1'); svg.append(p); }
+  return svg;
 }
 
 // ---- deterministic "randomness": the same text and seed always wobble the same way ----
@@ -86,20 +132,21 @@ function rng(seed) { let s = seed >>> 0 || 1; return () => { s ^= s << 13; s ^= 
 
 const SKIP = new Set(['SCRIPT', 'STYLE', 'CANVAS', 'SVG', 'svg', 'INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'IMG', 'SUMMARY']);
 /** Turns every word on the page into handwriting. Safe to call again after a new render (it starts from the page as rendered). */
-export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
+export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1, inputs = true } = {}) { // inputs: false keeps real checkboxes (a form)
   const H = HANDS[hand] || HANDS.pen, doc = page.ownerDocument;
   page.classList.add('jot-hand');
   page.style.setProperty('--hw-family', `'${H.family}'`);
   page.style.setProperty('--hw-size', String(H.size));
   page.style.setProperty('--hw-ink', INKS[ink] || (/^#[0-9a-f]{6}$/i.test(ink) ? ink : INKS.blue));
   // task boxes and empty lines drawn as a pen would
+  let boxes = 0;
   for (const t of page.querySelectorAll('.jot-task')) {
     if (t.querySelector('.hw-box')) continue;
-    const done = /^☑/.test(t.textContent), box = doc.createElement('span'); box.className = `hw-box${done ? ' done' : ''}`; box.setAttribute('aria-hidden', 'true');
-    const first = t.firstChild; if (first && first.nodeType === 3) first.textContent = first.textContent.replace(/^[☐☑] /, '');
-    t.prepend(box);
+    const done = /^☑/.test(t.textContent), first = t.firstChild;
+    if (first && first.nodeType === 3) first.textContent = first.textContent.replace(/^[☐☑] /, '');
+    t.prepend(boxSVG(doc, { done, seed: seed * 101 + (boxes++), label: done ? 'done' : 'to do', drawn: done }));
   }
-  for (const cb of page.querySelectorAll('input[type=checkbox]')) { const box = doc.createElement('span'); box.className = `hw-box${cb.checked ? ' done' : ''}`; box.setAttribute('role', 'img'); box.setAttribute('aria-label', cb.checked ? 'done' : 'not done'); cb.replaceWith(box); }
+  if (inputs) for (const cb of page.querySelectorAll('input[type=checkbox]')) cb.replaceWith(boxSVG(doc, { done: cb.checked, seed: seed * 101 + (boxes++), label: cb.checked ? 'done' : 'to do', drawn: cb.checked }));
   const walker = doc.createTreeWalker(page, 4 /* NodeFilter.SHOW_TEXT */, { acceptNode: (n) => { for (let p = n.parentNode; p && p !== page; p = p.parentNode) if (SKIP.has(p.nodeName) || (p.classList && (p.classList.contains('hw-w') || p.classList.contains('jot-chart-table')))) return 2; return n.nodeValue.trim() ? 1 : 2; } });
   const texts = []; for (let n = walker.nextNode(); n; n = walker.nextNode()) texts.push(n);
   let k = 0;
@@ -174,4 +221,4 @@ export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {
   return { pitch: p, rows, baseline: base };
 }
 
-export default { HANDS, INKS, PITCHES, handwrite, alignToGrid, handwritingCSS, pageGeometry, pitchPx, snap, PX_PER_MM };
+export default { HANDS, INKS, PITCHES, BOX_CSS, boxSVG, squarePath, tickPath, handwrite, alignToGrid, handwritingCSS, pageGeometry, pitchPx, snap, PX_PER_MM };

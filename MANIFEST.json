@@ -14,8 +14,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 6154,
-      "sha256": "c5be818721410c4844ec376d20fa71273e2744e92a0911b3d3752a72b04bac13"
+      "byteLength": 6759,
+      "sha256": "b90c1807b72cc675c423cf91b71da6013bd46ac2b82bbdc96f407310bac35c28"
     },
     {
       "path": "README.md",
@@ -89,8 +89,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 13205,
-      "sha256": "5cdf441abbe6912765ecdcdbb8c11e00ab66d24eb94d6d9cb203ed431dd4c1c5"
+      "byteLength": 13365,
+      "sha256": "9e617fdde6f381e687342d8999f5cc04b42979f69f90930754adec8ac52d635c"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -364,8 +364,8 @@
     },
     {
       "path": "parser/README.md",
-      "byteLength": 8953,
-      "sha256": "b25116787aa39c0c3df35f34ae86a738502822245e06d0b36c9ce3c91cace847"
+      "byteLength": 9165,
+      "sha256": "5f0caf393334a8889efedd0e6a34f91aea9d78f8853b24ccd94c218b16f05fd4"
     },
     {
       "path": "parser/ROADMAP.md",
@@ -479,13 +479,13 @@
     },
     {
       "path": "parser/handwriting-test.mjs",
-      "byteLength": 2989,
-      "sha256": "52974e3b8c530a32bf136d547bb75c10097f4ea39db0d4fdde733239535b84a5"
+      "byteLength": 4308,
+      "sha256": "365406f03f583f9f45cafa63c01ce317d69778c078dd15ac053da11ea6c82b90"
     },
     {
       "path": "parser/handwriting.mjs",
-      "byteLength": 16582,
-      "sha256": "f0f9912edaf5db253b6c7646f3f9612967351ec55a26bc4feb9eb40f2138e021"
+      "byteLength": 20311,
+      "sha256": "0f1b5b5ab08257bb8d8d470e9370ca6ffecfb3f8f068ddf9e0e894d1fac033c3"
     },
     {
       "path": "parser/jot.mjs",
@@ -614,8 +614,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 836005,
-      "sha256": "b986331935a0e10fe65dd917f05a45a09ea1ab8de14f42c1f627b41952f89bef"
+      "byteLength": 837967,
+      "sha256": "c945c0d053ddcc1f51452b19641915d9297be442249baa799f8fc65ce08c82e2"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -939,23 +939,23 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 19518,
-      "sha256": "d55bb1961cada4cbbc0cdc9311cea8471782741d05ca085c968d2b9208690844"
+      "byteLength": 19678,
+      "sha256": "42500084db055ff6012916b3a8a07f02ee7b2be5ce2d3573c76fa584f631cd86"
     },
     {
       "path": "site/dist/home.css",
-      "byteLength": 6834,
-      "sha256": "cde00daefd3c07db17c7de0cdf2953d6266e17ab4c278cfab9b051a84f8ac147"
+      "byteLength": 8340,
+      "sha256": "ca04fa68648e5dc89510c1aefc0c3aed7a454f4f2a82c0b82efada23f1daba85"
     },
     {
       "path": "site/dist/home.mjs",
-      "byteLength": 928,
-      "sha256": "834132695e2f600d771b0284efe883b31a45a3f09d507f4ff44e1a48d72a7db2"
+      "byteLength": 2277,
+      "sha256": "011927b99f8ec6bd83e8bb5e0e6cadf714cb43f39fc6a8d6e5771c6506d0f069"
     },
     {
       "path": "site/dist/index.html",
-      "byteLength": 7874,
-      "sha256": "7807fbfdd487e9641f5d33339811850f8bd4f3f04f038d8044441bdfbb349b9c"
+      "byteLength": 10169,
+      "sha256": "15331071beac5f8852fce5f02bf9013d419ce093f8ad5ec54bd9e833b4d3c372"
     },
     {
       "path": "site/dist/jot/charts.mjs",
@@ -1049,8 +1049,8 @@
     },
     {
       "path": "site/dist/jot/handwriting.mjs",
-      "byteLength": 16582,
-      "sha256": "f0f9912edaf5db253b6c7646f3f9612967351ec55a26bc4feb9eb40f2138e021"
+      "byteLength": 20311,
+      "sha256": "0f1b5b5ab08257bb8d8d470e9370ca6ffecfb3f8f068ddf9e0e894d1fac033c3"
     },
     {
       "path": "site/dist/jot/jot.mjs",
@@ -1174,8 +1174,8 @@
     },
     {
       "path": "site/test-editor-ui.cjs",
-      "byteLength": 31310,
-      "sha256": "9657847cbf05eb68a8c550d81e3717571480198c4665ef77c80e430bbdc6b290"
+      "byteLength": 32755,
+      "sha256": "a7e41356e43536fb6b7cd4a901b31ef97b0677b573956d1f54e22549e151da12"
     },
     {
       "path": "site/test-editor.mjs",
@@ -1399,8 +1399,8 @@
     },
     {
       "path": "vscode/media/jot/handwriting.mjs",
-      "byteLength": 16582,
-      "sha256": "f0f9912edaf5db253b6c7646f3f9612967351ec55a26bc4feb9eb40f2138e021"
+      "byteLength": 20311,
+      "sha256": "0f1b5b5ab08257bb8d8d470e9370ca6ffecfb3f8f068ddf9e0e894d1fac033c3"
     },
     {
       "path": "vscode/media/jot/jot.mjs",
