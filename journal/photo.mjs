@@ -2,7 +2,7 @@
 // Nothing here touches an image: no upload, no camera, no storage. A block is a true-size window (corner marks the pasted print
 // hides), a keep-clear glue margin, and caption lines. This file holds the geometry only (sizes, the plan of a block's frames, the fit
 // rules and their plain-words reasons, the gutter keep-out); daypage.mjs draws the HTML from a plan and holds the block options.
-// No imports: the editor inlines this file in front of daypage.mjs (editor/build.mjs), so every top-level name is unique in that script.
+// No imports (the retired print editor inlined this file in front of daypage.mjs); every top-level name is unique.
 //
 // UNITS. Everything below is in CSS inches as render.mjs lays the page out. The 8.5x11 page is laid out at 8.5/ZOOM wide and zoomed
 // x1.294, so a print of W physical inches is drawn W / zoom CSS inches wide: it measures W on the paper, in both trims. A print size

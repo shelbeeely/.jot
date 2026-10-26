@@ -29,16 +29,19 @@
       <select id="t-per"><option value="month">One file for the month</option><option value="week">A file a week (fits InkDeck)</option><option value="day">A file a day</option></select></div>
     <div class="actions">
       <button class="btn primary" id="download" type="button"><span aria-hidden="true">↓</span> Download .jot</button>
+      <button class="btn" id="undo" type="button" aria-keyshortcuts="Control+Z" disabled><span aria-hidden="true">↶</span> Undo</button>
+      <button class="btn" id="redo" type="button" aria-keyshortcuts="Control+Shift+Z" disabled><span aria-hidden="true">↷</span> Redo</button>
       <button class="btn" id="starter" type="button">Start from…</button>
       <div class="more">
         <button class="btn" id="more" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="more-menu">More</button>
         <div class="menu" id="more-menu" role="menu" hidden>
           <button role="menuitem" type="button" id="save-tpl">Save template (.json)</button>
-          <button role="menuitem" type="button" id="open-tpl">Open a template…</button>
+          <button role="menuitem" type="button" id="open-tpl">Open a .jot or a template…</button>
+          <button role="menuitem" type="button" id="import-day">Import a print day layout (daypage.json)…</button>
           <button role="menuitem" type="button" id="copy-jot">Copy the .jot text</button>
         </div>
       </div>
-      <input type="file" id="open-file" accept=".json,application/json" hidden>
+      <input type="file" id="open-file" accept=".jot,.json,.txt,application/json,text/plain" hidden>
     </div>
   </section>
 

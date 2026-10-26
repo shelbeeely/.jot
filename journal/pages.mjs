@@ -1,5 +1,5 @@
 // Page builders: every page of a book as a pure function (data + options -> HTML), shared by the print build (render.mjs)
-// and the page editor (editor/), the way daypage.mjs is for the day page. No fs, no process: everything a page needs comes
+// and the tests (samples.mjs), the way daypage.mjs is for the day page. No fs, no process: everything a page needs comes
 // in through `ctx` (see context.mjs, which loads it) so the same code runs in Node and in a browser.
 //   ctx = { D, VOL, size: 'small'|'letter', hasIcs, BUS_COV, NET, PROFILE, SUPPORT, TRANS, CLINIC, keeperPage, dayLayout, refs }
 // PROFILE is content/profile.json (see profile.mjs): the person, the book's title, the place, the module switches. Nothing personal lives in this file.

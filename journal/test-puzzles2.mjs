@@ -392,7 +392,7 @@ buildDay('answers', [['sudoku', { size: 6, answers: true }]], 'small');
 
 // the big ones on a blank page, Notes and Collection pages (a book with edited block pages)
 {
-  const { DEFAULT_BOOK, validateBook } = await import('./book.mjs'), { addEntry, setLayout } = await import('./bookedit.mjs'), { catalog } = await import('./editor/samples.mjs'), { libraryFromProfile } = await import('./library.mjs'), { PROFILE } = await import('./profile.mjs');
+  const { DEFAULT_BOOK, validateBook } = await import('./book.mjs'), { addEntry, setLayout } = await import('./bookedit.mjs'), { catalog } = await import('./samples.mjs'), { libraryFromProfile } = await import('./library.mjs'), { PROFILE } = await import('./profile.mjs');
   const cat = await catalog('2026-10', DEFAULT_BOOK), must = (r) => { assert.ok(r.book, r.err); return r.book; };
   const grid = (kind, blocks) => { const L = normalize({ v: 2, kind, grid: true, blocks }, 'small', kind), dropped = autoPlace(L, 'small'); assert.equal(dropped.length, 0, `${kind}: ${blocks.map((b) => b.type)} place`); const p = normalize(L, 'small', kind); assert.deepEqual(gridProblems(p, 'small'), []); assert.deepEqual(gridProblems(p, 'letter'), []); return p; };
   let book = DEFAULT_BOOK;

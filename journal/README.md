@@ -1,6 +1,6 @@
 # Journal builder (.jot)
 
-Build a journal in the editor and get it as a **.jot file to fill in by hand** (see [Jot files to fill in](#jot-files-to-fill-in-the-book-as-a-jot)),
+Build a journal in the [Jot template editor](../site/dist/editor/) and get it as a **.jot file to fill in by hand**, or turn a book's structure into one here (see [Jot files to fill in](#jot-files-to-fill-in-the-book-as-a-jot)),
 or as monthly books for Amazon KDP, with a yearly Keeper book and Xteink X4 EPUBs, and your **.jot writing printed in** (see
 [Jot pages](#jot-pages-jot-writing-in-the-book)). This is the engine from Journalwright Studio (`shelbeeely/Journaling`, `journal/`),
 carried over with the generic profile and packs only: nothing personal, no X4 firmware, no Studio server.
@@ -63,7 +63,7 @@ A missing or wrong field stops the build with one message listing every problem,
 | `location.*` | `place` (title page, sky data), `city` and `region` (eclipse and support notes), `lat`, `lon`, `elevation` (sunrise, sunset, moon, eclipses), `timezone` (all clock times), `timezone_name` (printed) |
 | `day_start_hour` | Hour the paper day starts (the sample's 5; set 4 if your day ends late). Exported into the X4 pack (`checkins.txt`, first line ends `· profile day_start=4 tz=...`). The firmware still compiles in its own `DAY_STARTS_HOUR`; `test-profile.mjs` fails if the two differ |
 | `trim` | Default trim, `small` (5.5x8.5) or `letter` (8.5x11). `SIZE=small|letter` overrides it; build-all.sh always sets `SIZE` |
-| `print.large_print`, `print.high_contrast` | Optional, both default to false. Print accessibility options, see "Print accessibility" below. The editor's Settings panel writes the same two switches into `content/daypage.json` (`print: {large, contrast}`), which win over the profile |
+| `print.large_print`, `print.high_contrast` | Optional, both default to false. Print accessibility options, see "Print accessibility" below. `content/daypage.json` can set the same two switches (`print: {large, contrast}`), which win over the profile |
 | `modules.*` | Switches, all required: see below |
 | `crisis.lines` | The lines printed on the safety plan after "my prescriber;" (default: 988 and the 741741 text line) |
 | `transit` | Needed when `modules.bus` is on: `agency`, `site`, `app` (used in the bus page titles and notes), `priority_routes` (routes that get hour grids first), `short_stops` (stop-name abbreviations) |
@@ -72,7 +72,7 @@ A missing or wrong field stops the build with one message listing every problem,
 
 ## Print accessibility (A11Y-40, A11Y-41)
 Two options, both off by default. Off, the books are byte-identical to before (`check-identical.mjs` guards it). Set them in `profile.json`
-(`"print": {"large_print": true, "high_contrast": true}`) or from the editor's Settings panel (Printed book). Works on 5.5x8.5 and 8.5x11.
+(`"print": {"large_print": true, "high_contrast": true}`), or in `content/daypage.json` (`print: {large, contrast}`). Works on 5.5x8.5 and 8.5x11.
 `a11yprint.mjs` holds the options; `render.mjs` applies them. The page CSS is not edited: an override block after it is generated from it.
 - **Large print.** Small type is 1.4x (nothing under 8.5 pt), headings less, page titles not at all; line height, check boxes, mood marks
   and rows are bigger; every rule is 1.5 pt and darker; the writing space is ruled at 8.5 mm (not dots) and other ruled areas are wider.
@@ -159,7 +159,7 @@ No Type 3 fonts (KDP rejects them). Same check CI runs:
 No output = pass.
 
 ## Jot files to fill in (the book as a .jot)
-The editor builds the structure; a `.jot` file is the output: the same book, one month, as plain Jot text to fill in by hand (on a
+`render-jot.mjs` writes the book's structure as a `.jot` file: the same book, one month, as plain Jot text to fill in by hand (on a
 keyboard or InkDeck) instead of printed pages. Nothing for scanning or page layout goes in: no DATE / TITLE / TAGS boxes, page codes,
 SEND TO strip, frame, page breaks or paper size.
 
@@ -167,8 +167,7 @@ SEND TO strip, frame, page breaks or paper size.
     node render-jot.mjs month 2026-10 private/main.ics    # with the month's events (o 4:00p ...) and routines in the action items
     node render-jot.mjs month 2026-10 --per week          # a file a week (InkDeck opens 16 KB a file; a month is about 17 KB)
 
-In the editor: **More → Download .jot (fill in by hand)**, or **Download .jot, a file a week (for InkDeck)**. Both use the book you
-arranged (pages shown or hidden, a month's own page list, spread days, notes pages with their blocks) and the day layout you built.
+It uses the book as `content/book.json` arranges it (pages shown or hidden, a month's own page list, spread days, notes pages with their blocks) and the day layout you built.
 
 What the file looks like (`jotfile.mjs` holds the mapping, block by block):
 
@@ -183,7 +182,7 @@ What the file looks like (`jotfile.mjs` holds the mapping, block by block):
 | Time blocks, lists, spending, flash cards, review tracker, stim log | `- 08:00 ` lines, `- ` lists, Markdown tables |
 | Theme, review, closing, safety plan, quick contacts, week review, exchange | `##` sections with their questions as `####` headings |
 | Printed reference pages (title, key, support lists, bus times, sky) and the day's printed data (moon, holidays, "on this day") | left out: nothing to fill in |
-| Paper-only blocks (sketch boxes, photo frames, puzzles, tracing, spacers, dividers, send-to strip) | left out, and named in the editor's message and the command's output |
+| Paper-only blocks (sketch boxes, photo frames, puzzles, tracing, spacers, dividers, send-to strip) | left out, and named in the command's output |
 
 A filled-in file is ordinary Jot: the parser reads the ticks and values, and the Jot pages below can print it back into a book.
 Checked by `node test-jotfile.mjs` (every block type, a filled-in round trip, splits, the book's structure, the command line).
@@ -288,85 +287,8 @@ editor run the same code. `PAGE_TYPES` lists the page types (title, key, month c
 support, safety, bus, lineage ...) and `renderPages(type, ctx)` builds any of them. `context.mjs` loads the data a page needs
 (month, year content, transit schedule, directories, .jot writing) into one `ctx`; `book.mjs` lays the pages out (`DEFAULT_BOOK` is today's
 sequence) and adds what is never hand-set: recto/verso Notes pages, the even page count (>= 24, hardcover >= 76), `{{P_x}}` page
-references. `render.mjs` only adds the frame, scan markers and page codes. The editor build writes
-`editor/dist/site/pages-sample.json` (every page type from `test.ics`, no clinic details).
-
-### Book-first navigation (the editor opens on the Book)
-The editor opens on the **Book**: the whole book on a pan/zoom canvas, spreads laid out as it opens (title page alone on the
-right, then left|right pairs, the last even page alone on the left). Every page is a live thumbnail drawn by `pages.mjs` from the
-sample calendar (`test.ics`, never your data; no clinic details), painted lazily near the view. There are no tabs: zoom is one
-continuous semantic zoom through five levels (the top two, Library and Series, are described under
-[Library and Series navigation](#library-and-series-navigation-l1b) below).
-
-| Level | What you see | URL hash |
-| --- | --- | --- |
-| Library | shelves of covers: series as stacks, standalone books | `#library` |
-| Series | the books of one series, in order | `#series/<id>` |
-| Book | every spread | `#book/<id>` (`#book` is the current book) |
-| Spread | two facing pages, large | `#spread/12` (1-based) |
-| Day | the day page, viewed first (clean, read-only); **Edit** opens the editor (Flow/Grid, palette, options, undo, save, methods). A page view for any other page: read-only, except Notes, blank and Collection pages, which **Edit** opens as block pages (C5a) | `#day/2026-10-14` (view), `#day/2026-10-14/edit` (editing), `#page/safety`, `#page/notes_1/edit` |
-
-- **Move between levels:** tap a page (book to spread, spread to day; a quick double tap goes straight to the day), zoom in past
-  one whole page (wheel, pinch, `+`), the Library / Series / Book / Spread / Day buttons, the breadcrumb (`Library > Series > Book > Spread 12 > Day Oct 14`), Back.
-  Out: breadcrumb, Back, `Escape`, a pinch in or ctrl/cmd + wheel over the page at the day level. Plain wheel zooms the canvas
-  (it does not scroll); the browser's own zoom is left alone everywhere else.
-- **Keys:** `Enter` in, `Escape` out, `Alt+Up` / `Alt+Down` out / in from anywhere, `0` book, `1` spread, `2` day (canvas);
-  `+` `-` zoom, arrows pan, `[` `]` previous/next page, `Home` `End`, `g` or `/` jumps.
-- **URL:** the hash records the level, so links, reload and the browser's Back and Forward restore it (an unknown or out-of-range
-  hash opens where the library lands: the book of a one-book library, else the library; an unknown series or book id opens the library).
-  Spread, day and page hashes belong to the book last opened (the browser's history entry remembers which). Back (the button) uses history when there is some, else goes up one level.
-- **Accessibility:** every control is a labelled 44px button; the breadcrumb is a labelled `nav` with `aria-current`; a live region
-  says "Now at: ..." on every level change and focus moves to the current crumb; focus is visible; with reduced motion the zoom
-  between levels is instant.
-- **View versus edit (E1):** the editor UI exists only while you edit a page. A day opens for **viewing**: the page at a larger
-  size, centered, read-only (an Actual size button, Versions, and More with Download and Copy). No palette, options, Flow/Grid,
-  undo or meter, and none of it is in the page or the accessibility tree. **Edit** (button, `E` or `Enter`) draws it all, shows an
-  **Editing** pill, and moves focus to the Flow/Grid switch. **Done** (button or `Escape`) takes it away and returns focus to Edit.
-  Edits autosave as before and stay in the draft, and Undo keeps its steps while you are on the day. `Escape` while viewing goes up a
-  level. The hash carries the mode (`#day/2026-10-14/edit`): reload, Back and Forward restore it; Edit pushes one history entry and
-  Done steps back over it. On a phone or narrow window the panels are a bottom sheet under the page (Blocks, + Add; the arrow folds it
-  to its tab bar). Notes, blank and Collection pages edit their blocks (`#page/<id>/edit`, see Block pages); the other pages stay view-only with their note. `KW.go({ level: 'day', date, edit: true })` opens straight to editing. Guests, the demo and the Artifact behave the same.
-- **Jump:** type a page number (`30`, `p30`) or an id (`safety`, `week.03.review`, a date like `2026-10-05`).
-- **Legend (i):** lock = protected page (Closing, Support, Safety plan: can move, never hidden); pages a book hides in
-  `content/book.json` sit dimmed in a row under the book; the 5.5x8.5 / 8.5x11 switch reflows the same pages.
-- **Versions mount:** `#versions-slot` (header, every level) and `#versions-drawer` are empty shells; `KW.drawer.open()` /
-  `.close()`, `KW.on(fn)` (level changes) and `KW.go(target)` are the hooks for the Versions panel.
-- The day editor edits one layout shared by every day page; its preview is a sample day whatever date you opened.
-  Reordering, hiding and adding pages come in later canvas steps. Works in the GitHub Pages site (loads `pages-sample.json`) and
-  the Artifact (the sample book is embedded, gzipped).
-
-    node check-identical.mjs          # after build-all.sh: the default books still match identical.json
-
-`identical.json` holds a fingerprint per page HTML of the default books (from `test.ics`). A change that is meant to alter the
-default books: rebuild them all, then `node check-identical.mjs --update` and commit the new file with the change.
-
-### Library and Series navigation (L1b)
-Two levels sit above the Book, in the same continuous zoom: **Library** (shelves of covers: a series is a stack, a standalone book is
-a cover) and **Series** (its books, numbered in order). The covers are the real title page (`pages.mjs`, drawn from the sample calendar
-and `test.ics`) with each book's own title, subtitle, plan and, when its series asks (`show`), "Book 3 of 12 in ...".
-
-- **Routes:** `#library`, `#series/<id>`, `#book/<id>`, then `#spread/N`, `#day/date[/edit]`, `#page/id`. Add `/edit` to the first three
-  for edit mode. Reload, Back and Forward restore the level; an unknown id opens the library. A library of one book opens straight
-  to the book (no empty shelves); the Library button, the breadcrumb and `L` still open the shelf. A standalone book has no series level:
-  out from it goes to the library. Editing a series (`#series/<id>/edit`) opens on its books.
-- **Move:** `Enter` or a click goes in, `Escape` (or `-`, the zoom button, ctrl/cmd + wheel, a pinch in, wheeling out past the whole book)
-  goes out; arrows, `Home` and `End` move between covers; `+` goes in. Focus lands on the cover you came from. "Now at: Library" is
-  announced on every change; a phone shows the current level and its parent in the breadcrumb, with a Library button beside Back.
-- **Edit mode (view versus edit):** viewing shows covers only. **Edit** (or `E`) shows New book, New series, Undo, Export, Import and
-  per cover a drag grip, Move earlier / later and **Settings**; **Done** or `Escape` leaves. At the Book level Edit adds Book settings.
-- **Settings sheets** (a side sheet on a wide window, a bottom sheet on a phone; `library.mjs` does the validation, its messages are shown
-  in plain words, by title): *Book*: title, subtitle, spine title, series, length (scope), first month, edition, cover style, modules,
-  each saying what it takes from the series ("Same as the series (Season)"); Duplicate and Delete. *Series*: title, subtitle, its books in
-  order (move up / down buttons and a drag grip, announced), the defaults every book takes unless it sets its own (length, Keeper, closing
-  page, edition, cover style, modules), the series line on the cover and title page; Duplicate (a copy with a copy of each book) and Delete
-  (keep its books, or delete them too). Delete always asks first and is undone from the snackbar or the Undo button (40 steps).
-- **Where it lives:** guests keep the library in this browser (`localStorage`, key `kw-library`; if storage is blocked it works in memory and
-  says so); Export writes `library.json`, Import checks a file and replaces the library after a question. In the Artifact it is saved to the
-  store (`layouts/library`). Signed in to a Studio project it is `meta.library` of the project's draft (sent with the next autosave once
-  edited) and follows Versions: restore, branches and forks carry it. The demo starts from a generic sample library
-  (`editor/sample-library.mjs`), saves nothing, and never holds real titles.
-- **Tests:** `editor/test.mjs` (every level, keys, gestures, routes, edits, undo, import and export, blocked storage, the studio snapshot,
-  phone and dark screenshots) and `editor/test-a11y.mjs` (axe, targets, reflow, focus, announcements and reduced motion at the new levels).
+references. `render.mjs` only adds the frame, scan markers and page codes. `samples.mjs` builds every page type from `test.ics` (no clinic
+details) for the tests.
 
 ### The book layout (`content/book.json`)
 `book.mjs` `DEFAULT_BOOK` is the page order; `content/book.json` (the committed copy equals the default) overrides it and
@@ -386,7 +308,7 @@ and `test.ics`) with each book's own title, subtitle, plan and, when its series 
 - `node test-book.mjs` checks the rules and the sequence. A book that differs from the default is skipped by `check-identical.mjs`.
 
 ### Block pages (C5a: Notes, blank and Collection pages)
-These three page types are made of the same blocks as the day page, on a fixed grid of their own, and are edited in the editor like a day page.
+These three page types are made of the same blocks as the day page, on a fixed grid of their own, and are set in `content/book.json` (an entry's `layout`).
 - **Kinds (`daypage.mjs` `PAGE_KINDS`, `GRIDS`):** Notes and Collection pages keep the DATE / TITLE / TAGS header at the top and have 4 columns × 24 rows;
   a blank page has no header, so 4 columns × 27 rows (measured: the 590.4 px inside the scan frame / 0.22 in rows). Both trims have the same rows.
   Every kind has a Writing space (Notes and Collection must keep one; a blank page may have none). The blocks that read a day (moon and sun, holidays,
@@ -397,10 +319,6 @@ These three page types are made of the same blocks as the day page, on a fixed g
   page's starting layout, prints exactly what the books printed before (Notes: dot grid and four action lines; blank: empty; the default book is byte for
   byte unchanged, `check-identical.mjs`). The starting layout of a Collection page is a title over ruled lines. A blank page given blocks of its own is no longer `shared`.
   `bookrules.mjs` checks a layout (`pageLayoutProblems`: unknown or day-only blocks, the wrong kind, a grid that breaks a rule), `bookedit.mjs` `setLayout` writes it.
-- **In the editor:** open a page and press Edit (E), or select it in the Book's edit mode and press Edit blocks, or use the hash: `#page/<entry id>/edit`
-  (the same routes as `#day/<date>/edit`). The page opens in the day page editor (palette, options, Flow/Grid, Undo, overflow meter), with the page's own
-  header and grid; the day's scan settings, methods and `daypage.json` tools are not shown. Every change is saved into the book (this browser, the Artifact store,
-  the Studio draft, or the book's GitHub commit), and the canvas lays the page out again. Automatic padding Notes pages have no entry, so nothing to edit.
 - **Not yet:** a `sendto` block on these pages, per-page scan settings, and month, week, review and back-matter pages as blocks (C5b).
 - **Tests:** `node test-blockpages.mjs` (nothing drifts, the rules, `flowBook` equals `assemble`, an edited book builds and passes `check.mjs`) and the Block pages section of `editor/test.mjs`.
 
@@ -411,15 +329,7 @@ A day can cover one page (the default) or a whole two-page spread: a left page a
 - **Nothing crosses the fold.** A block lies wholly on the left page (columns 1 to 4) or the right page (5 to 8); `gridProblems()` refuses one that does not ("crosses the fold"). At print each page is an ordinary day-page grid (4 x 24), so rows, minimum spans and the per-cell overflow check are the day page's.
 - **Scan zones per page.** Every page keeps its own DATE / TITLE / TAGS header (the right page's DATE says "cont."), the 9 pt frame, the SEND TO strip and its own Data Matrix page code. Page ids `day.2026-10-17` and `day.2026-10-17.cont`; `layout.json` and the manifest carry `spread: "L"` or `"R"`.
 - **Pages.** A spread day always opens on a left-hand page, so a Notes padding page is added when the page before ended on the left; page counts, hardcover padding, volumes and the 110-page limit follow. `check-spreads.mjs` checks that the two pages face each other and keep their zones and codes.
-- **In the editor:** a day's edit mode has a "This day covers" box (One page / A spread; every weekday; every day) with the page count and the KDP note; the spread opens on a two-page canvas (one page at a time, with a switch, on a phone). The Book view's page organiser says which days are spreads on the Day pages row.
-- **Tests:** `node test-spreaddays.mjs` (Books CI), the Spread days sections of `editor/test.mjs` and `editor/test-a11y.mjs`, `studio/test/spread.test.mjs`. Decisions and what is not done: `docs/journaling/BUILD-PLAN.md` section 12, "S1 as built".
-
-### Fewer decisions (DF1: guided start, ready-made books, Basic view)
-BUILD-PLAN section 26. `presets.mjs` (pure; the editor inlines it after `daypage.mjs`) holds the data and the rules; `editor/guided.html|css|js` draw them.
-- **Guided start**: Library, edit mode, **Guided start** (or More, "Start a book with questions"). Five questions (size, length, what to track, tone, room to write) each with a recommended answer chosen, or one of four ready-made books (`STARTERS`), or "Start from my last book". The review shows a true-size preview, the blocks, and anything left off to keep the page calm. **Make this book** adds a library book and sets the day page; it asks first if your page is not the original. `guidedBook(answers)` is deterministic.
-- **Basic and Advanced**: the Add-blocks panel starts in Basic (eight blocks, `BASIC_TYPES`; a block's first `BASIC_OPTS` options). Advanced is everything. `recOf(option)` is every option's recommended value.
-- **Remembered**: `kw-last-book` (browser), Studio `PUT /api/me/prefs/startFrom` when signed in, nothing in the demo. `cleanLast` keeps choices only (no title, place, calendar, pack or profile field).
-- **Tests**: `node test-presets.mjs` (no browser), `node editor/test-guided.mjs` (needs the built editor; `SORTABLE_JS=...` offline), `studio/test/prefs.test.mjs`. The older editor tests start in Advanced (`kw-view`) because they walk every block.
+- **Tests:** `node test-spreaddays.mjs` (Books CI), `studio/test/spread.test.mjs` in Journaling. Decisions and what is not done: `docs/journaling/BUILD-PLAN.md` section 12, "S1 as built".
 
 ### Photo blocks (PH1: prints you paste in)
 Four blocks in the palette group **Photos**: `photoframe` (a true-size window for one print), `photostrip` (2 to 4 small frames with date lines), `photodaily` (a tiny frame per day of the month, labelled by date, with the profile's day start), `contactsheet` (6 to 12 numbered frames with a pick-one tick). Plan, fit tables and paper advice: BUILD-PLAN section 23.
@@ -451,49 +361,11 @@ Ten blocks, paper only (no upload, storage, sensor or X4 items). Palette group *
 - **Print.** Vector only, strokes at least 0.75 pt, no Type 3 fonts. Class names `nbk-`, `flx-`, `stm-` belong to these blocks (a test guards it); the default layout is unchanged.
 - **Test:** `node test-noteblocks.mjs` (plans and refusals, every page kind, fold line measured in the page and the 300 dpi PDF, vector only, large print and high contrast, Studio allowlist).
 
-### Page organiser (Book view, edit mode)
-Edit the book (Edit at the whole-book level) and the canvas becomes an organiser; viewing stays read-only.
-- **Move:** drag a page on the canvas (mouse or pen; on a touch screen use Move to…), select a page and press Alt+Left / Alt+Right, use
-  Earlier / Later / Move to… in the toolbar under the canvas, or the arrows and drag handles in the Pages list. A page only moves inside
-  its own list: front and back pages among themselves, month pages among month pages, week pages among week pages (a change to a week page
-  applies to every week). A move that is not allowed says why. The result is announced ("Moved Week 3 review to page 24").
-- **Hide / show:** the eye. Safety plan, Support and Closing the month show a lock and a reason instead; the weeks cannot be hidden.
-  Hidden pages dim, sit apart under the book and are not printed. A change that would leave a page pointing at a page the book no longer
-  has is warned about first; while one dangles the book cannot be downloaded, copied or committed (the build refuses it).
-- **Add:** Notes and Collection pages (any number, at a chosen place, with a title; duplicate, retitle, remove). Every other page type appears once, so it
-  can only be hidden, and only pages you added can be removed. Every page needs its own printed title (`check-pages.mjs`).
-- **Months:** "Changes apply to: All months / Only [month]". "Only" writes `months["YYYY-MM"].pages`; months with their own pages are
-  listed with Reset. An override that equals the default is dropped.
-- **Automatic, shown not editable:** recto/verso alignment, padding (>= 24, hardcover >= 76, even), page numbers and pointers, scan codes,
-  the Keeper page. Automatic Notes pages are dashed on the canvas and have no controls. The panel shows the count and the KDP range (24 to
-  110), and warns past 110 (the plan would split it into volumes).
-- **Save:** every change is an undo step (Ctrl+Z, Ctrl+Shift+Z) and is saved as it happens: this browser (`kw-book`), the Artifact store
-  (`layouts/book`), the Studio draft (`book` part, also carried by versions); Download or Copy `book.json`; Save to GitHub commits
-  `journal/content/book.json`. Import checks a file with `validateBook`.
-- **Code:** `bookrules.mjs` (the rules, shared with `book.mjs`), `bookedit.mjs` (`flowBook` lays a list of pages out from the sample catalog
-  that `editor/samples.mjs` builds; `moveEntry`, `setOn`, `addEntry`, ...), `editor/organiser.{html,css,js}` (the UI).
-  `node test-organiser.mjs` proves `flowBook` equals `assemble` and that an organised book builds and passes `check.mjs`, `check-pages.mjs` and `check-codes.mjs`.
-
-### Languages (I1: the editor's message catalog)
-The editor's words are in `i18n/en.json`, not in the code. English is the only language you can pick; the two pseudo-locales (accented and a third longer `en-XA`, and right-to-left `ar-XB`) are there to show what a translation will do. Details and what is not done: BUILD-PLAN section 18, "I1 as built".
-- **Try it:** `node editor/build.mjs`, open the site build with `?lang=en-XA` or `?lang=ar-XB` (or set `localStorage` `kw-lang`). `<html lang>` and `dir` follow; labels, toasts and live regions are translated too.
-- **Add or change a word:** script text: `_t('area.key', { name })` in `editor/*.js` or `template.html`, and the message in `i18n/en.json` (`{n, plural, one {# page} other {# pages}}` for counts). Page text: put `data-i18n="area.key"` on the element (`data-i18n-html` for markup inside, `data-i18n-attr="aria-label:area.key"` for attributes) and the same words in `en.json`. Block, option and care-row names come from the code tables: change them there and run `node i18n/sync-tables.mjs`.
-- **Check:** `node test-i18n.mjs` (also in Books and Editor CI): every locale has every key with the same placeholders, no unused or missing key, no hard-coded English in the extracted files (an exception goes in `i18n/allow.json`, with a reason in the pull request), HTML words are marked and match en.json. A new editor file goes in the test's `AREAS` list. `editor/test.mjs` loads the editor in both pseudo-locales (no page errors, no missing key, `dir`, no sideways scroll at 390 px).
-- **Printed words** are not translated yet. `node i18n/print-report.mjs` rewrites `i18n/print-strings.md`, the list of printed strings and where each lives; the test fails when it is out of date.
-- **Files:** `i18n/i18n.mjs` (lookup, format, pseudo-locales), `i18n/tables.mjs` and `sync-tables.mjs` (the data tables), `i18n/htmlscan.mjs` and `lex.mjs` (the lint's readers), `i18n/runtime.js` (the in-page part), `i18n/print-report.mjs`.
-
-## Day page editor
-(This is the day level of the editor: open a day page from the Book, or `#day/2026-10-14`.)
-`daypage.mjs` is the block library: order, on/off and options for every day page block. `content/daypage.json`
-(written by the editor) overrides the default; with no file the page is the original layout.
-
-    node render.mjs month 2026-10 test.ics   # the editor borrows the page CSS from a sample build
-    node editor/build.mjs                    # -> editor/dist/site/ (GitHub Pages) + editor/dist/artifact.html
-    node editor/test.mjs                     # smoke test + screenshots in editor/dist/test/
-
-The Pages editor saves in the browser and commits `journal/content/daypage.json` with a fine-grained token.
-The Artifact editor saves to its store at `layouts/day`; copy that `layout` object into `content/daypage.json`.
-The DATE/TITLE/TAGS header is fixed. The scan frame, SEND TO strip and page code are on by default and change only by opt-in scan options (see "Scan options"). The X4 firmware is unaffected.
+## Day page blocks
+`daypage.mjs` is the day page block library: one source of truth for print, the `.jot` export and the tests. `content/daypage.json`
+overrides the default layout; with no file the page is the original layout. The print editor that wrote it is retired (the Jot template
+editor in `site/dist/editor/` builds journals to fill in by hand, and imports a `daypage.json`); edit the file by hand or keep one made
+with Journaling's editor. A bad file stops the build with the reasons (`normalize()` and `gridProblems()`).
 
 ### Presets and options (Tier 1)
 Every option is off (or at today's value) by default, so an unchanged layout prints exactly the same page.
@@ -600,7 +472,6 @@ Flow (the default) stacks blocks in order and the writing space takes what is le
 - **Rules** (`gridProblems()`, with messages): no overlap; each block at least its content's minimum (`minSpan()`, measured; the editor test checks every block type and option variant fits its minimum on both trims); inside the 4 columns and 24 rows; the Writing space at least 8 rows by 2 columns. The date/title/tags header, SEND TO strip, page code and frame are not blocks and never move. A grid layout that breaks a rule stops the build and says why.
 - **Data blocks** (holidays, events, on this day) keep their cell on days without one. Turning Grid on stacks the blocks at their minimums and switches off blocks from the end of the list until the writing space has its 8 rows (today: On this day); place it beside another block to bring it back.
 - **Scan zones:** one zone per block cell (its grid rectangle, `_2`, `_3` for repeats); parts inside a cell (the care rows) are not listed. `check.mjs` also checks each cell (`blk` names the block).
-- **Editor:** the Flow / Grid switch, the grid drawn over the preview (Actual size on wide screens), drag to snap, corner handle to resize, arrows to move and Shift + arrows to resize, Column/Row/Wide/Tall steppers per block, undo, and a list of problems. Blocks with room to spare (Lined notes, Two columns, Sketch box, Brain dump, Writing space) fill their cell.
 
 ### Page identity
 Every page has an `id` in `layout.json`, unique in its book and derived from what the page is, not where it sits:

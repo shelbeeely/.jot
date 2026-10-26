@@ -3,7 +3,7 @@
 //   flowBook(entries, cat, opts)   the pages a list of entries makes, in order: the same alignment and padding as book.mjs assemble()
 //                                  (test-organiser.mjs proves they agree), from a catalog of the sample book's pages
 //   moveEntry / setOn / addEntry / removeEntry / duplicateEntry / setTitle / resetMonth   one change each: { book } or { err }
-// `cat` is what editor/samples.mjs puts in pages-sample.json:
+// `cat` is what samples.mjs builds (catalog()):
 //   { meta: typeMeta(PAGE_TYPES), occ: { type: [ [spec, ...], ... ] }, weeks: [{ month: n | -1 }], notes: html with a title marker,
 //     defaultBook, builtIn: [ids of the default book] }
 // A spec is one page: { id, type, cls, label, shared, html } with {{P_x}} markers still in the html. occ[type][k] is what the page type

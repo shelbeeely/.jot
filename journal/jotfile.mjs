@@ -1,6 +1,6 @@
 // The book as a .jot file: the structure you built in the editor (content/book.json and the day layout), written as a plain-text
 // Jot v1 document to fill in by hand, on a keyboard or InkDeck, instead of printed pages. Pure (no fs): render-jot.mjs writes it from
-// the command line and the editor's "Download .jot" makes the same file in the browser (editor/build.mjs inlines this file).
+// the command line. (The new Jot template editor, site/dist/editor/, builds .jot files from a template of its own.)
 // Nothing for scanning goes in: no DATE / TITLE / TAGS boxes, no page codes, no SEND TO strip, no frame. Paper sizes and page breaks
 // do not apply either: a .jot is one flat file, one month long.
 //

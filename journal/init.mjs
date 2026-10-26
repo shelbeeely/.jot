@@ -215,7 +215,7 @@ Next:
   2. Put your calendar in private/ (an .ics file; it is git-ignored and never uploaded), then:
 ${scope === 'month' ? `       node render.mjs month ${start} private/your.ics          one month
        ICS=private/your.ics ./build-all.sh                        the whole year, covers and checks` : '       node render.mjs book private/your.ics                      the whole book'}
-  3. Change the pages in the editor: node editor/build.mjs, then open editor/dist/site/index.html.
+  3. Shape a journal to fill in by hand in the Jot template editor (site/dist/editor/), or change book.json and daypage.json here.
   4. Support pages: yours say "Add your local numbers here" until you make a pack of numbers you have checked yourself
      (node packs-cli.mjs new support mine). Numbers are never filled in for you.
      The two lines on the safety plan (crisis.lines in your profile) and on the generic Support page are United States lines:

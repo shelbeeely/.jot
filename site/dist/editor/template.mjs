@@ -80,9 +80,9 @@ const str = (v, max, def = '') => (typeof v === 'string' ? v : def).replace(/[\u
 const num = (v, lo, hi, def) => { const n = Number(v); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, Math.round(n))) : def; };
 let seq = 0;
 export const newId = () => `b${Date.now().toString(36)}${(seq++).toString(36)}`;
-export function normalizeBlock(raw, zone = 'day') {
+export function normalizeBlock(raw, zone = 'day', fallbackId = null) {
   if (!isObj(raw) || !BLOCKS[raw.type] || !allowedIn(raw.type, zone)) return null;
-  const B = BLOCKS[raw.type], out = { id: typeof raw.id === 'string' && /^[\w-]{1,40}$/.test(raw.id) ? raw.id : newId(), type: raw.type };
+  const B = BLOCKS[raw.type], out = { id: typeof raw.id === 'string' && /^[\w-]{1,40}$/.test(raw.id) ? raw.id : fallbackId || newId(), type: raw.type };
   for (const o of B.opts) {
     const v = raw[o.k];
     if (o.kind === 'text') out[o.k] = v === undefined ? o.def : str(v, o.max);
@@ -99,7 +99,14 @@ const thisMonth = () => new Date().toISOString().slice(0, 7);
 export function normalizeTemplate(raw) {
   const t = isObj(raw) ? raw : {};
   const zones = {};
-  for (const z of ZONES) zones[z.id] = (isObj(t.zones) && Array.isArray(t.zones[z.id]) ? t.zones[z.id] : []).map((x) => normalizeBlock(x, z.id)).filter(Boolean).slice(0, 60);
+  // a block with no id (or one another block already has) gets one from where it is, so the same template always writes the same file
+  const seen = new Set();
+  for (const z of ZONES) zones[z.id] = (isObj(t.zones) && Array.isArray(t.zones[z.id]) ? t.zones[z.id] : []).map((x, i) => {
+    const b = normalizeBlock(x, z.id, `${z.id}-${i + 1}`);
+    if (b && seen.has(b.id)) b.id = `${z.id}-${i + 1}-${seen.size}`;
+    if (b) seen.add(b.id);
+    return b;
+  }).filter(Boolean).slice(0, 60);
   return {
     v: TEMPLATE_VERSION,
     title: str(t.title, 80, 'My journal') || 'My journal',
@@ -215,7 +222,8 @@ export function renderJot(tplIn, range = null) {
   const span = range ? (days.length === 1 ? days[0].date : `${days[0].date} to ${days[days.length - 1].date}`) : label;
   const head = ['---', 'Jot: 1.0', `Title: ${one(t.title)} · ${span}`, `Date: ${days[0].date}`, 'Made-with: Jot template editor', '---', ''];
   for (const s of W.scales.values()) head.push(`:::record scale #${s.id}`, `name: ${slug(s.name)}`, 'kind: ordinal', `minimum: ${s.min}`, `maximum: ${s.max}`, ...(s.lo ? [`anchor-low: ${s.lo}`] : []), ...(s.hi ? [`anchor-high: ${s.hi}`] : []), ':::', '');
-  const text = `${head.join('\n')}\n${W.lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n`;
+  // The template rides at the end in a hidden comment (not shown when the journal is read), so opening this .jot restores it.
+  const text = `${head.join('\n')}\n${W.lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n${templateComment(t)}`;
   const file = `${slug(t.title)}-${range ? days[0].date : t.month}.jot`;
   return { text, file, days: days.map((d) => d.date), bytes: new TextEncoder().encode(text).length };
 }
@@ -225,5 +233,16 @@ export function renderFiles(tplIn) {
   if (t.per === 'month') return [renderJot(t)];
   const all = monthDays(t.month), groups = t.per === 'day' ? all.map((d) => [d]) : monthWeeks(all).map((w) => w.days);
   return groups.map((g) => renderJot(t, { from: g[0].date, to: g[g.length - 1].date }));
+}
+// ---- the template inside a .jot ----
+// A Jot hidden comment: "/*" and "*/" on lines of their own, one JSON line between. JSON never has a raw newline, so the comment
+// cannot be closed early by anything a person typed.
+const TEMPLATE_KEY = 'jot-template:';
+export const templateComment = (t) => `/*\n${TEMPLATE_KEY} ${JSON.stringify(normalizeTemplate(t))}\n*/\n`;
+/** The template a .jot made here carries, or null (a .jot written anywhere else, or one whose comment was removed). Checked, never trusted. */
+export function templateFromJot(text) {
+  const m = /(?:^|\n)\/\*\r?\n(?:jot-template:) (\{[^\n]*\})\r?\n\*\/(?:\r?\n|$)/.exec(String(text || ''));
+  if (!m) return null;
+  try { const raw = JSON.parse(m[1]); return raw && typeof raw === 'object' && raw.zones ? normalizeTemplate(raw) : null; } catch { return null; }
 }
 export const monthLabel = (month) => `${MONTHS[+month.slice(5) - 1]} ${month.slice(0, 4)}`;

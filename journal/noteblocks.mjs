@@ -2,8 +2,8 @@
 // Nothing here handles data: no upload, no storage, no sensor. A block is ruled paper, a few frames and tick boxes, drawn as plain HTML and
 // vector SVG. This file holds the numbers only (widths a block needs, row heights, the fit rules and their plain-words reasons, the
 // tracing patterns); daypage.mjs draws the HTML and holds the options (TYPES).
-// It imports from photo.mjs the page widths (cellWidth, zoomOf ...). The editor inlines both files in front of daypage.mjs
-// (editor/build.mjs), so every top-level name here is unique in that script.
+// It imports from photo.mjs the page widths (cellWidth, zoomOf ...). Every top-level name here is unique (the retired print editor
+// inlined both files into one script).
 //
 // UNITS. CSS inches as render.mjs lays the page out (the 8.5x11 page is laid out at 6.57 in wide and zoomed x1.294, exactly as photo.mjs says).
 // A row of the page grid is 0.22 CSS in. Every height below is in CSS inches and is drawn as a fixed-height row, so a block's height is

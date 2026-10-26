@@ -1,7 +1,8 @@
 // The Jot template editor's model and generator (dist/editor/template.mjs). Run: node --test test-editor.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks } from './dist/editor/template.mjs';
+import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks, templateFromJot, templateComment } from './dist/editor/template.mjs';
+import { importDayLayout } from './dist/editor/import.mjs';
 import { parse } from './dist/jot/jot.mjs';
 
 const records = (a) => a.nodes.filter((n) => n.type === 'record');
@@ -58,7 +59,8 @@ test('what a person types never breaks the file', () => {
   const a = parse(renderJot(t).text);
   assert.equal(a.diagnostics.length, 0, JSON.stringify(a.diagnostics));
   assert.equal(a.entries.length, 31, 'no extra dated entries were smuggled in');
-  assert.ok(!a.nodes.some((n) => n.type === 'comment'));
+  assert.equal(a.nodes.filter((n) => n.type === 'comment').length, 1, 'one hidden comment: the template, nothing typed opened another');
+  assert.equal(templateFromJot(renderJot(t).text).title, t.title.replace(/\s+/g, ' ').trim() ? normalizeTemplate(t).title : 'My journal', 'and the template comes back intact');
 });
 
 test('weeks, splits and the zones that happen once', () => {
@@ -83,4 +85,44 @@ test('a template read back is checked: unknown blocks, wrong zones, bad numbers 
   assert.ok(t.zones.day[0].max > t.zones.day[0].min && t.zones.day[0].title.length <= 80);
   assert.ok(t.zones.day[1].to > t.zones.day[1].from && t.zones.day[1].from <= 23);
   assert.ok(Object.keys(BLOCKS).every((k) => BLOCK_ORDER.includes(k)));
+});
+
+test('a downloaded .jot carries its template, so opening it brings the template back', () => {
+  const t = normalizeTemplate({ ...fromStarter('planner'), title: 'Notes */ and {braces}', month: '2026-10', per: 'week' });
+  for (const f of renderFiles(t)) {
+    const back = templateFromJot(f.text);
+    assert.deepEqual(back, t, f.file);
+    assert.ok(f.text.endsWith(templateComment(t)), 'at the very end, after the writing');
+  }
+  const filled = renderJot(t).text.replace(/^\[ \] $/m, '[x] Called the bank').replace('#### Done\n', '#### Done\n\nA long day.\n');
+  assert.deepEqual(templateFromJot(filled), t, 'filling it in does not lose the template');
+  assert.equal(templateFromJot('### 2026-10-01\n\nA note from somewhere else.\n'), null, 'a .jot made elsewhere has none');
+  assert.equal(templateFromJot('/*\njot-template: {"zones": nope}\n*/\n'), null, 'a broken one is refused');
+  assert.equal(templateFromJot('/*\njot-template: {"zones":{"day":[{"type":"evil","x":1},{"type":"writing","title":"Ok"}]},"month":"2026-10"}\n*/\n').zones.day.length, 1, 'and what it holds is checked like any template');
+  assert.equal(renderJot(t).text, renderJot(JSON.parse(JSON.stringify(t))).text, 'the same template writes the same file');
+});
+
+test('a print day layout (daypage.json) imports as the Each day blocks', () => {
+  const r = importDayLayout({ v: 2, blocks: [
+    { type: 'sky', on: true }, { type: 'care', on: true }, { type: 'body', on: true }, { type: 'actions', on: true, count: 4 }, { type: 'review', on: true, items: { well: true, hard: false, next: true } },
+    { type: 'scale', title: 'Pain', steps: 6, zero: true, lo: 'none', hi: 'bad', on: true }, { type: 'checks', title: 'Body care', labels: ['HRT', 'Stretch'], on: true },
+    { type: 'sketch', on: true }, { type: 'sudoku', on: true }, { type: 'words', title: 'Feeling', words: ['calm', 'tired'], on: true }, { type: 'habits', on: false, labels: ['x'] }] });
+  assert.deepEqual(r.skipped, ['Moon, sun & season', 'Sketch box', 'Sudoku']);
+  const day = normalizeTemplate({ month: '2026-10', zones: { day: r.blocks } }).zones.day;
+  assert.deepEqual(day.map((b) => `${b.type}:${b.title || ''}`), ['checks:Care', 'scale:Mood', 'blanks:Care numbers', 'writing:Writing', 'tasks:Action items', 'writing:Went well', 'writing:Tomorrow', 'scale:Pain', 'checks:Body care', 'choose:Feeling']);
+  assert.deepEqual([day[7].min, day[7].max, day[4].n], [0, 5, 4], 'options carry over (a 6-step scale from 0, four action lines)');
+  assert.equal(parse(renderJot({ month: '2026-10', zones: { day } }).text).diagnostics.length, 0);
+  assert.throws(() => importDayLayout({ nope: 1 }), /not a day layout/);
+});
+
+test('every block the print library has either becomes a Jot block or is named as left out', async () => {
+  const { TYPES, newBlock: printBlock, normalize } = await import('../journal/daypage.mjs'); // the print engine in this repository
+  const all = normalize({ v: 2, blocks: Object.keys(TYPES).map((t) => ({ ...printBlock(t, {}, t), on: true })) });
+  const r = importDayLayout(JSON.parse(JSON.stringify(all)));
+  const covered = r.skipped.length + new Set(all.blocks.filter((b) => !r.skipped.includes(TYPES[b.type].name)).map((b) => b.type)).size;
+  assert.equal(covered, Object.keys(TYPES).length, `skipped: ${r.skipped.join(', ')}`);
+  assert.ok(r.skipped.every((n) => Object.values(TYPES).some((t) => t.name === n)), 'skipped blocks go by their print names');
+  const tpl = normalizeTemplate({ month: '2026-10', zones: { day: r.blocks } });
+  assert.equal(tpl.zones.day.length, r.blocks.length, 'every converted block is a valid Jot block');
+  assert.equal(parse(renderJot(tpl).text).diagnostics.length, 0);
 });

@@ -15,8 +15,8 @@ handwriting with the writing. This repository holds the format, its parser and w
 | [`site/`](site/) | The browser workspace (`site/dist/`, static), the template editor (`/editor/`) and the scanner/handwriting tool (`/scan/`) |
 | [`examples/`](examples/) | A plain-text and a packaged `.jot` |
 | [`references/`](references/) | Supplied reference PDFs (background only) |
-| [`journal/`](journal/) | The journal builder: monthly books for Amazon KDP, with `.jot` writing printed in after its week. From Journalwright Studio (`shelbeeely/Journaling`), generic profile and packs only |
-| `studio/src/` | Five Studio modules the builder's editor and tests use (diff, canonical JSON, snapshots). Not the Studio server |
+| [`journal/`](journal/) | The print engine: monthly books for Amazon KDP, with `.jot` writing printed in after its week, and `render-jot.mjs`. From Journalwright Studio (`shelbeeely/Journaling`), generic profile and packs only; its print editor is retired |
+| `studio/src/` | Five Studio modules the engine's tests use (diff, canonical JSON, snapshots). Not the Studio server |
 | [`BUNDLE-README.md`](BUNDLE-README.md), [`MANIFEST.json`](MANIFEST.json) | The Jot-Complete-v1 bundle's own readme and file hashes (`MANIFEST.json`'s `README.md` entry is that readme, now `BUNDLE-README.md`; it describes the bundle as received: `site/dist/index.html` has since gained the editor link) |
 
 ## Jot: parser and workspace
@@ -29,20 +29,18 @@ handwriting with the writing. This repository holds the format, its parser and w
 
 A separate editor just for Jot, in the site at `/editor/`: put together what each day, week and month asks (writing space, prompts,
 checkboxes, scales, blanks, time blocks ...), then download a plain-text `.jot` to fill in by hand, one file for the month or a file a
-week for InkDeck. No page layout or scanning. Details: [site/README.md](site/README.md#template-editor-disteditor).
+week for InkDeck. No page layout or scanning. Undo, drag to reorder, reopen any downloaded `.jot` to get its template back, and import a
+print `daypage.json`. Details: [site/README.md](site/README.md#template-editor-disteditor).
 
     python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/editor/
     cd site && node --test test-editor.mjs && node test-editor-ui.cjs
 
-## Journal builder: design a journal, get a .jot to fill in
+## Journal builder: a print book's structure as a .jot
 
-Arrange the book and the day page in the visual editor (blocks: check-ins, scales, writing space, time blocks ...), then download it as a
-plain-text `.jot`: one month, a dated entry a day, each block written as Jot to fill in by hand (`[ ] ` ticks, `value:` blanks in
-measurement records, headings with room to write). No scan zones, page codes or page layout.
+The print editor is retired: the template editor above is where journals are made. From the command line, the print engine can still
+write a book's structure (`journal/content/book.json` and `daypage.json`) as a `.jot` to fill in:
 
-    cd journal && npm ci && node render.mjs month 2026-10 test.ics && node editor/build.mjs   # the editor's page CSS comes from a sample build
-    # open editor/dist/site/index.html (serve the folder over HTTP): More → Download .jot
-    node render-jot.mjs month 2026-10 [--per week]       # the same file from the command line (a file a week fits InkDeck)
+    cd journal && npm ci && node render-jot.mjs month 2026-10 [--per week]
 
 Details: [journal/README.md](journal/README.md#jot-files-to-fill-in-the-book-as-a-jot).
 

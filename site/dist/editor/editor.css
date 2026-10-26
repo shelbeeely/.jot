@@ -83,7 +83,7 @@ textarea { resize: vertical; line-height: 1.45; }
   .blk-head .icon-btn.mv { display: none; }
   /* an open block: the title gets the whole first line, its buttons the second */
   .blk.open .blk-head { flex-wrap: wrap; }
-  .blk.open .blk-main { flex: 1 1 calc(100% - 44px); }
+  .blk.open .blk-main { flex: 1 1 calc(100% - 56px); } /* the handle (44) and the gap (6) share the first line */
   .blk.open .blk-head .icon-btn.mv { display: inline-grid; margin-left: auto; }
   .blk.open .blk-head .icon-btn.mv + .icon-btn.mv { margin-left: 0; }
 }
@@ -120,3 +120,13 @@ dialog::backdrop { background: rgb(0 0 0 / .35); }
 .toast.show { transform: translate(-50%, 0); visibility: visible; }
 @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
 .foot a { display: inline-flex; align-items: center; min-height: 44px; }
+/* dragging: the handle, the block being moved, and the line where it lands */
+.drag { width: 44px; min-height: 44px; flex: none; display: inline-grid; place-items: center; color: var(--muted); cursor: grab; touch-action: none; user-select: none; font-size: 18px; }
+.drag:hover { color: var(--ink); }
+.blk.dragging { opacity: .45; }
+.drop-mark { position: fixed; height: 3px; background: var(--accent); border-radius: 2px; pointer-events: none; z-index: 30; }
+.drop-mark.bad { background: var(--warn); }
+.opt-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.opt-row .opt { flex: 1 1 200px; }
+.btn[disabled] { opacity: .45; cursor: default; }
+@media (max-width: 520px) { .blk-head .blk-icon { display: none; } }

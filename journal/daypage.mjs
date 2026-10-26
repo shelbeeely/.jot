@@ -1,5 +1,5 @@
 // Day page layout: the blocks of a monthly day page, their order and options.
-// Shared by render.mjs (print) and the page editor (editor/), so the editor preview is the real page.
+// Shared by render.mjs (print), the .jot export (jotfile.mjs) and the tests.
 // The layout lives in content/daypage.json; anything missing falls back to DEFAULT_LAYOUT.
 // Fixed, never in the layout: the DATE/TITLE/TAGS header (top). The scan frame, the page code and the SEND TO strip (bottom) are
 // the page's scan marks (scan.mjs): on by default; the layout's `scan` setting and a `sendto` block change them, opt-in.
@@ -514,7 +514,7 @@ export const gridRows = (size, kind = 'day') => GRIDS[pageKind(kind)].rows[size 
 export const BODY_MIN = { rows: 8, cols: 2 };
 
 // Minimum span per block: the least room its content needs. `cols` is the narrowest it can be; `rows` is its height at that width
-// (a wider block is never taller). Measured on every block type in Chromium; editor/test.mjs re-measures them and fails if any block
+// (a wider block is never taller). Measured on every block type in Chromium; the print editor's test re-measured them (retired; check.mjs still catches a block that does not fit)
 // overflows its own minimum, so the minimum is a floor the content fits in, not a guess at what looks nice.
 const ROW_IN = GRIDS.day.rowIn;
 const rowsIn = (h) => Math.max(1, Math.ceil((h + 0.02) / ROW_IN)); // inches of content (+ a little slack for font differences) -> whole rows

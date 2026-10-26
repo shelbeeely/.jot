@@ -14,7 +14,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { DEFAULT_BOOK, validateBook } from './book.mjs';
 import { addEntry, setLayout } from './bookedit.mjs';
-import { catalog } from './editor/samples.mjs';
+import { catalog } from './samples.mjs';
 import { libraryFromProfile } from './library.mjs';
 import { PROFILE } from './profile.mjs';
 import { launch } from './browser.mjs';

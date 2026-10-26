@@ -40,11 +40,21 @@ a phone or InkDeck). It has nothing from print: no page layout, paper sizes, sca
 - **The file:** `### YYYY-MM-DD | Weekday` entries, `#### ` headings to write under, `[ ] ` boxes, `[[a · b]]` choices, and ratings as
   `measurement` / `observation` records with empty values, their scales declared once at the top. Typed text never changes the
   structure: line markers are escaped, record field names that collide with reserved Jot fields get `x-`.
-- The template stays in this browser (localStorage). **More → Save template** downloads it as JSON; **Open a template** reads one back
-  (checked field by field, never trusted). Nothing is sent anywhere.
+- **Undo / Redo** (buttons, or Ctrl+Z / Ctrl+Shift+Z outside a text field; typing in one field is one step).
+- **Reorder:** drag a block by its handle (⠿), within a zone or to another one (a red line where it can't go), or use ↑ / ↓ and the
+  **Zone** control in its options from the keyboard.
+- **Every .jot carries its template**, in a hidden Jot comment at the end (`/*` · `jot-template: {...}` · `*/`), which readers do not
+  show. **More → Open a .jot or a template** brings it back from any downloaded file (plain or packaged, filled in or not), or from a
+  saved template `.json`. A `.jot` made elsewhere has none, and the editor says so.
+- **More → Import a print day layout (daypage.json):** a day layout from Journalwright's print editor becomes the **Each day** blocks
+  (`import.mjs` maps all 77 print blocks: 53 to Jot blocks, and the printed data and paper-only blocks are named as left out). Undo takes
+  it back.
+- The template stays in this browser (localStorage). **More → Save template** downloads it as JSON. Everything opened is checked field by
+  field, never trusted. Nothing is sent anywhere.
 
-`template.mjs` is the model and generator (pure, no DOM); `app.mjs` the page; `editor.css` light and dark, 44 px targets, one column on
+`template.mjs` is the model and generator (pure, no DOM); `import.mjs` the daypage.json importer; `app.mjs` the page; `editor.css` light and dark, 44 px targets, one column on
 phones. Tests:
 
-    node --test test-editor.mjs      # the generator: every block, starters, splits, escaping, reading a template back
-    node test-editor-ui.cjs          # the page in Chromium: editing, focus, downloads, persistence, 390 px, axe (light and dark)
+    node --test test-editor.mjs      # the generator: every block, starters, splits, escaping, the template in a .jot, the import
+    node test-editor-ui.cjs          # the page in Chromium: editing, undo, dragging, zones, downloads, reopening a .jot, the import,
+                                     # persistence, 390 px, axe (light and dark)

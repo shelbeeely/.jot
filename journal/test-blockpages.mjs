@@ -10,7 +10,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { DEFAULT_BOOK, validateBook, assemble } from './book.mjs';
 import { flowBook, addEntry, setLayout, duplicateEntry, setTitle, bookJson, listFor } from './bookedit.mjs';
-import { catalog, fresh } from './editor/samples.mjs';
+import { catalog, fresh } from './samples.mjs';
 import { libraryFromProfile } from './library.mjs';
 import { PROFILE } from './profile.mjs';
 import { notesPage } from './pages.mjs';

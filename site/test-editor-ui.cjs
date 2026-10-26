@@ -79,6 +79,59 @@ const srv = http.createServer((q, r) => {
   ok(/Body care/.test(await jot()) || (await order()).includes('Body care'), 'Open a template brings it back');
   fs.writeFileSync(tf, '{"nope":1}'); await p.setInputFiles('#open-file', tf); await p.waitForFunction(() => /not a Jot template/.test(document.querySelector('#toast').textContent));
   ok(true, 'a file that is not a template is refused, and the template is untouched');
+
+  // undo and redo
+  await p.click('#starter'); await p.click('#starter-list [data-starter="checkin"]');
+  const dayTitles = () => p.$$eval('[data-zone="day"] .blk', (els) => els.map((e) => e.querySelector('.blk-main input')?.value || e.querySelector('.blk-summary')?.textContent));
+  const t0 = await dayTitles();
+  await p.click('[data-zone="day"] .blk:first-child [data-act="del"]');
+  ok((await dayTitles()).length === t0.length - 1 && !(await p.$eval('#undo', (b) => b.disabled)), 'a change can be undone (Undo is ready)');
+  await p.click('#undo'); ok(JSON.stringify(await dayTitles()) === JSON.stringify(t0) && !(await p.$eval('#redo', (b) => b.disabled)), 'Undo puts the block back; Redo is ready');
+  await p.click('#redo'); ok((await dayTitles()).length === t0.length - 1, 'Redo takes it out again');
+  await p.focus('#download'); await p.keyboard.press('Control+z'); ok((await dayTitles()).length === t0.length, 'Ctrl+Z undoes outside a text field');
+  const ti = p.locator('[data-zone="day"] .blk:first-child .blk-main input'); await ti.fill('Energy level'); await ti.press('End'); await p.keyboard.type(' today');
+  await p.click('#undo'); ok((await dayTitles())[0] === t0[0], 'typing in one field undoes as one step');
+
+  // the zone control (the keyboard way across zones)
+  await p.click('[data-zone="day"] .blk:first-child [data-act="opts"]');
+  await p.selectOption('[data-zone="day"] .blk:first-child select[data-act="zone"]', 'weekEnd');
+  ok((await p.$$eval('[data-zone="weekEnd"] .blk-main input', (e) => e.map((x) => x.value))).includes(t0[0]) && await p.evaluate(() => document.activeElement.matches('select[data-act="zone"]')) && /Moved .* to Each week ends/.test(await p.textContent('#toast')), 'Zone moves a block to another zone, keeps focus on the control and says so');
+  ok(!(await p.$$eval('[data-zone="weekEnd"] select[data-act="zone"] option', (o) => o.map((x) => x.value))).includes('nope'), 'the control lists only the zones the block can go in');
+  await p.click('#undo');
+
+  // dragging (a tall window, so the source and the target are both on screen)
+  await p.setViewportSize({ width: 1280, height: 2400 }); await p.evaluate(() => window.scrollTo(0, 0));
+  const box = async (sel) => (await p.locator(sel).first().boundingBox());
+  const dragTo = async (from, to, below = false) => { const a = await box(from), b = await box(to); await p.mouse.move(a.x + a.width / 2, a.y + a.height / 2); await p.mouse.down(); await p.mouse.move(a.x + a.width / 2, a.y + a.height / 2 + 12, { steps: 3 }); await p.mouse.move(b.x + 40, b.y + (below ? b.height - 4 : 6), { steps: 10 }); return p; };
+  const firstTitle = (await dayTitles())[0], lastSel = '[data-zone="day"] .blk:last-child';
+  await dragTo('[data-zone="day"] .blk:first-child .drag', lastSel, true);
+  ok(await p.evaluate(() => !!document.querySelector('.blk.dragging') && !document.querySelector('.drop-mark').hidden), 'dragging dims the block and shows where it will land');
+  await p.mouse.up(); ok((await dayTitles()).slice(-1)[0] === firstTitle && /Moved .*, 3 of 3/.test(await p.textContent('#toast')), 'dropping below the last block moves it to the end');
+  await dragTo(`${lastSel} .drag`, '[data-zone="weekStart"] .blk:first-child'); await p.mouse.up();
+  ok((await p.$$eval('[data-zone="weekStart"] .blk-main input', (e) => e.map((x) => x.value)))[0] === firstTitle, 'and across zones');
+  await p.click('[data-act="add"][data-zone="front"]'); await p.click('#palette [data-type="page"]');
+  await dragTo('[data-zone="front"] .blk:first-child .drag', '[data-zone="day"] .blk:first-child');
+  ok(await p.evaluate(() => document.querySelector('.drop-mark').classList.contains('bad')), 'a block that cannot go there shows a warning line');
+  await p.mouse.up(); ok((await p.$$eval('[data-zone="front"] .blk', (e) => e.length)) === 1 && /can't go in Each day/.test(await p.textContent('#toast')), 'and stays where it was, saying why');
+
+  await p.setViewportSize({ width: 1280, height: 900 });
+  // a downloaded .jot brings its template back; a print day layout imports
+  await p.selectOption('#t-per', 'month');
+  const dl1 = p.waitForEvent('download'); await p.click('#download'); const jd = await dl1, jpath = await jd.path();
+  const want = await p.evaluate(() => localStorage.getItem('jot-template-v1'));
+  await p.click('#starter'); await p.click('#starter-list [data-starter="blank"]');
+  await p.setInputFiles('#open-file', { name: 'field-notes-2026-10.jot', mimeType: 'text/plain', buffer: fs.readFileSync(jpath) });
+  await p.waitForFunction(() => /Opened .* from field-notes-2026-10\.jot/.test(document.querySelector('#toast').textContent));
+  ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'opening a downloaded .jot restores its template exactly');
+  await p.setInputFiles('#open-file', { name: 'other.jot', mimeType: 'text/plain', buffer: Buffer.from('### 2026-10-01\n\nWritten somewhere else.\n') });
+  await p.waitForFunction(() => /no template in it/.test(document.querySelector('#toast').textContent));
+  ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'a .jot made elsewhere is refused, and nothing changes');
+  const daypage = { v: 2, blocks: [{ type: 'sky', on: true }, { type: 'scale', title: 'Pain', steps: 6, on: true }, { type: 'checks', title: 'Body care', labels: ['HRT', 'Stretch'], on: true }, { type: 'sudoku', on: true }, { type: 'body', on: true }] };
+  await p.click('#more'); ok(await p.isVisible('#import-day'), 'More offers Import a print day layout');
+  await p.click('#import-day'); await p.setInputFiles('#open-file', { name: 'daypage.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(daypage)) });
+  await p.waitForFunction(() => /Imported 3 blocks into Each day/.test(document.querySelector('#toast').textContent));
+  ok(JSON.stringify(await dayTitles()) === JSON.stringify(['Pain', 'Body care', 'Writing']) && /Moon, sun & season, Sudoku/.test(await p.textContent('#toast')), 'daypage.json becomes the Each day blocks, and says what was left out');
+  await p.click('#undo'); ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'and Undo takes the import back');
   await p.selectOption('#t-per', 'month'); await p.screenshot({ path: path.join(SHOTS, 'editor-desktop.png'), fullPage: false });
 
   // phone width, light and dark, accessibility
@@ -88,7 +141,7 @@ const srv = http.createServer((q, r) => {
     await ph.click('[data-zone="day"] .blk [data-act="opts"]');
     const wide = await ph.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     ok(wide <= 0, `${scheme}, 390 px: no sideways scroll (${wide})`);
-    const small = await ph.$$eval('button, select, input, textarea, a[href]', (els) => els.filter((e) => e.offsetParent && !e.closest('dialog:not([open])')).map((e) => { const r = e.getBoundingClientRect(); return { h: r.height, w: r.width, t: e.id || e.textContent.trim().slice(0, 20) || e.getAttribute('aria-label') }; }).filter((r) => r.h < 40 || r.w < 40).filter((r) => !/^Skip/.test(r.t)));
+    const small = await ph.$$eval('button, select, input, textarea, a[href], .drag', (els) => els.filter((e) => e.offsetParent && !e.closest('dialog:not([open])')).map((e) => { const r = e.getBoundingClientRect(); return { h: r.height, w: r.width, t: e.id || e.textContent.trim().slice(0, 20) || e.getAttribute('aria-label') }; }).filter((r) => r.h < 40 || r.w < 40).filter((r) => !/^Skip/.test(r.t)));
     ok(small.length === 0, `${scheme}: every control is at least about 44 px` + (small.length ? ': ' + JSON.stringify(small.slice(0, 4)) : ''));
     if (fs.existsSync(AXE)) {
       await ph.addScriptTag({ path: AXE });

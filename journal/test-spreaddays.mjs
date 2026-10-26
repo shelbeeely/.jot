@@ -13,7 +13,7 @@ import { execFileSync } from 'node:child_process';
 import { DEFAULT_BOOK, validateBook, assemble } from './book.mjs';
 import { flowBook, setDayFormat, dayFormatOf, kdpNote, bookJson, listFor, addEntry } from './bookedit.mjs';
 import { dayFormat, dayOptionProblems, DAY_FORMATS } from './bookrules.mjs';
-import { catalog, fresh } from './editor/samples.mjs';
+import { catalog, fresh } from './samples.mjs';
 import { libraryFromProfile } from './library.mjs';
 import { PROFILE } from './profile.mjs';
 import { newBlock, normalize, defaultSpread, isDefaultSpread, spreadHalf, spreadProblems, spreadPage, gridProblems, findFree, placeBlock, GRIDS, PAGE_KINDS, allowedIn, DEFAULT_LAYOUT } from './daypage.mjs';

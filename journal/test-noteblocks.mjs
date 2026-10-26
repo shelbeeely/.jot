@@ -16,7 +16,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { DEFAULT_BOOK, validateBook } from './book.mjs';
 import { addEntry, setLayout } from './bookedit.mjs';
-import { catalog } from './editor/samples.mjs';
+import { catalog } from './samples.mjs';
 import { libraryFromProfile } from './library.mjs';
 import { PROFILE } from './profile.mjs';
 import { launch } from './browser.mjs';
@@ -73,8 +73,7 @@ const labelsOf = (html) => [...html.matchAll(/aria-label="([^"]*)"/g)].map((m) =
   const exWords = Object.values(NB.STIM_EXAMPLES).flat();
   ok(Object.keys(NB.STIM_EXAMPLES).join() === Object.keys(NB.STIM_SENSES).join() && Object.values(NB.STIM_EXAMPLES).every((l) => l.length === 4 && new Set(l).size === 4) && exWords.every((w) => w.length <= 20 && !NOASK.test(w)), 'the stim menu has four original examples for each of its six senses, short enough for half a column, and none of them uses a word that asks anyone to stop');
   ok(B('stimmenu').examples === false && TYPES.stimmenu.opts.find((o) => o.k === 'examples').label === 'Print a few examples in the lines', 'printing examples is an option on the stim menu and is off unless asked for (the boxes stay blank either way)');
-  const idx = fs.readFileSync(new URL('./i18n/en.json', import.meta.url), 'utf8');
-  ok(/"pal\.note_regulation": "Stimming is self-regulation\./.test(idx) && !NOASK.test(JSON.parse(idx)['pal.note_regulation'].replace(/none of them asks you to stop/, '')), 'the palette note over the Regulation group says it: stimming is self-regulation, no block asks you to stop');
+  // (the print editor's palette note lived in its message catalog; the editor is retired, the hint above is what remains)
 }
 
 // ---- 2. widths, heights and the fit rules ----

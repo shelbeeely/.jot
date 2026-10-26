@@ -1,10 +1,10 @@
 // Sample pages for the editor: every page type of the book, built by the same pages.mjs the print build uses, from the
 // generic sample calendar (test.ics), never a private one. The editor's page canvas draws these; the smoke test checks them.
-import { loadContext, loadBook } from '../context.mjs';
-import { assemble, DEFAULT_BOOK } from '../book.mjs';
-import { PAGE_TYPES, notesPage } from '../pages.mjs';
-import { typeMeta, NOTES_MARK, flatIds } from '../bookedit.mjs';
-import { firstMonthId } from '../profile.mjs';
+import { loadContext, loadBook } from './context.mjs';
+import { assemble, DEFAULT_BOOK } from './book.mjs';
+import { PAGE_TYPES, notesPage } from './pages.mjs';
+import { typeMeta, NOTES_MARK, flatIds } from './bookedit.mjs';
+import { firstMonthId } from './profile.mjs';
 
 export const fresh = async (month) => {
   const ctx = await loadContext({ month, ics: 'test.ics', size: 'small', quiet: true });

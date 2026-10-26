@@ -18,7 +18,7 @@
 // marker is a neutral "due soon" (a small open diamond, grey) on the due day and the day before, for a chore that is not daily.
 // ENERGY. Each chore may carry `min` (a small version) and `ok` (a good-enough version). Either, any one, counts as done.
 //
-// No imports: the editor inlines this file in front of daypage.mjs (editor/build.mjs), so every top-level name starts with ch or CH_ and
+// No imports (the retired print editor inlined this file), so every top-level name starts with ch or CH_ and
 // every CSS class with chx. Pure: no fs, no DOM.
 
 export const CH_DAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
