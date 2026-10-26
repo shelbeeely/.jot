@@ -133,11 +133,9 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
   page.style.setProperty('--hw-ink', INKS[ink] || (/^#[0-9a-f]{6}$/i.test(ink) ? ink : INKS.blue));
   // task boxes and empty lines drawn as a pen would
   let boxes = 0;
-  for (const t of page.querySelectorAll('.jot-task')) {
-    if (t.querySelector('.hw-box')) continue;
-    const done = /^☑/.test(t.textContent), first = t.firstChild;
-    if (first && first.nodeType === 3) first.textContent = first.textContent.replace(/^[☐☑] /, '');
-    t.prepend(boxSVG(doc, { done, seed: seed * 101 + (boxes++), label: done ? 'done' : 'to do', drawn: done }));
+  for (const b of page.querySelectorAll('.jot-task .jot-box')) { // open and done tasks get a pencil box; moved, scheduled, cancelled keep their sign
+    const st = b.dataset.status; if (st !== 'open' && st !== 'completed') continue;
+    const done = st === 'completed'; b.replaceWith(boxSVG(doc, { done, seed: seed * 101 + (boxes++), label: done ? 'done' : 'to do', drawn: done }));
   }
   for (const cb of page.querySelectorAll('input[type=checkbox]')) cb.replaceWith(boxSVG(doc, { done: cb.checked, seed: seed * 101 + (boxes++), label: cb.checked ? 'done' : 'to do', drawn: cb.checked }));
   const walker = doc.createTreeWalker(page, 4 /* NodeFilter.SHOW_TEXT */, { acceptNode: (n) => { for (let p = n.parentNode; p && p !== page; p = p.parentNode) if (SKIP.has(p.nodeName) || (p.classList && (p.classList.contains('hw-w') || p.classList.contains('jot-chart-table')))) return 2; return n.nodeValue.trim() ? 1 : 2; } });

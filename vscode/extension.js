@@ -11,7 +11,7 @@ function webviewHtml({ cspSource, nonce, scriptUri, styleUri, title = 'Jot previ
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} data: blob:; style-src ${cspSource} 'unsafe-inline'; font-src ${cspSource}; script-src 'nonce-${nonce}' ${cspSource};">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} data: blob:; style-src ${cspSource} 'unsafe-inline'; font-src ${cspSource}; connect-src ${cspSource}; script-src 'nonce-${nonce}' ${cspSource};">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 <link rel="stylesheet" href="${esc(styleUri)}">
@@ -32,7 +32,9 @@ function activate(context) {
 
   // the look the settings ask for: typed, or handwritten on a dot grid (media/jot/handwriting.mjs)
   const look = () => { const c = vscode.workspace.getConfiguration('jot.preview'); return c.get('look') === 'handwritten' ? { hand: c.get('hand'), ink: c.get('ink'), pitchMm: c.get('dotSpacing') } : null; };
-  function send(panel, doc) { panel.webview.postMessage({ type: 'update', text: doc.getText(), name: path.basename(doc.fileName), hand: look() }); }
+  const style = () => vscode.workspace.getConfiguration('jot.preview').get('style') || 'plain';
+  function send(panel, doc) { panel.webview.postMessage({ type: 'update', text: doc.getText(), name: path.basename(doc.fileName), hand: look(), style: style() }); }
+  const ready = new Map(), exports = new Map(); // document uri -> when its preview has said it is ready; -> an export waiting for its page
 
   function open(doc, column) {
     const key = doc.uri.toString();
@@ -40,9 +42,27 @@ function activate(context) {
     const panel = vscode.window.createWebviewPanel('jot.preview', `Preview ${path.basename(doc.fileName)}`, column, { enableScripts: true, localResourceRoots: [media] });
     const w = panel.webview;
     w.html = webviewHtml({ cspSource: w.cspSource, nonce: nonce(), scriptUri: w.asWebviewUri(vscode.Uri.joinPath(media, 'preview-main.mjs')), styleUri: w.asWebviewUri(vscode.Uri.joinPath(media, 'preview.css')), title: `Preview ${path.basename(doc.fileName)}` });
-    w.onDidReceiveMessage((m) => { if (m && m.type === 'ready') send(panel, doc); });
+    let isReady; ready.set(key, new Promise((r) => { isReady = r; }));
+    w.onDidReceiveMessage((m) => {
+      if (m && m.type === 'ready') { send(panel, doc); isReady(); }
+      if (m && m.type === 'exported' && typeof m.html === 'string') { const done = exports.get(key); exports.delete(key); if (done) done(m); }
+    });
     panels.set(key, panel);
-    panel.onDidDispose(() => panels.delete(key));
+    panel.onDidDispose(() => { panels.delete(key); ready.delete(key); });
+  }
+  // Export: the preview makes the page (media/jot/export.mjs, the same as the site's Download page), the extension saves it
+  async function exportDoc(doc) {
+    open(doc, vscode.ViewColumn.Beside);
+    const key = doc.uri.toString(); await ready.get(key); send(panels.get(key), doc);
+    const got = new Promise((resolve) => exports.set(key, resolve));
+    panels.get(key).webview.postMessage({ type: 'export', title: path.basename(doc.fileName, path.extname(doc.fileName)) });
+    const m = await got;
+    if (m.error) { vscode.window.showErrorMessage(`Jot: could not export the page (${m.error})`); return; }
+    const target = await vscode.window.showSaveDialog({ defaultUri: vscode.Uri.file(doc.fileName.replace(/\.jot$/i, '') + '.html'), filters: { 'Web page': ['html'] }, saveLabel: 'Export' });
+    if (!target) return;
+    await vscode.workspace.fs.writeFile(target, Buffer.from(m.html, 'utf8'));
+    const pick = await vscode.window.showInformationMessage(`Exported ${path.basename(target.fsPath)}: open it in a browser to read or print it.`, 'Open');
+    if (pick === 'Open') vscode.env.openExternal(target);
   }
   const active = () => { const e = vscode.window.activeTextEditor; return e && e.document.languageId === 'jot' ? e.document : null; };
 
@@ -56,6 +76,7 @@ function activate(context) {
       const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`, sun = new Date(mon); sun.setDate(mon.getDate() + 6);
       await e.insertSnippet(new vscode.SnippetString(`:::record chart #\${1:week-${iso(mon)}}\nmetrics: \${2:sleep, steps}\nstart: \${3:${iso(mon)}}\nend: \${4:${iso(sun)}}\nstyle: \${5|line,bars|}\n:::\n`));
     }),
+    vscode.commands.registerCommand('jot.exportHTML', () => { const d = active(); if (d) return exportDoc(d); vscode.window.showInformationMessage('Open a .jot file to export it.'); }),
     vscode.commands.registerCommand('jot.toggleHandwriting', async () => {
       const c = vscode.workspace.getConfiguration('jot.preview');
       await c.update('look', c.get('look') === 'handwritten' ? 'typed' : 'handwritten', vscode.ConfigurationTarget.Global);

@@ -11,7 +11,7 @@ editor, a diary converter, a scanner), user guides, and Jot for VS Code.
 | --- | --- |
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
-| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), proofreading hints, tests |
+| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), proofreading hints, tests |
 | [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`) and the scanner/handwriting tool (`/scan/`) |
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colours and a live page preview with charts, from the same renderer as the site |
 | [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
@@ -27,7 +27,7 @@ New to Jot? Read [Writing in Jot](docs/guide/writing-jot.md) (ten minutes), then
 
 ## Jot: parser and workspace
 
-    node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs
+    node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs
     node site/test-core.cjs
     npm install && node site/test-editor-ui.cjs                    # the browser tests (Playwright; axe-core from the root package.json)
     python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/ (why Jot), /write/, /editor/, /convert/, /guide/, /examples/ and /scan/
@@ -40,6 +40,14 @@ the same code: `parser/charts.mjs` reads the numbers and makes each chart's conf
 (`parser/vendor/chart.mjs`, bundled, nothing fetched) draws it, and `parser/preview.mjs` lays out the page. The template editor's
 **Weekly dashboard** starter sets up a week page of six widgets (the "rule of 7"). Guide:
 [Numbers and charts](docs/guide/template-editor.md#numbers-and-charts).
+
+## Beautiful formatted pages
+
+Jot things down; the workspace (**Write**) shows them as formatted pages: dates in words, task states, signs for events, questions and
+ideas, tags and places, margin notes beside the text. **Style** picks **Journal** (a book page), **Notes** (clean and modern) or
+**Plain** (`parser/styles.mjs`). **Print / PDF** prints them with book margins and page numbers; **Download page ↓** saves one
+standalone `.html` with everything inside (`parser/export.mjs`). VS Code has the same styles and **Jot: Export as HTML**. Guide:
+[Beautiful pages](docs/guide/writing-jot.md#beautiful-pages-styles-printing-and-sharing).
 
 ## Handwritten pages on a dot grid
 

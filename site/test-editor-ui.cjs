@@ -227,6 +227,17 @@ const srv = http.createServer((q, r) => {
     const journal = '# Notebook\n\n### 2026-10-26 | Monday\n\nThe rain made the room ==quieter== and ++softer++, x^2^.[^1]\n\n[x] Walk\n[ ] Call Sam\n\n> [!TIP]\n> Headphones helped.\n\n-> A small beginning. <-\n\n| What | How much |\n| --- | --- |\n| Tea | 2 |\n\n:::record measurement #s\nmetric: sleep\nunit: h\nvalue: 7.5\n:::\n\n:::record chart #c\nmetrics: sleep\n:::\n\n[^1]: At the kitchen table.\n\n' + Array.from({ length: 40 }, (_, i) => `### 2026-10-${String(i % 28 + 1).padStart(2, '0')}\n\nA long day of writing, line after line, so the journal runs onto several printed pages and every one of them must keep its words on the dots. Day ${i + 1}.\n`).join('\n');
     await w.fill('#writing', journal); await w.dispatchEvent('#writing', 'input'); await w.waitForSelector('#paperPreview .jot-callout');
     ok(await w.$eval('#paperPreview', (p) => !!(p.querySelector('mark') && p.querySelector('ins') && p.querySelector('sup:not(.jot-fn-ref)') && p.querySelector('.jot-fn-ref a[href^="#"]') && p.querySelector('.jot-footnotes li') && p.querySelector('.jot-callout-tip .jot-callout-title') && p.querySelector('p.jot-center'))), 'typed: highlight, underline, superscript, a footnote and its note, a callout and a centred line');
+    // page styles and the downloaded page
+    ok(await w.$eval('#paperPreview', (p) => p.classList.contains('jot-style-journal') && /Monday, 26 October 2026/.test(p.querySelector('.jot-date').textContent) && !!p.querySelector('.jot-task-completed .jot-box[aria-label="done"]')) && /@bottom-center/.test(await w.textContent('#printSettings')), 'typed pages start in the Journal style: dates in words, task states, page numbers when printed');
+    await w.selectOption('#pageStyle', 'notes');
+    ok(await w.$eval('#paperPreview', (p) => p.classList.contains('jot-style-notes') && !p.classList.contains('jot-style-journal')), 'Notes swaps the style');
+    const getPage = async () => { const dp = w.waitForEvent('download'); await w.click('#exportPage'); const d = await dp; return [d.suggestedFilename(), fs.readFileSync(await d.path(), 'utf8')]; };
+    const [name1, html1] = await getPage();
+    ok(/\.html$/.test(name1) && /^<!doctype html>/.test(html1) && /jot-style-notes/.test(html1) && /<img[^>]+src="data:image\/png;base64,/.test(html1) && !/<script|<canvas|http:\/\/127/.test(html1), `Download page: one .html with the formatted pages and its chart as a picture (${name1}, ${Math.round(html1.length / 1024)} KB)`);
+    { const v = await b.newPage({ viewport: { width: 900, height: 900 } }), reqs = []; await v.route('**/*', (r) => { reqs.push(r.request().url()); r.abort(); });
+      await v.setContent(html1, { waitUntil: 'load' });
+      ok(reqs.length === 0 && await v.$eval('main.jot-export.jot-style-notes', (m) => getComputedStyle(m.querySelector('.jot-date')).borderLeftStyle === 'solid' && m.querySelector('img').naturalWidth > 0), 'the downloaded page opens on its own, styled, its chart showing, with nothing fetched');
+      await v.close(); }
     await w.selectOption('#look', 'hand'); await w.waitForFunction(() => document.querySelector('#paperPreview').jotGrid);
     const g = await w.evaluate(() => { const p = document.querySelector('#paperPreview'), pad = parseFloat(getComputedStyle(p).paddingTop), pitch = p.jotGrid.pitch;
       const blocks = [...p.children].filter((e) => !e.classList.contains('hw-page-edge'));
@@ -242,6 +253,8 @@ const srv = http.createServer((q, r) => {
     ok(g.edges >= 2 && /Notebook/.test(g.text), `on screen, a dashed line where each printed page ends (${g.edges})`);
     const pdf = await w.pdf({ preferCSSPageSize: true }), pages = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
     ok(pages === g.edges + 1, `printing makes the same pages the screen shows (${pages})`);
+    const [, html2] = await getPage();
+    ok(/data:font\/woff2;base64,/.test(html2) && (html2.match(/@font-face/g) || []).length === 4 && /jot-hand/.test(html2) && /margin: [\d.]+px [\d.]+px;/.test(html2), 'a handwritten page downloads with its hand embedded (only the hand in use) and its dot-grid page size');
     const before = await w.$eval('#paperPreview', (p) => [p.textContent, [...p.querySelectorAll('.hw-c')].slice(0, 80).map((c) => c.style.fontFeatureSettings).join()]);
     await w.click('#reshuffle'); await w.waitForFunction(() => document.querySelector('#paperPreview').jotGrid);
     const after = await w.$eval('#paperPreview', (p) => [p.textContent, [...p.querySelectorAll('.hw-c')].slice(0, 80).map((c) => c.style.fontFeatureSettings).join()]);
@@ -254,7 +267,7 @@ const srv = http.createServer((q, r) => {
     await w.reload(); await w.waitForSelector('#writing');
     ok((await w.$eval('#look', (s) => s.value)) === 'hand' && !(await w.$eval('#handTools', (e) => e.hidden)), 'the look is remembered');
     await w.selectOption('#look', 'typed'); await w.waitForTimeout(400);
-    ok(!(await w.$('#paperPreview.jot-hand')) && !(await w.$('#paperPreview .hw-w')) && /margin: 10mm/.test(await w.textContent('#printSettings')), 'Typed puts the page back as it was');
+    ok(!(await w.$('#paperPreview.jot-hand')) && !(await w.$('#paperPreview .hw-w')) && /@page \{ size: 148mm 210mm; margin: \d+mm [^}]*@bottom-center/.test(await w.textContent('#printSettings')), 'Typed puts the page back as it was');
     await w.screenshot({ path: path.join(SHOTS, 'workspace-typed-formatting.png') });
     await w.close(); }
   // the template editor's Page view, handwritten

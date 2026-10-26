@@ -433,6 +433,10 @@ An attachment declares `path`, `media-type`, `alt`, optional `sha256`, `captured
 
 A `.jotz` is the portable bundle described in section 2.0. Handwriting images and editable stroke data, scans, photos and other attachments live inside it under `assets/`, referenced by readable paths in `journal.txt`. Missing referenced assets must be reported; supplied but unused assets remain included until the user explicitly removes them. A plain `.jot` or a writing export is not a self-contained backup of a document with assets. Jot applications must save/restore the included assets along with writing and clearly distinguish an attachment download from downloading the whole document.
 
+### 8.2.1 Formatted presentation
+
+A renderer SHOULD present Jot's own constructs as a reader expects, without changing the source: a dated heading as its date in words (the text after `|` retained when it says more than the weekday), tasks with their lifecycle state (4.1) distinguishable without colour, event, question and idea markers as signs with text alternatives, tags and contexts marked, and marginalia beside or after the writing it annotates. Named presentation styles and exports (such as one standalone HTML file) are renderer features: they carry no data back into the document, MUST NOT fetch remote resources, and SHOULD embed what they show (charts as images with text alternatives, attachments, fonts).
+
 ### 8.3.1 Simulated handwriting
 
 A renderer MAY present typed writing as handwriting: a handwriting font, alternate letter forms, small per-word rotation and offset, and ink colour. It is presentation only. It MUST NOT change the text, its order, selection, copying or accessible text, and SHOULD be deterministic for the same text and seed so a reprint matches. Real handwriting (section 8.3) and simulated handwriting are never confused: simulation creates no attachment or stroke data.

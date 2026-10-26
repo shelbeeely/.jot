@@ -58,6 +58,17 @@ only native representation.
 - **Fonts are bundled** (`parser/fonts/`, SIL OFL 1.1, Latin and Latin Extended, regular and bold), never fetched; the site publishes
   `.woff2` for them.
 
+## Formatted pages and export (26 October 2026)
+
+- **The writing stays plain; the page is formatted.** Styles (Journal, Notes, Plain; `parser/styles.mjs`) are presentation only: the
+  `.jot` file is never changed by choosing one. They use the reader's own fonts (system stacks), so pages stay small and offline.
+- **Jot's marks read as a page.** A dated heading shows its date in words (the rest of the heading kept when it says more than the
+  weekday), tasks show their state, events, questions and ideas their sign, tags and contexts are marked, margin notes sit beside the
+  text. Every view (workspace, template editor, VS Code, export) gets this from `preview.mjs`.
+- **One file to keep or share.** Download page (and VS Code's Export as HTML) writes one HTML file: the page's own styles, charts as
+  PNG pictures with their summaries as alternative text, attachments and the hand in use as data: URLs, no scripts, nothing fetched.
+  PDF is the browser's print, with `@page` margins and page numbers.
+
 ## What the current code does
 
 - parse(text) parses writing and preserves its source; stringify(ast) returns that original source, not edits to AST nodes.

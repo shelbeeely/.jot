@@ -8,14 +8,22 @@
  * callouts (> [!NOTE]) and centred lines (-> … <-).
  *
  *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …',
+ *                                style: 'journal' | 'notes' | 'plain' | null (styles.mjs; a typed page only),
  *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 } })
  *     With `hand`, the page is written in a handwriting font on a dot grid (handwriting.mjs); target.jotReady resolves when it is
  *     aligned (after the fonts load).
  *   drawChart(section, model)   one chart record's figures into an element (the home page uses it on its own)
+ *
+ * Jot's own marks get their own look, in every style: a dated heading reads as a date ("Monday 26 October 2026", the rest of the
+ * heading kept as a note), tasks show their state (open, done, moved, scheduled, cancelled, high), events, questions and ideas
+ * their sign, [[margin notes]] sit beside the writing, `.0830 - KITCHEN` time labels read "08:30 · KITCHEN", and #tags and
+ * @contexts are marked. opts.locale sets how dates are written (default en-GB).
  */
 import { charts, chartConfig, summaryText, fmt, CHART_CSS, metricLabel } from './charts.mjs';
 import { Chart } from './vendor/chart.mjs';
 import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx } from './handwriting.mjs';
+import { parse } from './jot.mjs';
+import { styleCSS, isStyle } from './styles.mjs';
 export { CHART_CSS };
 const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
@@ -54,6 +62,16 @@ export function drawChart(section, model) {
 
 const BLANKS = /^(?:(?:\d+\.|[-*+]|\[[ x]\])[ \t]*(?:\r?\n|$))+$/i;
 const RASTER = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif']);
+const TASK = { open: ['☐', 'to do'], completed: ['☑', 'done'], migrated: ['→', 'moved'], scheduled: ['←', 'scheduled'], cancelled: ['✕', 'cancelled'] };
+const SIGN = { event: ['○', 'Event'], question: ['?', 'Question'], idea: ['!', 'Idea'], voice: ['❝', 'Voice'], synopsis: ['≡', 'Summary'] };
+const TAGGED = /(^|[\s(\[])([#@][\p{L}\p{N}_][\p{L}\p{N}_-]*)/gu;
+const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+/** "2026-10-26" as words; the rest of the heading after "|" is kept when it says more than the weekday. */
+export function dateWords(date, rest = '', locale = 'en-GB') {
+  const t = new Date(`${date}T00:00:00Z`), words = new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(t);
+  const note = String(rest || '').trim();
+  return { words, note: note && note.toLowerCase() !== WEEKDAYS[t.getUTCDay()] ? note : '' };
+}
 const decode = (s) => String(s || '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 
 export function renderPreview(ast, target, opts = {}) {
@@ -63,7 +81,7 @@ export function renderPreview(ast, target, opts = {}) {
     for (const t of tokens || []) {
       let n;
       switch (t.type) {
-        case 'text': if (t.tokens) { inline(t.tokens, into); continue; } n = el('span', decode(t.text)); break;
+        case 'text': if (t.tokens) { inline(t.tokens, into); continue; } n = tagged(decode(t.text)); break;
         case 'escape': n = el('span', t.text); break;
         case 'strong': n = el('strong'); inline(t.tokens, n); break;
         case 'em': n = el('em'); inline(t.tokens, n); break;
@@ -96,11 +114,29 @@ export function renderPreview(ast, target, opts = {}) {
       into.append(n);
     }
   }
+  function tagged(text) { // #tags and @contexts at a word's start (spec 4.1), marked; the rest stays plain text
+    const span = el('span'); let at = 0;
+    for (const m of text.matchAll(TAGGED)) {
+      const start = m.index + m[1].length; if (start > at) span.append(text.slice(at, start));
+      span.append(el('span', m[2], m[2][0] === '#' ? 'jot-tag' : 'jot-context')); at = start + m[2].length;
+    }
+    if (at < text.length) span.append(text.slice(at));
+    return span;
+  }
+  const inlineOf = (text) => { const a = parse(String(text || ''), { journal: false }), p = a.nodes.find((x) => x.markdown && x.markdown.tokens); return p ? p.markdown.tokens : [{ type: 'text', text }]; };
   function block(t, into) {
     let n;
     switch (t.type) {
       case 'space': case 'checkbox': return;
-      case 'heading': n = el('h' + Math.min(6, t.depth)); inline(t.tokens, n); break;
+      case 'heading': {
+        n = el('h' + Math.min(6, t.depth));
+        const m = /^(\d{4}-\d{2}-\d{2})(?:\s*\|\s*(.*))?$/.exec(t.text || '');
+        if (m && !Number.isNaN(Date.parse(m[1]))) { // a dated entry
+          const { words, note } = dateWords(m[1], m[2], opts.locale), time = el('time', words); time.dateTime = m[1];
+          n.classList.add('jot-date'); n.append(time); if (note) n.append(' ', el('span', note, 'jot-date-note'));
+        } else inline(t.tokens, n);
+        break;
+      }
       case 'paragraph': case 'text': n = el('p'); inline(t.tokens || [{ type: 'text', text: t.text }], n); break;
       case 'blockquote': n = el('blockquote'); for (const c of t.tokens || []) block(c, n); break;
       case 'list':
@@ -132,6 +168,8 @@ export function renderPreview(ast, target, opts = {}) {
   const notes = { order: [], defs: new Map(), prefix: `jotfn-${(target.id || 'page').replace(/[^\w-]/g, '')}-` };
   const hand = opts.hand ? { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0, ...opts.hand } : null;
   target.classList.toggle('jot-hand', !!hand); // before anything is drawn, so charts size themselves to the grid
+  for (const c of [...target.classList]) if (c.startsWith('jot-style-')) target.classList.remove(c);
+  if (!hand && opts.style && isStyle(opts.style)) { addPageStyles(doc); target.classList.add(`jot-style-${opts.style}`); }
   if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.pen).family}'`); }
   else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy']) target.style.removeProperty(k);
   const frag = doc.createDocumentFragment();
@@ -149,7 +187,13 @@ export function renderPreview(ast, target, opts = {}) {
       frag.append(box); continue;
     }
     if (n.markdown) { if (n.diagram) frag.append(el('p', n.diagram.engine + ' source · rendering adapter not installed', 'diagram-note')); block(n.markdown, frag); continue; }
-    if (n.type === 'task') frag.append(el('div', (n.status === 'completed' ? '☑ ' : '☐ ') + n.text, 'jot-task'));
+    if (n.type === 'task') {
+      const [sym, said] = TASK[n.status] || TASK.open, row = el('div', undefined, `jot-task jot-task-${n.status}${n.priority === 'high' ? ' jot-task-high' : ''}`);
+      const box = el('span', sym, 'jot-box'); box.setAttribute('role', 'img'); box.setAttribute('aria-label', said); box.dataset.status = n.status;
+      const words = el('span', undefined, 'jot-task-text'); const p = n.inline && n.inline.find((x) => x.tokens); inline(p ? p.tokens : [{ type: 'text', text: n.text }], words);
+      row.append(box, ' ', words); if (n.priority === 'high') row.append(' ', el('span', '!', 'jot-priority'));
+      frag.append(row);
+    }
     else if (n.type === 'record' && n.recordType === 'chart') {
       const box = el('section', undefined, 'jot-chart'); box.setAttribute('aria-label', 'Chart');
       frag.append(box); drawn.push([box, chartOf.get(n)]);
@@ -163,8 +207,9 @@ export function renderPreview(ast, target, opts = {}) {
       const box = el('section', undefined, 'jot-record'); box.append(el('strong', n.recordType));
       const dl = el('dl'); for (const f of n.fields) dl.append(el('dt', f.name), el('dd', f.value)); box.append(dl); frag.append(box);
     } else if (n.type === 'pagebreak') frag.append(el('hr', undefined, 'pagebreak'));
-    else if (n.type === 'scene') frag.append(el('p', n.text, 'eyebrow'));
-    else if (n.type === 'synopsis') frag.append(el('p', n.text));
+    else if (n.type === 'scene') { const m = /^(\d{2})(\d{2})\s*[-–]\s*(.+)$/.exec(n.text); frag.append(el('p', m ? `${m[1]}:${m[2]} · ${m[3]}` : n.text, 'jot-scene eyebrow')); }
+    else if (n.type === 'annotation') { const a = el('aside', undefined, 'jot-margin'); a.setAttribute('aria-label', 'Margin note'); inline(inlineOf(n.text), a); frag.append(a); }
+    else if (SIGN[n.type]) { const [sym, said] = SIGN[n.type], p = el('p', undefined, `jot-sign jot-${n.type}`), b = el('span', sym, 'jot-sym'); b.setAttribute('role', 'img'); b.setAttribute('aria-label', said); p.append(b, ' '); inline(inlineOf(n.text), p); frag.append(p); }
     else frag.append(el('p', n.text || n.raw));
   }
   if (notes.defs.size) { // footnotes, numbered by first mention; ones never mentioned come last
@@ -201,16 +246,26 @@ export function addHandwritingStyles(doc, fontBase = FONT_BASE) {
   const s = doc.createElement('style'); s.id = 'jot-hand-css'; s.textContent = handwritingCSS(fontBase); doc.head.append(s);
 }
 
+/** Adds the page styles (journal, notes, plain) to a document once. */
+export function addPageStyles(doc) {
+  if (doc.getElementById('jot-style-css')) return;
+  const s = doc.createElement('style'); s.id = 'jot-style-css'; s.textContent = styleCSS(); doc.head.append(s);
+}
 /** Adds the chart styles to a document once. */
 export const PREVIEW_CSS = `${CHART_CSS}
 mark{background:#fff1a8;color:inherit;padding:0 .1em;border-radius:2px}ins{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.15em}
 .jot-center{text-align:center}.jot-fn-ref a{text-decoration:none}.jot-footnotes{border-top:1px solid currentColor;border-top-color:color-mix(in srgb,currentColor 25%,transparent);margin-top:1.5em;font-size:.92em}.jot-footnotes ol{padding-left:1.5em}
 .jot-callout{border-left:3px solid var(--jot-callout,#2a78d6);padding:.2em .9em;margin:.8em 0;background:color-mix(in srgb,var(--jot-callout,#2a78d6) 7%,transparent)}.jot-callout-title{font-weight:650;margin:0 0 .2em;color:var(--jot-callout,#2a78d6)}
 .jot-callout-tip{--jot-callout:#1a7f37}.jot-callout-important{--jot-callout:#8250df}.jot-callout-warning{--jot-callout:#9a6700}.jot-callout-caution{--jot-callout:#cf222e}
+.jot-date{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2em .6em}.jot-date-note{font-size:.72em;font-weight:400;opacity:.7;letter-spacing:.02em}
+.jot-task{display:flex;gap:.45em;align-items:baseline;margin:.15em 0}.jot-box{flex:none;width:1.1em;text-align:center}.jot-task-completed .jot-task-text,.jot-task-cancelled .jot-task-text{opacity:.62}.jot-task-cancelled .jot-task-text{text-decoration:line-through}.jot-priority{font-weight:700;color:#cf222e}
+.jot-sign{display:flex;gap:.45em;align-items:baseline}.jot-sym{flex:none;width:1.1em;text-align:center;font-weight:700;opacity:.7}
+.jot-margin{font-size:.88em;font-style:italic;opacity:.8;border-left:2px solid color-mix(in srgb,currentColor 25%,transparent);padding-left:.7em;margin:.4em 0}
+.jot-tag,.jot-context{white-space:nowrap}.jot-tag{color:#8250df}.jot-context{color:#1a7f37}
 .jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;
   const s = doc.createElement('style'); s.id = 'jot-chart-css'; s.textContent = PREVIEW_CSS; doc.head.append(s);
 }
 
-export default { renderPreview, addChartStyles, addHandwritingStyles, drawChart, CHART_CSS, PREVIEW_CSS };
+export default { renderPreview, addChartStyles, addHandwritingStyles, addPageStyles, drawChart, dateWords, CHART_CSS, PREVIEW_CSS };

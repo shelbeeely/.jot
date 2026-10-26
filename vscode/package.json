@@ -1,7 +1,7 @@
 {
   "name": "jot-journal",
   "displayName": "Jot journal",
-  "description": "Write .jot journals in VS Code: syntax colours, and a live page preview that draws your numbers as charts and can show the journal handwritten on a dot grid.",
+  "description": "Write .jot journals in VS Code: syntax colours, a live page preview in journal, notes or plain style with charts, handwritten on a dot grid if you like, and export to one standalone HTML page.",
   "version": "0.1.0",
   "publisher": "jot-format",
   "engines": {
@@ -70,6 +70,12 @@
         "command": "jot.toggleHandwriting",
         "title": "Toggle Handwritten Preview",
         "category": "Jot"
+      },
+      {
+        "command": "jot.exportHTML",
+        "title": "Export as HTML",
+        "category": "Jot",
+        "icon": "$(export)"
       }
     ],
     "menus": {
@@ -78,6 +84,11 @@
           "command": "jot.showPreviewToSide",
           "when": "editorLangId == jot",
           "group": "navigation"
+        },
+        {
+          "command": "jot.exportHTML",
+          "when": "editorLangId == jot",
+          "group": "navigation@2"
         }
       ],
       "commandPalette": [
@@ -96,6 +107,10 @@
         {
           "command": "jot.toggleHandwriting",
           "when": "editorLangId == jot || activeWebviewPanelId == 'jot.preview'"
+        },
+        {
+          "command": "jot.exportHTML",
+          "when": "editorLangId == jot"
         }
       ]
     },
@@ -162,6 +177,21 @@
           ],
           "default": 5,
           "description": "Millimetres between the dots of the grid in the handwritten preview."
+        },
+        "jot.preview.style": {
+          "type": "string",
+          "enum": [
+            "plain",
+            "journal",
+            "notes"
+          ],
+          "enumDescriptions": [
+            "Plain: the editor's own colours",
+            "Journal: a book page, a classic serif, dates in small capitals",
+            "Notes: clean and modern, tags as chips"
+          ],
+          "default": "plain",
+          "description": "How the typed preview (and Export as HTML) formats a journal."
         }
       }
     }

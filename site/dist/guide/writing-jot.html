@@ -16,7 +16,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="writing-in-jot">Writing in Jot</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#beautiful-pages-styles-printing-and-sharing">Beautiful pages: styles, printing and sharing</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li></ul></nav><article class="guide">
 <p>Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
 the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.</p>
 <p>This guide covers everything you need to write a <code>.jot</code> file by hand. It takes about ten minutes to read, and you can stop after the
@@ -278,6 +278,41 @@ A new notebook.
 <ul>
 <li><strong>When a mark should just be text,</strong> put a backslash before it: <code>\[ ] this is not a task</code> or <code>\# not a heading</code>.</li>
 </ul>
+<h2 id="beautiful-pages-styles-printing-and-sharing">Beautiful pages: styles, printing and sharing</h2>
+<p>Write quickly; the workspace (<strong>Write</strong>) turns your jottings into formatted pages as you type. Dated headings read as dates
+(&quot;Monday, 26 October 2026&quot;), tasks show whether they are done, moved, scheduled or cancelled, events, questions and ideas get their
+signs, <code>#tags</code> and <code>@places</code> are marked, <code>[[margin notes]]</code> sit beside the text and <code>.0830 - KITCHEN</code> reads &quot;08:30 · KITCHEN&quot;.</p>
+<p>Under the page preview, <strong>Style</strong> chooses the look:</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Style</th>
+<th>What it looks like</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Journal</strong></td>
+<td>a book page: a classic serif, dates in small capitals, a drop cap opening each day, margin notes in the margin</td>
+</tr>
+<tr>
+<td><strong>Notes</strong></td>
+<td>clean and modern: a sans serif, each date as a bar, tags as coloured chips, checkboxes, tidy tables</td>
+</tr>
+<tr>
+<td><strong>Plain</strong></td>
+<td>simple and quiet</td>
+</tr>
+</tbody></table>
+<p>To keep or share the pages:</p>
+<ul>
+<li><strong>Print / PDF</strong> prints them on the <strong>Paper</strong> you choose (A5, A4, Letter, pocket or your own), with book margins and page numbers
+(Journal and Notes). Choose &quot;Save as PDF&quot; in the print dialog for a PDF.</li>
+<li><strong>Download page ↓</strong> saves one <code>.html</code> file with the formatted pages inside it, charts as pictures and attached pictures included.
+It opens in any browser, on any device, without the internet, and prints as nicely as the workspace does. Send it to someone, or
+keep it beside the <code>.jot</code>.</li>
+</ul>
+<p>The <code>.jot</code> file never changes: the style is only how it is shown. In VS Code, the <code>jot.preview.style</code> setting chooses the same styles,
+and <strong>Jot: Export as HTML</strong> saves the same page.</p>
 <h2 id="handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</h2>
 <p>The workspace (<strong>Write</strong>) can show your journal as if you had written it by hand in a dot-grid notebook, and print it that way:</p>
 <ol>
@@ -295,7 +330,8 @@ rows so nothing after them slips off the grid. Dashed lines in the preview show 
 the way a quick pen does. Each word leans and sits a little differently, and the wobbles are worked out from the words themselves, so the same journal always
 prints the same. <strong>Rewrite ↻</strong> writes it again with other wobbles and letter shapes; your words never change. Turn <strong>Dots</strong> off to
 print the handwriting on plain paper, or on paper that already has a dot grid.</p>
-<p>The template editor&#39;s <strong>Page</strong> view and the VS Code extension can show the handwritten look too.</p>
+<p>The template editor&#39;s <strong>Page</strong> view and the VS Code extension can show the handwritten look too, and <strong>Download page ↓</strong> keeps a
+handwritten page with its hand inside the file.</p>
 <h2 id="plain-and-packaged-files">Plain and packaged files</h2>
 <ul>
 <li><strong><code>.jot</code></strong> is plain text: what you see is what is in it. This is what you write and what templates make.</li>

@@ -38,6 +38,13 @@ srv.listen(0, '127.0.0.1', async () => {
     const hand = await p.evaluate(() => ({ cls: document.querySelector('#page').classList.contains('jot-hand'), words: document.querySelectorAll('#page .hw-w').length, font: document.fonts.check("16px 'Jot Caveat'"), mark: !!document.querySelector('#page mark .hw-w'), note: !!document.querySelector('#page .jot-callout-note'), fn: !!document.querySelector('#page .jot-footnotes li'), ink: getComputedStyle(document.querySelector('#page')).color }));
     ok(hand.cls && hand.words > 10 && hand.font && hand.ink === 'rgb(34, 38, 42)', 'handwritten: the pen font loads from the extension\'s own files, in the ink the settings chose');
     ok(hand.mark && hand.note && hand.fn, 'fuller formatting in the preview: a highlight, a callout and a footnote');
+    await p.evaluate((t) => window.postMessage({ type: 'update', text: t + '\n[>] Later\n#home @kitchen\n', style: 'journal' }, '*'), text);
+    await p.waitForSelector('#page.jot-style-journal .jot-date time');
+    ok(await p.evaluate(() => /Monday, 26 October 2026/.test(document.querySelector('#page .jot-date').textContent) && !!document.querySelector('#page .jot-task-migrated') && !!document.querySelector('#page .jot-tag') && !!document.querySelector('#page .jot-context')), 'the Journal style: dates in words, a moved task, a tag and a context');
+    await p.evaluate(() => window.postMessage({ type: 'export', title: 'week' }, '*'));
+    await p.waitForFunction(() => window.__sent.some((m) => m.type === 'exported'));
+    const ex = await p.evaluate(() => window.__sent.find((m) => m.type === 'exported'));
+    ok(!ex.error && /^<!doctype html>/.test(ex.html) && /<title>week<\/title>/.test(ex.html) && /jot-style-journal/.test(ex.html) && /<img[^>]+src="data:image\/png;base64,/.test(ex.html) && !/127\.0\.0\.1|<canvas|<script/.test(ex.html) && /@page \{ size: 210mm 297mm;/.test(ex.html), 'Export as HTML: one standalone page, charts as pictures, nothing to fetch or run, A4 for printing');
     await p.evaluate(() => window.postMessage({ type: 'update', text: '### 2026-10-28\n\nJust words.\n' }, '*'));
     await p.waitForFunction(() => !document.querySelector('.jot-chart'));
     ok(/Just words/.test(await p.textContent('.jot-page')), 'an edit redraws the page');

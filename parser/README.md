@@ -56,6 +56,15 @@ renderPreview(parse(text), document.querySelector('#page'));
 
 Tests: `node --test charts-test.mjs`.
 
+## Page styles and export
+
+`styles.mjs`: `STYLES` (journal, notes, plain), `styleCSS()` (each scoped to `.jot-style-<id>`, system fonts only, nothing fetched) and
+`pageCSS(style, [wMm, hMm])` (the `@page` box: paper, book margins, page numbers). `renderPreview(ast, el, { style: 'journal' })` applies
+one to a typed page. `export.mjs`: `exportHTML(page, { title, pageCss })` makes one standalone HTML file from a rendered page (its
+styles copied in, charts as PNG pictures, attachments and the hand in use embedded as data: URLs, no scripts). The preview also writes
+Jot's marks as a reader expects: dates in words (`dateWords`), task states, event, question and idea signs, tags and contexts, margin
+notes, time labels. Tests: `node --test styles-test.mjs`.
+
 ## Fuller formatting
 
 Beyond GFM, the lexer understands `==highlight==` (`mark` tokens), `++underline++` (`ins`), `^superscript^` (`sup`), footnotes

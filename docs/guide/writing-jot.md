@@ -250,6 +250,31 @@ A new notebook.
 
 - **When a mark should just be text,** put a backslash before it: `\[ ] this is not a task` or `\# not a heading`.
 
+## Beautiful pages: styles, printing and sharing
+
+Write quickly; the workspace (**Write**) turns your jottings into formatted pages as you type. Dated headings read as dates
+("Monday, 26 October 2026"), tasks show whether they are done, moved, scheduled or cancelled, events, questions and ideas get their
+signs, `#tags` and `@places` are marked, `[[margin notes]]` sit beside the text and `.0830 - KITCHEN` reads "08:30 · KITCHEN".
+
+Under the page preview, **Style** chooses the look:
+
+| Style | What it looks like |
+| --- | --- |
+| **Journal** | a book page: a classic serif, dates in small capitals, a drop cap opening each day, margin notes in the margin |
+| **Notes** | clean and modern: a sans serif, each date as a bar, tags as coloured chips, checkboxes, tidy tables |
+| **Plain** | simple and quiet |
+
+To keep or share the pages:
+
+- **Print / PDF** prints them on the **Paper** you choose (A5, A4, Letter, pocket or your own), with book margins and page numbers
+  (Journal and Notes). Choose "Save as PDF" in the print dialog for a PDF.
+- **Download page ↓** saves one `.html` file with the formatted pages inside it, charts as pictures and attached pictures included.
+  It opens in any browser, on any device, without the internet, and prints as nicely as the workspace does. Send it to someone, or
+  keep it beside the `.jot`.
+
+The `.jot` file never changes: the style is only how it is shown. In VS Code, the `jot.preview.style` setting chooses the same styles,
+and **Jot: Export as HTML** saves the same page.
+
 ## Handwritten pages on a dot grid
 
 The workspace (**Write**) can show your journal as if you had written it by hand in a dot-grid notebook, and print it that way:
@@ -270,7 +295,8 @@ the way a quick pen does. Each word leans and sits a little differently, and the
 prints the same. **Rewrite ↻** writes it again with other wobbles and letter shapes; your words never change. Turn **Dots** off to
 print the handwriting on plain paper, or on paper that already has a dot grid.
 
-The template editor's **Page** view and the VS Code extension can show the handwritten look too.
+The template editor's **Page** view and the VS Code extension can show the handwritten look too, and **Download page ↓** keeps a
+handwritten page with its hand inside the file.
 
 ## Plain and packaged files
 
