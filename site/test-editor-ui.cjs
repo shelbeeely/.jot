@@ -155,6 +155,21 @@ const srv = http.createServer((q, r) => {
     await ph.screenshot({ path: path.join(SHOTS, `editor-phone-${scheme}.png`), fullPage: false });
     await ph.close();
   }
+  // the guides: readable on a phone and in the dark, nothing serious for axe
+  for (const [pg, scheme] of [['guide/', 'light'], ['guide/writing-jot.html', 'dark'], ['guide/template-editor.html', 'light']]) {
+    const gp = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme }); gp.on('pageerror', (e) => errs.push(e.message));
+    await gp.goto(URL0.replace('/editor/', `/${pg}`)); await gp.waitForSelector('#guide h1');
+    ok(await gp.evaluate(() => { const h = document.querySelector('#guide h1').getBoundingClientRect(), t = document.querySelector('.toc'); return !t || h.top < t.getBoundingClientRect().top; }), `${pg}: the title comes before the contents list`);
+    const wide = await gp.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    ok(wide <= 0, `${pg} (${scheme}, 390 px): no sideways scroll (${wide})`);
+    if (fs.existsSync(AXE)) {
+      await gp.addScriptTag({ path: AXE });
+      const v = await gp.evaluate(async () => (await axe.run(document, { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
+      ok(v.length === 0, `${pg} (${scheme}): axe finds nothing serious` + (v.length ? ': ' + v.join(', ') : ''));
+    }
+    await gp.screenshot({ path: path.join(SHOTS, `guide-${pg.replace(/\W+/g, '-')}${scheme}.png`), fullPage: false });
+    await gp.close();
+  }
   ok(errs.length === 0, 'no page errors' + (errs.length ? ': ' + errs.join(' | ') : ''));
   await b.close(); srv.close();
   console.log(`\n${n} checks passed · screenshots in ${SHOTS}`);

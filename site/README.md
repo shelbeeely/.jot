@@ -58,3 +58,12 @@ phones. Tests:
     node --test test-editor.mjs      # the generator: every block, starters, splits, escaping, the template in a .jot, the import
     node test-editor-ui.cjs          # the page in Chromium: editing, undo, dragging, zones, downloads, reopening a .jot, the import,
                                      # persistence, 390 px, axe (light and dark)
+
+## Guides (`dist/guide/`)
+
+The user guides are written in `../docs/guide/*.md` (readable on GitHub) and built into pages here with the parser's Markdown library:
+
+    node build-guides.mjs            # after editing a guide; the pages are committed
+    node --test test-guides.mjs      # pages current, every Jot example valid, every link real, the guide matches the editor
+
+`test-editor-ui.cjs` also opens the guide pages at 390 px in light and dark and runs axe on them.

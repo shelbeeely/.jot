@@ -44,7 +44,7 @@ The method examples below show optional structured representations alongside hum
 
 ## Reading this specification
 
-This document expands Shelbee's original DotJot v1.0 PDF into a language specification, an interoperable data model, and a catalogue of method profiles. It covers every one of the 46 method/style guides present in `shelbeeely/Journaling/docs/journaling/methods` at commit snapshot `f67a54dd20c9` (full hash in source links), plus complementary profiles. The repository is the source of method coverage; the syntax, profile contracts, examples and implementation requirements below are new Jot design proposals.
+This document expands the original DotJot v1.0 PDF (`references/Historical-DotJot-Specification.pdf`) into a language specification, an interoperable data model, and a catalogue of method profiles. It covers every one of the 46 method/style guides present in the Journalwright methods library at snapshot `f67a54dd20c9` (copied into this repository as `docs/methods/`), plus complementary profiles. The repository is the source of method coverage; the syntax, profile contracts, examples and implementation requirements below are new Jot design proposals.
 
 This is a complete design within its declared scope, not a claim that every journaling tradition has been enumerated or that a parser fully implements every clause. Profiles adapt practices rather than reproducing commercial workbooks, certifying a clinical instrument, or claiming product compatibility. Medical and psychological profiles specify how to record information; they do not prescribe treatment or assert therapeutic effectiveness. The repository's research claims have not been independently audited for this specification.
 
@@ -1693,7 +1693,7 @@ The source register below records every repository guide used for coverage and t
 
 ### Source register
 
-Method coverage snapshot: `shelbeeely/Journaling`, commit snapshot `f67a54dd20c9` (full hash in source links), retrieved 25 October 2026. Reviewed the first 150 lines of every method guide (overview, summary and available component descriptions), rather than independently auditing their full research bibliographies. The catalogue is an original format adaptation based on those overviews. No repository files were changed.
+Method coverage snapshot: the Journalwright methods library, snapshot `f67a54dd20c9` (copied into this repository as `docs/methods/`), retrieved 25 October 2026. Reviewed the first 150 lines of every method guide (overview, summary and available component descriptions), rather than independently auditing their full research bibliographies. The catalogue is an original format adaptation based on those overviews. No repository files were changed.
 
 Primary inspiration: [Fountain repository README](https://github.com/nyousefi/Fountain/blob/master/README.markdown), read 25 October 2026. Its writing-first, readable plain-text approach informs Jot. The repository is a Fountain implementation; Jot is a separate proposed journaling format, not a Fountain-compatible screenplay dialect. No source code was copied. The original attached Jot Complete Specification v1.0 PDF is the baseline design.
 
@@ -1703,52 +1703,52 @@ free-diary, shared-journal, travel-field-log, reading-media-journal, decision-jo
 
 #### Repository guide mapping
 
-1. [adhd-journaling.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/adhd-journaling.md)
-2. [alastair-method.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/alastair-method.md)
-3. [art-and-junk-journaling.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/art-and-junk-journaling.md)
-4. [autistic-sensory-journaling.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/autistic-sensory-journaling.md)
-5. [bullet-journal.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/bullet-journal.md)
-6. [cbt-thought-record.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/cbt-thought-record.md)
-7. [commonplace-book.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/commonplace-book.md)
-8. [dbt-diary-card.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/dbt-diary-card.md)
-9. [digital-daily-notes.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/digital-daily-notes.md)
-10. [dream-journal.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/dream-journal.md)
-11. [dutch-door-method.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/dutch-door-method.md)
-12. [e-ink-templates.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/e-ink-templates.md)
-13. [eisenhower-matrix.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/eisenhower-matrix.md)
-14. [emergent-task-planner.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/emergent-task-planner.md)
-15. [expressive-writing.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/expressive-writing.md)
-16. [five-minute-journal.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/five-minute-journal.md)
-17. [five-year-diary.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/five-year-diary.md)
-18. [full-focus-planner.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/full-focus-planner.md)
-19. [gender-euphoria-and-hrt-log.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/gender-euphoria-and-hrt-log.md)
-20. [getting-things-done-paper.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/getting-things-done-paper.md)
-21. [gratitude-journaling.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/gratitude-journaling.md)
-22. [habit-tracking.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/habit-tracking.md)
-23. [hobonichi-techo.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/hobonichi-techo.md)
-24. [interstitial-journaling.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/interstitial-journaling.md)
-25. [ivy-lee-method.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/ivy-lee-method.md)
-26. [jibun-techo.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/jibun-techo.md)
-27. [mood-tracking-year-in-pixels.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/mood-tracking-year-in-pixels.md)
-28. [morning-pages.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/morning-pages.md)
-29. [paper-and-grids.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/paper-and-grids.md)
-30. [passion-planner.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/passion-planner.md)
-31. [planner-sticker-and-deco-culture.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/planner-sticker-and-deco-culture.md)
-32. [pomodoro-log.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/pomodoro-log.md)
-33. [progoff-intensive-journal.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/progoff-intensive-journal.md)
-34. [prompt-journaling.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/prompt-journaling.md)
-35. [rocketbook-and-scan-systems.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/rocketbook-and-scan-systems.md)
-36. [safety-planning.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/safety-planning.md)
-37. [shadow-growth-journal.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/shadow-growth-journal.md)
-38. [spoon-theory-energy-accounting.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/spoon-theory-energy-accounting.md)
-39. [stimming-and-self-regulation.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/stimming-and-self-regulation.md)
-40. [stoic-journaling.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/stoic-journaling.md)
-41. [study-and-note-taking.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/study-and-note-taking.md)
-42. [symptom-tracking.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/symptom-tracking.md)
-43. [theme-system-journal.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/theme-system-journal.md)
-44. [time-block-planner.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/time-block-planner.md)
-45. [time-logging-lifelog.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/time-logging-lifelog.md)
-46. [travelers-notebook.md](https://github.com/shelbeeely/Journaling/blob/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods/travelers-notebook.md)
+1. [adhd-journaling.md](../docs/methods/adhd-journaling.md)
+2. [alastair-method.md](../docs/methods/alastair-method.md)
+3. [art-and-junk-journaling.md](../docs/methods/art-and-junk-journaling.md)
+4. [autistic-sensory-journaling.md](../docs/methods/autistic-sensory-journaling.md)
+5. [bullet-journal.md](../docs/methods/bullet-journal.md)
+6. [cbt-thought-record.md](../docs/methods/cbt-thought-record.md)
+7. [commonplace-book.md](../docs/methods/commonplace-book.md)
+8. [dbt-diary-card.md](../docs/methods/dbt-diary-card.md)
+9. [digital-daily-notes.md](../docs/methods/digital-daily-notes.md)
+10. [dream-journal.md](../docs/methods/dream-journal.md)
+11. [dutch-door-method.md](../docs/methods/dutch-door-method.md)
+12. [e-ink-templates.md](../docs/methods/e-ink-templates.md)
+13. [eisenhower-matrix.md](../docs/methods/eisenhower-matrix.md)
+14. [emergent-task-planner.md](../docs/methods/emergent-task-planner.md)
+15. [expressive-writing.md](../docs/methods/expressive-writing.md)
+16. [five-minute-journal.md](../docs/methods/five-minute-journal.md)
+17. [five-year-diary.md](../docs/methods/five-year-diary.md)
+18. [full-focus-planner.md](../docs/methods/full-focus-planner.md)
+19. [gender-euphoria-and-hrt-log.md](../docs/methods/gender-euphoria-and-hrt-log.md)
+20. [getting-things-done-paper.md](../docs/methods/getting-things-done-paper.md)
+21. [gratitude-journaling.md](../docs/methods/gratitude-journaling.md)
+22. [habit-tracking.md](../docs/methods/habit-tracking.md)
+23. [hobonichi-techo.md](../docs/methods/hobonichi-techo.md)
+24. [interstitial-journaling.md](../docs/methods/interstitial-journaling.md)
+25. [ivy-lee-method.md](../docs/methods/ivy-lee-method.md)
+26. [jibun-techo.md](../docs/methods/jibun-techo.md)
+27. [mood-tracking-year-in-pixels.md](../docs/methods/mood-tracking-year-in-pixels.md)
+28. [morning-pages.md](../docs/methods/morning-pages.md)
+29. [paper-and-grids.md](../docs/methods/paper-and-grids.md)
+30. [passion-planner.md](../docs/methods/passion-planner.md)
+31. [planner-sticker-and-deco-culture.md](../docs/methods/planner-sticker-and-deco-culture.md)
+32. [pomodoro-log.md](../docs/methods/pomodoro-log.md)
+33. [progoff-intensive-journal.md](../docs/methods/progoff-intensive-journal.md)
+34. [prompt-journaling.md](../docs/methods/prompt-journaling.md)
+35. [rocketbook-and-scan-systems.md](../docs/methods/rocketbook-and-scan-systems.md)
+36. [safety-planning.md](../docs/methods/safety-planning.md)
+37. [shadow-growth-journal.md](../docs/methods/shadow-growth-journal.md)
+38. [spoon-theory-energy-accounting.md](../docs/methods/spoon-theory-energy-accounting.md)
+39. [stimming-and-self-regulation.md](../docs/methods/stimming-and-self-regulation.md)
+40. [stoic-journaling.md](../docs/methods/stoic-journaling.md)
+41. [study-and-note-taking.md](../docs/methods/study-and-note-taking.md)
+42. [symptom-tracking.md](../docs/methods/symptom-tracking.md)
+43. [theme-system-journal.md](../docs/methods/theme-system-journal.md)
+44. [time-block-planner.md](../docs/methods/time-block-planner.md)
+45. [time-logging-lifelog.md](../docs/methods/time-logging-lifelog.md)
+46. [travelers-notebook.md](../docs/methods/travelers-notebook.md)
 
 
 ## 15. JavaScript, diagrams, handwriting and the project roadmap

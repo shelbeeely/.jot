@@ -2,7 +2,7 @@
 
 Build a journal in the [Jot template editor](../site/dist/editor/) and get it as a **.jot file to fill in by hand**, or turn a book's structure into one here (see [Jot files to fill in](#jot-files-to-fill-in-the-book-as-a-jot)),
 or as monthly books for Amazon KDP, with a yearly Keeper book and Xteink X4 EPUBs, and your **.jot writing printed in** (see
-[Jot pages](#jot-pages-jot-writing-in-the-book)). This is the engine from Journalwright Studio (`shelbeeely/Journaling`, `journal/`),
+[Jot pages](#jot-pages-jot-writing-in-the-book)). This is the engine from Journalwright Studio (the Journaling repository's `journal/`),
 carried over with the generic profile and packs only: nothing personal, no X4 firmware, no Studio server.
 
 ## Prerequisites

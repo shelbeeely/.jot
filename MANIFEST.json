@@ -3,14 +3,274 @@
   "formatVersion": "1.0",
   "files": [
     {
+      "path": ".gitignore",
+      "byteLength": 258,
+      "sha256": "b19ca0860f86048d4a19129cffa6b992ace611d131a308d53ff101b250378428"
+    },
+    {
       "path": "DECISIONS.md",
       "byteLength": 2588,
       "sha256": "8651e9567b50b604793f14cf10b17e794a1dab8e9f06c3d5a71cf64fc459d8cc"
     },
     {
       "path": "README.md",
-      "byteLength": 3207,
-      "sha256": "512c01739036b9602a09aa19ca8f317784df038fe73d566f5155be646617ac34"
+      "byteLength": 5532,
+      "sha256": "8d6d3a22a09cb80fd35afb687e79336bb87a520299b4819958c47e9ba4850889"
+    },
+    {
+      "path": "docs/guide/README.md",
+      "byteLength": 533,
+      "sha256": "04cfa455a98ee53fc62e0893d12db2d9e7c55fd695ec79f0ad8dabb154162c21"
+    },
+    {
+      "path": "docs/guide/template-editor.md",
+      "byteLength": 8423,
+      "sha256": "628badd323b9d9b6e8742c289e36815a371a2e977189f3785c4057c9a8c1d839"
+    },
+    {
+      "path": "docs/guide/writing-jot.md",
+      "byteLength": 6647,
+      "sha256": "db93941680882e6ffc3c8647789776a2975e1202f4e4a2b92be07257e7806f7b"
+    },
+    {
+      "path": "docs/methods/LICENSE",
+      "byteLength": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "docs/methods/TEMPLATE.md",
+      "byteLength": 4557,
+      "sha256": "7bc7e2a72da1fbf14588ed33b3beac0dfb07d77f280dfb556e6ef4375fbe0114"
+    },
+    {
+      "path": "docs/methods/adhd-journaling.md",
+      "byteLength": 60298,
+      "sha256": "3e9268bb7756742b37165f0c922705dd2ef1ad0a4061befbdd588d9257671f70"
+    },
+    {
+      "path": "docs/methods/alastair-method.md",
+      "byteLength": 36464,
+      "sha256": "ff5ed691120270417f6c1174832bf54b7211dffb07511bfb962cf75453e7240b"
+    },
+    {
+      "path": "docs/methods/art-and-junk-journaling.md",
+      "byteLength": 45578,
+      "sha256": "32d7d4343e7a6ac42339a659019c13270eb35136090789a9356c7f7b37b65eb0"
+    },
+    {
+      "path": "docs/methods/autistic-sensory-journaling.md",
+      "byteLength": 49955,
+      "sha256": "f3e8a8e7964b5e59cfe238dcb9fc1ceec693ab5c88f3f61b860e5c49badbfa2a"
+    },
+    {
+      "path": "docs/methods/bullet-journal.md",
+      "byteLength": 58655,
+      "sha256": "b7cd53955f07caee7daab2cd63bd457c602ee5350037ffd1143b20660180a45b"
+    },
+    {
+      "path": "docs/methods/cbt-thought-record.md",
+      "byteLength": 58930,
+      "sha256": "6cd260c51cfc881c1835435c7c0f6e6621f6ea711e603f4309ee1cc531ed0b35"
+    },
+    {
+      "path": "docs/methods/commonplace-book.md",
+      "byteLength": 57258,
+      "sha256": "fb5386262880e2343e3b81130042d429366d534b28b6b3b56c305fbcb6e3a9bd"
+    },
+    {
+      "path": "docs/methods/dbt-diary-card.md",
+      "byteLength": 60464,
+      "sha256": "ec62fb01ecb8f84907c12f0d05892b3da9233c1d0c33832a96fb0e250a68f257"
+    },
+    {
+      "path": "docs/methods/digital-daily-notes.md",
+      "byteLength": 41026,
+      "sha256": "8f3a456aa81798d7462146406dd8068c1c3e74c7847f61c499d9d5141112ec3d"
+    },
+    {
+      "path": "docs/methods/dream-journal.md",
+      "byteLength": 53463,
+      "sha256": "ab28e912020d283edf6a0b37d0f10b9cd42c3b31d1511a984b2c0328670aac89"
+    },
+    {
+      "path": "docs/methods/dutch-door-method.md",
+      "byteLength": 50108,
+      "sha256": "a4807467f2837c5162ca98f059a2886b42272f26e7d6ce7fd5a9f82172ef6e3d"
+    },
+    {
+      "path": "docs/methods/e-ink-templates.md",
+      "byteLength": 52416,
+      "sha256": "f6317f414fe29ad4e9d69ecdcf11be3840c5a5ce39c6167df71e860530652bf4"
+    },
+    {
+      "path": "docs/methods/eisenhower-matrix.md",
+      "byteLength": 49076,
+      "sha256": "733f76e8be501e9ec36d9d54f9b4e66c31fd10e3879e67e43997ea22b60aa97b"
+    },
+    {
+      "path": "docs/methods/emergent-task-planner.md",
+      "byteLength": 45634,
+      "sha256": "d19357f213f72f85520b2e8021753f2a7fe23e75e62fa20b745d7fe17bd46428"
+    },
+    {
+      "path": "docs/methods/expressive-writing.md",
+      "byteLength": 59231,
+      "sha256": "e7fdf6dec5b7c60229a203b3cbff1b65eb873b58353fbb6507e2afd62693479f"
+    },
+    {
+      "path": "docs/methods/five-minute-journal.md",
+      "byteLength": 48697,
+      "sha256": "b446dfec4a6f215786284b007a57aab9df14ad127dd8e4de6c03692bc531a8e5"
+    },
+    {
+      "path": "docs/methods/five-year-diary.md",
+      "byteLength": 38916,
+      "sha256": "1a20fc2a1d9dd672d4185245772b4062c0a574946a0ac8d794c14fd2a3ce3217"
+    },
+    {
+      "path": "docs/methods/full-focus-planner.md",
+      "byteLength": 56574,
+      "sha256": "7cafd8285d4da31dbf5c31d6788c0737a3cca9459669b9bdeaabc26cc8a973c0"
+    },
+    {
+      "path": "docs/methods/gender-euphoria-and-hrt-log.md",
+      "byteLength": 49298,
+      "sha256": "1bfa9b6e9ab723f4b835d1f7ec788793508ed27543064d5c316b4a021719382e"
+    },
+    {
+      "path": "docs/methods/getting-things-done-paper.md",
+      "byteLength": 58508,
+      "sha256": "590200394ba657030b85318ec4b110435e555bf7f76f17ac992dbeaf4ab870ed"
+    },
+    {
+      "path": "docs/methods/gratitude-journaling.md",
+      "byteLength": 43401,
+      "sha256": "8bec389eeb73ca5614c6ed6b7c3cabdef9706c047a19a728c3a5cbf5e290ed1c"
+    },
+    {
+      "path": "docs/methods/habit-tracking.md",
+      "byteLength": 46236,
+      "sha256": "83f35f151e02ff803fcae277e907ade47981d17c26389de0e62faf211dc5ab36"
+    },
+    {
+      "path": "docs/methods/hobonichi-techo.md",
+      "byteLength": 53986,
+      "sha256": "2f8bbd78d7db7c5916ed46f729480d8e152f33cab15ab7f12749f979c02f01c9"
+    },
+    {
+      "path": "docs/methods/interstitial-journaling.md",
+      "byteLength": 52542,
+      "sha256": "45aa2cd5aa2e95fb21cd064cc2303c89b930b95391363a1064cd1000a28b7459"
+    },
+    {
+      "path": "docs/methods/ivy-lee-method.md",
+      "byteLength": 46451,
+      "sha256": "70f6d2265dfafae7a348c5449b11dfcf04f6c4aeda6f54ec8d537a1b79f74743"
+    },
+    {
+      "path": "docs/methods/jibun-techo.md",
+      "byteLength": 48130,
+      "sha256": "d55ad7e5a67ec3ff35000d7315444060f2b859f6ec7875f61ce7f4ebbb4d3545"
+    },
+    {
+      "path": "docs/methods/mood-tracking-year-in-pixels.md",
+      "byteLength": 62142,
+      "sha256": "bcfab078b989e236a406bcaf9fcf9a46d1f766c01b22c65cc9f6031a94fb0b54"
+    },
+    {
+      "path": "docs/methods/morning-pages.md",
+      "byteLength": 53808,
+      "sha256": "023a22f37ea7a22c7a3cc36b554a5f8467d9bf43b3d93a6f1130158ba1728437"
+    },
+    {
+      "path": "docs/methods/paper-and-grids.md",
+      "byteLength": 60114,
+      "sha256": "407539826f313760f3c32235c69d9570b49e8ef9095b0e0cebb684c9e205d0f3"
+    },
+    {
+      "path": "docs/methods/passion-planner.md",
+      "byteLength": 64390,
+      "sha256": "8475fb8533b47ea3939d3fbdc416c000de3c99f4a0489505e432a2ea88ad6e3b"
+    },
+    {
+      "path": "docs/methods/planner-sticker-and-deco-culture.md",
+      "byteLength": 35433,
+      "sha256": "88fbd92513ea783b840c6f0eaf24f594d6abb19cd643e84460c0f7be620ec53d"
+    },
+    {
+      "path": "docs/methods/pomodoro-log.md",
+      "byteLength": 64833,
+      "sha256": "019da3a7521a79d885e293bfaa0c1a6b6386b4bb7987477c3e65cd04128c6458"
+    },
+    {
+      "path": "docs/methods/progoff-intensive-journal.md",
+      "byteLength": 57969,
+      "sha256": "e9a553cfc9c9f9d52590c88869eda19941dc840a2918584b2193da32b50b4806"
+    },
+    {
+      "path": "docs/methods/prompt-journaling.md",
+      "byteLength": 40589,
+      "sha256": "873643a73cccc67e284ed69667d9fd7a7f9cecd5a411624ad0819b462af09dab"
+    },
+    {
+      "path": "docs/methods/rocketbook-and-scan-systems.md",
+      "byteLength": 55249,
+      "sha256": "52640309890a38bdf39ffc6eb37268fb86efd8148414e4ed0f6c47b38db0c227"
+    },
+    {
+      "path": "docs/methods/safety-planning.md",
+      "byteLength": 49781,
+      "sha256": "e81e482ab2d594216f0713e7a377017f6ccf27409d5cdff27c11bf57b052f153"
+    },
+    {
+      "path": "docs/methods/shadow-growth-journal.md",
+      "byteLength": 55215,
+      "sha256": "6c7fcdba11f391be8f926977bf0026523d3fa43e935da67a8566a6802263c13e"
+    },
+    {
+      "path": "docs/methods/spoon-theory-energy-accounting.md",
+      "byteLength": 57515,
+      "sha256": "0709720a0bf90073bc851afdb683e6c9d9aff6da26bc28cbf0c839f4f1886a95"
+    },
+    {
+      "path": "docs/methods/stimming-and-self-regulation.md",
+      "byteLength": 12334,
+      "sha256": "1a69ddee65f1bcb8ab02bc415b05c5eba00f957763b1e0cc33a3c7136d5816c0"
+    },
+    {
+      "path": "docs/methods/stoic-journaling.md",
+      "byteLength": 56826,
+      "sha256": "615e8e8006e5a2be5f38a67e8a71ce5d616f5dc6a2f15d6ce6a26dc9aed2dee7"
+    },
+    {
+      "path": "docs/methods/study-and-note-taking.md",
+      "byteLength": 14917,
+      "sha256": "a9d8681f16353beebab9284ddedf86fc267474d3d27c025dc4c942c153416a41"
+    },
+    {
+      "path": "docs/methods/symptom-tracking.md",
+      "byteLength": 51274,
+      "sha256": "7a6f3075fcd1bba08e9cdc8b2c357ff0f36e15d21c5db64e4c62ea16e89bb9d3"
+    },
+    {
+      "path": "docs/methods/theme-system-journal.md",
+      "byteLength": 57178,
+      "sha256": "3644333ab0b40f23767dfbbf4d96c5ba7ad473a68683b6dac851998b9210458e"
+    },
+    {
+      "path": "docs/methods/time-block-planner.md",
+      "byteLength": 46030,
+      "sha256": "aa3f3ed29705117a8d3c73fa598ed10e6e9cc092b36bbd7e215f080cd965c243"
+    },
+    {
+      "path": "docs/methods/time-logging-lifelog.md",
+      "byteLength": 48346,
+      "sha256": "41f4dab5598fb3a492f29e4e1b832b17fbf213d76579d7f6bc89ade2bde1e62f"
+    },
+    {
+      "path": "docs/methods/travelers-notebook.md",
+      "byteLength": 41219,
+      "sha256": "5a86157090edbc0c2ba6f8f3cdd94e9470640b227fc8cf307a092cdef27db0e9"
     },
     {
       "path": "examples/packaged.jot",
@@ -21,6 +281,691 @@
       "path": "examples/plain-text.jot",
       "byteLength": 496,
       "sha256": "68b9c758d1903d02393e6a24af34f27e53f10b5c5bae14d66d285648ba5ec339"
+    },
+    {
+      "path": "journal/GUIDE.md",
+      "byteLength": 7174,
+      "sha256": "cafa616817be0fab332c9e8043db0f2166e67dd0ab5d2e8a46487dfcac94fd71"
+    },
+    {
+      "path": "journal/KDP.md",
+      "byteLength": 10502,
+      "sha256": "909bbe7b3ca8d39e4e813f15c5640a2e89c91aafa3baf9d12515cd2afe9f8b31"
+    },
+    {
+      "path": "journal/LICENSE",
+      "byteLength": 1422,
+      "sha256": "a985f9cc991bc902e482cd60580974ed09b1ba12f4a6b248f36d81f7fcc27ebe"
+    },
+    {
+      "path": "journal/NEW-EDITION.md",
+      "byteLength": 8806,
+      "sha256": "35886fa85045ba82cbf6b94782c8b1a70b9d15cdf7335c4515048cd716e533cf"
+    },
+    {
+      "path": "journal/PACKS.md",
+      "byteLength": 9546,
+      "sha256": "bcbf85b2b36a309507f2ed8069cfa6241b9258ddafe3af979576b7808050e843"
+    },
+    {
+      "path": "journal/README.md",
+      "byteLength": 58467,
+      "sha256": "ddbca0ac019dd0dd4264e3d7010091e758526fd3e0583ae78b3540b6fab84cc2"
+    },
+    {
+      "path": "journal/a11yprint.mjs",
+      "byteLength": 12236,
+      "sha256": "ac909b0a62536d11e868c8a18eff7e691604ace78bed59d7185c6a2f6fc0e843"
+    },
+    {
+      "path": "journal/book.mjs",
+      "byteLength": 9035,
+      "sha256": "e75b06b52df89cf30eabc8b9c5acf1235dae5c7341ec4e58a5ed825f8e636f74"
+    },
+    {
+      "path": "journal/bookdirs.mjs",
+      "byteLength": 493,
+      "sha256": "ac6d22a154fd6ce928daecf0a8895da71926adab16da471d459da3bdbef1afaa"
+    },
+    {
+      "path": "journal/bookedit.mjs",
+      "byteLength": 23843,
+      "sha256": "0c894e1e32507e7f0ea8f194808056e54c3d834e7b5478e64db9ac2109eb2704"
+    },
+    {
+      "path": "journal/bookrules.mjs",
+      "byteLength": 9257,
+      "sha256": "fdf4d8ff045d43c800140cf1df631c663d0fb2728bb8457f675b9f1d23937543"
+    },
+    {
+      "path": "journal/browser.mjs",
+      "byteLength": 447,
+      "sha256": "fd342f0cbdf0fa9764fddffcff1c705689bf37e454bb00dba9c6e979a925a6fe"
+    },
+    {
+      "path": "journal/build-all.sh",
+      "byteLength": 2590,
+      "sha256": "580902dacf634be015749c8f6b5cdfae45dcea0aa9080f15a6f3c62e2467f080"
+    },
+    {
+      "path": "journal/check-codes.mjs",
+      "byteLength": 16260,
+      "sha256": "3e39d34026735fe984ead8436c4f85b0f5f580bb1577659f1ce733af0487d1c6"
+    },
+    {
+      "path": "journal/check-handoff.mjs",
+      "byteLength": 2838,
+      "sha256": "fe1801a6fedc2bc93960fc7a1bf61df41292b52fba05a35ab56166036add4c2c"
+    },
+    {
+      "path": "journal/check-identical.mjs",
+      "byteLength": 4951,
+      "sha256": "0fb4d47d1786e2d5431c9c6ead0dd4af9317bc4a0299397c9074123d3a4ea54a"
+    },
+    {
+      "path": "journal/check-pages.mjs",
+      "byteLength": 6263,
+      "sha256": "bd0f2e1b3818c93c1fd8c074de40c16190310984a40459acf7197e1770d5ade4"
+    },
+    {
+      "path": "journal/check-spreads.mjs",
+      "byteLength": 4478,
+      "sha256": "4c8ddba4c3d16d550628c1099f15659b3ffc7f58d98c52aaa7ecb90496db5663"
+    },
+    {
+      "path": "journal/check.mjs",
+      "byteLength": 525,
+      "sha256": "adaea70cf59b6a57aecf54fc85f45620a701eb76643d4bde499053561363c6cc"
+    },
+    {
+      "path": "journal/chores.mjs",
+      "byteLength": 33703,
+      "sha256": "c3f52e19111f1705deadff6abd0dd7558532b5bb2c46259b2c92393278032876"
+    },
+    {
+      "path": "journal/content/book.json",
+      "byteLength": 2466,
+      "sha256": "3b0da720441cd2102a9dc0d4312f456224cf03a7137f5eae7c0c9fb24f36bf7e"
+    },
+    {
+      "path": "journal/content/edition.mjs",
+      "byteLength": 320,
+      "sha256": "72dcc02ef8f94274dc63c019e08a14289773394fb1c3f67ae697156eaed1ae12"
+    },
+    {
+      "path": "journal/content/layouts.mjs",
+      "byteLength": 3049,
+      "sha256": "6515437bd4c118ffa02348b7b532fd03237160709c3c425dcc509b307188a6e5"
+    },
+    {
+      "path": "journal/content/profile.example.json",
+      "byteLength": 807,
+      "sha256": "ae8ae3459f19f773066ad92635bd9ac9e6e5a2c7b6627fb69bd74d1ff7ef41f4"
+    },
+    {
+      "path": "journal/content/profile.json",
+      "byteLength": 807,
+      "sha256": "ae8ae3459f19f773066ad92635bd9ac9e6e5a2c7b6627fb69bd74d1ff7ef41f4"
+    },
+    {
+      "path": "journal/content/year-research.mjs",
+      "byteLength": 40799,
+      "sha256": "1824ca1001a9c8ef18429e5d203a4a8812962b3a57fe1ef3322d746edb3e13ff"
+    },
+    {
+      "path": "journal/content/year.mjs",
+      "byteLength": 4995,
+      "sha256": "b339d19b5e034261076f0cad303d088ba2249fa98dece2cc8b05e3ea99b88554"
+    },
+    {
+      "path": "journal/context.mjs",
+      "byteLength": 5933,
+      "sha256": "dbf9c7eaeb262fbb86b177c49ae05a5ce4bb615c12286a301fdd7c899306a249"
+    },
+    {
+      "path": "journal/cover.mjs",
+      "byteLength": 10999,
+      "sha256": "ceecffa1ee98270009c55fdbd6ab1e3a51eddcbaf7b9a8ff758506ff366aa474"
+    },
+    {
+      "path": "journal/data.mjs",
+      "byteLength": 18233,
+      "sha256": "e36e0680f550cb3652794a0aa0057100d6bae91732941e4f02da0095ea2c168b"
+    },
+    {
+      "path": "journal/daypage.mjs",
+      "byteLength": 159321,
+      "sha256": "b47b824ff2d48e0e3d909403294f96dc50e2fbee1f58475339c4eb75c1fd223c"
+    },
+    {
+      "path": "journal/epub.py",
+      "byteLength": 19575,
+      "sha256": "d72a28149957f9960436761bcca959b4cd09aa929ea9f65078b8c09029bb4f57"
+    },
+    {
+      "path": "journal/facts.mjs",
+      "byteLength": 9336,
+      "sha256": "3d90ce379509323b76b5cd1f67df0c82763b6e0697bf76cf4d78f1ac1c76e66b"
+    },
+    {
+      "path": "journal/handoff.mjs",
+      "byteLength": 1876,
+      "sha256": "d0596a61e2314575557faa5913c0ed0d864aac662e5185ffa5e624b4a7699555"
+    },
+    {
+      "path": "journal/holidays.mjs",
+      "byteLength": 3318,
+      "sha256": "763caee15b5ec2df0271c0c8f4cedd7df1ecaed4a41296ce0ee77b1e51ab573d"
+    },
+    {
+      "path": "journal/i18n/lex.mjs",
+      "byteLength": 3034,
+      "sha256": "529717caa77f61526ff258a38ca12fb42a031adf8aa4c4da23b8a3d4b47da9c9"
+    },
+    {
+      "path": "journal/i18n/print-report.mjs",
+      "byteLength": 5911,
+      "sha256": "84fa5ad820ec18e0af08561e43365d42ab5e60f33c6cf91532c6c3be31912770"
+    },
+    {
+      "path": "journal/i18n/print-strings.md",
+      "byteLength": 104403,
+      "sha256": "075880a9ade287d9ab924ad4ee9b1404fa8e36ce73dec0b679f450645a96ddd8"
+    },
+    {
+      "path": "journal/identical.json",
+      "byteLength": 31743,
+      "sha256": "610451029fbaef581b603e1bf192b919a9360f4680bcda31087447ffdad48870"
+    },
+    {
+      "path": "journal/init.mjs",
+      "byteLength": 18021,
+      "sha256": "3a70078382bfe47006c4349c823e1ef316debf15e2f9480f23173e6280f1d1c3"
+    },
+    {
+      "path": "journal/japanese.mjs",
+      "byteLength": 8347,
+      "sha256": "15dfbb5b75dbc84294827917d86b10e48d8ceefc2ade7277f7fcde74c3946d9e"
+    },
+    {
+      "path": "journal/jotfile.mjs",
+      "byteLength": 25658,
+      "sha256": "5edd81275f2ca3e2ad1994493928dab35af90655ff76ca7157eb087ebf282294"
+    },
+    {
+      "path": "journal/jotpage.mjs",
+      "byteLength": 12303,
+      "sha256": "e1732354e5ee60ea3635bb040cbdc5e189e91b8850132687aeeb1f3547970cc0"
+    },
+    {
+      "path": "journal/jots-sample/README.md",
+      "byteLength": 345,
+      "sha256": "b4a2d1151a7e141c307bb757681c8799440d003dec3672d0a9fd81136e13a3b0"
+    },
+    {
+      "path": "journal/jots-sample/inkdeck/2026-10-06.jot",
+      "byteLength": 239,
+      "sha256": "caa342821cd5f54c0e41d647829a778d06489ae0af8533df09819ec96ce11817"
+    },
+    {
+      "path": "journal/jots-sample/inkdeck/ideas.jot",
+      "byteLength": 216,
+      "sha256": "ae6789aefb323ba6b98f8df845df7291448fa28650ea1ffc71c5edc4fdd13304"
+    },
+    {
+      "path": "journal/jots-sample/october.jot",
+      "byteLength": 7323,
+      "sha256": "78474144fd83f80dbeacfba9f099ce2942b34d13b53f2043817ce8dc0a1846b9"
+    },
+    {
+      "path": "journal/jots-sample/packaged-2026-10-25.jot",
+      "byteLength": 2301,
+      "sha256": "a056b8af76c77de86ddab3b502b496afcabb14c94b0ed18696e3047be60ff020"
+    },
+    {
+      "path": "journal/jots-sample/undated-thoughts.jot",
+      "byteLength": 68,
+      "sha256": "87ea833a32fac707355b279a10770053057af6aaa4f3b82c4785ac2ea84b3414"
+    },
+    {
+      "path": "journal/jots.mjs",
+      "byteLength": 2051,
+      "sha256": "6132a499e5dbb5c6e4de6261e31538cdf83c4ae005d8b2ab16b0e503abeca4ff"
+    },
+    {
+      "path": "journal/keeper.mjs",
+      "byteLength": 19219,
+      "sha256": "f74cb6d64c0ca1057f49cbf2aeaf89e2607bb87722cbd09204cd91bc4679059f"
+    },
+    {
+      "path": "journal/library-cli.mjs",
+      "byteLength": 3219,
+      "sha256": "1c80096022421905bf861c6d2cbc6d2deefae64c65949b9c1adb78658aa257b4"
+    },
+    {
+      "path": "journal/library.mjs",
+      "byteLength": 24410,
+      "sha256": "ead44e7a4712ced23757a5a05662a684ad27e7d833f92649e4af8d646c91189d"
+    },
+    {
+      "path": "journal/modules.mjs",
+      "byteLength": 1026,
+      "sha256": "944f61c97329ba26fe0df94226a3eb82a8d4acd86fe935aaf5ff6d8ad3ef7f41"
+    },
+    {
+      "path": "journal/noteblocks.mjs",
+      "byteLength": 15454,
+      "sha256": "27846741bba3520a4846f679f10e3560ec7151b195fe6077bd1f8b5667792a17"
+    },
+    {
+      "path": "journal/package-lock.json",
+      "byteLength": 17540,
+      "sha256": "400824193984be71290b89d1b90e85fd081a329f070cd8d76a7d5e8ff1657702"
+    },
+    {
+      "path": "journal/package.json",
+      "byteLength": 745,
+      "sha256": "4ea4938d77a791a472150800a608e10b7ecd213bce4edd773a2797e44b6e5f03"
+    },
+    {
+      "path": "journal/packs-cli.mjs",
+      "byteLength": 5042,
+      "sha256": "f6975a08543758a8729bc23c343929f20cce45f8e85ebb7907a86182c316b4bd"
+    },
+    {
+      "path": "journal/packs/_template/clinic/clinic.json",
+      "byteLength": 221,
+      "sha256": "3b5e62b0f7e6c2da3d3f7fed417f12ecabfacaec0d33d4e6353c242cbf788334"
+    },
+    {
+      "path": "journal/packs/_template/clinic/pack.json",
+      "byteLength": 460,
+      "sha256": "a444edfb1d4ffa0c758cd20e486b78fbf7010f9266fc3b5a19aa272c4140f06a"
+    },
+    {
+      "path": "journal/packs/_template/holidays/holidays.json",
+      "byteLength": 216,
+      "sha256": "3c7083b0dd8218606e54d7a7730b5aad353cbaf71837ff762cc4e3cb615e13f8"
+    },
+    {
+      "path": "journal/packs/_template/holidays/pack.json",
+      "byteLength": 481,
+      "sha256": "edd7ce58b341cb375416290e19c8108f9149af916622239dcca769646b4bfef3"
+    },
+    {
+      "path": "journal/packs/_template/puzzles/pack.json",
+      "byteLength": 468,
+      "sha256": "931b4e9d193b75b4a6727e9b9084b2fbc8dd9bce46636e75d653c45e7ce7d154"
+    },
+    {
+      "path": "journal/packs/_template/puzzles/puzzles.json",
+      "byteLength": 983,
+      "sha256": "d17b0498304693dcf90723988247cb6751351d5b94c9108ee18d56170a28c9c9"
+    },
+    {
+      "path": "journal/packs/_template/region/holidays.json",
+      "byteLength": 94,
+      "sha256": "c9902786d9c0887869c09b15f7b886c7712a07424afe85954046a9b5c4133b67"
+    },
+    {
+      "path": "journal/packs/_template/region/pack.json",
+      "byteLength": 638,
+      "sha256": "6b3f94acbc9ba0453bd560f9daf957a74b9f3ad7db6b9b6f2f84cc28b25ae384"
+    },
+    {
+      "path": "journal/packs/_template/region/support.json",
+      "byteLength": 558,
+      "sha256": "ea6295a926ead1dc476104859196742c00bd538ca4818c9c9a7a2a2a35011fbf"
+    },
+    {
+      "path": "journal/packs/_template/seasons-history/pack.json",
+      "byteLength": 492,
+      "sha256": "a8f56ccaf7db598e1df6047e32170c000766c3313b6f7d01e84c9c21775fd749"
+    },
+    {
+      "path": "journal/packs/_template/seasons-history/seasons.json",
+      "byteLength": 3542,
+      "sha256": "0fbaf71dd1249bc2d602ed6fc86921d17ce26ff633d81480ee6273e16b3b8903"
+    },
+    {
+      "path": "journal/packs/_template/support/pack.json",
+      "byteLength": 475,
+      "sha256": "ec22e7766d056eac0d6130ae4f883a578fd3fd7827655ccf95041f0ee0110a69"
+    },
+    {
+      "path": "journal/packs/_template/support/support.json",
+      "byteLength": 558,
+      "sha256": "ea6295a926ead1dc476104859196742c00bd538ca4818c9c9a7a2a2a35011fbf"
+    },
+    {
+      "path": "journal/packs/_template/trans-support/pack.json",
+      "byteLength": 488,
+      "sha256": "f940551590b1b148292c21b0f31623fd779290492adfa2f6516d0020af4f7f2f"
+    },
+    {
+      "path": "journal/packs/_template/trans-support/trans.json",
+      "byteLength": 551,
+      "sha256": "a32a35569367fae159e42b7c966cf43b15589ccc8993615d53127c42fd0dd3a8"
+    },
+    {
+      "path": "journal/packs/_template/transit/gtfs/README.md",
+      "byteLength": 141,
+      "sha256": "41eed925eb3dc94fe3104d89b0e74c088afdf4cabbde17bae70ef8c0cc466ecd"
+    },
+    {
+      "path": "journal/packs/_template/transit/gtfs/network.json",
+      "byteLength": 135,
+      "sha256": "90d052454e4b8f3730b2c5e01a86098c78572b43346a8c37dd8355d0ad139f7a"
+    },
+    {
+      "path": "journal/packs/_template/transit/pack.json",
+      "byteLength": 591,
+      "sha256": "f07180e4dfe9f5c6cdb2c43d42108c5130de4a2e244b3ff3643d06650758f952"
+    },
+    {
+      "path": "journal/packs/generic/pack.json",
+      "byteLength": 520,
+      "sha256": "43b2d8ec4c9e5e62ebcaa93227ab28c69a15a782d88b62a11466e7561dc939c0"
+    },
+    {
+      "path": "journal/packs/generic/support.json",
+      "byteLength": 1105,
+      "sha256": "f49d88223fc2104a6c2c6d08625d914143df923c7dc0644ac96b7340a17ca9d8"
+    },
+    {
+      "path": "journal/packs/kinds.mjs",
+      "byteLength": 20568,
+      "sha256": "869a40ea4674d2888675fea2fe03f6db24084f3a14939b0fd62a8fc7836989ae"
+    },
+    {
+      "path": "journal/packs/pack.mjs",
+      "byteLength": 18823,
+      "sha256": "4276a16e66c3e2c38deac5af57e459c8576be3533bd98ab617c5e84595a2f9ea"
+    },
+    {
+      "path": "journal/packs/puzzles-sample/pack.json",
+      "byteLength": 533,
+      "sha256": "c16a79a3462d484f79ac2762c5975d5c995750fcbdafe032d69adb83e2f14959"
+    },
+    {
+      "path": "journal/packs/puzzles-sample/puzzles.json",
+      "byteLength": 3748,
+      "sha256": "9e421831f28021f12a669c284d0510b5df225bc1471895875269cbaf7f5bc141"
+    },
+    {
+      "path": "journal/pageoverflow.mjs",
+      "byteLength": 2942,
+      "sha256": "3c0c992cef256e08d297b67016cc77a54a04b87f436b5a61bc33c121340c7118"
+    },
+    {
+      "path": "journal/pages.mjs",
+      "byteLength": 62994,
+      "sha256": "c72befde2cee5cc12c1332d60c7b92227fe5196555f36c60765fac751e8d112b"
+    },
+    {
+      "path": "journal/payperiods.mjs",
+      "byteLength": 1245,
+      "sha256": "089074b2b0841263636280afc5c84b8af42d9168ae08ebecaa0a4e5f24ff332c"
+    },
+    {
+      "path": "journal/photo.mjs",
+      "byteLength": 10868,
+      "sha256": "2b014cf38f2365d5872088ff04291d505668644a5abfaf540e9db650c1f0ac4e"
+    },
+    {
+      "path": "journal/pioneers.mjs",
+      "byteLength": 4503,
+      "sha256": "1abbccd446fde668d1f3e0716b6dff9dfb5956b294c88937c5ca9aca3e8050b4"
+    },
+    {
+      "path": "journal/plan.mjs",
+      "byteLength": 14309,
+      "sha256": "a886b7bfdbe6ffa43e56839813146f13dd376fbd2734077eead752a1506494e8"
+    },
+    {
+      "path": "journal/planview.mjs",
+      "byteLength": 2539,
+      "sha256": "f6d13a925f7f3477da90162f88077bc92e03654d97e76c9e2208cbf286184ccd"
+    },
+    {
+      "path": "journal/private/README.md",
+      "byteLength": 1547,
+      "sha256": "2dfa09b19b750072a76dd84dd9273dc9abe93524c7d035e9a3ea6bdfc1a4c262"
+    },
+    {
+      "path": "journal/profile.mjs",
+      "byteLength": 15107,
+      "sha256": "f3141a7a288a7babec068434b0b1c8c6e862aad7b6e92363ab6dd9c5b43d2d49"
+    },
+    {
+      "path": "journal/proof-test.mjs",
+      "byteLength": 12256,
+      "sha256": "a1b96725cdb39fd88ccd650bd13ae3b29721c03b34e00f76bdfd13b9b6fd6b2f"
+    },
+    {
+      "path": "journal/puzzles/cipher.mjs",
+      "byteLength": 3536,
+      "sha256": "920aeaa063a2b9601d1d7b1b6f0ae3b126526c16edf3e36fd2f4cf05538f954d"
+    },
+    {
+      "path": "journal/puzzles/crossword.mjs",
+      "byteLength": 9495,
+      "sha256": "7612c47f7e204c3d1826123709d73533e46faaf7362f134df4e202621d9cc4b5"
+    },
+    {
+      "path": "journal/puzzles/dots.mjs",
+      "byteLength": 6110,
+      "sha256": "e13c4cce23bbed02fdf6df84e532b163eb8b0c2363f9ac6ff6a17197cfb43f51"
+    },
+    {
+      "path": "journal/puzzles/kakuro.mjs",
+      "byteLength": 9183,
+      "sha256": "bf3186b9dfc1964151104b703b571546dd3c71affb0d13a643c3fd5c99831f63"
+    },
+    {
+      "path": "journal/puzzles/ladder.mjs",
+      "byteLength": 4424,
+      "sha256": "d674dfda94eccd72d1d074395bc7e1f759dc236de6dd69203deff56db190f018"
+    },
+    {
+      "path": "journal/puzzles/maze.mjs",
+      "byteLength": 4422,
+      "sha256": "03c3bcde6fd68f697c1c2b35cf4c8260121274cebb08bab4d6471c43dd973313"
+    },
+    {
+      "path": "journal/puzzles/nonogram.mjs",
+      "byteLength": 6607,
+      "sha256": "b1892adf8b889b145d8b3546911e80e220f24e313d989faf903e997f6149a71b"
+    },
+    {
+      "path": "journal/puzzles/render.mjs",
+      "byteLength": 8923,
+      "sha256": "64076a0b96a9751fdca7348bdc9401b28c933274462bcddbd98471fd3b0aea10"
+    },
+    {
+      "path": "journal/puzzles/render2.mjs",
+      "byteLength": 23454,
+      "sha256": "a6e9353a8a2a077665dd2f7fef9ce6eda98868e91d6d64710b5fbf23fa9cd8e5"
+    },
+    {
+      "path": "journal/puzzles/rng.mjs",
+      "byteLength": 1364,
+      "sha256": "c77ff87f45f183205ec32540c234813d0fc7f5889f98789d997b5b28647a95b9"
+    },
+    {
+      "path": "journal/puzzles/samples.mjs",
+      "byteLength": 3833,
+      "sha256": "3ce1e5fc97ef134e3bacaa90e06883f096f8ed96962bdf96dedf7cf28824dcf5"
+    },
+    {
+      "path": "journal/puzzles/samples2.mjs",
+      "byteLength": 12347,
+      "sha256": "42db27c06fbfd6a36d1c45921cb4933b9ce62ab54b495dcfe75d304cbf0a66f2"
+    },
+    {
+      "path": "journal/puzzles/sudoku.mjs",
+      "byteLength": 6319,
+      "sha256": "ed8c993c39c0645bc390b4e97764547726916cbdd09d90945c1ba0af311fba19"
+    },
+    {
+      "path": "journal/puzzles/wordsearch.mjs",
+      "byteLength": 4650,
+      "sha256": "046473bd6748fda6ba82912a7eed27f00b63e94a97d22f00a335046ddffd6708"
+    },
+    {
+      "path": "journal/render-jot.mjs",
+      "byteLength": 2935,
+      "sha256": "5daf78880e71a2a9467c10c0d576b644334a84668861a3aa0001fc820f03e9b3"
+    },
+    {
+      "path": "journal/render.mjs",
+      "byteLength": 46965,
+      "sha256": "0078e6d75f97250278619e333f321d6b4c3de814987d77bace16009485ffc1b1"
+    },
+    {
+      "path": "journal/research/2027-content.json",
+      "byteLength": 134695,
+      "sha256": "f2d1281885f1e8b57c99929c33b6b1b939cf5abddf1aa0d30a5ae2e540ef08f9"
+    },
+    {
+      "path": "journal/research/ko-args.json",
+      "byteLength": 7534,
+      "sha256": "a636122ff09141e5eb801a6aec6c7ed231a31d9284641c445380f9da973fcdf2"
+    },
+    {
+      "path": "journal/research/ko-windows.json",
+      "byteLength": 6901,
+      "sha256": "43db8253fbc19b1d263402b4076e04b406300a5d04c926d1a2ba025ceefea50e"
+    },
+    {
+      "path": "journal/rulings.mjs",
+      "byteLength": 7499,
+      "sha256": "f15206da0575bfef28d5b2f3c967e41e1d9f5a66cc3ae511f446dfa0eb15d21e"
+    },
+    {
+      "path": "journal/samples.mjs",
+      "byteLength": 5735,
+      "sha256": "8517bf8277eeb91a38ff8fd3e0724881242b332aeb896c4855304a9895ba25b3"
+    },
+    {
+      "path": "journal/scan.mjs",
+      "byteLength": 14474,
+      "sha256": "00ba362d9f21c91d21af01387119285c7305c29489c339b75f440553327c66d3"
+    },
+    {
+      "path": "journal/span.mjs",
+      "byteLength": 8891,
+      "sha256": "dfdfa949411eb7195311461c39ed748955c258f8c4ec0f5a1fad24ec20544ccb"
+    },
+    {
+      "path": "journal/test-a11y-print.mjs",
+      "byteLength": 16748,
+      "sha256": "f68f9d0aa84b00a23ce54a30a40a1f12497713a1b12a9aa165ca5cb2d05b2c3d"
+    },
+    {
+      "path": "journal/test-blockpages.mjs",
+      "byteLength": 11494,
+      "sha256": "376d443b7ba678b2aef1fda4440c685587ae361c45a8437c3a48795032122342"
+    },
+    {
+      "path": "journal/test-book.mjs",
+      "byteLength": 7708,
+      "sha256": "1ccd274699097e6e6d5881ad1a89b9974fe9e918ce051d9027b40284ffed3897"
+    },
+    {
+      "path": "journal/test-busy.mjs",
+      "byteLength": 2623,
+      "sha256": "374c148ffcb582a85a7fce29f141fef145750af91870f4d8f6a3406311303e4c"
+    },
+    {
+      "path": "journal/test-chores.mjs",
+      "byteLength": 43915,
+      "sha256": "a8636d82f2d9d71cb91e287e3b3077f8afb0da2bc29a7596b427d587abf99628"
+    },
+    {
+      "path": "journal/test-data.mjs",
+      "byteLength": 5915,
+      "sha256": "979cd62ca15991e75ff6be70ae789ad66f4e901ddb51e3f5e235a47f041640c0"
+    },
+    {
+      "path": "journal/test-init.mjs",
+      "byteLength": 5857,
+      "sha256": "828afafc624629db4eb58e01184ef5fbcc8173b1c75a7b4cfe8d52bbc5426fc7"
+    },
+    {
+      "path": "journal/test-jotfile.mjs",
+      "byteLength": 11717,
+      "sha256": "f90ff9bf460a26f2c750ab46e2f324e7f4fd0ac1b8a3e7fc09d7978fd3b054d0"
+    },
+    {
+      "path": "journal/test-jots.mjs",
+      "byteLength": 8128,
+      "sha256": "73dcd6425bfd8510bbc979388959677ad0a2c5b84a65d23fc0d3e0238ee7d248"
+    },
+    {
+      "path": "journal/test-library.mjs",
+      "byteLength": 20271,
+      "sha256": "2e175bf6119fe56ec62a38943259ee12c2ffc8aaae5003f0306c62a497a0a17f"
+    },
+    {
+      "path": "journal/test-noteblocks.mjs",
+      "byteLength": 57225,
+      "sha256": "2cd75259bec11318b06d7ae10e33987ea1d6fc72c876011de56844b9849afb43"
+    },
+    {
+      "path": "journal/test-organiser.mjs",
+      "byteLength": 12930,
+      "sha256": "8307f3f30329e4c6a7cbb12acfd0a0b4a51b26dfdf4086d3a779925ff6b32a65"
+    },
+    {
+      "path": "journal/test-packs.mjs",
+      "byteLength": 14542,
+      "sha256": "99aadad1c6dff81c5b5d06b7b750487a25ed76b9170404efeff5faba875c9f36"
+    },
+    {
+      "path": "journal/test-photoblocks.mjs",
+      "byteLength": 49120,
+      "sha256": "f7e2400919d22145dc26fe518bbf66598f65d2c5640e8c3d15e4c70141cc585c"
+    },
+    {
+      "path": "journal/test-print-strings.mjs",
+      "byteLength": 610,
+      "sha256": "131a9f9290e90f4fda18236b81ae06658df3f0f80af6132b2834ee211df9641c"
+    },
+    {
+      "path": "journal/test-profile.mjs",
+      "byteLength": 10502,
+      "sha256": "c2f337ce20c620f77c99e7b2a2755ee824401147c978d2b4e7bd61de4fe6bf94"
+    },
+    {
+      "path": "journal/test-puzzles.mjs",
+      "byteLength": 19819,
+      "sha256": "764807c7f8a4ce8d8d86d9d268a2ff8c784c854535535a7c857efe3c9e1cc767"
+    },
+    {
+      "path": "journal/test-puzzles2.mjs",
+      "byteLength": 45635,
+      "sha256": "d55211ae1304769ced9a552511e15dbc34e270d5a85e6661cb49a3f540df45ec"
+    },
+    {
+      "path": "journal/test-scan.mjs",
+      "byteLength": 8397,
+      "sha256": "46aaeaadc96261f9831f461d811af6df82ff95788c088ce96ab71ca34ba9abe2"
+    },
+    {
+      "path": "journal/test-scopes.mjs",
+      "byteLength": 9859,
+      "sha256": "6613f0c1c971845384408e7085ee0e49a7caeee890a38a2741062613a7a94878"
+    },
+    {
+      "path": "journal/test-spreaddays.mjs",
+      "byteLength": 23028,
+      "sha256": "8ceef8c89c7684a515f7412b7c25ddd56b40a9f9754429f7948c121292b08a7d"
+    },
+    {
+      "path": "journal/test.ics",
+      "byteLength": 424,
+      "sha256": "3b1ae9911e44e2bb9bb7f61aba08570d61984ca6e1ce16d7774d73376094b1df"
     },
     {
       "path": "parser/CONTAINER.md",
@@ -113,14 +1058,14 @@
       "sha256": "9a6f8166671a3f913788bf53574ce9bbc35dd9ce017e361e0b924c3c487ea980"
     },
     {
-      "path": "references/Rocketbook-Letter-DotGrid.pdf",
-      "byteLength": 59671,
-      "sha256": "c91407fbeb74756794144fbdb7e8bed76dba6931704b85bc2298ea15a1551bab"
+      "path": "site/README.md",
+      "byteLength": 5712,
+      "sha256": "b9836cb6a46e159e5c34979a187fa794c06737af3e3496bbca5ca96cb4d8ce03"
     },
     {
-      "path": "site/README.md",
-      "byteLength": 2339,
-      "sha256": "bf3af22f6f6d35907acfe72fdc461b0fab2e796d5e30cf6f9fcd88998a978a20"
+      "path": "site/build-guides.mjs",
+      "byteLength": 4462,
+      "sha256": "ac79ee80145de35e01ce6cdf5ab41680c3097bce8cd7bda9301518c4a398e8ad"
     },
     {
       "path": "site/dist/ROADMAP.md",
@@ -129,8 +1074,8 @@
     },
     {
       "path": "site/dist/docs/Jot-Complete-Specification.pdf",
-      "byteLength": 198826,
-      "sha256": "d4e7e381ae00017cd37102c75a7bfaa7f8afe3501e692e464c0e71efe45b4b17"
+      "byteLength": 244363,
+      "sha256": "dba85bd0b4d8ab3d14f4a853f41c9b26187f40bd52b9c16116e05b5bde7c0e67"
     },
     {
       "path": "site/dist/docs/Jot-Container-v1.md",
@@ -148,9 +1093,54 @@
       "sha256": "cf3654172de894e3d11e64dc46cfe79642cdf8784c618d6b9892ed7ad7d98d4d"
     },
     {
+      "path": "site/dist/editor/app.mjs",
+      "byteLength": 21568,
+      "sha256": "bc584dc8b7d1e932ee98161387f9b2d875fa09e56387f327f569f478720d95be"
+    },
+    {
+      "path": "site/dist/editor/editor.css",
+      "byteLength": 10516,
+      "sha256": "a681207d8f9c209814fc2351610874a912e58ca26be8df7c640c8e2d493c995f"
+    },
+    {
+      "path": "site/dist/editor/import.mjs",
+      "byteLength": 13167,
+      "sha256": "e013bb65b27ae6bd5d1aa37ed4f7961ccaa1288ac004229a744641f936130c5d"
+    },
+    {
+      "path": "site/dist/editor/index.html",
+      "byteLength": 4797,
+      "sha256": "317a72a2863482c6e052978ffa2a4629e8efb1ad309eb75970e9175a6e8f5b98"
+    },
+    {
+      "path": "site/dist/editor/template.mjs",
+      "byteLength": 20081,
+      "sha256": "8888efc16547f9c49cfb119029051623c09433bd78e6aa5723461cc8981296fe"
+    },
+    {
+      "path": "site/dist/guide/guide.css",
+      "byteLength": 1957,
+      "sha256": "9f6c6fb3d60e6086c24dbd6c4de24c2e46a57a6ca259a094e427663f6028bbf9"
+    },
+    {
+      "path": "site/dist/guide/index.html",
+      "byteLength": 1434,
+      "sha256": "9e52dbd5c5aa54b1894f9c3d83462607377a74c23a50fa0002f5ba206b160b08"
+    },
+    {
+      "path": "site/dist/guide/template-editor.html",
+      "byteLength": 13002,
+      "sha256": "09e4c2667c1768ceb5e170b4e32834650cbb7a99b182c1fd7d9fddee1d423915"
+    },
+    {
+      "path": "site/dist/guide/writing-jot.html",
+      "byteLength": 10531,
+      "sha256": "557611fbf35d5d33bebcac4e0b7b34bb51bc8ed19b76a39ccd4d9a5bc1e7ecf1"
+    },
+    {
       "path": "site/dist/index.html",
-      "byteLength": 7362,
-      "sha256": "bec67c0479253996c12e9c91037ed4401ae09323ac839d07f8af721bc478d442"
+      "byteLength": 7426,
+      "sha256": "c8c8138eac156a16b9d98154904e78697a7d04ea67d81ba0f44e114e97489d04"
     },
     {
       "path": "site/dist/jot/container.mjs",
@@ -253,14 +1243,29 @@
       "sha256": "6c55acb3d0383f53bc669976f6d9161bddd6e747d0544603c4cb5f756121b792"
     },
     {
+      "path": "site/test-editor-ui.cjs",
+      "byteLength": 17525,
+      "sha256": "1e47aa3fc2fafccdfcdd16c530a99183c6ecb9800bb99929b348968be3a88a36"
+    },
+    {
+      "path": "site/test-editor.mjs",
+      "byteLength": 11745,
+      "sha256": "4be8693cc109e17b9281c1c770d34fd6d91bbe52f2633dd7bc49a61a6db4b66b"
+    },
+    {
+      "path": "site/test-guides.mjs",
+      "byteLength": 3379,
+      "sha256": "3cdb6f463b640b91da4a973f2dfbfd1c622250b8173a2ca6b64bc6de8d491b47"
+    },
+    {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 118882,
-      "sha256": "7907e98dbbb188f3ffc6e68783539c904b0b1a909ea4e279926f102ac695cd7c"
+      "byteLength": 114581,
+      "sha256": "ce82f3de7fd6e11c579479310f3dbed927dde36c63895200f52b4fc3c49bfc4e"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
-      "byteLength": 198826,
-      "sha256": "d4e7e381ae00017cd37102c75a7bfaa7f8afe3501e692e464c0e71efe45b4b17"
+      "byteLength": 244363,
+      "sha256": "dba85bd0b4d8ab3d14f4a853f41c9b26187f40bd52b9c16116e05b5bde7c0e67"
     },
     {
       "path": "specification/Jot-Container-v1.md",
@@ -324,8 +1329,43 @@
     },
     {
       "path": "specification/source-register.md",
-      "byteLength": 8868,
-      "sha256": "16b4b2d66a7250b159e4293a8dcd704c55c2ac1c897039cb36d2f524e24e6bac"
+      "byteLength": 4522,
+      "sha256": "a2e011fd0790aa13dfa20d564326761ef4f761e298e23bd6694ac8965ce61152"
+    },
+    {
+      "path": "studio/src/canon.mjs",
+      "byteLength": 588,
+      "sha256": "07cbb06f5e43287b6a26c91acd66d8fae402e8ed4b7c2674bb1177708832fb35"
+    },
+    {
+      "path": "studio/src/canonical.mjs",
+      "byteLength": 613,
+      "sha256": "19c0114dd71460e42c1d58efbc902373f60bfb5c7cc00f8bd26bbd3763389267"
+    },
+    {
+      "path": "studio/src/db.mjs",
+      "byteLength": 2098,
+      "sha256": "042f2ff1348caa32542c0759cad23386b3b0e502bda644faabdb7b8633a7d028"
+    },
+    {
+      "path": "studio/src/diff.mjs",
+      "byteLength": 8695,
+      "sha256": "a0e2ee7b5711ca9f517faf645e86cb233c9299b851859ed6c4c7fa8f65ccdcdf"
+    },
+    {
+      "path": "studio/src/snapshot.mjs",
+      "byteLength": 23017,
+      "sha256": "bec7eb8fb1dd04f009e170ac0e5e549f305040cc47efb9b1d4bdb990585cfbd0"
+    },
+    {
+      "path": "tools/build-spec-pdf.cjs",
+      "byteLength": 2898,
+      "sha256": "6c85011ec23c4ac32f9e90e24b3e111219097e8888ad950c28389896e45dc01d"
+    },
+    {
+      "path": "tools/manifest.cjs",
+      "byteLength": 1817,
+      "sha256": "59dd3be5b3ff2b6ca13f146289b52bba7c7c5ecd06fc40f687ccb69930d7f5dc"
     }
   ]
 }

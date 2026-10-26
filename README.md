@@ -13,17 +13,23 @@ handwriting with the writing. This repository holds the format, its parser and w
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
 | [`parser/`](parser/) | JavaScript parser (`jot.mjs`), container (`container.mjs`: packaged .jot), proofreading hints, tests |
 | [`site/`](site/) | The browser workspace (`site/dist/`, static), the template editor (`/editor/`) and the scanner/handwriting tool (`/scan/`) |
+| [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md) and [Using the template editor](docs/guide/template-editor.md) (also pages on the site, `/guide/`) |
+| [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (46 guides, CC0) |
 | [`examples/`](examples/) | A plain-text and a packaged `.jot` |
-| [`references/`](references/) | Supplied reference PDFs (background only) |
-| [`journal/`](journal/) | The print engine: monthly books for Amazon KDP, with `.jot` writing printed in after its week, and `render-jot.mjs`. From Journalwright Studio (`shelbeeely/Journaling`), generic profile and packs only; its print editor is retired |
+| [`references/`](references/) | The historical DotJot document (background only) |
+| [`journal/`](journal/) | The print engine: monthly books for Amazon KDP, with `.jot` writing printed in after its week, and `render-jot.mjs`. From Journalwright Studio (the Journaling repository), generic profile and packs only; its print editor is retired |
 | `studio/src/` | Five Studio modules the engine's tests use (diff, canonical JSON, snapshots). Not the Studio server |
-| [`BUNDLE-README.md`](BUNDLE-README.md), [`MANIFEST.json`](MANIFEST.json) | The Jot-Complete-v1 bundle's own readme and file hashes (`MANIFEST.json`'s `README.md` entry is that readme, now `BUNDLE-README.md`; it describes the bundle as received: `site/dist/index.html` has since gained the editor link) |
+| `tools/` | `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file) and `build-spec-pdf.cjs` (the spec PDF from its Markdown) |
+
+## Start here
+
+New to Jot? Read [Writing in Jot](docs/guide/writing-jot.md) (ten minutes), then [Using the template editor](docs/guide/template-editor.md).
 
 ## Jot: parser and workspace
 
     node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs
     node site/test-core.cjs
-    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/  and  /scan/
+    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/, /editor/, /guide/ and /scan/
 
 ## Template editor: a journal's shape as a .jot
 
