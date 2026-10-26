@@ -24,3 +24,27 @@ The root is the Jot writing workspace; `/scan/` is a distinct scanner/handwritin
 Jot's text parser is a separate deliverable; this scanner does not treat a photograph as parsed journal text.
 
 The writing workspace uses the separate Jot parser with Marked for Markdown, safe DOM-only previews, browser spellcheck, optional pattern hints, a 55-method catalogue, local text autosave and a visible roadmap. Diagram engine rendering and handwriting OCR are not yet implemented.
+
+
+## Template editor (`dist/editor/`)
+
+A separate editor just for Jot: build the structure of a journal and download it as a plain-text `.jot` to fill in by hand (a keyboard,
+a phone or InkDeck). It has nothing from print: no page layout, paper sizes, scan codes or drawing blocks.
+
+- **Five zones:** before the days, each week begins, each day, each week ends, after the days.
+- **Blocks:** writing space, prompt (several questions take turns, one a day), checkboxes, task lines, scale, ratings, fill-in blanks,
+  choose words, list, time blocks, table, words to keep, record, page title. Six starters (daily check-in, rapid log, morning pages,
+  gratitude, day planner, empty).
+- **Files:** one for the month, or a file a week or a day (InkDeck opens 16 KB a file). The page checks its own output with the Jot
+  parser and says when a file is over that size.
+- **The file:** `### YYYY-MM-DD | Weekday` entries, `#### ` headings to write under, `[ ] ` boxes, `[[a · b]]` choices, and ratings as
+  `measurement` / `observation` records with empty values, their scales declared once at the top. Typed text never changes the
+  structure: line markers are escaped, record field names that collide with reserved Jot fields get `x-`.
+- The template stays in this browser (localStorage). **More → Save template** downloads it as JSON; **Open a template** reads one back
+  (checked field by field, never trusted). Nothing is sent anywhere.
+
+`template.mjs` is the model and generator (pure, no DOM); `app.mjs` the page; `editor.css` light and dark, 44 px targets, one column on
+phones. Tests:
+
+    node --test test-editor.mjs      # the generator: every block, starters, splits, escaping, reading a template back
+    node test-editor-ui.cjs          # the page in Chromium: editing, focus, downloads, persistence, 390 px, axe (light and dark)

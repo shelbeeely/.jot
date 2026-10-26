@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Jot template editor</title>
+<meta name="description" content="Build the structure of a journal and download it as a plain-text .jot file to fill in by hand.">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+<a class="skip" href="#zones">Skip to the template</a>
+<header class="top">
+  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="./" aria-current="page">Template editor</a><a href="../scan/">Scanner</a></nav>
+</header>
+<main>
+  <section class="intro">
+    <p class="eyebrow">TEMPLATE EDITOR</p>
+    <h1>Build the shape. <em>Fill it in by hand.</em></h1>
+    <p class="lead">Put together what each day, week and month asks of you. Download it as a plain-text <code>.jot</code> file and fill it in on any keyboard, a phone or InkDeck. Your template stays in this browser.</p>
+  </section>
+
+  <section class="settings" aria-labelledby="settings-h">
+    <h2 id="settings-h" class="sr-only">Journal settings</h2>
+    <div class="field"><label for="t-title">Journal name</label><input id="t-title" maxlength="80" autocomplete="off"></div>
+    <div class="field"><label for="t-month">Month</label><input id="t-month" type="month" required></div>
+    <div class="field"><label for="t-per">Files</label>
+      <select id="t-per"><option value="month">One file for the month</option><option value="week">A file a week (fits InkDeck)</option><option value="day">A file a day</option></select></div>
+    <div class="actions">
+      <button class="btn primary" id="download" type="button"><span aria-hidden="true">↓</span> Download .jot</button>
+      <button class="btn" id="starter" type="button">Start from…</button>
+      <div class="more">
+        <button class="btn" id="more" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="more-menu">More</button>
+        <div class="menu" id="more-menu" role="menu" hidden>
+          <button role="menuitem" type="button" id="save-tpl">Save template (.json)</button>
+          <button role="menuitem" type="button" id="open-tpl">Open a template…</button>
+          <button role="menuitem" type="button" id="copy-jot">Copy the .jot text</button>
+        </div>
+      </div>
+      <input type="file" id="open-file" accept=".json,application/json" hidden>
+    </div>
+  </section>
+
+  <div class="work">
+    <section class="zones" id="zones" aria-label="Template"></section>
+    <section class="preview" aria-labelledby="preview-h">
+      <div class="preview-head">
+        <h2 id="preview-h">The .jot file</h2>
+        <label class="file-pick" id="file-pick" hidden><span class="sr-only">Show file</span><select id="file-sel"></select></label>
+      </div>
+      <p class="check" id="check" role="status" aria-live="polite"></p>
+      <ul class="problems" id="problems" hidden></ul>
+      <pre class="jot" id="jot" tabindex="0" aria-label="The .jot text"></pre>
+    </section>
+  </div>
+  <p class="foot">Plain Jot v1: dated entries, <code>[ ]</code> boxes, <code>value:</code> blanks and headings to write under. No page layout, codes or scanning marks. <a href="../docs/Jot-Complete-Specification.pdf">The Jot specification</a></p>
+</main>
+
+<dialog id="palette" aria-labelledby="palette-h">
+  <form method="dialog" class="dlg">
+    <div class="dlg-head"><h2 id="palette-h">Add a block</h2><button class="icon-btn" value="cancel" aria-label="Close">✕</button></div>
+    <p class="dlg-sub" id="palette-zone"></p>
+    <div class="palette" id="palette-list"></div>
+  </form>
+</dialog>
+<dialog id="starters" aria-labelledby="starters-h">
+  <form method="dialog" class="dlg">
+    <div class="dlg-head"><h2 id="starters-h">Start from…</h2><button class="icon-btn" value="cancel" aria-label="Close">✕</button></div>
+    <p class="dlg-sub">This replaces the blocks in your template. The name and month stay.</p>
+    <div class="palette" id="starter-list"></div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>
