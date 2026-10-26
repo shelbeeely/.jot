@@ -45,7 +45,7 @@ export function buildPage(file, md) {
 <a class="skip" href="#guide">Skip to the guide</a>
 <header class="top">
   <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
-  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./"${file === 'README.md' ? ' aria-current="page"' : ''}>Guides</a><a href="../scan/">Scanner</a></nav>
+  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./"${file === 'README.md' ? ' aria-current="page"' : ''}>Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
 </header>
 <main>
 <div class="guide-wrap" id="guide">${h1}${nav}<article class="guide">

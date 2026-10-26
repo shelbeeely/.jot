@@ -79,3 +79,12 @@ with the Jot parser. Nothing is uploaded or stored.
 
     node test-convert-ui.cjs         # the page in Chromium: the same files as the command line for every option, the zip, refusals,
                                      # fetch (allowed and not), 390 px, 44 px targets, axe (light and dark)
+
+## Examples (`dist/examples/`)
+
+Whole public-domain diaries as Jot (Pepys, *The Diary of a Nobody*, Blunt's *My Diaries*: 5,347 entries in 51 files, each under the
+1 MiB the Jot tools open), plus the two small files from `examples/`. Built by `tools/build-examples.mjs` (`index.json`,
+`index.html` and `diaries/`); don't edit them by hand. **Read** opens a file in the workspace through `../?open=examples/…`: the
+workspace takes only `.jot`/`.jotz` paths under `examples/` on this site, and asks before it replaces writing of your own.
+
+    node test-examples-ui.cjs        # every link answers, Read opens the diary, asks before replacing, refuses other paths, 390 px, axe

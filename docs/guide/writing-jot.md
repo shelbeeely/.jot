@@ -213,6 +213,11 @@ editors is planned.)
 
 On a phone, any app that edits plain text files works; colour is a bonus, not a need.
 
+## Real diaries to look at
+
+The [Examples](../../site/dist/examples/) page has whole diaries as Jot: Samuel Pepys's ten years, *The Diary of a Nobody* and Wilfrid
+Scawen Blunt's diaries, a dated entry for each day. Open one in the workspace to see how a long journal reads, or download it.
+
 ## Small habits that help
 
 - One file a month is easy to find and small enough to type into anywhere. Name it by the month: `2026-10.jot`.

@@ -134,6 +134,9 @@ curl -sL https://www.gutenberg.org/cache/epub/1026/pg1026.txt | node converter/j
 
 ## Diaries to try
 
+The three below are already converted on the [Examples](../../site/dist/examples/) page: read them in the workspace or download the
+files, and compare them with your own conversion.
+
 Project Gutenberg has hundreds of public-domain diaries and logbooks; search for "diary", "journal" or "logbook" and pick **Plain
 Text UTF-8**. Three that convert well:
 

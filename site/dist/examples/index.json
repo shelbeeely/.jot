@@ -1,0 +1,478 @@
+{
+  "note": "Built by tools/build-examples.mjs. Public-domain texts from Project Gutenberg, converted with converter/convert.mjs.",
+  "diaries": [
+    {
+      "id": "pepys",
+      "title": "The Diary of Samuel Pepys",
+      "author": "Samuel Pepys",
+      "about": "Ten years of a London civil servant’s days, 1660–1669: the Plague, the Great Fire, the navy, music and gossip. Old Style dates, converted to modern ones.",
+      "options": {
+        "calendar": "julian",
+        "per": "auto"
+      },
+      "sources": [
+        {
+          "ebook": 4200,
+          "url": "https://www.gutenberg.org/ebooks/4200",
+          "title": "The Diary of Samuel Pepys — Complete",
+          "entries": 3401
+        }
+      ],
+      "files": [
+        {
+          "name": "pepys-1660.jot",
+          "entries": 353,
+          "from": "1660-01-11",
+          "to": "1660-12-31",
+          "bytes": 688716,
+          "sha256": "1db51b28cc5fc527692318cb6cbe3853479a2024b48474ad7079ae24c6e5014a"
+        },
+        {
+          "name": "pepys-1661.jot",
+          "entries": 353,
+          "from": "1661-01-01",
+          "to": "1661-12-31",
+          "bytes": 427485,
+          "sha256": "3f64541bcc7341ddf3b08ad5542748012c3884fed037b71ff9c3fb95dfa56e80"
+        },
+        {
+          "name": "pepys-1662.jot",
+          "entries": 359,
+          "from": "1662-01-01",
+          "to": "1662-12-31",
+          "bytes": 534338,
+          "sha256": "770232813cebad6910fae640e4b9d3c0220e629f11bd1b725320d54c572601ea"
+        },
+        {
+          "name": "pepys-1663.jot",
+          "entries": 363,
+          "from": "1663-01-01",
+          "to": "1663-12-31",
+          "bytes": 829224,
+          "sha256": "24b89b55b2aa73a2cebdbff8a14c1ccf0989cedb72756126d5805aa882d6aac0"
+        },
+        {
+          "name": "pepys-1664.jot",
+          "entries": 363,
+          "from": "1664-01-01",
+          "to": "1664-12-31",
+          "bytes": 654383,
+          "sha256": "1b9a3a2472598603bd627f49a8f4f1ac1f8f1abcc70834644bc168021dd31887"
+        },
+        {
+          "name": "pepys-1665.jot",
+          "entries": 364,
+          "from": "1665-01-01",
+          "to": "1665-12-31",
+          "bytes": 658748,
+          "sha256": "55a1cc22b9e616d16489c6e4319fdbe8f2360061cfdda6df0de07935a59cbafa"
+        },
+        {
+          "name": "pepys-1666.jot",
+          "entries": 365,
+          "from": "1666-01-01",
+          "to": "1666-12-31",
+          "bytes": 792608,
+          "sha256": "b1bff5264e7da446fe6e2b41797977154230f1bc05059aea51c883bd9ea92d7c"
+        },
+        {
+          "name": "pepys-1667-01.jot",
+          "entries": 31,
+          "from": "1667-01-01",
+          "to": "1667-01-31",
+          "bytes": 64785,
+          "sha256": "12f049bb495c08cf8851d13b8857e5fb2ef33391aafdc128513591d4461cf9fc"
+        },
+        {
+          "name": "pepys-1667-02.jot",
+          "entries": 28,
+          "from": "1667-02-01",
+          "to": "1667-02-28",
+          "bytes": 91711,
+          "sha256": "af7032363183b2e62692f281574b3fec751f0025c6d9dab45f220fd1188906b1"
+        },
+        {
+          "name": "pepys-1667-03.jot",
+          "entries": 31,
+          "from": "1667-03-01",
+          "to": "1667-03-31",
+          "bytes": 96068,
+          "sha256": "300cf834fc2ade4d5d529146642648a7c30b1a4636eb04e3ecc01e408c1fccb9"
+        },
+        {
+          "name": "pepys-1667-04.jot",
+          "entries": 30,
+          "from": "1667-04-01",
+          "to": "1667-04-30",
+          "bytes": 91630,
+          "sha256": "0bfa32398b607fbaa5ab5a8e8cab14fba2dd05bd3cbdafdc8b5ad6c858916735"
+        },
+        {
+          "name": "pepys-1667-05.jot",
+          "entries": 31,
+          "from": "1667-05-01",
+          "to": "1667-05-31",
+          "bytes": 105896,
+          "sha256": "92d2f3a36c81d59dc147afee1d5881d290c86d87dd1983f658847d64ffe682c7"
+        },
+        {
+          "name": "pepys-1667-06.jot",
+          "entries": 30,
+          "from": "1667-06-01",
+          "to": "1667-06-30",
+          "bytes": 97662,
+          "sha256": "71eaf6f75ccf16f389a0f1ae564f6a971f3b4a0bdf52285baf22b761c751bdb4"
+        },
+        {
+          "name": "pepys-1667-07.jot",
+          "entries": 31,
+          "from": "1667-07-01",
+          "to": "1667-07-31",
+          "bytes": 122817,
+          "sha256": "730796c2b95deaf89d99fa9834bb964196ac83b99696f8bd15cb847305819614"
+        },
+        {
+          "name": "pepys-1667-08.jot",
+          "entries": 31,
+          "from": "1667-08-01",
+          "to": "1667-08-31",
+          "bytes": 86647,
+          "sha256": "bd79e6bc31c2790c42bb766092632a4648b6578e4aac4e64eab2debb46557cb0"
+        },
+        {
+          "name": "pepys-1667-09.jot",
+          "entries": 30,
+          "from": "1667-09-01",
+          "to": "1667-09-30",
+          "bytes": 89073,
+          "sha256": "a7a577cd04916e18cbc13fa1fdfb8b3065b5264a1bf55fd5c85f9936fb412a3a"
+        },
+        {
+          "name": "pepys-1667-10.jot",
+          "entries": 31,
+          "from": "1667-10-01",
+          "to": "1667-10-31",
+          "bytes": 91710,
+          "sha256": "37a596630ac2adfdc7154ea7ca8feca51924f44ba9109964a167cef879530b19"
+        },
+        {
+          "name": "pepys-1667-11.jot",
+          "entries": 30,
+          "from": "1667-11-01",
+          "to": "1667-11-30",
+          "bytes": 82989,
+          "sha256": "018da8c8821bcda14c7e4ff3f5912541a667cd805bde1b12d7601034acf3c582"
+        },
+        {
+          "name": "pepys-1667-12.jot",
+          "entries": 31,
+          "from": "1667-12-01",
+          "to": "1667-12-31",
+          "bytes": 75850,
+          "sha256": "24001a4a3e1ac4150558e7be596f0d3507b437e344da320635c7cdc2700b7896"
+        },
+        {
+          "name": "pepys-1668.jot",
+          "entries": 354,
+          "from": "1668-01-01",
+          "to": "1668-12-31",
+          "bytes": 725236,
+          "sha256": "bffc2c5a608354c9091e0083a23403104effe750c3e5908782eb76f28843985c"
+        },
+        {
+          "name": "pepys-1669.jot",
+          "entries": 162,
+          "from": "1669-01-01",
+          "to": "1669-06-10",
+          "bytes": 364143,
+          "sha256": "eba73676f2d5b33f2824e08477f54c2bfb9b7a8ecd4679f25c3134c7acb4311a"
+        }
+      ]
+    },
+    {
+      "id": "nobody",
+      "title": "The Diary of a Nobody",
+      "author": "George and Weedon Grossmith",
+      "about": "A comic diary of a London clerk, April 1888 to July 1889. The diary never says the year, so the conversion starts in 1888.",
+      "options": {
+        "year": 1888,
+        "per": "auto"
+      },
+      "sources": [
+        {
+          "ebook": 1026,
+          "url": "https://www.gutenberg.org/ebooks/1026",
+          "title": "The Diary of a Nobody",
+          "entries": 166
+        }
+      ],
+      "files": [
+        {
+          "name": "nobody.jot",
+          "entries": 166,
+          "from": "1888-04-03",
+          "to": "1889-07-11",
+          "bytes": 237535,
+          "sha256": "77c2a4394c205a1f45361dd13eb92ee74880b369bd12b73261c95d2a8a6d436f"
+        }
+      ]
+    },
+    {
+      "id": "blunt",
+      "title": "My Diaries, 1888–1914",
+      "author": "Wilfrid Scawen Blunt",
+      "about": "A poet and anti-imperialist’s diaries, quoted inside his own narrative of the years before the First World War. The years come from the chapter titles.",
+      "options": {
+        "per": "year"
+      },
+      "sources": [
+        {
+          "ebook": 79491,
+          "url": "https://www.gutenberg.org/ebooks/79491",
+          "title": "My diaries, being a personal narrative of events 1888-1914, Part 1 (1888-1900)",
+          "entries": 708
+        },
+        {
+          "ebook": 79492,
+          "url": "https://www.gutenberg.org/ebooks/79492",
+          "title": "My diaries, being a personal narrative of events 1888-1914, Part 2 (1900-1914)",
+          "entries": 1072
+        }
+      ],
+      "files": [
+        {
+          "name": "blunt-1870.jot",
+          "entries": 42,
+          "from": "1870-05-30",
+          "to": "1870-10-07",
+          "bytes": 118653,
+          "sha256": "0e4828111f50ea4a158904bed23ffc32ed1d371ea488668e5335484358e51070"
+        },
+        {
+          "name": "blunt-1888.jot",
+          "entries": 9,
+          "from": "1888-11-10",
+          "to": "1888-12-06",
+          "bytes": 32536,
+          "sha256": "720c4be5ba2379b9549cdd5ed1c236ca26def20ed6d03b41488262c6dff3e74c"
+        },
+        {
+          "name": "blunt-1889.jot",
+          "entries": 12,
+          "from": "1889-01-03",
+          "to": "1889-11-06",
+          "bytes": 47576,
+          "sha256": "c0ad71f068ab2d1aeb0877caa10e7d521317fb53f6e7198c685835c1582580e0"
+        },
+        {
+          "name": "blunt-1890.jot",
+          "entries": 8,
+          "from": "1890-01-12",
+          "to": "1890-04-04",
+          "bytes": 54539,
+          "sha256": "b386496186eba440dc4a5e0d658d7905793a120ecaece206244adf4684cfa812"
+        },
+        {
+          "name": "blunt-1891.jot",
+          "entries": 13,
+          "from": "1891-04-23",
+          "to": "1891-09-30",
+          "bytes": 33671,
+          "sha256": "f8de198903c0599303cf5a907fee7ad3b5cce17e6adee377e808e65d70ea43f3"
+        },
+        {
+          "name": "blunt-1892.jot",
+          "entries": 50,
+          "from": "1892-01-09",
+          "to": "1892-12-31",
+          "bytes": 68245,
+          "sha256": "2758bb658590dc99303ca7401373f3645c4e36f7399b9859866a5060e2fad15f"
+        },
+        {
+          "name": "blunt-1893.jot",
+          "entries": 66,
+          "from": "1893-01-16",
+          "to": "1893-12-31",
+          "bytes": 102866,
+          "sha256": "4d141febbdb5c81e8b916ac8304f61b26f4daf080475b418232dff0b896d2116"
+        },
+        {
+          "name": "blunt-1894.jot",
+          "entries": 74,
+          "from": "1894-01-02",
+          "to": "1894-12-10",
+          "bytes": 127618,
+          "sha256": "0c103207e4fdb748b7c83eca4450de417303d1b8c0b7f6dc1932125e28c82af7"
+        },
+        {
+          "name": "blunt-1895.jot",
+          "entries": 73,
+          "from": "1895-02-25",
+          "to": "1895-12-29",
+          "bytes": 115724,
+          "sha256": "c25024fab69bcc5399e9a51dfbdc5e4e0544d8089ecb9b10498200cdd8d7c071"
+        },
+        {
+          "name": "blunt-1896.jot",
+          "entries": 86,
+          "from": "1896-01-05",
+          "to": "1896-12-30",
+          "bytes": 101755,
+          "sha256": "8566a043ecbe5cb29ecb43edfae19af9caa0ee598d7c53777f8842e7e3c2d7d9"
+        },
+        {
+          "name": "blunt-1897.jot",
+          "entries": 71,
+          "from": "1897-01-28",
+          "to": "1897-12-23",
+          "bytes": 114670,
+          "sha256": "f36e821927e5434c2c6a040a9415737c8d72e8cc6b3045ea3a34b71648e48083"
+        },
+        {
+          "name": "blunt-1898.jot",
+          "entries": 55,
+          "from": "1898-01-12",
+          "to": "1898-12-26",
+          "bytes": 66106,
+          "sha256": "8c28339cd72505dbd1760147c25f5ce7090f118c87900801c97ddb01c4f9e9b0"
+        },
+        {
+          "name": "blunt-1899.jot",
+          "entries": 88,
+          "from": "1899-01-01",
+          "to": "1899-12-31",
+          "bytes": 96613,
+          "sha256": "53997794377a906055c048ad6109e61dcf6f8ca49088c8fdd20192a75ae0a168"
+        },
+        {
+          "name": "blunt-1900.jot",
+          "entries": 60,
+          "from": "1900-01-01",
+          "to": "1900-12-31",
+          "bytes": 106390,
+          "sha256": "a643aeaa3325f2909e3bc1a6a65e6aeb0efab0c3688fed56cb1c7785dcfd8bd5"
+        },
+        {
+          "name": "blunt-1901.jot",
+          "entries": 36,
+          "from": "1901-01-23",
+          "to": "1901-12-30",
+          "bytes": 44718,
+          "sha256": "bd056846f6a6f5b897d0b612ec14c7cf7223e87ad30c58bde6eed8a05d66ff68"
+        },
+        {
+          "name": "blunt-1902.jot",
+          "entries": 49,
+          "from": "1902-01-16",
+          "to": "1902-12-22",
+          "bytes": 59599,
+          "sha256": "fb8f8c19ea746881f4469cf2d91138a5917072ea41315898e0b9aabc0da4e79f"
+        },
+        {
+          "name": "blunt-1903.jot",
+          "entries": 95,
+          "from": "1903-01-01",
+          "to": "1903-12-25",
+          "bytes": 128587,
+          "sha256": "85b6afbf0665c84eac97e814c73ac04253df0efa72df0c1488a29431f358d163"
+        },
+        {
+          "name": "blunt-1904.jot",
+          "entries": 75,
+          "from": "1904-01-08",
+          "to": "1904-12-17",
+          "bytes": 86977,
+          "sha256": "c38b537c73141d9f3b14994f228c3214b0bfd328ce417b1249118aa5cc6a2c25"
+        },
+        {
+          "name": "blunt-1905.jot",
+          "entries": 31,
+          "from": "1905-01-02",
+          "to": "1905-12-31",
+          "bytes": 32287,
+          "sha256": "b2fc3977e4658ce7535105655a0668715c2b8211d0153115cdc3ef09998c95bd"
+        },
+        {
+          "name": "blunt-1906.jot",
+          "entries": 78,
+          "from": "1906-01-09",
+          "to": "1906-12-31",
+          "bytes": 115663,
+          "sha256": "41762e9cec3803b1130298772f78b7028d907bbbe81d71005c1415d949ef81b0"
+        },
+        {
+          "name": "blunt-1907.jot",
+          "entries": 69,
+          "from": "1907-01-24",
+          "to": "1907-12-24",
+          "bytes": 73843,
+          "sha256": "cccc082776f2ae69ce2c805761e18174b4f416972d803f0a3ea2c84d95c8a6ab"
+        },
+        {
+          "name": "blunt-1908.jot",
+          "entries": 103,
+          "from": "1908-01-01",
+          "to": "1908-12-31",
+          "bytes": 103859,
+          "sha256": "5adef9da07c46da00d7b14dc68919f33a4a9490945c9634bfe6c3dad6e69a9be"
+        },
+        {
+          "name": "blunt-1909.jot",
+          "entries": 109,
+          "from": "1909-01-01",
+          "to": "1909-12-31",
+          "bytes": 170098,
+          "sha256": "efe648ad465ebd42493441f02b81a3ae4af3540d55590325ac0e20044bb9eb0a"
+        },
+        {
+          "name": "blunt-1910.jot",
+          "entries": 123,
+          "from": "1910-01-01",
+          "to": "1910-12-31",
+          "bytes": 138050,
+          "sha256": "88f8d6e57207c8158817044dc9875809b279ce895dfd3036c077dd939926d957"
+        },
+        {
+          "name": "blunt-1911.jot",
+          "entries": 140,
+          "from": "1911-01-02",
+          "to": "1911-12-31",
+          "bytes": 119620,
+          "sha256": "e65bdc203c683c08bf7b054df28a8eb2b462806208c2a07f70e0fb53b1185cf9"
+        },
+        {
+          "name": "blunt-1912.jot",
+          "entries": 99,
+          "from": "1912-01-04",
+          "to": "1912-12-31",
+          "bytes": 88453,
+          "sha256": "044b5103feaed1fc4d180ea90b166b417171af05aa45a84d9a120e7edef1d794"
+        },
+        {
+          "name": "blunt-1913.jot",
+          "entries": 34,
+          "from": "1913-01-10",
+          "to": "1913-06-11",
+          "bytes": 44878,
+          "sha256": "5ffe2c5577003d3342b86b8a19538661d90f70511cabdc445b02367ebd13cd48"
+        },
+        {
+          "name": "blunt-1914.jot",
+          "entries": 31,
+          "from": "1914-03-28",
+          "to": "1914-08-05",
+          "bytes": 170787,
+          "sha256": "8d165cec320fe23a8464d7f75a967f9ff03b8b9ffbb4cc0500496bff3f7f4aec"
+        },
+        {
+          "name": "blunt-1921.jot",
+          "entries": 1,
+          "from": "1921-06-12",
+          "to": "1921-06-12",
+          "bytes": 30680,
+          "sha256": "301e5cd44a71536fc2a0e329f3404e4d11e368356057d6a99547b6944602548b"
+        }
+      ]
+    }
+  ]
+}

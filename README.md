@@ -16,11 +16,11 @@ print engine that turns `.jot` writing into KDP-ready books.
 | [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries |
 | [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (46 guides, CC0) |
-| [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz` |
+| [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz`. Whole diaries as Jot (Pepys, *The Diary of a Nobody*, Blunt) are on the site's Examples page, [`site/dist/examples/`](site/dist/examples/) |
 | [`references/`](references/) | The historical DotJot document (background only) |
 | [`journal/`](journal/) | The print engine: monthly books for Amazon KDP, with `.jot` writing printed in after its week, and `render-jot.mjs`. From Journalwright Studio (the Journaling repository), generic profile and packs only; its print editor is retired |
 | `studio/src/` | Five Studio modules the engine's tests use (diff, canonical JSON, snapshots). Not the Studio server |
-| `tools/` | `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file), `build-spec-pdf.cjs` (the spec PDF from its Markdown), `build-parser-zip.py` (the site's parser download) and `test-files.mjs` (plain `.jot` vs packaged `.jotz`, by content) |
+| `tools/` | `build-examples.mjs` (the site's example diaries, converted from Project Gutenberg; `--check` verifies them), `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file), `build-spec-pdf.cjs` (the spec PDF from its Markdown), `build-parser-zip.py` (the site's parser download) and `test-files.mjs` (plain `.jot` vs packaged `.jotz`, by content) |
 
 ## Start here
 
@@ -30,7 +30,7 @@ New to Jot? Read [Writing in Jot](docs/guide/writing-jot.md) (ten minutes), then
 
     node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs
     node site/test-core.cjs
-    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/, /editor/, /convert/, /guide/ and /scan/
+    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/, /editor/, /convert/, /guide/, /examples/ and /scan/
 
 ## Template editor: a journal's shape as a .jot
 
@@ -69,7 +69,10 @@ pages, under the fixed DATE / TITLE / TAGS header. Your own writing goes in `jou
 `jot-convert` turns a diary kept as plain text into `.jot`: a dated entry for each day, the original date kept after the `|`, Old
 Style dates converted (`--calendar julian`), split by year when it is too big. Tested on Pepys, *The Diary of a Nobody* and Blunt's
 *My Diaries* from Project Gutenberg. The same converter runs in the browser at `/convert/`, with every option of the command line
-and the same files. Details: [converter/README.md](converter/README.md).
+and the same files. The converted diaries are the site's examples (`/examples/`): read them in the workspace or download them.
+Details: [converter/README.md](converter/README.md).
+
+    node tools/build-examples.mjs [--from <folder of pg<N>.txt>]    # rebuild the examples; --check verifies them
 
     curl -sL https://www.gutenberg.org/cache/epub/1026/pg1026.txt | node converter/jot-convert.mjs - --year 1888 > nobody.jot
     node --test converter/test.mjs && node site/test-convert-ui.cjs

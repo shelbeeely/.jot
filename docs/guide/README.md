@@ -7,5 +7,7 @@
 - [Converting an old diary](converting.md): turn a diary kept as plain text (your own, or one from Project Gutenberg) into dated
   Jot entries.
 
+To see Jot at length, the [Examples](../../site/dist/examples/) page has whole public-domain diaries converted to `.jot`.
+
 These guides are also pages on the site (`/guide/`), built from these files by `site/build-guides.mjs`. The full rules are in the
 [Jot specification](../../specification/Jot-Complete-Specification.md).

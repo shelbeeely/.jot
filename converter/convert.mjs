@@ -66,7 +66,8 @@ export function stripGutenberg(text) {
   if (s < 0) return { text, meta };
   const head = text.slice(0, s), afterStart = text.indexOf('\n', s) + 1;
   const e = text.slice(afterStart).search(/^\*\*\* ?END OF (THE|THIS) PROJECT GUTENBERG/im);
-  const body = e < 0 ? text.slice(afterStart) : text.slice(afterStart, afterStart + e);
+  let body = e < 0 ? text.slice(afterStart) : text.slice(afterStart, afterStart + e);
+  body = body.replace(/^[ \t]*End of (the )?Project Gutenberg.*$/gim, ''); // older ebooks end the text with their own line too
   const field = (k) => { const m = new RegExp(`^${k}:\\s*(.+(?:\\n {6,}.+)*)`, 'im').exec(head); return m ? m[1].replace(/\s+/g, ' ').trim() : ''; };
   meta.title = field('Title'); meta.author = field('Author');
   const n = /\[E(?:Book|Text) #(\d+)\]/i.exec(head); if (n) meta.source = `https://www.gutenberg.org/ebooks/${n[1]}`;
