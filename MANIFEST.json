@@ -3,6 +3,11 @@
   "formatVersion": "1.0",
   "files": [
     {
+      "path": ".github/workflows/pages.yml",
+      "byteLength": 2098,
+      "sha256": "7e15fd4f84a2b4288fb4c60c7683a9d9a0f22072522fdaa3775f9a2e8c08989a"
+    },
+    {
       "path": ".gitignore",
       "byteLength": 258,
       "sha256": "b19ca0860f86048d4a19129cffa6b992ace611d131a308d53ff101b250378428"
@@ -14,8 +19,8 @@
     },
     {
       "path": "README.md",
-      "byteLength": 7098,
-      "sha256": "9971fa200ecf17a229cba655922aa3ecdd441914673a84f5c700594219051cc8"
+      "byteLength": 7690,
+      "sha256": "a7271cd71c3c4dade487d23181d7fe76f98a758b17208c9c782425675ece17ec"
     },
     {
       "path": "converter/README.md",
@@ -1119,8 +1124,8 @@
     },
     {
       "path": "site/README.md",
-      "byteLength": 7229,
-      "sha256": "946321c273868efaa2f6e4f18bc073dfdc80daed8c4d1563a50687cc974da8b6"
+      "byteLength": 8440,
+      "sha256": "aaaf8018da8fd3d74224d93245388fe10993c0744e883661fecbeb967a7a914d"
     },
     {
       "path": "site/build-guides.mjs",
@@ -1753,9 +1758,19 @@
       "sha256": "59dd3be5b3ff2b6ca13f146289b52bba7c7c5ecd06fc40f687ccb69930d7f5dc"
     },
     {
+      "path": "tools/privacy-check.mjs",
+      "byteLength": 5029,
+      "sha256": "6b2f64f65e1142f703d9ec7659a90e08317f040abc59b5f486776808494c30b5"
+    },
+    {
       "path": "tools/test-files.mjs",
       "byteLength": 1967,
       "sha256": "c4630c66d17faf2de0f0e14b8abd1c64f29c8adef03d07087bb78bebdfb544b7"
+    },
+    {
+      "path": "tools/test-privacy.mjs",
+      "byteLength": 2666,
+      "sha256": "c0d9c51502a758812fc191f04a69dab6e46d9039350cb0caa835292433360209"
     }
   ]
 }

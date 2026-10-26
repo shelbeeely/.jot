@@ -1,6 +1,6 @@
 # Jot workspace
 
-A browser-based document scanner. Images are processed in browser memory; no image upload, analytics, OCR service or account integration is included. Hosted privately with Sites.
+A browser-based document scanner. Images are processed in browser memory; no image upload, analytics, OCR service or account integration is included. Published to GitHub Pages from `main` by `.github/workflows/pages.yml`, only after the privacy check and the tests pass (see below).
 
 ## Features
 
@@ -88,3 +88,18 @@ Whole public-domain diaries as Jot (Pepys, *The Diary of a Nobody*, Blunt's *My 
 workspace takes only `.jot`/`.jotz` paths under `examples/` on this site, and asks before it replaces writing of your own.
 
     node test-examples-ui.cjs        # every link answers, Read opens the diary, asks before replacing, refuses other paths, 390 px, axe
+
+## Publishing (GitHub Pages)
+
+`.github/workflows/pages.yml` publishes `dist/` from `main`. Pull requests run the same checks without publishing. Before anything is
+uploaded:
+
+- **Privacy check** (`tools/privacy-check.mjs`): reads every file, the files inside `.zip`/`.jotz` and the text of PDFs. It refuses the
+  owner's personal name, place and book title, calendar data, keys and tokens, any email address, private paths (`private/`, `.ics`,
+  `.env`, a profile), any kind of file the site doesn't publish, and files over the Pages limits. `node --test tools/test-privacy.mjs`
+  shows it catching each one, including inside a compressed archive.
+- **Current:** the guides, the examples, `MANIFEST.json` and the copies of the parser and converter match their sources.
+- **Tests:** the parser, converter, editor generator and guides (the browser tests run locally: `test-*-ui.cjs`).
+
+To turn it on once: the repository's **Settings → Pages → Source: GitHub Actions**. The site is then at
+`https://<owner>.github.io/<repository>/`; every link in it is relative, so it works there or on a custom domain.

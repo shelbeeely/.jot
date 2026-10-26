@@ -20,7 +20,7 @@ print engine that turns `.jot` writing into KDP-ready books.
 | [`references/`](references/) | The historical DotJot document (background only) |
 | [`journal/`](journal/) | The print engine: monthly books for Amazon KDP, with `.jot` writing printed in after its week, and `render-jot.mjs`. From Journalwright Studio (the Journaling repository), generic profile and packs only; its print editor is retired |
 | `studio/src/` | Five Studio modules the engine's tests use (diff, canonical JSON, snapshots). Not the Studio server |
-| `tools/` | `build-examples.mjs` (the site's example diaries, converted from Project Gutenberg; `--check` verifies them), `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file), `build-spec-pdf.cjs` (the spec PDF from its Markdown), `build-parser-zip.py` (the site's parser download) and `test-files.mjs` (plain `.jot` vs packaged `.jotz`, by content) |
+| `tools/` | `privacy-check.mjs` (the gate before the site is published; `test-privacy.mjs` tests it), `build-examples.mjs` (the site's example diaries, converted from Project Gutenberg; `--check` verifies them), `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file), `build-spec-pdf.cjs` (the spec PDF from its Markdown), `build-parser-zip.py` (the site's parser download) and `test-files.mjs` (plain `.jot` vs packaged `.jotz`, by content) |
 
 ## Start here
 
@@ -82,6 +82,14 @@ Details: [converter/README.md](converter/README.md).
 [InkDeck](https://github.com/shelbeeely/inkdeck), the Bluetooth-keyboard writing firmware for the Xteink X3/X4, saves `.jot` files:
 new files start with the Jot metadata block, and ZIP-packaged `.jot` files are refused rather than opened as text. Point `KW_JOTS` at
 the card (or a copy of it) to print those notes into the month's book.
+
+## The site (GitHub Pages)
+
+`site/dist/` is published to GitHub Pages from `main` by [`.github/workflows/pages.yml`](.github/workflows/pages.yml), only after
+`tools/privacy-check.mjs` (nothing personal, private or secret, including inside archives and PDFs) and the tests pass. Turn it on
+once in **Settings → Pages → Source: GitHub Actions**. Details: [site/README.md](site/README.md#publishing-github-pages).
+
+    node tools/privacy-check.mjs        # what the workflow runs before it publishes
 
 ## Privacy
 
