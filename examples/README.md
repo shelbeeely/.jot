@@ -1,5 +1,6 @@
 # Examples
 
+- `manual.jot`: a personal manual, filled in, for the Daily check-in starter (see the guide, `docs/guide/manual.md`).
 - `plain-text.jot`: a short journal in plain text, with tasks, events and a record.
 - `packaged.jotz`: the same kind of journal packaged with an attachment (a ZIP inside).
 

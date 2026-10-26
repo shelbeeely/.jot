@@ -339,8 +339,8 @@
     },
     {
       "path": "examples/README.md",
-      "byteLength": 642,
-      "sha256": "6c9b70b5392c1d547e98e3550a6d0c4b7259e8af5f2855c77d918e96dfccaa15"
+      "byteLength": 760,
+      "sha256": "135d52d67c2c29183667a8df52404fc6fe28a47fdb1a27ccaa537d52c660cb37"
     },
     {
       "path": "examples/manual.jot",
@@ -1134,8 +1134,8 @@
     },
     {
       "path": "site/README.md",
-      "byteLength": 8440,
-      "sha256": "aaaf8018da8fd3d74224d93245388fe10993c0744e883661fecbeb967a7a914d"
+      "byteLength": 8624,
+      "sha256": "cdc501c07419adaddc86336b53456d56977b9dea667752cb4159b5d77d116371"
     },
     {
       "path": "site/build-guides.mjs",

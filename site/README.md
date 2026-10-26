@@ -33,7 +33,8 @@ a phone or InkDeck). It has nothing from print: no page layout, paper sizes, sca
 
 - **Five zones:** before the days, each week begins, each day, each week ends, after the days.
 - **Blocks:** writing space, prompt (several questions take turns, one a day), checkboxes, task lines, scale, ratings, fill-in blanks,
-  choose words, list, time blocks, table, words to keep, record, page title. Six starters (daily check-in, rapid log, morning pages,
+  choose words, list, time blocks, table, words to keep, record, page title, my manual (why I keep this, what I do (written from the template), my marks,
+  what I skip, after a gap, when I revise it; **More → Download my manual** saves it as its own `.jot`). Six starters (daily check-in, rapid log, morning pages,
   gratitude, day planner, empty).
 - **Files:** one for the month, or a file a week or a day (InkDeck opens 16 KB a file). The page checks its own output with the Jot
   parser and says when a file is over that size.
