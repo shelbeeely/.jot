@@ -1,0 +1,331 @@
+{
+  "project": "Jot",
+  "formatVersion": "1.0",
+  "files": [
+    {
+      "path": "DECISIONS.md",
+      "byteLength": 2588,
+      "sha256": "8651e9567b50b604793f14cf10b17e794a1dab8e9f06c3d5a71cf64fc459d8cc"
+    },
+    {
+      "path": "README.md",
+      "byteLength": 3207,
+      "sha256": "512c01739036b9602a09aa19ca8f317784df038fe73d566f5155be646617ac34"
+    },
+    {
+      "path": "examples/packaged.jot",
+      "byteLength": 2301,
+      "sha256": "a056b8af76c77de86ddab3b502b496afcabb14c94b0ed18696e3047be60ff020"
+    },
+    {
+      "path": "examples/plain-text.jot",
+      "byteLength": 496,
+      "sha256": "68b9c758d1903d02393e6a24af34f27e53f10b5c5bae14d66d285648ba5ec339"
+    },
+    {
+      "path": "parser/CONTAINER.md",
+      "byteLength": 3152,
+      "sha256": "c1ac3c0ee1f46e408a5d80a6395c154eab384843c5d8b9b457559d258876a0a7"
+    },
+    {
+      "path": "parser/README.md",
+      "byteLength": 6147,
+      "sha256": "611ef1fe7c1a0d25865d69107b9b928eb444c4904f6dd80ea3ac857a9653d534"
+    },
+    {
+      "path": "parser/ROADMAP.md",
+      "byteLength": 22003,
+      "sha256": "bb7faebbec64b66aa5983de0e2d268ee1b80ce1892a0d03b93273855e276e633"
+    },
+    {
+      "path": "parser/container-test.mjs",
+      "byteLength": 2845,
+      "sha256": "7e1c7aeb5caf2caeaef619ec7ce317ad29872409976f9ac2f105d6c793ad564c"
+    },
+    {
+      "path": "parser/container.mjs",
+      "byteLength": 8244,
+      "sha256": "5fc10e8cec50e4f187046612099f2b6d95dca4a2e0b9e764073efe76e4734484"
+    },
+    {
+      "path": "parser/example-source.txt",
+      "byteLength": 496,
+      "sha256": "68b9c758d1903d02393e6a24af34f27e53f10b5c5bae14d66d285648ba5ec339"
+    },
+    {
+      "path": "parser/jot.mjs",
+      "byteLength": 8232,
+      "sha256": "9e93355a31b9b73a7da5ce0aa0c993fad131d6385cf60e45e9c2aac75efbdd33"
+    },
+    {
+      "path": "parser/package.json",
+      "byteLength": 421,
+      "sha256": "7fe530a23be9ba40eb16822715751efc4513a9f07bc6e304bb2c7f335d69767c"
+    },
+    {
+      "path": "parser/proofread-test.mjs",
+      "byteLength": 956,
+      "sha256": "c04b9d16ec20e7ba0b9c355824760543298d976e5924648eb0545f2d9f5eb82a"
+    },
+    {
+      "path": "parser/proofread.mjs",
+      "byteLength": 1944,
+      "sha256": "77af6888043b1f3216d03c629f73dd1563cbc2a73bdc60ef18973577a48e5271"
+    },
+    {
+      "path": "parser/test.mjs",
+      "byteLength": 4151,
+      "sha256": "f7774e63e3b538fc1fc12791084a270117c7aa3662f9211ba3b13d3a2e82ee1f"
+    },
+    {
+      "path": "parser/vendor/hashjs-LICENSE.md",
+      "byteLength": 2622,
+      "sha256": "1afaaf0c454f71d6ad56bdf871193815344573916c01e3125a06e406576b01bf"
+    },
+    {
+      "path": "parser/vendor/jszip-LICENSE.md",
+      "byteLength": 33753,
+      "sha256": "566c953c6090b1218ca6217dd7359d45dde46581968586dc607d59a78af6a9c4"
+    },
+    {
+      "path": "parser/vendor/jszip.mjs",
+      "byteLength": 97630,
+      "sha256": "acc7e41455a80765b5fd9c7ee1b8078a6d160bbbca455aeae854de65c947d59e"
+    },
+    {
+      "path": "parser/vendor/marked-LICENSE.md",
+      "byteLength": 2942,
+      "sha256": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c"
+    },
+    {
+      "path": "parser/vendor/marked.mjs",
+      "byteLength": 41661,
+      "sha256": "0b4487359ce6b85108708e7a532e1242a27f4718241e7b2de109ac6cd307d2dc"
+    },
+    {
+      "path": "parser/vendor/sha256.mjs",
+      "byteLength": 14083,
+      "sha256": "8108e22b5c43045972894c9ac6389c198850973ec1f0e83b83f0e69e9fc7a3eb"
+    },
+    {
+      "path": "references/Historical-DotJot-Specification.pdf",
+      "byteLength": 96351,
+      "sha256": "9a6f8166671a3f913788bf53574ce9bbc35dd9ce017e361e0b924c3c487ea980"
+    },
+    {
+      "path": "references/Rocketbook-Letter-DotGrid.pdf",
+      "byteLength": 59671,
+      "sha256": "c91407fbeb74756794144fbdb7e8bed76dba6931704b85bc2298ea15a1551bab"
+    },
+    {
+      "path": "site/README.md",
+      "byteLength": 2339,
+      "sha256": "bf3af22f6f6d35907acfe72fdc461b0fab2e796d5e30cf6f9fcd88998a978a20"
+    },
+    {
+      "path": "site/dist/ROADMAP.md",
+      "byteLength": 22003,
+      "sha256": "bb7faebbec64b66aa5983de0e2d268ee1b80ce1892a0d03b93273855e276e633"
+    },
+    {
+      "path": "site/dist/docs/Jot-Complete-Specification.pdf",
+      "byteLength": 198826,
+      "sha256": "d4e7e381ae00017cd37102c75a7bfaa7f8afe3501e692e464c0e71efe45b4b17"
+    },
+    {
+      "path": "site/dist/docs/Jot-Container-v1.md",
+      "byteLength": 3152,
+      "sha256": "c1ac3c0ee1f46e408a5d80a6395c154eab384843c5d8b9b457559d258876a0a7"
+    },
+    {
+      "path": "site/dist/docs/example.jot",
+      "byteLength": 2301,
+      "sha256": "a056b8af76c77de86ddab3b502b496afcabb14c94b0ed18696e3047be60ff020"
+    },
+    {
+      "path": "site/dist/docs/jot-parser.zip",
+      "byteLength": 86189,
+      "sha256": "cf3654172de894e3d11e64dc46cfe79642cdf8784c618d6b9892ed7ad7d98d4d"
+    },
+    {
+      "path": "site/dist/index.html",
+      "byteLength": 7362,
+      "sha256": "bec67c0479253996c12e9c91037ed4401ae09323ac839d07f8af721bc478d442"
+    },
+    {
+      "path": "site/dist/jot/container.mjs",
+      "byteLength": 8244,
+      "sha256": "5fc10e8cec50e4f187046612099f2b6d95dca4a2e0b9e764073efe76e4734484"
+    },
+    {
+      "path": "site/dist/jot/jot.mjs",
+      "byteLength": 8232,
+      "sha256": "9e93355a31b9b73a7da5ce0aa0c993fad131d6385cf60e45e9c2aac75efbdd33"
+    },
+    {
+      "path": "site/dist/jot/paper-sizes.json",
+      "byteLength": 2517,
+      "sha256": "b3f185a4522dac645b6c5608c76df7ad3cdd9a93fd7f8a24dbc5b66fc9bae93a"
+    },
+    {
+      "path": "site/dist/jot/profiles.json",
+      "byteLength": 50896,
+      "sha256": "7408613346bd744d2e22de8480afd9763b0177fa408bdb531c02201f5e973bad"
+    },
+    {
+      "path": "site/dist/jot/proofread.mjs",
+      "byteLength": 1944,
+      "sha256": "77af6888043b1f3216d03c629f73dd1563cbc2a73bdc60ef18973577a48e5271"
+    },
+    {
+      "path": "site/dist/jot/storage.mjs",
+      "byteLength": 1359,
+      "sha256": "dda5fa677307c3a76007f77f9d1c452e346f6f1d05534e2ffc6e9eb5e0a41497"
+    },
+    {
+      "path": "site/dist/jot/vendor/hashjs-LICENSE.md",
+      "byteLength": 2622,
+      "sha256": "1afaaf0c454f71d6ad56bdf871193815344573916c01e3125a06e406576b01bf"
+    },
+    {
+      "path": "site/dist/jot/vendor/jszip-LICENSE.md",
+      "byteLength": 33753,
+      "sha256": "566c953c6090b1218ca6217dd7359d45dde46581968586dc607d59a78af6a9c4"
+    },
+    {
+      "path": "site/dist/jot/vendor/jszip.mjs",
+      "byteLength": 97630,
+      "sha256": "acc7e41455a80765b5fd9c7ee1b8078a6d160bbbca455aeae854de65c947d59e"
+    },
+    {
+      "path": "site/dist/jot/vendor/marked-LICENSE.md",
+      "byteLength": 2942,
+      "sha256": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c"
+    },
+    {
+      "path": "site/dist/jot/vendor/marked.mjs",
+      "byteLength": 41661,
+      "sha256": "0b4487359ce6b85108708e7a532e1242a27f4718241e7b2de109ac6cd307d2dc"
+    },
+    {
+      "path": "site/dist/jot/vendor/sha256.mjs",
+      "byteLength": 14083,
+      "sha256": "8108e22b5c43045972894c9ac6389c198850973ec1f0e83b83f0e69e9fc7a3eb"
+    },
+    {
+      "path": "site/dist/scan/app.js",
+      "byteLength": 18894,
+      "sha256": "6debd76ef7e95e92e8efea76749b1190f2519e47333958a431c5cc2e55b15858"
+    },
+    {
+      "path": "site/dist/scan/handwriting.js",
+      "byteLength": 7650,
+      "sha256": "1e117531a33a6b1f7412bec188cfa2f5641abb708ffcfb244d36d06d589d8ed2"
+    },
+    {
+      "path": "site/dist/scan/index.html",
+      "byteLength": 9262,
+      "sha256": "f5258cd1f2b53c22eae890bc4b7d2e287128bdb9119721d14aa6ed4d8f4db067"
+    },
+    {
+      "path": "site/dist/scan/scanner-core.js",
+      "byteLength": 4835,
+      "sha256": "9d15070820d2284f098a26326f57b31f40dbbc02e4f0c1963d04e9be69b285dc"
+    },
+    {
+      "path": "site/dist/scan/style.css",
+      "byteLength": 13978,
+      "sha256": "d3b87862062684fc96c23ec0e5b52b41e4d465683b3a1fa452e605cba05db32b"
+    },
+    {
+      "path": "site/dist/studio.css",
+      "byteLength": 9482,
+      "sha256": "0972b59aea677bae315a75f38cfbcc60e1dc5f8f6152374572182ee9fdb4ebef"
+    },
+    {
+      "path": "site/dist/studio.mjs",
+      "byteLength": 19875,
+      "sha256": "480bb35337c8f3aea056a354229d3643db879c790e8a0e6e63b0fe1573d386e5"
+    },
+    {
+      "path": "site/test-core.cjs",
+      "byteLength": 1756,
+      "sha256": "6c55acb3d0383f53bc669976f6d9161bddd6e747d0544603c4cb5f756121b792"
+    },
+    {
+      "path": "specification/Jot-Complete-Specification.md",
+      "byteLength": 118882,
+      "sha256": "7907e98dbbb188f3ffc6e68783539c904b0b1a909ea4e279926f102ac695cd7c"
+    },
+    {
+      "path": "specification/Jot-Complete-Specification.pdf",
+      "byteLength": 198826,
+      "sha256": "d4e7e381ae00017cd37102c75a7bfaa7f8afe3501e692e464c0e71efe45b4b17"
+    },
+    {
+      "path": "specification/Jot-Container-v1.md",
+      "byteLength": 3152,
+      "sha256": "c1ac3c0ee1f46e408a5d80a6395c154eab384843c5d8b9b457559d258876a0a7"
+    },
+    {
+      "path": "specification/README.md",
+      "byteLength": 1676,
+      "sha256": "6c8e632f6b987c7747502b97961558569c53c3574fdb0d71b305d2d1d29cda7a"
+    },
+    {
+      "path": "specification/ROADMAP.md",
+      "byteLength": 22003,
+      "sha256": "bb7faebbec64b66aa5983de0e2d268ee1b80ce1892a0d03b93273855e276e633"
+    },
+    {
+      "path": "specification/conformance.json",
+      "byteLength": 2762,
+      "sha256": "c0d0a7cf84dfae03b39b3e24a10046851db68dcf0dcf35e5513c0fe2d87774d6"
+    },
+    {
+      "path": "specification/example-ast.json",
+      "byteLength": 275,
+      "sha256": "f80622f162c6cfb5cc80f27abf19fd0e6001beffc96acccf968e30da09780f34"
+    },
+    {
+      "path": "specification/example-month.txt",
+      "byteLength": 561,
+      "sha256": "2bd43affef6338116cbee610a81f3b43c792448eca8e58fa294eff20f93bd301"
+    },
+    {
+      "path": "specification/example.jot",
+      "byteLength": 2301,
+      "sha256": "a056b8af76c77de86ddab3b502b496afcabb14c94b0ed18696e3047be60ff020"
+    },
+    {
+      "path": "specification/examples-methods.txt",
+      "byteLength": 12307,
+      "sha256": "a059de80ef9c78c92a8c04d16f17df690e57d3eb00f296bddd352dac76da924e"
+    },
+    {
+      "path": "specification/jot-ast.schema.json",
+      "byteLength": 4061,
+      "sha256": "7c7222e9c86a0a13f3940aa1b1aeb45804e493b008f2215b61d599b33088654b"
+    },
+    {
+      "path": "specification/package-manifest.json",
+      "byteLength": 5264,
+      "sha256": "ccf44b4cf071ed675330421d0dc5057466feffb5078317a17a4ab45222608541"
+    },
+    {
+      "path": "specification/paper-sizes.json",
+      "byteLength": 2514,
+      "sha256": "4e7ff30243afc5563e1613d99a58f4b29a02feb89d9519e1a4f4a3aa8cb3288e"
+    },
+    {
+      "path": "specification/profiles.json",
+      "byteLength": 50893,
+      "sha256": "ecaccc860b03d863849c6b74816f67808449d7f711bb927084f145dad52b4a74"
+    },
+    {
+      "path": "specification/source-register.md",
+      "byteLength": 8868,
+      "sha256": "16b4b2d66a7250b159e4293a8dcd704c55c2ac1c897039cb36d2f524e24e6bac"
+    }
+  ]
+}

@@ -1,0 +1,1141 @@
+{
+  "format": "jot-profiles",
+  "version": 1,
+  "profiles": [
+    {
+      "id": "adhd-journaling",
+      "version": 1,
+      "label": "ADHD journaling and planning",
+      "recordType": "reflection",
+      "purpose": "Externalize the next action, time estimate and what actually happened. Allow a tiny restart after any gap, without requiring backlog cleanup.",
+      "prompt": "What is enough for today? What is the smallest visible first step?",
+      "required": [
+        "next-step"
+      ],
+      "optional": [
+        "estimate",
+        "actual",
+        "done",
+        "distraction",
+        "restart",
+        "support"
+      ],
+      "example": "next-step: Put the notebook beside the kettle\nestimate: 2 min\ndone: Opened the notebook",
+      "notes": "A done list and an interruption parking lot are optional. No automatic failure score, compulsory streak, or assumption that an unused planner means low motivation."
+    },
+    {
+      "id": "alastair-method",
+      "version": 1,
+      "label": "Alastair lists and rolling columns",
+      "recordType": "task",
+      "purpose": "Keep one task list and associate items with month, day, context or project-status columns. The columns are a view over items, so an item need not be rewritten for every column.",
+      "prompt": "Which column helps me find this again: month, day, context, or status?",
+      "required": [
+        "text",
+        "status",
+        "column"
+      ],
+      "optional": [
+        "column-kind",
+        "scheduled-for",
+        "migrated-to"
+      ],
+      "example": "text: Book a repair appointment\nstatus: open\ncolumn: November\ncolumn-kind: month",
+      "notes": "column is repeatable for contexts/days. A project-status view uses a single current status. A month column is not an exact appointment date; retain the exact date separately when known."
+    },
+    {
+      "id": "art-and-junk-journaling",
+      "version": 1,
+      "label": "Art, junk and sketchbook journals",
+      "recordType": "reflection",
+      "purpose": "Record a day through drawings, collage, found paper and a few words. The journal can describe a physical page while keeping scans and transcriptions as optional companions.",
+      "prompt": "What image, scrap, texture or mark belongs to this day?",
+      "required": [
+        "body"
+      ],
+      "optional": [
+        "asset",
+        "physical-location",
+        "material",
+        "layer",
+        "alt"
+      ],
+      "example": "body: A bus ticket beside a sketch of wet boots.\nphysical-location: Blue notebook, page 18",
+      "notes": "asset, material and layer are repeatable. Physical objects need not be digitized. Preserve layer order and text alternatives; do not claim that a text record reproduces the texture of an original page."
+    },
+    {
+      "id": "autistic-sensory-journaling",
+      "version": 1,
+      "label": "Sensory and autistic experience logs",
+      "recordType": "observation",
+      "purpose": "Notice sensory context, capacity, communication preferences and supports. Entries can be short words or icons with text labels, without turning regulation into compliance.",
+      "prompt": "What was the environment like? What helped? What do I need next?",
+      "required": [
+        "context",
+        "support"
+      ],
+      "optional": [
+        "sensory-load",
+        "communication",
+        "masking",
+        "recovery",
+        "body"
+      ],
+      "example": "context: Busy grocery aisle\nsupport: Headphones and a quieter checkout\ncommunication: Typing preferred",
+      "notes": "support is repeatable. Ratings need an explicit personal scale. A log describes experience; it must not infer a diagnosis, demand reduced stimming or automatically recommend increasing sensory tolerance."
+    },
+    {
+      "id": "bullet-journal",
+      "version": 1,
+      "label": "Bullet Journal and rapid logging",
+      "recordType": "collection",
+      "purpose": "Combine tasks, events, notes, a future log and topic collections. Reviews deliberately decide what to carry forward, schedule or release.",
+      "prompt": "What happened, what needs attention, and what is still worth carrying?",
+      "required": [
+        "title",
+        "kind"
+      ],
+      "optional": [
+        "member",
+        "period-start",
+        "period-end"
+      ],
+      "example": "title: October daily log\nkind: daily-log",
+      "notes": "Use ordinary rapid-log lines for everyday writing. member is repeatable when building an index. Migration follows section 6; an unfinished item is not automatically copied or counted as a failure."
+    },
+    {
+      "id": "cbt-thought-record",
+      "version": 1,
+      "label": "CBT-style thought records",
+      "recordType": "reflection",
+      "purpose": "Separate a situation, an automatic thought, feelings, observations and an alternative interpretation. Preserve the original wording instead of silently reframing it.",
+      "prompt": "What happened? What did I think? What evidence can I actually observe?",
+      "required": [
+        "situation",
+        "thought",
+        "emotion",
+        "evidence-for",
+        "evidence-against",
+        "alternative"
+      ],
+      "optional": [
+        "before",
+        "after",
+        "scale",
+        "action",
+        "outcome"
+      ],
+      "example": "situation: A message had no reply this afternoon.\nthought: Perhaps I annoyed them.\nemotion: Worry\nevidence-for: I have not received a reply.\nevidence-against: They said this week was busy.\nalternative: I do not know yet; there are several explanations.",
+      "notes": "evidence-for and evidence-against are repeatable. Before/after ratings require the same declared scale. This is a recording adaptation, not a validated replacement for a particular clinical worksheet; software must not decide that a reported harm is a distorted thought."
+    },
+    {
+      "id": "commonplace-book",
+      "version": 1,
+      "label": "Commonplace books and linked ideas",
+      "recordType": "quotation",
+      "purpose": "Collect passages, observations and ideas under subjects, with clear attribution and commentary. Subject organization can coexist with chronological diary writing in the same file.",
+      "prompt": "What is worth keeping, where did it come from, and what does it mean to me?",
+      "required": [
+        "text",
+        "attribution"
+      ],
+      "optional": [
+        "source",
+        "locator",
+        "topic",
+        "commentary",
+        "relation"
+      ],
+      "example": "text: Start with the thing you can inspect.\nattribution: My own workshop note\ntopic: Making\ncommentary: A useful reminder before debugging.",
+      "notes": "topic and source are repeatable. Quotations and personal commentary remain distinct. Links can connect ideas without claiming that a commonplace collection is identical to a full Zettelkasten system."
+    },
+    {
+      "id": "dbt-diary-card",
+      "version": 1,
+      "label": "DBT-style diary cards",
+      "recordType": "observation",
+      "purpose": "Keep brief, dated records of emotions, target behaviors and skill practice. A weekly card is a view assembled from observations, not a reason to flatten all daily data into one score.",
+      "prompt": "What did I notice, and what skill or support did I try?",
+      "required": [
+        "date",
+        "target",
+        "status"
+      ],
+      "optional": [
+        "value",
+        "scale",
+        "skill",
+        "effect",
+        "body"
+      ],
+      "example": "date: 2026-10-25\ntarget: Skills practice\nstatus: observed\nskill: Grounding with a familiar object\nbody: It helped me return to the conversation.",
+      "notes": "Use locally configured fields and scales from the actual care plan. No automatic clinical risk classification or unsolicited disclosure. Skill-use and urge ratings must not be conflated. This is an optional representation, not certification of a clinical diary card."
+    },
+    {
+      "id": "digital-daily-notes",
+      "version": 1,
+      "label": "Daily notes and periodic reviews",
+      "recordType": "reflection",
+      "purpose": "Use date headings, links and optional prompts as navigation. A daily note is a section of writing; a month file and separate day files are equally valid storage choices.",
+      "prompt": "What should future me be able to find from today?",
+      "required": [
+        "date",
+        "body"
+      ],
+      "optional": [
+        "template-id",
+        "template-version",
+        "relation"
+      ],
+      "example": "date: 2026-10-25\nbody: I learned why the connector was loose.",
+      "notes": "Do not require a file per date or infer dates from filenames. Automatic templates must leave the actual questions in the writing. Periodic summaries link to sources and preserve unsummarized material."
+    },
+    {
+      "id": "dream-journal",
+      "version": 1,
+      "label": "Dream journals",
+      "recordType": "reflection",
+      "purpose": "Capture remembered scenes soon after waking, allowing fragments and uncertainty. Optional interpretation belongs in a separate field from the remembered report.",
+      "prompt": "What fragments, feelings or images do I remember?",
+      "required": [
+        "report"
+      ],
+      "optional": [
+        "woke-at",
+        "recall",
+        "emotion",
+        "dreamsign",
+        "interpretation"
+      ],
+      "example": "report: A train station with plants growing through the roof.\nrecall: Fragments\nemotion: Curious",
+      "notes": "emotion and dreamsign are repeatable. A blank report can be a partial record, or status unknown in a generic observation. Interpretation is the writer's reflection, never a factual inference about other people or a diagnosis."
+    },
+    {
+      "id": "dutch-door-method",
+      "version": 1,
+      "label": "Dutch door pages and persistent panels",
+      "recordType": "layout",
+      "purpose": "Keep a weekly or reference panel visible while daily leaves change underneath. This is a physical/digital layout style that can present any journaling method.",
+      "prompt": "What information should remain in view while I turn the page?",
+      "required": [
+        "target",
+        "persistent-panel",
+        "leaf-region"
+      ],
+      "optional": [
+        "paper",
+        "cut-guide",
+        "member"
+      ],
+      "example": "target: print\npersistent-panel: Weekly appointments at top\nleaf-region: Daily notes below",
+      "notes": "The human-readable region descriptions in this profile are design intent, not cut-ready coordinates. A production renderer must resolve geometry, check safe regions and provide a proof before calling the result printable."
+    },
+    {
+      "id": "e-ink-templates",
+      "version": 1,
+      "label": "E-ink journal layouts",
+      "recordType": "layout",
+      "purpose": "Present writing in calm pages with readable contrast, explicit navigation and room for handwriting. Match the actual device rather than assume every e-ink screen has the same input.",
+      "prompt": "What should be visible at a glance, and where can longer writing continue?",
+      "required": [
+        "target",
+        "palette"
+      ],
+      "optional": [
+        "width-px",
+        "height-px",
+        "input",
+        "overflow",
+        "refresh"
+      ],
+      "example": "target: eink\npalette: monochrome\noverflow: continue\ninput: stylus",
+      "notes": "Pixel dimensions are positive integers. Navigation remains available without animation or color. Template rendering is separate from the .jot source, and handwritten originals stay attached when text is recognized."
+    },
+    {
+      "id": "eisenhower-matrix",
+      "version": 1,
+      "label": "Urgency and importance sorting",
+      "recordType": "task",
+      "purpose": "Sort tasks on two independent dimensions and choose an action deliberately. A deadline and a personal priority are different properties.",
+      "prompt": "Is it time-sensitive? Does it matter to my values or commitments?",
+      "required": [
+        "text",
+        "status",
+        "urgent",
+        "important"
+      ],
+      "optional": [
+        "due",
+        "decision",
+        "delegate"
+      ],
+      "example": "text: Prepare questions for the appointment\nstatus: open\nurgent: false\nimportant: true\ndecision: schedule",
+      "notes": "urgent and important are explicit true/false strings; absence means unclassified. Both true suggests do; important only suggests schedule; urgent only suggests delegate/batch; neither suggests release/reconsider. Suggestions never delete tasks."
+    },
+    {
+      "id": "emergent-task-planner",
+      "version": 1,
+      "label": "Emergent daily planning",
+      "recordType": "reflection",
+      "purpose": "Choose a few important tasks, estimate time and record what emerges. Let interruptions and changing capacity remain part of the day's account.",
+      "prompt": "What are my few important outcomes, and what actually happened around them?",
+      "required": [
+        "focus"
+      ],
+      "optional": [
+        "estimate",
+        "actual",
+        "interruption",
+        "available-time"
+      ],
+      "example": "focus: Inspect the power cable\nestimate: 15 min\nactual: 25 min\ninterruption: Needed a different screwdriver",
+      "notes": "focus and interruption are repeatable. Time bubbles are a display choice; they must label their duration. A custom layout is an adaptation, not a reproduction of the official planner artwork."
+    },
+    {
+      "id": "expressive-writing",
+      "version": 1,
+      "label": "Expressive writing sessions",
+      "recordType": "session",
+      "purpose": "Provide private, uninterrupted prose with an optional time boundary and a gentle closing note. The writing can remain entirely unstructured.",
+      "prompt": "What do I want to put into words, and what would help me close this session?",
+      "required": [
+        "body"
+      ],
+      "optional": [
+        "start",
+        "end",
+        "duration",
+        "duration-unit",
+        "closing"
+      ],
+      "example": "body: I want to describe what the change has felt like.\nduration: 10\nduration-unit: min\nclosing: Tea and a quieter room",
+      "notes": "A saved session does not require disclosure, analysis, a minimum word count or an escalating prompt. Duration settings are user choices. Claims about a particular therapeutic protocol require its own evidence and qualified implementation."
+    },
+    {
+      "id": "five-minute-journal",
+      "version": 1,
+      "label": "Short morning and evening reflection",
+      "recordType": "reflection",
+      "purpose": "Use a small morning intention and an evening look-back. Generic, original prompts can support a brief routine without copying a commercial page.",
+      "prompt": "One good thing, one intention, and one thing I noticed by evening.",
+      "required": [
+        "phase",
+        "body"
+      ],
+      "optional": [
+        "gratitude",
+        "intention",
+        "affirmation",
+        "highlight",
+        "adjustment"
+      ],
+      "example": "phase: morning\nbody: I want a slower start.\ngratitude: A warm room\nintention: Leave time to eat",
+      "notes": "phase is morning or evening; missing either is not a failure. gratitude and highlight are repeatable. No forced positivity, quota or requirement to reframe a difficult day as a good one."
+    },
+    {
+      "id": "five-year-diary",
+      "version": 1,
+      "label": "Multi-year and line-a-day diaries",
+      "recordType": "reflection",
+      "purpose": "Write a small entry on a real date, then compare the same month/day across years. The multi-year page is a view over ordinary dated writing.",
+      "prompt": "What small detail from today might I be glad to rediscover?",
+      "required": [
+        "date",
+        "body"
+      ],
+      "optional": [
+        "prompt",
+        "memory-visibility"
+      ],
+      "example": "date: 2026-10-25\nbody: Rain on the window while I fixed the lamp.",
+      "notes": "Resurfacing is opt-in and excludes private material from shared views. Actual dates are retained; February 29 stays February 29. A short display limit must not truncate the stored writing."
+    },
+    {
+      "id": "full-focus-planner",
+      "version": 1,
+      "label": "Goals, weekly outcomes and daily focus",
+      "recordType": "reflection",
+      "purpose": "Connect a longer-term goal to a weekly outcome and a small daily selection. Add startup/shutdown rituals only when they help.",
+      "prompt": "Which daily action supports this week's outcome?",
+      "required": [
+        "horizon",
+        "outcome"
+      ],
+      "optional": [
+        "goal",
+        "next-action",
+        "ritual",
+        "review"
+      ],
+      "example": "horizon: day\noutcome: Understand the cable fault\nnext-action: Check the printed connector label",
+      "notes": "horizon is day, week, quarter or year. outcome and ritual are repeatable. A top-three view is a configurable preference, not a Core limit. This profile borrows a planning pattern and does not reproduce a branded planner."
+    },
+    {
+      "id": "gender-euphoria-and-hrt-log",
+      "version": 1,
+      "label": "Gender euphoria and HRT records",
+      "recordType": "observation",
+      "purpose": "Give moments of rightness, identity and joy their own space. Medication and laboratory records can sit nearby without reducing the journal to a treatment timeline.",
+      "prompt": "When did I feel like myself? What would I like to remember?",
+      "required": [
+        "category",
+        "body"
+      ],
+      "optional": [
+        "at",
+        "medication",
+        "lab",
+        "source"
+      ],
+      "example": "category: euphoria\nbody: I liked hearing my name in a familiar voice.",
+      "notes": "Keep joy observations separate from medication dose events and lab measurements. No automatic dose suggestions, assumptions about anatomy, or requirement to record dysphoria. Names and identity metadata require careful export selection."
+    },
+    {
+      "id": "getting-things-done-paper",
+      "version": 1,
+      "label": "Capture, next actions and weekly review",
+      "recordType": "task",
+      "purpose": "Capture an open loop, clarify its next visible action and organize it by context, project or waiting state. Reviews reconnect lists to current commitments.",
+      "prompt": "What is this, and what is the next physical action?",
+      "required": [
+        "text",
+        "status",
+        "next-action"
+      ],
+      "optional": [
+        "project",
+        "context",
+        "waiting-for",
+        "review-on",
+        "scheduled-for"
+      ],
+      "example": "text: Repair the lamp\nstatus: open\nnext-action: Photograph the connector\ncontext: home",
+      "notes": "A project may contain several linked tasks; waiting-for is distinct from delegated ownership. The calendar holds explicit commitments rather than guessed deadlines. Reference material remains separate from actions."
+    },
+    {
+      "id": "gratitude-journaling",
+      "version": 1,
+      "label": "Gratitude and small good things",
+      "recordType": "reflection",
+      "purpose": "Name a specific thing appreciated, optionally including why it mattered. An entry can hold gratitude and discomfort together.",
+      "prompt": "What was a small good thing, without needing the whole day to be good?",
+      "required": [
+        "gratitude"
+      ],
+      "optional": [
+        "why",
+        "person",
+        "body"
+      ],
+      "example": "gratitude: Someone saved me a seat.\nwhy: I felt welcome.",
+      "notes": "gratitude is repeatable. No minimum count or mandatory daily cadence. Avoid making a gratitude entry a condition for saving other writing, and let the writer skip the prompt."
+    },
+    {
+      "id": "habit-tracking",
+      "version": 1,
+      "label": "Habits and partial participation",
+      "recordType": "habit",
+      "purpose": "Record participation in a behavior with room for partial, skipped and unknown states. A chosen cue can be recorded without claiming that tracking proves a habit is automatic.",
+      "prompt": "What did I try, and what made it easier to begin?",
+      "required": [
+        "name",
+        "date",
+        "status"
+      ],
+      "optional": [
+        "cue",
+        "amount",
+        "unit",
+        "body"
+      ],
+      "example": "name: Read a little\ndate: 2026-10-25\nstatus: partial\nbody: One page before bed",
+      "notes": "status uses the habit vocabulary in section 6. Amount is optional numeric data with an explicit unit. Do not treat partial participation, illness, missing data and a deliberate rest day as the same state."
+    },
+    {
+      "id": "hobonichi-techo",
+      "version": 1,
+      "label": "Daily life-book pages",
+      "recordType": "reflection",
+      "purpose": "Mix a dated day page, small timeline, free writing, sketches and ephemera. The style gives the day room without imposing a single method.",
+      "prompt": "What belongs on this day's page: words, a sketch, a receipt, or nothing yet?",
+      "required": [
+        "date",
+        "body"
+      ],
+      "optional": [
+        "asset",
+        "layout",
+        "timeline"
+      ],
+      "example": "date: 2026-10-25\nbody: The new tea tasted like oranges.",
+      "notes": "A brand-inspired daily view must not imply an exact replica of a commercial page. Grid pitch, paper size and decorative elements are user choices; overflow preserves long entries."
+    },
+    {
+      "id": "interstitial-journaling",
+      "version": 1,
+      "label": "Interstitial and transition notes",
+      "recordType": "reflection",
+      "purpose": "Write a few lines when leaving one activity and entering the next. Preserve where to resume as well as what happened.",
+      "prompt": "Where did I stop? How am I arriving? What is the first next action?",
+      "required": [
+        "stopped",
+        "next-step"
+      ],
+      "optional": [
+        "at",
+        "feeling",
+        "resume"
+      ],
+      "example": "stopped: Measured the connector spacing\nnext-step: Compare the photo with the parts list\nresume: Notebook page 18",
+      "notes": "A scene heading can supply a human time cue; an exact instant needs at with offset. A transition note does not claim that the previous task is completed."
+    },
+    {
+      "id": "ivy-lee-method",
+      "version": 1,
+      "label": "Short ordered next-day lists",
+      "recordType": "collection",
+      "purpose": "Choose a small ranked list for the next work period and revisit it deliberately. Carry-forward keeps task identity and distinguishes unfinished work from newly selected work.",
+      "prompt": "What few things matter most tomorrow, and in what order?",
+      "required": [
+        "title",
+        "kind"
+      ],
+      "optional": [
+        "for-date",
+        "member",
+        "limit"
+      ],
+      "example": "title: Tomorrow\nkind: ranked-actions\nfor-date: 2026-10-26\nlimit: 6",
+      "notes": "member is repeatable and order is meaningful. The traditional six-item limit can be a view setting; a smaller capacity-based list is an explicitly labeled adaptation. Reordering does not change deadlines."
+    },
+    {
+      "id": "jibun-techo",
+      "version": 1,
+      "label": "Lifelog plus lasting reference",
+      "recordType": "collection",
+      "purpose": "Separate day/week records from lasting life reference and loose ideas. A 24-hour view can show both planned and actual activity.",
+      "prompt": "Is this for the current diary, lasting reference, or an idea I want to keep?",
+      "required": [
+        "title",
+        "kind"
+      ],
+      "optional": [
+        "member",
+        "horizon",
+        "layout"
+      ],
+      "example": "title: Things I want to learn\nkind: life-reference\nhorizon: ongoing",
+      "notes": "A collection need not be a separate file. Distinguish plan and actual intervals; keep overnight activity on actual dates. Do not copy brand artwork or imply exact page compatibility."
+    },
+    {
+      "id": "mood-tracking-year-in-pixels",
+      "version": 1,
+      "label": "Mood observations and year views",
+      "recordType": "measurement",
+      "purpose": "Keep a mood label or rating with context, then generate a yearly view only from an explicit daily selection or aggregation rule.",
+      "prompt": "Which word or rating describes this moment, on my own defined scale?",
+      "required": [
+        "metric",
+        "status"
+      ],
+      "optional": [
+        "value",
+        "scale",
+        "at",
+        "aggregation",
+        "body"
+      ],
+      "example": "metric: mood\nstatus: observed\nvalue: calm\nbody: A word label, not a diagnostic score.",
+      "notes": "A categorical scale may be inline human documentation or a linked scale record; automated comparison requires a linked scale. value is required when observed or estimated. A year view must label missing days and retain multiple daily observations."
+    },
+    {
+      "id": "morning-pages",
+      "version": 1,
+      "label": "Morning Pages and freewriting",
+      "recordType": "session",
+      "purpose": "Write continuously in ordinary paragraphs, without judging style or solving everything. Longhand and a three-page practice can be tracked as a personal ritual without becoming a file constraint.",
+      "prompt": "Start with whatever is present, including not knowing what to write.",
+      "required": [
+        "body"
+      ],
+      "optional": [
+        "date",
+        "medium",
+        "page-count",
+        "closing"
+      ],
+      "example": "body: I woke up with three unrelated ideas and no need to sort them yet.\nmedium: handwriting",
+      "notes": "A typed or shorter session is a labeled adaptation if the writer wants to distinguish it from the original practice. No automatic sentiment scoring, summary or resurfacing of private freewriting."
+    },
+    {
+      "id": "paper-and-grids",
+      "version": 1,
+      "label": "Paper, ruling and page geometry",
+      "recordType": "layout",
+      "purpose": "Choose blank, lined, square, dot or cue-column ruling to fit the writer and output. Layout records preserve choices without altering the words.",
+      "prompt": "What spacing lets me write comfortably?",
+      "required": [
+        "target",
+        "ruling"
+      ],
+      "optional": [
+        "grid-mm",
+        "line-mm",
+        "paper",
+        "margin-mm",
+        "font-pt",
+        "orientation",
+        "width-mm",
+        "height-mm",
+        "dot-diameter-mm",
+        "dot-color",
+        "margin-top-mm",
+        "margin-right-mm",
+        "margin-bottom-mm",
+        "margin-left-mm",
+        "binding",
+        "gutter-mm",
+        "mirror-margins",
+        "grid-area",
+        "grid-anchor"
+      ],
+      "example": "target: print\nruling: dot\ngrid-mm: 5\npaper: Letter\nmargin-mm: 12",
+      "notes": "ruling is blank, lined, square, dot or cornell. Positive lengths and usable-area checks are required before rendering. Printer performance and paper behavior need an actual proof; the format cannot guarantee physical ink behavior."
+    },
+    {
+      "id": "passion-planner",
+      "version": 1,
+      "label": "Roadmaps and values-led planning",
+      "recordType": "reflection",
+      "purpose": "Connect a future possibility to a concrete next step, with space for personal and work focus and a monthly look-back.",
+      "prompt": "What would I like more of, and which step would bring it closer?",
+      "required": [
+        "horizon",
+        "aspiration",
+        "next-step"
+      ],
+      "optional": [
+        "domain",
+        "milestone",
+        "due",
+        "not-to-do",
+        "review"
+      ],
+      "example": "horizon: three months\naspiration: Make more small creative things\nnext-step: Reserve one quiet evening",
+      "notes": "milestone and not-to-do are repeatable. Aspirations are not obligations, and a calendar date is not inferred from a horizon phrase. This is a general roadmap adaptation, not a reproduced commercial worksheet."
+    },
+    {
+      "id": "planner-sticker-and-deco-culture",
+      "version": 1,
+      "label": "Functional stickers and decorative journaling",
+      "recordType": "attachment",
+      "purpose": "Let decoration carry memory or aid navigation, while functional stickers can label a section or event. Treat artwork as optional rather than a prerequisite for using the journal.",
+      "prompt": "Is this decoration, a memory, or a symbol that carries information?",
+      "required": [
+        "path",
+        "media-type",
+        "alt",
+        "role"
+      ],
+      "optional": [
+        "relation",
+        "layer",
+        "license",
+        "creator"
+      ],
+      "example": "path: assets/rain-sticker.png\nmedia-type: image/png\nalt: A small rain cloud\nrole: decorative",
+      "notes": "role is decorative or functional. Functional assets need a text equivalent; decorative assets may have a brief descriptive alternative. An example path is illustrative and not a claim that the asset is bundled."
+    },
+    {
+      "id": "pomodoro-log",
+      "version": 1,
+      "label": "Focus rounds and interruption logs",
+      "recordType": "session",
+      "purpose": "Plan a bounded work round, record its actual outcome and park interruptions. Keep the task and the round as separate concepts.",
+      "prompt": "What will this round focus on, and what interrupted it?",
+      "required": [
+        "focus",
+        "status"
+      ],
+      "optional": [
+        "planned-duration",
+        "duration",
+        "duration-unit",
+        "start",
+        "end",
+        "interruption"
+      ],
+      "example": "focus: Read the connector datasheet\nstatus: completed\nplanned-duration: 25 min\nduration: 25\nduration-unit: min",
+      "notes": "status is planned, ongoing, completed or interrupted. interruption is repeatable. A completed round does not complete the linked task. Alternate round lengths are labeled adaptations, and the journal does not require a running timer."
+    },
+    {
+      "id": "progoff-intensive-journal",
+      "version": 1,
+      "label": "Life review and written dialogue",
+      "recordType": "reflection",
+      "purpose": "Explore a period of life through turning points, dialogue and linked sections. A new observation can lead to another section without forcing a single chronological narrative.",
+      "prompt": "What period am I in, and what other part of my life does this connect to?",
+      "required": [
+        "section",
+        "body"
+      ],
+      "optional": [
+        "relation",
+        "voice",
+        "period-start",
+        "period-end"
+      ],
+      "example": "section: Turning points\nbody: The move changed which routines felt like mine.",
+      "notes": "This is a general life-review adaptation, not a replacement for the official Intensive Journal workbook or workshop sequence. The writer controls pace and interpretation. Dialogue voices can use explicit voice cues in ordinary writing."
+    },
+    {
+      "id": "prompt-journaling",
+      "version": 1,
+      "label": "Prompt-based writing",
+      "recordType": "response",
+      "purpose": "Start from a chosen question and keep the question with the answer. A prompt may be answered, adapted, postponed or skipped.",
+      "prompt": "What would help me notice something specific today?",
+      "required": [
+        "question",
+        "status"
+      ],
+      "optional": [
+        "answer",
+        "prompt",
+        "prompt-version",
+        "source"
+      ],
+      "example": "question: What made the room feel welcoming?\nstatus: answered\nanswer: A lamp instead of the overhead light.",
+      "notes": "status is answered, partial, skipped or postponed. answer is required only when answered. A linked prompt is optional when question is stored locally; changing a prompt template must not change an existing response."
+    },
+    {
+      "id": "rocketbook-and-scan-systems",
+      "version": 1,
+      "label": "Paper scans and transcription",
+      "recordType": "attachment",
+      "purpose": "Identify a physical page and keep its scan, optional transcription and routing choices linked. The paper original remains a legitimate source.",
+      "prompt": "Which page is this, where is the original, and has the text been checked?",
+      "required": [
+        "path",
+        "media-type",
+        "alt"
+      ],
+      "optional": [
+        "page-label",
+        "physical-location",
+        "ocr-status",
+        "captured-at",
+        "sha256"
+      ],
+      "example": "path: assets/page-018.jpg\nmedia-type: image/jpeg\nalt: Handwritten notes and a cable sketch\npage-label: 18\nocr-status: unreviewed",
+      "notes": "ocr-status is none, unreviewed or verified. Brand routing symbols and encoded dot patterns are not assumed interoperable. A printed page ID should encode a local opaque identifier, not private journal content."
+    },
+    {
+      "id": "safety-planning",
+      "version": 1,
+      "label": "Personal support and safety-plan records",
+      "recordType": "collection",
+      "purpose": "Represent an existing, author-chosen support plan as a stable, accessible section. Preserve its intended order, review date and contact details without automatic crisis inference.",
+      "prompt": "What support plan have I chosen, and where can I find the current copy?",
+      "required": [
+        "title",
+        "kind"
+      ],
+      "optional": [
+        "warning-sign",
+        "coping",
+        "contact",
+        "environment",
+        "reviewed-on",
+        "member"
+      ],
+      "example": "title: My support plan\nkind: support-plan\nreviewed-on: 2026-10-25\ncoping: Sit in the familiar quiet room",
+      "notes": "warning-sign, coping, contact, environment and member are repeatable. This data profile is not a complete clinical plan template or emergency service. Actual contacts and steps come from the author's existing plan; no alerts or sharing occur just because the record exists."
+    },
+    {
+      "id": "shadow-growth-journal",
+      "version": 1,
+      "label": "Curiosity and growth reflections",
+      "recordType": "reflection",
+      "purpose": "Notice a reaction, possible meaning and a compassionate next step. Interpretations remain tentative and can be revised without overwriting the original feeling.",
+      "prompt": "What did I notice in my reaction, and what else could be true?",
+      "required": [
+        "reaction",
+        "body"
+      ],
+      "optional": [
+        "hypothesis",
+        "strength",
+        "boundary",
+        "closing"
+      ],
+      "example": "reaction: Envy when a friend finished a project\nbody: I may want more protected making time.\nstrength: I care about creating things.",
+      "notes": "Do not infer hidden motives, recovered memories or personality diagnoses. A prompt can be skipped; the software must not insist that mistreatment is a projection or the writer's fault."
+    },
+    {
+      "id": "spoon-theory-energy-accounting",
+      "version": 1,
+      "label": "Spoons and personal energy accounting",
+      "recordType": "observation",
+      "purpose": "Describe felt capacity, estimated costs and helpful recovery in a personally meaningful unit. The account is a metaphor and a planning aid, not a physiological measurement.",
+      "prompt": "What capacity do I feel I have, and where would I like to spend it?",
+      "required": [
+        "unit",
+        "status"
+      ],
+      "optional": [
+        "available",
+        "cost",
+        "recovery",
+        "balance",
+        "at",
+        "body"
+      ],
+      "example": "unit: personal-spoons\nstatus: estimated\navailable: 4\ncost: Shopping felt like 2\nbody: Rest mattered more than finishing the list.",
+      "notes": "Free-text costs are valid reflection. Arithmetic views require numeric cost/recovery fields in separate measurement records with explicit scope. Never compare spoon counts between people or automatically increase activity targets."
+    },
+    {
+      "id": "stimming-and-self-regulation",
+      "version": 1,
+      "label": "Stims and regulation supports",
+      "recordType": "observation",
+      "purpose": "Keep a personal menu of helpful sensations and tools, plus optional notes about when they helped. The purpose is access and self-knowledge.",
+      "prompt": "What felt regulating, and would I like it available again?",
+      "required": [
+        "support"
+      ],
+      "optional": [
+        "context",
+        "effect",
+        "preference",
+        "body"
+      ],
+      "example": "support: Smooth stone in a pocket\ncontext: Waiting in a noisy room\neffect: Easier to stay present",
+      "notes": "support is repeatable. The profile has no reduction goal, compliance metric or required frequency count. The writer may prefer a static support menu with no daily monitoring at all."
+    },
+    {
+      "id": "stoic-journaling",
+      "version": 1,
+      "label": "Stoic-inspired morning and evening review",
+      "recordType": "reflection",
+      "purpose": "Distinguish an event from a judgment and choose a response within personal influence. Morning intentions and evening reflection can remain simple prose.",
+      "prompt": "What can I influence, and what response fits my values?",
+      "required": [
+        "event",
+        "response"
+      ],
+      "optional": [
+        "judgment",
+        "within-influence",
+        "outside-influence",
+        "phase",
+        "learning"
+      ],
+      "example": "event: The bus was late.\nresponse: Leave a written note about the missed connection.\nwithin-influence: How I report it",
+      "notes": "Acknowledging limited control does not excuse harm or demand emotional suppression. phase is morning or evening when supplied. Quotes should carry attribution and stay distinct from the writer's own reflections."
+    },
+    {
+      "id": "study-and-note-taking",
+      "version": 1,
+      "label": "Study, Cornell notes and retrieval practice",
+      "recordType": "reflection",
+      "purpose": "Keep notes alongside questions that can later cue recall, plus a short summary in the writer's own words. Practice results can be logged separately.",
+      "prompt": "What question would test whether I understand this?",
+      "required": [
+        "topic",
+        "note",
+        "cue",
+        "summary"
+      ],
+      "optional": [
+        "source",
+        "review-on",
+        "recall-result"
+      ],
+      "example": "topic: Pull-up resistors\nnote: They establish a default logic level.\ncue: What happens when the input is otherwise floating?\nsummary: The resistor gives an unconnected input a defined default.",
+      "notes": "note and cue are repeatable. Pair cues and notes explicitly by separate records when order alone is insufficient. Review dates are suggestions, not a hidden executable spaced-repetition algorithm."
+    },
+    {
+      "id": "symptom-tracking",
+      "version": 1,
+      "label": "Symptoms, sleep and care observations",
+      "recordType": "measurement",
+      "purpose": "Record an observation, unit/scale and time so it can be remembered accurately. Medication events, symptom ratings and possible contextual factors remain distinct data.",
+      "prompt": "What did I observe, when, and on which scale?",
+      "required": [
+        "metric",
+        "status"
+      ],
+      "optional": [
+        "value",
+        "unit",
+        "scale",
+        "at",
+        "recall",
+        "body"
+      ],
+      "example": "metric: sleep-duration\nstatus: estimated\nvalue: 7.5\nunit: h\nbody: Approximate time asleep, not time in bed.",
+      "notes": "value is required for observed/estimated status and omitted for missing states. A perceived association is not causation. Standard clinical instruments require exact wording, version and permissions before an application claims compatibility."
+    },
+    {
+      "id": "theme-system-journal",
+      "version": 1,
+      "label": "Themes and directional review",
+      "recordType": "reflection",
+      "purpose": "Choose a direction for a period and notice actions that moved toward it. A theme can evolve and need not become a numerical success test.",
+      "prompt": "Where did I make a little more room for my theme?",
+      "required": [
+        "theme",
+        "observation"
+      ],
+      "optional": [
+        "period-start",
+        "period-end",
+        "action",
+        "alignment",
+        "scale",
+        "anti-theme"
+      ],
+      "example": "theme: More room to breathe\nobservation: Left a gap between errands.\naction: Paused before adding another task",
+      "notes": "action is repeatable. Numeric alignment is optional and requires a scale. Partial participation remains meaningful; a theme is not automatically a pass/fail goal. Anti-theme is an optional personal label."
+    },
+    {
+      "id": "time-block-planner",
+      "version": 1,
+      "label": "Time blocking and replanning",
+      "recordType": "event",
+      "purpose": "Assign a block to an activity, revise the plan when circumstances change, and retain the distinction between intended and actual time.",
+      "prompt": "What is this block for, and does the remaining plan still fit?",
+      "required": [
+        "title",
+        "start",
+        "end",
+        "mode"
+      ],
+      "optional": [
+        "relation",
+        "revision",
+        "reason"
+      ],
+      "example": "title: Project reading\nstart: 2026-10-25T14:00:00-07:00\nend: 2026-10-25T14:30:00-07:00\nmode: planned",
+      "notes": "mode is planned or actual. Replanned records use revises links rather than pretending the original plan happened. Overlaps are allowed with a visible warning, since real activities can overlap."
+    },
+    {
+      "id": "time-logging-lifelog",
+      "version": 1,
+      "label": "Actual-time logs and day reconstruction",
+      "recordType": "session",
+      "purpose": "Describe actual activity intervals, with optional category and feeling. Retrospective reconstruction is labeled rather than presented as an exact live log.",
+      "prompt": "What was I actually doing, and how certain am I about the time?",
+      "required": [
+        "activity",
+        "start",
+        "end"
+      ],
+      "optional": [
+        "category",
+        "recall",
+        "confidence",
+        "feeling"
+      ],
+      "example": "activity: Reading on the bus\nstart: 2026-10-25T15:10:00-07:00\nend: 2026-10-25T15:35:00-07:00\nrecall: retrospective",
+      "notes": "The example is a completed interval; ongoing capture may omit end and use status ongoing. Weekly totals must state how overlaps, gaps and multi-category sessions are handled. Unlogged time is unknown, not wasted."
+    },
+    {
+      "id": "travelers-notebook",
+      "version": 1,
+      "label": "Modular notebooks and travel-style inserts",
+      "recordType": "collection",
+      "purpose": "Group writing into replaceable inserts, topics or journeys, keeping an index and optional physical location. One .jot can hold several inserts conceptually.",
+      "prompt": "Which insert or journey does this belong to?",
+      "required": [
+        "title",
+        "kind"
+      ],
+      "optional": [
+        "member",
+        "physical-location",
+        "period-start",
+        "period-end"
+      ],
+      "example": "title: Autumn carry notebook\nkind: insert\nphysical-location: Small black notebook, second insert",
+      "notes": "member is repeatable. Archiving an insert preserves cross-links and physical page locators. A digital collection does not claim exact physical compatibility with a commercial cover or refill."
+    },
+    {
+      "id": "free-diary",
+      "version": 1,
+      "label": "Free diary and stream of consciousness",
+      "recordType": "reflection",
+      "purpose": "Keep narrative, fragments, contradictions and ordinary details without an imposed method.",
+      "prompt": "What do I want to write?",
+      "required": [
+        "body"
+      ],
+      "optional": [
+        "date",
+        "title"
+      ],
+      "example": "body: I have no plan for this paragraph. That is fine.",
+      "notes": "No date, length, mood score or conclusion is required for Core prose. This profile exists only for applications that want an explicit free-writing label."
+    },
+    {
+      "id": "shared-journal",
+      "version": 1,
+      "label": "Shared and dialogue journals",
+      "recordType": "response",
+      "purpose": "Keep each person's words and replies attributable, with a deliberate share scope.",
+      "prompt": "What do I want to share, and what response would I welcome?",
+      "required": [
+        "author",
+        "body"
+      ],
+      "optional": [
+        "relation",
+        "audience",
+        "consent"
+      ],
+      "example": "author: writer-b\nbody: I liked reading your description of the rain.",
+      "notes": "A response can link to an earlier record using responds-to. Sharing this file reveals its bytes; private writing requires separate access-controlled storage. No automatic invitation or message is implied."
+    },
+    {
+      "id": "travel-field-log",
+      "version": 1,
+      "label": "Travel, nature and field observations",
+      "recordType": "observation",
+      "purpose": "Capture what was seen, where and under what conditions, separating observations from identification guesses.",
+      "prompt": "What did I actually notice here?",
+      "required": [
+        "observation"
+      ],
+      "optional": [
+        "place",
+        "at",
+        "weather",
+        "hypothesis",
+        "asset"
+      ],
+      "example": "observation: Three small birds on the reed stems.\nplace: Riverside path\nhypothesis: Species uncertain",
+      "notes": "Precise coordinates are optional and excluded from sharing by default. Asset paths need real attachments before packaging. Uncertain identifications remain uncertain."
+    },
+    {
+      "id": "reading-media-journal",
+      "version": 1,
+      "label": "Reading and media journals",
+      "recordType": "reflection",
+      "purpose": "Connect a book, film, game or other work to a response, keeping spoilers and quotations attributable.",
+      "prompt": "What stayed with me from this work?",
+      "required": [
+        "work",
+        "body"
+      ],
+      "optional": [
+        "creator",
+        "locator",
+        "quotation",
+        "spoiler",
+        "source"
+      ],
+      "example": "work: A novel I am reading\nbody: The quiet scene mattered more than the ending.\nspoiler: false",
+      "notes": "spoiler is true or false. Repeated source and locator fields are allowed. A reaction is distinct from a factual summary, and reading progress is optional."
+    },
+    {
+      "id": "decision-journal",
+      "version": 1,
+      "label": "Decision journals",
+      "recordType": "reflection",
+      "purpose": "Preserve the information available at decision time and compare it with a later outcome without rewriting the forecast.",
+      "prompt": "What do I expect, why, and when would I reconsider?",
+      "required": [
+        "decision",
+        "reason"
+      ],
+      "optional": [
+        "option",
+        "prediction",
+        "probability",
+        "review-on",
+        "outcome"
+      ],
+      "example": "decision: Test the smaller enclosure first\nreason: It will reveal the fit problem sooner.\nprediction: The connector may need more clearance.",
+      "notes": "option is repeatable. probability, when supplied, is numeric 0 through 1 and belongs to a specific prediction. Review records link back to the original; an outcome must not replace the original expectation."
+    },
+    {
+      "id": "project-lab-log",
+      "version": 1,
+      "label": "Project and lab notebooks",
+      "recordType": "observation",
+      "purpose": "Record a question, procedure, actual observation and next experiment, preserving revisions and source artifacts.",
+      "prompt": "What did I try, what happened, and what should I test next?",
+      "required": [
+        "question",
+        "observation"
+      ],
+      "optional": [
+        "procedure",
+        "configuration",
+        "asset",
+        "next-step"
+      ],
+      "example": "question: Does the new cable remove the flicker?\nobservation: Flicker remained at the same brightness.\nnext-step: Inspect the supply connection.",
+      "notes": "procedure and asset are repeatable. Configuration and units must be explicit when comparisons depend on them. A personal project log does not automatically satisfy regulated lab-record requirements."
+    },
+    {
+      "id": "food-cooking-journal",
+      "version": 1,
+      "label": "Food, cooking and meal memories",
+      "recordType": "reflection",
+      "purpose": "Keep meals, recipe changes and sensory preferences as practical or autobiographical writing.",
+      "prompt": "What tasted good, and what would I change next time?",
+      "required": [
+        "body"
+      ],
+      "optional": [
+        "meal",
+        "recipe",
+        "ingredient",
+        "substitution",
+        "context"
+      ],
+      "example": "body: The lentil soup was better the next day.\nsubstitution: Used extra olives.",
+      "notes": "ingredient and substitution are repeatable. Nutrient estimates, if added, require separate source-labeled measurements. This profile does not require calorie tracking or label food as morally good/bad."
+    },
+    {
+      "id": "spiritual-reflection",
+      "version": 1,
+      "label": "Spiritual, ritual and meaning journals",
+      "recordType": "reflection",
+      "purpose": "Allow prayer, secular ritual, values, questions and meaning-making in the writer's own language.",
+      "prompt": "What felt meaningful or worth sitting with?",
+      "required": [
+        "body"
+      ],
+      "optional": [
+        "tradition",
+        "ritual",
+        "question",
+        "source"
+      ],
+      "example": "body: Lighting the candle gave the evening a boundary.\nritual: A quiet minute before writing",
+      "notes": "No belief system, supernatural claim or preferred interpretation is imposed. Quoted sacred or literary text carries attribution; the writer may leave questions unresolved."
+    },
+    {
+      "id": "memory-life-story",
+      "version": 1,
+      "label": "Memory, grief and life-story writing",
+      "recordType": "reflection",
+      "purpose": "Keep a memory, the feelings around it and uncertainty about details. Several accounts may coexist.",
+      "prompt": "What do I remember, and what am I unsure about?",
+      "required": [
+        "body"
+      ],
+      "optional": [
+        "person",
+        "period",
+        "confidence",
+        "asset"
+      ],
+      "example": "body: I remember the music more clearly than the room.\nconfidence: Details may have changed in memory.",
+      "notes": "Remembering is not verification of an event. No generated detail should be inserted as remembered fact. Resurfacing and sharing memories are explicit choices."
+    }
+  ]
+}

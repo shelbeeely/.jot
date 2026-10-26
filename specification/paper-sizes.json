@@ -1,0 +1,157 @@
+{
+  "format": "jot-paper-presets",
+  "version": 1,
+  "unit": "mm",
+  "presets": [
+    {
+      "name": "A0",
+      "widthMm": 841,
+      "heightMm": 1189
+    },
+    {
+      "name": "A1",
+      "widthMm": 594,
+      "heightMm": 841
+    },
+    {
+      "name": "A2",
+      "widthMm": 420,
+      "heightMm": 594
+    },
+    {
+      "name": "A3",
+      "widthMm": 297,
+      "heightMm": 420
+    },
+    {
+      "name": "A4",
+      "widthMm": 210,
+      "heightMm": 297
+    },
+    {
+      "name": "A5",
+      "widthMm": 148,
+      "heightMm": 210
+    },
+    {
+      "name": "A6",
+      "widthMm": 105,
+      "heightMm": 148
+    },
+    {
+      "name": "A7",
+      "widthMm": 74,
+      "heightMm": 105
+    },
+    {
+      "name": "A8",
+      "widthMm": 52,
+      "heightMm": 74
+    },
+    {
+      "name": "A9",
+      "widthMm": 37,
+      "heightMm": 52
+    },
+    {
+      "name": "A10",
+      "widthMm": 26,
+      "heightMm": 37
+    },
+    {
+      "name": "ISO-B0",
+      "widthMm": 1000,
+      "heightMm": 1414
+    },
+    {
+      "name": "ISO-B1",
+      "widthMm": 707,
+      "heightMm": 1000
+    },
+    {
+      "name": "ISO-B2",
+      "widthMm": 500,
+      "heightMm": 707
+    },
+    {
+      "name": "ISO-B3",
+      "widthMm": 353,
+      "heightMm": 500
+    },
+    {
+      "name": "ISO-B4",
+      "widthMm": 250,
+      "heightMm": 353
+    },
+    {
+      "name": "ISO-B5",
+      "widthMm": 176,
+      "heightMm": 250
+    },
+    {
+      "name": "ISO-B6",
+      "widthMm": 125,
+      "heightMm": 176
+    },
+    {
+      "name": "ISO-B7",
+      "widthMm": 88,
+      "heightMm": 125
+    },
+    {
+      "name": "ISO-B8",
+      "widthMm": 62,
+      "heightMm": 88
+    },
+    {
+      "name": "ISO-B9",
+      "widthMm": 44,
+      "heightMm": 62
+    },
+    {
+      "name": "ISO-B10",
+      "widthMm": 31,
+      "heightMm": 44
+    },
+    {
+      "name": "Letter",
+      "widthMm": 215.9,
+      "heightMm": 279.4
+    },
+    {
+      "name": "Legal",
+      "widthMm": 215.9,
+      "heightMm": 355.6
+    },
+    {
+      "name": "Tabloid",
+      "widthMm": 279.4,
+      "heightMm": 431.8
+    },
+    {
+      "name": "Half-Letter",
+      "widthMm": 139.7,
+      "heightMm": 215.9
+    },
+    {
+      "name": "Executive",
+      "widthMm": 184.15,
+      "heightMm": 266.7
+    }
+  ],
+  "aliases": [
+    {
+      "name": "Ledger",
+      "paper": "Tabloid",
+      "orientation": "landscape"
+    }
+  ],
+  "custom": {
+    "paper": "custom",
+    "requires": [
+      "width-mm",
+      "height-mm"
+    ],
+    "portraitWidthMustNotExceedHeight": true
+  }
+}

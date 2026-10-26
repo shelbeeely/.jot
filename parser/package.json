@@ -1,0 +1,15 @@
+{
+  "name": "jot-parser",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./jot.mjs",
+    "./proofread": "./proofread.mjs",
+    "./container": "./container.mjs"
+  },
+  "scripts": {
+    "test": "node --test test.mjs proofread-test.mjs container-test.mjs"
+  },
+  "description": "Source-preserving Jot journal blocks, GFM Markdown, diagram identification and optional writing hints."
+}

@@ -1,0 +1,16 @@
+{
+  "format": "jot",
+  "version": "1.0",
+  "source": "A quiet morning.\n",
+  "metadata": [],
+  "nodes": [
+    {
+      "type": "paragraph",
+      "start": 0,
+      "end": 17,
+      "raw": "A quiet morning.\n",
+      "text": "A quiet morning."
+    }
+  ],
+  "diagnostics": []
+}

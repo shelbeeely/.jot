@@ -1,0 +1,65 @@
+# Jot JavaScript parser
+
+The format is **Jot v1**, stored as one self-contained ZIP-based `.jot` document. Its writing is readable UTF-8 `journal.txt` inside; images, scans and strokes are included under `assets/`. The parser implementation version is independently 0.1.0. A file can contain one moment, a day, a month or an ongoing journal. The source parser handles the writing itself; `container.mjs` reads/writes the complete document. The web scanner is a separate app; scanning images does not parse handwriting into text.
+
+This is a working **prototype**, version 0.1.0, with a source-preserving block AST and Markdown tokens. It is not a claim of complete conformance with every rule/profile of the larger draft specification.
+
+## Run in Node or a browser
+
+```javascript
+import { parse, stringify } from './jot.mjs';
+
+const text = '# October\n\n### 2026-10-25\n\nA **good** small start.\n';
+const journal = parse(text);
+console.log(journal.entries);
+console.log(journal.nodes);
+console.log(journal.diagnostics);
+console.assert(stringify(journal) === text);
+```
+
+For a browser, use the same import from a `<script type="module">` on HTTP(S), with the `vendor/` directory beside `jot.mjs`. For Node, run `node --test test.mjs` (tested on Node 24). The package is self-contained and does not fetch dependencies at runtime.
+
+## Markdown support and conflicts
+
+Markdown parsing uses vendored Marked 17.0.5, with GFM enabled: headings, paragraphs, nested ordered/unordered lists, task lists, links/images, emphasis, blockquotes, fenced/indented code, tables and strikethrough. Raw HTML is retained as tokens, not rendered or executed. A future HTML renderer must disable raw HTML or sanitize its output with a maintained sanitizer; do not insert untrusted generated HTML directly into the DOM.
+
+Use `parse(text, {journal:false})` for ordinary Markdown without journal extensions. In Jot mode, optional records, presentation directives, bare task markers, idea/question/event markers, explicit voice cues and scenes are recognized outside fenced/indented code. `- note` follows Markdown list syntax rather than creating a separate note-node type. `- [x] task` is a Markdown task-list item; `[x] task` is a Jot task node. Underscores follow Markdown emphasis rules, not the previous draft's underline meaning. `~~text~~` is GFM strikethrough; `~text~` remains text. Setext headings take precedence over `===` immediately under writing. A standalone `===` after a blank line is a Jot page break.
+
+This package's `README.md` and tests are the implementation contract for version 0.1; the larger specification describes a broader design. It does not claim full CommonMark/GFM test-suite certification, and Jot extension boundaries may differ from plain Markdown. Named styles do not require magic section names.
+
+## Mermaid and other diagrams
+
+Use a Markdown fenced code block with one of these language names: `mermaid`, `dot`/`graphviz`, `plantuml`/`puml`, `d2`, `vega` or `vega-lite`/`vegalite`. The code node gains `diagram: {engine, language, source}`. Vega/Vega-Lite additionally expose `config` for valid JSON objects. Invalid JSON is diagnosed and preserved. Extend recognition with `parse(text, {diagramLanguages: {'my-chart':'custom-engine'}})`.
+
+Diagram rendering is separate. This package does not include those engines, validate their grammars, or send source to a remote service. An editor can provide local rendering adapters or show the preserved code. Adapters must restrict external resources and sanitize SVG/HTML. Unknown fenced languages remain ordinary code. Links, renderer directives and chart data URLs are not fetched by this parser.
+
+## Handwriting
+
+Handwritten writing can be preserved as editable strokes plus a PNG attachment, linked through an ordinary Jot record. Stroke files are assets inside the same document, not prose in disguise. A separate, user-reviewed transcription may link to them using `derived-from`; it must never replace the original handwriting. The scanner includes browser pen input and stroke export. This parser does not perform handwriting recognition.
+
+## AST and preservation
+
+`source` contains the original string. Nodes include `type`, `raw`, `start` and `end`; offsets count UTF-8 bytes. Markdown nodes carry the original Marked token in `markdown`. Record fields are ordered `{name,value}` pairs. Date headings generate an `entries` index without splitting the source into files. Repeated dates remain separate entries. Unicode and original newline sequences are preserved in source slices, even though Markdown token text normalizes newlines.
+
+`stringify(ast)` returns the unmodified original source. It does not serialize edits made to derived tokens. There is no HTML renderer, profile validator, OCR engine, date-time scheduler, attachment loader or remote include processor. Diagnostics cover malformed metadata/records, unclosed fences/comments, invalid dates and duplicate record IDs. The parser never executes content or fetches linked files.
+
+## Dependency notice
+
+`vendor/marked.mjs` is Marked 17.0.5, distributed under its MIT license in `vendor/marked-LICENSE.md`. It is included to keep Markdown behavior grounded in an established parser rather than an ad hoc collection of replacement expressions. Jot's wrapper is original project code.
+
+
+## Optional spelling and grammar hints
+
+```javascript
+import { proofread } from './proofread.mjs';
+const hints = proofread(parse(text), {
+  grammar: true,
+  dictionary: null, // or a Set of lowercase words supplied by the host
+  language: 'en'
+});
+```
+
+These are non-destructive prose-only English pattern hints, separate from syntax diagnostics. They do not constitute a full grammar or spelling engine. The browser workspace additionally uses native browser spellcheck. Run both test files with `npm test` or `node --test test.mjs proofread-test.mjs`.
+
+
+See CONTAINER.md for the single-file document contract and pack/unpack/readDocument APIs. Plain Markdown export contains only writing; it does not contain attached binary files. Container support uses vendored JSZip and a hash.js SHA-256 fallback with included license notices.
