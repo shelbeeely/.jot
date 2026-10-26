@@ -14,8 +14,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 7741,
-      "sha256": "3679add75395e3aea20f978b5fb17f9f8b82991b40db86fac0c4dc66337baafe"
+      "byteLength": 7829,
+      "sha256": "64690dfbad7021362e4f90b8dc9d8beca87ce770b287a8cdd40a0809bf7326b5"
     },
     {
       "path": "README.md",
@@ -89,8 +89,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 14974,
-      "sha256": "1625a415c428181e1e03094991579c2e737004cb8d8c6ba1370e4e4b3ac515bb"
+      "byteLength": 15162,
+      "sha256": "b00711c7d730a4db11f3fbcce5de29ceea8ff7c5075ed5431cdc5a890bf53e55"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -484,13 +484,13 @@
     },
     {
       "path": "parser/handwriting-test.mjs",
-      "byteLength": 4391,
-      "sha256": "2f2423b29358c846f9bb75060eb5dadcf839574a6fc2fc6ff1c8bb34264d3d1c"
+      "byteLength": 5884,
+      "sha256": "8421a7386cdddde968eb296839108b6d1a507fb5f4b232da17e89b17fdaf66b2"
     },
     {
       "path": "parser/handwriting.mjs",
-      "byteLength": 19445,
-      "sha256": "fcad55855196f6359bf281848982f50ac3ed4b82b815ea12832174416a38a31f"
+      "byteLength": 23385,
+      "sha256": "8993e40b1661dab6678249ddc16dceb11ca161edc185aca609049630303fbb89"
     },
     {
       "path": "parser/jot.mjs",
@@ -629,8 +629,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 847831,
-      "sha256": "0d6e2387399eab2885d57ca3a4a647d2de857e02d8b0d0e4210c6a5a04af7202"
+      "byteLength": 849680,
+      "sha256": "e24d7fbb16eeff21a1e47329833f2316b464fd05675d99cab63d9642431b1770"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -954,8 +954,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 21883,
-      "sha256": "d5a47567075f9bba6efe8bee226ad7f6db2f1f1b8e1327a0e5572337418fc2f8"
+      "byteLength": 22071,
+      "sha256": "19d517d5228a3ee9381c14eb05bd9a8ba5ea352b6aa885459d5de74a8daade92"
     },
     {
       "path": "site/dist/home.css",
@@ -1069,8 +1069,8 @@
     },
     {
       "path": "site/dist/jot/handwriting.mjs",
-      "byteLength": 19445,
-      "sha256": "fcad55855196f6359bf281848982f50ac3ed4b82b815ea12832174416a38a31f"
+      "byteLength": 23385,
+      "sha256": "8993e40b1661dab6678249ddc16dceb11ca161edc185aca609049630303fbb89"
     },
     {
       "path": "site/dist/jot/jot.mjs",
@@ -1199,8 +1199,8 @@
     },
     {
       "path": "site/test-editor-ui.cjs",
-      "byteLength": 34471,
-      "sha256": "3c167d4af6cd7fc8a0e417c66afc220202ddf067883267137487ab8d6fc1e70f"
+      "byteLength": 35238,
+      "sha256": "bc567abc24577acdf1f61fc820fe766c12d9740474711d3c8d90fc68a24d2056"
     },
     {
       "path": "site/test-editor.mjs",
@@ -1429,8 +1429,8 @@
     },
     {
       "path": "vscode/media/jot/handwriting.mjs",
-      "byteLength": 19445,
-      "sha256": "fcad55855196f6359bf281848982f50ac3ed4b82b815ea12832174416a38a31f"
+      "byteLength": 23385,
+      "sha256": "8993e40b1661dab6678249ddc16dceb11ca161edc185aca609049630303fbb89"
     },
     {
       "path": "vscode/media/jot/jot.mjs",

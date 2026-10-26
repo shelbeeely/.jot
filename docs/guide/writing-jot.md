@@ -290,8 +290,9 @@ Every line of writing sits on a row of dots, page after page: the printed dots a
 filled in by hand. Headings take two rows, a blank row separates paragraphs, and charts, tables and pictures are rounded up to whole
 rows so nothing after them slips off the grid. Dashed lines in the preview show where each printed page ends.
 
-Task boxes are drawn in pencil, each a slightly different wobbly square, and a done task gets a scribbled tick that runs past the box
-the way a quick pen does. Each word leans and sits a little differently, and the wobbles are worked out from the words themselves, so the same journal always
+Task boxes are drawn in pencil, and not all the same way: a square closed with an overlap, one left open at a corner, one gone
+over twice, a softer rounded one. A done task gets a tick that runs past the box the way a quick pen does: a plain check, one with a
+little hook, a long flick, or two quick strokes. No two boxes in a row are drawn alike. Each word leans and sits a little differently, and the wobbles are worked out from the words themselves, so the same journal always
 prints the same. **Rewrite ↻** writes it again with other wobbles and letter shapes; your words never change. Turn **Dots** off to
 print the handwriting on plain paper, or on paper that already has a dot grid.
 

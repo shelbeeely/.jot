@@ -51,3 +51,18 @@ test('hand-drawn boxes: a wobbly square and a scribbled tick, different for each
   assert.ok(!/hw-check|input/.test(BOX_CSS), 'only drawings on handwritten pages: no form controls');
   assert.ok(css('./f/').includes(BOX_CSS));
 });
+
+test('the boxes come in several designs, chosen by seed, never the same twice in a row', async () => {
+  const { BOX_KINDS, TICK_KINDS, squarePath, tickPath, boxKinds } = await import('./handwriting.mjs');
+  assert.deepEqual(BOX_KINDS, ['closed', 'open', 'twice', 'round']); assert.deepEqual(TICK_KINDS, ['check', 'hook', 'flick', 'two']);
+  for (const k of BOX_KINDS) for (let s = 1; s < 200; s++) for (const n of squarePath(s, k).match(/-?[\d.]+/g).map(Number)) assert.ok(n >= 0 && n <= 24, `${k} ${s} stays in its box`);
+  assert.equal(new Set(BOX_KINDS.map((k) => squarePath(7, k).replace(/[\d.,-]/g, ''))).size, 4, 'four different ways to draw the square');
+  assert.equal(new Set(TICK_KINDS.map((k) => tickPath(7, k))).size, 4, 'four different ticks');
+  assert.ok(tickPath(7, 'hook').split('Q').length > tickPath(7, 'check').split('Q').length, 'the hook curls before the tick');
+  assert.match(tickPath(7, 'two'), /^M[^M]+M/, 'the two-stroke tick lifts the pen');
+  let last = null; const seen = new Set();
+  for (let s = 1; s < 300; s++) { const k = boxKinds(s, last); if (last) assert.ok(k.box !== last.box && k.tick !== last.tick, `seed ${s}`); seen.add(`${k.box}/${k.tick}`); last = k; }
+  assert.equal(seen.size, 16, 'every pairing turns up');
+  assert.deepEqual(boxKinds(42), boxKinds(42), 'the same seed, the same box');
+  assert.match((await import('./handwriting.mjs')).BOX_CSS, /\.hw-box:not\(\.done\) \.hw-tick\{visibility:hidden\}/, 'an empty box shows no stray dot');
+});
