@@ -25,6 +25,18 @@ handwriting with the writing. This repository holds the format, its parser and w
     node site/test-core.cjs
     python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/  and  /scan/
 
+## Journal builder: design a journal, get a .jot to fill in
+
+Arrange the book and the day page in the visual editor (blocks: check-ins, scales, writing space, time blocks ...), then download it as a
+plain-text `.jot`: one month, a dated entry a day, each block written as Jot to fill in by hand (`[ ] ` ticks, `value:` blanks in
+measurement records, headings with room to write). No scan zones, page codes or page layout.
+
+    cd journal && npm ci && node render.mjs month 2026-10 test.ics && node editor/build.mjs   # the editor's page CSS comes from a sample build
+    # open editor/dist/site/index.html (serve the folder over HTTP): More → Download .jot
+    node render-jot.mjs month 2026-10 [--per week]       # the same file from the command line (a file a week fits InkDeck)
+
+Details: [journal/README.md](journal/README.md#jot-files-to-fill-in-the-book-as-a-jot).
+
 ## Journal builder: .jot into a book
 
 Needs Node 20+, Chromium (or `CHROMIUM_PATH`), Python 3 with pillow, and poppler-utils for the font check.

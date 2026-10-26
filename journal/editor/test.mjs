@@ -776,6 +776,16 @@ ok(!errs.length, 'no page errors after the Book view ' + errs.join(' | '));
   // the menu in view mode: only exports
   await v.click('#menubtn');
   ok(await v.evaluate(() => { const on = [...document.querySelectorAll('#menu [role=menuitem]')].filter((x) => x.offsetParent).map((x) => x.id); return on.includes('m-dl') && on.includes('m-copy') && !on.some((x) => ['m-method', 'm-import', 'm-reset', 'm-ghload'].includes(x)); }), 'view: the More menu offers exports only (no methods, import, reset or load)');
+  // Download .jot (jotfile.mjs): the book as a Jot file to fill in by hand, from view mode too; no scan header, codes or send-to strip
+  { ok(await v.evaluate(() => !!document.querySelector('#m-jot').offsetParent), 'view: the More menu offers Download .jot');
+    const dlj = v.waitForEvent('download'); await v.click('#m-jot'); const d = await dlj, txt = fs.readFileSync(await d.path(), 'utf8');
+    const { parse: jparse } = await import('../../parser/jot.mjs'), J = jparse(txt);
+    ok(/^[a-z0-9-]+-\d{4}-\d{2}\.jot$/.test(d.suggestedFilename()) && J.diagnostics.length === 0 && J.entries.length >= 28 && !/DATE:|SEND TO|data-zone/.test(txt), `Download .jot gives ${d.suggestedFilename()}: a clean Jot file, a dated entry a day, nothing for scanning`);
+    ok(/Saved .*\.jot/.test(await v.textContent('#toast')), 'and says it is saved');
+    await v.click('#menubtn'); const got = []; const onDl = (x) => got.push(x); v.on('download', onDl); await v.click('#m-jotw');
+    await v.waitForFunction(() => /Saved \d+ \.jot files/.test(document.querySelector('#toast').textContent), null, { timeout: 8000 }); await v.waitForTimeout(500); v.off('download', onDl);
+    const sizes = await Promise.all(got.map(async (x) => fs.statSync(await x.path()).size));
+    ok(got.length >= 4 && got.every((x) => /\.jot$/.test(x.suggestedFilename())) && sizes.every((b) => b < 16384), `Download .jot, a file a week: ${got.length} files, each under InkDeck's 16 KB`); }
   await v.evaluate(() => document.body.click());
   // Versions works from view
   await v.click('#v-ver'); await v.waitForSelector('#versions[open]'); ok(await v.locator('#vs-close').isVisible(), 'view: the Versions drawer opens'); await v.click('#vs-close');

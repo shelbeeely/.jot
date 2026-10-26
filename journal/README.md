@@ -1,6 +1,7 @@
 # Journal builder (.jot)
 
-Monthly journals for Amazon KDP, plus a yearly Keeper book and Xteink X4 EPUBs, with your **.jot writing printed in** (see
+Build a journal in the editor and get it as a **.jot file to fill in by hand** (see [Jot files to fill in](#jot-files-to-fill-in-the-book-as-a-jot)),
+or as monthly books for Amazon KDP, with a yearly Keeper book and Xteink X4 EPUBs, and your **.jot writing printed in** (see
 [Jot pages](#jot-pages-jot-writing-in-the-book)). This is the engine from Journalwright Studio (`shelbeeely/Journaling`, `journal/`),
 carried over with the generic profile and packs only: nothing personal, no X4 firmware, no Studio server.
 
@@ -156,6 +157,36 @@ No Type 3 fonts (KDP rejects them). Same check CI runs:
     for f in out/*/*interior*.pdf out/keeper/*.pdf; do pdffonts "$f" | grep -q "Type 3" && echo "Type 3 in $f"; done
 
 No output = pass.
+
+## Jot files to fill in (the book as a .jot)
+The editor builds the structure; a `.jot` file is the output: the same book, one month, as plain Jot text to fill in by hand (on a
+keyboard or InkDeck) instead of printed pages. Nothing for scanning or page layout goes in: no DATE / TITLE / TAGS boxes, page codes,
+SEND TO strip, frame, page breaks or paper size.
+
+    node render-jot.mjs month 2026-10                     # out/jot/<slug>-2026-10.jot
+    node render-jot.mjs month 2026-10 private/main.ics    # with the month's events (o 4:00p ...) and routines in the action items
+    node render-jot.mjs month 2026-10 --per week          # a file a week (InkDeck opens 16 KB a file; a month is about 17 KB)
+
+In the editor: **More → Download .jot (fill in by hand)**, or **Download .jot, a file a week (for InkDeck)**. Both use the book you
+arranged (pages shown or hidden, a month's own page list, spread days, notes pages with their blocks) and the day layout you built.
+
+What the file looks like (`jotfile.mjs` holds the mapping, block by block):
+
+| In the book | In the .jot |
+| --- | --- |
+| The month, a week, a day | `# October 2026`, `## Week of 2026-10-05`, `### 2026-10-05 \| Monday` (one Jot entry a day) |
+| A block's title | `#### Title`, then room to write |
+| Tick boxes, habits, action items, top 3, care ticks, chores | `[ ] label` (write after `[ ] `; `[x]` marks it done) |
+| A scale, mood, water, spoons, pixel | a `measurement` record with an empty `value:`; its scale (range and words) is declared once at the top |
+| Several ratings or blanks (feelings, sensory load, fill-in blanks, weather, sleep, shift, thought record) | one `observation` record, a field each (a label that is a reserved Jot field, like "Body", gets `x-`) |
+| Words to circle, injection sites, Wall of Awful | the choices as `[[a · b · c]]`, then a line to write yours |
+| Time blocks, lists, spending, flash cards, review tracker, stim log | `- 08:00 ` lines, `- ` lists, Markdown tables |
+| Theme, review, closing, safety plan, quick contacts, week review, exchange | `##` sections with their questions as `####` headings |
+| Printed reference pages (title, key, support lists, bus times, sky) and the day's printed data (moon, holidays, "on this day") | left out: nothing to fill in |
+| Paper-only blocks (sketch boxes, photo frames, puzzles, tracing, spacers, dividers, send-to strip) | left out, and named in the editor's message and the command's output |
+
+A filled-in file is ordinary Jot: the parser reads the ticks and values, and the Jot pages below can print it back into a book.
+Checked by `node test-jotfile.mjs` (every block type, a filled-in round trip, splits, the book's structure, the command line).
 
 ## Jot pages (.jot writing in the book)
 Writing kept in **.jot** documents ([Jot v1](../specification/), read with `../parser/`) prints into the monthly book, right after the

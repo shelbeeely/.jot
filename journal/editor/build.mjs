@@ -49,7 +49,10 @@ const photoCode = read('photo.mjs').replace(/^import .*$/gm, '').replace(/^expor
 // chores.mjs (the chores blocks' recurrence and drawing, no imports; names start with ch) comes right before the block library too.
 const choresCode = read('chores.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '') + '\n';
 const noteCode = read('noteblocks.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '') + '\n'; // noteblocks.mjs (notes, flash cards, stimming) follows it: it uses the photo page widths
-const lib = a11y + read('scan.mjs').replace(/^export /gm, '') + '\n' + puzzleCode + photoCode + noteCode + choresCode + read('daypage.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '') + '\n' + read('content/layouts.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '') + '\n' + read('presets.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '');
+const lib = a11y + read('scan.mjs').replace(/^export /gm, '') + '\n' + puzzleCode + photoCode + noteCode + choresCode + read('daypage.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '') + '\n' + read('content/layouts.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '') + '\n' + read('presets.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '')
+  // jotfile.mjs: the book as a .jot file to fill in by hand ("Download .jot"), the same code as render-jot.mjs. JF_INFO: what the profile adds.
+  + '\n' + read('jotfile.mjs').replace(/^import .*$/gm, '').replace(/^export /gm, '')
+  + `\nconst JF_INFO = ${JSON.stringify({ title: PROFILE.book.title, slug: PROFILE.book.slug, month: M0, crisis: (PROFILE.crisis && PROFILE.crisis.lines) || [] }).replace(/</g, '\\u003c')};\n`;
 // The Versions view (Journalwright Studio) computes its compare view in the browser with the same diff code the Studio server uses (studio/src/diff.mjs).
 const studioCode = ['../studio/src/canonical.mjs', '../studio/src/diff.mjs'].map((f) => read(f).replace(/^import .*$/gm, '').replace(/^export /gm, '')).join('\n');
 const studio = `(() => {\n${studioCode}\nreturn { canonical, diffSnapshots };\n})()`;

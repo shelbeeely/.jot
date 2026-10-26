@@ -444,6 +444,8 @@ input[type=text], input[type=password], input[type=url], input:not([type]), sele
         <button role="menuitem" class="editonly" id="m-method" data-i18n="app.start_from_a_method">Start from a method…</button>
         <button role="menuitem" id="m-gh" hidden data-i18n="app.save_to_github">Save to GitHub…</button>
         <button role="menuitem" class="editonly" id="m-ghload" hidden data-i18n="app.load_from_github">Load from GitHub</button>
+        <button role="menuitem" id="m-jot" data-i18n="app.download_jot">Download .jot (fill in by hand)</button>
+        <button role="menuitem" id="m-jotw" data-i18n="app.download_jot_weeks">Download .jot, a file a week (for InkDeck)</button>
         <button role="menuitem" id="m-dl" data-i18n="app.download_daypage_json">Download daypage.json</button>
         <button role="menuitem" id="m-copy" data-i18n="app.copy_layout_json">Copy layout JSON</button>
         <button role="menuitem" class="editonly" id="m-import" data-i18n="app.import_a_layout">Import a layout…</button>
@@ -1199,6 +1201,23 @@ $('#m-dl').onclick = async () => {
   if (dl) { try { await dl.save({ filename: 'daypage.json', data: json() }); } catch (e) { if (e && e.code !== 'declined') toast(_t('app.cant_save_file')); } return; }
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([json()], { type: 'application/json' })); a.download = 'daypage.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
+// The book as a .jot file (jotfile.mjs): this book's pages and day layout, one month, as plain text to fill in by hand. No scan
+// header, codes or send-to strip, no page layout. Paper-only blocks (sketch boxes, photos, puzzles ...) are named in the toast.
+async function jotDownload(per) {
+  let book = null, month = JF_INFO.month;
+  try { const d = await bkLoadData(); if (!ORG.cat) await orgInit(d); book = ORG.book; month = ORG.mon || month; } catch { book = null; }
+  const files = jotFiles({ book, month, day: dayNow(), title: JF_INFO.title, slug: JF_INFO.slug, size, crisis: JF_INFO.crisis }, per);
+  for (const r of files) {
+    if (dl) { try { await dl.save({ filename: r.file, data: r.text }); } catch (e) { if (e && e.code !== 'declined') toast(_t('app.cant_save_file')); return; } continue; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([r.text], { type: 'text/plain;charset=utf-8' })); a.download = r.file; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    if (files.length > 1) await new Promise((ok) => setTimeout(ok, 250)); // browsers drop downloads that come too close together
+  }
+  const big = per === 'month' && new Blob([files[0].text]).size > JF_INKDECK_BYTES, skipped = files[0].skipped;
+  const what = files.length > 1 ? _t('app.jot_saved_n', { n: files.length }) : _t('app.jot_saved', { file: files[0].file });
+  toast([what, big ? _t('app.jot_big') : '', skipped.length ? _t('app.jot_skipped', { list: skipped.join(', ') }) : ''].filter(Boolean).join(' '));
+}
+$('#m-jot').onclick = () => jotDownload('month');
+$('#m-jotw').onclick = () => jotDownload('week');
 $('#m-import').onclick = () => $('#file').click();
 $('#file').onchange = async () => {
   const f = $('#file').files[0]; $('#file').value = ''; if (!f) return;

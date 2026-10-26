@@ -176,7 +176,7 @@ const LST = (k, label, def, max = 10) => ({ k, kind: 'list', label, def, max });
 const PITCH = { k: 'pitch', kind: 'choice', label: 'Line spacing', choices: [[5.6, 'Tight 5.6 mm'], [6.6, 'Standard 6.6 mm'], [8.5, 'Wide 8.5 mm']], def: 5.6 };
 const OMR = B('omr', 'Scan-ready (larger marks)', false);
 export const X4_MAXES = [5, 10, 20, 50, 99, 200, 999]; // "fields": the most the X4 counts up to (paper is unaffected)
-const BODYSIG = { stomach: 'Hungry', water: 'Thirsty', toilet: 'Toilet', temp: 'Hot/cold', tense: 'Tense', heart: 'Heart', tired: 'Tired' };
+export const BODYSIG = { stomach: 'Hungry', water: 'Thirsty', toilet: 'Toilet', temp: 'Hot/cold', tense: 'Tense', heart: 'Heart', tired: 'Tired' };
 const PAPER = { k: 'paper', kind: 'choice', label: 'Paper', choices: [['lines', 'Lines'], ['dots', 'Dot grid'], ['grid', '4 mm grid']], def: 'lines' };
 
 // Puzzle blocks (wordsearch, crossword): difficulty, where the words come from, and the seed (change it for a different puzzle).
@@ -856,7 +856,7 @@ const swatch = (i, n) => { const h = Math.round((i / (n - 1)) * 8); return `<svg
 export const THERAPY_NOTE = '<div class="tn">Use with a therapist. Crisis: call or text <b>988</b> · Trans Lifeline <b>(877) 565-8860</b></div>';
 const SKILLS_KEY = '0 none · 1–2 thought of · 3–5 tried · 6–7 came on their own · 5 and 7 helped';
 // Thought record boxes (CBT): 3 = quick record, 5 = Beck style, 7 = Mind Over Mood style. Feelings/moods are rated 0-100 by hand.
-const THOUGHT_BOXES = { 3: ['Thought', 'Trap', 'Balanced'], 5: ['Situation', 'Feeling %', 'Thought', 'Balanced', 'Outcome'], 7: ['Situation', 'Mood %', 'Thought', 'For', 'Against', 'Balanced', 'Mood now'] };
+export const THOUGHT_BOXES = { 3: ['Thought', 'Trap', 'Balanced'], 5: ['Situation', 'Feeling %', 'Thought', 'Balanced', 'Outcome'], 7: ['Situation', 'Mood %', 'Thought', 'For', 'Against', 'Balanced', 'Mood now'] };
 // The seed text of a puzzle block: the page it is on (the day's date, or the page's id), the block's uid and the block's own seed, so a
 // reprint gives the same puzzle and every page gets its own.
 const pzSeed = (b, parts) => `${parts.day ? parts.day.date || 'n' + parts.day.n : parts.seed || ''}|${b.uid}|${b.seed}`;
