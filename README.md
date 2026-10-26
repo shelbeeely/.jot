@@ -13,7 +13,8 @@ print engine that turns `.jot` writing into KDP-ready books.
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
 | [`parser/`](parser/) | JavaScript parser (`jot.mjs`), container (`container.mjs`: packaged `.jotz`), proofreading hints, tests |
 | [`site/`](site/) | The browser workspace (`site/dist/`, static), the template editor (`/editor/`) and the scanner/handwriting tool (`/scan/`) |
-| [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md) and [Using the template editor](docs/guide/template-editor.md) (also pages on the site, `/guide/`) |
+| [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
+| [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries |
 | [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (46 guides, CC0) |
 | [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz` |
 | [`references/`](references/) | The historical DotJot document (background only) |
@@ -62,6 +63,15 @@ Needs Node 20+, Chromium (or `CHROMIUM_PATH`), Python 3 with pillow, and poppler
 Each dated entry (`### 2026-10-25`, a `Date:` line, or a `YYYY-MM-DD.jot` file name) prints on pages of its own after that week's day
 pages, under the fixed DATE / TITLE / TAGS header. Your own writing goes in `journal/private/jots/` (ignored by git) or wherever
 `KW_JOTS` points. Details: [journal/README.md](journal/README.md#jot-pages-jot-writing-in-the-book).
+
+## Converter: old diaries into Jot
+
+`jot-convert` turns a diary kept as plain text into `.jot`: a dated entry for each day, the original date kept after the `|`, Old
+Style dates converted (`--calendar julian`), split by year when it is too big. Tested on Pepys, *The Diary of a Nobody* and Blunt's
+*My Diaries* from Project Gutenberg. Details: [converter/README.md](converter/README.md).
+
+    curl -sL https://www.gutenberg.org/cache/epub/1026/pg1026.txt | node converter/jot-convert.mjs - --year 1888 > nobody.jot
+    node --test converter/test.mjs
 
 ## InkDeck
 

@@ -14,13 +14,68 @@
     },
     {
       "path": "README.md",
-      "byteLength": 5692,
-      "sha256": "5012220c761678d7fed85d97bacf6cca99cb3f9d40a1d684142d5829b22e21c0"
+      "byteLength": 6422,
+      "sha256": "807bb0aa01b238e6191633f6f3cca941e087183ab019045e312ca7ecff6c588e"
+    },
+    {
+      "path": "converter/README.md",
+      "byteLength": 4386,
+      "sha256": "3866564766472e5fa0a2aa10ee4ffbb90b82cc3cb86902a4d205f0b10b2be509"
+    },
+    {
+      "path": "converter/convert.mjs",
+      "byteLength": 15668,
+      "sha256": "14efcda20792c44b2fd7508ec1338c473575f8ab241e5d0bf248a2085ad0a419"
+    },
+    {
+      "path": "converter/fixtures/README.md",
+      "byteLength": 797,
+      "sha256": "5be241bb6586f7929778b6649495b3e6b452c7ccacbda444af7ea280d88f3b7f"
+    },
+    {
+      "path": "converter/fixtures/blunt-1901.txt",
+      "byteLength": 6955,
+      "sha256": "931053a8fae4c71dadacebd4b8897e832b71118554ad78ef7baa168bf9e3c23e"
+    },
+    {
+      "path": "converter/fixtures/blunt-1914.txt",
+      "byteLength": 15225,
+      "sha256": "435d137c974da50155ebdf3d29e25620d43a532283b91208e7b194be574f139f"
+    },
+    {
+      "path": "converter/fixtures/nobody-april.txt",
+      "byteLength": 4331,
+      "sha256": "20c7a65cfffba6497cfc7f1f1e4bcb249f5f4c0a0f711ee41df72b102ffa0332"
+    },
+    {
+      "path": "converter/fixtures/nobody-new-year.txt",
+      "byteLength": 5210,
+      "sha256": "e12647d13e6dd6d9bcb51635d4bd865459e9ffdd6ceadd9ed028d017bfa9424b"
+    },
+    {
+      "path": "converter/fixtures/pepys-1660.txt",
+      "byteLength": 23197,
+      "sha256": "10d3891cca0d367d6361493eac7743efc7818d5b8c6240c3b9179c037ad89149"
+    },
+    {
+      "path": "converter/jot-convert.mjs",
+      "byteLength": 6416,
+      "sha256": "a3f5cfbb2da5e27f562ebd23493e3803dc240e5b53a61f0453be6213943d5ac7"
+    },
+    {
+      "path": "converter/test.mjs",
+      "byteLength": 9811,
+      "sha256": "8f4b1883570ee6a8d0ccf91364cf02393c2de499c1d469a3470391383843c423"
     },
     {
       "path": "docs/guide/README.md",
-      "byteLength": 533,
-      "sha256": "04cfa455a98ee53fc62e0893d12db2d9e7c55fd695ec79f0ad8dabb154162c21"
+      "byteLength": 677,
+      "sha256": "7844466c96829ff336fd94115298ad9ae1b4d2327904f3ab0551fd42a4eee47c"
+    },
+    {
+      "path": "docs/guide/converting.md",
+      "byteLength": 5718,
+      "sha256": "fe694dcbb9c1b84a4b737a769026d4bc48cce440f460d95606a3f61b984ffdec"
     },
     {
       "path": "docs/guide/template-editor.md",
@@ -1118,14 +1173,19 @@
       "sha256": "8888efc16547f9c49cfb119029051623c09433bd78e6aa5723461cc8981296fe"
     },
     {
+      "path": "site/dist/guide/converting.html",
+      "byteLength": 9243,
+      "sha256": "e7b8fb35fcd3d624f8a59e5776dbf8c5a73ca8b38514482cb7d38d8294abfdc9"
+    },
+    {
       "path": "site/dist/guide/guide.css",
       "byteLength": 1957,
       "sha256": "9f6c6fb3d60e6086c24dbd6c4de24c2e46a57a6ca259a094e427663f6028bbf9"
     },
     {
       "path": "site/dist/guide/index.html",
-      "byteLength": 1434,
-      "sha256": "9e52dbd5c5aa54b1894f9c3d83462607377a74c23a50fa0002f5ba206b160b08"
+      "byteLength": 1596,
+      "sha256": "8c17c2c21a2f814fed11189aedb14f32b4d4f1c30b20aeab2bf484291fba6ae5"
     },
     {
       "path": "site/dist/guide/template-editor.html",

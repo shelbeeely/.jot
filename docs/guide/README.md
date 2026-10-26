@@ -4,6 +4,8 @@
   section is enough to start.
 - [Using the template editor](template-editor.md): design a journal's shape and download it as a `.jot` file to fill in, on a
   computer, a phone or InkDeck.
+- [Converting an old diary](converting.md): turn a diary kept as plain text (your own, or one from Project Gutenberg) into dated
+  Jot entries.
 
 These guides are also pages on the site (`/guide/`), built from these files by `site/build-guides.mjs`. The full rules are in the
 [Jot specification](../../specification/Jot-Complete-Specification.md).
