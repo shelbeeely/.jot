@@ -45,9 +45,11 @@ export const BLOCKS = {
   times: { name: 'Time blocks', icon: '◷', hint: 'The hours of the day, one line each.', opts: [T('Plan'), N('from', 'From (hour)', 0, 23, 8), N('to', 'To (hour)', 1, 24, 20), N('every', 'Every (hours)', 1, 6, 2)] },
   table: { name: 'Table', icon: '▦', hint: 'Columns and empty rows: spending, contacts, a log.', opts: [T('Spending'), L('columns', 'Columns', ['What', 'How much'], 8), N('rows', 'Rows', 1, 20, 3)] },
   text: { name: 'Words to keep', icon: '❝', hint: 'Your own words, written into the file as they are: an instruction, a reminder, a quote.', opts: [T('', 'Title (optional)'), { k: 'body', kind: 'text', label: 'Text', def: 'Be gentle with yourself today.', max: 600, long: true }] },
+  manual: { name: 'My manual', icon: '❖', hint: 'Your own manual: why you keep this journal, what you do, what your marks mean. "What I do" is written from this template.', zones: ['front', 'back'],
+    opts: [T('My manual'), { k: 'hints', kind: 'choice', label: 'Hints', choices: [['on', 'A short hint under each heading'], ['off', 'Headings only']], def: 'on' }] },
   record: { name: 'Record', icon: '{}', hint: 'A Jot record with named fields to fill in (for apps that read Jot data).', opts: [{ k: 'recordType', kind: 'text', label: 'Record type', def: 'observation', max: 32 }, T('Sleep'), L('fields', 'Fields', ['bed', 'wake', 'quality'], 16)] },
 };
-export const BLOCK_ORDER = ['writing', 'prompt', 'checks', 'tasks', 'scale', 'ratings', 'blanks', 'choose', 'list', 'times', 'table', 'text', 'record', 'page'];
+export const BLOCK_ORDER = ['writing', 'prompt', 'checks', 'tasks', 'scale', 'ratings', 'blanks', 'choose', 'list', 'times', 'table', 'text', 'record', 'page', 'manual'];
 export const allowedIn = (type, zone) => !!BLOCKS[type] && (!BLOCKS[type].zones || BLOCKS[type].zones.includes(zone));
 
 // ---- starting points ----
@@ -159,11 +161,12 @@ function writer() {
   };
   return W;
 }
-// One block. at: the record id stem (a date, or the zone); n: which day of the month (prompts take turns by it).
-function block(W, bl, at, n, level) {
+// One block. at: the record id stem (a date, or the zone); n: which day of the month (prompts take turns by it); t: the whole template.
+function block(W, bl, at, n, level, t) {
   const title = one(bl.title), head = (fallback) => W.h(level, title || fallback);
   switch (bl.type) {
     case 'page': W.h(2, title || 'Page'); return;
+    case 'manual': manual(W, bl, t); return;
     case 'writing': head('Notes'); return;
     case 'prompt': { const q = bl.questions.map(one).filter(Boolean); if (q.length) W.h(level, q[((n % q.length) + q.length) % q.length]); return; }
     case 'checks': head('Checkboxes'); W.gap(); W.out(...bl.labels.map((l) => `[ ] ${one(l)}`), ''); return;
@@ -195,7 +198,70 @@ function block(W, bl, at, n, level) {
     default:
   }
 }
-const blocks = (W, list, at, n, level = 4) => { for (const bl of list) block(W, bl, at, n, level); };
+const blocks = (W, list, at, n, level, t) => { for (const bl of list) block(W, bl, at, n, level, t); };
+
+// ---- my manual: the why of the journal, in the writer's own words; the what is read from the template itself ----
+// text after "- " in a list item: Jot's line marks don't apply there, but Markdown would still read a [ ] box, a heading, a quote or a
+// nested list, so only those are escaped (with Markdown backslash escapes, which never show)
+const item = (s) => { const t = one(s); return /^\d+[.)](\s|$)/.test(t) ? t.replace(/^(\d+)([.)])/, '$1\\$2') : /^([[#>*+-]|=+\s*$)/.test(t) ? `\\${t}` : t; };
+const range = (a, b) => `${a}–${b}`;
+const cut = (s, n) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
+const names = (xs) => xs.map(one).filter(Boolean).join(', ');
+// what a block asks of you, in a few words
+export function describeBlock(bl) {
+  const title = one(bl.title), q = (bl.questions || []).map(one).filter(Boolean);
+  switch (bl.type) {
+    case 'page': return `${title || 'Page'} (a page)`;
+    case 'writing': return `${title || 'Notes'} (room to write)`;
+    case 'prompt': return q.length > 1 ? `A question a day, in turn: ${cut(q.join(' / '), 120)}` : `${q[0] || 'A question'} (a question to write under)`;
+    case 'checks': return `${title || 'Checkboxes'} (boxes: ${names(bl.labels)})`;
+    case 'tasks': return `${title || 'To do'} (${bl.n} task line${bl.n > 1 ? 's' : ''})`;
+    case 'scale': return `${title || 'Scale'} (a scale, ${range(bl.min, bl.max)}${bl.lo || bl.hi ? `, ${one(bl.lo)} to ${one(bl.hi)}` : ''})`;
+    case 'ratings': return `${title || 'Ratings'} (${names(bl.labels)}, each ${range(bl.min, bl.max)})`;
+    case 'blanks': return `${title || 'Blanks'} (${names(bl.labels)})`;
+    case 'choose': return `${title || 'Choose'} (words to choose from: ${names(bl.words)})`;
+    case 'list': return `${title || 'List'} (${bl.n} line${bl.n > 1 ? 's' : ''})`;
+    case 'times': return `${title || 'Plan'} (time blocks, ${String(bl.from).padStart(2, '0')}:00 to ${String(bl.to).padStart(2, '0')}:00)`;
+    case 'table': return `${title || 'Table'} (a table: ${names(bl.columns)})`;
+    case 'text': return `${title ? `${title}: ` : ''}“${cut(one(bl.body), 80)}”`;
+    case 'record': return `${title || 'Record'} (${names(bl.fields)})`;
+    default: return title;
+  }
+}
+// Jot's marks, and what they say in general; the manual leaves room after each for what they mean to you
+export const MARKS = [['[ ]', 'a task'], ['[x]', 'done'], ['[>]', 'moved to another day'], ['[<]', 'scheduled for later'], ['[-]', 'not doing it after all'],
+  ['[!]', 'important'], ['o', 'an event'], ['?', 'a question to come back to'], ['!', 'an idea']];
+export const MANUAL_SECTIONS = [
+  ['Why I keep this', 'What I hope this journal does for me.'],
+  ['What I do', 'Written from my template. After each one, why it is there; cross out what I don’t use.'],
+  ['My marks', 'What each mark means to me, and when I use it.'],
+  ['What I skip on purpose', 'What I leave out, so leaving it out is a choice and not a failure.'],
+  ['After a gap', 'How I start again after days away, without catching up.'],
+  ['When I revise this', 'When I read this manual again and change it: the start of each month, say.'],
+];
+function manual(W, bl, t) {
+  const hint = (i) => { if (bl.hints !== 'off') { W.gap(); W.out(`[[${choice(MANUAL_SECTIONS[i][1])}]]`, ''); } };
+  W.h(2, one(bl.title) || 'My manual');
+  MANUAL_SECTIONS.forEach(([head], i) => {
+    W.h(4, head); hint(i);
+    if (i === 1) {
+      const zones = ZONES.map((z) => [z, ((t && t.zones[z.id]) || []).filter((x) => x.type !== 'manual')]).filter(([, list]) => list.length);
+      W.gap();
+      if (!zones.length) W.out('Nothing in the template yet.', '');
+      for (const [z, list] of zones) W.out(`${z.name}:`, '', ...list.map((x) => `- ${item(describeBlock(x))} — `), '');
+    }
+    if (i === 2) { W.gap(); W.out(...MARKS.map(([m, what]) => `- \`${m}\` ${what} — `), ''); }
+  });
+}
+/** The manual on its own, as its own .jot: the template's first manual block (or the default one), with the template inside like any file. */
+export function renderManual(tplIn) {
+  const t = normalizeTemplate(tplIn), W = writer();
+  const bl = [...t.zones.front, ...t.zones.back].find((x) => x.type === 'manual') || normalizeBlock({ type: 'manual' }, 'front', 'manual');
+  manual(W, bl, t);
+  const head = ['---', 'Jot: 1.0', `Title: ${one(t.title)} · ${one(bl.title) || 'My manual'}`, 'Made-with: Jot template editor', '---', ''];
+  const text = `${head.join('\n')}\n${W.lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n${templateComment(t)}`;
+  return { text, file: `${slug(t.title)}-manual.jot`, bytes: new TextEncoder().encode(text).length };
+}
 
 /** One file. range: { from, to } (dates) keeps only those days; front blocks go with the month's first day, back blocks with its last.
  *  -> { text, file, days, bytes } */
@@ -206,19 +272,19 @@ export function renderJot(tplIn, range = null) {
   const label = `${MONTHS[+t.month.slice(5) - 1]} ${t.month.slice(0, 4)}`, lastOfMonth = all[all.length - 1].date;
   const W = writer();
   W.h(1, label);
-  if (inR(all[0])) blocks(W, Z.front, `${t.month}-start`, 0, 4);
+  if (inR(all[0])) blocks(W, Z.front, `${t.month}-start`, 0, 4, t);
   for (const w of weeks) {
     const first = w.days[0].date, last = w.days[w.days.length - 1].date;
     if (Z.weekStart.length || Z.weekEnd.length) W.h(2, `Week of ${w.monday}`);
-    blocks(W, Z.weekStart, `week-${w.monday}`, 0, 4);
+    blocks(W, Z.weekStart, `week-${w.monday}`, 0, 4, t);
     for (const d of w.days) {
       W.h(3, `${d.date} | ${WEEKDAYS[d.weekday]}`);
-      blocks(W, Z.day, d.date, Math.round(d.t / 864e5), 4);
+      blocks(W, Z.day, d.date, Math.round(d.t / 864e5), 4, t);
     }
     const weekEnds = last === iso(Date.parse(w.monday) + 6 * 864e5) || last === lastOfMonth;
-    if (Z.weekEnd.length && weekEnds) { W.h(2, `Week review · ${first} to ${last}`); blocks(W, Z.weekEnd, `review-${w.monday}`, 0, 4); }
+    if (Z.weekEnd.length && weekEnds) { W.h(2, `Week review · ${first} to ${last}`); blocks(W, Z.weekEnd, `review-${w.monday}`, 0, 4, t); }
   }
-  if (inR(all[all.length - 1])) blocks(W, Z.back, `${t.month}-end`, 0, 4);
+  if (inR(all[all.length - 1])) blocks(W, Z.back, `${t.month}-end`, 0, 4, t);
   const span = range ? (days.length === 1 ? days[0].date : `${days[0].date} to ${days[days.length - 1].date}`) : label;
   const head = ['---', 'Jot: 1.0', `Title: ${one(t.title)} · ${span}`, `Date: ${days[0].date}`, 'Made-with: Jot template editor', '---', ''];
   for (const s of W.scales.values()) head.push(`:::record scale #${s.id}`, `name: ${slug(s.name)}`, 'kind: ordinal', `minimum: ${s.min}`, `maximum: ${s.max}`, ...(s.lo ? [`anchor-low: ${s.lo}`] : []), ...(s.hi ? [`anchor-high: ${s.hi}`] : []), ':::', '');

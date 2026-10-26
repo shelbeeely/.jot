@@ -46,7 +46,7 @@ test('the template editor guide names what the editor has', () => {
   for (const s of STARTERS) assert.ok(g.includes(`**${s.name}:**`), `starter ${s.name}`);
   for (const b of Object.values(BLOCKS)) assert.ok(g.includes(`| **${b.name}** |`), `block ${b.name}`);
   const editor = fs.readFileSync(path.join(DIST, 'editor/index.html'), 'utf8');
-  for (const label of ['Download .jot', 'Start from…', 'Save template (.json)', 'Open a .jot or a template…', 'Import a print day layout', 'A file a week (fits InkDeck)', 'One file for the month', 'Undo', 'Redo']) {
+  for (const label of ['Download .jot', 'Start from…', 'Save template (.json)', 'Open a .jot or a template…', 'Import a print day layout', 'Download my manual (.jot)', 'A file a week (fits InkDeck)', 'One file for the month', 'Undo', 'Redo']) {
     assert.ok(editor.includes(label.replace('…', '…')), `the editor has "${label}"`);
     assert.ok(g.includes(label.replace(/ \(\.json\)$/, '').replace(/…$/, '')), `the guide mentions "${label}"`);
   }

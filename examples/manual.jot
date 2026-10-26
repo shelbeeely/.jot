@@ -1,0 +1,71 @@
+---
+Jot: 1.0
+Title: Daily check-in · My manual
+Made-with: Jot template editor
+---
+
+## My manual
+
+#### Why I keep this
+
+[[What I hope this journal does for me.]]
+
+To notice how I'm actually doing before it turns into a bad week. Two minutes a day, not a project.
+I want to look back at a month and see a pattern, not a pile of guilt.
+
+#### What I do
+
+[[Written from my template. After each one, why it is there; cross out what I don’t use.]]
+
+Each week begins:
+
+- This week (3 task lines) — three things, never more. If a fourth shows up, one comes off.
+
+Each day:
+
+- Energy (a scale, 1–5, empty to full) — the first thing I fill in, before coffee. A guess is fine.
+- Care (boxes: Meds, Water, Outside) — the basics. A ticked box is a win, not a minimum.
+- Today (room to write) — one line is enough. More only if I want to.
+
+Each week ends:
+
+- What went well (room to write) — first, always, even if it's small.
+- What to change (room to write) — one thing to try next week, not a list of faults.
+
+#### My marks
+
+[[What each mark means to me, and when I use it.]]
+
+- `[ ]` a task — only things I mean to do this week.
+- `[x]` done — 
+- `[>]` moved to another day — moved once is fine; moved twice means it gets a decision.
+- `[<]` scheduled for later — I don't use this one.
+- `[-]` not doing it after all — a decision, not a failure. I cross it off on purpose.
+- `[!]` important — at most one a day.
+- `o` an event — appointments, and anything with a time.
+- `?` a question to come back to — I read these on Sunday.
+- `!` an idea — stays here until it has a next step.
+
+#### What I skip on purpose
+
+[[What I leave out, so leaving it out is a choice and not a failure.]]
+
+No colours, no stickers, no drawing the layout. No word counts, no streaks.
+Weekends are optional: if I skip Saturday and Sunday, the week still counts.
+
+#### After a gap
+
+[[How I start again after days away, without catching up.]]
+
+Start with today's date. Don't fill in the missed days. If something from the gap matters, one line under today: "Last week: …".
+
+#### When I revise this
+
+[[When I read this manual again and change it: the start of each month, say.]]
+
+The first of each month, before I download the new month. If the template changes, this changes with it.
+Last revised: 2026-11-01.
+
+/*
+jot-template: {"v":1,"title":"Daily check-in","month":"2026-11","per":"month","zones":{"front":[{"id":"bmvp4djac0","type":"manual","title":"My manual","hints":"on"}],"weekStart":[{"id":"weekStart-1","type":"tasks","title":"This week","n":3}],"day":[{"id":"day-1","type":"scale","title":"Energy","min":1,"max":5,"lo":"empty","hi":"full"},{"id":"day-2","type":"checks","title":"Care","labels":["Meds","Water","Outside"]},{"id":"day-3","type":"writing","title":"Today"}],"weekEnd":[{"id":"weekEnd-1","type":"writing","title":"What went well"},{"id":"weekEnd-2","type":"writing","title":"What to change"}],"back":[]}}
+*/

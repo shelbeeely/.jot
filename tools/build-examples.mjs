@@ -12,6 +12,7 @@ import { parse } from '../parser/jot.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'site/dist/examples');
+const SMALL = ['manual.jot', 'plain-text.jot', 'packaged.jotz']; // copied from examples/
 export const DIARIES = [
   { id: 'pepys', ebooks: [4200], options: { calendar: 'julian', per: 'auto' }, title: 'The Diary of Samuel Pepys', author: 'Samuel Pepys',
     about: 'Almost every day from January 1660 to May 1669, kept by a clerk of the Navy Board in London: the Plague, the Great Fire, the navy, music and gossip. Old Style dates, converted to modern ones.' },
@@ -106,8 +107,9 @@ export function page(index) {
     ${cards}
   </div>
   <section class="diary small-ex" aria-labelledby="h-small">
-    <h2 id="h-small">Two small files</h2>
+    <h2 id="h-small">Small files</h2>
     <ul class="files">
+      <li><span class="f-name">manual.jot</span><span class="f-meta">a personal manual, filled in: why, what, my marks, after a gap (<a href="../guide/manual.html">the guide</a>)</span><span class="f-act"><a class="btn small" href="../?open=examples/manual.jot">Read</a><a class="btn small" href="manual.jot" download>Download</a></span></li>
       <li><span class="f-name">plain-text.jot</span><span class="f-meta">a short journal in plain text, with tasks, events and a record</span><span class="f-act"><a class="btn small" href="../?open=examples/plain-text.jot">Read</a><a class="btn small" href="plain-text.jot" download>Download</a></span></li>
       <li><span class="f-name">packaged.jotz</span><span class="f-meta">the same kind of journal packaged with an attachment (a ZIP inside)</span><span class="f-act"><a class="btn small" href="../?open=examples/packaged.jotz">Read</a><a class="btn small" href="packaged.jotz" download>Download</a></span></li>
     </ul>
@@ -136,7 +138,7 @@ function check() {
       if (ast.entries.length !== f.entries) problems.push(`${d.id}/${f.name}: ${ast.entries.length} entries, index.json says ${f.entries}`);
     }
   }
-  for (const f of ['plain-text.jot', 'packaged.jotz']) if (!fs.existsSync(path.join(OUT, f)) || !fs.readFileSync(path.join(OUT, f)).equals(fs.readFileSync(path.join(ROOT, 'examples', f)))) problems.push(`site/dist/examples/${f} is not a copy of examples/${f}`);
+  for (const f of SMALL) if (!fs.existsSync(path.join(OUT, f)) || !fs.readFileSync(path.join(OUT, f)).equals(fs.readFileSync(path.join(ROOT, 'examples', f)))) problems.push(`site/dist/examples/${f} is not a copy of examples/${f}`);
   return problems;
 }
 
@@ -149,7 +151,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   } else {
     const i = args.indexOf('--from'), from = i >= 0 ? args[i + 1] : null;
     fs.mkdirSync(OUT, { recursive: true });
-    for (const f of ['plain-text.jot', 'packaged.jotz']) fs.copyFileSync(path.join(ROOT, 'examples', f), path.join(OUT, f));
+    for (const f of SMALL) fs.copyFileSync(path.join(ROOT, 'examples', f), path.join(OUT, f));
     const index = await build(from);
     for (const d of index.diaries) console.log(`${d.id}: ${d.files.reduce((n, f) => n + f.entries, 0)} entries in ${d.files.length} files`);
   }

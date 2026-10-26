@@ -1,7 +1,7 @@
 // The Jot template editor's model and generator (dist/editor/template.mjs). Run: node --test test-editor.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks, templateFromJot, templateComment } from './dist/editor/template.mjs';
+import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks, templateFromJot, templateComment, renderManual, MANUAL_SECTIONS, MARKS } from './dist/editor/template.mjs';
 import { importDayLayout } from './dist/editor/import.mjs';
 import { parse } from './dist/jot/jot.mjs';
 
@@ -125,4 +125,36 @@ test('every block the print library has either becomes a Jot block or is named a
   const tpl = normalizeTemplate({ month: '2026-10', zones: { day: r.blocks } });
   assert.equal(tpl.zones.day.length, r.blocks.length, 'every converted block is a valid Jot block');
   assert.equal(parse(renderJot(tpl).text).diagnostics.length, 0);
+});
+
+test('my manual: the six sections, "What I do" read from the template, the marks, and nothing that turns into a task', () => {
+  const t = fromStarter('checkin', { title: 'Field notes', month: '2026-10' });
+  t.zones.front.push(newBlock('manual', 'front'));
+  const text = renderJot(t).text, a = parse(text);
+  assert.equal(a.diagnostics.length, 0, JSON.stringify(a.diagnostics));
+  const man = text.slice(text.indexOf('## My manual'), text.indexOf('## Week of'));
+  assert.deepEqual([...man.matchAll(/^#### (.+)$/gm)].map((m) => m[1]), MANUAL_SECTIONS.map(([h]) => h));
+  for (const line of ['Each week begins:', '- This week (3 task lines) — ', 'Each day:', '- Energy (a scale, 1–5, empty to full) — ', '- Care (boxes: Meds, Water, Outside) — ', '- Today (room to write) — ', 'Each week ends:', '- What went well (room to write) — '])
+    assert.ok(man.includes(`${line}\n`), line);
+  for (const [m] of MARKS) assert.ok(man.includes(`- \`${m}\` `), m);
+  assert.equal(parse(man).nodes.filter((n) => ['task', 'event', 'question', 'idea'].includes(n.type)).length, 0, 'the marks list is about marks; it holds none');
+  assert.equal((man.match(/^\[\[/gm) || []).length, 6, 'a hint under each heading');
+  t.zones.front[0].hints = 'off';
+  assert.ok(!/^\[\[/m.test(renderJot(t).text.split('## Week of')[0]), 'hints off: headings only');
+  assert.ok(!allowedIn('manual', 'day') && allowedIn('manual', 'back'), 'a manual goes before or after the days, not in them');
+});
+
+test('my manual as its own file: the template inside, and titles typed into blocks stay words', () => {
+  const t = normalizeTemplate({ title: 'Field notes', month: '2026-10', zones: { day: [{ type: 'writing', title: '[ ] not a task' }, { type: 'checks', title: 'o Care', labels: ['! one'] }, { type: 'writing', title: '# Big' }, { type: 'writing', title: '2. Second' }] } });
+  const m = renderManual(t), a = parse(m.text);
+  assert.equal(m.file, 'field-notes-manual.jot');
+  assert.ok(m.text.startsWith('---\nJot: 1.0\nTitle: Field notes · My manual\n'));
+  assert.equal(a.diagnostics.length, 0);
+  assert.equal(a.entries.filter((e) => e.date).length, 0, 'a manual has no dates');
+  for (const line of ['- \\[ ] not a task (room to write) — ', '- o Care (boxes: ! one) — ', '- \\# Big (room to write) — ', '- 2\\. Second (room to write) — ']) assert.ok(m.text.includes(line), line);
+  assert.equal(a.nodes.filter((n) => n.type === 'task').length, 0);
+  const items = a.nodes.filter((n) => n.markdown && n.markdown.type === 'list').flatMap((n) => n.markdown.items);
+  assert.ok(items.length >= 13 && items.every((i) => !i.task && i.tokens.every((x) => x.type === 'text')), 'no box, heading or nested list inside the items');
+  assert.deepEqual(templateFromJot(m.text), normalizeTemplate(t), 'opening the manual brings the template back');
+  assert.match(renderManual(normalizeTemplate({ title: 'X', month: '2026-10' })).text, /Nothing in the template yet\./);
 });

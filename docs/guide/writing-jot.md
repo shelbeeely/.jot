@@ -225,6 +225,7 @@ Scawen Blunt's diaries, a dated entry for each day. Open one in the workspace to
 - One file a month is easy to find and small enough to type into anywhere. Name it by the month: `2026-10.jot`.
 - Write the date heading first, then anything: a word is enough.
 - Skipped days need nothing. There is no catching up.
+- Write down how you use it: [Write your own manual](manual.md) takes ten minutes and makes the system yours.
 - Keep a copy somewhere else. A `.jot` file is just a file: back it up like a photo.
 
 The full rules are in the [Jot specification](../../site/dist/docs/Jot-Complete-Specification.pdf). You won't need them to write.

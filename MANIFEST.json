@@ -74,8 +74,8 @@
     },
     {
       "path": "docs/guide/README.md",
-      "byteLength": 800,
-      "sha256": "585dd465764acc8ea76cafadd3fc0c8c4ed8a80ce969423673d5a7c0818feb53"
+      "byteLength": 1001,
+      "sha256": "cc072f72fda1a34632a67e274c3299bf9547fba19dee1171cdd9c68a516ab6c6"
     },
     {
       "path": "docs/guide/converting.md",
@@ -83,14 +83,19 @@
       "sha256": "5a19868f106d4f0e1f5346f006e1150b4b81476227f55cdd340284ab2d36deaa"
     },
     {
+      "path": "docs/guide/manual.md",
+      "byteLength": 3872,
+      "sha256": "7b887a736bfffbab95d879dd68204142af6f3ed65070112c1dc4d54b26bfa060"
+    },
+    {
       "path": "docs/guide/template-editor.md",
-      "byteLength": 8632,
-      "sha256": "32b864eea7588db5c7b25a8e18d4c11ad04e60c56f64b6df6cfc2c693da366e0"
+      "byteLength": 9050,
+      "sha256": "880ee8f7551dc27656df77bd595737169354c1f3386ccd6fc138a833097bbc71"
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 8560,
-      "sha256": "7fc4d348feb83f41425afd9219fddd4ddd6611a9f29d0e0461f404544a72d671"
+      "byteLength": 8670,
+      "sha256": "ef7572ef55e8d09c2fedbd479c3e960aa5c59606d3da6e994002552b80069d6c"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -336,6 +341,11 @@
       "path": "examples/README.md",
       "byteLength": 642,
       "sha256": "6c9b70b5392c1d547e98e3550a6d0c4b7259e8af5f2855c77d918e96dfccaa15"
+    },
+    {
+      "path": "examples/manual.jot",
+      "byteLength": 2929,
+      "sha256": "8b990bae799c944d3f8527754780c2b14e9ec086e64266fa0180736d20f7c39a"
     },
     {
       "path": "examples/packaged.jotz",
@@ -1179,8 +1189,8 @@
     },
     {
       "path": "site/dist/editor/app.mjs",
-      "byteLength": 21578,
-      "sha256": "decdeaf6a7dcfde56052959fedd97053404bc5cdaca9d172c5d3cdb1d441b77b"
+      "byteLength": 21892,
+      "sha256": "1fc048ac01e478918a745643a6399e52391d8c4df9dc28aca329c9f9e8e9a237"
     },
     {
       "path": "site/dist/editor/editor.css",
@@ -1194,13 +1204,13 @@
     },
     {
       "path": "site/dist/editor/index.html",
-      "byteLength": 4889,
-      "sha256": "e86c65200a02967d4dccb1e9a08f45ff8c67e6eade843d2eeee86c09424e9c3f"
+      "byteLength": 4987,
+      "sha256": "91c828008dc8147a5d018d4817d04a673ebec122e6ebedca20305640aaf087d8"
     },
     {
       "path": "site/dist/editor/template.mjs",
-      "byteLength": 20081,
-      "sha256": "8888efc16547f9c49cfb119029051623c09433bd78e6aa5723461cc8981296fe"
+      "byteLength": 25175,
+      "sha256": "dbf45cbf78c109ece7f4e3e318e074e33859d7be7a27ba28304ac9c815f32245"
     },
     {
       "path": "site/dist/examples/diaries/blunt/blunt-1870.jot",
@@ -1464,13 +1474,18 @@
     },
     {
       "path": "site/dist/examples/index.html",
-      "byteLength": 21177,
-      "sha256": "665254abd7aac05e4a6102fd621abc1c1bcbe18ac3b381d9a2819be8e4c2cab1"
+      "byteLength": 21516,
+      "sha256": "5a392e89e3eb304daa7fb30b985d0e90160a965d403037499f9e3bfd1c79edc6"
     },
     {
       "path": "site/dist/examples/index.json",
       "byteLength": 15583,
       "sha256": "b6f714de2e2ff442b6df79d19023afbbba42763171c624c89a1e060773a36192"
+    },
+    {
+      "path": "site/dist/examples/manual.jot",
+      "byteLength": 2929,
+      "sha256": "8b990bae799c944d3f8527754780c2b14e9ec086e64266fa0180736d20f7c39a"
     },
     {
       "path": "site/dist/examples/packaged.jotz",
@@ -1494,18 +1509,23 @@
     },
     {
       "path": "site/dist/guide/index.html",
-      "byteLength": 1804,
-      "sha256": "d3b7bf0772fd8cf12ace32da2f5f9f2810537e8751112ad8f0b67c7ebb266aae"
+      "byteLength": 2023,
+      "sha256": "da19289f4e322920740bcd58ab281b6c9ad413e67b7004e5aaa390e18f1d0753"
+    },
+    {
+      "path": "site/dist/guide/manual.html",
+      "byteLength": 6292,
+      "sha256": "2e99f9cefafc34d4b7776c9f7e2f45551db8ea282b9b00dbcf96e5211ec45a58"
     },
     {
       "path": "site/dist/guide/template-editor.html",
-      "byteLength": 13289,
-      "sha256": "32cbbd5c5e55bd8c31ec7ccf558a8a002aea6650c42acd9c13e507213ae62de1"
+      "byteLength": 13806,
+      "sha256": "eb4792635cf0704fe8f378d911fa4f3f06d7b09cec8ec7e8c4d8cc1f3717df28"
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 13372,
-      "sha256": "662438f771c709469d0d525f915777de62413c9cd4ad7ae542873bde6854f9f0"
+      "byteLength": 13502,
+      "sha256": "75ec5029d527718c7cafba294944f42a6132c51f6b223149ff2a72a0caed5ef0"
     },
     {
       "path": "site/dist/index.html",
@@ -1624,23 +1644,23 @@
     },
     {
       "path": "site/test-editor-ui.cjs",
-      "byteLength": 19159,
-      "sha256": "9fb43a994ab134fbbfa71ff9f8c4d6f924bc755f2c149586228ff6eca2b09829"
+      "byteLength": 20231,
+      "sha256": "f14895fa5687e3f79990e681a08c41a259ceab4398a891985559680d0159ed78"
     },
     {
       "path": "site/test-editor.mjs",
-      "byteLength": 11745,
-      "sha256": "4be8693cc109e17b9281c1c770d34fd6d91bbe52f2633dd7bc49a61a6db4b66b"
+      "byteLength": 14738,
+      "sha256": "2a40071dd1b65e5101fc81c7a6d66519bde12621c5c42b30343e50e91d08225d"
     },
     {
       "path": "site/test-examples-ui.cjs",
-      "byteLength": 6392,
-      "sha256": "13d75bb158d52be72ff9fbb7c8e7d2c4fde8fbf19ace113ab86a18ceb8c701bd"
+      "byteLength": 6388,
+      "sha256": "768b19460380ec68cb22fe91de51932e999c0c7c4abf6ba4bf681853e3b154fd"
     },
     {
       "path": "site/test-guides.mjs",
-      "byteLength": 3379,
-      "sha256": "3cdb6f463b640b91da4a973f2dfbfd1c622250b8173a2ca6b64bc6de8d491b47"
+      "byteLength": 3408,
+      "sha256": "295f61f00126964071f5be03b58de7b883b430975e88bff6abfba06aa431c0b2"
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
@@ -1739,8 +1759,8 @@
     },
     {
       "path": "tools/build-examples.mjs",
-      "byteLength": 10593,
-      "sha256": "598db09634a89741ecc151734e2fccd875790d1d9640a687edd5a870ac00f8c1"
+      "byteLength": 10962,
+      "sha256": "deb6a65a4434ff4ac7cf94aa98556c726a69903897c378fd57dd2f37938f7b6e"
     },
     {
       "path": "tools/build-parser-zip.py",
