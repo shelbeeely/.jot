@@ -7,7 +7,11 @@ workspace does, with your tracked numbers drawn as charts.
   (`Ctrl+Shift+V`) opens it in place. It follows your typing.
 - **Charts**: a `:::record chart` draws the numbers your journal holds (`measurement` records, and any record field that is a plain
   number) as one small chart per metric, a column per day. **Jot: Insert a Week Chart** writes one for this week.
-- **Colours**: dates, tasks (`[ ]`, `[x]`, `[>]`), events and marks, records and their numbers, hidden comments, metadata.
+- **Handwritten**: **Jot: Toggle Handwritten Preview** (or the `jot.preview.look` setting) shows the journal written by hand on a dot
+  grid. `jot.preview.hand` (`pen`, `print`, `marker`), `jot.preview.ink` and `jot.preview.dotSpacing` (4 to 7 mm) choose the hand, the
+  ink and the grid. The fonts ship inside the extension (SIL OFL); nothing is downloaded.
+- **Colours**: dates, tasks (`[ ]`, `[x]`, `[>]`), events and marks, records and their numbers, highlights (`==…==`), underlines
+  (`++…++`), footnotes, callouts and centred lines, hidden comments, metadata.
 
 ```jot
 ### 2026-10-26 | Monday

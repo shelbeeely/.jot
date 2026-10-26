@@ -240,7 +240,8 @@ function drawPreview() {
   document.title = `${tpl.title} · ${monthLabel(tpl.month)} · Jot template editor`;
   const hasNumbers = ast.nodes.some((n) => n.type === 'record' && n.recordType === 'chart');
   $('#sample-wrap').hidden = view !== 'page' || !hasNumbers;
-  if (view === 'page') renderPreview(ast, $('#page'), { sample: hasNumbers && $('#sample').checked, empty: 'Add a block to see the page.' });
+  $('#hand-wrap').hidden = view !== 'page';
+  if (view === 'page') renderPreview(ast, $('#page'), { sample: hasNumbers && $('#sample').checked, empty: 'Add a block to see the page.', hand: $('#handwritten').checked ? { hand: 'pen', ink: 'blue', pitchMm: 5 } : null });
 }
 // ---- Text or Page: the file as it is, or as a journal reader shows it (charts drawn) ----
 let view = 'text';
@@ -255,6 +256,7 @@ $('#tab-text').onclick = () => setView('text');
 $('#tab-page').onclick = () => setView('page');
 $('.view-tabs').addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setView(view === 'text' ? 'page' : 'text', true); } });
 $('#sample').onchange = () => drawPreview();
+$('#handwritten').onchange = () => drawPreview();
 $('#file-sel').addEventListener('change', (e) => { shown = +e.target.value; drawPreview(); });
 
 // ---- files out and in ----

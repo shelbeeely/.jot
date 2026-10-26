@@ -171,8 +171,8 @@ export function chartConfig(model, s, theme = {}) {
         },
       },
       scales: {
-        x: { grid: { display: false }, border: { color: t.muted }, ticks: { color: t.muted, autoSkip: true, maxRotation: 0 } },
-        y: { min: s.min, max: s.max, grid: { color: t.grid }, border: { display: false }, ticks: { color: t.muted, maxTicksLimit: 6, callback: (v) => fmt(v) } },
+        x: { grid: { display: false }, border: { color: t.muted }, ticks: { color: t.muted, autoSkip: true, maxRotation: 0, ...(t.font ? { font: { family: t.font, size: 15 } } : {}) } },
+        y: { min: s.min, max: s.max, grid: { color: t.grid }, border: { display: false }, ticks: { color: t.muted, maxTicksLimit: 6, callback: (v) => fmt(v), ...(t.font ? { font: { family: t.font, size: 15 } } : {}) } },
       },
     },
   };

@@ -190,6 +190,22 @@ Markdown is the base writing syntax. Implementations SHOULD use an established C
 
 `[[annotation text]]` is marginalia, not a wiki link. It is single-line and ends at the next unescaped `]]`. Links use `[label](target)` with nonempty label and a target containing no unescaped whitespace or parentheses. Internal targets use `#id` or `other.jot#id`; external targets use explicit `https:` or `http:` schemes. Raw web addresses remain readable text. No script execution is permitted. Nested markup within annotations or link labels remains literal. Overlapping delimiters are consumed left-to-right with precedence: escape, code, link, marginalia, emphasis, tags/contexts. No construct starts inside code.
 
+#### 4.2.1 Fuller formatting
+
+Jot adds six constructs that common Markdown editors share. Each is presentation only: none creates a record, a task or a link target.
+
+| Source | Meaning |
+| --- | --- |
+| `==text==` | highlighted (rendered as `mark`) |
+| `++text++` | underlined (rendered as `ins`) |
+| `^text^` | superscript; `text` contains no whitespace, `^` or brackets |
+| `[^label]` | a footnote reference; `label` is 1 to 40 of `A-Z a-z 0-9 _ -` |
+| `[^label]: text` at the start of a line | the footnote; indented (two spaces or a tab) lines continue it |
+| `-> text <-` alone on a line | a centred line |
+| `> [!NOTE]` as the whole first line of a blockquote | a callout: `NOTE`, `TIP`, `IMPORTANT`, `WARNING` or `CAUTION`, case-insensitive, as GitHub alerts |
+
+An opening `==` or `++` must be followed, and its closing mark preceded, by a non-whitespace character; the closing mark is not followed by the same character; the content does not cross a blank line. So `a == b`, `C++` and `2 ^ 3` remain text. They are inline and nest with emphasis, in the precedence order above (after code and links, before emphasis). Footnotes are numbered by first reference; a renderer gathers them at the end of the page or document, and a footnote never referenced is still shown. A reference to a missing footnote stays a visible reference. `~text~` remains text (no subscript).
+
 A Markdown blockquote preserves quoted writing; a `quotation` record additionally stores explicit attribution and source fields. Hidden comments are omitted from rendered journal pages but retained by default in editable exports. They are neither encrypted nor safe places for secrets.
 
 ### 4.3 Generic structured record
@@ -416,6 +432,12 @@ Renderers MUST preserve all selected writing. Overflow modes are `continue`, `ad
 An attachment declares `path`, `media-type`, `alt`, optional `sha256`, `captured-at`, `page-label`, `region`, `physical-location` and `ocr-status`. `region` is a normalized `x,y,width,height` string with each decimal in [0,1] and the rectangle within the page. A transcription is a separate record linked with `derived-from`, with `origin: imported`, `review-status: unreviewed` or `verified`, and an optional confidence note. Handwriting recognition MUST NOT directly complete tasks, confirm doses or overwrite original values without review.
 
 A `.jotz` is the portable bundle described in section 2.0. Handwriting images and editable stroke data, scans, photos and other attachments live inside it under `assets/`, referenced by readable paths in `journal.txt`. Missing referenced assets must be reported; supplied but unused assets remain included until the user explicitly removes them. A plain `.jot` or a writing export is not a self-contained backup of a document with assets. Jot applications must save/restore the included assets along with writing and clearly distinguish an attachment download from downloading the whole document.
+
+### 8.3.1 Simulated handwriting
+
+A renderer MAY present typed writing as handwriting: a handwriting font, alternate letter forms, small per-word rotation and offset, and ink colour. It is presentation only. It MUST NOT change the text, its order, selection, copying or accessible text, and SHOULD be deterministic for the same text and seed so a reprint matches. Real handwriting (section 8.3) and simulated handwriting are never confused: simulation creates no attachment or stroke data.
+
+A dot-grid presentation puts every line of writing on a row of dots: line height equals the dot pitch, block spacing and block heights are whole rows, larger text spans whole rows with its baseline on a row, and a printed page's writing area is a whole number of rows so pages stay aligned. The reference implementation snaps the pitch to the layout engine's unit (1/64 CSS px) so long documents do not drift.
 
 ### 8.4 E-ink and physical styles
 

@@ -97,6 +97,35 @@ Jot uses Markdown for everything else, so what you may already know works:
 
 `- [ ] task` (with a dash) also works as a checklist; plain `[ ] task` is the Jot way and is quicker to type.
 
+### More ways to mark words
+
+Jot adds a few marks that many Markdown editors (Obsidian, Typora, iA Writer) and GitHub also understand:
+
+```jot
+I want to remember ==this part== most.
+Something ++underlined++, and E = mc^2^.
+A claim that needs its source.[^where]
+
+-> A line in the middle of the page <-
+
+> [!TIP]
+> Headphones helped more than pushing through.
+
+[^where]: Overheard on the bus, 26 October.
+```
+
+| You write | You get |
+| --- | --- |
+| `==words==` | a highlight, like a marker pen |
+| `++words++` | underlined words |
+| `x^2^` | superscript (no spaces inside) |
+| `[^name]` and, on a line of its own, `[^name]: the note` | a footnote: a small number in the text and the note at the end of the page. A note can go on over lines indented by two spaces |
+| `-> words <-` | a line centred on the page |
+| `> [!NOTE]` on the first line of a quote (also `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`) | a callout box, as on GitHub |
+
+Each mark needs a letter just inside it, so ordinary writing like `a == b`, `C++` or `2 ^ 3` stays as you typed it. Inside
+`` `code` `` nothing is a mark.
+
 ## Notes in the margin, and things only you see
 
 - `[[ like this ]]` on its own line is a **margin note**: a remark beside the writing, not part of it.
@@ -220,6 +249,27 @@ A new notebook.
 ```
 
 - **When a mark should just be text,** put a backslash before it: `\[ ] this is not a task` or `\# not a heading`.
+
+## Handwritten pages on a dot grid
+
+The workspace (**Write**) can show your journal as if you had written it by hand in a dot-grid notebook, and print it that way:
+
+1. Under the page preview, set **Look** to **Handwritten**.
+2. Choose a **Hand**: **Pen** (a natural pen hand; each letter comes in three shapes, so two `e`s side by side are never quite the
+   same), **Neat print** or **Marker**. Choose an **Ink** colour, and how far apart the dots are (**Dots every** 4 to 7 mm; 5 mm is
+   the usual notebook).
+3. Pick the **Paper** (A5, A4, Letter, pocket or your own size), then **Print / PDF**. In the print dialog keep the margins at
+   **Default** and the scale at **100%**.
+
+Every line of writing sits on a row of dots, page after page: the printed dots and the letters come out together, so the page looks
+filled in by hand. Headings take two rows, a blank row separates paragraphs, and charts, tables and pictures are rounded up to whole
+rows so nothing after them slips off the grid. Dashed lines in the preview show where each printed page ends.
+
+Each word leans and sits a little differently, and the wobbles are worked out from the words themselves, so the same journal always
+prints the same. **Rewrite ↻** writes it again with other wobbles and letter shapes; your words never change. Turn **Dots** off to
+print the handwriting on plain paper, or on paper that already has a dot grid.
+
+The template editor's **Page** view and the VS Code extension can show the handwritten look too.
 
 ## Plain and packaged files
 

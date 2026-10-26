@@ -56,6 +56,22 @@ renderPreview(parse(text), document.querySelector('#page'));
 
 Tests: `node --test charts-test.mjs`.
 
+## Fuller formatting
+
+Beyond GFM, the lexer understands `==highlight==` (`mark` tokens), `++underline++` (`ins`), `^superscript^` (`sup`), footnotes
+(`footnoteRef` inline, `footnote` blocks), centred lines (`center` blocks) and GitHub callouts (a blockquote node gains
+`callout: 'note' | 'tip' | 'important' | 'warning' | 'caution'`). Spec 4.2.1. `markdownEngine.extensions` lists them. Tests:
+`node --test formatting-test.mjs`.
+
+## Handwritten pages
+
+`handwriting.mjs` makes a rendered page look written by hand on a dot grid: `handwrite(page, {hand, ink, seed})`, then
+`alignToGrid(page, {pitchMm, dots, pageRows})` once the font has loaded; `pageGeometry(paperMm, pitchMm)` gives the `@page` box whose
+writing area is whole rows of dots. `renderPreview(ast, el, { hand: {…} })` does all three and resolves `el.jotReady` when the page is
+aligned. The hands are open fonts in `fonts/` (SIL OFL 1.1, each with its licence): Caveat (Pen), Playpen Sans (Neat print) and
+Shantell Sans (Marker), Latin and Latin Extended, regular and bold. Tests: `node --test handwriting-test.mjs` (the browser side is in
+`site/test-editor-ui.cjs` and `vscode/test-preview.cjs`).
+
 ## Handwriting
 
 Handwritten writing can be preserved as editable strokes plus a PNG attachment, linked through an ordinary Jot record. Stroke files are assets inside the same document, not prose in disguise. A separate, user-reviewed transcription may link to them using `derived-from`; it must never replace the original handwriting. The scanner includes browser pen input and stroke export. This parser does not perform handwriting recognition.

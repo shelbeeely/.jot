@@ -37,6 +37,22 @@ only native representation.
   written and read as text, and printed from the browser (the workspace's Print / PDF).
 - **The site's home page explains Jot;** the writing workspace moved from `/` to `/write/` (examples open there with `?open=`).
 
+## Fuller formatting and handwritten pages (26 October 2026)
+
+- **Six more marks** (spec 4.2.1): `==highlight==`, `++underline++`, `^superscript^`, footnotes (`[^1]`, `[^1]: …`), centred lines
+  (`-> … <-`) and callouts (`> [!NOTE]`). Chosen because Obsidian, Typora, iA Writer, markdown-it plugins and GitHub already use them,
+  so a `.jot` reads the same elsewhere. They are Marked extensions in `parser/jot.mjs`; each needs a non-space just inside its marks,
+  so ordinary prose (`a == b`, `C++`) is untouched. No subscript: `~text~` stays text (4.2).
+- **Handwriting is a look, not data** (spec 8.3.1). `parser/handwriting.mjs` writes a rendered page in an open handwriting font
+  (Caveat as Pen, with its two full alternate sets chosen per letter; Playpen Sans and Shantell Sans, which bring their own contextual
+  alternates), with small seeded wobbles per word. The text in the page stays the text: copying, search and screen readers are
+  unaffected. Same text and seed, same page.
+- **On the dots.** Lines are one dot pitch apart, the pitch is snapped to Chromium's 1/64 px layout unit, blocks are rounded up to whole
+  rows, two-row headings are nudged onto a row, the dots are drawn at the measured baseline, and the printed page's writing area is a
+  whole number of rows (`pageGeometry`). Printed, the dots and the letters land together on every page.
+- **Fonts are bundled** (`parser/fonts/`, SIL OFL 1.1, Latin and Latin Extended, regular and bold), never fetched; the site publishes
+  `.woff2` for them.
+
 ## What the current code does
 
 - parse(text) parses writing and preserves its source; stringify(ast) returns that original source, not edits to AST nodes.

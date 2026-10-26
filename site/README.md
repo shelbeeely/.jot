@@ -23,7 +23,9 @@ The root (`index.html`, `home.css`, `home.mjs`) is the home page: why keep a jou
 
 Jot's text parser is a separate deliverable; this scanner does not treat a photograph as parsed journal text.
 
-The writing workspace uses the separate Jot parser with Marked for Markdown, safe DOM-only previews (`jot/preview.mjs`, shared with the template editor and the VS Code extension) that draw `:::record chart` as charts (`jot/charts.mjs`), browser spellcheck, optional pattern hints, a 55-method catalogue, local text autosave and a visible roadmap. Diagram engine rendering and handwriting OCR are not yet implemented.
+The workspace's **Look** control switches the page to **Handwritten** (`jot/handwriting.mjs`): a hand, an ink and a dot spacing,
+**Rewrite ↻** for new wobbles, and `@page` set from `pageGeometry` so the printed writing area is whole rows of dots; the choices are
+remembered in this browser (`jot-hand-v1`). The writing workspace uses the separate Jot parser with Marked for Markdown, safe DOM-only previews (`jot/preview.mjs`, shared with the template editor and the VS Code extension) that draw `:::record chart` as charts (`jot/charts.mjs`), browser spellcheck, optional pattern hints, a 55-method catalogue, local text autosave and a visible roadmap. Diagram engine rendering and handwriting OCR are not yet implemented.
 
 
 ## Template editor (`dist/editor/`)

@@ -218,6 +218,49 @@ const srv = http.createServer((q, r) => {
     const d2p = w.waitForEvent('download'); await w.click('#downloadJot'); const d2 = await d2p, t2 = fs.readFileSync(await d2.path());
     ok(/\.jotz$/.test(d2.suggestedFilename()) && t2[0] === 0x50 && t2[1] === 0x4b, `workspace: with an attachment it saves one .jotz package (${d2.suggestedFilename()})`);
     await w.close(); }
+  // fuller formatting and the handwritten page on a dot grid (the workspace)
+  { const w = await b.newPage({ viewport: { width: 1280, height: 900 } }); w.on('pageerror', (e) => errs.push(e.message));
+    await w.goto(URL0.replace('/editor/', '/write/')); await w.waitForSelector('#writing');
+    await w.evaluate(() => { try { localStorage.clear(); } catch {} }); await w.reload(); await w.waitForSelector('#writing');
+    const journal = '# Notebook\n\n### 2026-10-26 | Monday\n\nThe rain made the room ==quieter== and ++softer++, x^2^.[^1]\n\n[x] Walk\n[ ] Call Sam\n\n> [!TIP]\n> Headphones helped.\n\n-> A small beginning. <-\n\n| What | How much |\n| --- | --- |\n| Tea | 2 |\n\n:::record measurement #s\nmetric: sleep\nunit: h\nvalue: 7.5\n:::\n\n:::record chart #c\nmetrics: sleep\n:::\n\n[^1]: At the kitchen table.\n\n' + Array.from({ length: 40 }, (_, i) => `### 2026-10-${String(i % 28 + 1).padStart(2, '0')}\n\nA long day of writing, line after line, so the journal runs onto several printed pages and every one of them must keep its words on the dots. Day ${i + 1}.\n`).join('\n');
+    await w.fill('#writing', journal); await w.dispatchEvent('#writing', 'input'); await w.waitForSelector('#paperPreview .jot-callout');
+    ok(await w.$eval('#paperPreview', (p) => !!(p.querySelector('mark') && p.querySelector('ins') && p.querySelector('sup:not(.jot-fn-ref)') && p.querySelector('.jot-fn-ref a[href^="#"]') && p.querySelector('.jot-footnotes li') && p.querySelector('.jot-callout-tip .jot-callout-title') && p.querySelector('p.jot-center'))), 'typed: highlight, underline, superscript, a footnote and its note, a callout and a centred line');
+    await w.selectOption('#look', 'hand'); await w.waitForFunction(() => document.querySelector('#paperPreview').jotGrid);
+    const g = await w.evaluate(() => { const p = document.querySelector('#paperPreview'), pad = parseFloat(getComputedStyle(p).paddingTop), pitch = p.jotGrid.pitch;
+      const blocks = [...p.children].filter((e) => !e.classList.contains('hw-page-edge'));
+      const top0 = p.getBoundingClientRect().top + pad, off = blocks.map((e) => (e.getBoundingClientRect().top - top0 - (parseFloat(e.style.top) || 0)) / pitch).filter((r) => Math.abs(r - Math.round(r)) > 0.005);
+      const heights = blocks.map((e) => e.getBoundingClientRect().height / pitch).filter((r) => Math.abs(r - Math.round(r)) > 0.005);
+      const alts = new Set([...p.querySelectorAll('.hw-c')].map((c) => c.style.fontFeatureSettings || 'none'));
+      return { pitch, off, heights, alts: [...alts].sort(), words: p.querySelectorAll('.hw-w').length, fonts: document.fonts.check("16px 'Jot Caveat'"), edges: p.querySelectorAll('.hw-page-edge').length, css: document.getElementById('printSettings').textContent, text: p.textContent.replace(/\s+/g, ' ').slice(0, 60), dy: p.style.getPropertyValue('--hw-dy'), base: p.jotGrid.baseline }; });
+    ok(g.fonts && g.words > 400 && g.alts.join() === '"ss01","ss02",none', `handwritten: the pen font is loaded, ${g.words} words written, letters in all three shapes`);
+    ok(g.off.length === 0 && g.heights.length === 0, 'every block starts on a row of the grid and is a whole number of rows tall' + (g.off.length ? ` (off: ${g.off.slice(0, 3)})` : '') + (g.heights.length ? ` (heights: ${g.heights.slice(0, 3)})` : ''));
+    ok(g.pitch === 18.890625 && Math.abs(parseFloat(g.dy) - (g.base - g.pitch / 2)) < 0.01, 'the dots are drawn where the letters sit (5 mm, snapped to the layout unit)');
+    const geo = /@page \{ size: 148mm 210mm; margin: ([\d.]+)px ([\d.]+)px; \}/.exec(g.css);
+    ok(geo && Math.abs(210 * 96 / 25.4 - 2 * geo[1] - 38 * g.pitch) < 0.05, 'the printed A5 page holds exactly 38 rows of dots');
+    ok(g.edges >= 2 && /Notebook/.test(g.text), `on screen, a dashed line where each printed page ends (${g.edges})`);
+    const pdf = await w.pdf({ preferCSSPageSize: true }), pages = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
+    ok(pages === g.edges + 1, `printing makes the same pages the screen shows (${pages})`);
+    const before = await w.$eval('#paperPreview', (p) => [p.textContent, [...p.querySelectorAll('.hw-c')].slice(0, 80).map((c) => c.style.fontFeatureSettings).join()]);
+    await w.click('#reshuffle'); await w.waitForFunction(() => document.querySelector('#paperPreview').jotGrid);
+    const after = await w.$eval('#paperPreview', (p) => [p.textContent, [...p.querySelectorAll('.hw-c')].slice(0, 80).map((c) => c.style.fontFeatureSettings).join()]);
+    ok(after[0] === before[0] && after[1] !== before[1], 'Rewrite changes the letter shapes, never the words');
+    if (fs.existsSync(AXE)) {
+      await w.addScriptTag({ path: AXE });
+      const v = await w.evaluate(async () => (await axe.run(document.querySelector('#paperPreview'), { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
+      ok(v.length === 0, 'the handwritten page: axe finds nothing serious' + (v.length ? ': ' + v.join(', ') : ''));
+    }
+    await w.reload(); await w.waitForSelector('#writing');
+    ok((await w.$eval('#look', (s) => s.value)) === 'hand' && !(await w.$eval('#handTools', (e) => e.hidden)), 'the look is remembered');
+    await w.selectOption('#look', 'typed'); await w.waitForTimeout(400);
+    ok(!(await w.$('#paperPreview.jot-hand')) && !(await w.$('#paperPreview .hw-w')) && /margin: 10mm/.test(await w.textContent('#printSettings')), 'Typed puts the page back as it was');
+    await w.screenshot({ path: path.join(SHOTS, 'workspace-typed-formatting.png') });
+    await w.close(); }
+  // the template editor's Page view, handwritten
+  { const d = await b.newPage({ viewport: { width: 1280, height: 900 } }); d.on('pageerror', (e) => errs.push(e.message));
+    await d.goto(URL0); await d.waitForSelector('#jot:not(:empty)'); await d.click('#tab-page'); await d.check('#handwritten');
+    await d.waitForFunction(() => document.querySelector('#page').jotGrid);
+    ok(await d.$eval('#page', (p) => p.classList.contains('jot-hand') && p.querySelectorAll('.hw-w').length > 20), 'the template editor\'s Page view can be handwritten too');
+    await d.close(); }
   // the guides: readable on a phone and in the dark, nothing serious for axe
   for (const [pg, scheme] of [['guide/', 'light'], ['guide/writing-jot.html', 'dark'], ['guide/template-editor.html', 'light']]) {
     const gp = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme }); gp.on('pageerror', (e) => errs.push(e.message));

@@ -3,46 +3,321 @@
   "name": "Jot",
   "scopeName": "text.jot",
   "patterns": [
-    { "include": "#metadata" },
-    { "include": "#record" },
-    { "include": "#comment" },
-    { "include": "#entry" },
-    { "include": "#task" },
-    { "include": "#mark" },
-    { "include": "#annotation" },
-    { "include": "#pagebreak" },
-    { "include": "#directive" },
-    { "include": "text.html.markdown" }
+    {
+      "include": "#callout"
+    },
+    {
+      "include": "#center"
+    },
+    {
+      "include": "#footnote"
+    },
+    {
+      "include": "#metadata"
+    },
+    {
+      "include": "#record"
+    },
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#entry"
+    },
+    {
+      "include": "#task"
+    },
+    {
+      "include": "#mark"
+    },
+    {
+      "include": "#annotation"
+    },
+    {
+      "include": "#pagebreak"
+    },
+    {
+      "include": "#directive"
+    },
+    {
+      "include": "#inline"
+    },
+    {
+      "include": "text.html.markdown"
+    }
   ],
   "repository": {
     "metadata": {
-      "begin": "\\A---\\s*$", "end": "^---\\s*$", "name": "meta.metadata.jot",
-      "beginCaptures": { "0": { "name": "punctuation.definition.metadata.jot" } }, "endCaptures": { "0": { "name": "punctuation.definition.metadata.jot" } },
-      "patterns": [{ "match": "^([A-Za-z][A-Za-z0-9 -]*)(:)\\s*(.*)$", "captures": { "1": { "name": "variable.other.key.jot" }, "2": { "name": "punctuation.separator.key-value.jot" }, "3": { "name": "string.unquoted.jot" } } }]
+      "begin": "\\A---\\s*$",
+      "end": "^---\\s*$",
+      "name": "meta.metadata.jot",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.metadata.jot"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.metadata.jot"
+        }
+      },
+      "patterns": [
+        {
+          "match": "^([A-Za-z][A-Za-z0-9 -]*)(:)\\s*(.*)$",
+          "captures": {
+            "1": {
+              "name": "variable.other.key.jot"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value.jot"
+            },
+            "3": {
+              "name": "string.unquoted.jot"
+            }
+          }
+        }
+      ]
     },
     "record": {
-      "begin": "^(:::record)\\s+([a-z][a-z0-9-]*)(?:\\s+(#[A-Za-z0-9][A-Za-z0-9._-]*))?\\s*$", "end": "^(:::)\\s*$", "name": "meta.record.jot",
-      "beginCaptures": { "1": { "name": "keyword.control.record.jot" }, "2": { "name": "entity.name.type.record.jot" }, "3": { "name": "entity.name.tag.id.jot" } },
-      "endCaptures": { "1": { "name": "keyword.control.record.jot" } },
+      "begin": "^(:::record)\\s+([a-z][a-z0-9-]*)(?:\\s+(#[A-Za-z0-9][A-Za-z0-9._-]*))?\\s*$",
+      "end": "^(:::)\\s*$",
+      "name": "meta.record.jot",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.record.jot"
+        },
+        "2": {
+          "name": "entity.name.type.record.jot"
+        },
+        "3": {
+          "name": "entity.name.tag.id.jot"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.record.jot"
+        }
+      },
       "patterns": [
-        { "match": "^(value|minimum|maximum)(:)[ \\t]*(-?[0-9]+(?:\\.[0-9]+)?)?\\s*$", "captures": { "1": { "name": "variable.other.property.jot" }, "2": { "name": "punctuation.separator.key-value.jot" }, "3": { "name": "constant.numeric.jot" } } },
-        { "match": "^([a-z][a-z0-9-]*)(:)[ \\t]*(#[A-Za-z0-9][A-Za-z0-9._-]*)\\s*$", "captures": { "1": { "name": "variable.other.property.jot" }, "2": { "name": "punctuation.separator.key-value.jot" }, "3": { "name": "entity.name.tag.reference.jot" } } },
-        { "match": "^([a-z][a-z0-9-]*)(:)[ \\t]*(-?[0-9]+(?:\\.[0-9]+)?)\\s*$", "captures": { "1": { "name": "variable.other.property.jot" }, "2": { "name": "punctuation.separator.key-value.jot" }, "3": { "name": "constant.numeric.jot" } } },
-        { "match": "^([a-z][a-z0-9-]*)(:)[ \\t]*(.*)$", "captures": { "1": { "name": "variable.other.property.jot" }, "2": { "name": "punctuation.separator.key-value.jot" }, "3": { "name": "string.unquoted.jot" } } }
+        {
+          "match": "^(value|minimum|maximum)(:)[ \\t]*(-?[0-9]+(?:\\.[0-9]+)?)?\\s*$",
+          "captures": {
+            "1": {
+              "name": "variable.other.property.jot"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value.jot"
+            },
+            "3": {
+              "name": "constant.numeric.jot"
+            }
+          }
+        },
+        {
+          "match": "^([a-z][a-z0-9-]*)(:)[ \\t]*(#[A-Za-z0-9][A-Za-z0-9._-]*)\\s*$",
+          "captures": {
+            "1": {
+              "name": "variable.other.property.jot"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value.jot"
+            },
+            "3": {
+              "name": "entity.name.tag.reference.jot"
+            }
+          }
+        },
+        {
+          "match": "^([a-z][a-z0-9-]*)(:)[ \\t]*(-?[0-9]+(?:\\.[0-9]+)?)\\s*$",
+          "captures": {
+            "1": {
+              "name": "variable.other.property.jot"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value.jot"
+            },
+            "3": {
+              "name": "constant.numeric.jot"
+            }
+          }
+        },
+        {
+          "match": "^([a-z][a-z0-9-]*)(:)[ \\t]*(.*)$",
+          "captures": {
+            "1": {
+              "name": "variable.other.property.jot"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value.jot"
+            },
+            "3": {
+              "name": "string.unquoted.jot"
+            }
+          }
+        }
       ]
     },
-    "comment": { "begin": "^/\\*\\s*$", "end": "^\\*/\\s*$", "name": "comment.block.jot" },
-    "entry": { "match": "^(#{1,6})\\s+(\\d{4}-\\d{2}-\\d{2})(\\s*\\|.*)?$", "captures": { "1": { "name": "punctuation.definition.heading.jot" }, "2": { "name": "constant.other.date.jot markup.heading.jot" }, "3": { "name": "markup.heading.jot" } } },
+    "comment": {
+      "begin": "^/\\*\\s*$",
+      "end": "^\\*/\\s*$",
+      "name": "comment.block.jot"
+    },
+    "entry": {
+      "match": "^(#{1,6})\\s+(\\d{4}-\\d{2}-\\d{2})(\\s*\\|.*)?$",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.heading.jot"
+        },
+        "2": {
+          "name": "constant.other.date.jot markup.heading.jot"
+        },
+        "3": {
+          "name": "markup.heading.jot"
+        }
+      }
+    },
     "task": {
       "patterns": [
-        { "match": "^(\\[x\\])(\\s.*)?$", "captures": { "1": { "name": "markup.inserted.task.done.jot" }, "2": { "name": "markup.strikethrough.jot" } } },
-        { "match": "^(\\[[ !]\\])(\\s.*)?$", "captures": { "1": { "name": "keyword.other.task.open.jot" } } },
-        { "match": "^(\\[[><-]\\])(\\s.*)?$", "captures": { "1": { "name": "comment.line.task.moved.jot" }, "2": { "name": "comment.line.jot" } } }
+        {
+          "match": "^(\\[x\\])(\\s.*)?$",
+          "captures": {
+            "1": {
+              "name": "markup.inserted.task.done.jot"
+            },
+            "2": {
+              "name": "markup.strikethrough.jot"
+            }
+          }
+        },
+        {
+          "match": "^(\\[[ !]\\])(\\s.*)?$",
+          "captures": {
+            "1": {
+              "name": "keyword.other.task.open.jot"
+            }
+          }
+        },
+        {
+          "match": "^(\\[[><-]\\])(\\s.*)?$",
+          "captures": {
+            "1": {
+              "name": "comment.line.task.moved.jot"
+            },
+            "2": {
+              "name": "comment.line.jot"
+            }
+          }
+        }
       ]
     },
-    "mark": { "match": "^(o|\\?|!|=|::voice)(?= )", "name": "keyword.other.mark.jot" },
-    "annotation": { "match": "^\\[\\[.*\\]\\]$", "name": "string.quoted.annotation.jot" },
-    "pagebreak": { "match": "^===$", "name": "meta.separator.jot" },
-    "directive": { "match": "^(@[a-z][a-z0-9-]*)(:)\\s*(.*)$", "captures": { "1": { "name": "keyword.other.directive.jot" }, "3": { "name": "string.unquoted.jot" } } }
+    "mark": {
+      "match": "^(o|\\?|!|=|::voice)(?= )",
+      "name": "keyword.other.mark.jot"
+    },
+    "annotation": {
+      "match": "^\\[\\[.*\\]\\]$",
+      "name": "string.quoted.annotation.jot"
+    },
+    "pagebreak": {
+      "match": "^===$",
+      "name": "meta.separator.jot"
+    },
+    "directive": {
+      "match": "^(@[a-z][a-z0-9-]*)(:)\\s*(.*)$",
+      "captures": {
+        "1": {
+          "name": "keyword.other.directive.jot"
+        },
+        "3": {
+          "name": "string.unquoted.jot"
+        }
+      }
+    },
+    "callout": {
+      "match": "^(>)\\s*(\\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)\\])\\s*$",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.quote.begin.markdown"
+        },
+        "2": {
+          "name": "keyword.other.callout.jot"
+        }
+      }
+    },
+    "center": {
+      "match": "^(->)\\s+(.*?\\S)\\s+(<-)\\s*$",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.center.jot"
+        },
+        "2": {
+          "name": "markup.other.center.jot"
+        },
+        "3": {
+          "name": "punctuation.definition.center.jot"
+        }
+      }
+    },
+    "footnote": {
+      "match": "^(\\[\\^[A-Za-z0-9_-]+\\])(:)",
+      "captures": {
+        "1": {
+          "name": "entity.name.tag.footnote.jot"
+        },
+        "2": {
+          "name": "punctuation.separator.key-value.jot"
+        }
+      }
+    },
+    "inline": {
+      "patterns": [
+        {
+          "match": "(==)(?=\\S)(.*?\\S)(==)(?!=)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.mark.jot"
+            },
+            "2": {
+              "name": "markup.highlight.jot markup.inserted.jot"
+            },
+            "3": {
+              "name": "punctuation.definition.mark.jot"
+            }
+          }
+        },
+        {
+          "match": "(\\+\\+)(?=\\S)(.*?\\S)(\\+\\+)(?!\\+)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.underline.jot"
+            },
+            "2": {
+              "name": "markup.underline.jot"
+            },
+            "3": {
+              "name": "punctuation.definition.underline.jot"
+            }
+          }
+        },
+        {
+          "match": "(\\^)([^\\s^\\[\\]]+)(\\^)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.superscript.jot"
+            },
+            "2": {
+              "name": "markup.other.superscript.jot"
+            },
+            "3": {
+              "name": "punctuation.definition.superscript.jot"
+            }
+          }
+        },
+        {
+          "match": "\\[\\^[A-Za-z0-9_-]+\\](?!:)",
+          "name": "entity.name.tag.footnote.jot"
+        }
+      ]
+    }
   }
 }

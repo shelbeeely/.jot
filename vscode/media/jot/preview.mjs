@@ -4,14 +4,22 @@
  * A `:::record chart` becomes one Chart.js chart per metric (charts.mjs chartConfig, vendor/chart.mjs), each with a text summary as its
  * accessible name and the numbers as a table.
  *
- *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …' })
+ * Fuller formatting (spec 4.2.1): ==highlight==, ++underline++, ^superscript^, footnotes ([^1] and [^1]: …, gathered at the end),
+ * callouts (> [!NOTE]) and centred lines (-> … <-).
+ *
+ *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …',
+ *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 } })
+ *     With `hand`, the page is written in a handwriting font on a dot grid (handwriting.mjs); target.jotReady resolves when it is
+ *     aligned (after the fonts load).
  *   drawChart(section, model)   one chart record's figures into an element (the home page uses it on its own)
  */
 import { charts, chartConfig, summaryText, fmt, CHART_CSS, metricLabel } from './charts.mjs';
 import { Chart } from './vendor/chart.mjs';
+import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx } from './handwriting.mjs';
 export { CHART_CSS };
+const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
-const themeOf = (el) => { const cs = el.ownerDocument.defaultView.getComputedStyle(el), v = (k, d) => cs.getPropertyValue(k).trim() || d; return { series: v('--jc-series', '#2a78d6'), muted: v('--jc-muted', '#5f675f'), grid: v('--jc-grid', '#e2e3dc'), ink: v('--jc-ink', '#242927'), surface: v('--jc-surface', '#fffefa') }; };
+const themeOf = (el) => { const cs = el.ownerDocument.defaultView.getComputedStyle(el), v = (k, d) => cs.getPropertyValue(k).trim() || d; return { series: v('--jc-series', '#2a78d6'), muted: v('--jc-muted', '#5f675f'), grid: v('--jc-grid', '#e2e3dc'), ink: v('--jc-ink', '#242927'), surface: v('--jc-surface', '#fffefa'), font: el.closest('.jot-hand') ? el.ownerDocument.defaultView.getComputedStyle(el.closest('.jot-hand')).fontFamily : '' }; };
 /** Draws one chart record into section (an element already in the page): a figure per metric, then the numbers as a table. */
 export function drawChart(section, model) {
   const doc = section.ownerDocument, el = (tag, text, cls) => { const n = doc.createElement(tag); if (text !== undefined) n.textContent = text; if (cls) n.className = cls; return n; };
@@ -75,6 +83,14 @@ export function renderPreview(ast, target, opts = {}) {
           break;
         }
         case 'html': n = el('span', '[HTML omitted]', 'raw-html'); break;
+        case 'mark': n = el('mark'); inline(t.tokens, n); break;
+        case 'ins': n = el('ins'); inline(t.tokens, n); break;
+        case 'sup': n = el('sup'); inline(t.tokens, n); break;
+        case 'footnoteRef': {
+          if (!notes.order.includes(t.id)) notes.order.push(t.id);
+          const num = notes.order.indexOf(t.id) + 1, a = el('a', String(num)); a.href = `#${notes.prefix}${t.id}`; a.id = `${notes.prefix}ref-${t.id}`; a.setAttribute('aria-label', `Note ${num}`);
+          n = el('sup', undefined, 'jot-fn-ref'); n.append(a); break;
+        }
         default: n = el('span', t.text || t.raw || '');
       }
       into.append(n);
@@ -106,11 +122,18 @@ export function renderPreview(ast, target, opts = {}) {
         n.append(body); break;
       }
       case 'html': n = el('p', '[Raw HTML is preserved in source and omitted from preview.]', 'raw-html'); break;
+      case 'center': n = el('p', undefined, 'jot-center'); inline(t.tokens, n); break;
+      case 'footnote': notes.defs.set(t.id, t.tokens); return; // gathered at the end of the page
       default: n = el('p', t.text || t.raw || '');
     }
     into.append(n);
   }
   const chartOf = new Map(charts(ast, { sample: !!opts.sample }).map((c) => [c.node, c.model])), drawn = [];
+  const notes = { order: [], defs: new Map(), prefix: `jotfn-${(target.id || 'page').replace(/[^\w-]/g, '')}-` };
+  const hand = opts.hand ? { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0, ...opts.hand } : null;
+  target.classList.toggle('jot-hand', !!hand); // before anything is drawn, so charts size themselves to the grid
+  if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.pen).family}'`); }
+  else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy']) target.style.removeProperty(k);
   const frag = doc.createDocumentFragment();
   for (const n of ast.nodes) {
     if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank') continue;
@@ -120,6 +143,11 @@ export function renderPreview(ast, target, opts = {}) {
       frag.append(box); continue;
     }
     if (n.type === 'record' && n.recordType === 'scale') continue; // a scale is a definition: its range shows on the charts and ratings that use it
+    if (n.markdown && n.markdown.type === 'blockquote' && n.callout) {
+      const box = el('aside', undefined, `jot-callout jot-callout-${n.callout}`); box.setAttribute('role', 'note');
+      box.append(el('p', CALLOUTS[n.callout], 'jot-callout-title')); for (const c of n.markdown.tokens || []) block(c, box);
+      frag.append(box); continue;
+    }
     if (n.markdown) { if (n.diagram) frag.append(el('p', n.diagram.engine + ' source · rendering adapter not installed', 'diagram-note')); block(n.markdown, frag); continue; }
     if (n.type === 'task') frag.append(el('div', (n.status === 'completed' ? '☑ ' : '☐ ') + n.text, 'jot-task'));
     else if (n.type === 'record' && n.recordType === 'chart') {
@@ -139,19 +167,50 @@ export function renderPreview(ast, target, opts = {}) {
     else if (n.type === 'synopsis') frag.append(el('p', n.text));
     else frag.append(el('p', n.text || n.raw));
   }
+  if (notes.defs.size) { // footnotes, numbered by first mention; ones never mentioned come last
+    const sec = el('section', undefined, 'jot-footnotes'), ol = el('ol'); sec.setAttribute('aria-label', 'Notes');
+    for (const id of notes.defs.keys()) if (!notes.order.includes(id)) notes.order.push(id);
+    for (const id of notes.order) {
+      if (!notes.defs.has(id)) continue;
+      const li = el('li'); li.id = `${notes.prefix}${id}`; li.value = notes.order.indexOf(id) + 1; inline(notes.defs.get(id), li);
+      ol.append(li);
+    }
+    sec.append(ol); frag.append(sec);
+  }
   for (const c of target.querySelectorAll('canvas')) { const old = Chart.getChart(c); if (old) old.destroy(); } // the last drawing's charts
   target.replaceChildren(frag);
   for (const [box, model] of drawn) drawChart(box, model); // once in the page: Chart.js measures the box and reads its colours
   if (!target.childNodes.length) target.append(el('p', opts.empty || 'A little room for whatever comes next.'));
+  target.jotReady = Promise.resolve();
+  if (hand) {
+    handwrite(target, hand);
+    const fam = (HANDS[hand.hand] || HANDS.pen).family, fonts = doc.fonts;
+    const loaded = fonts && fonts.load ? Promise.all([fonts.load(`400 16px '${fam}'`), fonts.load(`700 16px '${fam}'`)]).catch(() => {}) : Promise.resolve();
+    target.jotReady = loaded.then(() => {
+      if (!target.isConnected) return null;
+      for (const c of target.querySelectorAll('.jot-chart canvas')) { const ch = Chart.getChart(c); if (ch) ch.update('none'); } // repaint: the hand's font is there now to label the axes
+      target.jotGrid = alignToGrid(target, hand); return target.jotGrid;
+    });
+  }
   return target;
+}
+const FONT_BASE = new URL('./fonts/', import.meta.url).href;
+/** Adds the handwriting fonts and look to a document once (the fonts live beside this module, in fonts/). */
+export function addHandwritingStyles(doc, fontBase = FONT_BASE) {
+  if (doc.getElementById('jot-hand-css')) return;
+  const s = doc.createElement('style'); s.id = 'jot-hand-css'; s.textContent = handwritingCSS(fontBase); doc.head.append(s);
 }
 
 /** Adds the chart styles to a document once. */
 export const PREVIEW_CSS = `${CHART_CSS}
+mark{background:#fff1a8;color:inherit;padding:0 .1em;border-radius:2px}ins{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.15em}
+.jot-center{text-align:center}.jot-fn-ref a{text-decoration:none}.jot-footnotes{border-top:1px solid currentColor;border-top-color:color-mix(in srgb,currentColor 25%,transparent);margin-top:1.5em;font-size:.92em}.jot-footnotes ol{padding-left:1.5em}
+.jot-callout{border-left:3px solid var(--jot-callout,#2a78d6);padding:.2em .9em;margin:.8em 0;background:color-mix(in srgb,var(--jot-callout,#2a78d6) 7%,transparent)}.jot-callout-title{font-weight:650;margin:0 0 .2em;color:var(--jot-callout,#2a78d6)}
+.jot-callout-tip{--jot-callout:#1a7f37}.jot-callout-important{--jot-callout:#8250df}.jot-callout-warning{--jot-callout:#9a6700}.jot-callout-caution{--jot-callout:#cf222e}
 .jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;
   const s = doc.createElement('style'); s.id = 'jot-chart-css'; s.textContent = PREVIEW_CSS; doc.head.append(s);
 }
 
-export default { renderPreview, addChartStyles, CHART_CSS, PREVIEW_CSS };
+export default { renderPreview, addChartStyles, addHandwritingStyles, drawChart, CHART_CSS, PREVIEW_CSS };

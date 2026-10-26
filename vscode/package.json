@@ -1,7 +1,7 @@
 {
   "name": "jot-journal",
   "displayName": "Jot journal",
-  "description": "Write .jot journals in VS Code: syntax colours, and a live page preview that draws your tracked numbers as charts.",
+  "description": "Write .jot journals in VS Code: syntax colours, and a live page preview that draws your numbers as charts and can show the journal handwritten on a dot grid.",
   "version": "0.1.0",
   "publisher": "jot-format",
   "engines": {
@@ -65,6 +65,11 @@
         "command": "jot.insertChart",
         "title": "Insert a Week Chart",
         "category": "Jot"
+      },
+      {
+        "command": "jot.toggleHandwriting",
+        "title": "Toggle Handwritten Preview",
+        "category": "Jot"
       }
     ],
     "menus": {
@@ -87,6 +92,10 @@
         {
           "command": "jot.insertChart",
           "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.toggleHandwriting",
+          "when": "editorLangId == jot || activeWebviewPanelId == 'jot.preview'"
         }
       ]
     },
@@ -103,7 +112,59 @@
         "mac": "cmd+k v",
         "when": "editorLangId == jot"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Jot",
+      "properties": {
+        "jot.preview.look": {
+          "type": "string",
+          "enum": [
+            "typed",
+            "handwritten"
+          ],
+          "default": "typed",
+          "description": "How the preview shows a journal: typed, or written by hand on a dot grid."
+        },
+        "jot.preview.hand": {
+          "type": "string",
+          "enum": [
+            "pen",
+            "print",
+            "marker"
+          ],
+          "enumDescriptions": [
+            "Pen (Caveat, with alternate letter shapes)",
+            "Neat print (Playpen Sans)",
+            "Marker (Shantell Sans)"
+          ],
+          "default": "pen",
+          "description": "The handwriting in the handwritten preview."
+        },
+        "jot.preview.ink": {
+          "type": "string",
+          "enum": [
+            "blue",
+            "black",
+            "green",
+            "purple",
+            "brown"
+          ],
+          "default": "blue",
+          "description": "The ink colour in the handwritten preview."
+        },
+        "jot.preview.dotSpacing": {
+          "type": "number",
+          "enum": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "default": 5,
+          "description": "Millimetres between the dots of the grid in the handwritten preview."
+        }
+      }
+    }
   },
   "scripts": {
     "sync": "node sync.mjs",

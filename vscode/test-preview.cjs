@@ -5,7 +5,7 @@ const assert = require('node:assert/strict'), fs = require('node:fs'), path = re
 const { webviewHtml } = require('./extension.js');
 let chromium; try { ({ chromium } = require('playwright')); } catch { ({ chromium } = require('../node_modules/playwright-core')); }
 const MEDIA = path.join(__dirname, 'media');
-const TYPES = { '.mjs': 'text/javascript', '.css': 'text/css', '.html': 'text/html' };
+const TYPES = { '.mjs': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.woff2': 'font/woff2' };
 const page = webviewHtml({ cspSource: 'http://127.0.0.1:*', nonce: 'testnonce', scriptUri: 'media/preview-main.mjs', styleUri: 'media/preview.css' });
 const srv = http.createServer((q, r) => {
   const u = q.url.split('?')[0];
@@ -33,6 +33,11 @@ srv.listen(0, '127.0.0.1', async () => {
     ok(/2 dated entries · 1 chart · valid Jot/.test(await p.textContent('#status')), 'the status line counts entries and charts');
     ok(await p.$('.jot-blank-line') && /Sleep:\s*7\.5 h/.test(await p.textContent('.jot-page')), 'measurements and empty task lines read as a page');
     ok(await p.evaluate(() => window.bad === undefined) && /omitted from preview/.test(await p.textContent('.jot-page')), 'raw HTML in a journal is never run or rendered');
+    await p.evaluate((t) => window.postMessage({ type: 'update', text: t + '\nSome ==bright== and ++underlined++ words[^n].\n\n> [!NOTE]\n> A callout.\n\n[^n]: A note.\n', hand: { hand: 'pen', ink: 'black', pitchMm: 5 } }, '*'), text);
+    await p.waitForFunction(() => document.querySelector('#page').jotGrid);
+    const hand = await p.evaluate(() => ({ cls: document.querySelector('#page').classList.contains('jot-hand'), words: document.querySelectorAll('#page .hw-w').length, font: document.fonts.check("16px 'Jot Caveat'"), mark: !!document.querySelector('#page mark .hw-w'), note: !!document.querySelector('#page .jot-callout-note'), fn: !!document.querySelector('#page .jot-footnotes li'), ink: getComputedStyle(document.querySelector('#page')).color }));
+    ok(hand.cls && hand.words > 10 && hand.font && hand.ink === 'rgb(34, 38, 42)', 'handwritten: the pen font loads from the extension\'s own files, in the ink the settings chose');
+    ok(hand.mark && hand.note && hand.fn, 'fuller formatting in the preview: a highlight, a callout and a footnote');
     await p.evaluate(() => window.postMessage({ type: 'update', text: '### 2026-10-28\n\nJust words.\n' }, '*'));
     await p.waitForFunction(() => !document.querySelector('.jot-chart'));
     ok(/Just words/.test(await p.textContent('.jot-page')), 'an edit redraws the page');

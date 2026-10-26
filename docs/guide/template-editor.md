@@ -116,7 +116,8 @@ has six. When **Each week begins** holds more than seven blocks the editor says 
 
 The right-hand side is the file you will download, updated as you work. **Text** shows it as plain text; **Page** shows it the way a
 journal reader does, with the charts drawn. When the template has a chart, **Sample numbers** fills the empty days with made-up
-numbers so you can see what a filled-in week will look like (they are never written to the file). Above it:
+numbers so you can see what a filled-in week will look like (they are never written to the file). **Handwritten** shows the page
+written by hand on a dot grid (see [Handwritten pages on a dot grid](writing-jot.md#handwritten-pages-on-a-dot-grid)). Above it:
 
 - **valid Jot**, or the problems found, if any (there should not be any: the editor checks its own output);
 - how many days the file holds and its size;

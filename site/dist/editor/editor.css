@@ -107,7 +107,9 @@ textarea { resize: vertical; line-height: 1.45; }
 .view-tabs { display: flex; align-items: center; gap: 6px; }
 .view-tabs [role="tab"] { min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 999px; background: transparent; color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
 .view-tabs [role="tab"][aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.view-row .sample { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-left: auto; font-size: 15px; color: var(--muted); }
+.view-row .sample { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 15px; color: var(--muted); }
+.view-row #hand-wrap { margin-left: auto; }
+.page-view .jot-page.jot-hand { padding: 12px; }
 .view-row .sample[hidden] { display: none; }
 .view-row .sample input { width: 20px; height: 20px; accent-color: var(--accent); }
 .page-view { padding: 4px; background: var(--sunk); border-radius: 8px; max-height: 75vh; overflow: auto; }

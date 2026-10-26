@@ -10,7 +10,7 @@ import '../parser/vendor/jszip.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 // what the site is made of; anything else (a calendar, a database, an archive of a book build, a key) is not published
-const ALLOWED = new Set(['.html', '.css', '.js', '.mjs', '.json', '.md', '.jot', '.jotz', '.zip', '.pdf', '.png', '.svg', '.ico', '.txt', '.webmanifest']);
+const ALLOWED = new Set(['.html', '.css', '.js', '.mjs', '.json', '.md', '.jot', '.jotz', '.zip', '.pdf', '.png', '.svg', '.ico', '.txt', '.webmanifest', '.woff2']); // .woff2: the handwriting fonts (jot/fonts/, SIL OFL)
 const BAD_PATH = [/(^|\/)private(\/|$)/i, /(^|\/)\.env/i, /(^|\/)node_modules\//, /\.ics$/i, /(^|\/)id_(rsa|ed25519)/i, /(^|\/)content\/profile\.json$/];
 const RULES = [
   // the owner's own book, place and name stay out of the product (as in the Journaling repository's gate)

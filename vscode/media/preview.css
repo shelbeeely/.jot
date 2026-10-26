@@ -18,3 +18,4 @@ body { margin: 0; padding: 16px 20px 40px; background: var(--vscode-editor-backg
 .jot-page .pagebreak { border: 0; border-top: 2px dashed var(--vscode-panel-border, #8886); margin: 24px 0; }
 body .jot-page .jot-chart { --jc-ink: var(--vscode-editor-foreground); --jc-muted: var(--vscode-descriptionForeground); --jc-grid: var(--vscode-panel-border, #8884); --jc-axis: var(--vscode-descriptionForeground); --jc-surface: var(--vscode-editor-background); --jc-series: var(--vscode-charts-blue, #2a78d6); }
 .jot-status { position: fixed; right: 12px; bottom: 8px; margin: 0; font-size: 12px; color: var(--vscode-descriptionForeground); background: var(--vscode-editor-background); padding: 2px 6px; border-radius: 4px; }
+.jot-page.jot-hand { max-width: none; width: fit-content; min-width: min(100%, 560px); padding: 16px; border-radius: 4px; box-shadow: 0 1px 6px #0003; }
