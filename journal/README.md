@@ -331,6 +331,19 @@ A day can cover one page (the default) or a whole two-page spread: a left page a
 - **Pages.** A spread day always opens on a left-hand page, so a Notes padding page is added when the page before ended on the left; page counts, hardcover padding, volumes and the 110-page limit follow. `check-spreads.mjs` checks that the two pages face each other and keep their zones and codes.
 - **Tests:** `node test-spreaddays.mjs` (Books CI), `studio/test/spread.test.mjs` in Journaling. Decisions and what is not done: `docs/journaling/BUILD-PLAN.md` section 12, "S1 as built".
 
+### Graph grids on the week plan (numbers to plot by hand)
+The week plan's right-hand page has a mood line (−3 to +3, a column a day). Its `week_right` entry can swap that for one or two graph
+grids of your own, for numbers you track: hours slept, hours worked, steps. Plot a dot a day and the week's pattern is there on paper,
+the same idea as the charts the Jot workspace draws from a `.jot` (`parser/charts.mjs`).
+- **In `book.json`:** `{"id": "week_right", "type": "week_right", "on": true, "options": {"graphs": [{"title": "Sleep", "unit": "h", "min": 4, "max": 10}, {"title": "Steps", "min": 0, "max": 15000}]}}`.
+  `title` (up to 24 characters), `unit` (optional, up to 8), `min` and `max`. Each grid has a row a value from `max` down to `min`,
+  at most 9 rows: the step is the first round one that fits (sleep 4–10: every hour; steps 0–15000: every 2500; halves only when a
+  range like 0–3.5 needs them). A range that can't be split evenly is refused with a suggestion.
+- **Room.** One grid takes the mood line's place. Two leave out the pioneer card and the Notes area. Both trims fit (`check.mjs` "[] 0").
+- **No option, `{}` or `[]`:** the mood line, the book byte for byte as before. `bookrules.mjs` `graphRows()` and `graphProblems()`; zones
+  `graph_1`, `graph_2` in `layout.json`.
+- **Tests:** `node test-graphs.mjs` (nothing drifts, the rules, the rows, and books with two grids build and fit in both trims).
+
 ### Photo blocks (PH1: prints you paste in)
 Four blocks in the palette group **Photos**: `photoframe` (a true-size window for one print), `photostrip` (2 to 4 small frames with date lines), `photodaily` (a tiny frame per day of the month, labelled by date, with the profile's day start), `contactsheet` (6 to 12 numbered frames with a pick-one tick). Plan, fit tables and paper advice: BUILD-PLAN section 23.
 - **Paper only.** No upload, no image field, no camera, no Studio storage, no X4 items. The photo is glued on by hand.

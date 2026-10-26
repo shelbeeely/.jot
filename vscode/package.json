@@ -1,0 +1,117 @@
+{
+  "name": "jot-journal",
+  "displayName": "Jot journal",
+  "description": "Write .jot journals in VS Code: syntax colours, and a live page preview that draws your tracked numbers as charts.",
+  "version": "0.1.0",
+  "publisher": "jot-format",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Visualization",
+    "Notebooks"
+  ],
+  "keywords": [
+    "jot",
+    "journal",
+    "diary",
+    "bullet journal",
+    "planner",
+    "habit tracker"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:jot"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "jot",
+        "aliases": [
+          "Jot",
+          "jot"
+        ],
+        "extensions": [
+          ".jot"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "jot",
+        "scopeName": "text.jot",
+        "path": "./syntaxes/jot.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.markdown": "markdown"
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "jot.showPreview",
+        "title": "Open Preview",
+        "category": "Jot",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "jot.showPreviewToSide",
+        "title": "Open Preview to the Side",
+        "category": "Jot",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "jot.insertChart",
+        "title": "Insert a Week Chart",
+        "category": "Jot"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "jot.showPreviewToSide",
+          "when": "editorLangId == jot",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "jot.showPreview",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.showPreviewToSide",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.insertChart",
+          "when": "editorLangId == jot"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "jot.showPreview",
+        "key": "ctrl+shift+v",
+        "mac": "cmd+shift+v",
+        "when": "editorLangId == jot"
+      },
+      {
+        "command": "jot.showPreviewToSide",
+        "key": "ctrl+k v",
+        "mac": "cmd+k v",
+        "when": "editorLangId == jot"
+      }
+    ]
+  },
+  "scripts": {
+    "sync": "node sync.mjs",
+    "test": "node sync.mjs --check && node --test test-extension.mjs && node test-preview.cjs",
+    "package": "node sync.mjs && npx @vscode/vsce package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shelbeeely/.jot"
+  }
+}

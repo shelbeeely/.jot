@@ -35,7 +35,7 @@ const srv = http.createServer((q, r) => {
 
   // Read: an empty workspace opens the example without asking
   let asked = 0; p.on('dialog', (d) => { asked++; d.dismiss(); });
-  await p.click('a[href="../?open=examples/diaries/nobody/nobody.jot"]');
+  await p.click('a[href="../write/?open=examples/diaries/nobody/nobody.jot"]');
   await p.waitForFunction(() => /Opened the example/.test(document.getElementById('journalNotice').textContent));
   const text = await p.inputValue('#writing');
   ok(text.startsWith('---\nJot: 1.0\nTitle: The Diary of a Nobody') && asked === 0, 'Read opens the diary in the workspace (an empty workspace is not asked)');
@@ -44,16 +44,16 @@ const srv = http.createServer((q, r) => {
 
   // writing of your own: it asks, and Cancel keeps it
   await p.fill('#writing', 'My own words.'); await p.dispatchEvent('#writing', 'input'); await p.waitForTimeout(400);
-  await p.goto(BASE + '?open=examples/diaries/pepys/pepys-1660.jot'); await p.waitForTimeout(500);
+  await p.goto(BASE + 'write/?open=examples/diaries/pepys/pepys-1660.jot'); await p.waitForTimeout(500);
   ok(asked === 1 && await p.inputValue('#writing') === 'My own words.', 'with writing of your own, it asks first, and Cancel keeps your writing');
   p.removeAllListeners('dialog'); p.on('dialog', (d) => d.accept());
-  await p.goto(BASE + '?open=examples/packaged.jotz');
+  await p.goto(BASE + 'write/?open=examples/packaged.jotz');
   await p.waitForFunction(() => /Opened the example packaged.jotz/.test(document.getElementById('journalNotice').textContent));
   ok(true, 'a packaged .jotz example opens too, after you agree');
 
   // only examples from this site
   for (const bad of ['../secret.jot', 'examples/../index.html', 'https://example.org/x.jot', '//example.org/examples/x.jot', 'examples/x.txt']) {
-    await p.goto(BASE + '?open=' + encodeURIComponent(bad)); await p.waitForTimeout(150);
+    await p.goto(BASE + 'write/?open=' + encodeURIComponent(bad)); await p.waitForTimeout(150);
     assert.match(await p.textContent('#journalNotice'), /does not name an example/, bad);
   }
   ok(true, 'anything but an examples/ .jot or .jotz on this site is refused');

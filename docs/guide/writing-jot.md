@@ -158,6 +158,49 @@ value: 3
 
 To fill in a rating, type the number after `value:`. Leaving it empty is always allowed: an empty value never counts as a zero.
 
+**Units.** A measurement can say what its number counts in: `unit: h` for hours, `unit: km`, `unit: ml`.
+
+## Charts of your numbers
+
+Numbers you write day after day can be drawn as a chart, so a week's sleep or steps shows at a glance. Add a `chart` record:
+
+```jot
+### 2026-10-26 | Monday
+
+:::record measurement #sleep-2026-10-26
+metric: sleep
+unit: h
+value: 7.5
+:::
+
+:::record observation #today-2026-10-26
+steps: 8200
+:::
+
+### 2026-10-27 | Tuesday
+
+:::record measurement #sleep-2026-10-27
+metric: sleep
+unit: h
+value: 6
+:::
+
+:::record chart #week-2026-10-26
+metrics: sleep, steps
+:::
+```
+
+- **What it charts:** `metrics:` names the numbers, by their `metric:` (in a measurement) or their field name (`steps:` in any other
+  record). Leave `metrics:` out to chart every number.
+- **Which days:** a chart inside a dated entry covers that entry's week, Monday to Sunday. `start:` and `end:` (dates) choose other
+  days; a chart outside any entry covers the days that have numbers.
+- **How:** `style: line` (the default) or `style: bars`.
+- **Each number gets its own small chart,** on its own scale, with the days along the bottom, the week's average as a dashed line and
+  a summary (`avg 6.8 h · 6–7.5 h · 2/7 days`). A measurement with a `scale:` is charted from the scale's minimum to its maximum.
+  Days with nothing written are gaps, never zeros. Two numbers for one metric on one day are averaged.
+- **Where you see it:** the workspace (**Write**), the template editor's **Page** view and the Jot extension for VS Code draw it. Anywhere
+  else the record shows as the few lines above, which still say what it charts.
+
 ## A few other things
 
 - **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.
@@ -192,19 +235,25 @@ editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open i
 - **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending. (For colours, see
   [Colours in your text editor](#colours-in-your-text-editor).)
 - **InkDeck**, the e-ink writing firmware for the Xteink X3/X4: it creates `.jot` files for you.
-- **The Jot workspace** (the Journal page of this site): a preview beside your writing, method ideas, and attachments.
+- **The Jot workspace** (**Write**, on this site): a preview beside your writing, with charts, method ideas and attachments.
+- **VS Code**, with the Jot extension: colours for Jot's marks and a live page preview with charts. See
+  [Colours in your text editor](#colours-in-your-text-editor).
 - **The template editor:** design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
   See [Using the template editor](template-editor.md).
 
 ## Colours in your text editor
 
-Most editors don't know `.jot` yet, but Jot is Markdown underneath. Tell your editor to treat `.jot` as Markdown and you get headings,
-lists, bold and tables in colour. (Jot's own marks, like `o` events and records, show as plain text for now; a Jot extension for
-editors is planned.)
+**VS Code** has a Jot extension (in the `vscode/` folder of the Jot project): dates, tasks, events, records and their numbers in
+colour, and **Jot: Open Preview to the Side** (`Ctrl+K V`, `Cmd+K V` on a Mac) for a live page preview that draws your charts.
+**Jot: Insert a Week Chart** writes a chart record for this week. Until it is in the Marketplace, install it from the folder: run
+`npx @vscode/vsce package` there, then **Extensions → … → Install from VSIX**.
+
+Other editors don't know `.jot` yet, but Jot is Markdown underneath. Tell your editor to treat `.jot` as Markdown and you get
+headings, lists, bold and tables in colour. (Jot's own marks, like `o` events and records, show as plain text.)
 
 | Editor | How |
 | --- | --- |
-| **VS Code** (and VSCodium, Cursor) | Open a `.jot` file, click the language name at the bottom right ("Plain Text"), choose **Configure File Association for '.jot'…**, then **Markdown** |
+| **VS Code** (and VSCodium, Cursor), without the extension | Open a `.jot` file, click the language name at the bottom right ("Plain Text"), choose **Configure File Association for '.jot'…**, then **Markdown** |
 | **Sublime Text** | Open a `.jot` file, then **View → Syntax → Open all with current extension as… → Markdown** |
 | **JetBrains** (IntelliJ, PyCharm …) | **Settings → Editor → File Types → Markdown**, add `*.jot` |
 | **Neovim** | Add `vim.filetype.add({ extension = { jot = 'markdown' } })` to your config |

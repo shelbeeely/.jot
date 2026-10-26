@@ -155,11 +155,57 @@ const srv = http.createServer((q, r) => {
     await ph.screenshot({ path: path.join(SHOTS, `editor-phone-${scheme}.png`), fullPage: false });
     await ph.close();
   }
-  // the workspace (site root): plain .jot without attachments, one .jotz with them (spec draft 3)
+  // the weekly dashboard: the starter, the Page view, its charts with sample numbers, the rule-of-7 note
+  { const d = await b.newPage({ viewport: { width: 1280, height: 900 } }); d.on('pageerror', (e) => errs.push(e.message));
+    await d.goto(URL0); await d.evaluate(() => { try { localStorage.clear(); } catch {} }); await d.reload(); await d.waitForSelector('#jot:not(:empty)');
+    await d.click('#starter'); await d.click('#starter-list >> text=Weekly dashboard');
+    ok((await d.$$eval('[data-zone="weekStart"] .blk', (e) => e.length)) === 6 && /:::record chart #chart-week-2026-\d\d-\d\d\nmetrics: sleep, work, steps, mood\nstart: /.test(await d.textContent('#jot')), 'Weekly dashboard: six widgets for the week, and a chart record naming its numbers and dates');
+    ok(await d.$eval('#sample-wrap', (e) => e.hidden), 'the Text view has no sample switch');
+    await d.click('#tab-page');
+    ok(!(await d.$eval('#page-view', (e) => e.hidden)) && await d.$eval('#jot', (e) => e.hidden) && (await d.textContent('#preview-h')) === 'The page', 'Page shows the file as a journal reader would');
+    const charts = await d.$$eval('#page .jot-chart', (c) => c.length);
+    ok(charts >= 5 && await d.$$eval('#page .jot-chart svg', (s) => s.length) === charts * 4 && /No numbers yet/.test(await d.textContent('#page .jot-chart')), `a chart a week (${charts}), four small charts each, empty until numbers are written`);
+    await d.check('#sample');
+    ok(await d.$$eval('#page .jc-line', (l) => l.length) === charts * 4 && /sample numbers/.test(await d.textContent('#page .jot-chart')), 'Sample numbers draws a line on every chart, and says they are samples');
+    if (fs.existsSync(AXE)) {
+      await d.addScriptTag({ path: AXE });
+      const v = await d.evaluate(async () => (await axe.run(document.querySelector('.preview'), { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
+      ok(v.length === 0, 'the Page view with its charts: axe finds nothing serious' + (v.length ? ': ' + v.join(', ') : ''));
+    }
+    await d.screenshot({ path: path.join(SHOTS, 'editor-dashboard-page.png'), fullPage: true });
+    ok(await d.$$eval('#page .jot-blank-line', (l) => l.length) > 0 && !/:::record scale/.test(await d.textContent('#page')), 'empty task and list lines show as lines to write on; scale definitions are not printed');
+    await d.keyboard.press('Escape'); await d.focus('#tab-page'); await d.keyboard.press('ArrowLeft');
+    ok(await d.evaluate(() => document.activeElement.id === 'tab-text') && !(await d.$eval('#jot', (e) => e.hidden)), 'the arrow keys move between Text and Page');
+    ok(!(await d.$('.warn-note')), 'six widgets: no rule-of-7 note');
+    await d.click('[data-act="add"][data-zone="weekStart"]'); await d.click('#palette [data-type="writing"]');
+    await d.click('[data-act="add"][data-zone="weekStart"]'); await d.click('#palette [data-type="writing"]');
+    ok(/8 widgets on the week page/.test(await d.textContent('[data-zone="weekStart"] .warn-note')), 'eight: the week zone says five to seven is what most people take in at a glance');
+    await d.close(); }
+  // the home page: why Jot, no editor on it, a live chart, phone width and dark, axe
+  for (const scheme of ['light', 'dark']) {
+    const h = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme }); h.on('pageerror', (e) => errs.push(e.message));
+    await h.goto(URL0.replace('/editor/', '/')); await h.waitForSelector('#demo-chart svg');
+    ok(!(await h.$('#writing, textarea')) && /Why keep a journal in Jot\?/.test(await h.textContent('main')) && await h.$$eval('#demo-chart svg', (s) => s.length) === 2, `home (${scheme}): why Jot, no editor, and the example week drawn by the chart code`);
+    ok(await h.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), `home (${scheme}, 390 px): no sideways scroll`);
+    const hrefs = await h.$$eval('a[href]', (as) => [...new Set(as.map((a) => a.href))].filter((u) => u.startsWith(location.origin)));
+    for (const u of hrefs) { const res = await h.request.get(u.split('#')[0]); assert.equal(res.status(), 200, u); }
+    ok(hrefs.length >= 10, `home: every link on the page answers (${hrefs.length})`);
+    if (fs.existsSync(AXE)) {
+      await h.addScriptTag({ path: AXE });
+      const v = await h.evaluate(async () => (await axe.run(document, { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
+      ok(v.length === 0, `home (${scheme}): axe finds nothing serious` + (v.length ? ': ' + v.join(', ') : ''));
+    }
+    await h.screenshot({ path: path.join(SHOTS, `home-${scheme}.png`), fullPage: true });
+    await h.close();
+  }
+  // the workspace (/write/): plain .jot without attachments, one .jotz with them (spec draft 3)
   { const w = await b.newPage({ viewport: { width: 1280, height: 900 }, acceptDownloads: true }); w.on('pageerror', (e) => errs.push(e.message));
-    await w.goto(URL0.replace('/editor/', '/')); await w.waitForSelector('#writing');
+    await w.goto(URL0.replace('/editor/', '/write/')); await w.waitForSelector('#writing');
     await w.evaluate(async () => { try { localStorage.clear(); } catch {} });
     await w.reload(); await w.waitForSelector('#writing'); await w.waitForTimeout(400);
+    await w.fill('#writing', '### 2026-10-26 | Monday\n\n:::record measurement #s1\nmetric: sleep\nunit: h\nvalue: 7\n:::\n\n### 2026-10-27\n\n:::record measurement #s2\nmetric: sleep\nunit: h\nvalue: 8\n:::\n\n:::record chart #week\nmetrics: sleep\n:::\n'); await w.dispatchEvent('#writing', 'input');
+    await w.waitForSelector('#paperPreview .jot-chart svg');
+    ok(/avg 7\.5 h/.test(await w.textContent('#paperPreview .jot-chart')) && await w.$$eval('#paperPreview .jc-dot', (d) => d.length) === 2, 'workspace: a chart record in the writing is drawn in the page preview (its week, from the entry it is in)');
     await w.fill('#writing', '### 2026-10-26 | Monday\n\nA plain day.\n');
     const d1p = w.waitForEvent('download'); await w.click('#downloadJot'); const d1 = await d1p, t1 = fs.readFileSync(await d1.path());
     ok(/\.jot$/.test(d1.suggestedFilename()) && t1[0] !== 0x50 && /A plain day/.test(t1.toString()) && (await w.textContent('#docExt')) === '.jot', `workspace: no attachments, Download .jot saves plain text (${d1.suggestedFilename()})`);

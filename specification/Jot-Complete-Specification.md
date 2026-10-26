@@ -217,7 +217,7 @@ Reserved common fields are `method`, `privacy`, `author`, `created`, `modified`,
 
 ### 5.1 Common record types
 
-The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction` and `relation`. Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
+The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation` and `chart` (§5.2.1). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
 
 To make the profile contracts usable, every profile has an ID and integer version. A `method: id@1` field selects it. Every catalogue subsection lists its intended record type, required fields for a **complete** record, optional fields and validation notes. Core always accepts partial capture. Missing required profile fields produce a `profile-incomplete` warning, never rejection of the note. Unless explicitly repeatable, fields in a complete profile are singleton; duplicates warn and their last value supplies the effective value. `body`, `source`, `relation`, `label`, `author`, `privacy`, `created` and `modified` are available to every profile. Common record IDs are separate from profile fields.
 
@@ -248,6 +248,23 @@ A structured numeric value is an ASCII decimal without grouping, exponent or NaN
 A scale declares `name` and `kind` (`ordinal`, `numeric` or `categorical`). Numeric and ordinal scales declare `minimum` and `maximum`, with optional anchors. Categorical scales repeat `option` in display order. A reference to a missing scale is unresolved rather than defaulted. A missing measurement MUST remain visually distinct from the lowest value. Multiple mood observations on one day require a declared daily aggregation (`latest`, `mean`, `minimum`, `maximum` or `user-selected`) before a year-in-pixels view is generated; mean applies only to numeric scales. If no aggregation is chosen, display multiple markers or no single-day aggregate.
 
 Inline state tags such as `[Energy: High]` are display annotations only. They MUST NOT become numeric measurements without an explicit import mapping. Legacy `Telemetry:` and `Theme-Check:` blocks require conversion into records. A free-form `telemetry` record MAY preserve source text while the author decides its mapping.
+
+### 5.2.1 Charts
+
+A `chart` record asks a reader to draw numbers the document already holds. It is a view, not data: it never carries values, and removing it loses nothing.
+
+```jot
+:::record chart #week-2026-10-26
+metrics: sleep, steps
+start: 2026-10-26
+end: 2026-11-01
+style: line
+:::
+```
+
+`metrics` is a comma-separated list of metric keys; absent, every metric with a number in the range is charted. A metric's key is its measurement `metric`, or the name of any other record's field whose value is a structured numeric value (§5.2), lowercased with runs of other characters folded to `-` and a leading `x-` removed. Fields that describe a record rather than count something (the reserved common fields of §4.3, and `metric`, `value`, `unit`, `scale`, `status`, `name`, `kind`, `minimum`, `maximum`) are never metrics. `start` and `end` are inclusive dates. Absent, a chart inside a dated entry covers that entry's ISO week (Monday to Sunday); one outside any entry covers the dates that have numbers. A reversed range is read in date order. `style` is `line` (default) or `bars`.
+
+A number's date is its record's own `date` (or the date part of `at`) when valid, else the dated entry containing it. Two numbers for one metric on one date are shown as their mean in a chart; this is a display choice and MUST NOT be written back as data. A day with no number MUST be drawn as a gap, never as zero (§5.2). Each metric is drawn against its own value axis: metrics with different units or scales MUST NOT share one axis. When a measurement names a scale, its `minimum` and `maximum` bound the axis, unless a value falls outside them. A renderer SHOULD give each chart a text alternative (the metric, the range, how many days have numbers, the mean, the lowest and highest) and the numbers as a table. Readers that do not draw charts show the record as any other record.
 
 ### 5.3 Dates, times and duration
 

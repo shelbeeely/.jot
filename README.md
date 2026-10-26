@@ -11,8 +11,9 @@ print engine that turns `.jot` writing into KDP-ready books.
 | --- | --- |
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
-| [`parser/`](parser/) | JavaScript parser (`jot.mjs`), container (`container.mjs`: packaged `.jotz`), proofreading hints, tests |
-| [`site/`](site/) | The browser workspace (`site/dist/`, static), the template editor (`/editor/`), the diary converter (`/convert/`) and the scanner/handwriting tool (`/scan/`) |
+| [`parser/`](parser/) | JavaScript parser (`jot.mjs`), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`) and the page preview (`preview.mjs`), proofreading hints, tests |
+| [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`) and the scanner/handwriting tool (`/scan/`) |
+| [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colours and a live page preview with charts, from the same renderer as the site |
 | [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries |
 | [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (46 guides, CC0) |
@@ -28,9 +29,24 @@ New to Jot? Read [Writing in Jot](docs/guide/writing-jot.md) (ten minutes), then
 
 ## Jot: parser and workspace
 
-    node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs
+    node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs
     node site/test-core.cjs
-    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/, /editor/, /convert/, /guide/, /examples/ and /scan/
+    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/ (why Jot), /write/, /editor/, /convert/, /guide/, /examples/ and /scan/
+
+## Numbers, charts and the weekly dashboard
+
+Numbers you write (sleep hours, steps, a 1–5 mood) are `measurement` records; a `:::record chart` asks for them to be drawn, one small
+chart per metric (spec §5.2.1). The workspace, the template editor's **Page** view and the VS Code extension draw the same charts with
+the same code (`parser/charts.mjs`, `parser/preview.mjs`). The template editor's **Weekly dashboard** starter sets up a week page of six
+widgets (the "rule of 7"), and the printed week plan can carry graph grids to plot by hand (`week_right` options `graphs`). Guide:
+[Numbers and charts](docs/guide/template-editor.md#numbers-and-charts).
+
+## Jot for VS Code
+
+    cd vscode && node sync.mjs && npx @vscode/vsce package          # then Extensions → … → Install from VSIX
+    node vscode/sync.mjs --check && node --test vscode/test-extension.mjs && node vscode/test-preview.cjs
+
+Details: [vscode/README.md](vscode/README.md).
 
 ## Template editor: a journal's shape as a .jot
 

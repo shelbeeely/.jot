@@ -1,8 +1,10 @@
 // Jot template editor: the page. The model and the .jot text come from template.mjs; the check uses the Jot parser (../jot/jot.mjs).
 // The template is kept in this browser (localStorage, if allowed); nothing is sent anywhere.
-import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, monthLabel, templateFromJot } from './template.mjs';
+import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, monthLabel, templateFromJot } from './template.mjs';
 import { importDayLayout } from './import.mjs';
 import { parse } from '../jot/jot.mjs';
+import { renderPreview, addChartStyles } from '../jot/preview.mjs';
+addChartStyles(document);
 
 const $ = (s) => document.querySelector(s);
 const KEY = 'jot-template-v1';
@@ -77,7 +79,7 @@ function drawZones(focusSel) {
   $('#zones').innerHTML = ZONES.map((z) => {
     const list = tpl.zones[z.id];
     return `<section class="zone" data-zone="${z.id}" aria-labelledby="z-${z.id}">
-      <h2 id="z-${z.id}">${esc(z.name)}</h2><p class="hint">${esc(z.hint)}</p>
+      <h2 id="z-${z.id}">${esc(z.name)}</h2><p class="hint">${esc(z.hint)}</p>${z.id === 'weekStart' && widgetCount(tpl) > WIDGET_LIMIT ? `<p class="hint warn-note" role="note">${widgetCount(tpl)} widgets on the week page. Five to seven is what most people can take in at a glance (the "rule of 7"); think about folding some together.</p>` : ''}
       ${list.length ? `<ol class="blocks">${list.map((b, i) => blockHtml(b, z.id, i, list.length)).join('')}</ol>` : '<p class="empty">Nothing here yet.</p>'}
       <button class="btn small add" type="button" data-act="add" data-zone="${z.id}"><span aria-hidden="true">＋</span> Add a block</button>
     </section>`;
@@ -237,7 +239,23 @@ function drawPreview() {
   const ul = $('#problems'); ul.hidden = !probs.length;
   ul.innerHTML = probs.slice(0, 8).map((p) => `<li>${esc(p.message)}</li>`).join('');
   document.title = `${tpl.title} · ${monthLabel(tpl.month)} · Jot template editor`;
+  const hasNumbers = ast.nodes.some((n) => n.type === 'record' && n.recordType === 'chart');
+  $('#sample-wrap').hidden = view !== 'page' || !hasNumbers;
+  if (view === 'page') renderPreview(ast, $('#page'), { sample: hasNumbers && $('#sample').checked, empty: 'Add a block to see the page.' });
 }
+// ---- Text or Page: the file as it is, or as a journal reader shows it (charts drawn) ----
+let view = 'text';
+function setView(v, focus) {
+  view = v;
+  for (const [id, name] of [['#tab-text', 'text'], ['#tab-page', 'page']]) { const t = $(id); t.setAttribute('aria-selected', String(name === v)); t.tabIndex = name === v ? 0 : -1; if (focus && name === v) t.focus(); }
+  $('#jot').hidden = v !== 'text'; $('#page-view').hidden = v !== 'page';
+  $('#preview-h').textContent = v === 'text' ? 'The .jot file' : 'The page';
+  drawPreview();
+}
+$('#tab-text').onclick = () => setView('text');
+$('#tab-page').onclick = () => setView('page');
+$('.view-tabs').addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setView(view === 'text' ? 'page' : 'text', true); } });
+$('#sample').onchange = () => drawPreview();
 $('#file-sel').addEventListener('change', (e) => { shown = +e.target.value; drawPreview(); });
 
 // ---- files out and in ----

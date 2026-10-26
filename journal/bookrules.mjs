@@ -42,6 +42,30 @@ export function dayOptionProblems(o, at = 'days') {
   return out;
 }
 
+// ---- graph grids (the week plan's right page, `week_right` options.graphs) ----
+// [{ title, unit, min, max }]: up to two grids in place of the mood line, a row for each value from max down to min, plotted by hand. The step
+// between rows is the first of GRAPH_STEPS that gives at most GRAPH_ROWS rows (sleep 4–10 h: a row an hour; steps 0–15000: a row every 2500).
+export const GRAPH_MAX = 2, GRAPH_ROWS = 9;
+const GRAPH_STEPS = [1, 2, 2.5, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000, 20000, 25000, 50000, 0.5]; // whole steps first; halves only for a range like 0 to 3.5
+export function graphStep(g) { const span = g.max - g.min; return GRAPH_STEPS.find((s) => span / s + 1 <= GRAPH_ROWS && Number.isInteger(Math.round(span / s * 1e6) / 1e6)) || null; }
+export function graphRows(g) { const st = graphStep(g), out = []; if (!st) return out; for (let v = g.max; v >= g.min - 1e-9; v -= st) out.push(Math.round(v * 100) / 100); return out; }
+export function graphProblems(v, at = 'graphs') {
+  const out = [], bad = (m) => out.push(`${at}: ${m}`);
+  if (!Array.isArray(v)) return [`${at}: must be a list like [{"title": "Sleep", "unit": "h", "min": 4, "max": 10}]`];
+  if (v.length > GRAPH_MAX) bad(`at most ${GRAPH_MAX} graph grids fit on the page, got ${v.length}`);
+  v.forEach((g, i) => {
+    const w = `${at}[${i}]`;
+    if (!isObj(g)) { out.push(`${w}: must be an object {title, unit, min, max}`); return; }
+    for (const k of Object.keys(g)) if (!['title', 'unit', 'min', 'max'].includes(k)) out.push(`${w}: unknown key "${k}" (a graph has title, unit, min, max)`);
+    if (typeof g.title !== 'string' || !g.title.trim() || g.title.length > 24) out.push(`${w}: "title" must be text of 1 to 24 characters`);
+    if (g.unit !== undefined && (typeof g.unit !== 'string' || g.unit.length > 8)) out.push(`${w}: "unit" must be text up to 8 characters`);
+    if (!Number.isFinite(g.min) || !Number.isFinite(g.max)) out.push(`${w}: "min" and "max" must be numbers`);
+    else if (g.max <= g.min) out.push(`${w}: "max" must be more than "min"`);
+    else if (!graphStep(g)) out.push(`${w}: ${g.min} to ${g.max} can't be split into ${GRAPH_ROWS} rows or fewer with a round step (try a range like 0 to 8, 4 to 12 or 0 to 20000)`);
+  });
+  return out;
+}
+
 // Every problem in one pass, as plain sentences that say where. Returns [] when the book is fine.
 export function validateBookWith(book, PAGE_TYPES) {
   const errs = [];
@@ -109,6 +133,7 @@ function checkList(where, list, errs, PAGE_TYPES) {
       for (const [k, v] of Object.entries(isObj(it.options) ? it.options : {})) {
         if (!spec[k]) bad(label, `unknown option "${k}"${Object.keys(spec).length ? ` (this page has: ${Object.keys(spec).join(', ')})` : ' (this page has no options yet)'}`);
         else if (spec[k].kind === 'text' && (typeof v !== 'string' || v.length > (spec[k].max || 80))) bad(label, `option "${k}" must be text up to ${spec[k].max || 80} characters`);
+        else if (spec[k].kind === 'graphs') errs.push(...graphProblems(v, `${label}: option "graphs"`));
       }
     });
   };

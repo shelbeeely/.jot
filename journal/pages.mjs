@@ -6,7 +6,7 @@
 // `refs` maps {{P_x}} names to page numbers; the book assembler fills it before any page is built, and replaces the
 // {{P_x}} markers in the finished HTML. Page numbers are never hand-set.
 import { ic, box, spoon, actionZone, dayBlocks, headerZone, notesPage, kindPage, spreadPage } from './daypage.mjs';
-import { dayFormat } from './bookrules.mjs';
+import { dayFormat, graphRows } from './bookrules.mjs';
 export { headerZone, notesPage }; // (they live with the block library: one source for the page's fixed top)
 import { handoffHtml, GOOD_SPOON_NOTE } from './handoff.mjs';
 import { entryPages, entryIds } from './jotpage.mjs';
@@ -434,17 +434,25 @@ function weekLeft(W) {
   return `<div class="whead" data-zone="week_header"><h2 class="pt">${W.label}</h2><span class="dim">${wkRange(W)}</span></div>${rows}`;
 }
 
-function weekRight(W) {
+// The graph grids under the habits (week_right options.graphs, bookrules.mjs graphRows): a row for each value, a column for each day, to plot
+// sleep hours or work hours by hand. No option: the mood line, exactly as it always printed.
+function graphGrid(g, i) {
+  const days = DAY_LETTERS, rows = graphRows(g);
+  return `<h3>${esc(g.title)}${g.unit ? ` <span class="dim" style="text-transform:none">(${esc(g.unit)})</span>` : ''}</h3>
+  <table class="mline graph" data-zone="graph_${i + 1}">${rows.map((v) => `<tr class="${v === 0 && g.min < 0 ? 'zero' : ''}"><td class="hl">${v}</td>${days.map(() => '<td><i></i></td>').join('')}</tr>`).join('')}<tr><td></td>${days.map((x) => `<td class="dl">${x}</td>`).join('')}</tr></table>`;
+}
+function weekRight(W, options = {}) {
   const days = DAY_LETTERS;
+  const graphs = Array.isArray(options.graphs) && options.graphs.length ? options.graphs : null;
   const grid = (label) => `<tr><td class="hl">${label}</td>${days.map(() => '<td></td>').join('')}</tr>`;
   return `<div class="wr-top"><div class="word" data-zone="words"><h3>Words to keep</h3><p class="dim">A line worth copying out this week: a quote, a lyric you heard, something someone said.</p><div class="lines l3" data-pitch="0.24"></div></div>
   <div class="prio" data-zone="priorities"><h3>${W.label}</h3><ol><li></li><li></li><li></li></ol></div></div>
   <h3>Habits &amp; theme</h3>
   <table class="hab" data-zone="habits"><tr><th></th>${days.map((x) => `<th>${x}</th>`).join('')}</tr>${UND ? grid('date') : ''}${grid('')}${grid('')}${grid('')}${grid('work hours')}</table>
-  <h3>Mood line</h3>
-  <table class="mline" data-zone="mood_line">${[3, 2, 1, 0, -1, -2, -3].map((v) => `<tr class="${v === 0 ? 'zero' : ''}"><td class="hl">${v > 0 ? '+' + v : v}</td>${days.map(() => '<td><i></i></td>').join('')}</tr>`).join('')}<tr><td></td>${days.map((x) => `<td class="dl">${x}</td>`).join('')}</tr></table>
-  ${pioneerCard(W)}
-  ${W.pioneer && ctx.size !== 'letter' ? '' : '<h3>Notes</h3><div class="dots fill" data-zone="notes"></div>'}`;  // letter has room under the pioneer card; the small page is full
+  ${graphs ? graphs.map(graphGrid).join('\n  ') : `<h3>Mood line</h3>
+  <table class="mline" data-zone="mood_line">${[3, 2, 1, 0, -1, -2, -3].map((v) => `<tr class="${v === 0 ? 'zero' : ''}"><td class="hl">${v > 0 ? '+' + v : v}</td>${days.map(() => '<td><i></i></td>').join('')}</tr>`).join('')}<tr><td></td>${days.map((x) => `<td class="dl">${x}</td>`).join('')}</tr></table>`}
+  ${graphs && graphs.length > 1 ? '' : pioneerCard(W)}
+  ${(W.pioneer && ctx.size !== 'letter') || (graphs && graphs.length > 1) ? '' : '<h3>Notes</h3><div class="dots fill" data-zone="notes"></div>'}`;  // letter has room under the pioneer card; the small page is full
 }
 
 function pioneerCard(W) {
@@ -550,7 +558,8 @@ export const PAGE_TYPES = {
   month_tracker: { name: 'Month tracker', scope: 'month', ref: 'tracker', build: (ctx, { M }) => one({ type: 'month_tracker', id: mid(ctx, M, 'tracker'), label: `${M.name} · tracker`, html: () => pagesFor(ctx).monthTracker(M) }) },
   month_moon: { name: 'Moon pages', scope: 'month', module: 'sky', build: (ctx, { M }) => one({ type: 'month_moon', id: mid(ctx, M, 'moon'), label: `${M.name} · moon pages`, html: () => pagesFor(ctx).monthMoonPage(M) }) },
   week_left: { name: 'Week plan (left)', scope: 'week', align: 'verso', build: (ctx, { W }) => one({ type: 'week_left', id: `week.${wkId(W)}.left`, label: `${W.label} · ${pagesFor(ctx).wkRange(W)}`, html: () => pagesFor(ctx).weekLeft(W) }) },
-  week_right: { name: 'Week plan (right)', scope: 'week', build: (ctx, { W }) => one({ type: 'week_right', id: `week.${wkId(W)}.right`, label: W.label, html: () => pagesFor(ctx).weekRight(W) }) },
+  // options.graphs: up to two graph grids in place of the mood line ([{title, unit, min, max}]; bookrules.mjs graphProblems). Two leave out the pioneer card.
+  week_right: { name: 'Week plan (right)', scope: 'week', options: { graphs: { kind: 'graphs', label: 'Graph grids' } }, build: (ctx, { W, entry }) => one({ type: 'week_right', id: `week.${wkId(W)}.right`, label: W.label, html: () => pagesFor(ctx).weekRight(W, (entry && entry.options) || {}) }) },
   // One page a day, or (entry options, bookrules.mjs dayFormat) a whole spread: two pages that keep their own ids, headers, frames and codes. A spread day
   // always opens on a left-hand page (each spread's own `align`), so a Notes page is added where the day before ended on the left.
   days: { name: 'Day pages', scope: 'week', build: (ctx, { W, entry }) => W.days.flatMap((d) => {

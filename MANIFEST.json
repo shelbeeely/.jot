@@ -4,8 +4,8 @@
   "files": [
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 2098,
-      "sha256": "7e15fd4f84a2b4288fb4c60c7683a9d9a0f22072522fdaa3775f9a2e8c08989a"
+      "byteLength": 2253,
+      "sha256": "73becb33e79c05302968e82c7b9d05a14d55ce3e5a04f722db509559823ecf31"
     },
     {
       "path": ".gitignore",
@@ -14,13 +14,13 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 2940,
-      "sha256": "85c4510d0128959a4fa810f7a5d459bd7ad894e7188d04cf2dda396ff3dca429"
+      "byteLength": 4403,
+      "sha256": "570356b5bc53a4bf8cc131907da6a445c6ed7951e58578efdacde3d98d3b4298"
     },
     {
       "path": "README.md",
-      "byteLength": 7690,
-      "sha256": "a7271cd71c3c4dade487d23181d7fe76f98a758b17208c9c782425675ece17ec"
+      "byteLength": 8931,
+      "sha256": "7b6c77568d9a80a33fbeae9747648cedd06148cfa29931c1a0e1caca81e40f78"
     },
     {
       "path": "converter/README.md",
@@ -74,8 +74,8 @@
     },
     {
       "path": "docs/guide/README.md",
-      "byteLength": 800,
-      "sha256": "585dd465764acc8ea76cafadd3fc0c8c4ed8a80ce969423673d5a7c0818feb53"
+      "byteLength": 944,
+      "sha256": "d123c2bd5b134640e3b2e93c8c87245de9571fa89535efd3af9101049524cec1"
     },
     {
       "path": "docs/guide/converting.md",
@@ -84,13 +84,13 @@
     },
     {
       "path": "docs/guide/template-editor.md",
-      "byteLength": 8469,
-      "sha256": "0e023939f7569bfc49f3082b7aee045b5750a015bd69f42c8c0bc5632415997d"
+      "byteLength": 11450,
+      "sha256": "6940ff308389b500afaa5420016c900958de3ecd3644035cbee7fe677f2fa656"
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 8362,
-      "sha256": "97508d5e10cd8635754467ef24ea4f0ff3ac48e0c989f4a05d63ab639613e58a"
+      "byteLength": 10612,
+      "sha256": "91b048e1dfad35bb8f0c4a556074eea8158464aa14e40b88f6a5a0becf288a05"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -374,8 +374,8 @@
     },
     {
       "path": "journal/README.md",
-      "byteLength": 58479,
-      "sha256": "ea724245c265369a78a3a019f80539aecdb67a6148c9eb62610d10c33b945dc4"
+      "byteLength": 59915,
+      "sha256": "34cf875d12a8354569b220a5c8c12de5287066bedee7191cd46e72bad240daee"
     },
     {
       "path": "journal/a11yprint.mjs",
@@ -399,8 +399,8 @@
     },
     {
       "path": "journal/bookrules.mjs",
-      "byteLength": 9257,
-      "sha256": "fdf4d8ff045d43c800140cf1df631c663d0fb2728bb8457f675b9f1d23937543"
+      "byteLength": 11647,
+      "sha256": "e3d38c6d464492d2cef8c123461b4fa09c720f504ffb91c4085251c12621eddd"
     },
     {
       "path": "journal/browser.mjs",
@@ -764,8 +764,8 @@
     },
     {
       "path": "journal/pages.mjs",
-      "byteLength": 62994,
-      "sha256": "c72befde2cee5cc12c1332d60c7b92227fe5196555f36c60765fac751e8d112b"
+      "byteLength": 64233,
+      "sha256": "231d03553566fce99f49e83d12284c553ae02783578ba4e0787c39f75dff6719"
     },
     {
       "path": "journal/payperiods.mjs",
@@ -953,6 +953,11 @@
       "sha256": "979cd62ca15991e75ff6be70ae789ad66f4e901ddb51e3f5e235a47f041640c0"
     },
     {
+      "path": "journal/test-graphs.mjs",
+      "byteLength": 5400,
+      "sha256": "d6cc9c87e1a0c6f4bd47d70f4d166425fc075d1388ec911bd71680d9230e3a2e"
+    },
+    {
       "path": "journal/test-init.mjs",
       "byteLength": 5857,
       "sha256": "828afafc624629db4eb58e01184ef5fbcc8173b1c75a7b4cfe8d52bbc5426fc7"
@@ -1039,13 +1044,23 @@
     },
     {
       "path": "parser/README.md",
-      "byteLength": 6184,
-      "sha256": "1dd54deb1e6203ee442c892733a1520a92261edb9d9b2ac408f973c8123991f0"
+      "byteLength": 7381,
+      "sha256": "f137e3978d634b063ecb1755b52fd28f08fe84cca5c39fb6f88f4e5bd3964461"
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 22111,
-      "sha256": "c151db497210ab3578ffd91e38873d28c698857a2a25ad91968ec0ccbd534641"
+      "byteLength": 22421,
+      "sha256": "04080013fba67d4be0d7d65cfc0e056131923639b6c3de354bb798dea909e519"
+    },
+    {
+      "path": "parser/charts-test.mjs",
+      "byteLength": 6019,
+      "sha256": "a270b502bccf2127d0217e6e2d074ee72ea7d5c80894329ae467540ef9e59b9c"
+    },
+    {
+      "path": "parser/charts.mjs",
+      "byteLength": 17875,
+      "sha256": "2f23c42a38683ba4a9b65edcef5b8dd1b601bf55d65476e3bcd1881dd2ece123"
     },
     {
       "path": "parser/container-test.mjs",
@@ -1071,6 +1086,11 @@
       "path": "parser/package.json",
       "byteLength": 421,
       "sha256": "7fe530a23be9ba40eb16822715751efc4513a9f07bc6e304bb2c7f335d69767c"
+    },
+    {
+      "path": "parser/preview.mjs",
+      "byteLength": 7979,
+      "sha256": "6c4b5c9e808dbf4bbb967f55d239108a811b1b561c9f78461eb0db2c61bcb9fe"
     },
     {
       "path": "parser/proofread-test.mjs",
@@ -1124,18 +1144,18 @@
     },
     {
       "path": "site/README.md",
-      "byteLength": 8440,
-      "sha256": "aaaf8018da8fd3d74224d93245388fe10993c0744e883661fecbeb967a7a914d"
+      "byteLength": 9342,
+      "sha256": "17710f9b06ce80d21e4b7d995e68a76150ec9b9114c6a441eedb277c5a7c3b45"
     },
     {
       "path": "site/build-guides.mjs",
-      "byteLength": 4532,
-      "sha256": "4b1989092f0afcff1025b10c49c587d76a5287220b069eb90805b6d7ab5aa5d2"
+      "byteLength": 4536,
+      "sha256": "4fb791e5b99ac4befea520d2c4b9475f38a1eef511c19758d85fc0b876336654"
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 22111,
-      "sha256": "c151db497210ab3578ffd91e38873d28c698857a2a25ad91968ec0ccbd534641"
+      "byteLength": 22421,
+      "sha256": "04080013fba67d4be0d7d65cfc0e056131923639b6c3de354bb798dea909e519"
     },
     {
       "path": "site/dist/convert/app.mjs",
@@ -1149,8 +1169,8 @@
     },
     {
       "path": "site/dist/convert/index.html",
-      "byteLength": 6112,
-      "sha256": "0c07c06bb6fe06d651118ddc1f10616e88401b6986492bfb2dc4648acde7818c"
+      "byteLength": 6116,
+      "sha256": "74b752eee9f6f77ab7b9e0f3821e77804abd7058abb288d7b8437e3bd09a0073"
     },
     {
       "path": "site/dist/convert/worker.mjs",
@@ -1159,8 +1179,8 @@
     },
     {
       "path": "site/dist/docs/Jot-Complete-Specification.pdf",
-      "byteLength": 246550,
-      "sha256": "4fb3e92d62457a5fa39e17dc9401a17995b4b3b5913da9f19a2b77b61b7de1a2"
+      "byteLength": 248639,
+      "sha256": "e6c963b45b9c546fe86609b808d2bf1ccf1e67284a4f2d84babe57e601f111b7"
     },
     {
       "path": "site/dist/docs/Jot-Container-v1.md",
@@ -1174,18 +1194,18 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 86488,
-      "sha256": "086eca04095cffcb6f978acae4e59dc6d9bba0b99df00dc232fdfe1a8c00b475"
+      "byteLength": 99380,
+      "sha256": "6ee936d04a86c58bb4806164abe3518cac0748b4e0c7961c1b131af5e51bbefc"
     },
     {
       "path": "site/dist/editor/app.mjs",
-      "byteLength": 21578,
-      "sha256": "decdeaf6a7dcfde56052959fedd97053404bc5cdaca9d172c5d3cdb1d441b77b"
+      "byteLength": 23129,
+      "sha256": "d6e9586f26ffdcd2ba4f2744a2bde1a1c5ec1ddf33231cfea6167ad4060f0c04"
     },
     {
       "path": "site/dist/editor/editor.css",
-      "byteLength": 10516,
-      "sha256": "a681207d8f9c209814fc2351610874a912e58ca26be8df7c640c8e2d493c995f"
+      "byteLength": 12769,
+      "sha256": "8fb4e9f01fc429412c7e8d0bf07e3ca8b8ca477eb9f146a1e14f20fcc990795d"
     },
     {
       "path": "site/dist/editor/import.mjs",
@@ -1194,13 +1214,13 @@
     },
     {
       "path": "site/dist/editor/index.html",
-      "byteLength": 4889,
-      "sha256": "e86c65200a02967d4dccb1e9a08f45ff8c67e6eade843d2eeee86c09424e9c3f"
+      "byteLength": 5588,
+      "sha256": "65d1b8f3174c66eb7f2f6bda1251340ce0bfcc7b825cf3e5a960665fca1b5279"
     },
     {
       "path": "site/dist/editor/template.mjs",
-      "byteLength": 20081,
-      "sha256": "8888efc16547f9c49cfb119029051623c09433bd78e6aa5723461cc8981296fe"
+      "byteLength": 23380,
+      "sha256": "36c70a59087540ac97dd615a390e3e654b9351525ad3e075fc164ec092e980a2"
     },
     {
       "path": "site/dist/examples/diaries/blunt/blunt-1870.jot",
@@ -1464,8 +1484,8 @@
     },
     {
       "path": "site/dist/examples/index.html",
-      "byteLength": 21001,
-      "sha256": "ca171b9b597d8bc9585d9097afe840d8122370aa478be6a0df05269620a7caf8"
+      "byteLength": 21323,
+      "sha256": "2d9175b5b122b6de910d9d63076015819eb67611b2767a5d64cca5e0496bb440"
     },
     {
       "path": "site/dist/examples/index.json",
@@ -1484,8 +1504,8 @@
     },
     {
       "path": "site/dist/guide/converting.html",
-      "byteLength": 10848,
-      "sha256": "52b5f4eb145ac9a7642abb3473d4af9fddda631840cfe466c551ab85c179b25a"
+      "byteLength": 10852,
+      "sha256": "2f3d810c8ef120e3d123b77df6094aa175e7928e63ed8a3383d0c5433a294df8"
     },
     {
       "path": "site/dist/guide/guide.css",
@@ -1494,23 +1514,38 @@
     },
     {
       "path": "site/dist/guide/index.html",
-      "byteLength": 1804,
-      "sha256": "d3b7bf0772fd8cf12ace32da2f5f9f2810537e8751112ad8f0b67c7ebb266aae"
+      "byteLength": 1961,
+      "sha256": "3cb249b2b2ea677c401ccfb0fa2da4cb202fc183c9859a9cfb9bdb36facd0037"
     },
     {
       "path": "site/dist/guide/template-editor.html",
-      "byteLength": 13129,
-      "sha256": "b81a3dc18b075e8b8573a6f95d1b79202d8ec10080f9fffe5c4bcc8ccd82cd02"
+      "byteLength": 16831,
+      "sha256": "90e50a3905d592b99cadaffea2119ccb8e3f727373af863660350786111292ca"
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 13172,
-      "sha256": "ac209cc0cc3c05a19a191a6dc332b715da07722c8872f6ed80a011a71b4a603a"
+      "byteLength": 16048,
+      "sha256": "a9b192d3ea1430f86274950acfda20c24fcbe364bbcd260f93b4aae69fd8e934"
+    },
+    {
+      "path": "site/dist/home.css",
+      "byteLength": 6834,
+      "sha256": "cde00daefd3c07db17c7de0cdf2953d6266e17ab4c278cfab9b051a84f8ac147"
+    },
+    {
+      "path": "site/dist/home.mjs",
+      "byteLength": 1022,
+      "sha256": "34be4db3eaf73ff953fe4e05484931fa575862e0886256fd5dc957f578517c94"
     },
     {
       "path": "site/dist/index.html",
-      "byteLength": 7719,
-      "sha256": "cadd148dcfc07b2221d8a0bf00694c90e3078877a6538b10a4dc2eeafadf9c22"
+      "byteLength": 7664,
+      "sha256": "921e469d7f35a20e12c5286811f7ca1ff0f2677dce31b81c4c37cc90c6d9687f"
+    },
+    {
+      "path": "site/dist/jot/charts.mjs",
+      "byteLength": 17875,
+      "sha256": "2f23c42a38683ba4a9b65edcef5b8dd1b601bf55d65476e3bcd1881dd2ece123"
     },
     {
       "path": "site/dist/jot/container.mjs",
@@ -1531,6 +1566,11 @@
       "path": "site/dist/jot/paper-sizes.json",
       "byteLength": 2517,
       "sha256": "b3f185a4522dac645b6c5608c76df7ad3cdd9a93fd7f8a24dbc5b66fc9bae93a"
+    },
+    {
+      "path": "site/dist/jot/preview.mjs",
+      "byteLength": 7979,
+      "sha256": "6c4b5c9e808dbf4bbb967f55d239108a811b1b561c9f78461eb0db2c61bcb9fe"
     },
     {
       "path": "site/dist/jot/profiles.json",
@@ -1579,18 +1619,18 @@
     },
     {
       "path": "site/dist/scan/app.js",
-      "byteLength": 18894,
-      "sha256": "6debd76ef7e95e92e8efea76749b1190f2519e47333958a431c5cc2e55b15858"
+      "byteLength": 18900,
+      "sha256": "4276a167bdce2a568010e9a9d2c62260f26509218dbd24bbef28317fc20ac123"
     },
     {
       "path": "site/dist/scan/handwriting.js",
-      "byteLength": 7650,
-      "sha256": "1e117531a33a6b1f7412bec188cfa2f5641abb708ffcfb244d36d06d589d8ed2"
+      "byteLength": 7656,
+      "sha256": "d95c042d54857220577ed3298c73b408b8998d3eaf4a8c92b564ca48868989ef"
     },
     {
       "path": "site/dist/scan/index.html",
-      "byteLength": 9262,
-      "sha256": "f5258cd1f2b53c22eae890bc4b7d2e287128bdb9119721d14aa6ed4d8f4db067"
+      "byteLength": 9257,
+      "sha256": "509e5099e4346a4b0c5fcdf8ee9a0adfeefc3d1444a7e43e376bf5b1b46248a2"
     },
     {
       "path": "site/dist/scan/scanner-core.js",
@@ -1609,8 +1649,13 @@
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 21566,
-      "sha256": "57ad0d9021e300573581c0959d8e702a80499d5842b8b83b96cecb3e527ac4ee"
+      "byteLength": 18530,
+      "sha256": "e686e84bf24c14c55b4cf6dda98ee3f6617e86b5e125fc8ee4c95b4904b1b355"
+    },
+    {
+      "path": "site/dist/write/index.html",
+      "byteLength": 7741,
+      "sha256": "39fe608c9ef6babdf6061fe4aa94cce24f7f0e041d56a70004f22769e4e8f929"
     },
     {
       "path": "site/test-convert-ui.cjs",
@@ -1624,18 +1669,18 @@
     },
     {
       "path": "site/test-editor-ui.cjs",
-      "byteLength": 19159,
-      "sha256": "9fb43a994ab134fbbfa71ff9f8c4d6f924bc755f2c149586228ff6eca2b09829"
+      "byteLength": 24613,
+      "sha256": "be137ffccd8f6399a1c34894589b8fcc7f20a838cd012ff5c343a0e7e761c02a"
     },
     {
       "path": "site/test-editor.mjs",
-      "byteLength": 11745,
-      "sha256": "4be8693cc109e17b9281c1c770d34fd6d91bbe52f2633dd7bc49a61a6db4b66b"
+      "byteLength": 14598,
+      "sha256": "31683d8f440bfb36a7246a0c818e6acd361b973d52bcd059742f7b58ccd9d22f"
     },
     {
       "path": "site/test-examples-ui.cjs",
-      "byteLength": 6392,
-      "sha256": "13d75bb158d52be72ff9fbb7c8e7d2c4fde8fbf19ace113ab86a18ceb8c701bd"
+      "byteLength": 6416,
+      "sha256": "9c48c6b15ca747d1a6c60f9eaf2bc917edeb9764e99337172484b0c4a97bfb83"
     },
     {
       "path": "site/test-guides.mjs",
@@ -1644,13 +1689,13 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 115463,
-      "sha256": "1b7eedb7cf376ec60413cce7dd78f4d2d339cf4d3fa5db91ee348478297c6aef"
+      "byteLength": 117356,
+      "sha256": "52a2410204d834356169ed6241201179563d171afeea6e75c4ffb2aa0329f2dc"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
-      "byteLength": 246550,
-      "sha256": "4fb3e92d62457a5fa39e17dc9401a17995b4b3b5913da9f19a2b77b61b7de1a2"
+      "byteLength": 248639,
+      "sha256": "e6c963b45b9c546fe86609b808d2bf1ccf1e67284a4f2d84babe57e601f111b7"
     },
     {
       "path": "specification/Jot-Container-v1.md",
@@ -1739,8 +1784,8 @@
     },
     {
       "path": "tools/build-examples.mjs",
-      "byteLength": 10277,
-      "sha256": "f7b9732ddd364a2d25dbc3e08c5238a96415dcb9ad8b381856844c51c10554b1"
+      "byteLength": 10299,
+      "sha256": "0274f35d6f1bff6fc643703dd3f2d5a0ca5f2b3e6a196e10cd96f9c51d9b4e0c"
     },
     {
       "path": "tools/build-parser-zip.py",
@@ -1771,6 +1816,86 @@
       "path": "tools/test-privacy.mjs",
       "byteLength": 2666,
       "sha256": "c0d9c51502a758812fc191f04a69dab6e46d9039350cb0caa835292433360209"
+    },
+    {
+      "path": "vscode/.vscodeignore",
+      "byteLength": 31,
+      "sha256": "432cf24952c2326612af3021ccbf156f75883d01759820c18833baf11adb44d1"
+    },
+    {
+      "path": "vscode/README.md",
+      "byteLength": 2186,
+      "sha256": "a0a4542d1771a62bbbbb7bace0c769e3e5dba82d3f4fc0f8252f6cf6efbbd447"
+    },
+    {
+      "path": "vscode/extension.js",
+      "byteLength": 4190,
+      "sha256": "0cfa8d9caf01876d718c466af0bb8aee8b00f3bb8a7238ab43a85e8d06e3db86"
+    },
+    {
+      "path": "vscode/language-configuration.json",
+      "byteLength": 335,
+      "sha256": "cd08eadf8b68ac0446902c033b4a408ca420e5923c8e1ff18553f30f3fb070c5"
+    },
+    {
+      "path": "vscode/media/jot/charts.mjs",
+      "byteLength": 17875,
+      "sha256": "2f23c42a38683ba4a9b65edcef5b8dd1b601bf55d65476e3bcd1881dd2ece123"
+    },
+    {
+      "path": "vscode/media/jot/jot.mjs",
+      "byteLength": 8232,
+      "sha256": "9e93355a31b9b73a7da5ce0aa0c993fad131d6385cf60e45e9c2aac75efbdd33"
+    },
+    {
+      "path": "vscode/media/jot/preview.mjs",
+      "byteLength": 7979,
+      "sha256": "6c4b5c9e808dbf4bbb967f55d239108a811b1b561c9f78461eb0db2c61bcb9fe"
+    },
+    {
+      "path": "vscode/media/jot/vendor/marked-LICENSE.md",
+      "byteLength": 2942,
+      "sha256": "8e3a3f82f59a60958f56ca08f445647c32a4733dc7ca6c2c46f6eb898471ab9c"
+    },
+    {
+      "path": "vscode/media/jot/vendor/marked.mjs",
+      "byteLength": 41661,
+      "sha256": "0b4487359ce6b85108708e7a532e1242a27f4718241e7b2de109ac6cd307d2dc"
+    },
+    {
+      "path": "vscode/media/preview-main.mjs",
+      "byteLength": 1384,
+      "sha256": "2b09405ae0bf3222c866531d76be23279db4e949fe4a850b3d7cf3864b335b02"
+    },
+    {
+      "path": "vscode/media/preview.css",
+      "byteLength": 2788,
+      "sha256": "a4836feab898956f5ba2e8461c60cd28425c2184e407eca0b35e84087f3cfc0b"
+    },
+    {
+      "path": "vscode/package.json",
+      "byteLength": 2703,
+      "sha256": "317d8b7b95a47b55c3a592c36a792499892e162dd7b90eaddccfea11342ab8c8"
+    },
+    {
+      "path": "vscode/sync.mjs",
+      "byteLength": 1164,
+      "sha256": "cc244df8895200beae3a304fa47c972340ce8e005b38e84e434fcd6debeeb162"
+    },
+    {
+      "path": "vscode/syntaxes/jot.tmLanguage.json",
+      "byteLength": 3615,
+      "sha256": "7baec93404e3ec62e8bad1173b546da94788193b6e5b391bcc84f605ac1f37bb"
+    },
+    {
+      "path": "vscode/test-extension.mjs",
+      "byteLength": 3071,
+      "sha256": "5da99af600fdf411ae5cb43efcc0b8b7e72e40fd1d27c85bf89fc5117f00de20"
+    },
+    {
+      "path": "vscode/test-preview.cjs",
+      "byteLength": 3868,
+      "sha256": "cf0596112fd6a50cf6c6cade365ed27f05818d886852d4c1d6c1d7cde9c17b7a"
     }
   ]
 }

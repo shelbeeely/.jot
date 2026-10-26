@@ -33,6 +33,26 @@ Use a Markdown fenced code block with one of these language names: `mermaid`, `d
 
 Diagram rendering is separate. This package does not include those engines, validate their grammars, or send source to a remote service. An editor can provide local rendering adapters or show the preserved code. Adapters must restrict external resources and sanitize SVG/HTML. Unknown fenced languages remain ordinary code. Links, renderer directives and chart data URLs are not fetched by this parser.
 
+## Charts and the page preview
+
+`charts.mjs` reads the numbers a journal holds (`measurement` records, and plain-number fields of any other record) and draws the
+charts that `:::record chart` asks for (spec §5.2.1): `collectNumbers(ast)`, `chartModel(ast, node)`, `charts(ast)` and
+`chartHTML(model)`, an SVG string in which every text is escaped and every coordinate is computed, plus `CHART_CSS` (light, dark,
+forced colours). One metric per chart, on its own axis; empty days are gaps, never zeros. Pure, so it runs in Node.
+
+`preview.mjs` draws a parsed journal into a DOM element: `renderPreview(ast, element, { asset, sample })`. Markdown becomes elements
+built one by one (never `innerHTML`), raw HTML is never rendered, links are only `http(s)`, `mailto` and `#`, and images come only from
+attachments the caller lends through `asset(path)`. The workspace, the template editor and the VS Code extension all use it.
+
+```javascript
+import { parse } from './jot.mjs';
+import { renderPreview, addChartStyles } from './preview.mjs';
+addChartStyles(document);
+renderPreview(parse(text), document.querySelector('#page'));
+```
+
+Tests: `node --test charts-test.mjs`.
+
 ## Handwriting
 
 Handwritten writing can be preserved as editable strokes plus a PNG attachment, linked through an ordinary Jot record. Stroke files are assets inside the same document, not prose in disguise. A separate, user-reviewed transcription may link to them using `derived-from`; it must never replace the original handwriting. The scanner includes browser pen input and stroke export. This parser does not perform handwriting recognition.
@@ -41,7 +61,7 @@ Handwritten writing can be preserved as editable strokes plus a PNG attachment, 
 
 `source` contains the original string. Nodes include `type`, `raw`, `start` and `end`; offsets count UTF-8 bytes. Markdown nodes carry the original Marked token in `markdown`. Record fields are ordered `{name,value}` pairs. Date headings generate an `entries` index without splitting the source into files. Repeated dates remain separate entries. Unicode and original newline sequences are preserved in source slices, even though Markdown token text normalizes newlines.
 
-`stringify(ast)` returns the unmodified original source. It does not serialize edits made to derived tokens. There is no HTML renderer, profile validator, OCR engine, date-time scheduler, attachment loader or remote include processor. Diagnostics cover malformed metadata/records, unclosed fences/comments, invalid dates and duplicate record IDs. The parser never executes content or fetches linked files.
+`stringify(ast)` returns the unmodified original source. It does not serialize edits made to derived tokens. The page renderer is `preview.mjs` (above); there is no profile validator, OCR engine, date-time scheduler, attachment loader or remote include processor. Diagnostics cover malformed metadata/records, unclosed fences/comments, invalid dates and duplicate record IDs. The parser never executes content or fetches linked files.
 
 ## Dependency notice
 

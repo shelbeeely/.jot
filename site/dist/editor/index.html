@@ -12,7 +12,7 @@
 <a class="skip" href="#zones">Skip to the template</a>
 <header class="top">
   <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
-  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="./" aria-current="page">Template editor</a><a href="../convert/">Converter</a><a href="../guide/">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="./" aria-current="page">Template editor</a><a href="../convert/">Converter</a><a href="../guide/">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
 </header>
 <main>
   <section class="intro">
@@ -52,9 +52,17 @@
         <h2 id="preview-h">The .jot file</h2>
         <label class="file-pick" id="file-pick" hidden><span class="sr-only">Show file</span><select id="file-sel"></select></label>
       </div>
+      <div class="view-row">
+        <div class="view-tabs" role="tablist" aria-label="Show the file as">
+          <button type="button" role="tab" id="tab-text" aria-selected="true" aria-controls="jot">Text</button>
+          <button type="button" role="tab" id="tab-page" aria-selected="false" aria-controls="page-view" tabindex="-1">Page</button>
+        </div>
+        <label class="sample" id="sample-wrap" hidden><input type="checkbox" id="sample"> Sample numbers</label>
+      </div>
       <p class="check" id="check" role="status" aria-live="polite"></p>
       <ul class="problems" id="problems" hidden></ul>
-      <pre class="jot" id="jot" tabindex="0" aria-label="The .jot text"></pre>
+      <pre class="jot" id="jot" tabindex="0" role="tabpanel" aria-labelledby="tab-text" aria-label="The .jot text"></pre>
+      <div class="page-view" id="page-view" role="tabpanel" aria-labelledby="tab-page" tabindex="0" hidden><article class="jot-page" id="page"></article></div>
     </section>
   </div>
   <p class="foot">Plain Jot v1: dated entries, <code>[ ]</code> boxes, <code>value:</code> blanks and headings to write under. No page layout, codes or scanning marks. <a href="../guide/template-editor.html">How to use it</a> · <a href="../docs/Jot-Complete-Specification.pdf">The Jot specification</a></p>

@@ -103,6 +103,24 @@ textarea { resize: vertical; line-height: 1.45; }
 .problems { margin: 0 0 8px; padding: 10px 14px 10px 30px; background: var(--warn-soft); border-radius: 8px; font-size: 14px; }
 .jot { margin: 0; padding: 14px; background: var(--sunk); border-radius: 8px; font: 14px/1.6 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 75vh; overflow: auto; }
 .foot { color: var(--muted); font-size: 14px; margin-top: 20px; }
+.view-row { display: flex; align-items: center; gap: 6px 12px; flex-wrap: wrap; margin-top: 8px; }
+.view-tabs { display: flex; align-items: center; gap: 6px; }
+.view-tabs [role="tab"] { min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 999px; background: transparent; color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
+.view-tabs [role="tab"][aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.view-row .sample { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-left: auto; font-size: 15px; color: var(--muted); }
+.view-row .sample[hidden] { display: none; }
+.view-row .sample input { width: 20px; height: 20px; accent-color: var(--accent); }
+.page-view { padding: 4px; background: var(--sunk); border-radius: 8px; max-height: 75vh; overflow: auto; }
+.jot-page { padding: 18px 20px; background: var(--surface); border-radius: 6px; font: 16px/1.6 Georgia, 'Times New Roman', serif; overflow-wrap: anywhere; }
+.jot-page h1, .jot-page h2, .jot-page h3, .jot-page h4 { font-weight: 400; line-height: 1.25; margin: 1.1em 0 .4em; }
+.jot-page h1 { font-size: 28px; } .jot-page h2 { font-size: 22px; border-top: 1px solid var(--line); padding-top: .6em; } .jot-page h3 { font-size: 19px; } .jot-page h4 { font-size: 16px; font-family: var(--sans); font-weight: 650; }
+.jot-page table { border-collapse: collapse; width: 100%; font: 14px var(--sans); } .jot-page th, .jot-page td { border: 1px solid var(--line-2); padding: 4px 6px; height: 1.8em; text-align: left; }
+.jot-page .jot-task { font-family: var(--sans); font-size: 15px; margin: 2px 0; }
+.jot-page .jot-record { font: 14px var(--sans); border-left: 3px solid var(--line-2); padding: 4px 10px; margin: 6px 0; }
+.jot-page .jot-record dl { display: grid; grid-template-columns: max-content 1fr; gap: 0 10px; margin: 4px 0 0; } .jot-page .jot-record dd { margin: 0; }
+.jot-page .jot-measure { display: flex; gap: 6px; align-items: baseline; } .jot-page .jot-blank { color: var(--muted); letter-spacing: 2px; }
+.jot-page .jot-chart { font-family: var(--sans); }
+.warn-note { color: var(--warn); background: var(--warn-soft); border-radius: 6px; padding: 6px 10px; }
 
 dialog { border: 1px solid var(--line-2); border-radius: 14px; padding: 0; background: var(--surface); color: var(--ink); width: min(720px, calc(100vw - 32px)); max-height: calc(100vh - 32px); }
 dialog::backdrop { background: rgb(0 0 0 / .35); }

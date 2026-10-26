@@ -4,6 +4,8 @@
   section is enough to start.
 - [Using the template editor](template-editor.md): design a journal's shape and download it as a `.jot` file to fill in, on a
   computer, a phone or InkDeck.
+  Its [Numbers and charts](template-editor.md#numbers-and-charts) section covers the weekly dashboard: numbers each day, a chart of
+  the week.
 - [Converting an old diary](converting.md): turn a diary kept as plain text (your own, or one from Project Gutenberg) into dated
   Jot entries.
 
