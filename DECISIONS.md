@@ -27,11 +27,14 @@ only native representation.
   records, and plain-number fields of other records (the template editor's Ratings and Fill-in blanks).
 - **One metric, one chart.** Each metric is drawn on its own value axis (a scale's range when it has one), days with nothing written
   are gaps, and two numbers on a day are averaged for display only. No dual axes: sleep hours and steps never share a scale.
-- **One renderer.** `parser/charts.mjs` (numbers and SVG) and `parser/preview.mjs` (the page, DOM only) are shared by the workspace,
-  the template editor's Page view and the VS Code extension, which carry copies (`site/dist/jot/`, `vscode/media/jot/`) checked in CI.
+- **One renderer, drawn by Chart.js.** `parser/charts.mjs` reads the numbers and builds each chart's Chart.js configuration (pure, tested
+  in Node); Chart.js 4.6.1 draws it, bundled as `parser/vendor/chart.mjs` with only line and bar charts, so nothing is fetched at run
+  time. Each canvas is named by a text summary and the numbers are also a table. `parser/preview.mjs` (the page, DOM only) is shared by
+  the workspace, the template editor's Page view, the home page and the VS Code extension, which carry copies (`site/dist/jot/`,
+  `vscode/media/jot/`) checked in CI.
 - **The rule of 7 is a nudge.** The template editor says when a week page has more than seven widgets; it never refuses.
-- **Paper keeps paper's strengths.** The print engine plots nothing for you: the week plan's right page can carry up to two graph grids
-  (`week_right` options `graphs`) to fill in by hand. With no option the book is unchanged, byte for byte.
+- **No book maker.** The print engine (`journal/`, KDP books) and the template editor's print day layout import are removed: Jot is
+  written and read as text, and printed from the browser (the workspace's Print / PDF).
 - **The site's home page explains Jot;** the writing workspace moved from `/` to `/write/` (examples open there with `?open=`).
 
 ## What the current code does
@@ -41,7 +44,7 @@ only native representation.
 - pack(...) writes the bytes of a `.jotz`; unpack(...) validates and reads one.
 - The workspace (`/write/`) opens `.jot`, `.jotz`, `.md` and `.txt`. Download .jot saves plain `.jot` when the journal has no attachments, and one
   `.jotz` when it has. Export writing .md writes the writing only.
-- The template editor writes plain `.jot` and opens either. The print engine (`journal/`) reads `*.jot` and `*.jotz`.
+- The template editor writes plain `.jot` and opens either.
 - readDocument's detection is a prototype, not a claim that every malformed package can be told apart from arbitrary text.
 
 ## Packaging and product boundaries

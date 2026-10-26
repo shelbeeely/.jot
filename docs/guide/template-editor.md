@@ -100,11 +100,7 @@ style: line
 
 A week page is easiest to take in with 5 to 7 widgets: about as many things as working memory holds at once (George Miller's "magical
 number seven", 1956; later research puts it nearer four, one more reason to keep the page short). The **Weekly dashboard** starter
-has six. When **Each week begins** holds more than seven blocks the editor says so,
-and changes nothing: it is a nudge, not a rule.
-
-Printed books have the same idea on paper: the week plan's right-hand page can carry graph grids (sleep hours, steps) to plot by hand.
-See the print engine's README (`journal/README.md`).
+has six. When **Each week begins** holds more than seven blocks the editor says so, and changes nothing: it is a nudge, not a rule.
 
 ## Arranging blocks
 
@@ -181,12 +177,6 @@ nothing.
 
 You can also keep the template as its own file: **More → Save template (.json)**, and open it the same way.
 
-## Bringing in a print layout
-
-If you have a day layout from the Journalwright print editor (a `daypage.json` file), **More → Import a print day layout** turns it
-into your **Each day** blocks. Blocks that only make sense on paper (sketch boxes, photos, puzzles) and the printed data (moon,
-holidays, events) are left out, and the message names them. **Undo** takes the import back.
-
 ## With InkDeck
 
 InkDeck is writing firmware for the Xteink X3/X4 e-ink readers with a Bluetooth keyboard.
@@ -199,11 +189,6 @@ InkDeck is writing firmware for the Xteink X3/X4 e-ink readers with a Bluetooth 
 
 New files you make on InkDeck itself are `.jot` too, with the metadata block already at the top. Name them by date (`2026-10-26.jot`),
 or start them with a `### 2026-10-26` heading, so they know which day they belong to.
-
-## Printing a book
-
-The print engine in this project (the `journal/` folder) can print your filled-in `.jot` writing into a monthly book, after each
-week's pages. It runs from the command line; see its README. You don't need it to keep a Jot journal.
 
 ## Privacy
 

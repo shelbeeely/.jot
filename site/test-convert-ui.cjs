@@ -1,13 +1,13 @@
 // The diary converter page in a real browser (Chromium via Playwright). The page must do everything the command line does, with
 // the same result: each case converts in the page and with converter/jot-convert.mjs and compares the files byte for byte.
-//   node test-convert-ui.cjs [shots-folder]      (axe-core from ../journal/node_modules when present)
+//   node test-convert-ui.cjs [shots-folder]      (axe-core from ../node_modules when present: npm install at the root)
 const { chromium } = require('playwright');
 const http = require('http'), fs = require('fs'), path = require('path'), os = require('os');
 const { execFileSync } = require('child_process');
 const assert = require('node:assert/strict');
 const ROOT = path.join(__dirname, 'dist'), SHOTS = process.argv[2] || fs.mkdtempSync(path.join(os.tmpdir(), 'jot-convert-'));
 const FIX = path.join(__dirname, '../converter/fixtures'), CLI = path.join(__dirname, '../converter/jot-convert.mjs');
-const AXE = path.join(__dirname, '../journal/node_modules/axe-core/axe.min.js');
+const AXE = path.join(__dirname, '../node_modules/axe-core/axe.min.js');
 const TYPES = { '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.txt': 'text/plain; charset=utf-8' };
 let n = 0; const ok = (c, m) => { assert.ok(c, m); n++; console.log('ok   ' + m); };
 

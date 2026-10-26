@@ -1,7 +1,7 @@
 # Converting an old diary
 
 Have a diary as plain text: an export from another app, notes you kept in a text file, or a published diary from Project Gutenberg?
-The converter turns it into Jot: one dated entry for each day, ready to read in the workspace, print in a book, or keep writing in.
+The converter turns it into Jot: one dated entry for each day, ready to read in the workspace, print, or keep writing in.
 
 There are two ways to use it, and they give exactly the same files:
 

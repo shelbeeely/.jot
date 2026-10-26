@@ -36,11 +36,14 @@ Diagram rendering is separate. This package does not include those engines, vali
 ## Charts and the page preview
 
 `charts.mjs` reads the numbers a journal holds (`measurement` records, and plain-number fields of any other record) and draws the
-charts that `:::record chart` asks for (spec §5.2.1): `collectNumbers(ast)`, `chartModel(ast, node)`, `charts(ast)` and
-`chartHTML(model)`, an SVG string in which every text is escaped and every coordinate is computed, plus `CHART_CSS` (light, dark,
-forced colours). One metric per chart, on its own axis; empty days are gaps, never zeros. Pure, so it runs in Node.
+charts that `:::record chart` asks for (spec §5.2.1): `collectNumbers(ast)`, `chartModel(ast, node)`, `charts(ast)`, and
+`chartConfig(model, series, theme)`, the [Chart.js](https://www.chartjs.org) configuration for one metric (its own value axis, gaps for
+empty days, the average dashed), plus `summaryText()` (each chart's accessible name) and `CHART_CSS` (light and dark). Pure, so it runs
+in Node.
 
-`preview.mjs` draws a parsed journal into a DOM element: `renderPreview(ast, element, { asset, sample })`. Markdown becomes elements
+`preview.mjs` draws a parsed journal into a DOM element: `renderPreview(ast, element, { asset, sample })`, and `drawChart(element, model)`
+for one chart on its own. Charts are drawn by Chart.js 4.6.1, vendored as one ES module (`vendor/chart.mjs`: line and bar charts only,
+built with esbuild; its header says how), with a text summary on each canvas and the numbers as a table. Markdown becomes elements
 built one by one (never `innerHTML`), raw HTML is never rendered, links are only `http(s)`, `mailto` and `#`, and images come only from
 attachments the caller lends through `asset(path)`. The workspace, the template editor and the VS Code extension all use it.
 
@@ -65,7 +68,7 @@ Handwritten writing can be preserved as editable strokes plus a PNG attachment, 
 
 ## Dependency notice
 
-`vendor/marked.mjs` is Marked 17.0.5, distributed under its MIT license in `vendor/marked-LICENSE.md`. It is included to keep Markdown behavior grounded in an established parser rather than an ad hoc collection of replacement expressions. Jot's wrapper is original project code.
+`vendor/chart.mjs` is Chart.js 4.6.1 with @kurkle/color 0.3.4, both MIT (`vendor/chart-LICENSE.md`). `vendor/marked.mjs` is Marked 17.0.5, distributed under its MIT license in `vendor/marked-LICENSE.md`. It is included to keep Markdown behavior grounded in an established parser rather than an ad hoc collection of replacement expressions. Jot's wrapper is original project code.
 
 
 ## Optional spelling and grammar hints

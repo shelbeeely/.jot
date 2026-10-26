@@ -1,14 +1,6 @@
 # personal data: never commit
-journal/private/*
-!journal/private/README.md
 *.ics
-!journal/test.ics
 # build output
-journal/out/
-journal/out-*/
-journal/editor/dist/
-journal/editor/dist-*/
-journal/node_modules
-journal/packs/*/gtfs/*.txt
+vscode/*.vsix
 node_modules/
 .DS_Store

@@ -1,10 +1,10 @@
 // The examples page and its Read links into the workspace, in Chromium (Playwright).
-//   node test-examples-ui.cjs [shots-folder]      (axe-core from ../journal/node_modules when present)
+//   node test-examples-ui.cjs [shots-folder]      (axe-core from ../node_modules when present: npm install at the root)
 const { chromium } = require('playwright');
 const http = require('http'), fs = require('fs'), path = require('path'), os = require('os');
 const assert = require('node:assert/strict');
 const ROOT = path.join(__dirname, 'dist'), SHOTS = process.argv[2] || fs.mkdtempSync(path.join(os.tmpdir(), 'jot-examples-'));
-const AXE = path.join(__dirname, '../journal/node_modules/axe-core/axe.min.js');
+const AXE = path.join(__dirname, '../node_modules/axe-core/axe.min.js');
 const TYPES = { '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.jot': 'text/plain; charset=utf-8', '.jotz': 'application/zip' };
 let n = 0; const ok = (c, m) => { assert.ok(c, m); n++; console.log('ok   ' + m); };
 

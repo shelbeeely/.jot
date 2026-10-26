@@ -1,12 +1,48 @@
 /** Jot page preview, draft 0.1: a parsed journal drawn into a DOM element. Shared by the workspace, the template editor and the
  * VS Code extension, so a journal looks the same in each. DOM only: Markdown becomes elements built one by one (never innerHTML), raw
  * HTML is never rendered, links are only http(s), mailto and #, and images come only from the attachments the caller lends.
- * Charts (charts.mjs) are the one exception to "no markup strings": their SVG is generated here from numbers and escaped text.
+ * A `:::record chart` becomes one Chart.js chart per metric (charts.mjs chartConfig, vendor/chart.mjs), each with a text summary as its
+ * accessible name and the numbers as a table.
  *
  *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …' })
+ *   drawChart(section, model)   one chart record's figures into an element (the home page uses it on its own)
  */
-import { charts, chartHTML, CHART_CSS, metricLabel } from './charts.mjs';
+import { charts, chartConfig, summaryText, fmt, CHART_CSS, metricLabel } from './charts.mjs';
+import { Chart } from './vendor/chart.mjs';
 export { CHART_CSS };
+
+const themeOf = (el) => { const cs = el.ownerDocument.defaultView.getComputedStyle(el), v = (k, d) => cs.getPropertyValue(k).trim() || d; return { series: v('--jc-series', '#2a78d6'), muted: v('--jc-muted', '#5f675f'), grid: v('--jc-grid', '#e2e3dc'), ink: v('--jc-ink', '#242927'), surface: v('--jc-surface', '#fffefa') }; };
+/** Draws one chart record into section (an element already in the page): a figure per metric, then the numbers as a table. */
+export function drawChart(section, model) {
+  const doc = section.ownerDocument, el = (tag, text, cls) => { const n = doc.createElement(tag); if (text !== undefined) n.textContent = text; if (cls) n.className = cls; return n; };
+  for (const c of section.querySelectorAll('canvas')) { const old = Chart.getChart(c); if (old) old.destroy(); }
+  section.replaceChildren();
+  if (!model) { section.append(el('p', 'A chart with nothing to draw yet: give it metrics, or a start and end date.', 'jot-chart-note')); return; }
+  if (model.empty) { section.append(el('p', `No numbers to chart between ${model.start} and ${model.end} yet.`, 'jot-chart-note')); return; }
+  const theme = themeOf(section), grid = el('div', undefined, 'jot-chart-grid');
+  section.append(grid);
+  for (const s of model.series) {
+    const fig = el('figure', undefined, 'jot-chart-one'), cap = el('figcaption'), name = el('span', s.label, 'jc-name'), unit = s.unit ? ` ${s.unit}` : '';
+    if (s.unit) name.append(' ', el('span', `(${s.unit})`, 'jc-unit'));
+    const sum = el('span', s.sample ? 'sample numbers · ' : '', 'jc-sum');
+    if (s.stats.n) sum.append('avg ', el('b', `${fmt(s.stats.avg)}${unit}`), ` · ${fmt(s.stats.low)}–${fmt(s.stats.high)}${unit} · ${s.stats.n}/${s.stats.of} days`);
+    else sum.append(`${s.stats.of} days, nothing written yet`);
+    cap.append(name, sum);
+    const box = el('div', undefined, 'jc-canvas'), canvas = el('canvas');
+    canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', summaryText(model, s));
+    canvas.textContent = summaryText(model, s); // read where canvas is not drawn
+    box.append(canvas); fig.append(cap, box);
+    if (s.anchors && (s.anchors.lo || s.anchors.hi)) fig.append(el('span', `${fmt(s.min)} = ${s.anchors.lo || 'low'}, ${fmt(s.max)} = ${s.anchors.hi || 'high'}`, 'jc-anchors'));
+    grid.append(fig);
+    new Chart(canvas, chartConfig(model, s, theme)); // eslint-disable-line no-new
+  }
+  const det = el('details', undefined, 'jot-chart-table'), wrap = el('div', undefined, 'jc-scroll'), table = el('table'), thead = el('thead'), hr = el('tr'), tbody = el('tbody');
+  wrap.tabIndex = 0; wrap.setAttribute('role', 'region'); wrap.setAttribute('aria-label', 'The numbers');
+  hr.append(el('td')); for (const d of model.days) { const th = el('th', d.short); th.scope = 'col'; hr.append(th); }
+  thead.append(hr);
+  for (const s of model.series) { const tr = el('tr'), th = el('th', `${s.label}${s.unit ? ` (${s.unit})` : ''}`); th.scope = 'row'; tr.append(th); for (const v of s.points) tr.append(el('td', v === null ? '–' : fmt(v))); tbody.append(tr); }
+  table.append(thead, tbody); wrap.append(table); det.append(el('summary', 'The numbers'), wrap); section.append(det);
+}
 
 const BLANKS = /^(?:(?:\d+\.|[-*+]|\[[ x]\])[ \t]*(?:\r?\n|$))+$/i;
 const RASTER = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif']);
@@ -74,7 +110,7 @@ export function renderPreview(ast, target, opts = {}) {
     }
     into.append(n);
   }
-  const chartOf = new Map(charts(ast, { sample: !!opts.sample }).map((c) => [c.node, c.model]));
+  const chartOf = new Map(charts(ast, { sample: !!opts.sample }).map((c) => [c.node, c.model])), drawn = [];
   const frag = doc.createDocumentFragment();
   for (const n of ast.nodes) {
     if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank') continue;
@@ -88,8 +124,7 @@ export function renderPreview(ast, target, opts = {}) {
     if (n.type === 'task') frag.append(el('div', (n.status === 'completed' ? '☑ ' : '☐ ') + n.text, 'jot-task'));
     else if (n.type === 'record' && n.recordType === 'chart') {
       const box = el('section', undefined, 'jot-chart'); box.setAttribute('aria-label', 'Chart');
-      box.insertAdjacentHTML('beforeend', chartHTML(chartOf.get(n))); // generated from numbers, every text escaped (charts.mjs)
-      frag.append(box);
+      frag.append(box); drawn.push([box, chartOf.get(n)]);
     } else if (n.type === 'record' && n.recordType === 'measurement' && n.fields.some((f) => f.name === 'metric')) {
       const get = (k) => (n.fields.find((f) => f.name === k) || {}).value || '';
       const box = el('section', undefined, 'jot-record jot-measure');
@@ -104,7 +139,9 @@ export function renderPreview(ast, target, opts = {}) {
     else if (n.type === 'synopsis') frag.append(el('p', n.text));
     else frag.append(el('p', n.text || n.raw));
   }
+  for (const c of target.querySelectorAll('canvas')) { const old = Chart.getChart(c); if (old) old.destroy(); } // the last drawing's charts
   target.replaceChildren(frag);
+  for (const [box, model] of drawn) drawChart(box, model); // once in the page: Chart.js measures the box and reads its colours
   if (!target.childNodes.length) target.append(el('p', opts.empty || 'A little room for whatever comes next.'));
   return target;
 }

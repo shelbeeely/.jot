@@ -1,7 +1,6 @@
 // Jot template editor: the page. The model and the .jot text come from template.mjs; the check uses the Jot parser (../jot/jot.mjs).
 // The template is kept in this browser (localStorage, if allowed); nothing is sent anywhere.
 import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, monthLabel, templateFromJot } from './template.mjs';
-import { importDayLayout } from './import.mjs';
 import { parse } from '../jot/jot.mjs';
 import { renderPreview, addChartStyles } from '../jot/preview.mjs';
 addChartStyles(document);
@@ -277,9 +276,8 @@ $('#more-menu').addEventListener('keydown', (e) => {
 });
 $('#save-tpl').onclick = () => { menu(false); download(`${tpl.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'journal'}.jot-template.json`, `${JSON.stringify(tpl, null, 1)}\n`, 'application/json'); toast('Saved the template'); };
 $('#open-tpl').onclick = () => { menu(false); $('#open-file').click(); };
-$('#import-day').onclick = () => { menu(false); $('#open-file').click(); };
-// One way in for every file: a .jot made here (plain or packaged) brings its template back, a template .json opens, and a print
-// editor's daypage.json becomes the "Each day" blocks. Anything else is refused and the template is left as it was.
+// One way in for every file: a .jot made here (plain or packaged) brings its template back, and a template .json opens. Anything else is
+// refused and the template is left as it was.
 async function openFile(f) {
   if (f.size > 4 * 1024 * 1024) throw new Error('That file is too big to be a template');
   const bytes = new Uint8Array(await f.arrayBuffer());
@@ -290,13 +288,7 @@ async function openFile(f) {
   if (fromJot) { record(''); tpl = fromJot; open.clear(); drawSettings(); changed(true); return `Opened ${tpl.title} from ${f.name}`; }
   let raw = null; try { raw = JSON.parse(text); } catch { /* not JSON */ }
   if (raw && typeof raw === 'object' && raw.zones) { record(''); tpl = normalizeTemplate(raw); open.clear(); drawSettings(); changed(true); return `Opened ${tpl.title}`; }
-  if (raw && typeof raw === 'object' && Array.isArray(raw.blocks)) {
-    const r = importDayLayout(raw), blocks = normalizeTemplate({ zones: { day: r.blocks } }).zones.day;
-    if (!blocks.length) throw new Error('That day layout has nothing to fill in');
-    record(''); tpl.zones.day = blocks; open.clear(); changed(true);
-    return `Imported ${blocks.length} blocks into Each day${r.skipped.length ? `. Left out, paper only or printed data: ${r.skipped.join(', ')}` : ''}`;
-  }
-  throw new Error(/\.jotz?$/i.test(f.name) ? 'This journal file has no template in it (it was not made with this editor)' : 'That file is not a Jot template, a .jot or a day layout');
+  throw new Error(/\.jotz?$/i.test(f.name) ? 'This journal file has no template in it (it was not made with this editor)' : 'That file is not a Jot template or a .jot');
 }
 $('#open-file').onchange = async () => {
   const f = $('#open-file').files[0]; $('#open-file').value = ''; if (!f) return;

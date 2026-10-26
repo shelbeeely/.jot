@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parse } from './jot.mjs';
-import { collectNumbers, chartModel, charts, chartHTML, seriesSVG, metricKey, mondayOf } from './charts.mjs';
+import { collectNumbers, chartModel, charts, chartConfig, summaryText, metricKey, mondayOf } from './charts.mjs';
 
 const rec = (type, id, fields) => `:::record ${type} #${id}\n${Object.entries(fields).map(([k, v]) => `${k}: ${v}`).join('\n')}\n:::\n`;
 const week = `${rec('scale', 'mood', { name: 'mood', kind: 'ordinal', minimum: 1, maximum: 5, 'anchor-low': 'low', 'anchor-high': 'great' })}
@@ -56,29 +56,38 @@ test('a chart outside any entry, and one with nothing to draw', () => {
   assert.deepEqual([m.start, m.end], ['2026-10-05', '2026-10-09'], 'outside an entry: the dates that have numbers');
   const b = parse(rec('chart', 'c', { metrics: 'sleep' }));
   assert.equal(chartModel(b, b.nodes[0]), null);
-  assert.match(chartHTML(null), /nothing to draw/);
 });
 
 test('a template: metrics with no numbers still draw empty axes; sample numbers fill them, the same every time', () => {
   const t = parse(`### 2026-10-26\n\n${rec('measurement', 's', { metric: 'sleep', unit: 'h', value: '' })}\n${rec('chart', 'c', { metrics: 'sleep', start: '2026-10-26', end: '2026-11-01' })}`);
   const empty = chartModel(t, t.nodes.find((n) => n.id === 'c'));
   assert.deepEqual([empty.series[0].min, empty.series[0].max, empty.series[0].stats.n], [0, 10, 0]);
-  assert.match(chartHTML(empty), /No numbers yet/);
+  assert.match(summaryText(empty, empty.series[0]), /Sleep \(h\), Mon 26 Oct to Sun 1 Nov: no numbers yet/);
   const s1 = chartModel(t, t.nodes.find((n) => n.id === 'c'), { sample: true }), s2 = chartModel(t, t.nodes.find((n) => n.id === 'c'), { sample: true });
   assert.ok(s1.series[0].sample && s1.series[0].points.every((v) => v !== null) && JSON.stringify(s1) === JSON.stringify(s2));
 });
 
-test('the SVG: one value axis, a mark per number, a hover title per day, every text escaped', () => {
-  const a = parse(`### 2026-10-26\n\n${rec('measurement', 'x', { metric: 'a<b>', unit: '"><script>', value: 3 })}\n${rec('chart', 'c', {})}`);
-  const [{ model }] = charts(a), html = chartHTML(model);
-  assert.ok(!/<script/.test(html) && /&lt;script&gt;/.test(html), 'labels and units are escaped');
-  const svg = seriesSVG(model, model.series[0]);
-  assert.equal((svg.match(/class="jc-dot"/g) || []).length, 1);
-  assert.equal((svg.match(/class="jc-hit"/g) || []).length, 7);
-  assert.match(svg, /role="img" aria-labelledby/);
-  assert.match(html, /<details class="jot-chart-table">/, 'the numbers are also a table');
-  const bars = seriesSVG({ ...model, style: 'bars' }, model.series[0]);
-  assert.ok(/class="jc-bar"/.test(bars) && !/jc-line/.test(bars));
+test('the Chart.js configuration: one value axis on the metric\'s range, gaps kept, the average dashed, no legend', () => {
+  const a = parse(week), [{ model }] = charts(a), [sleep, mood] = model.series;
+  const c = chartConfig(model, sleep, { series: '#123456' });
+  assert.equal(c.type, 'line');
+  assert.deepEqual(c.data.labels, ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']);
+  assert.deepEqual(c.data.datasets[0].data, [7.5, 6, null, 9, null, null, null]);
+  assert.equal(c.data.datasets[0].spanGaps, false, 'an empty day is a gap, never a line through it');
+  assert.equal(c.data.datasets[0].borderColor, '#123456');
+  assert.deepEqual(c.data.datasets[1].data, Array(7).fill(7.5)); assert.deepEqual(c.data.datasets[1].borderDash, [3, 3]);
+  assert.deepEqual([c.options.scales.y.min, c.options.scales.y.max], [sleep.min, sleep.max]);
+  assert.ok(!('y1' in c.options.scales) && c.options.plugins.legend.display === false, 'one axis, and no legend: the title names the one series');
+  assert.equal(c.options.animation, false);
+  assert.deepEqual([chartConfig(model, mood).options.scales.y.min, chartConfig(model, mood).options.scales.y.max], [1, 5], 'a scale gives the axis');
+  assert.equal(c.options.plugins.tooltip.callbacks.label({ raw: 7.5 }), 'Sleep: 7.5 h');
+  assert.equal(c.options.plugins.tooltip.callbacks.label({ raw: null }), 'nothing written');
+  assert.equal(c.options.plugins.tooltip.callbacks.title([{ dataIndex: 0 }]), 'Mon 26 Oct');
+  const bars = chartConfig({ ...model, style: 'bars' }, sleep);
+  assert.equal(bars.type, 'bar'); assert.equal(bars.data.datasets[1].type, 'line', 'the average stays a line over the bars');
+  const one = parse(`### 2026-10-26\n\n${rec('measurement', 'x', { metric: 'a', value: 3 })}\n${rec('chart', 'c', {})}`);
+  assert.equal(chartConfig(charts(one)[0].model, charts(one)[0].model.series[0]).data.datasets.length, 1, 'one number: no average line');
+  assert.equal(summaryText(model, sleep), 'Sleep (h), Mon 26 Oct to Sun 1 Nov: 3 of 7 days, average 7.5 h, from 6 to 9 h');
 });
 
 test('names and weeks', () => {

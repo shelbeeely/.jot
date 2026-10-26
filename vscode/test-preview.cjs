@@ -1,9 +1,9 @@
 // The preview webview in Chromium: the page extension.js makes, its own media files, a stand-in for the VS Code API.
-// Text in -> the page and its charts out, the same as the site. Needs playwright (journal/node_modules, or a global install).
+// Text in -> the page and its charts out, the same as the site. Needs playwright (installed globally, or npm install at the repository root).
 //   node test-preview.cjs
 const assert = require('node:assert/strict'), fs = require('node:fs'), path = require('node:path'), http = require('node:http');
 const { webviewHtml } = require('./extension.js');
-let chromium; try { ({ chromium } = require('playwright')); } catch { ({ chromium } = require('../journal/node_modules/playwright-core')); }
+let chromium; try { ({ chromium } = require('playwright')); } catch { ({ chromium } = require('../node_modules/playwright-core')); }
 const MEDIA = path.join(__dirname, 'media');
 const TYPES = { '.mjs': 'text/javascript', '.css': 'text/css', '.html': 'text/html' };
 const page = webviewHtml({ cspSource: 'http://127.0.0.1:*', nonce: 'testnonce', scriptUri: 'media/preview-main.mjs', styleUri: 'media/preview.css' });
@@ -25,9 +25,10 @@ srv.listen(0, '127.0.0.1', async () => {
     await p.waitForFunction(() => window.__sent.some((m) => m.type === 'ready'));
     ok(true, 'the webview says it is ready (the extension then sends the text)');
     await p.evaluate((t) => window.postMessage({ type: 'update', text: t, name: 'week.jot' }, '*'), text);
-    await p.waitForSelector('.jot-chart svg');
-    ok(await p.$$eval('.jot-chart svg', (s) => s.length) === 2, 'the chart record draws one chart per metric (sleep, steps)');
-    ok(await p.$$eval('.jc-bar', (s) => s.length) === 3, 'bars for the days that have numbers (two nights of sleep, one day of steps)');
+    await p.waitForSelector('.jot-chart canvas');
+    const charts = await p.evaluate(async () => { const { Chart } = await import('/media/jot/vendor/chart.mjs'); return [...document.querySelectorAll('.jot-chart canvas')].map((c) => { const ch = Chart.getChart(c); return { type: ch.config.type, data: ch.data.datasets[0].data, w: c.width }; }); });
+    ok(charts.length === 2 && charts.every((c) => c.w > 0), 'the chart record draws one Chart.js chart per metric (sleep, steps)');
+    ok(charts.every((c) => c.type === 'bar') && charts.flatMap((c) => c.data).filter((v) => v !== null).length === 3, 'bars for the days that have numbers (two nights of sleep, one day of steps)');
     ok(/avg 6\.8 h/.test(await p.textContent('.jot-chart')), 'the summary line: the average and its unit');
     ok(/2 dated entries · 1 chart · valid Jot/.test(await p.textContent('#status')), 'the status line counts entries and charts');
     ok(await p.$('.jot-blank-line') && /Sleep:\s*7\.5 h/.test(await p.textContent('.jot-page')), 'measurements and empty task lines read as a page');

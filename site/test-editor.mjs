@@ -2,7 +2,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks, templateFromJot, templateComment } from './dist/editor/template.mjs';
-import { importDayLayout } from './dist/editor/import.mjs';
 import { parse } from './dist/jot/jot.mjs';
 import { charts } from './dist/jot/charts.mjs';
 
@@ -101,31 +100,6 @@ test('a downloaded .jot carries its template, so opening it brings the template 
   assert.equal(templateFromJot('/*\njot-template: {"zones": nope}\n*/\n'), null, 'a broken one is refused');
   assert.equal(templateFromJot('/*\njot-template: {"zones":{"day":[{"type":"evil","x":1},{"type":"writing","title":"Ok"}]},"month":"2026-10"}\n*/\n').zones.day.length, 1, 'and what it holds is checked like any template');
   assert.equal(renderJot(t).text, renderJot(JSON.parse(JSON.stringify(t))).text, 'the same template writes the same file');
-});
-
-test('a print day layout (daypage.json) imports as the Each day blocks', () => {
-  const r = importDayLayout({ v: 2, blocks: [
-    { type: 'sky', on: true }, { type: 'care', on: true }, { type: 'body', on: true }, { type: 'actions', on: true, count: 4 }, { type: 'review', on: true, items: { well: true, hard: false, next: true } },
-    { type: 'scale', title: 'Pain', steps: 6, zero: true, lo: 'none', hi: 'bad', on: true }, { type: 'checks', title: 'Body care', labels: ['HRT', 'Stretch'], on: true },
-    { type: 'sketch', on: true }, { type: 'sudoku', on: true }, { type: 'words', title: 'Feeling', words: ['calm', 'tired'], on: true }, { type: 'habits', on: false, labels: ['x'] }] });
-  assert.deepEqual(r.skipped, ['Moon, sun & season', 'Sketch box', 'Sudoku']);
-  const day = normalizeTemplate({ month: '2026-10', zones: { day: r.blocks } }).zones.day;
-  assert.deepEqual(day.map((b) => `${b.type}:${b.title || ''}`), ['checks:Care', 'scale:Mood', 'blanks:Care numbers', 'writing:Writing', 'tasks:Action items', 'writing:Went well', 'writing:Tomorrow', 'scale:Pain', 'checks:Body care', 'choose:Feeling']);
-  assert.deepEqual([day[7].min, day[7].max, day[4].n], [0, 5, 4], 'options carry over (a 6-step scale from 0, four action lines)');
-  assert.equal(parse(renderJot({ month: '2026-10', zones: { day } }).text).diagnostics.length, 0);
-  assert.throws(() => importDayLayout({ nope: 1 }), /not a day layout/);
-});
-
-test('every block the print library has either becomes a Jot block or is named as left out', async () => {
-  const { TYPES, newBlock: printBlock, normalize } = await import('../journal/daypage.mjs'); // the print engine in this repository
-  const all = normalize({ v: 2, blocks: Object.keys(TYPES).map((t) => ({ ...printBlock(t, {}, t), on: true })) });
-  const r = importDayLayout(JSON.parse(JSON.stringify(all)));
-  const covered = r.skipped.length + new Set(all.blocks.filter((b) => !r.skipped.includes(TYPES[b.type].name)).map((b) => b.type)).size;
-  assert.equal(covered, Object.keys(TYPES).length, `skipped: ${r.skipped.join(', ')}`);
-  assert.ok(r.skipped.every((n) => Object.values(TYPES).some((t) => t.name === n)), 'skipped blocks go by their print names');
-  const tpl = normalizeTemplate({ month: '2026-10', zones: { day: r.blocks } });
-  assert.equal(tpl.zones.day.length, r.blocks.length, 'every converted block is a valid Jot block');
-  assert.equal(parse(renderJot(tpl).text).diagnostics.length, 0);
 });
 
 test('Numbers and Week chart: measurements with units each day, a chart record per week that finds them', () => {

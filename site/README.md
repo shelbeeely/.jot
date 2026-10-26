@@ -29,7 +29,7 @@ The writing workspace uses the separate Jot parser with Marked for Markdown, saf
 ## Template editor (`dist/editor/`)
 
 A separate editor just for Jot: build the structure of a journal and download it as a plain-text `.jot` to fill in by hand (a keyboard,
-a phone or InkDeck). It has nothing from print: no page layout, paper sizes, scan codes or drawing blocks.
+a phone or InkDeck). No page layout, paper sizes, scan codes or drawing blocks.
 
 - **Five zones:** before the days, each week begins, each day, each week ends, after the days.
 - **Blocks:** writing space, prompt (several questions take turns, one a day), checkboxes, task lines, scale, ratings, fill-in blanks,
@@ -49,17 +49,14 @@ a phone or InkDeck). It has nothing from print: no page layout, paper sizes, sca
 - **Every .jot carries its template**, in a hidden Jot comment at the end (`/*` · `jot-template: {...}` · `*/`), which readers do not
   show. **More → Open a .jot or a template** brings it back from any downloaded file (plain or packaged, filled in or not), or from a
   saved template `.json`. A `.jot` made elsewhere has none, and the editor says so.
-- **More → Import a print day layout (daypage.json):** a day layout from Journalwright's print editor becomes the **Each day** blocks
-  (`import.mjs` maps all 77 print blocks: 53 to Jot blocks, and the printed data and paper-only blocks are named as left out). Undo takes
-  it back.
 - The template stays in this browser (localStorage). **More → Save template** downloads it as JSON. Everything opened is checked field by
   field, never trusted. Nothing is sent anywhere.
 
-`template.mjs` is the model and generator (pure, no DOM); `import.mjs` the daypage.json importer; `app.mjs` the page; `editor.css` light and dark, 44 px targets, one column on
+`template.mjs` is the model and generator (pure, no DOM); `app.mjs` the page; `editor.css` light and dark, 44 px targets, one column on
 phones. Tests:
 
-    node --test test-editor.mjs      # the generator: every block, starters, splits, escaping, the template in a .jot, the import
-    node test-editor-ui.cjs          # the page in Chromium: editing, undo, dragging, zones, downloads, reopening a .jot, the import,
+    node --test test-editor.mjs      # the generator: every block, starters, splits, escaping, the template in a .jot, charts
+    node test-editor-ui.cjs          # the page in Chromium: editing, undo, dragging, zones, downloads, reopening a .jot, the Page view and its charts,
                                      # persistence, 390 px, axe (light and dark)
 
 ## Guides (`dist/guide/`)

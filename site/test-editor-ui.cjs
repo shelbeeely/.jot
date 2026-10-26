@@ -1,10 +1,10 @@
 // The Jot template editor in a real browser (Chromium via Playwright): editing, downloads, keeping the template, phone width, accessibility.
-//   node test-editor-ui.cjs [shots-folder]      (axe-core from ../journal/node_modules when present)
+//   node test-editor-ui.cjs [shots-folder]      (axe-core from ../node_modules when present: npm install at the root)
 const { chromium } = require('playwright');
 const http = require('http'), fs = require('fs'), path = require('path'), os = require('os');
 const assert = require('node:assert/strict');
 const ROOT = path.join(__dirname, 'dist'), SHOTS = process.argv[2] || fs.mkdtempSync(path.join(os.tmpdir(), 'jot-editor-'));
-const AXE = path.join(__dirname, '../journal/node_modules/axe-core/axe.min.js');
+const AXE = path.join(__dirname, '../node_modules/axe-core/axe.min.js');
 const TYPES = { '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json' };
 let n = 0; const ok = (c, m) => { assert.ok(c, m); n++; console.log('ok   ' + m); };
 
@@ -115,7 +115,7 @@ const srv = http.createServer((q, r) => {
   await p.mouse.up(); ok((await p.$$eval('[data-zone="front"] .blk', (e) => e.length)) === 1 && /can't go in Each day/.test(await p.textContent('#toast')), 'and stays where it was, saying why');
 
   await p.setViewportSize({ width: 1280, height: 900 });
-  // a downloaded .jot brings its template back; a print day layout imports
+  // a downloaded .jot brings its template back
   await p.selectOption('#t-per', 'month');
   const dl1 = p.waitForEvent('download'); await p.click('#download'); const jd = await dl1, jpath = await jd.path();
   const want = await p.evaluate(() => localStorage.getItem('jot-template-v1'));
@@ -126,12 +126,9 @@ const srv = http.createServer((q, r) => {
   await p.setInputFiles('#open-file', { name: 'other.jot', mimeType: 'text/plain', buffer: Buffer.from('### 2026-10-01\n\nWritten somewhere else.\n') });
   await p.waitForFunction(() => /no template in it/.test(document.querySelector('#toast').textContent));
   ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'a .jot made elsewhere is refused, and nothing changes');
-  const daypage = { v: 2, blocks: [{ type: 'sky', on: true }, { type: 'scale', title: 'Pain', steps: 6, on: true }, { type: 'checks', title: 'Body care', labels: ['HRT', 'Stretch'], on: true }, { type: 'sudoku', on: true }, { type: 'body', on: true }] };
-  await p.click('#more'); ok(await p.isVisible('#import-day'), 'More offers Import a print day layout');
-  await p.click('#import-day'); await p.setInputFiles('#open-file', { name: 'daypage.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(daypage)) });
-  await p.waitForFunction(() => /Imported 3 blocks into Each day/.test(document.querySelector('#toast').textContent));
-  ok(JSON.stringify(await dayTitles()) === JSON.stringify(['Pain', 'Body care', 'Writing']) && /Moon, sun & season, Sudoku/.test(await p.textContent('#toast')), 'daypage.json becomes the Each day blocks, and says what was left out');
-  await p.click('#undo'); ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'and Undo takes the import back');
+  await p.setInputFiles('#open-file', { name: 'daypage.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ v: 2, blocks: [{ type: 'sky', on: true }] })) });
+  await p.waitForFunction(() => /not a Jot template or a \.jot/.test(document.querySelector('#toast').textContent));
+  ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'any other file (an old print day layout, say) is refused, and nothing changes');
   await p.selectOption('#t-per', 'month'); await p.screenshot({ path: path.join(SHOTS, 'editor-desktop.png'), fullPage: false });
 
   // phone width, light and dark, accessibility
@@ -151,7 +148,7 @@ const srv = http.createServer((q, r) => {
       const v2 = await ph.evaluate(async () => (await axe.run(document.querySelector('#palette'), { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => x.id));
       ok(v2.length === 0 && await ph.$('#palette [data-type="page"]'), `${scheme}: the block palette passes axe and offers a page title before the days`);
       await ph.keyboard.press('Escape');
-    } else console.log('-- axe-core not found (npm ci in journal/): accessibility scan not run');
+    } else console.log('-- axe-core not found (npm install at the repository root): accessibility scan not run');
     await ph.screenshot({ path: path.join(SHOTS, `editor-phone-${scheme}.png`), fullPage: false });
     await ph.close();
   }
@@ -164,9 +161,13 @@ const srv = http.createServer((q, r) => {
     await d.click('#tab-page');
     ok(!(await d.$eval('#page-view', (e) => e.hidden)) && await d.$eval('#jot', (e) => e.hidden) && (await d.textContent('#preview-h')) === 'The page', 'Page shows the file as a journal reader would');
     const charts = await d.$$eval('#page .jot-chart', (c) => c.length);
-    ok(charts >= 5 && await d.$$eval('#page .jot-chart svg', (s) => s.length) === charts * 4 && /No numbers yet/.test(await d.textContent('#page .jot-chart')), `a chart a week (${charts}), four small charts each, empty until numbers are written`);
+    // what Chart.js holds for each canvas (the same module instance the page loaded)
+    const drawn = (pg, sel) => pg.evaluate(async (s) => { const { Chart } = await import('/jot/vendor/chart.mjs'); return [...document.querySelectorAll(s)].map((c) => { const ch = Chart.getChart(c); return ch ? { type: ch.config.type, data: ch.data.datasets[0].data, w: c.width, label: c.getAttribute('aria-label') } : null; }); }, sel);
+    const empty = await drawn(d, '#page .jot-chart canvas');
+    ok(charts >= 5 && empty.length === charts * 4 && empty.every((c) => c && c.w > 0 && c.data.every((v) => v === null) && /no numbers yet/.test(c.label)) && /nothing written yet/.test(await d.textContent('#page .jot-chart')), `a chart a week (${charts}), four Chart.js charts each, drawn and named, empty until numbers are written`);
     await d.check('#sample');
-    ok(await d.$$eval('#page .jc-line', (l) => l.length) === charts * 4 && /sample numbers/.test(await d.textContent('#page .jot-chart')), 'Sample numbers draws a line on every chart, and says they are samples');
+    const sampled = await drawn(d, '#page .jot-chart canvas');
+    ok(sampled.length === charts * 4 && sampled.every((c) => c.type === 'line' && c.data.every((v) => typeof v === 'number')) && /sample numbers/.test(await d.textContent('#page .jot-chart')), 'Sample numbers fills every chart, and says they are samples');
     if (fs.existsSync(AXE)) {
       await d.addScriptTag({ path: AXE });
       const v = await d.evaluate(async () => (await axe.run(document.querySelector('.preview'), { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
@@ -184,8 +185,9 @@ const srv = http.createServer((q, r) => {
   // the home page: why Jot, no editor on it, a live chart, phone width and dark, axe
   for (const scheme of ['light', 'dark']) {
     const h = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme }); h.on('pageerror', (e) => errs.push(e.message));
-    await h.goto(URL0.replace('/editor/', '/')); await h.waitForSelector('#demo-chart svg');
-    ok(!(await h.$('#writing, textarea')) && /Why keep a journal in Jot\?/.test(await h.textContent('main')) && await h.$$eval('#demo-chart svg', (s) => s.length) === 2, `home (${scheme}): why Jot, no editor, and the example week drawn by the chart code`);
+    await h.goto(URL0.replace('/editor/', '/')); await h.waitForSelector('#demo-chart canvas');
+    const demo = await h.evaluate(async () => { const { Chart } = await import('/jot/vendor/chart.mjs'); return [...document.querySelectorAll('#demo-chart canvas')].map((c) => Chart.getChart(c).data.datasets[0].data.length); });
+    ok(!(await h.$('#writing, textarea')) && /Why keep a journal in Jot\?/.test(await h.textContent('main')) && demo.join() === '7,7', `home (${scheme}): why Jot, no editor, and the example week drawn by Chart.js`);
     ok(await h.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), `home (${scheme}, 390 px): no sideways scroll`);
     const hrefs = await h.$$eval('a[href]', (as) => [...new Set(as.map((a) => a.href))].filter((u) => u.startsWith(location.origin)));
     for (const u of hrefs) { const res = await h.request.get(u.split('#')[0]); assert.equal(res.status(), 200, u); }
@@ -204,8 +206,9 @@ const srv = http.createServer((q, r) => {
     await w.evaluate(async () => { try { localStorage.clear(); } catch {} });
     await w.reload(); await w.waitForSelector('#writing'); await w.waitForTimeout(400);
     await w.fill('#writing', '### 2026-10-26 | Monday\n\n:::record measurement #s1\nmetric: sleep\nunit: h\nvalue: 7\n:::\n\n### 2026-10-27\n\n:::record measurement #s2\nmetric: sleep\nunit: h\nvalue: 8\n:::\n\n:::record chart #week\nmetrics: sleep\n:::\n'); await w.dispatchEvent('#writing', 'input');
-    await w.waitForSelector('#paperPreview .jot-chart svg');
-    ok(/avg 7\.5 h/.test(await w.textContent('#paperPreview .jot-chart')) && await w.$$eval('#paperPreview .jc-dot', (d) => d.length) === 2, 'workspace: a chart record in the writing is drawn in the page preview (its week, from the entry it is in)');
+    await w.waitForSelector('#paperPreview .jot-chart canvas');
+    const ws = await w.evaluate(async () => { const { Chart } = await import('/jot/vendor/chart.mjs'); return Chart.getChart(document.querySelector('#paperPreview .jot-chart canvas')).data.datasets[0].data; });
+    ok(/avg 7\.5 h/.test(await w.textContent('#paperPreview .jot-chart')) && ws.filter((v) => v !== null).join() === '7,8', 'workspace: a chart record in the writing is drawn in the page preview (its week, from the entry it is in)');
     await w.fill('#writing', '### 2026-10-26 | Monday\n\nA plain day.\n');
     const d1p = w.waitForEvent('download'); await w.click('#downloadJot'); const d1 = await d1p, t1 = fs.readFileSync(await d1.path());
     ok(/\.jot$/.test(d1.suggestedFilename()) && t1[0] !== 0x50 && /A plain day/.test(t1.toString()) && (await w.textContent('#docExt')) === '.jot', `workspace: no attachments, Download .jot saves plain text (${d1.suggestedFilename()})`);

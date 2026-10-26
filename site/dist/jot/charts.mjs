@@ -1,5 +1,5 @@
 /** Jot charts, draft 0.1: the numbers a journal holds, drawn as small charts. Pure (no DOM), so the workspace, the template
- * editor, the VS Code preview and the tests all draw the very same SVG.
+ * editor, the VS Code preview and the tests all read the numbers the same way.
  *
  * Numbers come from records:
  *   :::record measurement     metric: sleep-hours · value: 7.5 · unit: h · scale: #scale-sleep (optional)
@@ -15,7 +15,8 @@
  *   end: 2026-10-11
  *   style: line                           (line | bars)
  *   :::
- * Each metric gets its own small chart (one value axis each: sleep hours and steps never share a scale).
+ * Each metric gets its own small chart (one value axis each: sleep hours and steps never share a scale), drawn by Chart.js
+ * (vendor/chart.mjs) from chartConfig(); this module stays pure, so the numbers and the configuration are tested in Node.
  */
 
 export const NUMBER = /^-?[0-9]+(\.[0-9]+)?$/;
@@ -132,83 +133,61 @@ export function charts(ast, opts = {}) {
   return ast.nodes.filter((n) => n.type === 'record' && n.recordType === 'chart').map((node) => ({ node, model: chartModel(ast, node, opts, numbers) }));
 }
 
-// ---- drawing ----
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const fmt = (v) => (v === null || v === undefined ? '' : Number.isInteger(v) ? String(v) : String(Math.round(v * 10) / 10));
-const r1 = (v) => Math.round(v * 10) / 10;
-let uid = 0;
-
-/** One metric as an SVG line or bar chart (a string; every text escaped, every number computed). */
-export function seriesSVG(model, s, { width = 320, height = 132 } = {}) {
-  const id = `jc${(uid++).toString(36)}`, L = 36, R = 8, T = 10, B = 22, w = width - L - R, h = height - T - B, n = model.days.length || 1;
-  const band = w / n, x = (i) => L + band * (i + 0.5), y = (v) => T + h - ((v - s.min) / ((s.max - s.min) || 1)) * h;
+// ---- drawing (Chart.js) ----
+// chartConfig is pure: the Chart.js configuration for one metric. preview.mjs makes the canvas and hands it to Chart.js (vendor/chart.mjs).
+export const fmt = (v) => (v === null || v === undefined ? '' : Number.isInteger(v) ? String(v) : String(Math.round(v * 10) / 10));
+/** The words a chart is read by (its accessible name, and the line above it): "Sleep (h), Mon 26 Oct to Sun 1 Nov: 6 of 7 days, average 7.2 h, from 6 to 8.5 h" */
+export function summaryText(model, s) {
   const unit = s.unit ? ` ${s.unit}` : '';
-  const step = niceStep(s.max - s.min), ticks = [];
-  for (let v = Math.ceil(s.min / step) * step; v <= s.max + 1e-9 && ticks.length < 8; v += step) ticks.push(Math.round(v * 1000) / 1000);
-  const out = [];
-  const summary = s.stats.n ? `${s.stats.n} of ${s.stats.of} days, average ${fmt(s.stats.avg)}${unit}, from ${fmt(s.stats.low)} to ${fmt(s.stats.high)}${unit}` : 'no numbers yet';
-  out.push(`<svg class="jot-chart-svg" viewBox="0 0 ${width} ${height}" width="100%" role="img" aria-labelledby="${id}-t" preserveAspectRatio="xMidYMid meet">`);
-  out.push(`<title id="${id}-t">${esc(s.label)}${s.sample ? ' (sample numbers)' : ''}, ${esc(model.days[0] ? model.days[0].label : '')} to ${esc(model.days.length ? model.days[model.days.length - 1].label : '')}: ${esc(summary)}</title>`);
-  for (const v of ticks) out.push(`<line class="jc-grid" x1="${L}" x2="${L + w}" y1="${r1(y(v))}" y2="${r1(y(v))}"/><text class="jc-tick" x="${L - 5}" y="${r1(y(v) + 3.5)}" text-anchor="end">${esc(fmt(v))}</text>`);
-  const base = y(Math.max(s.min, Math.min(s.max, 0)));
-  out.push(`<line class="jc-axis" x1="${L}" x2="${L + w}" y1="${r1(base)}" y2="${r1(base)}"/>`);
-  const every = n > 14 ? Math.ceil(n / 8) : 1;
-  model.days.forEach((d, i) => { if (i % every === 0) out.push(`<text class="jc-day" x="${r1(x(i))}" y="${height - 6}" text-anchor="middle">${esc(d.short)}</text>`); });
-  const pts = s.points.map((v, i) => (v === null ? null : [x(i), y(Math.max(s.min, Math.min(s.max, v)))]));
-  if (model.style === 'bars') {
-    const bw = Math.max(2, Math.min(28, band * 0.6)), rad = Math.min(4, bw / 2);
-    pts.forEach((p, i) => {
-      if (!p) return;
-      const top = Math.min(p[1], base), bot = Math.max(p[1], base), hgt = bot - top, x0 = p[0] - bw / 2, rr = Math.min(rad, hgt);
-      const up = p[1] <= base; // the rounded end is the data end, away from the baseline
-      const d = up ? `M${r1(x0)},${r1(bot)}V${r1(top + rr)}Q${r1(x0)},${r1(top)} ${r1(x0 + rr)},${r1(top)}H${r1(x0 + bw - rr)}Q${r1(x0 + bw)},${r1(top)} ${r1(x0 + bw)},${r1(top + rr)}V${r1(bot)}Z`
-        : `M${r1(x0)},${r1(top)}V${r1(bot - rr)}Q${r1(x0)},${r1(bot)} ${r1(x0 + rr)},${r1(bot)}H${r1(x0 + bw - rr)}Q${r1(x0 + bw)},${r1(bot)} ${r1(x0 + bw)},${r1(bot - rr)}V${r1(top)}Z`;
-      out.push(`<path class="jc-bar" d="${d}"/>`);
-    });
-  } else {
-    let d = '';
-    pts.forEach((p, i) => { if (p) d += `${pts[i - 1] ? 'L' : 'M'}${r1(p[0])},${r1(p[1])}`; });
-    if (d) out.push(`<path class="jc-line" d="${d}"/>`);
-    for (const p of pts) if (p) out.push(`<circle class="jc-dot" cx="${r1(p[0])}" cy="${r1(p[1])}" r="4"/>`);
-    if (s.stats.n > 1) out.push(`<line class="jc-avg" x1="${L}" x2="${L + w}" y1="${r1(y(s.stats.avg))}" y2="${r1(y(s.stats.avg))}"/>`);
-  }
-  if (!s.stats.n) out.push(`<text class="jc-empty" x="${L + w / 2}" y="${T + h / 2}" text-anchor="middle">No numbers yet</text>`);
-  // the hover layer: a column per day, bigger than its mark, that names the day and its number
-  model.days.forEach((d, i) => out.push(`<rect class="jc-hit" x="${r1(L + band * i)}" y="${T}" width="${r1(band)}" height="${h}"><title>${esc(d.label)}: ${s.points[i] === null ? 'nothing written' : esc(fmt(s.points[i]) + unit)}</title></rect>`));
-  out.push('</svg>');
-  return out.join('');
+  const what = s.stats.n ? `${s.stats.n} of ${s.stats.of} days, average ${fmt(s.stats.avg)}${unit}, from ${fmt(s.stats.low)} to ${fmt(s.stats.high)}${unit}` : 'no numbers yet';
+  const span = model.days.length ? `${model.days[0].label} to ${model.days[model.days.length - 1].label}` : '';
+  return `${s.label}${s.unit ? ` (${s.unit})` : ''}${s.sample ? ' (sample numbers)' : ''}, ${span}: ${what}`;
 }
-
-/** The whole chart record as HTML: a figure per metric (title, the chart, a one-line summary) and the numbers as a table. */
-export function chartHTML(model) {
-  if (!model) return '<p class="jot-chart-note">A chart with nothing to draw yet: give it metrics, or a start and end date.</p>';
-  if (model.empty) return `<p class="jot-chart-note">No numbers to chart between ${esc(model.start)} and ${esc(model.end)} yet.</p>`;
-  const parts = model.series.map((s) => {
-    const unit = s.unit ? ` ${esc(s.unit)}` : '';
-    const sum = s.stats.n ? `avg <b>${esc(fmt(s.stats.avg))}${unit}</b> · ${esc(fmt(s.stats.low))}–${esc(fmt(s.stats.high))}${unit} · ${s.stats.n}/${s.stats.of} days` : `${s.stats.of} days, nothing written yet`;
-    const anchors = s.anchors && (s.anchors.lo || s.anchors.hi) ? ` <span class="jc-anchors">${esc(fmt(s.min))} = ${esc(s.anchors.lo || 'low')}, ${esc(fmt(s.max))} = ${esc(s.anchors.hi || 'high')}</span>` : '';
-    return `<figure class="jot-chart-one"><figcaption><span class="jc-name">${esc(s.label)}${s.unit ? ` <span class="jc-unit">(${esc(s.unit)})</span>` : ''}</span><span class="jc-sum">${s.sample ? 'sample numbers · ' : ''}${sum}</span></figcaption>${seriesSVG(model, s)}${anchors}</figure>`;
-  });
-  const head = model.days.map((d) => `<th scope="col">${esc(d.short)}</th>`).join('');
-  const rows = model.series.map((s) => `<tr><th scope="row">${esc(s.label)}${s.unit ? ` (${esc(s.unit)})` : ''}</th>${s.points.map((v) => `<td>${v === null ? '–' : esc(fmt(v))}</td>`).join('')}</tr>`).join('');
-  return `<div class="jot-chart-grid">${parts.join('')}</div><details class="jot-chart-table"><summary>The numbers</summary><div class="jc-scroll" tabindex="0" role="region" aria-label="The numbers"><table><thead><tr><td></td>${head}</tr></thead><tbody>${rows}</tbody></table></div></details>`;
+/** Chart.js configuration for one metric: its own value axis, gaps for empty days, the average as a dashed line.
+ *  theme: { series, muted, grid, ink } colours (preview.mjs reads them from the page's CSS). */
+export function chartConfig(model, s, theme = {}) {
+  const t = { series: '#2a78d6', muted: '#5f675f', grid: '#e2e3dc', ink: '#242927', ...theme }, unit = s.unit ? ` ${s.unit}` : '', bars = model.style === 'bars';
+  const datasets = [{
+    label: s.label, data: s.points, spanGaps: false,
+    borderColor: t.series, backgroundColor: t.series, borderWidth: 2,
+    pointRadius: 4, pointHoverRadius: 6, pointBorderColor: t.surface || '#fff', pointBorderWidth: 2, tension: 0,
+    borderRadius: 4, borderSkipped: 'start', maxBarThickness: 28, categoryPercentage: 0.7,
+  }];
+  if (s.stats.n > 1) datasets.push({ type: 'line', label: 'Average', data: model.days.map(() => s.stats.avg), borderColor: t.muted, borderWidth: 1, borderDash: [3, 3], pointRadius: 0, pointHoverRadius: 0, pointHitRadius: 0, fill: false });
+  return {
+    type: bars ? 'bar' : 'line',
+    data: { labels: model.days.map((d) => d.short), datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false, layout: { padding: { top: 6, right: 4 } }, // room for a point at the top of the range
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          filter: (item) => item.datasetIndex === 0,
+          callbacks: {
+            title: (items) => (items[0] ? model.days[items[0].dataIndex].label : ''),
+            label: (item) => (item.raw === null || item.raw === undefined ? 'nothing written' : `${s.label}: ${fmt(item.raw)}${unit}`),
+          },
+        },
+      },
+      scales: {
+        x: { grid: { display: false }, border: { color: t.muted }, ticks: { color: t.muted, autoSkip: true, maxRotation: 0 } },
+        y: { min: s.min, max: s.max, grid: { color: t.grid }, border: { display: false }, ticks: { color: t.muted, maxTicksLimit: 6, callback: (v) => fmt(v) } },
+      },
+    },
+  };
 }
 
 /** The styles the charts need, light and dark. Readers add it once (a <style> element). */
-export const CHART_CSS = `.jot-chart{--jc-ink:#242927;--jc-muted:#5f675f;--jc-grid:#e2e3dc;--jc-axis:#9aa096;--jc-series:#2a78d6;--jc-surface:#fffefa;margin:14px 0;padding:12px;border:1px solid var(--jc-grid);border-radius:10px;background:var(--jc-surface);color:var(--jc-ink);font:12px/1.4 ui-sans-serif,system-ui,sans-serif}
-@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .jot-chart{--jc-ink:#e8eae4;--jc-muted:#a8afa6;--jc-grid:#343a35;--jc-axis:#6d756e;--jc-series:#3987e5;--jc-surface:#1f2320}}
-:root[data-theme="dark"] .jot-chart{--jc-ink:#e8eae4;--jc-muted:#a8afa6;--jc-grid:#343a35;--jc-axis:#6d756e;--jc-series:#3987e5;--jc-surface:#1f2320}
+export const CHART_CSS = `.jot-chart{--jc-ink:#242927;--jc-muted:#5f675f;--jc-grid:#e2e3dc;--jc-series:#2a78d6;--jc-surface:#fffefa;margin:14px 0;padding:12px;border:1px solid var(--jc-grid);border-radius:10px;background:var(--jc-surface);color:var(--jc-ink);font:12px/1.4 ui-sans-serif,system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .jot-chart{--jc-ink:#e8eae4;--jc-muted:#a8afa6;--jc-grid:#343a35;--jc-series:#3987e5;--jc-surface:#1f2320}}
+:root[data-theme="dark"] .jot-chart{--jc-ink:#e8eae4;--jc-muted:#a8afa6;--jc-grid:#343a35;--jc-series:#3987e5;--jc-surface:#1f2320}
 .jot-chart-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px 16px}
 .jot-chart-one{margin:0;min-width:0}.jot-chart-one figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 10px;margin-bottom:2px}
 .jc-name{font-weight:650}.jc-unit,.jc-sum,.jc-anchors{color:var(--jc-muted)}.jc-sum b{color:var(--jc-ink);font-weight:650}.jc-anchors{display:block;font-size:11px}
-.jot-chart-svg{display:block;overflow:visible}.jc-grid{stroke:var(--jc-grid);stroke-width:1}.jc-axis{stroke:var(--jc-axis);stroke-width:1}
-.jc-tick,.jc-day,.jc-empty{fill:var(--jc-muted);font-size:10px;font-family:inherit}.jc-empty{font-style:italic}
-.jc-line{fill:none;stroke:var(--jc-series);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.jc-dot{fill:var(--jc-series);stroke:var(--jc-surface);stroke-width:2}
-.jc-bar{fill:var(--jc-series)}.jc-avg{stroke:var(--jc-muted);stroke-width:1;stroke-dasharray:3 3}
-.jc-hit{fill:transparent}.jc-hit:hover{fill:var(--jc-series);fill-opacity:.08}
-.jot-chart-table{margin-top:6px}.jot-chart-table summary{cursor:pointer;color:var(--jc-muted)}.jc-scroll{overflow-x:auto}
+.jc-canvas{position:relative;height:140px}.jc-canvas canvas{display:block}
+.jot-chart-table{margin-top:6px}.jot-chart-table summary{cursor:pointer;color:var(--jc-muted);min-height:24px}.jc-scroll{overflow-x:auto}
 .jot-chart-table table{border-collapse:collapse;font-variant-numeric:tabular-nums;margin-top:4px}.jot-chart-table th,.jot-chart-table td{padding:2px 6px;text-align:right;border-bottom:1px solid var(--jc-grid)}.jot-chart-table th[scope=row]{text-align:left;font-weight:600}
-.jot-chart-note{color:var(--jc-muted);font-style:italic}
-@media (forced-colors:active){.jc-line{stroke:CanvasText}.jc-dot,.jc-bar{fill:CanvasText}}`;
+.jot-chart-note{color:var(--jc-muted);font-style:italic}`;
 
-export default { NUMBER, collectNumbers, chartModel, charts, seriesSVG, chartHTML, CHART_CSS, metricKey, metricLabel, mondayOf };
+export default { NUMBER, collectNumbers, chartModel, charts, chartConfig, summaryText, fmt, CHART_CSS, metricKey, metricLabel, mondayOf };

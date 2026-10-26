@@ -16,7 +16,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="using-the-template-editor">Using the template editor</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-five-steps">In five steps</a></li><li><a href="#the-five-zones">The five zones</a></li><li><a href="#starters">Starters</a></li><li><a href="#blocks">Blocks</a></li><li><a href="#numbers-and-charts">Numbers and charts</a></li><li><a href="#arranging-blocks">Arranging blocks</a></li><li><a href="#the-file-on-the-right">The file on the right</a></li><li><a href="#downloading">Downloading</a></li><li><a href="#filling-it-in">Filling it in</a></li><li><a href="#changing-the-template-later">Changing the template later</a></li><li><a href="#bringing-in-a-print-layout">Bringing in a print layout</a></li><li><a href="#with-inkdeck">With InkDeck</a></li><li><a href="#printing-a-book">Printing a book</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-five-steps">In five steps</a></li><li><a href="#the-five-zones">The five zones</a></li><li><a href="#starters">Starters</a></li><li><a href="#blocks">Blocks</a></li><li><a href="#numbers-and-charts">Numbers and charts</a></li><li><a href="#arranging-blocks">Arranging blocks</a></li><li><a href="#the-file-on-the-right">The file on the right</a></li><li><a href="#downloading">Downloading</a></li><li><a href="#filling-it-in">Filling it in</a></li><li><a href="#changing-the-template-later">Changing the template later</a></li><li><a href="#with-inkdeck">With InkDeck</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li></ul></nav><article class="guide">
 <p>The template editor builds the <strong>shape</strong> of a journal: what each day, week and month asks of you. It gives you a plain-text <code>.jot</code>
 file with a dated entry for every day, ready to fill in by hand on any keyboard, a phone or InkDeck.</p>
 <p>It runs in your browser. Your template stays in that browser and nothing is sent anywhere.</p>
@@ -191,10 +191,7 @@ style: line
 <h3 id="a-weekly-dashboard">A weekly dashboard</h3>
 <p>A week page is easiest to take in with 5 to 7 widgets: about as many things as working memory holds at once (George Miller&#39;s &quot;magical
 number seven&quot;, 1956; later research puts it nearer four, one more reason to keep the page short). The <strong>Weekly dashboard</strong> starter
-has six. When <strong>Each week begins</strong> holds more than seven blocks the editor says so,
-and changes nothing: it is a nudge, not a rule.</p>
-<p>Printed books have the same idea on paper: the week plan&#39;s right-hand page can carry graph grids (sleep hours, steps) to plot by hand.
-See the print engine&#39;s README (<code>journal/README.md</code>).</p>
+has six. When <strong>Each week begins</strong> holds more than seven blocks the editor says so, and changes nothing: it is a nudge, not a rule.</p>
 <h2 id="arranging-blocks">Arranging blocks</h2>
 <ul>
 <li><strong>Drag</strong> a block by its handle (⠿) to a new place, in the same zone or another one. A purple line shows where it will land; a red
@@ -261,10 +258,6 @@ don&#39;t show it). To change the shape later, even after you have started writi
 <p>The template comes back exactly as it was. A <code>.jot</code> written anywhere else has no template inside; the editor says so and changes
 nothing.</p>
 <p>You can also keep the template as its own file: <strong>More → Save template (.json)</strong>, and open it the same way.</p>
-<h2 id="bringing-in-a-print-layout">Bringing in a print layout</h2>
-<p>If you have a day layout from the Journalwright print editor (a <code>daypage.json</code> file), <strong>More → Import a print day layout</strong> turns it
-into your <strong>Each day</strong> blocks. Blocks that only make sense on paper (sketch boxes, photos, puzzles) and the printed data (moon,
-holidays, events) are left out, and the message names them. <strong>Undo</strong> takes the import back.</p>
 <h2 id="with-inkdeck">With InkDeck</h2>
 <p>InkDeck is writing firmware for the Xteink X3/X4 e-ink readers with a Bluetooth keyboard.</p>
 <ol>
@@ -276,9 +269,6 @@ blocks a day can go over that, and the editor warns you when it does.</li>
 </ol>
 <p>New files you make on InkDeck itself are <code>.jot</code> too, with the metadata block already at the top. Name them by date (<code>2026-10-26.jot</code>),
 or start them with a <code>### 2026-10-26</code> heading, so they know which day they belong to.</p>
-<h2 id="printing-a-book">Printing a book</h2>
-<p>The print engine in this project (the <code>journal/</code> folder) can print your filled-in <code>.jot</code> writing into a monthly book, after each
-week&#39;s pages. It runs from the command line; see its README. You don&#39;t need it to keep a Jot journal.</p>
 <h2 id="privacy">Privacy</h2>
 <ul>
 <li>The template is kept in this browser only (if the browser allows it). Clearing the site&#39;s data removes it, so save a copy with
