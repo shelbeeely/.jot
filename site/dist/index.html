@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Jot · a journal in plain text</title>
-<meta name="description" content="Jot is a plain-text journal format: your writing stays readable in any text editor, for as long as there are text editors. Mix methods, track numbers that turn into charts, print it, keep it private.">
+<title>Jot · jot it down, get a beautiful page</title>
+<meta name="description" content="Jot things down in plain text and get beautifully formatted journal and note pages back: dates, tasks, tags and margin notes laid out for reading, printing and sharing. The file stays plain text, private and yours.">
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
@@ -17,9 +17,9 @@
 <main>
   <section class="hero">
     <div>
-      <p class="eyebrow">A JOURNAL IN PLAIN TEXT</p>
-      <h1>Write it once. <em>Read it in fifty years.</em></h1>
-      <p class="lead">Jot is a way of keeping a journal as an ordinary text file. No app to keep paying for, no account, no format that stops opening. Just your words, a few light marks for tasks, dates and numbers, and tools that turn them into pages, charts and printed books when you want them.</p>
+      <p class="eyebrow">JOURNALS AND NOTES IN PLAIN TEXT</p>
+      <h1>Jot things down. <em>Get beautiful pages back.</em></h1>
+      <p class="lead">Type the way you think: a date, a few tasks, a thought, a <code>#tag</code>. Jot turns it into a formatted journal or notes page, ready to read, print or share. The file you wrote stays an ordinary text file: no app to keep paying for, no account, nothing that stops opening.</p>
       <div class="cta">
         <a class="btn primary" href="write/">Start writing</a>
         <a class="btn" href="editor/">Build a planner</a>
@@ -27,22 +27,28 @@
       </div>
     </div>
     <figure class="sample" aria-labelledby="sample-cap">
-      <div class="sample-file">
-        <p class="tab">week.jot</p>
-<pre tabindex="0" aria-label="An example .jot file"><code>### 2026-10-26 | Monday
+      <div class="sample-pair">
+        <div class="sample-file">
+          <p class="tab">You jot <span>week.jot</span></p>
+<pre tabindex="0" aria-label="What you type: an example .jot file" id="sample-source"><code>### 2026-10-26 | Monday
 
-The rain made the room quieter.
+.0830 - KITCHEN
+
+The rain made it ==quieter==.
+Sam called about the #garden.
 
 [x] Walk before work
 [ ] Call Sam back
+o Dinner with Ana at 7
 
-:::record measurement #sleep-mon
-metric: sleep
-unit: h
-value: 7.5
-:::</code></pre>
+[[Worth noticing.]]</code></pre>
+        </div>
+        <div class="sample-file sample-out">
+          <p class="tab">You get <span>Journal style</span></p>
+          <article class="jot-page" id="sample-page" aria-label="What you get: the same note as a formatted journal page"></article>
+        </div>
       </div>
-      <figcaption id="sample-cap">That is the whole format: Markdown, a date, a box to tick, a number. Any text editor can open it.</figcaption>
+      <figcaption id="sample-cap">What you jot is the whole file, plain text any editor opens; what you get is the same words as Jot lays them out. Switch to Notes, print it, or save it as one page to share.</figcaption>
     </figure>
   </section>
 

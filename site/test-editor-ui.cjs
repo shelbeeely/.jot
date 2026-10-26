@@ -192,6 +192,7 @@ const srv = http.createServer((q, r) => {
     const hrefs = await h.$$eval('a[href]', (as) => [...new Set(as.map((a) => a.href))].filter((u) => u.startsWith(location.origin)));
     for (const u of hrefs) { const res = await h.request.get(u.split('#')[0]); assert.equal(res.status(), 200, u); }
     ok(hrefs.length >= 10, `home: every link on the page answers (${hrefs.length})`);
+    ok(/Jot things down\. Get beautiful pages back\./.test(await h.textContent('h1')) && await h.$eval('#sample-page', (p) => p.classList.contains('jot-style-journal') && /Monday, 26 October 2026/.test(p.querySelector('.jot-date').textContent) && !!p.querySelector('.jot-task-completed') && !!p.querySelector('.jot-tag') && !!p.querySelector('.jot-margin')), `home (${scheme}): the promise, and the jotted note beside the Journal page it becomes`);
     ok(await h.$$eval('main input, main textarea, main select, main [contenteditable], main form', (e) => e.length) === 0, `home (${scheme}): no editor and nothing to fill in, only reasons and pictures`);
     ok(await h.evaluate(() => { const p = document.querySelector('#written-demo'); return p.classList.contains('jot-hand') && p.querySelectorAll('svg.hw-box[role="img"][aria-label="done"]').length === 2 && p.querySelectorAll('svg.hw-box[aria-label="to do"]').length === 1; }), `home (${scheme}): a sample page written by hand, its tasks in pencil boxes a screen reader can name`);
     if (fs.existsSync(AXE)) {

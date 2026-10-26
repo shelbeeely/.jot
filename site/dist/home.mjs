@@ -1,10 +1,13 @@
-// The home page's two pictures, made by the same code as the workspace: a week of numbers drawn by Chart.js, and a sample page written
-// by hand on a dot grid. Nothing on this page takes input.
+// The home page's pictures, made by the same code as the workspace: a jotted note and the formatted page it becomes, a week of numbers
+// drawn by Chart.js, and a sample page written by hand on a dot grid. Nothing on this page takes input.
 import { parse } from './jot/jot.mjs';
 import { charts } from './jot/charts.mjs';
 import { drawChart, addChartStyles, addHandwritingStyles, renderPreview } from './jot/preview.mjs';
 
 addChartStyles(document); addHandwritingStyles(document);
+
+// what you jot, and what you get: the source shown on the left, laid out in the Journal style on the right
+renderPreview(parse(document.getElementById('sample-source').textContent), document.getElementById('sample-page'), { style: 'journal' });
 
 // a week of numbers
 const sleep = [7.5, 6, 6.5, 8, 5.5, 8.5, 7], steps = [6200, 8400, 4100, 9800, 7300, 12100, 5600];

@@ -29,7 +29,7 @@ const JOURNAL = `.S{--ink:#2b2622;--muted:#776b5f;--accent:#8a3b12;--rule:#ddd2c
 .S h3{font-size:1.15em;font-weight:600;margin:1.4em 0 .4em}
 .S h4,.S h5,.S h6{font-size:1em;font-weight:600;font-style:italic;margin:1.2em 0 .3em}
 .S .jot-date{font-size:.8em;font-weight:600;font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);border-top:1px solid var(--rule);padding-top:1.15em;margin:2.3em 0 .9em;font-variant-numeric:lining-nums}
-.S>.jot-date:first-child{border-top:0;padding-top:0}
+.S>.jot-date:first-child{border-top:0;padding-top:0;margin-top:0}
 .S .jot-date-note{letter-spacing:.06em;text-transform:none;font-style:italic;font-weight:400;color:var(--muted);font-size:1.05em}
 .S .jot-date+p:not(.jot-scene)::first-letter,.S .jot-date+.jot-scene+p::first-letter{float:left;font-size:3.35em;line-height:.82;margin:.06em .09em 0 0;color:var(--accent);font-weight:400}
 .S a{color:var(--accent);text-decoration-thickness:.06em;text-underline-offset:.15em}
