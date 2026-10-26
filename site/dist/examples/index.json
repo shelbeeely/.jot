@@ -5,7 +5,7 @@
       "id": "pepys",
       "title": "The Diary of Samuel Pepys",
       "author": "Samuel Pepys",
-      "about": "Ten years of a London civil servant’s days, 1660–1669: the Plague, the Great Fire, the navy, music and gossip. Old Style dates, converted to modern ones.",
+      "about": "Almost every day from January 1660 to May 1669, kept by a clerk of the Navy Board in London: the Plague, the Great Fire, the navy, music and gossip. Old Style dates, converted to modern ones.",
       "options": {
         "calendar": "julian",
         "per": "auto"
@@ -193,7 +193,8 @@
       "id": "nobody",
       "title": "The Diary of a Nobody",
       "author": "George and Weedon Grossmith",
-      "about": "A comic diary of a London clerk, April 1888 to July 1889. The diary never says the year, so the conversion starts in 1888.",
+      "about": "A comic novel written as a London clerk’s diary, first serialised in Punch in 1888–89. The diary never says its year, so the conversion starts it in 1888, when it appeared.",
+      "span": "15 months, dated from 1888",
       "options": {
         "year": 1888,
         "per": "auto"
@@ -212,8 +213,8 @@
           "entries": 166,
           "from": "1888-04-03",
           "to": "1889-07-11",
-          "bytes": 237535,
-          "sha256": "77c2a4394c205a1f45361dd13eb92ee74880b369bd12b73261c95d2a8a6d436f"
+          "bytes": 237539,
+          "sha256": "1c4309a0498a9ba99bd9fedf6d40e2fc87100901b57e10c3de6f8049f6022836"
         }
       ]
     },
@@ -221,7 +222,8 @@
       "id": "blunt",
       "title": "My Diaries, 1888–1914",
       "author": "Wilfrid Scawen Blunt",
-      "about": "A poet and anti-imperialist’s diaries, quoted inside his own narrative of the years before the First World War. The years come from the chapter titles.",
+      "about": "A poet and anti-imperialist’s diaries, quoted inside his own narrative of the years before the First World War. The years come from the chapter titles. Also here: the 1870 Paris diary from the appendix, and the 1921 preface.",
+      "span": "1888–1914",
       "options": {
         "per": "year"
       },

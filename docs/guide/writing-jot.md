@@ -95,7 +95,8 @@ Jot uses Markdown for everything else, so what you may already know works:
 | Morning | Quiet enough to think |
 ```
 
-`- [ ] task` (with a dash) also works as a checklist; plain `[ ] task` is the Jot way and is quicker to type.
+`- [ ] task` (with a dash) also shows as a checklist, but only plain `[ ] task` lines count as Jot tasks (with states like moved or
+cancelled), and they are quicker to type.
 
 ## Notes in the margin, and things only you see
 
@@ -162,7 +163,8 @@ To fill in a rating, type the number after `value:`. Leaving it empty is always 
 
 - **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.
 - **Time labels:** a line like `.0830 - KITCHEN` (a dot, then a label) marks a scene or a moment in the day.
-- **Tags and places:** `#walk` (a tag) and `@home` (a context, where or with whom) can go anywhere in a sentence.
+- **Tags and places:** `#walk` (a tag) and `@home` (a context, where or with whom) can go anywhere in a sentence. (The
+  specification defines them; the tools here keep them as ordinary words for now and don't yet list or search them.)
 - **Metadata:** a block at the very top between two `---` lines describes the whole file. Templates add one; you never need to:
 
 ```jot
@@ -215,7 +217,7 @@ On a phone, any app that edits plain text files works; colour is a bonus, not a 
 
 ## Real diaries to look at
 
-The [Examples](../../site/dist/examples/) page has whole diaries as Jot: Samuel Pepys's ten years, *The Diary of a Nobody* and Wilfrid
+The [Examples](../../site/dist/examples/) page has whole diaries as Jot: Samuel Pepys's nine and a half years, *The Diary of a Nobody* and Wilfrid
 Scawen Blunt's diaries, a dated entry for each day. Open one in the workspace to see how a long journal reads, or download it.
 
 ## Small habits that help

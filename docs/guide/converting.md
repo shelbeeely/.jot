@@ -40,7 +40,7 @@ Each day the diary marks becomes an entry. The date as it was written stays afte
 ---
 Jot: 1.0
 Title: The Diary of a Nobody
-Author: George Grossmith Weedon Grossmith
+Author: George Grossmith and Weedon Grossmith
 Source: https://www.gutenberg.org/ebooks/1026
 Converted-with: jot-convert
 ---
@@ -140,8 +140,9 @@ files, and compare them with your own conversion.
 Project Gutenberg has hundreds of public-domain diaries and logbooks; search for "diary", "journal" or "logbook" and pick **Plain
 Text UTF-8**. Three that convert well:
 
-- **The Diary of Samuel Pepys** (ebook 4200): ten years, every day; use `--calendar julian`.
-- **The Diary of a Nobody** by George and Weedon Grossmith (ebook 1026): a comic diary of 1888–89; use `--year 1888`.
+- **The Diary of Samuel Pepys** (ebook 4200): almost every day from January 1660 to May 1669; use `--calendar julian`.
+- **The Diary of a Nobody** by George and Weedon Grossmith (ebook 1026): a comic novel written as a diary, first serialised in
+  *Punch* in 1888–89. It never says the year; `--year 1888` matches when it appeared.
 - **My Diaries 1888–1914** by Wilfrid Scawen Blunt (ebooks 79491 and 79492): diary entries inside a narrative; the years come from
   the chapter titles.
 

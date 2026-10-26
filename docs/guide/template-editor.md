@@ -145,8 +145,9 @@ holidays, events) are left out, and the message names them. **Undo** takes the i
 
 InkDeck is writing firmware for the Xteink X3/X4 e-ink readers with a Bluetooth keyboard.
 
-1. In the editor, set **Files** to **A file a week (fits InkDeck)** and download. InkDeck opens files up to 16 KB; a month with many
-   blocks a day can go over that, and the editor warns you when it does.
+1. In the editor, set **Files** to **A file a week (fits InkDeck)** and download. InkDeck holds up to 16 KB a file, and that includes
+   what you write: a week from any starter is under 2.5 KB, which leaves about 14 KB (some 2,000 words) for your writing that week. A month
+   with many blocks a day can go over 16 KB on its own, and the editor warns you when it does.
 2. Copy the files to the device's SD card.
 3. On InkDeck, open this week's file and write: type after `[ ] `, after `value:`, and under the headings.
 4. Copy the files back to your computer whenever you like. Opening one in the editor still brings the template back.

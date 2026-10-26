@@ -29,8 +29,8 @@
     },
     {
       "path": "converter/convert.mjs",
-      "byteLength": 17951,
-      "sha256": "91bf35fcdf7953da3bee7642d6370160b097330c2b902254996818672b845336"
+      "byteLength": 18219,
+      "sha256": "fd3e9c0eb7f1135e572f6cad7e54c89d08910406385bf7d3f658a4ff4630dc95"
     },
     {
       "path": "converter/fixtures/README.md",
@@ -69,8 +69,8 @@
     },
     {
       "path": "converter/test.mjs",
-      "byteLength": 10168,
-      "sha256": "51b81969163a5eebfa69b69cb4ee3d52dfe76ae679c9f97c45ce92be4d53fccc"
+      "byteLength": 10217,
+      "sha256": "955d5b1f882465c2455856f33bd763f0ab8f5a1c8ca4b2bf96d551427796d5bd"
     },
     {
       "path": "docs/guide/README.md",
@@ -79,18 +79,18 @@
     },
     {
       "path": "docs/guide/converting.md",
-      "byteLength": 6896,
-      "sha256": "af1d4404d6276c79475a0514d52a5b40165479bb8855a3685a09c423d4a27570"
+      "byteLength": 7021,
+      "sha256": "5a19868f106d4f0e1f5346f006e1150b4b81476227f55cdd340284ab2d36deaa"
     },
     {
       "path": "docs/guide/template-editor.md",
-      "byteLength": 8469,
-      "sha256": "0e023939f7569bfc49f3082b7aee045b5750a015bd69f42c8c0bc5632415997d"
+      "byteLength": 8632,
+      "sha256": "32b864eea7588db5c7b25a8e18d4c11ad04e60c56f64b6df6cfc2c693da366e0"
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 8362,
-      "sha256": "97508d5e10cd8635754467ef24ea4f0ff3ac48e0c989f4a05d63ab639613e58a"
+      "byteLength": 8560,
+      "sha256": "7fc4d348feb83f41425afd9219fddd4ddd6611a9f29d0e0461f404544a72d671"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -1349,8 +1349,8 @@
     },
     {
       "path": "site/dist/examples/diaries/nobody/nobody.jot",
-      "byteLength": 237535,
-      "sha256": "77c2a4394c205a1f45361dd13eb92ee74880b369bd12b73261c95d2a8a6d436f"
+      "byteLength": 237539,
+      "sha256": "1c4309a0498a9ba99bd9fedf6d40e2fc87100901b57e10c3de6f8049f6022836"
     },
     {
       "path": "site/dist/examples/diaries/pepys/pepys-1660.jot",
@@ -1464,13 +1464,13 @@
     },
     {
       "path": "site/dist/examples/index.html",
-      "byteLength": 21001,
-      "sha256": "ca171b9b597d8bc9585d9097afe840d8122370aa478be6a0df05269620a7caf8"
+      "byteLength": 21177,
+      "sha256": "665254abd7aac05e4a6102fd621abc1c1bcbe18ac3b381d9a2819be8e4c2cab1"
     },
     {
       "path": "site/dist/examples/index.json",
-      "byteLength": 15349,
-      "sha256": "2f2f91f8a20d9435a52948c5c8adb3290de46e1190129b06f355c0b9b576584f"
+      "byteLength": 15583,
+      "sha256": "b6f714de2e2ff442b6df79d19023afbbba42763171c624c89a1e060773a36192"
     },
     {
       "path": "site/dist/examples/packaged.jotz",
@@ -1484,8 +1484,8 @@
     },
     {
       "path": "site/dist/guide/converting.html",
-      "byteLength": 10848,
-      "sha256": "52b5f4eb145ac9a7642abb3473d4af9fddda631840cfe466c551ab85c179b25a"
+      "byteLength": 10978,
+      "sha256": "f7997a37cb8e70386ea1fbbb5f02d948e2640c17e62878ece184059318dd9fa9"
     },
     {
       "path": "site/dist/guide/guide.css",
@@ -1499,13 +1499,13 @@
     },
     {
       "path": "site/dist/guide/template-editor.html",
-      "byteLength": 13129,
-      "sha256": "b81a3dc18b075e8b8573a6f95d1b79202d8ec10080f9fffe5c4bcc8ccd82cd02"
+      "byteLength": 13289,
+      "sha256": "32cbbd5c5e55bd8c31ec7ccf558a8a002aea6650c42acd9c13e507213ae62de1"
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 13172,
-      "sha256": "ac209cc0cc3c05a19a191a6dc332b715da07722c8872f6ed80a011a71b4a603a"
+      "byteLength": 13372,
+      "sha256": "662438f771c709469d0d525f915777de62413c9cd4ad7ae542873bde6854f9f0"
     },
     {
       "path": "site/dist/index.html",
@@ -1519,8 +1519,8 @@
     },
     {
       "path": "site/dist/jot/convert.mjs",
-      "byteLength": 17951,
-      "sha256": "91bf35fcdf7953da3bee7642d6370160b097330c2b902254996818672b845336"
+      "byteLength": 18219,
+      "sha256": "fd3e9c0eb7f1135e572f6cad7e54c89d08910406385bf7d3f658a4ff4630dc95"
     },
     {
       "path": "site/dist/jot/jot.mjs",
@@ -1739,8 +1739,8 @@
     },
     {
       "path": "tools/build-examples.mjs",
-      "byteLength": 10277,
-      "sha256": "f7b9732ddd364a2d25dbc3e08c5238a96415dcb9ad8b381856844c51c10554b1"
+      "byteLength": 10593,
+      "sha256": "598db09634a89741ecc151734e2fccd875790d1d9640a687edd5a870ac00f8c1"
     },
     {
       "path": "tools/build-parser-zip.py",
