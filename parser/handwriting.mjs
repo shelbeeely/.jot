@@ -67,6 +67,8 @@ export function handwritingCSS(fontBase) {
 .jot-hand :is(h1,h2,h3,h4,h5,h6){letter-spacing:normal;text-transform:none}
 .jot-hand :is(.jot-task,.jot-record,.jot-measure,.jot-blanks,.jot-blank-line,.jot-footnotes,.jot-callout,dl,figure,figcaption,details){padding-top:0;padding-bottom:0;margin:0;border-top:0;border-bottom:0;border-radius:0}
 .jot-hand .hw-box{width:.78em;height:.78em;margin-right:.3em;vertical-align:-.08em}
+.jot-hand :is(.jot-task,.jot-sign){display:block} /* one line of writing, one row of dots */
+.jot-hand .jot-box{display:inline-block;width:auto}.jot-hand .jot-sym{display:inline-block;width:1.1em}
 .jot-hand .jot-record,.jot-hand .jot-callout{border:0;border-left:2px solid color-mix(in srgb,var(--hw-ink) 35%,transparent);background:none;padding:0 0 0 calc(var(--hw-pitch) - 2px);box-shadow:none}
 .jot-hand .jot-record strong{text-transform:none;letter-spacing:0;font-size:1em}
 .jot-hand .jot-record dl{display:block}.jot-hand .jot-record dt{display:inline;font-weight:700}.jot-hand .jot-record dt::after{content:': '}.jot-hand .jot-record dd{display:inline;margin:0}.jot-hand .jot-record dd::after{content:'';display:block}
@@ -87,6 +89,7 @@ ${BOX_CSS}`.replace(/\.jot-hand(?![\w-])/g, '.jot-hand.jot-hand'); // doubled: t
 export const BOX_CSS = `.hw-box{display:inline-block;width:1.1em;height:1.1em;overflow:visible;vertical-align:-.2em;color:inherit;flex:none}
 .hw-box .hw-square{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .hw-box .hw-tick{fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.hw-box:not(.done) .hw-tick{visibility:hidden} /* a round line end still paints a dot at zero length */
 .hw-box.done .hw-tick{stroke-dashoffset:0}
 .hw-box.drawn .hw-tick{animation:hw-draw .45s cubic-bezier(.6,.05,.35,1) both}
 @keyframes hw-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
@@ -94,28 +97,54 @@ export const BOX_CSS = `.hw-box{display:inline-block;width:1.1em;height:1.1em;ov
 @media print{.hw-box.drawn .hw-tick{animation:none}}`;
 const SVGNS = 'http://www.w3.org/2000/svg';
 const r1 = (v) => Math.round(v * 10) / 10;
-/** The path of a wobbly pencil square on a 24 x 24 box: four bowed sides, the pencil overshooting where it began. */
-export function squarePath(seed = 1) {
-  const r = rng(seed * 2654435761), j = (a) => (r() - 0.5) * 2 * a;
-  const c = [[3 + j(1), 4 + j(1)], [21 + j(1), 3 + j(1)], [21 + j(1), 21 + j(1)], [3 + j(1), 20.5 + j(1)]];
-  let d = `M${r1(c[0][0])},${r1(c[0][1])}`;
-  for (let i = 1; i <= 4; i++) {
-    const a = c[i - 1], b = c[i % 4], mx = (a[0] + b[0]) / 2 + j(1.2), my = (a[1] + b[1]) / 2 + j(1.2);
-    d += `Q${r1(mx)},${r1(my)} ${r1(b[0])},${r1(b[1])}`;
+// Like a real hand, the pencil does not draw every box or tick the same way: BOX_KINDS ways to draw the square, TICK_KINDS ways to tick
+// it, each with its own wobble. Which ones a box gets comes from its seed (so a reprint matches); handwrite() never gives two boxes in a
+// row the same pair.
+export const BOX_KINDS = ['closed', 'open', 'twice', 'round'];
+export const TICK_KINDS = ['check', 'hook', 'flick', 'two'];
+const corners = (j) => [[3 + j(1), 4 + j(1)], [21 + j(1), 3 + j(1)], [21 + j(1), 21 + j(1)], [3 + j(1), 20.5 + j(1)]];
+const sides = (c, j, from = 0, n = 4, bow = 1.2) => { let d = ''; for (let k = 1; k <= n; k++) { const a = c[(from + k - 1) % 4], b = c[(from + k) % 4]; d += `Q${r1((a[0] + b[0]) / 2 + j(bow))},${r1((a[1] + b[1]) / 2 + j(bow))} ${r1(b[0])},${r1(b[1])}`; } return d; };
+/** The path of a wobbly pencil square on a 24 x 24 box, drawn one of BOX_KINDS ways:
+ *  closed: four bowed sides, the pencil overshooting where it began · open: the last side stops short, a gap at the corner
+ *  twice: traced round a second time, a little off the first · round: one soft loop, the corners rounded off */
+export function squarePath(seed = 1, kind = 'closed') {
+  const r = rng(seed * 2654435761), j = (a) => (r() - 0.5) * 2 * a, c = corners(j), m = (p) => `M${r1(p[0])},${r1(p[1])}`;
+  if (kind === 'open') { const s0 = Math.floor(r() * 4), a = c[(s0 + 3) % 4], b = c[s0], f = 0.68 + r() * 0.12; return `${m(c[s0])}${sides(c, j, s0, 3)}Q${r1(a[0] + (b[0] - a[0]) * f / 2 + j(1))},${r1(a[1] + (b[1] - a[1]) * f / 2 + j(1))} ${r1(a[0] + (b[0] - a[0]) * f)},${r1(a[1] + (b[1] - a[1]) * f)}`; }
+  if (kind === 'twice') { const c2 = c.map(([x, y]) => [Math.min(22.5, Math.max(1.5, x + j(0.9))), Math.min(22.5, Math.max(1.5, y + j(0.9)))]); return `${m(c[0])}${sides(c, j)}Q${r1((c[0][0] + c2[1][0]) / 2 + j(1))},${r1((c[0][1] + c2[1][1]) / 2 + j(1))} ${r1(c2[1][0])},${r1(c2[1][1])}${sides(c2, j, 1, 3, 1)}`; }
+  if (kind === 'round') { // each corner cut by a curve: along the side to k before the corner, round it, k into the next side
+    const k = 2.6 + r() * 1.2, u = (a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy) || 1; return [dx / l, dy / l]; };
+    const into = (a, b) => { const [ux, uy] = u(a, b); return [a[0] + ux * k, a[1] + uy * k]; };
+    let d = m(into(c[0], c[1]));
+    for (let i = 1; i <= 4; i++) { const a = c[i - 1], b = c[i % 4], n = c[(i + 1) % 4], [ux, uy] = u(a, b), end = into(b, n); d += `L${r1(b[0] - ux * k + j(0.4))},${r1(b[1] - uy * k + j(0.4))}Q${r1(b[0])},${r1(b[1])} ${r1(end[0])},${r1(end[1])}`; }
+    return d;
   }
-  return `${d}L${r1(c[0][0] + 2.5 + j(0.8))},${r1(c[0][1] - 0.6 + j(0.6))}`; // the overlap where the pencil comes round
+  return `${m(c[0])}${sides(c, j)}L${r1(c[0][0] + 2.5 + j(0.8))},${r1(c[0][1] - 0.6 + j(0.6))}`; // the overlap where the pencil comes round
 }
-/** The path of a scribbled tick, one stroke, running a little past the box like a quick pen. */
-export function tickPath(seed = 1) {
-  const r = rng(seed * 40503 + 7), j = (a) => (r() - 0.5) * 2 * a;
-  return `M${r1(5.5 + j(1))},${r1(12.5 + j(1))}Q${r1(8 + j(1))},${r1(15 + j(1))} ${r1(10 + j(0.8))},${r1(19 + j(0.8))}Q${r1(14 + j(1.5))},${r1(9 + j(1.5))} ${r1(24.5 + j(1.2))},${r1(1 + j(1.2))}`;
+/** The path of a scribbled tick, running a little past the box like a quick pen, drawn one of TICK_KINDS ways:
+ *  check: down then a long stroke up · hook: a small curl where the pen lands first · flick: a short dip and a long, high flick
+ *  two: two strokes, the pen lifted between them */
+export function tickPath(seed = 1, kind = 'check') {
+  const r = rng(seed * 40503 + 7), j = (a) => (r() - 0.5) * 2 * a, P = (x, y) => `${r1(x)},${r1(y)}`;
+  const s = [5.5 + j(1), 12.5 + j(1)], low = [10 + j(0.8), 19 + j(0.8)], top = [24.5 + j(1.2), 1 + j(1.2)];
+  if (kind === 'hook') return `M${P(s[0] - 1.6, s[1] + 0.6)}Q${P(s[0] - 0.8, s[1] - 1.6 + j(0.4))} ${P(s[0] + 0.4, s[1] + 0.2)}Q${P(8 + j(1), 15.5 + j(1))} ${P(...low)}Q${P(14 + j(1.5), 9 + j(1.5))} ${P(...top)}`;
+  if (kind === 'flick') return `M${P(s[0] + 1.5, s[1] + 2)}Q${P(8.5 + j(0.6), 17 + j(0.6))} ${P(low[0] + 0.5, low[1])}Q${P(13 + j(1.5), 6 + j(1.5))} ${P(top[0] + 1.5, top[1] - 1.5)}`;
+  if (kind === 'two') return `M${P(...s)}L${P(low[0] - 0.2, low[1] - 0.4)}M${P(low[0] - 0.8, low[1] + 0.3)}Q${P(14.5 + j(1.5), 9.5 + j(1.5))} ${P(top[0] - 0.5, top[1] + 1)}`;
+  return `M${P(...s)}Q${P(8 + j(1), 15 + j(1))} ${P(...low)}Q${P(14 + j(1.5), 9 + j(1.5))} ${P(...top)}`;
 }
-/** A hand-drawn box as an SVG element. done: ticked. label: what a screen reader hears (none: hidden, when a real input speaks for it). */
-export function boxSVG(doc, { done = false, seed = 1, label = '', drawn = false } = {}) {
+/** Which box and tick a seed gets; `not` (the previous box's pair) is never repeated. */
+export function boxKinds(seed = 1, not = null) {
+  const r = rng(seed * 97 + 13); let box = BOX_KINDS[Math.floor(r() * BOX_KINDS.length)], tick = TICK_KINDS[Math.floor(r() * TICK_KINDS.length)];
+  if (not && box === not.box) box = BOX_KINDS[(BOX_KINDS.indexOf(box) + 1 + Math.floor(r() * (BOX_KINDS.length - 1))) % BOX_KINDS.length];
+  if (not && tick === not.tick) tick = TICK_KINDS[(TICK_KINDS.indexOf(tick) + 1 + Math.floor(r() * (TICK_KINDS.length - 1))) % TICK_KINDS.length];
+  return { box, tick };
+}
+/** A hand-drawn box as an SVG element. done: ticked. label: what a screen reader hears (none: hidden). kinds: { box, tick } (boxKinds). */
+export function boxSVG(doc, { done = false, seed = 1, label = '', drawn = false, kinds = boxKinds(seed) } = {}) {
   const svg = doc.createElementNS(SVGNS, 'svg');
   svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('class', `hw-box${done ? ' done' : ''}${drawn ? ' drawn' : ''}`); svg.setAttribute('focusable', 'false');
+  svg.dataset.box = kinds.box; svg.dataset.tick = kinds.tick;
   if (label) { svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', label); } else svg.setAttribute('aria-hidden', 'true');
-  for (const [cls, d] of [['hw-square', squarePath(seed)], ['hw-tick', tickPath(seed)]]) { const p = doc.createElementNS(SVGNS, 'path'); p.setAttribute('class', cls); p.setAttribute('d', d); p.setAttribute('pathLength', '1'); svg.append(p); }
+  for (const [cls, d] of [['hw-square', squarePath(seed, kinds.box)], ['hw-tick', tickPath(seed, kinds.tick)]]) { const p = doc.createElementNS(SVGNS, 'path'); p.setAttribute('class', cls); p.setAttribute('d', d); p.setAttribute('pathLength', '1'); svg.append(p); }
   return svg;
 }
 
@@ -132,14 +161,13 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
   page.style.setProperty('--hw-size', String(H.size));
   page.style.setProperty('--hw-ink', INKS[ink] || (/^#[0-9a-f]{6}$/i.test(ink) ? ink : INKS.blue));
   // task boxes and empty lines drawn as a pen would
-  let boxes = 0;
-  for (const t of page.querySelectorAll('.jot-task')) {
-    if (t.querySelector('.hw-box')) continue;
-    const done = /^☑/.test(t.textContent), first = t.firstChild;
-    if (first && first.nodeType === 3) first.textContent = first.textContent.replace(/^[☐☑] /, '');
-    t.prepend(boxSVG(doc, { done, seed: seed * 101 + (boxes++), label: done ? 'done' : 'to do', drawn: done }));
+  let boxes = 0, last = null;
+  const pencil = (done) => { const sd = seed * 101 + (boxes++), kinds = boxKinds(sd, last); last = kinds; return boxSVG(doc, { done, seed: sd, kinds, label: done ? 'done' : 'to do', drawn: done }); };
+  for (const b of page.querySelectorAll('.jot-task .jot-box')) { // open and done tasks get a pencil box; moved, scheduled, cancelled keep their sign
+    const st = b.dataset.status; if (st !== 'open' && st !== 'completed') continue;
+    b.replaceWith(pencil(st === 'completed'));
   }
-  for (const cb of page.querySelectorAll('input[type=checkbox]')) cb.replaceWith(boxSVG(doc, { done: cb.checked, seed: seed * 101 + (boxes++), label: cb.checked ? 'done' : 'to do', drawn: cb.checked }));
+  for (const cb of page.querySelectorAll('input[type=checkbox]')) cb.replaceWith(pencil(cb.checked));
   const walker = doc.createTreeWalker(page, 4 /* NodeFilter.SHOW_TEXT */, { acceptNode: (n) => { for (let p = n.parentNode; p && p !== page; p = p.parentNode) if (SKIP.has(p.nodeName) || (p.classList && (p.classList.contains('hw-w') || p.classList.contains('jot-chart-table')))) return 2; return n.nodeValue.trim() ? 1 : 2; } });
   const texts = []; for (let n = walker.nextNode(); n; n = walker.nextNode()) texts.push(n);
   let k = 0;
@@ -214,4 +242,4 @@ export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {
   return { pitch: p, rows, baseline: base };
 }
 
-export default { HANDS, INKS, PITCHES, BOX_CSS, boxSVG, squarePath, tickPath, handwrite, alignToGrid, handwritingCSS, pageGeometry, pitchPx, snap, PX_PER_MM };
+export default { HANDS, INKS, PITCHES, BOX_CSS, BOX_KINDS, TICK_KINDS, boxKinds, boxSVG, squarePath, tickPath, handwrite, alignToGrid, handwritingCSS, pageGeometry, pitchPx, snap, PX_PER_MM };

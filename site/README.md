@@ -1,4 +1,14 @@
-# Jot workspace
+# Jot site
+
+The site: the home page, the writing workspace (`/write/`), the template editor (`/editor/`), the converter (`/convert/`), the guides
+and the examples. Details of each are below.
+
+## The scanner (`dist/scan/`): unfinished and hidden
+
+The scanner is not linked from any page and its page asks search engines not to index it (`noindex`), with a note that it is unfinished.
+Its files stay so it can be finished; `test-core.cjs` still tests its geometry. To bring it back: add its link to the navigation of each page
+(`dist/index.html`, `dist/write/index.html`, `dist/editor/index.html`, `dist/convert/index.html`, `build-guides.mjs`, `tools/build-examples.mjs`),
+remove the note and the `noindex`, and mark it again in the roadmaps. What it does:
 
 A browser-based document scanner. Images are processed in browser memory; no image upload, analytics, OCR service or account integration is included. Published to GitHub Pages from `main` by `.github/workflows/pages.yml`, only after the privacy check and the tests pass (see below).
 
@@ -17,7 +27,7 @@ This is a flat-page perspective scanner, not curved-page dewarping or handwritin
 
 ## Source
 
-The root (`index.html`, `home.css`, `home.mjs`) is the home page: why keep a journal in Jot, with a live example chart drawn by `jot/charts.mjs`. The writing workspace is at `/write/` (`write/index.html`, with `studio.mjs` and `studio.css` at the root); examples open there with `/write/?open=examples/…`. `/scan/` is a distinct scanner/handwriting tool, and returns to `/write/` after inserting a page.
+The root (`index.html`, `home.css`, `home.mjs`) is the home page: why keep a journal in Jot, with a live example chart drawn by `jot/charts.mjs`. The writing workspace is at `/write/` (`write/index.html`, with `studio.mjs` and `studio.css` at the root); examples open there with `/write/?open=examples/…`. `/scan/` (hidden, see above) is a distinct scanner/handwriting tool, and returns to `/write/` after inserting a page.
 
 `dist/` is buildless HTML, CSS and JavaScript. `scanner-core.js` exposes pure geometry/image functions both to browsers and CommonJS tests. `app.js` owns camera lifecycle, image handling and client-side PDF output. No external runtime dependencies are fetched.
 

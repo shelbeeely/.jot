@@ -55,3 +55,11 @@ test('the template editor guide names what the editor has', () => {
 test('the guides hold nothing personal', () => {
   for (const [f, text] of guides) assert.ok(!/shelbee|spokane|keeping watch/i.test(text), f);
 });
+
+test('the unfinished scanner is hidden: no page links to it, and its own page asks not to be indexed', () => {
+  const pages = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? (e.name === 'scan' || e.name === 'diaries' ? [] : pages(path.join(dir, e.name))) : e.name.endsWith('.html') ? [path.join(dir, e.name)] : []));
+  for (const f of pages(DIST)) assert.ok(!/<a\b[^>]*href="(?:\.\.\/|\.\/)?scan\//.test(fs.readFileSync(f, 'utf8')), `${path.relative(DIST, f)} links to the scanner`);
+  const scan = fs.readFileSync(path.join(DIST, 'scan/index.html'), 'utf8');
+  assert.match(scan, /<meta name="robots" content="noindex,nofollow">/); assert.match(scan, /unfinished/);
+  for (const g of fs.readdirSync(SRC)) assert.ok(!/scan\/|[Ss]canner/.test(fs.readFileSync(path.join(SRC, g), 'utf8')), `${g} sends people to the scanner`);
+});

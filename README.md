@@ -3,7 +3,8 @@
 **Jot** is a plain-text journal format: Markdown plus a few journal marks (tasks, events, questions, records, page breaks), one file
 for a moment, a day, a month or an ongoing journal. A `.jot` file is plain UTF-8 text; a `.jotz` packages the same writing with
 images, scans and handwriting in one file. This repository holds the format, its parser, the site (a writing workspace, a template
-editor, a diary converter, a scanner), user guides, and Jot for VS Code.
+editor, a diary converter), user guides, and Jot for VS Code. (A page scanner, `/scan/`, is in the repository but hidden from the site
+until it is finished.)
 
 ## Map
 
@@ -11,10 +12,11 @@ editor, a diary converter, a scanner), user guides, and Jot for VS Code.
 | --- | --- |
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
-| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), proofreading hints, tests |
-| [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`) and the scanner/handwriting tool (`/scan/`) |
+| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), proofreading hints, tests |
+| [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`); the scanner (`/scan/`) is unfinished and not linked |
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colours and a live page preview with charts, from the same renderer as the site |
 | [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
+| [`cli/`](cli/) | `jot`, the command line: tasks, events, numbers, calendar and CSV out, numbers in, today, rollover, review, webhooks, Todoist |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries |
 | [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (46 guides, CC0) |
 | [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz`. Whole diaries as Jot (Pepys, *The Diary of a Nobody*, Blunt) are on the site's Examples page, [`site/dist/examples/`](site/dist/examples/) |
@@ -27,10 +29,10 @@ New to Jot? Read [Writing in Jot](docs/guide/writing-jot.md) (ten minutes), then
 
 ## Jot: parser and workspace
 
-    node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs
+    node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/automation-test.mjs cli/test.mjs
     node site/test-core.cjs
     npm install && node site/test-editor-ui.cjs                    # the browser tests (Playwright; axe-core from the root package.json)
-    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/ (why Jot), /write/, /editor/, /convert/, /guide/, /examples/ and /scan/
+    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/ (why Jot), /write/, /editor/, /convert/, /guide/ and /examples/ (/scan/ is unfinished and unlinked)
 
 ## Numbers, charts and the weekly dashboard
 
@@ -41,6 +43,14 @@ the same code: `parser/charts.mjs` reads the numbers and makes each chart's conf
 **Weekly dashboard** starter sets up a week page of six widgets (the "rule of 7"). Guide:
 [Numbers and charts](docs/guide/template-editor.md#numbers-and-charts).
 
+## Beautiful formatted pages
+
+Jot things down; the workspace (**Write**) shows them as formatted pages: dates in words, task states, signs for events, questions and
+ideas, tags and places, margin notes beside the text. **Style** picks **Journal** (a book page), **Notes** (clean and modern) or
+**Plain** (`parser/styles.mjs`). **Print / PDF** prints them with book margins and page numbers; **Download page ↓** saves one
+standalone `.html` with everything inside (`parser/export.mjs`). VS Code has the same styles and **Jot: Export as HTML**. Guide:
+[Beautiful pages](docs/guide/writing-jot.md#beautiful-pages-styles-printing-and-sharing).
+
 ## Handwritten pages on a dot grid
 
 In the workspace (**Write**), **Look → Handwritten** writes the journal in a handwriting font (Pen, Neat print or Marker; each letter
@@ -48,6 +58,17 @@ of the Pen hand comes in three shapes) and puts every line on a row of a dot gri
 writing together, page after page, on A5, A4, Letter, pocket or your own paper. The template editor's Page view and VS Code show it
 too. Guide: [Handwritten pages on a dot grid](docs/guide/writing-jot.md#handwritten-pages-on-a-dot-grid). Fuller formatting
 (`==highlight==`, `++underline++`, `^sup^`, footnotes, callouts, centred lines): [More ways to mark words](docs/guide/writing-jot.md#more-ways-to-mark-words).
+
+## Automation and connections
+
+`parser/automation.mjs` reads a journal's tasks, events and numbers and writes back to it: calendar (`.ics`) and CSV out, numbers from a
+fitness app's CSV in (into their days, blanks filled first, never twice), today's entry, carrying open tasks forward, a week review.
+`parser/connect.mjs` is the only code that reaches the internet, and only when asked: webhooks (Zapier, Make, n8n), Todoist and the
+weather (Open-Meteo). The workspace's **Tools** row, the `jot` command line (`cli/jot.mjs`, [cli/README.md](cli/README.md)) and
+VS Code all use the same code. Guide: [Automation and connections](docs/guide/automation.md).
+
+    node cli/jot.mjs help
+    node --test parser/automation-test.mjs cli/test.mjs
 
 ## Jot for VS Code
 

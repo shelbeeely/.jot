@@ -4,22 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Jot · a journal in plain text</title>
-<meta name="description" content="Jot is a plain-text journal format: your writing stays readable in any text editor, for as long as there are text editors. Mix methods, track numbers that turn into charts, print it, keep it private.">
+<title>Jot · jot it down, get a beautiful page</title>
+<meta name="description" content="Jot things down in plain text and get beautifully formatted journal and note pages back: dates, tasks, tags and margin notes laid out for reading, printing and sharing. The file stays plain text, private and yours.">
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
 <a class="skip" href="#why">Skip to why Jot</a>
 <header class="top">
   <a class="brand" href="./" aria-current="page"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
-  <nav aria-label="Jot tools"><a href="write/">Write</a><a href="editor/">Template editor</a><a href="convert/">Converter</a><a href="guide/">Guides</a><a href="examples/">Examples</a><a href="scan/">Scanner</a></nav>
+  <nav aria-label="Jot tools"><a href="write/">Write</a><a href="editor/">Template editor</a><a href="convert/">Converter</a><a href="guide/">Guides</a><a href="examples/">Examples</a></nav>
 </header>
 <main>
   <section class="hero">
     <div>
-      <p class="eyebrow">A JOURNAL IN PLAIN TEXT</p>
-      <h1>Write it once. <em>Read it in fifty years.</em></h1>
-      <p class="lead">Jot is a way of keeping a journal as an ordinary text file. No app to keep paying for, no account, no format that stops opening. Just your words, a few light marks for tasks, dates and numbers, and tools that turn them into pages, charts and printed books when you want them.</p>
+      <p class="eyebrow">JOURNALS AND NOTES IN PLAIN TEXT</p>
+      <h1>Jot things down. <em>Get beautiful pages back.</em></h1>
+      <p class="lead">Type the way you think: a date, a few tasks, a thought, a <code>#tag</code>. Jot turns it into a formatted journal or notes page, ready to read, print or share. The file you wrote stays an ordinary text file: no app to keep paying for, no account, nothing that stops opening.</p>
       <div class="cta">
         <a class="btn primary" href="write/">Start writing</a>
         <a class="btn" href="editor/">Build a planner</a>
@@ -27,22 +27,28 @@
       </div>
     </div>
     <figure class="sample" aria-labelledby="sample-cap">
-      <div class="sample-file">
-        <p class="tab">week.jot</p>
-<pre tabindex="0" aria-label="An example .jot file"><code>### 2026-10-26 | Monday
+      <div class="sample-pair">
+        <div class="sample-file">
+          <p class="tab">You jot <span>week.jot</span></p>
+<pre tabindex="0" aria-label="What you type: an example .jot file" id="sample-source"><code>### 2026-10-26 | Monday
 
-The rain made the room quieter.
+.0830 - KITCHEN
+
+The rain made it ==quieter==.
+Sam called about the #garden.
 
 [x] Walk before work
 [ ] Call Sam back
+o Dinner with Ana at 7
 
-:::record measurement #sleep-mon
-metric: sleep
-unit: h
-value: 7.5
-:::</code></pre>
+[[Worth noticing.]]</code></pre>
+        </div>
+        <div class="sample-file sample-out">
+          <p class="tab">You get <span>Journal style</span></p>
+          <article class="jot-page" id="sample-page" aria-label="What you get: the same note as a formatted journal page"></article>
+        </div>
       </div>
-      <figcaption id="sample-cap">That is the whole format: Markdown, a date, a box to tick, a number. Any text editor can open it.</figcaption>
+      <figcaption id="sample-cap">What you jot is the whole file, plain text any editor opens; what you get is the same words as Jot lays them out. Switch to Notes, print it, or save it as one page to share.</figcaption>
     </figure>
   </section>
 
@@ -50,11 +56,12 @@ value: 7.5
     <h2 id="why-h">Why keep a journal in Jot?</h2>
     <div class="reasons">
       <article><span class="num">01</span><h3>It outlives the app.</h3><p>Journals last decades; apps don't. A <code>.jot</code> file is plain UTF-8 text, the most durable digital format there is. If every Jot tool disappeared tomorrow, your journal would still open in Notepad.</p></article>
-      <article><span class="num">02</span><h3>It's yours, and only yours.</h3><p>Nothing here has an account, a server or analytics. The workspace, the editor and the scanner run in your browser, and nothing you write is uploaded. Copy the file wherever you like.</p></article>
+      <article><span class="num">02</span><h3>It's yours, and only yours.</h3><p>Nothing here has an account, a server or analytics. The workspace, the template editor and the converter run in your browser, and nothing you write is uploaded. Copy the file wherever you like.</p></article>
       <article><span class="num">03</span><h3>Write anywhere you can type.</h3><p>A phone notes app, a laptop, an e-ink typewriter like InkDeck, VS Code. The same file works in all of them, and the marks are easy to type by hand: <code>[ ]</code> for a task, <code>o</code> for an event, <code>### 2026-10-26</code> for a day.</p></article>
       <article><span class="num">04</span><h3>Mix methods freely.</h3><p>Bullet journal, morning pages, gratitude, CBT thought records, habit trackers, a weekly dashboard. 46 method guides, and none of them owns the file: use one, use five, change your mind next month.</p></article>
-      <article><span class="num">05</span><h3>Numbers become charts.</h3><p>Track sleep, steps, hours worked or mood as numbers, not just checkmarks. Add a chart and the week draws itself, so patterns show at a glance, while the file stays readable text.</p></article>
-      <article><span class="num">06</span><h3>Paper when you want it.</h3><p>Print your journal handwritten on a dot grid, every line on its row of dots, in A5, A4, Letter or pocket size. Scan handwritten pages back in, and keep sketches beside the words in a <code>.jotz</code>.</p></article>
+      <article><span class="num">05</span><h3>Quick notes, beautiful pages.</h3><p>Jot things down in a few keystrokes and get formatted pages back: dates in words, tasks ticked off, tags, margin notes, in a book-like Journal style or clean Notes. Print them or save one page to share.</p></article>
+      <article><span class="num">06</span><h3>Numbers become charts.</h3><p>Track sleep, steps, hours worked or mood as numbers, not just checkmarks. Add a chart and the week draws itself, so patterns show at a glance, while the file stays readable text.</p></article>
+      <article><span class="num">07</span><h3>Paper when you want it.</h3><p>Print your journal handwritten on a dot grid, every line on its row of dots, in A5, A4, Letter or pocket size, and keep pictures and sketches beside the words in a <code>.jotz</code>.</p></article>
     </div>
   </section>
 
@@ -108,7 +115,7 @@ value: 7.5
       <a class="card" href="convert/"><h3>Converter</h3><p>Bring an old diary kept as plain text into dated Jot entries.</p></a>
       <a class="card" href="examples/"><h3>Examples</h3><p>Whole public-domain diaries (Pepys, <i>The Diary of a Nobody</i>) as Jot.</p></a>
       <a class="card" href="guide/"><h3>Guides</h3><p>Writing in Jot, the template editor, converting, and the VS Code extension.</p></a>
-      <a class="card" href="scan/"><h3>Scanner</h3><p>Photograph a handwritten page and keep it with your writing.</p></a>
+      <a class="card" href="guide/automation.html"><h3>Automation</h3><p>Events to your calendar, numbers from a fitness app, tasks carried forward, webhooks and Todoist, from the workspace, VS Code or the <code>jot</code> command line.</p></a>
     </div>
   </section>
 </main>

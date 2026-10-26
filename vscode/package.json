@@ -1,7 +1,7 @@
 {
   "name": "jot-journal",
   "displayName": "Jot journal",
-  "description": "Write .jot journals in VS Code: syntax colours, and a live page preview that draws your numbers as charts and can show the journal handwritten on a dot grid.",
+  "description": "Write .jot journals in VS Code: syntax colours, a live page preview in journal, notes or plain style with charts, handwritten on a dot grid if you like, and export to one standalone HTML page.",
   "version": "0.1.0",
   "publisher": "jot-format",
   "engines": {
@@ -70,6 +70,57 @@
         "command": "jot.toggleHandwriting",
         "title": "Toggle Handwritten Preview",
         "category": "Jot"
+      },
+      {
+        "command": "jot.exportHTML",
+        "title": "Export as HTML",
+        "category": "Jot",
+        "icon": "$(export)"
+      },
+      {
+        "command": "jot.today",
+        "title": "Today's Entry",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.rollover",
+        "title": "Carry Open Tasks to Today",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.weekReview",
+        "title": "Add a Week Review",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.exportICS",
+        "title": "Export Calendar (.ics)",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.exportCSV",
+        "title": "Export as CSV",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.importCSV",
+        "title": "Import Numbers from CSV",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.sendWebhook",
+        "title": "Send to Webhook (Zapier, Make, n8n \u2026)",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.todoist",
+        "title": "Send Open Tasks to Todoist",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.setTodoistToken",
+        "title": "Set Todoist Token",
+        "category": "Jot"
       }
     ],
     "menus": {
@@ -78,6 +129,11 @@
           "command": "jot.showPreviewToSide",
           "when": "editorLangId == jot",
           "group": "navigation"
+        },
+        {
+          "command": "jot.exportHTML",
+          "when": "editorLangId == jot",
+          "group": "navigation@2"
         }
       ],
       "commandPalette": [
@@ -96,6 +152,46 @@
         {
           "command": "jot.toggleHandwriting",
           "when": "editorLangId == jot || activeWebviewPanelId == 'jot.preview'"
+        },
+        {
+          "command": "jot.exportHTML",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.today",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.rollover",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.weekReview",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.exportICS",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.exportCSV",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.importCSV",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.sendWebhook",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.todoist",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.setTodoistToken",
+          "when": "true"
         }
       ]
     },
@@ -111,60 +207,124 @@
         "key": "ctrl+k v",
         "mac": "cmd+k v",
         "when": "editorLangId == jot"
+      },
+      {
+        "command": "jot.today",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t",
+        "when": "editorLangId == jot"
       }
     ],
-    "configuration": {
-      "title": "Jot",
-      "properties": {
-        "jot.preview.look": {
-          "type": "string",
-          "enum": [
-            "typed",
-            "handwritten"
-          ],
-          "default": "typed",
-          "description": "How the preview shows a journal: typed, or written by hand on a dot grid."
-        },
-        "jot.preview.hand": {
-          "type": "string",
-          "enum": [
-            "pen",
-            "print",
-            "marker"
-          ],
-          "enumDescriptions": [
-            "Pen (Caveat, with alternate letter shapes)",
-            "Neat print (Playpen Sans)",
-            "Marker (Shantell Sans)"
-          ],
-          "default": "pen",
-          "description": "The handwriting in the handwritten preview."
-        },
-        "jot.preview.ink": {
-          "type": "string",
-          "enum": [
-            "blue",
-            "black",
-            "green",
-            "purple",
-            "brown"
-          ],
-          "default": "blue",
-          "description": "The ink colour in the handwritten preview."
-        },
-        "jot.preview.dotSpacing": {
-          "type": "number",
-          "enum": [
-            4,
-            5,
-            6,
-            7
-          ],
-          "default": 5,
-          "description": "Millimetres between the dots of the grid in the handwritten preview."
+    "configuration": [
+      {
+        "title": "Jot",
+        "properties": {
+          "jot.preview.look": {
+            "type": "string",
+            "enum": [
+              "typed",
+              "handwritten"
+            ],
+            "default": "typed",
+            "description": "How the preview shows a journal: typed, or written by hand on a dot grid."
+          },
+          "jot.preview.hand": {
+            "type": "string",
+            "enum": [
+              "pen",
+              "print",
+              "marker"
+            ],
+            "enumDescriptions": [
+              "Pen (Caveat, with alternate letter shapes)",
+              "Neat print (Playpen Sans)",
+              "Marker (Shantell Sans)"
+            ],
+            "default": "pen",
+            "description": "The handwriting in the handwritten preview."
+          },
+          "jot.preview.ink": {
+            "type": "string",
+            "enum": [
+              "blue",
+              "black",
+              "green",
+              "purple",
+              "brown"
+            ],
+            "default": "blue",
+            "description": "The ink colour in the handwritten preview."
+          },
+          "jot.preview.dotSpacing": {
+            "type": "number",
+            "enum": [
+              4,
+              5,
+              6,
+              7
+            ],
+            "default": 5,
+            "description": "Millimetres between the dots of the grid in the handwritten preview."
+          },
+          "jot.preview.style": {
+            "type": "string",
+            "enum": [
+              "plain",
+              "journal",
+              "notes"
+            ],
+            "enumDescriptions": [
+              "Plain: the editor's own colours",
+              "Journal: a book page, a classic serif, dates in small capitals",
+              "Notes: clean and modern, tags as chips"
+            ],
+            "default": "plain",
+            "description": "How the typed preview (and Export as HTML) formats a journal."
+          }
+        }
+      },
+      {
+        "title": "Jot automation",
+        "properties": {
+          "jot.automation.webhookUrl": {
+            "type": "string",
+            "default": "",
+            "description": "Where Jot: Send to Webhook posts this journal's tasks, events and numbers as JSON (never the rest of your writing). Empty: asked the first time."
+          },
+          "jot.automation.webhookOpenOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "Send only open tasks to the webhook."
+          },
+          "jot.automation.weather.location": {
+            "type": "string",
+            "default": "",
+            "pattern": "^$|^-?\\d+(\\.\\d+)?,\\s*-?\\d+(\\.\\d+)?$",
+            "description": "Latitude,longitude for the weather (e.g. 51.5,-0.12). Used only when weather.onToday is on."
+          },
+          "jot.automation.weather.onToday": {
+            "type": "boolean",
+            "default": false,
+            "description": "Jot: Today's Entry adds the day's weather from Open-Meteo (the location above is sent to api.open-meteo.com)."
+          },
+          "jot.automation.calendar.tasksAsEvents": {
+            "type": "boolean",
+            "default": false,
+            "description": "Put dated tasks in the calendar export as all-day events too (Google Calendar shows events only)."
+          },
+          "jot.automation.exportOnSave.ics": {
+            "type": "string",
+            "default": "",
+            "description": "On save, also write the calendar (.ics) here (beside the journal unless absolute). In a synced folder, a calendar app can subscribe to it."
+          },
+          "jot.automation.exportOnSave.csv": {
+            "type": "string",
+            "default": "",
+            "description": "On save, also write the numbers as CSV here."
+          }
         }
       }
-    }
+    ]
   },
   "scripts": {
     "sync": "node sync.mjs",

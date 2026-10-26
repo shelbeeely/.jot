@@ -50,13 +50,40 @@ only native representation.
 - **On the dots.** Lines are one dot pitch apart, the pitch is snapped to Chromium's 1/64 px layout unit, blocks are rounded up to whole
   rows, two-row headings are nudged onto a row, the dots are drawn at the measured baseline, and the printed page's writing area is a
   whole number of rows (`pageGeometry`). Printed, the dots and the letters land together on every page.
-- **Hand-drawn boxes belong to the handwritten look.** On a handwritten page a task's box is a wobbly pencil square and a done task's
-  a scribbled tick (`boxSVG`, SVG paths from a seed), in the ink colour so they print as lines; the tick draws itself with a CSS stroke
+- **Hand-drawn boxes belong to the handwritten look.** On a handwritten page a task's box is a pencil square and a done task's a
+  scribbled tick (`boxSVG`, SVG paths from a seed), drawn one of four ways each (`BOX_KINDS`, `TICK_KINDS`), never the same pair twice in
+  a row, in the ink colour so they print as lines; the tick draws itself with a CSS stroke
   animation (`pathLength` 1, dash offset 1 to 0), finished at once for reduced motion and in print. Typed pages keep plain boxes. No
   extra font for the boxes: the page already writes in Caveat.
 - **The home page explains; it takes no input.** No editor or form on it: the writing workspace is at `/write/`.
 - **Fonts are bundled** (`parser/fonts/`, SIL OFL 1.1, Latin and Latin Extended, regular and bold), never fetched; the site publishes
   `.woff2` for them.
+
+## Formatted pages and export (26 October 2026)
+
+- **The writing stays plain; the page is formatted.** Styles (Journal, Notes, Plain; `parser/styles.mjs`) are presentation only: the
+  `.jot` file is never changed by choosing one. They use the reader's own fonts (system stacks), so pages stay small and offline.
+- **Jot's marks read as a page.** A dated heading shows its date in words (the rest of the heading kept when it says more than the
+  weekday), tasks show their state, events, questions and ideas their sign, tags and contexts are marked, margin notes sit beside the
+  text. Every view (workspace, template editor, VS Code, export) gets this from `preview.mjs`.
+- **One file to keep or share.** Download page (and VS Code's Export as HTML) writes one HTML file: the page's own styles, charts as
+  PNG pictures with their summaries as alternative text, attachments and the hand in use as data: URLs, no scripts, nothing fetched.
+  PDF is the browser's print, with `@page` margins and page numbers.
+
+## Automation and connections (26 October 2026)
+
+- **The file stays the source.** Automation reads what a journal holds (`parser/automation.mjs`: tasks, events, numbers) and writes back
+  only as ordinary Jot: a filled `value:`, a measurement with `source:`, `[>]` on a carried task, a review section. Anything a service
+  returns is a record naming it in `source:`.
+- **Nothing reaches out by itself.** Only `parser/connect.mjs` touches the internet (webhooks, Todoist, Open-Meteo), and only from a
+  command someone runs or a setting they turned on; VS Code asks before each webhook or Todoist send and keeps the Todoist token in its
+  secret storage. The website's tools are offline. A webhook gets tasks, events and numbers, never the rest of the writing.
+- **One implementation.** The workspace's Tools row, the `jot` command line and VS Code call the same functions, so a calendar, a CSV
+  or a rollover is the same everywhere.
+- **Remembering what was sent** is a `sync` record (`:::record sync #sync-<service>`, one `sent:` key per task) in the journal itself, so
+  it travels with the file; formatted pages hide it.
+- **Times are only what is written.** An event's time is read only when it is unambiguous (`19:00`, `7pm`, `at 21`); "at 7" is all day.
+  A CSV date like `03/04/2026` is left out and counted unless the reader says the day comes first.
 
 ## What the current code does
 
@@ -72,4 +99,4 @@ only native representation.
 
 Jot is the journal document and source language. This project ZIP is a development/distribution bundle containing the website and specification; it is not itself a journal file. Packaging does not encrypt content. PDF is inspiration for carrying a document and its assets together; Jot does not use PDF encoding or require a fixed page layout.
 
-The root site covers Jot as a whole. Scanner and handwriting are separate tools at /scan/. Handwritten marks remain original content, with no required OCR or transcription. The roadmap also includes composable content blocks, individualized accessibility preferences, multiple languages and proofing improvements.
+The root site covers Jot as a whole. Scanner and handwriting are separate tools at /scan/, hidden from the site (no links, `noindex`) until they are finished (26 October 2026). Handwritten marks remain original content, with no required OCR or transcription. The roadmap also includes composable content blocks, individualized accessibility preferences, multiple languages and proofing improvements.

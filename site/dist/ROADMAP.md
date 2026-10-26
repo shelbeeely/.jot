@@ -16,12 +16,13 @@ Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser imp
 | Composable content blocks and layouts | Planned; existing parser has some block primitives | Mixed typed/handwritten/media blocks, stable source order, accessible reordering and responsive/print layouts |
 | Journaling methods | 55 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
 | Paper sizes | 27 presets in spec; common/custom sizes in app | Expose complete preset registry and physical print proofs |
-| Perspective scanner | Core geometry/detection tests and sample browser flow pass | Real Pixel camera, varied lighting, small pages and long pages |
+| Perspective scanner | Hidden from the site while unfinished (no links, noindex); core geometry/detection tests pass | Real Pixel camera, varied lighting, small pages and long pages |
 | PDF export | Generated multi-page PDF validated for page count and physical geometry | Verify download flow across Android browsers |
 | Handwriting | Canvas, pressure-aware pen, eraser, undo/redo, stroke import/export implemented | Mouse stroke, undo/redo and image handoff checked; physical stylus/palm testing remains |
 | Spelling | Native browser spellcheck plus optional supplied word list | Locale selection, personal dictionary persistence |
 | Grammar | Optional English pattern hints implemented/tested | Real grammar-engine adapter; language-specific checks |
 | Mermaid and other diagrams | Fenced blocks identified/preserved; tests pass | Install local rendering engines, accessibility labels and sanitized output |
+| Formatted pages and export | Journal, Notes and Plain styles; dates, task states, signs, tags and margin notes rendered for reading; one standalone HTML export; print with page numbers; browser-tested | More styles, a style of your own, EPUB |
 | Simulated handwriting on a dot grid | Three open handwriting fonts with alternate letter forms, seeded wobbles, every line on a row of dots, printed pages of whole rows; browser-tested | Right-to-left and non-Latin hands, a hand of your own (a font from your writing), print proofs on paper |
 | Fuller formatting | Highlight, underline, superscript, footnotes, callouts and centred lines; tests pass | Definition lists, colour inks per word, subscript once its syntax is settled |
 | Charts of tracked numbers | `:::record chart` drawn as one SVG chart per metric (gaps for empty days, a text summary and a table) in the workspace, the template editor's Page view and VS Code; tests pass | Month and year views, chosen daily aggregations (spec §5.2), charts printed from filled-in numbers |

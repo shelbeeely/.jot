@@ -6,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url)), from = path.join(here, '../parser'), to = path.join(here, 'media/jot');
-const FILES = ['jot.mjs', 'charts.mjs', 'preview.mjs', 'handwriting.mjs', 'vendor/marked.mjs', 'vendor/marked-LICENSE.md', 'vendor/chart.mjs', 'vendor/chart-LICENSE.md', ...fs.readdirSync(path.join(from, 'fonts')).sort().map((f) => `fonts/${f}`)];
+const FILES = ['jot.mjs', 'charts.mjs', 'preview.mjs', 'handwriting.mjs', 'styles.mjs', 'export.mjs', 'automation.mjs', 'connect.mjs', 'vendor/marked.mjs', 'vendor/marked-LICENSE.md', 'vendor/chart.mjs', 'vendor/chart-LICENSE.md', ...fs.readdirSync(path.join(from, 'fonts')).sort().map((f) => `fonts/${f}`)];
 const check = process.argv.includes('--check'), stale = [];
 for (const f of FILES) {
   const src = fs.readFileSync(path.join(from, f)), dst = path.join(to, f);
