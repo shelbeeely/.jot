@@ -67,3 +67,15 @@ The user guides are written in `../docs/guide/*.md` (readable on GitHub) and bui
     node --test test-guides.mjs      # pages current, every Jot example valid, every link real, the guide matches the editor
 
 `test-editor-ui.cjs` also opens the guide pages at 390 px in light and dark and runs axe on them.
+
+
+## Diary converter (`dist/convert/`)
+
+Plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries, in the browser: the same converter as
+`converter/jot-convert.mjs` (`dist/jot/convert.mjs` is an exact copy of `converter/convert.mjs`), run in a module Web Worker
+(`worker.mjs`) so a 6 MB diary doesn't freeze the page. Open a file, drop one, paste text, or fetch a web address (where the site
+allows it); every command-line option has a control; download one file, all of them as a zip, or copy the text. Each file is checked
+with the Jot parser. Nothing is uploaded or stored.
+
+    node test-convert-ui.cjs         # the page in Chromium: the same files as the command line for every option, the zip, refusals,
+                                     # fetch (allowed and not), 390 px, 44 px targets, axe (light and dark)

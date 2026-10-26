@@ -12,7 +12,7 @@ print engine that turns `.jot` writing into KDP-ready books.
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
 | [`parser/`](parser/) | JavaScript parser (`jot.mjs`), container (`container.mjs`: packaged `.jotz`), proofreading hints, tests |
-| [`site/`](site/) | The browser workspace (`site/dist/`, static), the template editor (`/editor/`) and the scanner/handwriting tool (`/scan/`) |
+| [`site/`](site/) | The browser workspace (`site/dist/`, static), the template editor (`/editor/`), the diary converter (`/convert/`) and the scanner/handwriting tool (`/scan/`) |
 | [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries |
 | [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (46 guides, CC0) |
@@ -30,7 +30,7 @@ New to Jot? Read [Writing in Jot](docs/guide/writing-jot.md) (ten minutes), then
 
     node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs
     node site/test-core.cjs
-    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/, /editor/, /guide/ and /scan/
+    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/, /editor/, /convert/, /guide/ and /scan/
 
 ## Template editor: a journal's shape as a .jot
 
@@ -68,10 +68,11 @@ pages, under the fixed DATE / TITLE / TAGS header. Your own writing goes in `jou
 
 `jot-convert` turns a diary kept as plain text into `.jot`: a dated entry for each day, the original date kept after the `|`, Old
 Style dates converted (`--calendar julian`), split by year when it is too big. Tested on Pepys, *The Diary of a Nobody* and Blunt's
-*My Diaries* from Project Gutenberg. Details: [converter/README.md](converter/README.md).
+*My Diaries* from Project Gutenberg. The same converter runs in the browser at `/convert/`, with every option of the command line
+and the same files. Details: [converter/README.md](converter/README.md).
 
     curl -sL https://www.gutenberg.org/cache/epub/1026/pg1026.txt | node converter/jot-convert.mjs - --year 1888 > nobody.jot
-    node --test converter/test.mjs
+    node --test converter/test.mjs && node site/test-convert-ui.cjs
 
 ## InkDeck
 

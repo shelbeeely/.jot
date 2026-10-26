@@ -3,10 +3,25 @@
 Have a diary as plain text: an export from another app, notes you kept in a text file, or a published diary from Project Gutenberg?
 The converter turns it into Jot: one dated entry for each day, ready to read in the workspace, print in a book, or keep writing in.
 
-It runs on your computer from the command line (it needs Node 20 or newer) and sends nothing anywhere. It is in the `converter/`
-folder of the Jot project.
+There are two ways to use it, and they give exactly the same files:
 
-## In three steps
+- **In your browser:** the **Converter** page of this site. Nothing is uploaded: the diary stays on your device.
+- **From the command line** (Node 20 or newer), for scripts and many diaries at once: the `converter/` folder of the Jot project.
+
+## In the browser
+
+1. Open the **Converter** (in the links at the top of the site).
+2. Press **Open a text file** and choose the diary, or drop it on the page, or press **Paste text** and paste it.
+3. Read the summary: how many entries, from when to when, and any warnings. Change the **Options** if it asks you to (a starting
+   year, the Old Style calendar); the result updates at once.
+4. Press **Download this file**. A big diary is split into several files: pick one to look at, or **Download all (.zip)**.
+
+**From a web address** fetches a plain-text file straight from another site, but only from sites that allow it. Project Gutenberg
+doesn't: download the **Plain Text UTF-8** file first, then open it.
+
+Everything below works the same on the page: each command-line option has a control with the same name.
+
+## On the command line, in three steps
 
 1. Save the diary as a plain-text file (UTF-8). On Project Gutenberg, choose **Plain Text UTF-8**.
 2. Run the converter on it:

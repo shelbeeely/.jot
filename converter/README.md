@@ -2,7 +2,8 @@
 
 Turns a diary kept as plain text (a Project Gutenberg download, an old export, your own notes) into `.jot` files: one dated
 `### YYYY-MM-DD | …` entry for each day, with the date as it was written kept after the `|`. Nothing of the original text is lost.
-Node 20+, no installs.
+Node 20+, no installs. **Or in the browser:** the site's **Converter** page (`/convert/`) runs this same code and does everything
+the command line does (see [In the browser](#in-the-browser)).
 
     node converter/jot-convert.mjs diary.txt > diary.jot
     curl -sL https://www.gutenberg.org/cache/epub/1026/pg1026.txt | node converter/jot-convert.mjs - --year 1888 > nobody.jot
@@ -55,11 +56,33 @@ are left out. The metadata at the top records the title, the author, the source 
 Every file parses with no problems. A few weekdays still disagree with their dates; those are in the books themselves (*Nobody*'s
 November "Sundays" in 1888 fall on Mondays).
 
+## In the browser
+
+`site/dist/convert/` runs `convert.mjs` (copied to `site/dist/jot/convert.mjs`; a test keeps the copy exact) in a Web Worker, so a
+6 MB diary converts without freezing the page. It is plain JavaScript: no WebAssembly or WASI is needed, and nothing is uploaded.
+Option checks, UTF-8 decoding and the summary are shared (`checkOptions`, `decodeText`, `summary`), so both give the same answers.
+
+| Command line | Page |
+| --- | --- |
+| `<file>` | **Open a text file**, or drop a file on the page |
+| `-` (standard input) | **Paste text** |
+| `curl … \| jot-convert -` | **From a web address** (works where the site allows other pages to read its files; Project Gutenberg doesn't, so download the file and open it) |
+| `--year`, `--calendar`, `--notes`, `--per` | **Starting year**, **Calendar**, **[Editor's notes]**, **Files** |
+| `--title`, `--author`, `--source`, `--name` | **Title, author, source and file name** |
+| `-o` | **Download this file** (or **Copy the text**) |
+| `-d` | **Download all (.zip)** when the diary is split |
+| the summary | shown above the files, with the warnings in the page's words |
+| `--force`, `-q` | not needed: a download never overwrites, and the summary is never in the way |
+
+`site/test-convert-ui.cjs` converts each case in the page and with `jot-convert.mjs` and checks the files are byte for byte the same,
+and that every command-line option has its place on the page.
+
 ## Files
 
 - `convert.mjs`: the converter, pure (no file system), so the web tools can use it later: `convert(text, options)` returns the
   files, statistics and warnings.
 - `jot-convert.mjs`: the command line.
+- `../site/dist/convert/`: the browser page (`app.mjs`, `worker.mjs`).
 - `test.mjs`: `node --test converter/test.mjs`, on the excerpts in `fixtures/` (public domain; see `fixtures/README.md`).
 
 User guide: [Converting an old diary](../docs/guide/converting.md).

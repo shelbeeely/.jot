@@ -147,3 +147,7 @@ test('the command line: a file or standard input, one file or a folder', () => {
     assert.equal(run('--calendar', 'gregorian', 'x').status, 2);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('the browser page runs this same converter (site/dist/jot/convert.mjs is an exact copy)', () => {
+  assert.equal(fs.readFileSync(path.join(HERE, '../site/dist/jot/convert.mjs'), 'utf8'), fs.readFileSync(path.join(HERE, 'convert.mjs'), 'utf8'), 'copy converter/convert.mjs to site/dist/jot/');
+});

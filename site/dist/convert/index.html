@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Jot diary converter</title>
+<meta name="description" content="Turn a diary kept as plain text into dated Jot entries, in your browser.">
+<link rel="stylesheet" href="../editor/editor.css">
+<link rel="stylesheet" href="convert.css">
+</head>
+<body>
+<a class="skip" href="#source-h">Skip to the converter</a>
+<header class="top">
+  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="../editor/">Template editor</a><a href="./" aria-current="page">Converter</a><a href="../guide/">Guides</a><a href="../scan/">Scanner</a></nav>
+</header>
+<main>
+  <section class="intro">
+    <p class="eyebrow">DIARY CONVERTER</p>
+    <h1>Bring an old diary in. <em>One entry a day.</em></h1>
+    <p class="lead">Open a diary kept as plain text (your own, or one from Project Gutenberg) and get <code>.jot</code> files with a dated entry for each day. It all happens in this browser: nothing is uploaded.</p>
+  </section>
+
+  <section class="settings source" aria-labelledby="source-h" id="drop">
+    <h2 id="source-h">The diary</h2>
+    <div class="actions">
+      <button class="btn primary" id="open" type="button"><span aria-hidden="true">↑</span> Open a text file</button>
+      <button class="btn" id="paste-toggle" type="button" aria-expanded="false" aria-controls="paste-box">Paste text</button>
+      <button class="btn" id="url-toggle" type="button" aria-expanded="false" aria-controls="url-box">From a web address</button>
+      <button class="btn" id="clear" type="button" disabled>Clear</button>
+      <input type="file" id="file" accept=".txt,.text,.md,text/plain" hidden>
+    </div>
+    <p class="hint" id="source-state">Or drop a file anywhere on this page. Plain text, UTF-8 (on Project Gutenberg: <strong>Plain Text UTF-8</strong>).</p>
+    <div class="field wide" id="paste-box" hidden>
+      <label for="paste">Paste the diary</label>
+      <textarea id="paste" rows="8" spellcheck="false"></textarea>
+    </div>
+    <div class="url-row wide" id="url-box" hidden>
+      <div class="field"><label for="url">Web address of a plain-text file</label><input id="url" type="url" inputmode="url" autocomplete="off" placeholder="https://…/diary.txt"></div>
+      <button class="btn" id="fetch" type="button">Fetch</button>
+      <p class="note">Your browser asks that site for the file directly. Many sites (Project Gutenberg among them) don't allow that: download the file and open it instead.</p>
+    </div>
+  </section>
+
+  <section class="settings opts" aria-labelledby="opts-h">
+    <h2 id="opts-h">Options</h2>
+    <div class="field"><label for="o-year">Starting year</label><input id="o-year" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="if not in the diary" aria-describedby="year-note"><span class="sr-only" id="year-note">Only needed if the diary never says the year, for example 1888.</span></div>
+    <div class="field"><label for="o-calendar">Calendar</label>
+      <select id="o-calendar"><option value="as-written">Dates as written</option><option value="julian">Old Style (Julian): convert to modern dates</option></select></div>
+    <div class="field"><label for="o-notes">[Editor's notes]</label>
+      <select id="o-notes"><option value="margin">As margin notes</option><option value="keep">Keep as text</option><option value="drop">Leave out</option></select></div>
+    <div class="field"><label for="o-per">Files</label>
+      <select id="o-per"><option value="auto">One file (split if too big)</option><option value="none">Always one file</option><option value="year">A file a year</option><option value="month">A file a month</option></select></div>
+    <details class="wide more-opts">
+      <summary>Title, author, source and file name</summary>
+      <div class="opt-grid">
+        <div class="field"><label for="o-title">Title</label><input id="o-title" maxlength="200" autocomplete="off"></div>
+        <div class="field"><label for="o-author">Author</label><input id="o-author" maxlength="200" autocomplete="off"></div>
+        <div class="field"><label for="o-source">Source</label><input id="o-source" maxlength="300" autocomplete="off"></div>
+        <div class="field"><label for="o-name">File name</label><input id="o-name" maxlength="80" autocomplete="off" spellcheck="false"></div>
+      </div>
+      <p class="note">Left empty, they come from a Project Gutenberg header, or from the title.</p>
+    </details>
+  </section>
+
+  <section class="preview result" aria-labelledby="result-h">
+    <div class="preview-head">
+      <h2 id="result-h">The .jot files</h2>
+      <label class="file-pick" id="file-pick" hidden><span class="sr-only">Show file</span><select id="file-sel"></select></label>
+    </div>
+    <div class="check" id="check" role="status" aria-live="polite">Open a diary to begin.</div>
+    <ul class="problems" id="warnings" hidden></ul>
+    <div class="actions" id="out-actions" hidden>
+      <button class="btn primary" id="dl-one" type="button"><span aria-hidden="true">↓</span> Download this file</button>
+      <button class="btn" id="dl-zip" type="button" hidden><span aria-hidden="true">↓</span> Download all (.zip)</button>
+      <button class="btn" id="copy" type="button">Copy the text</button>
+    </div>
+    <pre class="jot" id="jot" tabindex="0" aria-label="The .jot text" hidden></pre>
+  </section>
+  <p class="foot">Dates it knows: <code>January 1st, 1888.</code> · <code>APRIL 3.—</code> · <code>“_20th Jan._—</code> · <code>Jan. 1st (Lord’s day).</code> · <code>2nd.</code> once the month is known. <a href="../guide/converting.html">How to use it</a> · <a href="../docs/Jot-Complete-Specification.pdf">The Jot specification</a></p>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>

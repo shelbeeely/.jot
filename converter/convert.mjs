@@ -92,6 +92,30 @@ const isHeading = (p) => {
 };
 const isNote = (p) => { const t = p.lines.map((l) => l.trim()).join(' '); return t.startsWith('[') && t.endsWith(']') && t.length > 2 && !t.slice(1, -1).includes('[') ; };
 
+// ---- shared by the command line and the browser page (site/dist/convert/), so both offer the same things ----
+export const CHOICES = { calendar: ['as-written', 'julian'], notes: ['margin', 'keep', 'drop'], per: ['auto', 'none', 'year', 'month'] };
+// Options as typed (strings, or empty for "not given") -> options for convert(); throws an Error that says what to fix.
+export function checkOptions(raw = {}) {
+  const o = {}, given = (k) => raw[k] !== undefined && raw[k] !== null && String(raw[k]).trim() !== '';
+  if (given('year')) { const y = String(raw.year).trim(); if (!/^\d{1,4}$/.test(y)) throw new Error('the year is a number, like 1888'); o.year = +y; }
+  for (const k of Object.keys(CHOICES)) if (given(k)) { if (!CHOICES[k].includes(raw[k])) throw new Error(`${k} is ${CHOICES[k].slice(0, -1).join(', ')} or ${CHOICES[k].at(-1)}`); o[k] = raw[k]; }
+  for (const k of ['title', 'author', 'source']) if (given(k)) o[k] = one(raw[k]);
+  if (given('name')) { const n = String(raw.name).trim(); if (!/^[\w.-]+$/.test(n) || n.startsWith('.')) throw new Error('the file name is letters, digits, dots, dashes and underscores'); o.name = n; }
+  return o;
+}
+// UTF-8 bytes -> text; anything else (Latin-1, UTF-16) fails here rather than turning into mojibake
+export function decodeText(bytes) {
+  try { return new TextDecoder('utf-8', { fatal: true }).decode(bytes); } catch { throw new Error('this is not UTF-8 text (save it as UTF-8 and try again)'); }
+}
+// What a conversion found, in words: [the result, the weekday check]
+export function summary(r, options = {}) {
+  const s = r.stats, out = [], dates = r.files.flatMap((f) => [f.from, f.to]).filter(Boolean).sort();
+  out.push(`${r.meta.title}${r.meta.author ? ` (${r.meta.author})` : ''}: ${s.entries} entries${dates.length ? ` from ${dates[0]} to ${dates[dates.length - 1]}` : ''}, ${s.headings} headings, ${s.notes} notes`);
+  const jul = options.calendar === 'julian';
+  if (s.weekday.mentioned) out.push(`weekdays named in the dates: ${s.weekday.mentioned}; they fit the dates ${jul ? 'as Old Style' : 'as written'} ${jul ? s.weekday.julian : s.weekday.asWritten} times`);
+  return out;
+}
+
 // ---- the reading pass ----
 export function convert(input, options = {}) {
   const o = { calendar: 'as-written', notes: 'margin', per: 'auto', ...options };
