@@ -15,8 +15,8 @@ The .jot file holds the writing: one moment, a day, a month or an ongoing journa
 - `conformance.json`: input/expected-behavior fixtures for a future parser.
 - `source-register.md`: method coverage and review scope.
 
-Status: 1.0.0-draft.2, 25 October 2026. This package specifies a proposed format; it does not ship a parser or production renderer. No repository changes were made. All examples are fictional.
+Status: 1.0.0-draft.3, 26 October 2026. This package specifies a proposed format; it does not ship a parser or production renderer. No repository changes were made. All examples are fictional.
 
 Additional deliverables: the separate JavaScript parser prototype (with Markdown and diagram recognition), proofread module and maintained ROADMAP.md. See the workspace roadmap for implemented versus planned features.
 
-The canonical .jot is now a self-contained document. See Jot-Container-v1.md and example.jot. The .txt examples are readable source, not packaged documents. All included assets travel inside the .jot file.
+Draft 3: plain writing is `.jot`; the self-contained document with assets is `.jotz` (see Jot-Container-v1.md and example.jotz). The .txt examples are readable source.

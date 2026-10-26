@@ -16,7 +16,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="writing-in-jot">Writing in Jot</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li></ul></nav><article class="guide">
 <p>Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
 the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.</p>
 <p>This guide covers everything you need to write a <code>.jot</code> file by hand. It takes about ten minutes to read, and you can stop after the
@@ -193,17 +193,59 @@ A new notebook.
 <li><strong>When a mark should just be text,</strong> put a backslash before it: <code>\[ ] this is not a task</code> or <code>\# not a heading</code>.</li>
 </ul>
 <h2 id="plain-and-packaged-files">Plain and packaged files</h2>
-<p>A <code>.jot</code> file is usually <strong>plain text</strong>: what you see is what is in it. It can also be <strong>packaged</strong>: one file that carries images,
-scans or handwriting together with the writing (it is a ZIP inside). The Jot workspace opens and saves both. A text editor or InkDeck
-can only edit the plain kind; InkDeck says so if you open a packaged one.</p>
+<ul>
+<li><strong><code>.jot</code></strong> is plain text: what you see is what is in it. This is what you write and what templates make.</li>
+<li><strong><code>.jotz</code></strong> is a packaged journal: one file that carries pictures, scans or handwriting together with the writing (it is a ZIP inside).</li>
+</ul>
+<p>The Jot workspace opens both and saves whichever fits: plain <code>.jot</code> when there are no attachments, <code>.jotz</code> when there are. A text
+editor or InkDeck works with <code>.jot</code>; to get the writing out of a <code>.jotz</code>, open it in the workspace (or unzip it and open
+<code>journal.txt</code>).</p>
 <h2 id="where-to-write">Where to write</h2>
 <ul>
-<li><strong>Any text editor</strong>, on a computer or a phone. Save the file with a <code>.jot</code> ending.</li>
+<li><strong>Any text editor</strong>, on a computer or a phone. Save the file with a <code>.jot</code> ending. (For colours, see
+<a href="#colours-in-your-text-editor">Colours in your text editor</a>.)</li>
 <li><strong>InkDeck</strong>, the e-ink writing firmware for the Xteink X3/X4: it creates <code>.jot</code> files for you.</li>
 <li><strong>The Jot workspace</strong> (the Journal page of this site): a preview beside your writing, method ideas, and attachments.</li>
 <li><strong>The template editor:</strong> design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
 See <a href="template-editor.html">Using the template editor</a>.</li>
 </ul>
+<h2 id="colours-in-your-text-editor">Colours in your text editor</h2>
+<p>Most editors don&#39;t know <code>.jot</code> yet, but Jot is Markdown underneath. Tell your editor to treat <code>.jot</code> as Markdown and you get headings,
+lists, bold and tables in colour. (Jot&#39;s own marks, like <code>o</code> events and records, show as plain text for now; a Jot extension for
+editors is planned.)</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Editor</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>VS Code</strong> (and VSCodium, Cursor)</td>
+<td>Open a <code>.jot</code> file, click the language name at the bottom right (&quot;Plain Text&quot;), choose <strong>Configure File Association for &#39;.jot&#39;…</strong>, then <strong>Markdown</strong></td>
+</tr>
+<tr>
+<td><strong>Sublime Text</strong></td>
+<td>Open a <code>.jot</code> file, then <strong>View → Syntax → Open all with current extension as… → Markdown</strong></td>
+</tr>
+<tr>
+<td><strong>JetBrains</strong> (IntelliJ, PyCharm …)</td>
+<td><strong>Settings → Editor → File Types → Markdown</strong>, add <code>*.jot</code></td>
+</tr>
+<tr>
+<td><strong>Neovim</strong></td>
+<td>Add <code>vim.filetype.add({ extension = { jot = &#39;markdown&#39; } })</code> to your config</td>
+</tr>
+<tr>
+<td><strong>Vim</strong></td>
+<td>Add <code>autocmd BufRead,BufNewFile *.jot setfiletype markdown</code> to your <code>.vimrc</code></td>
+</tr>
+<tr>
+<td><strong>Emacs</strong> (with markdown-mode)</td>
+<td>Add <code>(add-to-list &#39;auto-mode-alist &#39;(&quot;\\.jot\\&#39;&quot; . markdown-mode))</code> to your init file</td>
+</tr>
+</tbody></table>
+<p>On a phone, any app that edits plain text files works; colour is a bonus, not a need.</p>
 <h2 id="small-habits-that-help">Small habits that help</h2>
 <ul>
 <li>One file a month is easy to find and small enough to type into anywhere. Name it by the month: <code>2026-10.jot</code>.</li>

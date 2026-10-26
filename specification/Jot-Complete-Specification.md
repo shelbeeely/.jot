@@ -1,14 +1,16 @@
 # Jot Complete Specification
 
-Version 1.0.0-draft.2 | 25 October 2026 | Proposed standard
+Version 1.0.0-draft.3 | 26 October 2026 | Proposed standard
 
-A self-contained journal document with human-readable writing inside.
+A plain-text journal format, with a packaged form that carries the writing and its images, scans and handwriting in one file.
+
+Changed in draft 3: the two representations have their own extensions. Plain-text Jot is `.jot`; the packaged document is `.jotz` (section 2.0).
 
 ## The writing comes first
 
-Jot takes its main inspiration from Fountain: a readable plain-text writing format that an application can interpret and typeset. The `.jot` document contains the writing and all its assets together. Its `journal.txt` member holds the human-readable writing itself. It MAY contain a single moment, one day, a whole month, several years, a topic collection, or an ongoing journal. File boundaries MUST NOT imply date boundaries. The filename MUST NOT be treated as authoritative journal content. A date heading organizes writing inside a document; it never requires a separate daily file.
+Jot takes its main inspiration from Fountain: a readable plain-text writing format that an application can interpret and typeset. A `.jot` file is that writing itself, as plain UTF-8 text. When a journal includes images, scans or handwriting, a `.jotz` file packages the same writing, as its `journal.txt` member, together with those assets. Either MAY contain a single moment, one day, a whole month, several years, a topic collection, or an ongoing journal. File boundaries MUST NOT imply date boundaries. The filename MUST NOT be treated as authoritative journal content. A date heading organizes writing inside a document; it never requires a separate daily file.
 
-A writer does not need metadata, JSON, a form, a method declaration, a database, or a structured record. The following is complete journal writing, stored as `journal.txt` inside a `.jot` document, combining several styles across two days:
+A writer does not need metadata, JSON, a form, a method declaration, a database, or a structured record. The following is complete journal writing, a whole `.jot` file (or the `journal.txt` of a `.jotz`), combining several styles across two days:
 
 ```jot
 # October 2026
@@ -69,9 +71,16 @@ MUST, MUST NOT, SHOULD, SHOULD NOT and MAY express required, recommended and opt
 
 ## 1. Goals and conformance
 
-The writing inside Jot is readable as ordinary text. A short diary paragraph is valid journal content; the portable `.jot` file packages it with any assets. Structure is progressive: a writer can add dates, task marks, measurements, links or templates only when useful. A single entry MAY combine any number of profiles. The format MUST preserve unsorted thoughts, unfinished sentences, empty days, nonstandard labels and unknown extensions without inventing meaning.
+The writing inside Jot is readable as ordinary text. A short diary paragraph is valid journal content; a `.jotz` package carries it with any assets. Structure is progressive: a writer can add dates, task marks, measurements, links or templates only when useful. A single entry MAY combine any number of profiles. The format MUST preserve unsorted thoughts, unfinished sentences, empty days, nonstandard labels and unknown extensions without inventing meaning.
 
-The canonical file extension is `.jot`, containing a ZIP-based self-contained document with `manifest.json`, UTF-8 `journal.txt` and all included assets beneath `assets/`. No companion folder is required. This supersedes the earlier draft assumption that the complete `.jot` file was plain text. The writing syntax remains readable and Fountain-inspired, but a generic text editor cannot display the whole packaged file as prose. Readers SHOULD support importing earlier plain-text `.jot`, `.journal`, `.md` and `.txt` source, identified by content rather than extension alone. Plain-text/Markdown export contains writing only and MUST clearly explain that assets are omitted. No registered MIME type is claimed; implementations may use `application/zip` for the package and `text/plain; charset=utf-8` for extracted writing. This is similar to PDF in being one portable file, not PDF-compatible encoding or fixed-layout behavior.
+Jot has two representations with the same writing syntax, each with its own extension:
+
+| Extension | Representation | Media type until registered |
+| --- | --- | --- |
+| `.jot` | Plain Jot: the writing as UTF-8 text (section 2.1). Readable and editable in any text editor. Cannot embed binary assets. | `text/plain; charset=utf-8` |
+| `.jotz` | Packaged Jot: a ZIP-based self-contained document with `manifest.json`, UTF-8 `journal.txt` and every included asset beneath `assets/` (section 2.0). | `application/zip` |
+
+Writers MUST save plain Jot as `.jot` and packaged Jot as `.jotz`, and SHOULD offer plain `.jot` whenever a document has no assets. Readers MUST identify the representation by content, not by extension alone: a ZIP local-file signature (`PK\x03\x04`) at byte zero means a package; anything else is read as plain UTF-8 source. A mislabelled file is therefore still read correctly, and readers MAY warn about the mismatch. Readers SHOULD also import `.journal`, `.md` and `.txt` source. A tool that only handles text (a text editor, an e-ink writer) MAY list only `.jot` files and MUST NOT save a package as text. Plain-text/Markdown export of a package contains writing only and MUST clearly explain that assets are omitted. No companion folder is ever required. The package is similar to PDF in being one portable file, not in encoding or fixed-layout behavior. (Draft 2 used `.jot` for both; files written then are still read by content.)
 
 Three capabilities are separately reportable. **Core Reader** parses structural blocks and preserves all source. **Profile Processor** additionally validates one or more named, versioned profiles. **Renderer** additionally produces a declared screen or print layout. A device supporting only Core MUST remain useful for free writing and capture; it MUST preserve unsupported profile blocks. Claiming Jot compatibility MUST list these capabilities, supported versions, limits and extensions. A file validator MUST distinguish syntax errors, profile issues, unresolved links and presentation warnings.
 
@@ -79,15 +88,15 @@ The format is local-first and independent of cloud services, AI, a particular ed
 
 ## 2. Files, encoding and document structure
 
-### 2.0 Self-contained document container
+### 2.0 Self-contained document container (`.jotz`)
 
-A Jot v1 package MUST contain exactly one `manifest.json`, one primary `journal.txt`, and every binary asset needed by the saved document. Asset paths are relative to the package root. Typical contents are `assets/photo.png`, `assets/scan.png` and `assets/reflection.jot-ink.json`. These are internal members, not separate files the user must move beside the `.jot`. The file remains v1 while the draft evolves.
+A Jot v1 package, saved with the `.jotz` extension, MUST contain exactly one `manifest.json`, one primary `journal.txt`, and every binary asset needed by the saved document. Asset paths are relative to the package root. Typical contents are `assets/photo.png`, `assets/scan.png` and `assets/reflection.jot-ink.json`. These are internal members, not separate files the user must move beside the `.jotz`. The file remains v1 while the draft evolves.
 
 `manifest.json` declares `format: jot`, `version: 1.0`, a source descriptor, an ordered asset descriptor array and optional document metadata. Each file descriptor contains `path`, `mediaType`, `byteLength` and a lowercase hexadecimal SHA-256 digest of the uncompressed bytes. The source path is `journal.txt`. An asset descriptor path begins with `assets/`. Descriptors MUST be unique and correspond to actual files. Every non-directory archive member must be listed, except the manifest itself. Ordinary empty directory records beneath `assets/` are accepted. Source and assets MUST pass byte-length and hash checks before an import replaces an open journal. Hashes detect changed/corrupt bytes; they do not authenticate an author or encrypt the contents.
 
 Readers MUST reject path traversal, absolute paths, ambiguous duplicate paths, symlinks and unsupported encryption/compression before extraction. A reader MUST bound file counts and expanded sizes; it must not silently truncate. The prototype supports ordinary single-volume ZIP with STORE or DEFLATE, no ZIP64, a 64 MiB package/expanded limit, 32 MiB per asset, 1 MiB writing and 256 directory entries. These are declared implementation limits, not a promise of unlimited files. Unknown asset types remain bytes with a readable label, and MUST NOT be executed or automatically loaded into active HTML. Remote resources are never fetched just because a link appears in the writing.
 
-The JavaScript interfaces are separated: `parse(text)` consumes the extracted writing; `pack({source, assets})` creates the portable `.jot`; `unpack(bytes)` verifies and reads one package; `readDocument(bytes)` additionally accepts earlier plain-text sources. Asset objects contain `path`, `mediaType` and `data`. The source parser's offsets refer to UTF-8 bytes of `journal.txt`, not offsets into compressed ZIP bytes. The unmodified writing source and exact asset bytes must survive a pack/unpack round trip.
+The JavaScript interfaces are separated: `parse(text)` consumes the extracted writing; `pack({source, assets})` creates the bytes of a `.jotz`; `unpack(bytes)` verifies and reads one package; `readDocument(bytes)` reads either representation, by content. Asset objects contain `path`, `mediaType` and `data`. The source parser's offsets refer to UTF-8 bytes of `journal.txt`, not offsets into compressed ZIP bytes. The unmodified writing source and exact asset bytes must survive a pack/unpack round trip.
 
 A Jot application opens the single file, renders its writing and visual assets together, and can export writing separately. For recovery or inspection, a standard ZIP utility can extract the readable writing and original assets. The initial implementation does not promise encryption, archival PDF conformance, font embedding or a fixed appearance in every viewer. Page size and layout remain renderable properties of the journal rather than replacing its editable content.
 
@@ -389,7 +398,7 @@ Renderers MUST preserve all selected writing. Overflow modes are `continue`, `ad
 
 An attachment declares `path`, `media-type`, `alt`, optional `sha256`, `captured-at`, `page-label`, `region`, `physical-location` and `ocr-status`. `region` is a normalized `x,y,width,height` string with each decimal in [0,1] and the rectangle within the page. A transcription is a separate record linked with `derived-from`, with `origin: imported`, `review-status: unreviewed` or `verified`, and an optional confidence note. Handwriting recognition MUST NOT directly complete tasks, confirm doses or overwrite original values without review.
 
-The `.jot` itself is the portable bundle described in section 2.0. Handwriting images and editable stroke data, scans, photos and other attachments live inside it under `assets/`, referenced by readable paths in `journal.txt`. Missing referenced assets must be reported; supplied but unused assets remain included until the user explicitly removes them. A plain-text export is not a self-contained backup. Jot applications must save/restore the included assets along with writing and clearly distinguish an attachment download from downloading the whole document.
+A `.jotz` is the portable bundle described in section 2.0. Handwriting images and editable stroke data, scans, photos and other attachments live inside it under `assets/`, referenced by readable paths in `journal.txt`. Missing referenced assets must be reported; supplied but unused assets remain included until the user explicitly removes them. A plain `.jot` or a writing export is not a self-contained backup of a document with assets. Jot applications must save/restore the included assets along with writing and clearly distinguish an attachment download from downloading the whole document.
 
 ### 8.4 E-ink and physical styles
 
@@ -1767,7 +1776,7 @@ Recognition, syntax validation and rendering are distinct capabilities. Render a
 
 Handwriting does not require transcription to belong to a journal. Preserve editable strokes, a page-image fallback, page geometry and the author's intended ordering alongside typed writing. A `jot-ink` version 1 JSON asset has `format`, `version`, `page: {widthMm,heightMm}`, `coordinates: normalized`, and an ordered `strokes` list. Each stroke has `tool` (pen or eraser), `color` (#RRGGBB), `widthMm` and `points`, with point x/y/pressure values from 0 through 1. Eraser operations act on ink, not the page grid. Unknown or malformed stroke files must not execute code; import validates ranges and resource limits.
 
-Link the stroke asset and PNG fallback through attachment records inside the same `.jot` container. A later transcription is a separate derived record with review status; it MUST NOT replace the strokes or photograph. Pressure is optional input, not a biometric identity feature. Editors SHOULD provide undo/redo, adjustable pen width, a finger/stylus mode, and non-handwriting alternatives. Stylus-only input is a basic palm-rejection aid, not a guarantee across hardware. The current canvas supports capture, stroke export/import and inserting both a PNG fallback and editable stroke data into the journal. The editor packages them together inside `.jot`; full visual block editing and handwriting recognition remain on the roadmap.
+Link the stroke asset and PNG fallback through attachment records inside the same `.jotz` package. A later transcription is a separate derived record with review status; it MUST NOT replace the strokes or photograph. Pressure is optional input, not a biometric identity feature. Editors SHOULD provide undo/redo, adjustable pen width, a finger/stylus mode, and non-handwriting alternatives. Stylus-only input is a basic palm-rejection aid, not a guarantee across hardware. The current canvas supports capture, stroke export/import and inserting both a PNG fallback and editable stroke data into the journal. The editor packages them together inside `.jot`; full visual block editing and handwriting recognition remain on the roadmap.
 
 ### 15.4 Writing assistance is optional
 

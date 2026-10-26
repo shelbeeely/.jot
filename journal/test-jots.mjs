@@ -27,7 +27,7 @@ const SAMPLE = new URL('./jots-sample', import.meta.url).pathname;
   ok(g[0].date === '2026-10-11', 'or from a Date: line');
   ok(jotEntries(parse('Nothing to date this by.\n'), 'thoughts.jot')[0].date === null, 'otherwise it is undated');
   const J = await loadJots([SAMPLE]);
-  ok(J.entries.some((x) => x.date === '2026-10-25' && /packaged/.test(x.file)), 'a ZIP-packaged .jot is read through the container');
+  ok(J.entries.some((x) => x.date === '2026-10-25' && /packaged/.test(x.file)), 'a packaged .jotz is read through the container');
   ok(J.entries.filter((x) => !x.date).length === 1, 'the undated sample is found (and the build leaves it out)');
   ok(J.entries.filter((x) => x.date).every((x, i, a) => !i || a[i - 1].date <= x.date), 'entries are oldest first');
   const ids = entryIds(J.entries.filter((x) => x.date)), more = entryIds([{ date: '2026-10-01', file: 'a-new-note.jot' }, ...J.entries.filter((x) => x.date)]).slice(1);

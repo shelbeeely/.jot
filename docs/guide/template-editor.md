@@ -128,7 +128,7 @@ Every `.jot` the editor makes carries its template, in a hidden note at the very
 don't show it). To change the shape later, even after you have started writing:
 
 1. **More → Open a .jot or a template…**
-2. Choose any file the editor made, filled in or not.
+2. Choose any file the editor made, filled in or not (a `.jotz` with the writing inside works too).
 
 The template comes back exactly as it was. A `.jot` written anywhere else has no template inside; the editor says so and changes
 nothing.

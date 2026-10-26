@@ -1,25 +1,25 @@
 # .jot
 
 **Jot** is a plain-text journal format: Markdown plus a few journal marks (tasks, events, questions, records, page breaks), one file
-for a moment, a day, a month or an ongoing journal. A `.jot` file is either plain UTF-8 or a ZIP package that carries images and
-handwriting with the writing. This repository holds the format, its parser and web workspace, and a **journal builder** that prints
-`.jot` writing into KDP-ready books.
+for a moment, a day, a month or an ongoing journal. A `.jot` file is plain UTF-8 text; a `.jotz` packages the same writing with
+images, scans and handwriting in one file. This repository holds the format, its parser, the web workspace, a template editor, user guides, and a
+print engine that turns `.jot` writing into KDP-ready books.
 
 ## Map
 
 | Path | What is there |
 | --- | --- |
-| [`specification/`](specification/) | Jot v1 (1.0.0-draft.2): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
+| [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
-| [`parser/`](parser/) | JavaScript parser (`jot.mjs`), container (`container.mjs`: packaged .jot), proofreading hints, tests |
+| [`parser/`](parser/) | JavaScript parser (`jot.mjs`), container (`container.mjs`: packaged `.jotz`), proofreading hints, tests |
 | [`site/`](site/) | The browser workspace (`site/dist/`, static), the template editor (`/editor/`) and the scanner/handwriting tool (`/scan/`) |
 | [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md) and [Using the template editor](docs/guide/template-editor.md) (also pages on the site, `/guide/`) |
 | [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (46 guides, CC0) |
-| [`examples/`](examples/) | A plain-text and a packaged `.jot` |
+| [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz` |
 | [`references/`](references/) | The historical DotJot document (background only) |
 | [`journal/`](journal/) | The print engine: monthly books for Amazon KDP, with `.jot` writing printed in after its week, and `render-jot.mjs`. From Journalwright Studio (the Journaling repository), generic profile and packs only; its print editor is retired |
 | `studio/src/` | Five Studio modules the engine's tests use (diff, canonical JSON, snapshots). Not the Studio server |
-| `tools/` | `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file) and `build-spec-pdf.cjs` (the spec PDF from its Markdown) |
+| `tools/` | `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file), `build-spec-pdf.cjs` (the spec PDF from its Markdown), `build-parser-zip.py` (the site's parser download) and `test-files.mjs` (plain `.jot` vs packaged `.jotz`, by content) |
 
 ## Start here
 
@@ -77,6 +77,6 @@ your profile, calendars and journal writing stay local.
 
 ## Status and licences
 
-Jot v1 is a draft (spec 1.0.0-draft.2, parser 0.1.0); see `DECISIONS.md` and the roadmaps. The builder is MIT
+Jot v1 is a draft (spec 1.0.0-draft.3, parser 0.1.0); see `DECISIONS.md` and the roadmaps. The builder is MIT
 ([journal/LICENSE](journal/LICENSE)); the parser's vendored libraries carry their own notices in `parser/vendor/`. No project-wide
 licence is asserted for the Jot specification and parser yet.

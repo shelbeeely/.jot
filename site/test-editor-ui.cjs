@@ -155,6 +155,20 @@ const srv = http.createServer((q, r) => {
     await ph.screenshot({ path: path.join(SHOTS, `editor-phone-${scheme}.png`), fullPage: false });
     await ph.close();
   }
+  // the workspace (site root): plain .jot without attachments, one .jotz with them (spec draft 3)
+  { const w = await b.newPage({ viewport: { width: 1280, height: 900 }, acceptDownloads: true }); w.on('pageerror', (e) => errs.push(e.message));
+    await w.goto(URL0.replace('/editor/', '/')); await w.waitForSelector('#writing');
+    await w.evaluate(async () => { try { localStorage.clear(); } catch {} });
+    await w.reload(); await w.waitForSelector('#writing'); await w.waitForTimeout(400);
+    await w.fill('#writing', '### 2026-10-26 | Monday\n\nA plain day.\n');
+    const d1p = w.waitForEvent('download'); await w.click('#downloadJot'); const d1 = await d1p, t1 = fs.readFileSync(await d1.path());
+    ok(/\.jot$/.test(d1.suggestedFilename()) && t1[0] !== 0x50 && /A plain day/.test(t1.toString()) && (await w.textContent('#docExt')) === '.jot', `workspace: no attachments, Download .jot saves plain text (${d1.suggestedFilename()})`);
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
+    await w.setInputFiles('#attachFile', { name: 'dot.png', mimeType: 'image/png', buffer: png });
+    await w.waitForFunction(() => document.querySelector('#docExt').textContent === '.jotz', null, { timeout: 8000 });
+    const d2p = w.waitForEvent('download'); await w.click('#downloadJot'); const d2 = await d2p, t2 = fs.readFileSync(await d2.path());
+    ok(/\.jotz$/.test(d2.suggestedFilename()) && t2[0] === 0x50 && t2[1] === 0x4b, `workspace: with an attachment it saves one .jotz package (${d2.suggestedFilename()})`);
+    await w.close(); }
   // the guides: readable on a phone and in the dark, nothing serious for axe
   for (const [pg, scheme] of [['guide/', 'light'], ['guide/writing-jot.html', 'dark'], ['guide/template-editor.html', 'light']]) {
     const gp = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme }); gp.on('pageerror', (e) => errs.push(e.message));

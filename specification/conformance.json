@@ -91,6 +91,28 @@
       "id": "unicode",
       "input": "A moon 🌙\n",
       "expected": "UTF-8 byte offsets, not character offsets."
+    },
+    {
+      "id": "file-plain-jot",
+      "file": "examples/plain-text.jot",
+      "expected": "Plain Jot: read as UTF-8 source, not a package (draft 3, section 1)."
+    },
+    {
+      "id": "file-packaged-jotz",
+      "file": "examples/packaged.jotz",
+      "expected": "Packaged Jot: ZIP signature at byte zero; manifest verified; journal.txt and two assets returned."
+    },
+    {
+      "id": "file-mislabelled-package",
+      "fileFrom": "examples/packaged.jotz",
+      "saveAs": "mislabelled.jot",
+      "expected": "Read by content: a package despite the .jot extension; a reader MAY warn about the mismatch."
+    },
+    {
+      "id": "file-mislabelled-plain",
+      "fileFrom": "examples/plain-text.jot",
+      "saveAs": "mislabelled.jotz",
+      "expected": "Read by content: plain source despite the .jotz extension."
     }
   ]
 }

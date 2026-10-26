@@ -278,7 +278,7 @@ async function openFile(f) {
     record(''); tpl.zones.day = blocks; open.clear(); changed(true);
     return `Imported ${blocks.length} blocks into Each day${r.skipped.length ? `. Left out, paper only or printed data: ${r.skipped.join(', ')}` : ''}`;
   }
-  throw new Error(/\.jot$/i.test(f.name) ? 'This .jot has no template in it (it was not made with this editor)' : 'That file is not a Jot template, a .jot or a day layout');
+  throw new Error(/\.jotz?$/i.test(f.name) ? 'This journal file has no template in it (it was not made with this editor)' : 'That file is not a Jot template, a .jot or a day layout');
 }
 $('#open-file').onchange = async () => {
   const f = $('#open-file').files[0]; $('#open-file').value = ''; if (!f) return;

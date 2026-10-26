@@ -180,17 +180,38 @@ A new notebook.
 
 ## Plain and packaged files
 
-A `.jot` file is usually **plain text**: what you see is what is in it. It can also be **packaged**: one file that carries images,
-scans or handwriting together with the writing (it is a ZIP inside). The Jot workspace opens and saves both. A text editor or InkDeck
-can only edit the plain kind; InkDeck says so if you open a packaged one.
+- **`.jot`** is plain text: what you see is what is in it. This is what you write and what templates make.
+- **`.jotz`** is a packaged journal: one file that carries pictures, scans or handwriting together with the writing (it is a ZIP inside).
+
+The Jot workspace opens both and saves whichever fits: plain `.jot` when there are no attachments, `.jotz` when there are. A text
+editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open it in the workspace (or unzip it and open
+`journal.txt`).
 
 ## Where to write
 
-- **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending.
+- **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending. (For colours, see
+  [Colours in your text editor](#colours-in-your-text-editor).)
 - **InkDeck**, the e-ink writing firmware for the Xteink X3/X4: it creates `.jot` files for you.
 - **The Jot workspace** (the Journal page of this site): a preview beside your writing, method ideas, and attachments.
 - **The template editor:** design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
   See [Using the template editor](template-editor.md).
+
+## Colours in your text editor
+
+Most editors don't know `.jot` yet, but Jot is Markdown underneath. Tell your editor to treat `.jot` as Markdown and you get headings,
+lists, bold and tables in colour. (Jot's own marks, like `o` events and records, show as plain text for now; a Jot extension for
+editors is planned.)
+
+| Editor | How |
+| --- | --- |
+| **VS Code** (and VSCodium, Cursor) | Open a `.jot` file, click the language name at the bottom right ("Plain Text"), choose **Configure File Association for '.jot'…**, then **Markdown** |
+| **Sublime Text** | Open a `.jot` file, then **View → Syntax → Open all with current extension as… → Markdown** |
+| **JetBrains** (IntelliJ, PyCharm …) | **Settings → Editor → File Types → Markdown**, add `*.jot` |
+| **Neovim** | Add `vim.filetype.add({ extension = { jot = 'markdown' } })` to your config |
+| **Vim** | Add `autocmd BufRead,BufNewFile *.jot setfiletype markdown` to your `.vimrc` |
+| **Emacs** (with markdown-mode) | Add `(add-to-list 'auto-mode-alist '("\\.jot\\'" . markdown-mode))` to your init file |
+
+On a phone, any app that edits plain text files works; colour is a bonus, not a need.
 
 ## Small habits that help
 

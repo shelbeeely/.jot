@@ -13,7 +13,7 @@ const tagList = (s) => s.split(/[,\s]+/).map((t) => t.replace(/^#/, '')).filter(
 
 // The entries of one parsed document: [{ date|null, title, tags, nodes, file }] in the order they were written.
 export function jotEntries(ast, file = '') {
-  const base = file.replace(/^.*[\\/]/, '').replace(/\.jot$/i, '');
+  const base = file.replace(/^.*[\\/]/, '').replace(/\.jotz?$/i, '');
   const docTitle = meta(ast, 'title'), docTags = tagList(meta(ast, 'tags'));
   const body = (from, to) => ast.nodes.slice(from, to).filter((n) => n.type !== 'blank');
   if (!ast.entries.length) {
@@ -122,7 +122,7 @@ function splitTall(n, cpl, room) {
 
 // A page id from what the entry is (its date, its file, which entry of that date in the file), never from where it falls in the book,
 // so adding another .jot file does not renumber the pages (and scan codes) of the ones already printed.
-export const jotSlug = (file) => (file.replace(/^.*[\\/]/, '').replace(/\.jot$/i, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 24) || 'jot');
+export const jotSlug = (file) => (file.replace(/^.*[\\/]/, '').replace(/\.jotz?$/i, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 24) || 'jot');
 export function entryIds(entries) {
   const seen = new Map();
   return entries.map((e) => {

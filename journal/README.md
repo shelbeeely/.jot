@@ -190,9 +190,9 @@ Checked by `node test-jotfile.mjs` (every block type, a filled-in round trip, sp
 ## Jot pages (.jot writing in the book)
 Writing kept in **.jot** documents ([Jot v1](../specification/), read with `../parser/`) prints into the monthly book, right after the
 week it belongs to (the `jots` entry in each week of `content/book.json`, after the day pages). InkDeck saves `.jot` notes on its SD
-card; any other Jot file works too, plain text or ZIP-packaged.
+card; any other Jot file works too, plain `.jot` or packaged `.jotz`.
 
-    KW_JOTS=/path/to/card node render.mjs month 2026-10 private/main.ics   # folders are read recursively; only *.jot files
+    KW_JOTS=/path/to/card node render.mjs month 2026-10 private/main.ics   # folders are read recursively; *.jot and *.jotz files
     KW_JOTS=jots-sample node render.mjs month 2026-10 test.ics             # the generic samples
 
 Without `KW_JOTS` the build reads `private/jots/` (ignored by git: your writing is never committed). No .jot files, no Jot pages: the

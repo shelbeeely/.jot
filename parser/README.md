@@ -1,6 +1,6 @@
 # Jot JavaScript parser
 
-The format is **Jot v1**, stored as one self-contained ZIP-based `.jot` document. Its writing is readable UTF-8 `journal.txt` inside; images, scans and strokes are included under `assets/`. The parser implementation version is independently 0.1.0. A file can contain one moment, a day, a month or an ongoing journal. The source parser handles the writing itself; `container.mjs` reads/writes the complete document. The web scanner is a separate app; scanning images does not parse handwriting into text.
+The format is **Jot v1**: plain UTF-8 writing in a `.jot` file, or, when a journal has images, scans or strokes, one self-contained ZIP-based `.jotz` package whose writing is `journal.txt` and whose assets are under `assets/`. The parser implementation version is independently 0.1.0. A file can contain one moment, a day, a month or an ongoing journal. The source parser handles the writing itself; `container.mjs` reads/writes the complete document. The web scanner is a separate app; scanning images does not parse handwriting into text.
 
 This is a working **prototype**, version 0.1.0, with a source-preserving block AST and Markdown tokens. It is not a claim of complete conformance with every rule/profile of the larger draft specification.
 

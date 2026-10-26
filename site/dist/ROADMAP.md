@@ -1,6 +1,6 @@
 # Jot roadmap
 
-Updated 25 October 2026. The format remains **Jot v1** (draft); the parser implementation is 0.1.0. The name is Jot; `.jot` contains the writing and assets together; `journal.txt` holds readable writing inside it. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
+Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` packages the writing (`journal.txt`) together with its assets. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
 
 ## Status meanings
 
@@ -24,7 +24,7 @@ Updated 25 October 2026. The format remains **Jot v1** (draft); the parser imple
 | Mermaid and other diagrams | Fenced blocks identified/preserved; tests pass | Install local rendering engines, accessibility labels and sanitized output |
 | Structured observations | Generic records and ordered fields implemented | Scales, units, profile constraints, missing-data validation |
 | Task migration and reviews | Task capture, dates and review profiles specified | Durable task links, explicit migration operations and history |
-| Self-contained Jot documents | ZIP-based .jot import/export, asset hashes/limits and browser asset persistence implemented | More recovery, quotas, corrupted-file and interop fixtures |
+| Plain .jot and packaged .jotz | Plain .jot save; ZIP-based .jotz import/export, asset hashes/limits and browser asset persistence implemented | More recovery, quotas, corrupted-file and interop fixtures |
 | OCR and handwriting transcription | Planned | User-reviewed transcription linked to originals |
 | Local-first persistence | Journal text autosave implemented | Multiple journals, IndexedDB assets, recovery and quota tests |
 | Privacy and security | Client-side processing; safe preview; private hosting | Threat model, encrypted backups and export-redaction implementation |
@@ -171,8 +171,8 @@ Acceptance examples: a single day combining BuJo tasks, gratitude text and untra
 
 ## Self-contained document decision
 
-The native Jot v1 file is now one ZIP-based .jot document with journal.txt, manifest.json and every included asset. This intentionally replaces the earlier plain-text file plus external-assets design. Human readability applies to the writing source inside the document; a raw ZIP container is not prose in a text editor. Provide writing-only Markdown/text export and keep editable handwriting originals without compulsory transcription. The format remains v1 while this draft is being developed.
+Jot v1 has two representations with the same writing (draft 3, 26 October 2026): plain `.jot`, readable and editable in any text editor, and packaged `.jotz`, one ZIP-based document with journal.txt, manifest.json and every included asset. Readers decide by content, so a mislabelled file still opens. Text-only tools (editors, InkDeck) list `.jot` and never save a package as text. The workspace saves plain `.jot` when a journal has no attachments and `.jotz` when it has. Provide writing-only export and keep editable handwriting originals without compulsory transcription.
 
-Implemented: JavaScript pack/unpack/readDocument APIs; safe paths and declared size limits; SHA-256 integrity checks; legacy text import; editor asset attachment/local preview; one-file import/export; IndexedDB asset persistence; handwriting image+stroke insertion; corrected scan insertion. Core tests include text and exact binary round trips, corrupt/missing/extra members, unsafe paths, directory records and hashing. Browser export reports a complete .jot with two handwriting assets and local reload restores them. The cloud download-event hook did not provide the exported file path and a file-picker import test stalled; browser end-to-end file-import/download verification remains incomplete. Exact byte verification is covered independently by module tests.
+Implemented: JavaScript pack/unpack/readDocument APIs; safe paths and declared size limits; SHA-256 integrity checks; legacy text import; editor asset attachment/local preview; one-file import/export; IndexedDB asset persistence; handwriting image+stroke insertion; corrected scan insertion. Core tests include text and exact binary round trips, corrupt/missing/extra members, unsafe paths, directory records and hashing. Browser export reports a complete package with two handwriting assets and local reload restores them. The cloud download-event hook did not provide the exported file path and a file-picker import test stalled; browser end-to-end file-import/download verification remains incomplete. Exact byte verification is covered independently by module tests.
 
 Next: real-device download/import checks, storage exhaustion, cross-tab conflict/recovery, asset editing within visual blocks, stronger long-term archive interoperability and optional encryption. ZIP packaging alone is not encryption or PDF compatibility.

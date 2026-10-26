@@ -16,7 +16,7 @@ function directory(bytes){
 }
 function readBounded(entry,limit){return new Promise((resolve,reject)=>{let count=0,parts=[],failed=false;const stream=entry.internalStream('uint8array');stream.on('data',b=>{if(failed)return;count+=b.length;if(count>limit){failed=true;stream.pause();parts=[];reject(new Error('Expanded file exceeds its declared size limit.'));return;}parts.push(b);}).on('error',reject).on('end',()=>{if(failed)return;const out=new Uint8Array(count);let at=0;for(const b of parts){out.set(b,at);at+=b.length;}resolve(out);}).resume();});}
 function manifestEntry(item){check(item&&typeof item==='object'&&safePath(item.path),'Invalid manifest path.');check(Number.isSafeInteger(item.byteLength)&&item.byteLength>=0,'Invalid manifest size.');check(typeof item.mediaType==='string'&&item.mediaType.length<160&&!/[\r\n]/.test(item.mediaType),'Invalid media type.');check(/^[0-9a-f]{64}$/.test(item.sha256),'Invalid SHA-256 value.');}
-/** Create the portable .jot file. Assets are {path,mediaType,data}; no companion folder. */
+/** Create the bytes of a portable .jotz (packaged Jot). Assets are {path,mediaType,data}; no companion folder. */
 export async function pack({source,assets=[],metadata={}}){
  check(typeof source==='string','Journal source must be text.');const sourceBytes=encoder.encode(source);check(sourceBytes.length<=LIMITS.sourceBytes,'Journal source exceeds 1 MiB.');check(Array.isArray(assets)&&assets.length<=LIMITS.entries-2,'Too many assets.');const zip=new JSZip(),seen=new Set(['journal.txt','manifest.json']);let total=sourceBytes.length;const descriptors=[];
  zip.file('journal.txt',sourceBytes,{createFolders:false});

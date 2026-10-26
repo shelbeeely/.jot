@@ -1,6 +1,6 @@
 // Reads the .jot documents a book prints (Jot v1: plain UTF-8 or ZIP-packaged, see ../parser/). Node only; jotpage.mjs does the pages.
 //   KW_JOTS=dir[,dir|file...]   where to look (default: private/jots/, which git ignores: your writing never gets committed)
-// Folders are read recursively, so an InkDeck SD card (or a copy of its files) can be pointed at directly. Only *.jot files are read.
+// Folders are read recursively, so an InkDeck SD card (or a copy of its files) can be pointed at directly. Only *.jot and *.jotz files are read.
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from '../parser/jot.mjs';
@@ -13,7 +13,7 @@ export const jotSources = () => (process.env.KW_JOTS ? process.env.KW_JOTS.split
 function filesUnder(p, out = []) {
   if (!fs.existsSync(p)) return out;
   const st = fs.statSync(p);
-  if (st.isFile()) { if (/\.jot$/i.test(p)) out.push(p); return out; }
+  if (st.isFile()) { if (/\.jotz?$/i.test(p)) out.push(p); return out; } // plain .jot and packaged .jotz (each read by content)
   for (const f of fs.readdirSync(p).sort()) if (!f.startsWith('.')) filesUnder(path.join(p, f), out);
   return out;
 }
