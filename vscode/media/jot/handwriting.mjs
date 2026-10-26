@@ -27,6 +27,34 @@ export const PX_PER_MM = 96 / 25.4;
 export const snap = (px) => Math.round(px * 64) / 64;
 export const pitchPx = (mm) => snap(mm * PX_PER_MM);
 
+/** Layout comments are optional presentation hints, never executable styles or HTML. */
+export const PAPERS = { A5: [148, 210], A4: [210, 297], Letter: [215.9, 279.4], Pocket: [88.9, 139.7] };
+export function normalizePageLayout(raw = {}) {
+  const x = raw && typeof raw === 'object' ? raw : {};
+  const numeric = (v) => typeof v === 'number' || typeof v === 'string' ? Number(v) : NaN;
+  const margin = numeric(x.marginMm), pitch = numeric(x.pitchMm);
+  return { paper: typeof x.paper === 'string' && Object.hasOwn(PAPERS, x.paper) ? x.paper : 'A5', pitchMm: PITCHES.includes(pitch) ? pitch : 5,
+    marginMm: Number.isFinite(margin) ? Math.min(30, Math.max(4, Math.round(margin))) : 8 };
+}
+export function pageLayoutFromAst(ast) {
+  for (const n of ast?.nodes || []) {
+    if (n.type !== 'comment') continue;
+    const m = /^\/\*\r?\njot-page: (\{[^\n]*\})\r?\n\*\//.exec(n.raw);
+    if (m) { try { return normalizePageLayout(JSON.parse(m[1])); } catch { /* ignore malformed hints */ } }
+  }
+  return null;
+}
+export function blockLayoutFromComment(raw) {
+  const m = /^\/\*\r?\njot-block: (\{[^\n]*\})\r?\n\*\//.exec(raw || '');
+  if (!m) return null;
+  try {
+    const x = JSON.parse(m[1]);
+    if (!x || !/^[\w-]{1,40}$/.test(x.id)) return null;
+    const bounded = (v, hi, def) => Number.isFinite(Number(v)) ? Math.min(hi, Math.max(0, Math.round(Number(v)))) : def;
+    return { id: x.id, rows: bounded(x.rows, 200, 0), gap: bounded(x.gap, 20, 1), newPage: x.newPage === true };
+  } catch { return null; }
+}
+
 /** The @page box for a printed page of dot grid: the writing area is a whole number of rows and columns, centred on the sheet. */
 export function pageGeometry([wMm, hMm], pitchMm = 5, minMarginMm = 8) {
   const p = pitchPx(pitchMm), W = wMm * PX_PER_MM, H = hMm * PX_PER_MM, m = minMarginMm * PX_PER_MM;
@@ -80,6 +108,8 @@ export function handwritingCSS(fontBase) {
 .jot-hand .jot-chart-table{display:none}
 .jot-hand .jot-footnotes{border-top:0;font-size:.9em}
 .jot-hand .diagram-note,.jot-hand .raw-html{opacity:.6}
+.jot-hand .jot-layout-block{position:relative;display:flow-root;box-sizing:border-box;break-inside:auto}
+.jot-hand .jot-layout-block>*{box-sizing:border-box}
 .jot-hand .hw-page-edge{position:absolute;left:0;right:0;height:0;border-top:1px dashed #c7a7ff;pointer-events:none}
 @media print{.jot-hand .hw-page-edge{display:none}}
 ${BOX_CSS}`.replace(/\.jot-hand(?![\w-])/g, '.jot-hand.jot-hand'); // doubled: the hand's rules win over a page's own typed styles
@@ -247,25 +277,61 @@ export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {
     const b = baselineOf(tag), shift = (base + p) - b;
     for (const h of page.querySelectorAll(`:scope > ${tag}, :scope > * > ${tag}`)) { h.style.position = 'relative'; h.style.top = `${shift}px`; }
   }
+  const groups = [...page.querySelectorAll(':scope > .jot-layout-block')];
+  for (const group of groups) {
+    group.style.minHeight = ''; group.style.paddingBottom = '0';
+    group.style.breakBefore = group.dataset.newPage === 'true' ? 'page' : 'auto';
+  }
+  function alignBlocks(blocks) {
+    blocks.forEach((el, i) => {
+      el.style.marginTop = '0'; el.style.marginBottom = '0'; el.style.paddingBottom = '0';
+      const lineish = (x) => x && (x.classList.contains('jot-task') || x.classList.contains('jot-blanks') || x.classList.contains('jot-measure'));
+      const previous = blocks[i - 1];
+      const gap = i === 0 ? 0 : previous?.classList.contains('jot-layout-block') ? Number(previous.dataset.gap) : (lineish(el) && lineish(previous)) ? 0 : 1;
+      el.style.marginTop = `${gap * p}px`;
+      if (!el.classList.contains('jot-layout-block') && el.matches('pre,table,figure,section,img,.jot-chart,.jot-record,blockquote')) el.style.breakInside = 'avoid';
+    });
+    for (const el of blocks) {
+      const h = el.getBoundingClientRect().height, rows = Math.max(1, Math.ceil(h / p - 0.01)), extra = rows * p - h;
+      if (extra > 0.01) el.style.paddingBottom = `${extra}px`;
+    }
+  }
+  for (const group of groups) {
+    alignBlocks([...group.children]);
+    const natural = Math.max(1, Math.ceil(group.getBoundingClientRect().height / p - .01));
+    group.dataset.naturalRows = String(natural);
+    group.style.minHeight = `${Math.max(natural, Number(group.dataset.minRows)) * p}px`;
+  }
   const blocks = [...page.children].filter((el) => !el.classList.contains('hw-page-edge'));
-  blocks.forEach((el, i) => {
-    el.style.marginTop = '0'; el.style.marginBottom = '0'; el.style.paddingBottom = '0';
-    const lineish = (x) => x && (x.classList.contains('jot-task') || x.classList.contains('jot-blanks') || x.classList.contains('jot-measure'));
-    const gap = i === 0 || (lineish(el) && lineish(blocks[i - 1])) ? 0 : 1; // a blank row between blocks, none between task lines
-    el.style.marginTop = `${gap * p}px`;
-    if (el.matches('pre,table,figure,section,img,.jot-chart,.jot-record,blockquote')) el.style.breakInside = 'avoid';
-  });
-  // round each block up to whole rows (images, charts and tables are not made of lines)
+  alignBlocks(blocks);
+  // Screen and print use the same blank space for page starts. Oversized blocks flow over page boundaries.
+  let cursor = 0;
   for (const el of blocks) {
-    const h = el.getBoundingClientRect().height, rows = Math.max(1, Math.ceil(h / p - 0.01)), extra = rows * p - h;
-    if (extra > 0.01) el.style.paddingBottom = `${extra}px`;
+    let gap = Math.round(parseFloat(el.style.marginTop) / p) || 0;
+    const heightRows = Math.max(1, Math.round(el.getBoundingClientRect().height / p));
+    let start = cursor + gap;
+    if (pageRows > 0 && el.classList.contains('jot-layout-block')) {
+      const forced = el.dataset.newPage === 'true';
+      const remain = pageRows - (start % pageRows);
+      if (forced) {
+        start = Math.ceil(cursor / pageRows) * pageRows; gap = start - cursor;
+      } else if (heightRows <= pageRows && heightRows > remain) {
+        start += remain; gap = start - cursor;
+      }
+      // Space in normal flow makes the preview, print and standalone HTML agree.
+      el.style.breakBefore = 'auto';
+    }
+    el.style.marginTop = `${gap * p}px`;
+    el.dataset.startRow = String(start);
+    el.dataset.usedRows = String(heightRows);
+    cursor = start + heightRows;
   }
   // whole pages: the last one is dotted to its foot, as a notebook page is; on screen, a dashed line where each printed page ends
   page.style.minHeight = '';
-  let rows = Math.round(page.scrollHeight / p);
+  let rows = cursor;
   if (pageRows > 0) {
-    const top = parseFloat(doc.defaultView.getComputedStyle(page).paddingTop) || 0, bottom = parseFloat(doc.defaultView.getComputedStyle(page).paddingBottom) || 0;
-    rows = Math.max(1, Math.ceil(Math.round((page.scrollHeight - top - bottom) / p * 100) / 100 / pageRows)) * pageRows; // scrollHeight: the screen preview scrolls
+    const top = parseFloat(doc.defaultView.getComputedStyle(page).paddingTop) || 0;
+    rows = Math.max(1, Math.ceil(cursor / pageRows)) * pageRows;
     page.style.boxSizing = 'content-box'; page.style.minHeight = `${rows * p}px`;
     for (let r = pageRows; r < rows; r += pageRows) { const e = doc.createElement('div'); e.className = 'hw-page-edge'; e.setAttribute('aria-hidden', 'true'); e.style.top = `${top + r * p}px`; page.append(e); }
   }

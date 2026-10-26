@@ -56,7 +56,7 @@ html{background:#eeece6}body{margin:0;padding:24px 12px}
 .jot-export{box-sizing:border-box;max-width:46rem;margin:0 auto;box-shadow:0 2px 18px rgb(0 0 0 / .12)}
 .jot-export.jot-hand{max-width:none;width:fit-content}
 @media (max-width:600px){body{padding:0}.jot-export{box-shadow:none}}
-@media print{html,body{background:none;padding:0;margin:0}.jot-export{box-shadow:none;max-width:none;margin:0}}
+@media print{html,body{background:none;padding:0;margin:0}.jot-export{box-shadow:none;max-width:none;margin:0}.jot-export.jot-hand{padding:0!important}}
 ${pageCss}
 ${css}
 </style>

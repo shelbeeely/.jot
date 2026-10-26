@@ -59,13 +59,31 @@
         <label class="sample" id="hand-wrap" hidden><input type="checkbox" id="handwritten" checked> Handwritten</label>
         <label class="sample" id="sample-wrap" hidden><input type="checkbox" id="sample"> Sample numbers</label>
       </div>
+      <section id="layout-tools" class="layout-tools" aria-label="Page layout" hidden>
+        <details class="page-settings"><summary>Paper and grid settings</summary><div class="layout-fields">
+          <div class="field"><label for="layout-paper">Paper</label><select id="layout-paper"><option>A5</option><option>A4</option><option>Letter</option><option>Pocket</option></select></div>
+          <div class="field"><label for="layout-pitch">Grid spacing</label><select id="layout-pitch"><option value="4">4 mm</option><option value="5">5 mm</option><option value="6">6 mm</option><option value="7">7 mm</option></select></div>
+          <div class="field"><label for="layout-margin">Minimum margin (mm)</label><input id="layout-margin" type="number" min="4" max="30" step="1"></div>
+        </div>
+        </details><div class="field scope-field"><label for="layout-scope">Preview</label><select id="layout-scope"><option value="day">One sample day</option><option value="file">Whole selected file</option></select></div><p class="note" id="layout-summary" role="status"></p>
+        <p class="note">Select a block to size it, or drag its bottom handle. Longer writing expands without clipping.</p>
+        <fieldset id="block-layout" hidden>
+          <legend id="block-layout-title">Selected block</legend>
+          <div class="layout-fields">
+            <div class="field"><label for="block-rows">Minimum rows (0 = Auto)</label><input id="block-rows" type="number" min="0" max="200" step="1"></div>
+            <div class="field"><label for="block-gap">Blank rows after</label><input id="block-gap" type="number" min="0" max="20" step="1"></div>
+            <div class="field"><label for="block-break">Start on new page</label><select id="block-break"><option value="no">No</option><option value="yes">Yes</option></select></div>
+          </div>
+          <p class="note" id="block-size"></p>
+        </fieldset>
+      </section>
       <p class="check" id="check" role="status" aria-live="polite"></p>
       <ul class="problems" id="problems" hidden></ul>
       <pre class="jot" id="jot" tabindex="0" role="tabpanel" aria-labelledby="tab-text" aria-label="The .jot text"></pre>
-      <div class="page-view" id="page-view" role="tabpanel" aria-labelledby="tab-page" tabindex="0" hidden><article class="jot-page" id="page"></article></div>
+      <div class="page-view" id="page-view" role="tabpanel" aria-labelledby="tab-page" tabindex="0" hidden><div id="paper-stage"><article class="jot-page" id="page"></article></div></div>
     </section>
   </div>
-  <p class="foot">Plain Jot v1: dated entries, <code>[ ]</code> boxes, <code>value:</code> blanks and headings to write under. No page layout, codes or scanning marks. <a href="../guide/template-editor.html">How to use it</a> · <a href="../docs/Jot-Complete-Specification.pdf">The Jot specification</a></p>
+  <p class="foot">Plain Jot v1: dated entries, <code>[ ]</code> boxes, <code>value:</code> blanks and headings to write under. Optional grid-row sizing keeps room for writing when rendered. No scanning marks. <a href="../guide/template-editor.html">How to use it</a> · <a href="../docs/Jot-Complete-Specification.pdf">The Jot specification</a></p>
 </main>
 
 <dialog id="palette" aria-labelledby="palette-h">

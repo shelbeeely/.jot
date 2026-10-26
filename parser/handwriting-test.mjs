@@ -79,3 +79,14 @@ test('highlight strokes have three distinct safe designs, with stable seeded var
   assert.equal(new Set(['marker','brush','pencil'].map(s=>highlightSVG('#ffe680',s,17))).size,3);
   assert.ok(!highlightSVG('red\" onload=\"evil','unknown',17).includes('evil'));
 });
+
+test('optional layout hints accept bounded numbers and known paper names, never arbitrary styles', async () => {
+  const { normalizePageLayout, pageLayoutFromAst, blockLayoutFromComment } = await import('./handwriting.mjs');
+  assert.deepEqual(normalizePageLayout({ paper: '__proto__', pitchMm: 1000, marginMm: -9 }), { paper: 'A5', pitchMm: 5, marginMm: 4 });
+  assert.deepEqual(normalizePageLayout(null), { paper: 'A5', pitchMm: 5, marginMm: 8 });
+  assert.equal(blockLayoutFromComment('/*\njot-block: {"id":"bad id","rows":8}\n*/'), null);
+  assert.equal(blockLayoutFromComment('/*\njot-block: null\n*/'), null);
+  assert.deepEqual(normalizePageLayout({ paper: { toString: 0 }, pitchMm: {}, marginMm: {} }), { paper: 'A5', pitchMm: 5, marginMm: 8 });
+  assert.deepEqual(blockLayoutFromComment('/*\njot-block: {"id":"notes","rows":9999,"gap":-1,"newPage":"false","style":"url(evil)"}\n*/'), { id: 'notes', rows: 200, gap: 0, newPage: false });
+  assert.equal(pageLayoutFromAst({ nodes: [{ type: 'comment', raw: '/*\njot-page: broken\n*/' }] }), null);
+});

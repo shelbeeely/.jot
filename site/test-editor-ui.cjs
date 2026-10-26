@@ -21,7 +21,7 @@ const srv = http.createServer((q, r) => {
   const b = await chromium.launch();
   const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, acceptDownloads: true });
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
-  await p.goto(URL0); await p.waitForSelector('#jot:not(:empty)');
+  await p.goto(URL0); await p.waitForSelector('#jot:not(:empty)', { state: 'attached' }); await p.click('#tab-text');
   const jot = () => p.textContent('#jot');
   ok(/^---\nJot: 1\.0\nTitle: My journal · /.test(await jot()) && /valid Jot/.test(await p.textContent('#check')), 'opens on a starter, with the .jot text and the check: valid Jot');
 
@@ -70,7 +70,7 @@ const srv = http.createServer((q, r) => {
   await p.click('#more'); ok(await p.evaluate(() => document.activeElement.id === 'save-tpl'), 'More opens its menu with focus on the first item');
   const dlT = p.waitForEvent('download'); await p.click('#save-tpl'); const td = await dlT, saved = fs.readFileSync(await td.path(), 'utf8');
   ok(td.suggestedFilename() === 'field-notes.jot-template.json' && JSON.parse(saved).zones.day.length >= 3, 'Save template downloads the template as JSON');
-  await p.reload(); await p.waitForSelector('#jot:not(:empty)');
+  await p.reload(); await p.waitForSelector('#jot:not(:empty)', { state: 'attached' });
   ok((await p.inputValue('#t-title')) === 'Field notes' && (await p.inputValue('#t-per')) === 'week', 'a reload keeps the template (this browser)');
   await p.click('#starter'); await p.click('#starter-list [data-starter="gratitude"]');
   ok(/#### Small good things\n\n- \n- \n- /.test(await jot()) && (await p.inputValue('#t-title')) === 'Field notes', 'Start from… replaces the blocks and keeps the name');
@@ -134,7 +134,7 @@ const srv = http.createServer((q, r) => {
   // phone width, light and dark, accessibility
   for (const scheme of ['light', 'dark']) {
     const ph = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme }); ph.on('pageerror', (e) => errs.push(e.message));
-    await ph.goto(URL0); await ph.waitForSelector('#jot:not(:empty)');
+    await ph.goto(URL0); await ph.waitForSelector('#jot:not(:empty)', { state: 'attached' });
     await ph.click('[data-zone="day"] .blk [data-act="opts"]');
     const wide = await ph.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     ok(wide <= 0, `${scheme}, 390 px: no sideways scroll (${wide})`);
@@ -154,11 +154,12 @@ const srv = http.createServer((q, r) => {
   }
   // the weekly dashboard: the starter, the Page view, its charts with sample numbers, the rule-of-7 note
   { const d = await b.newPage({ viewport: { width: 1280, height: 900 } }); d.on('pageerror', (e) => errs.push(e.message));
-    await d.goto(URL0); await d.evaluate(() => { try { localStorage.clear(); } catch {} }); await d.reload(); await d.waitForSelector('#jot:not(:empty)');
+    await d.goto(URL0); await d.evaluate(() => { try { localStorage.clear(); } catch {} }); await d.reload(); await d.waitForSelector('#jot:not(:empty)', { state: 'attached' });
     await d.click('#starter'); await d.click('#starter-list >> text=Weekly dashboard');
     ok((await d.$$eval('[data-zone="weekStart"] .blk', (e) => e.length)) === 6 && /:::record chart #chart-week-2026-\d\d-\d\d\nmetrics: sleep, work, steps, mood\nstart: /.test(await d.textContent('#jot')), 'Weekly dashboard: six widgets for the week, and a chart record naming its numbers and dates');
+    await d.click('#tab-text');
     ok(await d.$eval('#sample-wrap', (e) => e.hidden), 'the Text view has no sample switch');
-    await d.click('#tab-page');
+    await d.click('#tab-page'); await d.selectOption('#layout-scope', 'file');
     ok(!(await d.$eval('#page-view', (e) => e.hidden)) && await d.$eval('#jot', (e) => e.hidden) && (await d.textContent('#preview-h')) === 'The page', 'Page shows the file as a journal reader would');
     const charts = await d.$$eval('#page .jot-chart', (c) => c.length);
     // what Chart.js holds for each canvas (the same module instance the page loaded)
@@ -305,9 +306,9 @@ const srv = http.createServer((q, r) => {
     await w.close(); }
   // the template editor's Page view, handwritten
   { const d = await b.newPage({ viewport: { width: 1280, height: 900 } }); d.on('pageerror', (e) => errs.push(e.message));
-    await d.goto(URL0); await d.waitForSelector('#jot:not(:empty)'); await d.click('#tab-page'); await d.check('#handwritten');
+    await d.goto(URL0); await d.waitForSelector('#jot:not(:empty)', { state: 'attached' }); await d.click('#tab-page'); await d.check('#handwritten');
     await d.waitForFunction(() => document.querySelector('#page').jotGrid);
-    ok(await d.$eval('#page', (p) => p.classList.contains('jot-hand') && p.querySelectorAll('.hw-w').length > 20), 'the template editor\'s Page view can be handwritten too');
+    ok(await d.$eval('#page', (p) => p.classList.contains('jot-hand') && p.querySelectorAll('.hw-w').length > 10 && p.querySelectorAll('.jot-layout-block').length === 3), 'the template editor\'s Page view can be handwritten too');
     await d.close(); }
   // the guides: readable on a phone and in the dark, nothing serious for axe
   for (const [pg, scheme] of [['guide/', 'light'], ['guide/writing-jot.html', 'dark'], ['guide/template-editor.html', 'light']]) {

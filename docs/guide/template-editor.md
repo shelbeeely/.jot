@@ -10,7 +10,7 @@ It runs in your browser. Your template stays in that browser and nothing is sent
 1. Open the **Template editor** (the second link at the top of the site).
 2. Give the journal a **name** and pick the **month**.
 3. Choose **Start from…** for a ready-made shape, or keep the one you have.
-4. Change the blocks until each day asks what you want it to ask. The right-hand side shows the file as you go.
+4. Change the blocks until each day asks what you want it to ask. The right-hand side shows the handwritten page as you go; **Text** shows the source file.
 5. Press **Download .jot**. Open the file in any text editor and start writing.
 
 ## The five zones
@@ -65,6 +65,34 @@ Press **Add a block** in a zone and pick one. Here is what each block puts in th
 
 Every block has **options** (the ⚙ button): its title, its labels (one a line), its numbers. A scale always keeps a real range: if
 "To" is lower than "From", it is raised to fit.
+
+## Size blocks on the handwritten grid
+
+The editor opens in **Page** view with one sample day. Open **Paper and grid settings** to choose A5, A4, Letter or Pocket paper,
+4–7 mm dots and a minimum margin. Margins are rounded outward so the writing area holds whole grid rows and columns.
+Choose **Whole selected file** to include weekly blocks, reviews and the beginning and end of the month.
+
+Select an outlined block on the page, or open its ⚙ options:
+
+| Setting | What it does |
+| --- | --- |
+| **Minimum rows (0 = Auto)** | Reserves space for the entire block, including its heading. Auto uses the space its content needs. |
+| **Blank rows after** | Leaves 0–20 grid rows before the next block. |
+| **Start on new page** | Starts the block on the next page when it is not already at a page boundary. |
+
+For example, **8 rows** at **5 mm** reserves **40 mm** vertically. Drag the selected block's bottom handle to change its minimum
+in whole rows. You can also focus the handle and use **Up/Down**, or type a number in the labelled field. Undo and redo include sizing.
+
+The page shows each block's actual row count, page boundaries and the space left on the last page. A block that fits a page moves to
+the next page if necessary. A block taller than a page continues across pages; writing beyond a minimum expands the block without
+clipping it. These are full-width blocks in reading order; side-by-side columns are not supported.
+
+Layout settings stay in saved templates and downloaded `.jot` files as optional hidden comments. Open a downloaded file in **Write**
+to keep its paper, grid and reserved space for handwritten preview, **Print / PDF** and **Download page** HTML export. The outlines,
+row badges and resize handles are editor guides and are not exported. Plain-text readers keep the writing and may ignore layout hints.
+Use your browser's default print margins and 100% scale; printer-specific physical proofs are still recommended.
+
+Adding layout hints increases file size. The existing 16 KB warning still applies for InkDeck; choose weekly or daily files if needed.
 
 ## Numbers and charts
 

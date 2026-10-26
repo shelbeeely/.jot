@@ -15,7 +15,7 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Plain-text writing and date sections | Implemented; parser tested | Broader malformed-input and large-file fixtures |
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
 | JavaScript parser | ES module for Node/browser; parser, formatting, proofreading and container suites pass | Stabilize API; complete semantic/profile validation |
-| Composable content blocks and layouts | Planned; existing parser has some block primitives | Mixed typed/handwritten/media blocks, stable source order, accessible reordering and responsive/print layouts |
+| Composable content blocks and layouts | Partial: full-width template blocks reserve handwritten grid rows, gaps and page starts; visual sizing, persistence and shared rendering are browser-tested | Responsive columns, richer mixed-media blocks and physical printer proofs |
 | Journaling methods | 55 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
 | Paper sizes | 27 presets in spec; common/custom sizes in app | Expose complete preset registry and physical print proofs |
 | Perspective scanner | Hidden from the site while unfinished (no links, noindex); core geometry/detection tests pass | Real Pixel camera, varied lighting, small pages and long pages |

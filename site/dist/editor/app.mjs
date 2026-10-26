@@ -1,8 +1,9 @@
 // Jot template editor: the page. The model and the .jot text come from template.mjs; the check uses the Jot parser (../jot/jot.mjs).
 // The template is kept in this browser (localStorage, if allowed); nothing is sent anywhere.
-import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, monthLabel, templateFromJot } from './template.mjs';
+import { BLOCKS, LAYOUT_OPTS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, renderJot, monthLabel, templateFromJot } from './template.mjs';
 import { parse } from '../jot/jot.mjs';
 import { renderPreview, addChartStyles } from '../jot/preview.mjs';
+import { pageGeometry, PAPERS } from '../jot/handwriting.mjs';
 addChartStyles(document);
 
 const $ = (s) => document.querySelector(s);
@@ -13,7 +14,7 @@ const store = {
 };
 let tpl = store.get() ? normalizeTemplate(store.get()) : fromStarter('checkin', { title: 'My journal' });
 const open = new Set(); // block ids whose options are showing
-let files = [], shown = 0;
+let files = [], shown = 0, selectedBlock = null, previewRevision = 0;
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 3200); }
@@ -47,7 +48,7 @@ const find = (id) => { for (const z of ZONES) { const i = tpl.zones[z.id].findIn
 // ---- the template: zones and blocks ----
 function optsHtml(b) {
   const B = BLOCKS[b.type];
-  return B.opts.map((o) => {
+  return [...B.opts, ...LAYOUT_OPTS].map((o) => {
     const id = `o-${b.id}-${o.k}`, lab = `<label for="${id}">${esc(o.label)}</label>`;
     if (o.k === 'title' && b.type !== 'text') return ''; // the title is edited in the block's own row
     if (o.kind === 'num') return `<div class="opt">${lab}<input id="${id}" type="number" inputmode="numeric" min="${o.lo}" max="${o.hi}" value="${b[o.k]}" data-k="${o.k}"></div>`;
@@ -119,7 +120,8 @@ $('#zones').addEventListener('click', (e) => {
 $('#zones').addEventListener('input', (e) => {
   const el = e.target, k = el.dataset.k, li = el.closest('.blk'); if (!k || !li) return;
   const at = find(li.dataset.id); if (!at) return;
-  const o = BLOCKS[at.b.type].opts.find((x) => x.k === k);
+  const o = [...BLOCKS[at.b.type].opts, ...LAYOUT_OPTS].find((x) => x.k === k);
+  if (!o) return;
   let v = el.value;
   if (o.kind === 'num' && (v === '' || !Number.isFinite(+v))) return;
   record(`${at.b.id}:${k}`);
@@ -212,12 +214,15 @@ $('#starter').onclick = () => {
 };
 $('#starter-list').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-starter]'); if (!btn) return;
-  record(''); tpl = fromStarter(btn.dataset.starter, { title: tpl.title, month: tpl.month, per: tpl.per }); open.clear();
+  record(''); tpl = fromStarter(btn.dataset.starter, { title: tpl.title, month: tpl.month, per: tpl.per, layout: tpl.layout }); open.clear();
   $('#starters').close(); changed(true, '#starter'); toast(`Started from ${btn.querySelector('strong').textContent}`);
 });
 
 // ---- settings ----
-function drawSettings() { $('#t-title').value = tpl.title; $('#t-month').value = tpl.month; $('#t-per').value = tpl.per; }
+function drawSettings() {
+  $('#t-title').value = tpl.title; $('#t-month').value = tpl.month; $('#t-per').value = tpl.per;
+  $('#layout-paper').value = tpl.layout.paper; $('#layout-pitch').value = tpl.layout.pitchMm; $('#layout-margin').value = tpl.layout.marginMm;
+}
 $('#t-title').addEventListener('input', (e) => { record('title'); tpl.title = e.target.value.slice(0, 80) || 'My journal'; changed(false); });
 $('#t-month').addEventListener('change', (e) => { if (/^\d{4}-\d{2}$/.test(e.target.value)) { record(''); tpl.month = e.target.value; shown = 0; changed(false); } });
 $('#t-per').addEventListener('change', (e) => { record(''); tpl.per = e.target.value; shown = 0; changed(false); });
@@ -241,10 +246,131 @@ function drawPreview() {
   const hasNumbers = ast.nodes.some((n) => n.type === 'record' && n.recordType === 'chart');
   $('#sample-wrap').hidden = view !== 'page' || !hasNumbers;
   $('#hand-wrap').hidden = view !== 'page';
-  if (view === 'page') renderPreview(ast, $('#page'), { sample: hasNumbers && $('#sample').checked, empty: 'Add a block to see the page.', hand: $('#handwritten').checked ? { hand: 'pen', ink: 'blue', pitchMm: 5 } : null });
+  $('#layout-tools').hidden = view !== 'page' || !$('#handwritten').checked;
+  if (view === 'page') drawPage(ast);
+
 }
+// ---- physical paper preview and block sizing ----
+function fitPaper() {
+  const page = $('#page'), stage = $('#paper-stage');
+  page.style.transform = ''; stage.style.height = ''; stage.style.width = '';
+  if (!$('#handwritten').checked) return;
+  const width = page.offsetWidth, scale = Math.min(1, Math.max(100, $('#page-view').clientWidth - 24) / width);
+  stage.style.width = `${width * scale}px`; stage.style.height = `${page.offsetHeight * scale}px`;
+  page.style.transformOrigin = 'top left'; page.style.transform = `scale(${scale})`;
+  stage.dataset.scale = scale; page.style.setProperty('--layout-scale', String(scale));
+}
+function selectPreviewBlock(id) {
+  selectedBlock = id;
+  const at = find(id);
+  $('#block-layout').hidden = !at;
+  for (const group of $('#page').querySelectorAll('.jot-layout-block')) group.classList.toggle('layout-selected', group.dataset.blockId === id);
+  if (!at) return;
+  $('#block-layout-title').textContent = at.b.title || BLOCKS[at.b.type].name;
+  $('#block-rows').value = at.b.minRows; $('#block-gap').value = at.b.gapAfter; $('#block-break').value = at.b.newPage;
+  const group = [...$('#page').querySelectorAll('.jot-layout-block')].find((x) => x.dataset.blockId === id);
+  $('#block-size').textContent = group ? `${group.dataset.usedRows} rows used · ${Number(group.dataset.usedRows) * tpl.layout.pitchMm} mm high${at.b.minRows && Number(group.dataset.naturalRows) > at.b.minRows ? ' · content has expanded beyond the minimum' : ''}` : 'This block is outside the current preview. Choose Whole selected file to see it.';
+}
+async function drawPage(ast) {
+  const revision = ++previewRevision, page = $('#page');
+  page.style.transform = ''; page.style.minHeight = ''; page.style.width = ''; page.style.padding = '';
+  const hand = $('#handwritten').checked, layout = tpl.layout;
+  const geometry = pageGeometry(PAPERS[layout.paper], layout.pitchMm, layout.marginMm);
+  const chosen = files[shown];
+  let shownAst = parse(renderJot(tpl, { from: chosen.days[0], to: chosen.days[chosen.days.length - 1] }, { layoutPreview: true }).text);
+  if (hand && $('#layout-scope').value === 'day') {
+    const date = files[shown].days[0];
+    const sample = { ...tpl, zones: { front: [], weekStart: [], day: tpl.zones.day, weekEnd: [], back: [] } };
+    shownAst = parse(renderJot(sample, { from: date, to: date }, { layoutPreview: true }).text);
+  }
+  if (hand) {
+    page.style.width = `${geometry.width}px`; page.style.padding = `${geometry.marginY}px ${geometry.marginX}px`;
+    page.style.boxSizing = 'content-box';
+  }
+  $('#sample-wrap').hidden = !shownAst.nodes.some((n) => n.type === 'record' && n.recordType === 'chart');
+  renderPreview(shownAst, page, { sample: $('#sample').checked, hand: hand ? { hand: 'pen', ink: 'blue', pitchMm: layout.pitchMm, pageRows: geometry.rows } : null });
+  await page.jotReady;
+  if (revision !== previewRevision || view !== 'page') return;
+  if (hand) {
+    for (const group of page.querySelectorAll('.jot-layout-block')) {
+      const at = find(group.dataset.blockId), label = at?.b.title || (at && BLOCKS[at.b.type].name) || 'Block';
+      const rows = Number(group.dataset.usedRows), start = Number(group.dataset.startRow);
+      group.tabIndex = 0; group.setAttribute('role', 'group');
+      group.setAttribute('aria-label', `${label}, ${rows} grid rows. Select to adjust space.`);
+      group.dataset.caption = `${rows} rows · ${rows * layout.pitchMm} mm`;
+      const handle = document.createElement('button'); handle.type = 'button'; handle.className = 'layout-resize';
+      handle.textContent = '↕'; handle.setAttribute('aria-label', `Resize ${label}; use Up and Down arrows to change rows`);
+      handle.title = 'Drag to resize, or use Up and Down arrows'; group.append(handle);
+      group.classList.toggle('layout-spills', rows > geometry.rows);
+      group.dataset.page = Math.floor(start / geometry.rows) + 1;
+    }
+    const pages = Math.max(1, Math.ceil(page.jotGrid.rows / geometry.rows));
+    const used = [...page.children].filter((x) => !x.classList.contains('hw-page-edge')).reduce((n, x) => Math.max(n, Number(x.dataset.startRow || 0) + Number(x.dataset.usedRows || 0)), 0);
+    const free = (geometry.rows - used % geometry.rows) % geometry.rows;
+    const spills = page.querySelectorAll('.layout-spills').length;
+    $('#layout-summary').textContent = `${layout.paper} · ${geometry.cols} columns × ${geometry.rows} rows per page · ${pages} ${pages === 1 ? 'page' : 'pages'} · ${free} rows free on the last page${spills ? ` · ${spills} oversized blocks continue across pages` : ''}`;
+    selectPreviewBlock(selectedBlock);
+  }
+  fitPaper();
+}
+for (const [id, key] of [['layout-paper', 'paper'], ['layout-pitch', 'pitchMm'], ['layout-margin', 'marginMm']]) {
+  $('#' + id).addEventListener('change', (e) => {
+    if (e.target.value === '') return;
+    record(''); tpl.layout[key] = key === 'paper' ? e.target.value : Number(e.target.value);
+    tpl = normalizeTemplate(tpl); drawSettings(); changed(false);
+  });
+}
+$('#layout-scope').onchange = () => drawPreview();
+for (const [id, key] of [['block-rows', 'minRows'], ['block-gap', 'gapAfter'], ['block-break', 'newPage']]) {
+  $('#' + id).addEventListener('change', (e) => {
+    const at = find(selectedBlock); if (!at || e.target.value === '') return;
+    const next = key === 'newPage' ? e.target.value : Math.max(0, Math.min(key === 'minRows' ? 200 : 20, Math.round(Number(e.target.value))));
+    if (at.b[key] === next) return;
+    record(''); at.b[key] = next;
+    tpl = normalizeTemplate(tpl); changed(true);
+  });
+}
+$('#page').addEventListener('click', (e) => {
+  const group = e.target.closest('.jot-layout-block'); if (group) selectPreviewBlock(group.dataset.blockId);
+});
+$('#page').addEventListener('keydown', (e) => {
+  const group = e.target.closest('.jot-layout-block'); if (!group) return;
+  if (e.target.matches('.layout-resize') && ['ArrowUp', 'ArrowDown'].includes(e.key)) {
+    e.preventDefault(); const at = find(group.dataset.blockId); if (!at) return;
+    record(''); selectedBlock = at.b.id;
+    at.b.minRows = Math.max(1, Math.min(200, (at.b.minRows || Number(group.dataset.usedRows)) + (e.key === 'ArrowUp' ? -1 : 1)));
+    changed(true); $('#page').jotReady.then(() => { const g = [...$('#page').querySelectorAll('.jot-layout-block')].find((x) => x.dataset.blockId === selectedBlock); g?.querySelector('.layout-resize')?.focus(); });
+  } else if (e.key === 'Enter' || e.key === ' ') { if (e.target === group) { e.preventDefault(); selectPreviewBlock(group.dataset.blockId); } }
+});
+let sizing = null;
+$('#page').addEventListener('pointerdown', (e) => {
+  const handle = e.target.closest('.layout-resize'); if (!handle || e.button > 0) return;
+  e.preventDefault(); const group = handle.closest('.jot-layout-block'); selectPreviewBlock(group.dataset.blockId);
+  sizing = { handle, id: group.dataset.blockId, y: e.clientY, rows: Number(group.dataset.usedRows), next: Number(group.dataset.usedRows), scale: Number($('#paper-stage').dataset.scale) || 1 };
+  handle.setPointerCapture(e.pointerId);
+});
+$('#page').addEventListener('pointermove', (e) => {
+  if (!sizing) return;
+  const pitch = Number($('#page').jotGrid.pitch) * sizing.scale;
+  sizing.next = Math.max(1, Math.min(200, sizing.rows + Math.round((e.clientY - sizing.y) / pitch)));
+  $('#block-rows').value = sizing.next;
+  $('#block-size').textContent = `${sizing.next} rows · ${sizing.next * tpl.layout.pitchMm} mm minimum; release to apply`;
+});
+function finishSizing(apply) {
+  if (!sizing) return;
+  const s = sizing; sizing = null;
+  const at = find(s.id);
+  if (apply && at && s.next !== s.rows) { record(''); at.b.minRows = s.next; changed(true); }
+  else selectPreviewBlock(selectedBlock);
+}
+$('#page').addEventListener('pointerup', () => finishSizing(true));
+$('#page').addEventListener('pointercancel', () => finishSizing(false));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') finishSizing(false); });
+let resizeFrame;
+new ResizeObserver(() => { cancelAnimationFrame(resizeFrame); resizeFrame = requestAnimationFrame(() => { if (view === 'page' && !sizing) fitPaper(); }); }).observe($('#page-view'));
+
 // ---- Text or Page: the file as it is, or as a journal reader shows it (charts drawn) ----
-let view = 'text';
+let view = 'page';
 function setView(v, focus) {
   view = v;
   for (const [id, name] of [['#tab-text', 'text'], ['#tab-page', 'page']]) { const t = $(id); t.setAttribute('aria-selected', String(name === v)); t.tabIndex = name === v ? 0 : -1; if (focus && name === v) t.focus(); }
@@ -298,4 +424,4 @@ $('#open-file').onchange = async () => {
 };
 $('#copy-jot').onclick = async () => { menu(false); try { await navigator.clipboard.writeText(files[shown].text); toast('Copied the .jot text'); } catch { toast('Copy is not allowed here: select the text instead'); } };
 
-drawSettings(); drawZones(); drawPreview(); drawHistory();
+drawSettings(); drawZones(); setView('page'); drawHistory();

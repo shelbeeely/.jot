@@ -1,5 +1,26 @@
 # Latest Jot v1 decisions
 
+## Optional template grid layout (26 October 2026)
+
+The template editor now previews full-width blocks on physical handwritten pages. This supersedes the earlier template-editor
+boundary that excluded page layout. It does not add scanning codes, fixed-position text or responsive columns.
+
+- A block can reserve a **minimum** of 0–200 grid rows including its heading (0 means Auto), leave 0–20 blank rows after it, and start
+  on a new page. Content expands beyond the minimum without clipping. Blocks that fit one page move intact to the next page when
+  needed; oversized blocks continue in source order. Resizing snaps to rows and has both numeric and keyboard controls.
+- Page settings name A5, A4, Letter or Pocket paper, 4–7 mm dot pitch and 4–30 mm minimum margins. `pageGeometry` rounds the writing
+  area to whole rows and columns. Preview fitting scales only the display, not the measured print geometry.
+- These are optional presentation hints in existing hidden comments: `jot-page: {"paper":"A5","pitchMm":5,"marginMm":8}` and
+  `jot-block: {"id":"notes","rows":8,"gap":1,"newPage":false}`, closed by a separate `jot-block-end` comment. Values are validated and
+  bounded, never interpreted as HTML or CSS. Block ids link repeated instances to their template block.
+- Unchanged Auto-only templates omit the extra layout markers to preserve compact text and InkDeck capacity. The editor generates
+  markers separately for its visual preview. Saved template JSON and the hidden template comment round-trip all layout settings.
+- The shared handwritten renderer aligns children within each sized block, then allocates its minimum rows and page-start space.
+  Write restores a file's paper/grid settings; print and standalone HTML retain block space. Editing outlines and controls stay in
+  the template editor. Other text readers can ignore hints and still read the complete journal.
+- Browser tests cover row geometry, page starts, drag and keyboard sizing, undo/redo, Auto, oversized blocks, growth beyond the minimum,
+  file round trips, Write, HTML export, phone width and accessibility. Physical printer proofs remain a separate check.
+
 ## Two representations, two extensions (draft 3, 26 October 2026)
 
 Jot v1 has two representations with the same writing syntax:

@@ -41,7 +41,7 @@ remembered in this browser (`jot-hand-v1`). The writing workspace uses the separ
 ## Template editor (`dist/editor/`)
 
 A separate editor just for Jot: build the structure of a journal and download it as a plain-text `.jot` to fill in by hand (a keyboard,
-a phone or InkDeck). No page layout, paper sizes, scan codes or drawing blocks.
+a phone or InkDeck). Optional handwritten page layout reserves grid rows per block, gaps and page starts, with paper-size and margin controls. No scan codes or drawing blocks.
 
 - **Five zones:** before the days, each week begins, each day, each week ends, after the days.
 - **Blocks:** writing space, prompt (several questions take turns, one a day), checkboxes, task lines, scale, ratings, fill-in blanks,
@@ -115,3 +115,5 @@ uploaded:
 
 To turn it on once: the repository's **Settings → Pages → Source: GitHub Actions**. The site is then at
 `https://<owner>.github.io/<repository>/`; every link in it is relative, so it works there or on a custom domain.
+
+Template layout browser regression: `node site/test-layout-ui.cjs` from the project root (Playwright with Chromium).

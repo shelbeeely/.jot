@@ -16,7 +16,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="using-the-template-editor">Using the template editor</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-five-steps">In five steps</a></li><li><a href="#the-five-zones">The five zones</a></li><li><a href="#starters">Starters</a></li><li><a href="#blocks">Blocks</a></li><li><a href="#numbers-and-charts">Numbers and charts</a></li><li><a href="#arranging-blocks">Arranging blocks</a></li><li><a href="#the-file-on-the-right">The file on the right</a></li><li><a href="#downloading">Downloading</a></li><li><a href="#filling-it-in">Filling it in</a></li><li><a href="#changing-the-template-later">Changing the template later</a></li><li><a href="#with-inkdeck">With InkDeck</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-five-steps">In five steps</a></li><li><a href="#the-five-zones">The five zones</a></li><li><a href="#starters">Starters</a></li><li><a href="#blocks">Blocks</a></li><li><a href="#size-blocks-on-the-handwritten-grid">Size blocks on the handwritten grid</a></li><li><a href="#numbers-and-charts">Numbers and charts</a></li><li><a href="#arranging-blocks">Arranging blocks</a></li><li><a href="#the-file-on-the-right">The file on the right</a></li><li><a href="#downloading">Downloading</a></li><li><a href="#filling-it-in">Filling it in</a></li><li><a href="#changing-the-template-later">Changing the template later</a></li><li><a href="#with-inkdeck">With InkDeck</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li></ul></nav><article class="guide">
 <p>The template editor builds the <strong>shape</strong> of a journal: what each day, week and month asks of you. It gives you a plain-text <code>.jot</code>
 file with a dated entry for every day, ready to fill in by hand on any keyboard, a phone or InkDeck.</p>
 <p>It runs in your browser. Your template stays in that browser and nothing is sent anywhere.</p>
@@ -25,7 +25,7 @@ file with a dated entry for every day, ready to fill in by hand on any keyboard,
 <li>Open the <strong>Template editor</strong> (the second link at the top of the site).</li>
 <li>Give the journal a <strong>name</strong> and pick the <strong>month</strong>.</li>
 <li>Choose <strong>Start from…</strong> for a ready-made shape, or keep the one you have.</li>
-<li>Change the blocks until each day asks what you want it to ask. The right-hand side shows the file as you go.</li>
+<li>Change the blocks until each day asks what you want it to ask. The right-hand side shows the handwritten page as you go; <strong>Text</strong> shows the source file.</li>
 <li>Press <strong>Download .jot</strong>. Open the file in any text editor and start writing.</li>
 </ol>
 <h2 id="the-five-zones">The five zones</h2>
@@ -164,6 +164,41 @@ numbers and a scratchpad), with sleep, work hours, steps and mood to write in ea
 </tbody></table>
 <p>Every block has <strong>options</strong> (the ⚙ button): its title, its labels (one a line), its numbers. A scale always keeps a real range: if
 &quot;To&quot; is lower than &quot;From&quot;, it is raised to fit.</p>
+<h2 id="size-blocks-on-the-handwritten-grid">Size blocks on the handwritten grid</h2>
+<p>The editor opens in <strong>Page</strong> view with one sample day. Open <strong>Paper and grid settings</strong> to choose A5, A4, Letter or Pocket paper,
+4–7 mm dots and a minimum margin. Margins are rounded outward so the writing area holds whole grid rows and columns.
+Choose <strong>Whole selected file</strong> to include weekly blocks, reviews and the beginning and end of the month.</p>
+<p>Select an outlined block on the page, or open its ⚙ options:</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Minimum rows (0 = Auto)</strong></td>
+<td>Reserves space for the entire block, including its heading. Auto uses the space its content needs.</td>
+</tr>
+<tr>
+<td><strong>Blank rows after</strong></td>
+<td>Leaves 0–20 grid rows before the next block.</td>
+</tr>
+<tr>
+<td><strong>Start on new page</strong></td>
+<td>Starts the block on the next page when it is not already at a page boundary.</td>
+</tr>
+</tbody></table>
+<p>For example, <strong>8 rows</strong> at <strong>5 mm</strong> reserves <strong>40 mm</strong> vertically. Drag the selected block&#39;s bottom handle to change its minimum
+in whole rows. You can also focus the handle and use <strong>Up/Down</strong>, or type a number in the labelled field. Undo and redo include sizing.</p>
+<p>The page shows each block&#39;s actual row count, page boundaries and the space left on the last page. A block that fits a page moves to
+the next page if necessary. A block taller than a page continues across pages; writing beyond a minimum expands the block without
+clipping it. These are full-width blocks in reading order; side-by-side columns are not supported.</p>
+<p>Layout settings stay in saved templates and downloaded <code>.jot</code> files as optional hidden comments. Open a downloaded file in <strong>Write</strong>
+to keep its paper, grid and reserved space for handwritten preview, <strong>Print / PDF</strong> and <strong>Download page</strong> HTML export. The outlines,
+row badges and resize handles are editor guides and are not exported. Plain-text readers keep the writing and may ignore layout hints.
+Use your browser&#39;s default print margins and 100% scale; printer-specific physical proofs are still recommended.</p>
+<p>Adding layout hints increases file size. The existing 16 KB warning still applies for InkDeck; choose weekly or daily files if needed.</p>
 <h2 id="numbers-and-charts">Numbers and charts</h2>
 <p>Checkboxes say yes or no. Numbers say how much: hours slept, hours worked, steps, a mood from 1 to 5. Write them as numbers and a
 chart shows the week at a glance, so you can see whether sleep is holding steady or where the hours went.</p>

@@ -130,3 +130,21 @@ test('Weekly dashboard: six widgets a week (within the rule of 7), numbers every
   const filled = m.text.replace('#sleep-2026-10-06\nmetric: sleep\nunit: h\nvalue:', '#sleep-2026-10-06\nmetric: sleep\nunit: h\nvalue: 7.5');
   assert.deepEqual(charts(parse(filled))[1].model.series[0].points, [null, 7.5, null, null, null, null, null]);
 });
+
+test('grid layout survives JSON and .jot round trips, with bounded sizes and unchanged writing', () => {
+  const t = normalizeTemplate({ month: '2026-10', per: 'day', layout: { paper: 'Letter', pitchMm: 6, marginMm: 12 }, zones: { day: [
+    { type: 'writing', title: 'Notes', minRows: 8, gapAfter: 2, newPage: 'yes' },
+    { type: 'tasks', title: 'Tasks', n: 2, minRows: 999, gapAfter: -5 },
+  ] } });
+  assert.deepEqual(t.layout, { paper: 'Letter', pitchMm: 6, marginMm: 12 });
+  assert.equal(t.zones.day[1].minRows, 200); assert.equal(t.zones.day[1].gapAfter, 0);
+  const f = renderFiles(t)[0], ast = parse(f.text);
+  assert.deepEqual(ast.diagnostics, []);
+  assert.deepEqual(templateFromJot(f.text), t);
+  assert.deepEqual(normalizeTemplate(JSON.parse(JSON.stringify(t))), t);
+  assert.match(f.text, /jot-page: /); assert.match(f.text, /"rows":8,"gap":2,"newPage":true/);
+  assert.match(f.text, /#### Notes/); assert.match(f.text, /#### Tasks\n\n\[ \] \n\[ \] /);
+  assert.equal(ast.nodes.filter((n) => n.type === 'comment' && /jot-block:/.test(n.raw)).length, 2);
+  const plain = renderFiles(fromStarter('blank', { month: '2026-10', per: 'day' }))[0];
+  assert.ok(!plain.text.includes('jot-block:') && !plain.text.includes('jot-page:'), 'Auto-only templates stay compact');
+});

@@ -11,3 +11,5 @@ nav{display:flex;align-items:center;gap:24px}nav a,nav button{text-decoration:no
 .format-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px}.format-tools label{display:flex;align-items:center;gap:6px}.format-tools input[type=color]{width:44px;height:36px;padding:2px}.format-tools button,.format-tools select{min-height:44px}.format-tools>span:first-child{flex-basis:100%}#colorAdvice{flex-basis:100%;font-size:12px}@media print{.format-tools{display:none!important}}
 
 .palette-picker{flex-basis:100%}.palette-picker summary{cursor:pointer;padding:8px 0}.palette-picker fieldset{border:0;margin:8px 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}.palette-picker legend{font-size:11px;padding:6px 0}.color-swatch{width:44px;height:44px;min-width:44px;border:1px solid #777;border-radius:8px;cursor:pointer}.color-swatch:focus-visible{outline:3px solid #222;outline-offset:3px}.format-tools select{max-width:100%}.format-tools label{max-width:100%}
+
+@media print{.paper-preview.jot-hand{padding:0!important}}

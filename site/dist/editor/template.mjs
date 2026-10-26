@@ -12,10 +12,14 @@
  * Numbers are measurement records (metric, unit, an empty value:); a week chart is a chart record naming them and its dates, which the
  * page previews draw (../jot/charts.mjs) and a plain-text reader shows as what it asks for.
  * Writing first: a block is a #### heading with room to write, [ ] boxes to tick, "label:" blanks (in a record when they are numbers),
- * [[a · b]] choices. Nothing for scanning or page layout: no codes, boxes, page breaks or paper size.
+ * [[a · b]] choices. Optional grid layout is carried in hidden comments; plain-text readers keep the writing.
  */
 
+import { normalizePageLayout } from '../jot/handwriting.mjs';
 export const TEMPLATE_VERSION = 1;
+export const LAYOUT_OPTS = [NLayout('minRows', 'Minimum rows (0 = Auto)', 0, 200, 0), NLayout('gapAfter', 'Blank rows after', 0, 20, 1), { k: 'newPage', kind: 'choice', label: 'Start on new page', choices: [['no', 'No'], ['yes', 'Yes']], def: 'no' }];
+function NLayout(k, label, lo, hi, def) { return { k, label, lo, hi, def, kind: 'num' }; }
+
 export const INKDECK_BYTES = 16383; // InkDeck's editor buffer: a bigger file opens cut short
 export const ZONES = [
   { id: 'front', name: 'Before the days', hint: 'Once, at the start: a theme, contacts, a plan for the month.' },
@@ -96,7 +100,7 @@ export const newId = () => `b${Date.now().toString(36)}${(seq++).toString(36)}`;
 export function normalizeBlock(raw, zone = 'day', fallbackId = null) {
   if (!isObj(raw) || !BLOCKS[raw.type] || !allowedIn(raw.type, zone)) return null;
   const B = BLOCKS[raw.type], out = { id: typeof raw.id === 'string' && /^[\w-]{1,40}$/.test(raw.id) ? raw.id : fallbackId || newId(), type: raw.type };
-  for (const o of B.opts) {
+  for (const o of [...B.opts, ...LAYOUT_OPTS]) {
     const v = raw[o.k];
     if (o.kind === 'text') out[o.k] = v === undefined ? o.def : str(v, o.max);
     else if (o.kind === 'num') out[o.k] = num(v, o.lo, o.hi, o.def);
@@ -125,6 +129,7 @@ export function normalizeTemplate(raw) {
     title: str(t.title, 80, 'My journal') || 'My journal',
     month: typeof t.month === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(t.month) ? t.month : thisMonth(),
     per: ['month', 'week', 'day'].includes(t.per) ? t.per : 'month',
+    layout: normalizePageLayout(t.layout),
     zones,
   };
 }
@@ -221,16 +226,24 @@ function block(W, bl, at, n, level, span) {
     default:
   }
 }
-const blocks = (W, list, at, n, level = 4, span = null) => { for (const bl of list) block(W, bl, at, n, level, span); };
+const blocks = (W, list, at, n, level = 4, span = null) => {
+  for (const bl of list) {
+    // Each repeated instance retains its template id; the writing can grow inside these markers.
+    const sized = W.layoutPreview || bl.minRows > 0 || bl.gapAfter !== 1 || bl.newPage === 'yes';
+    if (sized) { W.gap(); W.out('/*', `jot-block: ${JSON.stringify({ id: bl.id, rows: bl.minRows, gap: bl.gapAfter, newPage: bl.newPage === 'yes' })}`, '*/', ''); }
+    block(W, bl, at, n, level, span);
+    if (sized) { W.gap(); W.out('/*', 'jot-block-end', '*/', ''); }
+  }
+};
 
 /** One file. range: { from, to } (dates) keeps only those days; front blocks go with the month's first day, back blocks with its last.
  *  -> { text, file, days, bytes } */
-export function renderJot(tplIn, range = null) {
+export function renderJot(tplIn, range = null, { layoutPreview = false } = {}) {
   const t = normalizeTemplate(tplIn), Z = t.zones;
   const all = monthDays(t.month), inR = (d) => !range || (d.date >= range.from && d.date <= range.to);
   const days = all.filter(inR), weeks = monthWeeks(all).map((w) => ({ ...w, days: w.days.filter(inR) })).filter((w) => w.days.length);
   const label = `${MONTHS[+t.month.slice(5) - 1]} ${t.month.slice(0, 4)}`, lastOfMonth = all[all.length - 1].date;
-  const W = writer();
+  const W = writer(); W.layoutPreview = layoutPreview;
   W.h(1, label);
   const month = { start: all[0].date, end: all[all.length - 1].date };
   if (inR(all[0])) blocks(W, Z.front, `${t.month}-start`, 0, 4, month);
@@ -249,6 +262,8 @@ export function renderJot(tplIn, range = null) {
   if (inR(all[all.length - 1])) blocks(W, Z.back, `${t.month}-end`, 0, 4, month);
   const span = range ? (days.length === 1 ? days[0].date : `${days[0].date} to ${days[days.length - 1].date}`) : label;
   const head = ['---', 'Jot: 1.0', `Title: ${one(t.title)} · ${span}`, `Date: ${days[0].date}`, 'Made-with: Jot template editor', '---', ''];
+  const hasLayout = Object.values(Z).flat().some((b) => b.minRows > 0 || b.gapAfter !== 1 || b.newPage === 'yes') || JSON.stringify(t.layout) !== JSON.stringify(normalizePageLayout());
+  if (hasLayout) head.push('/*', `jot-page: ${JSON.stringify(t.layout)}`, '*/', '');
   for (const s of W.scales.values()) head.push(`:::record scale #${s.id}`, `name: ${slug(s.name)}`, 'kind: ordinal', `minimum: ${s.min}`, `maximum: ${s.max}`, ...(s.lo ? [`anchor-low: ${s.lo}`] : []), ...(s.hi ? [`anchor-high: ${s.hi}`] : []), ':::', '');
   // The template rides at the end in a hidden comment (not shown when the journal is read), so opening this .jot restores it.
   const text = `${head.join('\n')}\n${W.lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n\n${templateComment(t)}`;
@@ -266,7 +281,16 @@ export function renderFiles(tplIn) {
 // A Jot hidden comment: "/*" and "*/" on lines of their own, one JSON line between. JSON never has a raw newline, so the comment
 // cannot be closed early by anything a person typed.
 const TEMPLATE_KEY = 'jot-template:';
-export const templateComment = (t) => `/*\n${TEMPLATE_KEY} ${JSON.stringify(normalizeTemplate(t))}\n*/\n`;
+export const templateComment = (t) => {
+  const compact = normalizeTemplate(t);
+  for (const b of Object.values(compact.zones).flat()) {
+    if (!b.minRows) delete b.minRows;
+    if (b.gapAfter === 1) delete b.gapAfter;
+    if (b.newPage === 'no') delete b.newPage;
+  }
+  if (JSON.stringify(compact.layout) === JSON.stringify(normalizePageLayout())) delete compact.layout;
+  return `/*\n${TEMPLATE_KEY} ${JSON.stringify(compact)}\n*/\n`;
+};
 /** The template a .jot made here carries, or null (a .jot written anywhere else, or one whose comment was removed). Checked, never trusted. */
 export function templateFromJot(text) {
   const m = /(?:^|\n)\/\*\r?\n(?:jot-template:) (\{[^\n]*\})\r?\n\*\/(?:\r?\n|$)/.exec(String(text || ''));

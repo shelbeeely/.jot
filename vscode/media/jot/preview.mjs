@@ -21,7 +21,7 @@
  */
 import { charts, chartConfig, summaryText, fmt, CHART_CSS, metricLabel } from './charts.mjs';
 import { Chart } from './vendor/chart.mjs';
-import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx } from './handwriting.mjs';
+import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFromComment } from './handwriting.mjs';
 import { parse } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
 export { CHART_CSS };
@@ -191,8 +191,19 @@ export function renderPreview(ast, target, opts = {}) {
   if (!hand && opts.style && isStyle(opts.style)) { addPageStyles(doc); target.classList.add(`jot-style-${opts.style}`); }
   if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.pen).family}'`); }
   else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy']) target.style.removeProperty(k);
-  const frag = doc.createDocumentFragment();
+  const root = doc.createDocumentFragment();
+  let frag = root;
   for (const n of ast.nodes) {
+    if (n.type === 'comment') {
+      const layout = blockLayoutFromComment(n.raw);
+      if (layout) {
+        frag = el('section', undefined, 'jot-layout-block');
+        frag.dataset.blockId = layout.id; frag.dataset.minRows = layout.rows;
+        frag.dataset.gap = layout.gap; frag.dataset.newPage = layout.newPage;
+        root.append(frag);
+      } else if (/^\/\*\r?\njot-block-end\r?\n\*\//.test(n.raw)) frag = root;
+      continue;
+    }
     if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank') continue;
     if (n.markdown && n.markdown.type === 'paragraph' && BLANKS.test(n.markdown.raw.trim())) { // a template's empty lines: "1. ", "- ", "[ ] " to write after
       const box = el('div', undefined, 'jot-blanks');
@@ -231,6 +242,7 @@ export function renderPreview(ast, target, opts = {}) {
     else if (SIGN[n.type]) { const [sym, said] = SIGN[n.type], p = el('p', undefined, `jot-sign jot-${n.type}`), b = el('span', sym, 'jot-sym'); b.setAttribute('role', 'img'); b.setAttribute('aria-label', said); p.append(b, ' '); inline(inlineOf(n.text), p); frag.append(p); }
     else frag.append(el('p', n.text || n.raw));
   }
+  frag = root;
   if (notes.defs.size) { // footnotes, numbered by first mention; ones never mentioned come last
     const sec = el('section', undefined, 'jot-footnotes'), ol = el('ol'); sec.setAttribute('aria-label', 'Notes');
     for (const id of notes.defs.keys()) if (!notes.order.includes(id)) notes.order.push(id);
@@ -242,16 +254,18 @@ export function renderPreview(ast, target, opts = {}) {
     sec.append(ol); frag.append(sec);
   }
   for (const c of target.querySelectorAll('canvas')) { const old = Chart.getChart(c); if (old) old.destroy(); } // the last drawing's charts
-  target.replaceChildren(frag);
+  target.replaceChildren(root);
   for (const [box, model] of drawn) drawChart(box, model); // once in the page: Chart.js measures the box and reads its colours
   if (!target.childNodes.length) target.append(el('p', opts.empty || 'A little room for whatever comes next.'));
+  const revision = (target.jotRevision || 0) + 1; target.jotRevision = revision;
+  target.jotGrid = null;
   target.jotReady = Promise.resolve();
   if (hand) {
     handwrite(target, hand);
     const fam = (HANDS[hand.hand] || HANDS.pen).family, fonts = doc.fonts;
     const loaded = fonts && fonts.load ? Promise.all([fonts.load(`400 16px '${fam}'`), fonts.load(`700 16px '${fam}'`)]).catch(() => {}) : Promise.resolve();
     target.jotReady = loaded.then(() => {
-      if (!target.isConnected) return null;
+      if (!target.isConnected || target.jotRevision !== revision) return null;
       for (const c of target.querySelectorAll('.jot-chart canvas')) { const ch = Chart.getChart(c); if (ch) ch.update('none'); } // repaint: the hand's font is there now to label the axes
       target.jotGrid = alignToGrid(target, hand); return target.jotGrid;
     });

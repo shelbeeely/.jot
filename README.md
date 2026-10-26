@@ -144,7 +144,9 @@ Details: [vscode/README.md](vscode/README.md).
 
 A separate editor just for Jot, in the site at `/editor/`: put together what each day, week and month asks (writing space, prompts,
 checkboxes, scales, blanks, time blocks ...), then download a plain-text `.jot` to fill in by hand, one file for the month or a file a
-week for InkDeck. No page layout or scanning. Undo, drag to reorder, a Page view with charts, and reopen any downloaded `.jot` to get
+week for InkDeck. The handwritten Page view shows paper, grid rows and page boundaries. Reserve a minimum number of rows per block,
+set gaps and page starts, or drag a block’s bottom handle to resize it. Full-width blocks expand with longer writing. Undo, drag to
+reorder, charts, and reopen any downloaded `.jot` to get
 its template back. Details: [site/README.md](site/README.md#template-editor-disteditor).
 
     python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/editor/
@@ -207,6 +209,7 @@ node tools/manifest.cjs --check
 
 Browser regression checks require Playwright, Chromium and the root `axe-core` dependency. With Playwright available, run
 `npm install`, then `node site/test-editor-ui.cjs` and `node site/test-colors-ui.cjs`.
+Run `node site/test-layout-ui.cjs` for grid sizing, page starts, save/reopen, overflow and HTML export checks.
 These browser checks are separate from the Node.js tests above.
 
 Before changing behavior, read [DECISIONS.md](DECISIONS.md) and the relevant component README. Parser code is copied into the site and
