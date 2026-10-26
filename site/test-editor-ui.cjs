@@ -192,12 +192,7 @@ const srv = http.createServer((q, r) => {
     const hrefs = await h.$$eval('a[href]', (as) => [...new Set(as.map((a) => a.href))].filter((u) => u.startsWith(location.origin)));
     for (const u of hrefs) { const res = await h.request.get(u.split('#')[0]); assert.equal(res.status(), 200, u); }
     ok(hrefs.length >= 10, `home: every link on the page answers (${hrefs.length})`);
-    const boxes = await h.$$eval('#why-list .hw-check', (ls) => ls.map((l) => !!(l.querySelector('input[type=checkbox]') && l.querySelector('svg.hw-box[aria-hidden="true"] .hw-tick') && l.querySelector('.hw-w'))));
-    ok(boxes.length === 6 && boxes.every(Boolean), `home (${scheme}): six reasons, each a real checkbox with a pencil box drawn beside it and the words in the pen hand`);
-    await h.click('#why-list .hw-check >> nth=1'); await h.focus('#why-list input >> nth=3'); await h.keyboard.press('Space'); await h.waitForTimeout(600);
-    const st = await h.evaluate(() => [...document.querySelectorAll('#why-list .hw-check')].map((l) => [l.querySelector('input').checked, getComputedStyle(l.querySelector('.hw-tick')).strokeDashoffset]));
-    ok(st.filter(([c]) => c).length === 2 && st[1][0] && st[3][0] && st.every(([c, o]) => (c ? parseFloat(o) === 0 : parseFloat(o) === 1)), 'a click or the space bar ticks a reason, and only ticked boxes have their tick drawn');
-    ok(/2 of 6/.test(await h.textContent('#why-answer')), 'and the list answers back');
+    ok(await h.$$eval('main input, main textarea, main select, main [contenteditable], main form', (e) => e.length) === 0, `home (${scheme}): no editor and nothing to fill in, only reasons and pictures`);
     ok(await h.evaluate(() => { const p = document.querySelector('#written-demo'); return p.classList.contains('jot-hand') && p.querySelectorAll('svg.hw-box[role="img"][aria-label="done"]').length === 2 && p.querySelectorAll('svg.hw-box[aria-label="to do"]').length === 1; }), `home (${scheme}): a sample page written by hand, its tasks in pencil boxes a screen reader can name`);
     if (fs.existsSync(AXE)) {
       await h.addScriptTag({ path: AXE });

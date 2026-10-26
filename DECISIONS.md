@@ -50,11 +50,11 @@ only native representation.
 - **On the dots.** Lines are one dot pitch apart, the pitch is snapped to Chromium's 1/64 px layout unit, blocks are rounded up to whole
   rows, two-row headings are nudged onto a row, the dots are drawn at the measured baseline, and the printed page's writing area is a
   whole number of rows (`pageGeometry`). Printed, the dots and the letters land together on every page.
-- **Hand-drawn boxes are SVG lines, not a font.** A task's box is a wobbly pencil square and a scribbled tick (`boxSVG`, paths from a
-  seed), drawn in the ink colour so they print as lines; the tick draws itself with a CSS stroke animation (`pathLength` 1, dash
-  offset 1 to 0), finished at once for reduced motion and in print. Where a box can be ticked (the home page's checklist) the native
-  checkbox stays underneath for the keyboard and screen readers, hidden only once its drawing is there (`.hw-check:has(.hw-box)`).
-  No extra handwriting font for the boxes: the page already writes in Caveat.
+- **Hand-drawn boxes belong to the handwritten look.** On a handwritten page a task's box is a wobbly pencil square and a done task's
+  a scribbled tick (`boxSVG`, SVG paths from a seed), in the ink colour so they print as lines; the tick draws itself with a CSS stroke
+  animation (`pathLength` 1, dash offset 1 to 0), finished at once for reduced motion and in print. Typed pages keep plain boxes. No
+  extra font for the boxes: the page already writes in Caveat.
+- **The home page explains; it takes no input.** No editor or form on it: the writing workspace is at `/write/`.
 - **Fonts are bundled** (`parser/fonts/`, SIL OFL 1.1, Latin and Latin Extended, regular and bold), never fetched; the site publishes
   `.woff2` for them.
 

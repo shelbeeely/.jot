@@ -83,22 +83,15 @@ ${BOX_CSS}`.replace(/\.jot-hand(?![\w-])/g, '.jot-hand.jot-hand'); // doubled: t
 // ---- hand-drawn checkboxes: a wobbly pencil square and a scribbled tick that draws itself ----
 // Inline SVG, so it scales with the writing and prints as lines. Every box is a little different (from its seed); the tick's stroke is
 // animated from nothing to whole with stroke-dashoffset (pathLength 1, so no measuring), finished at once in print and for reduced motion.
-// Used on handwritten pages (a task's box), and for real checkboxes: a native <input> kept for keyboard and screen readers, visually
-// hidden, with the drawing beside it (.hw-check: <label class="hw-check"><input type="checkbox"> <svg …/> words</label>).
+// Only on handwritten pages, in the hand's ink: a task's box, and a Markdown task list's box.
 export const BOX_CSS = `.hw-box{display:inline-block;width:1.1em;height:1.1em;overflow:visible;vertical-align:-.2em;color:inherit;flex:none}
 .hw-box .hw-square{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .hw-box .hw-tick{fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
 .hw-box.done .hw-tick{stroke-dashoffset:0}
-.hw-check{display:inline-flex;align-items:baseline;gap:.45em;cursor:pointer;position:relative}
-.hw-check:has(.hw-box) input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none} /* until the drawing is there, the real box shows */
-.hw-check .hw-tick{transition:stroke-dashoffset .38s cubic-bezier(.6,.05,.35,1)}
-.hw-check input:checked + .hw-box .hw-tick{stroke-dashoffset:0}
-.hw-check input:focus-visible + .hw-box{outline:2px solid currentColor;outline-offset:3px;border-radius:3px}
-.hw-check:hover .hw-square{stroke-width:2.2}
 .hw-box.drawn .hw-tick{animation:hw-draw .45s cubic-bezier(.6,.05,.35,1) both}
 @keyframes hw-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
-@media (prefers-reduced-motion:reduce){.hw-check .hw-tick{transition:none}.hw-box.drawn .hw-tick{animation:none}}
-@media print{.hw-check .hw-tick{transition:none}.hw-box.drawn .hw-tick{animation:none}}`;
+@media (prefers-reduced-motion:reduce){.hw-box.drawn .hw-tick{animation:none}}
+@media print{.hw-box.drawn .hw-tick{animation:none}}`;
 const SVGNS = 'http://www.w3.org/2000/svg';
 const r1 = (v) => Math.round(v * 10) / 10;
 /** The path of a wobbly pencil square on a 24 x 24 box: four bowed sides, the pencil overshooting where it began. */
@@ -132,7 +125,7 @@ function rng(seed) { let s = seed >>> 0 || 1; return () => { s ^= s << 13; s ^= 
 
 const SKIP = new Set(['SCRIPT', 'STYLE', 'CANVAS', 'SVG', 'svg', 'INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'IMG', 'SUMMARY']);
 /** Turns every word on the page into handwriting. Safe to call again after a new render (it starts from the page as rendered). */
-export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1, inputs = true } = {}) { // inputs: false keeps real checkboxes (a form)
+export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
   const H = HANDS[hand] || HANDS.pen, doc = page.ownerDocument;
   page.classList.add('jot-hand');
   page.style.setProperty('--hw-family', `'${H.family}'`);
@@ -146,7 +139,7 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1, inputs =
     if (first && first.nodeType === 3) first.textContent = first.textContent.replace(/^[☐☑] /, '');
     t.prepend(boxSVG(doc, { done, seed: seed * 101 + (boxes++), label: done ? 'done' : 'to do', drawn: done }));
   }
-  if (inputs) for (const cb of page.querySelectorAll('input[type=checkbox]')) cb.replaceWith(boxSVG(doc, { done: cb.checked, seed: seed * 101 + (boxes++), label: cb.checked ? 'done' : 'to do', drawn: cb.checked }));
+  for (const cb of page.querySelectorAll('input[type=checkbox]')) cb.replaceWith(boxSVG(doc, { done: cb.checked, seed: seed * 101 + (boxes++), label: cb.checked ? 'done' : 'to do', drawn: cb.checked }));
   const walker = doc.createTreeWalker(page, 4 /* NodeFilter.SHOW_TEXT */, { acceptNode: (n) => { for (let p = n.parentNode; p && p !== page; p = p.parentNode) if (SKIP.has(p.nodeName) || (p.classList && (p.classList.contains('hw-w') || p.classList.contains('jot-chart-table')))) return 2; return n.nodeValue.trim() ? 1 : 2; } });
   const texts = []; for (let n = walker.nextNode(); n; n = walker.nextNode()) texts.push(n);
   let k = 0;

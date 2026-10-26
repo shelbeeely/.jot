@@ -1,9 +1,8 @@
-// The home page's live pieces, made by the same code as the workspace: a week of numbers drawn by Chart.js, a checklist of reasons with
-// hand-drawn boxes (real checkboxes underneath), and a sample page written by hand on a dot grid.
+// The home page's two pictures, made by the same code as the workspace: a week of numbers drawn by Chart.js, and a sample page written
+// by hand on a dot grid. Nothing on this page takes input.
 import { parse } from './jot/jot.mjs';
 import { charts } from './jot/charts.mjs';
 import { drawChart, addChartStyles, addHandwritingStyles, renderPreview } from './jot/preview.mjs';
-import { boxSVG, handwrite } from './jot/handwriting.mjs';
 
 addChartStyles(document); addHandwritingStyles(document);
 
@@ -14,16 +13,6 @@ const text = days.map((d, i) => `### ${d}\n\n:::record measurement #sleep-${d}\n
   + '\n:::record chart #week\nmetrics: sleep, steps\nstart: 2026-10-26\nend: 2026-11-01\n:::\n';
 const [c] = charts(parse(text));
 drawChart(document.getElementById('demo-chart'), c.model);
-
-// the reasons, ticked by hand: a pencil box after each real checkbox, the words in the pen hand
-const list = document.getElementById('why-list'), answer = document.getElementById('why-answer');
-list.querySelectorAll('.hw-check input').forEach((input, i) => input.after(boxSVG(document, { seed: 31 + i * 7 })));
-handwrite(list, { hand: 'pen', ink: 'blue', seed: 3, inputs: false });
-const say = () => {
-  const n = list.querySelectorAll('input:checked').length;
-  answer.textContent = n === 0 ? '' : n < 3 ? `${n} of 6. A good start.` : n < 6 ? `${n} of 6. Jot was made for journals like yours.` : 'All six. Start writing →';
-};
-list.addEventListener('change', say);
 
 // a page, written by hand on dots: the same renderer and grid as the workspace
 const page = `### 2026-10-26 | Monday

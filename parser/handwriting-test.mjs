@@ -45,8 +45,9 @@ test('hand-drawn boxes: a wobbly square and a scribbled tick, different for each
   assert.match(squarePath(1), /^M[\d.]+,[\d.]+(Q[\d.]+,[\d.]+ [\d.]+,[\d.]+){4}L[\d.]+,[\d.]+$/, 'four bowed sides and the pencil\'s overlap');
   assert.match(tickPath(1), /^M[\d.-]+,[\d.-]+Q[\d.-]+,[\d.-]+ [\d.-]+,[\d.-]+Q[\d.-]+,[\d.-]+ [\d.-]+,[\d.-]+$/, 'one stroke, down then up');
   for (let s = 1; s < 50; s++) for (const n of squarePath(s).match(/-?[\d.]+/g).map(Number)) assert.ok(n > 0 && n < 24, `square ${s} stays in its box`);
-  assert.match(BOX_CSS, /stroke-dashoffset:1/); assert.match(BOX_CSS, /input:checked \+ \.hw-box \.hw-tick\{stroke-dashoffset:0\}/, 'pure CSS: a checked input draws its tick');
-  assert.match(BOX_CSS, /@media \(prefers-reduced-motion:reduce\)\{[^}]*transition:none/); assert.match(BOX_CSS, /@media print\{[^}]*transition:none/);
-  assert.match(BOX_CSS, /\.hw-check:has\(\.hw-box\) input\{[^}]*opacity:0/, 'the real checkbox hides only once its drawing is there');
+  assert.match(BOX_CSS, /\.hw-tick\{[^}]*stroke-dashoffset:1/); assert.match(BOX_CSS, /\.hw-box\.done \.hw-tick\{stroke-dashoffset:0\}/, 'a done box shows its tick');
+  assert.match(BOX_CSS, /@keyframes hw-draw\{from\{stroke-dashoffset:1\}to\{stroke-dashoffset:0\}\}/, 'the tick draws itself');
+  assert.match(BOX_CSS, /@media \(prefers-reduced-motion:reduce\)\{[^}]*animation:none/); assert.match(BOX_CSS, /@media print\{[^}]*animation:none/);
+  assert.ok(!/hw-check|input/.test(BOX_CSS), 'only drawings on handwritten pages: no form controls');
   assert.ok(css('./f/').includes(BOX_CSS));
 });
