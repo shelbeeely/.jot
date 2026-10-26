@@ -245,7 +245,7 @@ const srv = http.createServer((q, r) => {
       const top0 = p.getBoundingClientRect().top + pad, off = blocks.map((e) => (e.getBoundingClientRect().top - top0 - (parseFloat(e.style.top) || 0)) / pitch).filter((r) => Math.abs(r - Math.round(r)) > 0.005);
       const heights = blocks.map((e) => e.getBoundingClientRect().height / pitch).filter((r) => Math.abs(r - Math.round(r)) > 0.005);
       const alts = new Set([...p.querySelectorAll('.hw-c')].map((c) => c.style.fontFeatureSettings || 'none'));
-      return { pitch, off, heights, alts: [...alts].sort(), words: p.querySelectorAll('.hw-w').length, fonts: document.fonts.check("16px 'Jot Caveat'"), edges: p.querySelectorAll('.hw-page-edge').length, css: document.getElementById('printSettings').textContent, text: p.textContent.replace(/\s+/g, ' ').slice(0, 60), dy: p.style.getPropertyValue('--hw-dy'), base: p.jotGrid.baseline }; });
+      return { pitch, off, heights, alts: [...alts].sort(), words: p.querySelectorAll('.hw-w').length, fonts: document.fonts.check("16px 'Jot Caveat'"), edges: p.querySelectorAll('.hw-page-edge').length, css: document.getElementById('printSettings').textContent, text: p.textContent.replace(/\s+/g, ' ').slice(0, 60), dy: p.style.getPropertyValue('--hw-dy'), base: p.jotGrid.baseline, rows: p.jotGrid.rows }; });
     ok(g.fonts && g.words > 400 && g.alts.join() === '"ss01","ss02",none', `handwritten: the pen font is loaded, ${g.words} words written, letters in all three shapes`);
     const rows = await w.evaluate(() => { const p = document.querySelector('#paperPreview'), t = [...p.querySelectorAll(':scope > .jot-task')]; return t.map((e) => e.getBoundingClientRect().height / p.jotGrid.pitch); });
     ok(rows.length === 5 && rows.every((r) => Math.abs(r - 1) < 0.01), `task lines in a row: one row of dots each, no gaps (${rows.map((r) => r.toFixed(2))})`);
@@ -257,7 +257,7 @@ const srv = http.createServer((q, r) => {
     ok(geo && Math.abs(210 * 96 / 25.4 - 2 * geo[1] - 38 * g.pitch) < 0.05, 'the printed A5 page holds exactly 38 rows of dots');
     ok(g.edges >= 2 && /Notebook/.test(g.text), `on screen, a dashed line where each printed page ends (${g.edges})`);
     const pdf = await w.pdf({ preferCSSPageSize: true }), pages = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
-    ok(pages === g.edges + 1, `printing makes the same pages the screen shows (${pages})`);
+    ok(pages === g.edges + 1, `printing makes the same pages the screen shows (${pages}; screen ${g.edges + 1}; rows ${g.rows})`);
     const [, html2] = await getPage();
     ok(/data:font\/woff2;base64,/.test(html2) && (html2.match(/@font-face/g) || []).length === 4 && /jot-hand/.test(html2) && /margin: [\d.]+px [\d.]+px;/.test(html2), 'a handwritten page downloads with its hand embedded (only the hand in use) and its dot-grid page size');
     const before = await w.$eval('#paperPreview', (p) => [p.textContent, [...p.querySelectorAll('.hw-c')].slice(0, 80).map((c) => c.style.fontFeatureSettings).join()]);
@@ -274,6 +274,32 @@ const srv = http.createServer((q, r) => {
     await w.selectOption('#look', 'typed'); await w.waitForTimeout(400);
     ok(!(await w.$('#paperPreview.jot-hand')) && !(await w.$('#paperPreview .hw-w')) && /@page \{ size: 148mm 210mm; margin: \d+mm [^}]*@bottom-center/.test(await w.textContent('#printSettings')), 'Typed puts the page back as it was');
     await w.screenshot({ path: path.join(SHOTS, 'workspace-typed-formatting.png') });
+    await w.close(); }
+  // tools: today, carry tasks forward, week review, calendar and CSV out, numbers in (all without the internet)
+  { const w = await b.newPage({ viewport: { width: 1280, height: 900 }, acceptDownloads: true }); w.on('pageerror', (e) => errs.push(e.message));
+    const offsite = []; w.on('request', (r) => { if (!r.url().startsWith(URL0.replace('/editor/', '/'))) offsite.push(r.url()); });
+    await w.goto(URL0.replace('/editor/', '/write/')); await w.waitForSelector('#writing'); await w.evaluate(() => { try { localStorage.clear(); } catch {} }); await w.reload(); await w.waitForSelector('#writing');
+    const start = '### 2020-01-06 | Monday\n\n[ ] Call Sam\n[x] Walk\no Dinner 19:00\n\n:::record measurement #steps-2020-01-06\nmetric: steps\nvalue:\n:::\n';
+    await w.fill('#writing', start); await w.dispatchEvent('#writing', 'input'); await w.waitForTimeout(400);
+    const today = await w.evaluate(async () => (await import('/jot/automation.mjs')).localToday());
+    await w.click('#rolloverBtn');
+    let text = await w.inputValue('#writing');
+    ok(/\[>\] Call Sam/.test(text) && new RegExp(`### ${today} \\| \\w+\\n\\n\\[ \\] Call Sam`).test(text) && /Carried 1 open task/.test(await w.textContent('#journalNotice')), 'Carry tasks forward: marked [>] where it was, written again under today');
+    await w.focus('#writing'); await w.keyboard.press('Control+z'); await w.waitForTimeout(300);
+    ok((await w.inputValue('#writing')) === start, 'and Ctrl+Z takes it back in one step');
+    await w.click('#todayBtn'); text = await w.inputValue('#writing');
+    ok(text.includes(`### ${today}`) && /Added \d{4}-\d{2}-\d{2}/.test(await w.textContent('#journalNotice')), "Today ＋ adds today's entry");
+    await w.click('#todayBtn'); ok(/is already here/.test(await w.textContent('#journalNotice')), 'and only once');
+    const icsP = w.waitForEvent('download'); await w.click('#icsBtn'); const ics = fs.readFileSync(await (await icsP).path(), 'utf8');
+    ok(/^BEGIN:VCALENDAR\r\n/.test(ics) && /DTSTART:20200106T190000/.test(ics) && /SUMMARY:Call Sam/.test(ics), 'Calendar .ics: the event at its time and the open task');
+    await w.setInputFiles('#importCsv', { name: 'fit.csv', mimeType: 'text/csv', buffer: Buffer.from('Date,Steps\n2020-01-06,8200\n2020-01-07,9100\n') });
+    await w.waitForFunction(() => /From fit\.csv/.test(document.getElementById('journalNotice').textContent));
+    text = await w.inputValue('#writing');
+    ok(/#steps-2020-01-06\nmetric: steps\nvalue: 8200\nsource: fit\.csv/.test(text) && /### 2020-01-07 \| Tuesday\n\n:::record measurement #steps-2020-01-07/.test(text) && /1 blanks filled, 1 numbers added/.test(await w.textContent('#journalNotice')), 'Import numbers: the blank filled, a new day made for the rest');
+    const csvP = w.waitForEvent('download'); await w.click('#numbersCsvBtn'); const csv = fs.readFileSync(await (await csvP).path(), 'utf8');
+    ok(csv === 'date,metric,value,unit\r\n2020-01-06,steps,8200,\r\n2020-01-07,steps,9100,\r\n', 'Numbers .csv: what the journal now holds');
+    await w.click('#reviewBtn'); ok(/## Week review · /.test(await w.inputValue('#writing')), 'Week review adds this week\'s review');
+    ok(offsite.length === 0, 'none of the tools reached outside the site' + (offsite.length ? `: ${offsite.join(', ')}` : ''));
     await w.close(); }
   // the template editor's Page view, handwritten
   { const d = await b.newPage({ viewport: { width: 1280, height: 900 } }); d.on('pageerror', (e) => errs.push(e.message));

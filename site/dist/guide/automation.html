@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Automation and connections · Jot</title>
+<link rel="stylesheet" href="../editor/editor.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<a class="skip" href="#guide">Skip to the guide</a>
+<header class="top">
+  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
+</header>
+<main>
+<div class="guide-wrap" id="guide"><h1 id="automation-and-connections">Automation and connections</h1>
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-workspace-the-tools-row">In the workspace: the Tools row</a></li><li><a href="#events-and-tasks-on-your-calendar">Events and tasks on your calendar</a></li><li><a href="#numbers-from-a-fitness-or-health-app">Numbers from a fitness or health app</a></li><li><a href="#the-jot-command-line">The jot command line</a></li><li><a href="#in-vs-code">In VS Code</a></li><li><a href="#connecting-to-other-services">Connecting to other services</a></li><li><a href="#ideas">Ideas</a></li></ul></nav><article class="guide">
+<p>A <code>.jot</code> is plain text, but the tasks, events and numbers in it can be read by a program. This guide covers what you can do with
+them: put your events on your calendar, bring in numbers from a fitness app, carry unfinished tasks forward, and connect to other
+services.</p>
+<p><strong>What gets sent, and when.</strong> Nothing in Jot reaches the internet unless you run something that says it will, or turn on a setting
+that says it will. The workspace&#39;s tools work entirely in your browser. Whatever comes back from a service is written into your journal
+as an ordinary record, marked with <code>source:</code>, so the <code>.jot</code> file stays the master copy.</p>
+<h2 id="in-the-workspace-the-tools-row">In the workspace: the Tools row</h2>
+<p>Above the writing, in <strong>Write</strong>:</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Today ＋</strong></td>
+<td>adds today&#39;s dated entry, if there is none, and puts the cursor in it</td>
+</tr>
+<tr>
+<td><strong>Carry tasks forward →</strong></td>
+<td>open tasks from earlier days are marked <code>[&gt;]</code> (moved) where they were, and written again under today</td>
+</tr>
+<tr>
+<td><strong>Week review</strong></td>
+<td>adds a review of this week: how many tasks were done, which are still open, each number&#39;s average, a chart and two questions</td>
+</tr>
+<tr>
+<td><strong>Calendar .ics ↓</strong></td>
+<td>your events and dated tasks as a calendar file: import it into Google Calendar, Apple Calendar, Outlook …</td>
+</tr>
+<tr>
+<td><strong>Numbers .csv ↓</strong> · <strong>Tasks .csv ↓</strong></td>
+<td>the numbers (date, metric, value, unit) or the tasks, for a spreadsheet</td>
+</tr>
+<tr>
+<td><strong>Import numbers ↥</strong></td>
+<td>numbers from a CSV (a health or fitness app&#39;s export) written into their days</td>
+</tr>
+</tbody></table>
+<p>A tool that changes your writing does it in one step, so <strong>Ctrl+Z</strong> (<strong>Cmd+Z</strong> on a Mac) takes it back.</p>
+<h2 id="events-and-tasks-on-your-calendar">Events and tasks on your calendar</h2>
+<p>The calendar file has:</p>
+<ul>
+<li><strong>Events</strong> (lines starting <code>o </code>). If the line has a time (<code>19:00</code>, <code>7:30pm</code>, <code>at 21</code>) the event is an hour long at that time;
+otherwise it lasts all day. A bare &quot;at 7&quot; is not a time: morning or evening? Write <code>7pm</code> or <code>19:00</code>.</li>
+<li><strong>Tasks</strong> that are open (<code>[ ]</code>, <code>[!]</code>) on a dated day, as to-dos due that day. Done, moved and cancelled tasks are left out.</li>
+</ul>
+<pre tabindex="0"><code class="language-jot">### 2026-10-28 | Wednesday
+
+o Dentist 09:30
+o Market, all day
+[ ] Post the letter
+</code></pre>
+<p>Each event and task keeps the same identity in every export, so importing a newer file updates entries instead of adding them twice.
+Google Calendar shows events but not to-dos: in VS Code, turn on <code>jot.automation.calendar.tasksAsEvents</code> to put tasks in as all-day
+events too.</p>
+<h2 id="numbers-from-a-fitness-or-health-app">Numbers from a fitness or health app</h2>
+<p>Most apps (Google Fit, Garmin, Fitbit, sleep and step counters, a spreadsheet) can export a CSV. Jot needs one column of dates and
+columns of numbers; the column names become the metrics, and a unit in brackets is kept (<code>Sleep (h)</code> becomes metric <code>sleep</code>, unit <code>h</code>):</p>
+<pre tabindex="0"><code>Date,Steps,Sleep (h)
+2026-10-26,8200,7.5
+2026-10-27,6400,6.75
+</code></pre>
+<ul>
+<li>Each number goes into its day. If your template has an empty <code>value:</code> for that metric on that day, it is filled in where it is;
+otherwise the number is added at the end of the day as a measurement, with <code>source:</code> naming the file.</li>
+<li>A day that already has that number is left alone, so importing the same file twice adds nothing.</li>
+<li>Several rows on one day (steps by the hour) are added up in the workspace. On the command line or in VS Code you can choose to
+average them instead (heart rate), or keep the last.</li>
+<li>Dates like <code>2026-10-26</code>, <code>2026/10/26</code> and <code>2026-10-26 07:30</code> always work. A date like <code>03/04/2026</code> could be either way round, so
+it is left out and counted; on the command line, <code>--day-first</code> reads it as the 3rd of April.</li>
+</ul>
+<p>The numbers then chart like any others: see <a href="template-editor.html#numbers-and-charts">Numbers and charts</a>.</p>
+<h2 id="the-jot-command-line">The jot command line</h2>
+<p><code>cli/jot.mjs</code> in the Jot project (Node 20 or later) does the same things from a terminal, so scripts, scheduled jobs and Apple
+Shortcuts can use them:</p>
+<pre tabindex="0"><code>jot tasks journal.jot --status open          # today&#39;s to-do list, anywhere
+jot events journal.jot --since 2026-10-01
+jot numbers journal.jot                      # CSV
+jot ics journal.jot -o ~/Calendars/jot.ics   # a calendar file
+jot import fit.csv --into journal.jot        # numbers in, into their days
+jot today journal.jot                        # today&#39;s entry
+jot rollover journal.jot                     # carry open tasks to today
+jot review journal.jot                       # this week&#39;s review
+jot json journal.jot                         # everything, as JSON
+</code></pre>
+<p>The reading commands never change a file. The writing commands say what they changed, and <code>--dry-run</code> prints the result instead of
+saving it. <code>jot help</code> lists every option.</p>
+<h2 id="in-vs-code">In VS Code</h2>
+<p>The Jot extension has the same commands (press <strong>Ctrl+Shift+P</strong> and type &quot;Jot&quot;): <strong>Today&#39;s Entry</strong> (<strong>Ctrl+Alt+T</strong>), <strong>Carry Open
+Tasks to Today</strong>, <strong>Add a Week Review</strong>, <strong>Export Calendar (.ics)</strong>, <strong>Export as CSV</strong> and <strong>Import Numbers from CSV</strong>. Each change is
+one edit, so Undo takes it back.</p>
+<p>To keep your calendar up to date without thinking about it, set <code>jot.automation.exportOnSave.ics</code> to a file in a folder that syncs
+(iCloud Drive, Dropbox, Google Drive, a web folder). Every time you save, the calendar file is written again, and a calendar app that
+subscribes to that file sees your journal&#39;s events.</p>
+<h2 id="connecting-to-other-services">Connecting to other services</h2>
+<p>These reach the internet, so each one only runs when you ask:</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Connection</th>
+<th>How</th>
+<th>What is sent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Webhooks</strong> (Zapier, Make, n8n, IFTTT, your own)</td>
+<td><code>jot post &lt;address&gt; journal.jot</code>, or <strong>Jot: Send to Webhook</strong> in VS Code (it asks first)</td>
+<td>the tasks, events and numbers as JSON: never the rest of your writing</td>
+</tr>
+<tr>
+<td><strong>Todoist</strong></td>
+<td><code>jot todoist journal.jot</code> with your API token in <code>TODOIST_TOKEN</code>, or <strong>Jot: Send Open Tasks to Todoist</strong> (the token is kept in VS Code&#39;s secret storage)</td>
+<td>each open task&#39;s text, due date and priority</td>
+</tr>
+<tr>
+<td><strong>Weather</strong> (Open-Meteo, no account)</td>
+<td><code>jot today journal.jot --weather 51.5,-0.12</code>, or turn on <code>jot.automation.weather.onToday</code> with your location</td>
+<td>your latitude and longitude, rounded to about a kilometre</td>
+</tr>
+</tbody></table>
+<p>A webhook is the widest door: Zapier, Make and n8n turn it into thousands of services (a spreadsheet row per day, a message when a
+task is high priority, a note in another app). What arrives looks like this:</p>
+<pre tabindex="0"><code>{ &quot;format&quot;: &quot;jot-automation&quot;, &quot;version&quot;: 1, &quot;file&quot;: &quot;journal.jot&quot;,
+  &quot;tasks&quot;: [{ &quot;text&quot;: &quot;Post the letter&quot;, &quot;status&quot;: &quot;open&quot;, &quot;priority&quot;: &quot;normal&quot;, &quot;date&quot;: &quot;2026-10-28&quot;, &quot;key&quot;: &quot;…&quot; }],
+  &quot;events&quot;: [{ &quot;text&quot;: &quot;Dentist 09:30&quot;, &quot;date&quot;: &quot;2026-10-28&quot;, &quot;time&quot;: &quot;09:30&quot; }],
+  &quot;numbers&quot;: [{ &quot;date&quot;: &quot;2026-10-28&quot;, &quot;metric&quot;: &quot;steps&quot;, &quot;value&quot;: 8200, &quot;unit&quot;: &quot;&quot; }] }
+</code></pre>
+<p><strong>Todoist</strong> gets each open task once. Jot remembers which tasks it has sent in a small record at the end of the journal
+(<code>:::record sync #sync-todoist</code>), so sending again only sends new ones. Formatted pages don&#39;t show this record.</p>
+<p><strong>The weather</strong> is written as a record, and its numbers chart like any others:</p>
+<pre tabindex="0"><code class="language-jot">:::record observation #weather-2026-10-28
+label: weather
+sky: light rain
+temperature-high: 14.3
+temperature-low: 6.1
+rain: 2.3
+source: open-meteo.com
+:::
+</code></pre>
+<h2 id="ideas">Ideas</h2>
+<ul>
+<li>A scheduled job each morning (<code>cron</code>, Task Scheduler, a Shortcuts automation) running <code>jot rollover</code> and <code>jot today</code>, so the day
+starts with yesterday&#39;s open tasks waiting.</li>
+<li><code>jot tasks journal.jot --status open --json</code> in a Shortcut that shows your list on your phone&#39;s home screen.</li>
+<li>A webhook to a Zapier zap that adds a spreadsheet row with each day&#39;s numbers.</li>
+<li>Export on save to a calendar file your partner subscribes to, for shared plans.</li>
+</ul>
+</article></div>
+</main>
+</body>
+</html>

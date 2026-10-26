@@ -36,6 +36,8 @@ test('a clean site passes; each kind of leak is caught', async () => {
     const found = await check(site(files));
     assert.ok(found.some((f) => f.includes(what)), `${what}: ${JSON.stringify(found)}`);
   }
+  assert.ok((await check(site({ 'notes.md': 'My plans:\r\nBEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n' }))).some((f) => f.includes('calendar data')), 'a calendar pasted into the middle of a file is caught');
+  assert.deepEqual(await check(site({ 'jot/gen.mjs': "const L = ['BEGIN:VCALENDAR', 'VERSION:2.0'];" })), [], 'code that writes a calendar is not one');
 });
 
 test('inside a compressed .zip or .jotz, where the raw bytes hide it', async () => {

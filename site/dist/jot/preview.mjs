@@ -180,7 +180,7 @@ export function renderPreview(ast, target, opts = {}) {
       for (const line of n.markdown.raw.trim().split(/\r?\n/)) { const m = line.trim(), mark = /^\[x\]/i.test(m) ? '☑' : m.startsWith('[') ? '☐' : /^\d/.test(m) ? m : '•'; const row = el('div', undefined, 'jot-blank-line'); row.append(el('span', mark, 'jot-mark'), el('span', '', 'jot-rule')); box.append(row); }
       frag.append(box); continue;
     }
-    if (n.type === 'record' && n.recordType === 'scale') continue; // a scale is a definition: its range shows on the charts and ratings that use it
+    if (n.type === 'record' && (n.recordType === 'scale' || n.recordType === 'sync')) continue; // a scale is a definition (its range shows on the charts that use it); a sync record is bookkeeping for a connection
     if (n.markdown && n.markdown.type === 'blockquote' && n.callout) {
       const box = el('aside', undefined, `jot-callout jot-callout-${n.callout}`); box.setAttribute('role', 'note');
       box.append(el('p', CALLOUTS[n.callout], 'jot-callout-title')); for (const c of n.markdown.tokens || []) block(c, box);

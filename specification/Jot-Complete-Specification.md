@@ -233,7 +233,7 @@ Reserved common fields are `method`, `privacy`, `author`, `created`, `modified`,
 
 ### 5.1 Common record types
 
-The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation` and `chart` (§5.2.1). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
+The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation`, `chart` (§5.2.1) and `sync` (§5.3.1). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
 
 To make the profile contracts usable, every profile has an ID and integer version. A `method: id@1` field selects it. Every catalogue subsection lists its intended record type, required fields for a **complete** record, optional fields and validation notes. Core always accepts partial capture. Missing required profile fields produce a `profile-incomplete` warning, never rejection of the note. Unless explicitly repeatable, fields in a complete profile are singleton; duplicates warn and their last value supplies the effective value. `body`, `source`, `relation`, `label`, `author`, `privacy`, `created` and `modified` are available to every profile. Common record IDs are separate from profile fields.
 
@@ -289,6 +289,10 @@ Dates use valid Gregorian `YYYY-MM-DD`. A complete instant uses an RFC 3339 time
 Intervals use `start` and `end`; `end` is exclusive and MUST be later than start for a completed timed interval. Overnight intervals use full dates. Ongoing intervals omit `end` with `status: ongoing`. Durations use numeric `duration` and `duration-unit: min` or `s`; an inconsistent duration and interval is flagged, not silently corrected. Future dates do not imply reminders. Jot records schedules; actual notifications belong to an application feature with explicit user configuration.
 
 `date` is the logical journal date; `at` is the observation instant; `created` is when it was entered. These MUST remain distinct. Backfilled material MAY use `recall: retrospective` and `confidence: uncertain` rather than pretend it was recorded contemporaneously. Prompt dates, planned dates, actual dates and import dates have separate fields.
+
+### 5.3.1 Automation and synchronisation
+
+Tools MAY read a document's tasks, events and measurements to export them (iCalendar, CSV), to import measurements, or to send them to a service the author configures. Such tools MUST write back only ordinary Jot: values in existing fields, new records carrying `source:` naming where they came from, task markers (for example `[>]` when a task is carried to another day). An event's clock time is taken only from an unambiguous expression (24-hour `HH:MM`, or a 12-hour time with `am`/`pm`); otherwise the event is all-day. A tool that remembers what it has sent keeps that in a `sync` record (`:::record sync #sync-<service>`) with `service:`, an optional `last:` and one repeated `sent:` field per item; renderers SHOULD NOT display sync records. Nothing in a document triggers a network request by itself (§5.3).
 
 ## 6. Tasks, collections and relationships
 

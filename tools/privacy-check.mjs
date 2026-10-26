@@ -16,7 +16,8 @@ const RULES = [
   // the owner's own book, place and name stay out of the product (as in the Journaling repository's gate)
   [/shelbee/i, 'a personal name'], [/spokane/i, 'a personal place'], [/keeping\s+watch/i, 'the personal book title'],
   // calendars and secrets
-  [/BEGIN:VCALENDAR/, 'calendar data'], [/-----BEGIN [A-Z ]*PRIVATE KEY-----/, 'a private key'], [/\bghp_[A-Za-z0-9]{36}\b/, 'a GitHub token'],
+  // a calendar is BEGIN:VCALENDAR on a line of its own; code that writes one (jot/automation.mjs: 'BEGIN:VCALENDAR' in quotes) is not one
+  [/(?:^|[\r\n])BEGIN:VCALENDAR[ \t]*(?:\r?\n|$)/, 'calendar data'], [/-----BEGIN [A-Z ]*PRIVATE KEY-----/, 'a private key'], [/\bghp_[A-Za-z0-9]{36}\b/, 'a GitHub token'],
   [/\bgithub_pat_[A-Za-z0-9_]{22,}/, 'a GitHub token'], [/\bAKIA[0-9A-Z]{16}\b/, 'an AWS key'], [/\bxox[abposr]-[A-Za-z0-9-]{10,}/, 'a Slack token'],
   [/\bsk-(?:ant-)?[A-Za-z0-9_-]{32,}/, 'an API key'], [/\bICS_URLS\b/, 'the calendar secret’s name'],
   // nobody's email address is published (the site has none; add a deliberate one to EMAIL_OK)

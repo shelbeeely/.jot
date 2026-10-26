@@ -11,6 +11,12 @@ workspace does, with your tracked numbers drawn as charts.
   editor's own colours). Dates read in words, tasks show their state, tags and places are marked.
 - **Export as HTML** (the export button in the title bar, or **Jot: Export as HTML**): one standalone `.html` page in the chosen style,
   charts as pictures, ready to open anywhere or print to PDF.
+- **Automation**: **Today's Entry** (`Ctrl+Alt+T`), **Carry Open Tasks to Today**, **Add a Week Review**, **Export Calendar (.ics)**,
+  **Export as CSV**, **Import Numbers from CSV**; each change is one edit, so Undo takes it back. `jot.automation.exportOnSave.ics` /
+  `.csv` write the calendar or the numbers on every save (a synced folder makes a calendar you can subscribe to).
+- **Connections**, only when you run them: **Send to Webhook** (`jot.automation.webhookUrl`; it asks first, and sends tasks, events and
+  numbers, never your writing), **Send Open Tasks to Todoist** (the token is kept in VS Code's secret storage), and the day's weather
+  on **Today's Entry** when `jot.automation.weather.onToday` is on.
 - **Handwritten**: **Jot: Toggle Handwritten Preview** (or the `jot.preview.look` setting) shows the journal written by hand on a dot
   grid. `jot.preview.hand` (`pen`, `print`, `marker`), `jot.preview.ink` and `jot.preview.dotSpacing` (4 to 7 mm) choose the hand, the
   ink and the grid. The fonts ship inside the extension (SIL OFL); nothing is downloaded.

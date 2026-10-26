@@ -15,6 +15,7 @@ editor, a diary converter, a scanner), user guides, and Jot for VS Code.
 | [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`) and the scanner/handwriting tool (`/scan/`) |
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colours and a live page preview with charts, from the same renderer as the site |
 | [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
+| [`cli/`](cli/) | `jot`, the command line: tasks, events, numbers, calendar and CSV out, numbers in, today, rollover, review, webhooks, Todoist |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries |
 | [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (46 guides, CC0) |
 | [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz`. Whole diaries as Jot (Pepys, *The Diary of a Nobody*, Blunt) are on the site's Examples page, [`site/dist/examples/`](site/dist/examples/) |
@@ -27,7 +28,7 @@ New to Jot? Read [Writing in Jot](docs/guide/writing-jot.md) (ten minutes), then
 
 ## Jot: parser and workspace
 
-    node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs
+    node --test parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/automation-test.mjs cli/test.mjs
     node site/test-core.cjs
     npm install && node site/test-editor-ui.cjs                    # the browser tests (Playwright; axe-core from the root package.json)
     python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/ (why Jot), /write/, /editor/, /convert/, /guide/, /examples/ and /scan/
@@ -56,6 +57,17 @@ of the Pen hand comes in three shapes) and puts every line on a row of a dot gri
 writing together, page after page, on A5, A4, Letter, pocket or your own paper. The template editor's Page view and VS Code show it
 too. Guide: [Handwritten pages on a dot grid](docs/guide/writing-jot.md#handwritten-pages-on-a-dot-grid). Fuller formatting
 (`==highlight==`, `++underline++`, `^sup^`, footnotes, callouts, centred lines): [More ways to mark words](docs/guide/writing-jot.md#more-ways-to-mark-words).
+
+## Automation and connections
+
+`parser/automation.mjs` reads a journal's tasks, events and numbers and writes back to it: calendar (`.ics`) and CSV out, numbers from a
+fitness app's CSV in (into their days, blanks filled first, never twice), today's entry, carrying open tasks forward, a week review.
+`parser/connect.mjs` is the only code that reaches the internet, and only when asked: webhooks (Zapier, Make, n8n), Todoist and the
+weather (Open-Meteo). The workspace's **Tools** row, the `jot` command line (`cli/jot.mjs`, [cli/README.md](cli/README.md)) and
+VS Code all use the same code. Guide: [Automation and connections](docs/guide/automation.md).
+
+    node cli/jot.mjs help
+    node --test parser/automation-test.mjs cli/test.mjs
 
 ## Jot for VS Code
 
