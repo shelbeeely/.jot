@@ -1,0 +1,515 @@
+# Jot method examples
+
+These are fictional, optional structured examples. Asset paths are illustrative.
+
+#### ADHD journaling and planning
+
+:::record reflection #example-adhd-journaling
+method: adhd-journaling@1
+next-step: Put the notebook beside the kettle
+estimate: 2 min
+done: Opened the notebook
+:::
+
+#### Alastair lists and rolling columns
+
+:::record task #example-alastair-method
+method: alastair-method@1
+text: Book a repair appointment
+status: open
+column: November
+column-kind: month
+:::
+
+#### Art, junk and sketchbook journals
+
+:::record reflection #example-art-and-junk-journaling
+method: art-and-junk-journaling@1
+body: A bus ticket beside a sketch of wet boots.
+physical-location: Blue notebook, page 18
+:::
+
+#### Sensory and autistic experience logs
+
+:::record observation #example-autistic-sensory-journaling
+method: autistic-sensory-journaling@1
+context: Busy grocery aisle
+support: Headphones and a quieter checkout
+communication: Typing preferred
+:::
+
+#### Bullet Journal and rapid logging
+
+:::record collection #example-bullet-journal
+method: bullet-journal@1
+title: October daily log
+kind: daily-log
+:::
+
+#### CBT-style thought records
+
+:::record reflection #example-cbt-thought-record
+method: cbt-thought-record@1
+situation: A message had no reply this afternoon.
+thought: Perhaps I annoyed them.
+emotion: Worry
+evidence-for: I have not received a reply.
+evidence-against: They said this week was busy.
+alternative: I do not know yet; there are several explanations.
+:::
+
+#### Commonplace books and linked ideas
+
+:::record quotation #example-commonplace-book
+method: commonplace-book@1
+text: Start with the thing you can inspect.
+attribution: My own workshop note
+topic: Making
+commentary: A useful reminder before debugging.
+:::
+
+#### DBT-style diary cards
+
+:::record observation #example-dbt-diary-card
+method: dbt-diary-card@1
+date: 2026-10-25
+target: Skills practice
+status: observed
+skill: Grounding with a familiar object
+body: It helped me return to the conversation.
+:::
+
+#### Daily notes and periodic reviews
+
+:::record reflection #example-digital-daily-notes
+method: digital-daily-notes@1
+date: 2026-10-25
+body: I learned why the connector was loose.
+:::
+
+#### Dream journals
+
+:::record reflection #example-dream-journal
+method: dream-journal@1
+report: A train station with plants growing through the roof.
+recall: Fragments
+emotion: Curious
+:::
+
+#### Dutch door pages and persistent panels
+
+:::record layout #example-dutch-door-method
+method: dutch-door-method@1
+target: print
+persistent-panel: Weekly appointments at top
+leaf-region: Daily notes below
+:::
+
+#### E-ink journal layouts
+
+:::record layout #example-e-ink-templates
+method: e-ink-templates@1
+target: eink
+palette: monochrome
+overflow: continue
+input: stylus
+:::
+
+#### Urgency and importance sorting
+
+:::record task #example-eisenhower-matrix
+method: eisenhower-matrix@1
+text: Prepare questions for the appointment
+status: open
+urgent: false
+important: true
+decision: schedule
+:::
+
+#### Emergent daily planning
+
+:::record reflection #example-emergent-task-planner
+method: emergent-task-planner@1
+focus: Inspect the power cable
+estimate: 15 min
+actual: 25 min
+interruption: Needed a different screwdriver
+:::
+
+#### Expressive writing sessions
+
+:::record session #example-expressive-writing
+method: expressive-writing@1
+body: I want to describe what the change has felt like.
+duration: 10
+duration-unit: min
+closing: Tea and a quieter room
+:::
+
+#### Short morning and evening reflection
+
+:::record reflection #example-five-minute-journal
+method: five-minute-journal@1
+phase: morning
+body: I want a slower start.
+gratitude: A warm room
+intention: Leave time to eat
+:::
+
+#### Multi-year and line-a-day diaries
+
+:::record reflection #example-five-year-diary
+method: five-year-diary@1
+date: 2026-10-25
+body: Rain on the window while I fixed the lamp.
+:::
+
+#### Goals, weekly outcomes and daily focus
+
+:::record reflection #example-full-focus-planner
+method: full-focus-planner@1
+horizon: day
+outcome: Understand the cable fault
+next-action: Check the printed connector label
+:::
+
+#### Gender euphoria and HRT records
+
+:::record observation #example-gender-euphoria-and-hrt-log
+method: gender-euphoria-and-hrt-log@1
+category: euphoria
+body: I liked hearing my name in a familiar voice.
+:::
+
+#### Capture, next actions and weekly review
+
+:::record task #example-getting-things-done-paper
+method: getting-things-done-paper@1
+text: Repair the lamp
+status: open
+next-action: Photograph the connector
+context: home
+:::
+
+#### Gratitude and small good things
+
+:::record reflection #example-gratitude-journaling
+method: gratitude-journaling@1
+gratitude: Someone saved me a seat.
+why: I felt welcome.
+:::
+
+#### Habits and partial participation
+
+:::record habit #example-habit-tracking
+method: habit-tracking@1
+name: Read a little
+date: 2026-10-25
+status: partial
+body: One page before bed
+:::
+
+#### Daily life-book pages
+
+:::record reflection #example-hobonichi-techo
+method: hobonichi-techo@1
+date: 2026-10-25
+body: The new tea tasted like oranges.
+:::
+
+#### Interstitial and transition notes
+
+:::record reflection #example-interstitial-journaling
+method: interstitial-journaling@1
+stopped: Measured the connector spacing
+next-step: Compare the photo with the parts list
+resume: Notebook page 18
+:::
+
+#### Short ordered next-day lists
+
+:::record collection #example-ivy-lee-method
+method: ivy-lee-method@1
+title: Tomorrow
+kind: ranked-actions
+for-date: 2026-10-26
+limit: 6
+:::
+
+#### Lifelog plus lasting reference
+
+:::record collection #example-jibun-techo
+method: jibun-techo@1
+title: Things I want to learn
+kind: life-reference
+horizon: ongoing
+:::
+
+#### Mood observations and year views
+
+:::record measurement #example-mood-tracking-year-in-pixels
+method: mood-tracking-year-in-pixels@1
+metric: mood
+status: observed
+value: calm
+body: A word label, not a diagnostic score.
+:::
+
+#### Morning Pages and freewriting
+
+:::record session #example-morning-pages
+method: morning-pages@1
+body: I woke up with three unrelated ideas and no need to sort them yet.
+medium: handwriting
+:::
+
+#### Paper, ruling and page geometry
+
+:::record layout #example-paper-and-grids
+method: paper-and-grids@1
+target: print
+ruling: dot
+grid-mm: 5
+paper: Letter
+margin-mm: 12
+:::
+
+#### Roadmaps and values-led planning
+
+:::record reflection #example-passion-planner
+method: passion-planner@1
+horizon: three months
+aspiration: Make more small creative things
+next-step: Reserve one quiet evening
+:::
+
+#### Functional stickers and decorative journaling
+
+:::record attachment #example-planner-sticker-and-deco-culture
+method: planner-sticker-and-deco-culture@1
+path: assets/rain-sticker.png
+media-type: image/png
+alt: A small rain cloud
+role: decorative
+:::
+
+#### Focus rounds and interruption logs
+
+:::record session #example-pomodoro-log
+method: pomodoro-log@1
+focus: Read the connector datasheet
+status: completed
+planned-duration: 25 min
+duration: 25
+duration-unit: min
+:::
+
+#### Life review and written dialogue
+
+:::record reflection #example-progoff-intensive-journal
+method: progoff-intensive-journal@1
+section: Turning points
+body: The move changed which routines felt like mine.
+:::
+
+#### Prompt-based writing
+
+:::record response #example-prompt-journaling
+method: prompt-journaling@1
+question: What made the room feel welcoming?
+status: answered
+answer: A lamp instead of the overhead light.
+:::
+
+#### Paper scans and transcription
+
+:::record attachment #example-rocketbook-and-scan-systems
+method: rocketbook-and-scan-systems@1
+path: assets/page-018.jpg
+media-type: image/jpeg
+alt: Handwritten notes and a cable sketch
+page-label: 18
+ocr-status: unreviewed
+:::
+
+#### Personal support and safety-plan records
+
+:::record collection #example-safety-planning
+method: safety-planning@1
+title: My support plan
+kind: support-plan
+reviewed-on: 2026-10-25
+coping: Sit in the familiar quiet room
+:::
+
+#### Curiosity and growth reflections
+
+:::record reflection #example-shadow-growth-journal
+method: shadow-growth-journal@1
+reaction: Envy when a friend finished a project
+body: I may want more protected making time.
+strength: I care about creating things.
+:::
+
+#### Spoons and personal energy accounting
+
+:::record observation #example-spoon-theory-energy-accounting
+method: spoon-theory-energy-accounting@1
+unit: personal-spoons
+status: estimated
+available: 4
+cost: Shopping felt like 2
+body: Rest mattered more than finishing the list.
+:::
+
+#### Stims and regulation supports
+
+:::record observation #example-stimming-and-self-regulation
+method: stimming-and-self-regulation@1
+support: Smooth stone in a pocket
+context: Waiting in a noisy room
+effect: Easier to stay present
+:::
+
+#### Stoic-inspired morning and evening review
+
+:::record reflection #example-stoic-journaling
+method: stoic-journaling@1
+event: The bus was late.
+response: Leave a written note about the missed connection.
+within-influence: How I report it
+:::
+
+#### Study, Cornell notes and retrieval practice
+
+:::record reflection #example-study-and-note-taking
+method: study-and-note-taking@1
+topic: Pull-up resistors
+note: They establish a default logic level.
+cue: What happens when the input is otherwise floating?
+summary: The resistor gives an unconnected input a defined default.
+:::
+
+#### Symptoms, sleep and care observations
+
+:::record measurement #example-symptom-tracking
+method: symptom-tracking@1
+metric: sleep-duration
+status: estimated
+value: 7.5
+unit: h
+body: Approximate time asleep, not time in bed.
+:::
+
+#### Themes and directional review
+
+:::record reflection #example-theme-system-journal
+method: theme-system-journal@1
+theme: More room to breathe
+observation: Left a gap between errands.
+action: Paused before adding another task
+:::
+
+#### Time blocking and replanning
+
+:::record event #example-time-block-planner
+method: time-block-planner@1
+title: Project reading
+start: 2026-10-25T14:00:00-07:00
+end: 2026-10-25T14:30:00-07:00
+mode: planned
+:::
+
+#### Actual-time logs and day reconstruction
+
+:::record session #example-time-logging-lifelog
+method: time-logging-lifelog@1
+activity: Reading on the bus
+start: 2026-10-25T15:10:00-07:00
+end: 2026-10-25T15:35:00-07:00
+recall: retrospective
+:::
+
+#### Modular notebooks and travel-style inserts
+
+:::record collection #example-travelers-notebook
+method: travelers-notebook@1
+title: Autumn carry notebook
+kind: insert
+physical-location: Small black notebook, second insert
+:::
+
+#### Free diary and stream of consciousness
+
+:::record reflection #example-free-diary
+method: free-diary@1
+body: I have no plan for this paragraph. That is fine.
+:::
+
+#### Shared and dialogue journals
+
+:::record response #example-shared-journal
+method: shared-journal@1
+author: writer-b
+body: I liked reading your description of the rain.
+:::
+
+#### Travel, nature and field observations
+
+:::record observation #example-travel-field-log
+method: travel-field-log@1
+observation: Three small birds on the reed stems.
+place: Riverside path
+hypothesis: Species uncertain
+:::
+
+#### Reading and media journals
+
+:::record reflection #example-reading-media-journal
+method: reading-media-journal@1
+work: A novel I am reading
+body: The quiet scene mattered more than the ending.
+spoiler: false
+:::
+
+#### Decision journals
+
+:::record reflection #example-decision-journal
+method: decision-journal@1
+decision: Test the smaller enclosure first
+reason: It will reveal the fit problem sooner.
+prediction: The connector may need more clearance.
+:::
+
+#### Project and lab notebooks
+
+:::record observation #example-project-lab-log
+method: project-lab-log@1
+question: Does the new cable remove the flicker?
+observation: Flicker remained at the same brightness.
+next-step: Inspect the supply connection.
+:::
+
+#### Food, cooking and meal memories
+
+:::record reflection #example-food-cooking-journal
+method: food-cooking-journal@1
+body: The lentil soup was better the next day.
+substitution: Used extra olives.
+:::
+
+#### Spiritual, ritual and meaning journals
+
+:::record reflection #example-spiritual-reflection
+method: spiritual-reflection@1
+body: Lighting the candle gave the evening a boundary.
+ritual: A quiet minute before writing
+:::
+
+#### Memory, grief and life-story writing
+
+:::record reflection #example-memory-life-story
+method: memory-life-story@1
+body: I remember the music more clearly than the room.
+confidence: Details may have changed in memory.
+:::

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Writing in Jot · Jot</title>
+<link rel="stylesheet" href="../editor/editor.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<a class="skip" href="#guide">Skip to the guide</a>
+<header class="top">
+  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
+</header>
+<main>
+<div class="guide-wrap" id="guide"><h1 id="writing-in-jot">Writing in Jot</h1>
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li></ul></nav><article class="guide">
+<p>Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
+the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.</p>
+<p>This guide covers everything you need to write a <code>.jot</code> file by hand. It takes about ten minutes to read, and you can stop after the
+first section.</p>
+<h2 id="start-with-just-writing">Start with just writing</h2>
+<p>A <code>.jot</code> file can be nothing but sentences. This is a complete journal:</p>
+<pre tabindex="0"><code class="language-jot">The rain made the room feel quieter. I wanted to remember that.
+</code></pre>
+<p>Everything else in this guide is optional. Add it when it helps, skip it when it doesn&#39;t.</p>
+<h2 id="dates-organise-your-writing">Dates organise your writing</h2>
+<p>A heading that starts with a date makes an <strong>entry</strong> for that day. Anything after the date, after a <code>|</code>, is up to you (a weekday, a
+place, a word):</p>
+<pre tabindex="0"><code class="language-jot">### 2026-10-25 | Sunday
+
+A slow morning. Tea, then a walk.
+
+### 2026-10-26 | Monday
+
+Back to work. It went better than I expected.
+</code></pre>
+<ul>
+<li>The date is always <code>YEAR-MONTH-DAY</code>, like <code>2026-10-25</code>.</li>
+<li>Any heading level works (<code>#</code>, <code>##</code>, <code>###</code> …); most people use <code>###</code> for days and <code>#</code> for the month.</li>
+<li>One file can hold one day, a month, or years. A file is not a day: the dates inside it are what count.</li>
+<li>The same date can appear twice (a morning and an evening entry); both are kept.</li>
+</ul>
+<h2 id="quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</h2>
+<p>Start a line with one of these and a space:</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Write</th>
+<th>It means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[ ] Call the pharmacy</code></td>
+<td>a task to do</td>
+</tr>
+<tr>
+<td><code>[x] Call the pharmacy</code></td>
+<td>done</td>
+</tr>
+<tr>
+<td><code>[&gt;] Call the pharmacy</code></td>
+<td>moved to another day</td>
+</tr>
+<tr>
+<td><code>[&lt;] Call the pharmacy</code></td>
+<td>scheduled for later</td>
+</tr>
+<tr>
+<td><code>[-] Call the pharmacy</code></td>
+<td>not doing it after all (cancelled)</td>
+</tr>
+<tr>
+<td><code>[!] Call the pharmacy</code></td>
+<td>important (an open task, marked high priority)</td>
+</tr>
+<tr>
+<td><code>o 4:00p Dentist</code></td>
+<td>an event</td>
+</tr>
+<tr>
+<td><code>? Why am I so tired on Mondays</code></td>
+<td>a question to come back to</td>
+</tr>
+<tr>
+<td><code>! A shelf by the door for keys</code></td>
+<td>an idea</td>
+</tr>
+</tbody></table>
+<pre tabindex="0"><code class="language-jot">### 2026-10-26 | Monday
+
+[x] Water the plants
+[ ] Return the library book
+[&gt;] Fix the bike light
+o 6:30p Soup night with a neighbour
+? What would make tomorrow easier
+! A shelf by the door for keys
+</code></pre>
+<p>A mark needs words after it: <code>[ ]</code> on its own is just text until you write the task. That is how the templates work: an empty <code>[ ] </code>
+line is a box waiting for you.</p>
+<p>A line that continues the item above starts with two spaces:</p>
+<pre tabindex="0"><code class="language-jot">[ ] Plan the weekend
+  Ask Sam about Saturday first.
+</code></pre>
+<h2 id="ordinary-formatting-markdown">Ordinary formatting (Markdown)</h2>
+<p>Jot uses Markdown for everything else, so what you may already know works:</p>
+<pre tabindex="0"><code class="language-jot">#### Something worth keeping
+
+**Bold**, *italic*, ~~crossed out~~.
+
+- a list item
+- another one
+
+1. first
+2. second
+
+&gt; A line someone said that I want to remember.
+
+| Moment | Note |
+| --- | --- |
+| Morning | Quiet enough to think |
+</code></pre>
+<p><code>- [ ] task</code> (with a dash) also works as a checklist; plain <code>[ ] task</code> is the Jot way and is quicker to type.</p>
+<h2 id="notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</h2>
+<ul>
+<li><code>[[ like this ]]</code> on its own line is a <strong>margin note</strong>: a remark beside the writing, not part of it.</li>
+<li>Lines between <code>/*</code> and <code>*/</code> (each on its own line) are <strong>hidden</strong>: they stay in the file but are not shown when the journal is read.
+Hidden is not secret: anyone who opens the file can read them.</li>
+</ul>
+<pre tabindex="0"><code class="language-jot">[[ written on the bus, so it&#39;s short ]]
+
+/*
+Things to look up later: the name of that song.
+*/
+</code></pre>
+<h2 id="numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</h2>
+<p>When you want something a program can count (sleep hours, energy, a mood), put it in a <strong>record</strong>. A record starts with
+<code>:::record</code> and a type, has one <code>name: value</code> per line, and ends with <code>:::</code>:</p>
+<pre tabindex="0"><code class="language-jot">:::record observation #sleep-2026-10-26
+bed: 11:40p
+wake: 7:10a
+quality: 3
+:::
+</code></pre>
+<ul>
+<li>The part after <code>#</code> is an id. It is optional, but it must be unique in the file if you use it.</li>
+<li>Names are lowercase, with dashes instead of spaces (<code>minutes-outside:</code>).</li>
+<li>An empty value (<code>quality:</code>) means &quot;not filled in&quot;, which is fine.</li>
+<li>For several lines, write <code>name: |</code> and indent the lines under it by two spaces.</li>
+</ul>
+<pre tabindex="0"><code class="language-jot">:::record reflection
+body: |
+  Today was hard, and I still did the one thing.
+  That counts.
+:::
+</code></pre>
+<p><strong>Scales.</strong> A rating means more when the scale is written down once. Templates do this for you at the top of the file:</p>
+<pre tabindex="0"><code class="language-jot">:::record scale #scale-energy
+name: energy
+kind: ordinal
+minimum: 1
+maximum: 5
+anchor-low: empty
+anchor-high: full
+:::
+
+:::record measurement #energy-2026-10-26
+metric: energy
+scale: #scale-energy
+value: 3
+:::
+</code></pre>
+<p>To fill in a rating, type the number after <code>value:</code>. Leaving it empty is always allowed: an empty value never counts as a zero.</p>
+<h2 id="a-few-other-things">A few other things</h2>
+<ul>
+<li><strong>Page break:</strong> <code>===</code> on its own line, after an empty line, starts a new page when the journal is printed.</li>
+<li><strong>Time labels:</strong> a line like <code>.0830 - KITCHEN</code> (a dot, then a label) marks a scene or a moment in the day.</li>
+<li><strong>Tags and places:</strong> <code>#walk</code> (a tag) and <code>@home</code> (a context, where or with whom) can go anywhere in a sentence.</li>
+<li><strong>Metadata:</strong> a block at the very top between two <code>---</code> lines describes the whole file. Templates add one; you never need to:</li>
+</ul>
+<pre tabindex="0"><code class="language-jot">---
+Jot: 1.0
+Title: October notebook
+---
+
+### 2026-10-01 | Thursday
+
+A new notebook.
+</code></pre>
+<ul>
+<li><strong>When a mark should just be text,</strong> put a backslash before it: <code>\[ ] this is not a task</code> or <code>\# not a heading</code>.</li>
+</ul>
+<h2 id="plain-and-packaged-files">Plain and packaged files</h2>
+<ul>
+<li><strong><code>.jot</code></strong> is plain text: what you see is what is in it. This is what you write and what templates make.</li>
+<li><strong><code>.jotz</code></strong> is a packaged journal: one file that carries pictures, scans or handwriting together with the writing (it is a ZIP inside).</li>
+</ul>
+<p>The Jot workspace opens both and saves whichever fits: plain <code>.jot</code> when there are no attachments, <code>.jotz</code> when there are. A text
+editor or InkDeck works with <code>.jot</code>; to get the writing out of a <code>.jotz</code>, open it in the workspace (or unzip it and open
+<code>journal.txt</code>).</p>
+<h2 id="where-to-write">Where to write</h2>
+<ul>
+<li><strong>Any text editor</strong>, on a computer or a phone. Save the file with a <code>.jot</code> ending. (For colours, see
+<a href="#colours-in-your-text-editor">Colours in your text editor</a>.)</li>
+<li><strong>InkDeck</strong>, the e-ink writing firmware for the Xteink X3/X4: it creates <code>.jot</code> files for you.</li>
+<li><strong>The Jot workspace</strong> (the Journal page of this site): a preview beside your writing, method ideas, and attachments.</li>
+<li><strong>The template editor:</strong> design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
+See <a href="template-editor.html">Using the template editor</a>.</li>
+</ul>
+<h2 id="colours-in-your-text-editor">Colours in your text editor</h2>
+<p>Most editors don&#39;t know <code>.jot</code> yet, but Jot is Markdown underneath. Tell your editor to treat <code>.jot</code> as Markdown and you get headings,
+lists, bold and tables in colour. (Jot&#39;s own marks, like <code>o</code> events and records, show as plain text for now; a Jot extension for
+editors is planned.)</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Editor</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>VS Code</strong> (and VSCodium, Cursor)</td>
+<td>Open a <code>.jot</code> file, click the language name at the bottom right (&quot;Plain Text&quot;), choose <strong>Configure File Association for &#39;.jot&#39;…</strong>, then <strong>Markdown</strong></td>
+</tr>
+<tr>
+<td><strong>Sublime Text</strong></td>
+<td>Open a <code>.jot</code> file, then <strong>View → Syntax → Open all with current extension as… → Markdown</strong></td>
+</tr>
+<tr>
+<td><strong>JetBrains</strong> (IntelliJ, PyCharm …)</td>
+<td><strong>Settings → Editor → File Types → Markdown</strong>, add <code>*.jot</code></td>
+</tr>
+<tr>
+<td><strong>Neovim</strong></td>
+<td>Add <code>vim.filetype.add({ extension = { jot = &#39;markdown&#39; } })</code> to your config</td>
+</tr>
+<tr>
+<td><strong>Vim</strong></td>
+<td>Add <code>autocmd BufRead,BufNewFile *.jot setfiletype markdown</code> to your <code>.vimrc</code></td>
+</tr>
+<tr>
+<td><strong>Emacs</strong> (with markdown-mode)</td>
+<td>Add <code>(add-to-list &#39;auto-mode-alist &#39;(&quot;\\.jot\\&#39;&quot; . markdown-mode))</code> to your init file</td>
+</tr>
+</tbody></table>
+<p>On a phone, any app that edits plain text files works; colour is a bonus, not a need.</p>
+<h2 id="real-diaries-to-look-at">Real diaries to look at</h2>
+<p>The <a href="../examples/">Examples</a> page has whole diaries as Jot: Samuel Pepys&#39;s ten years, <em>The Diary of a Nobody</em> and Wilfrid
+Scawen Blunt&#39;s diaries, a dated entry for each day. Open one in the workspace to see how a long journal reads, or download it.</p>
+<h2 id="small-habits-that-help">Small habits that help</h2>
+<ul>
+<li>One file a month is easy to find and small enough to type into anywhere. Name it by the month: <code>2026-10.jot</code>.</li>
+<li>Write the date heading first, then anything: a word is enough.</li>
+<li>Skipped days need nothing. There is no catching up.</li>
+<li>Keep a copy somewhere else. A <code>.jot</code> file is just a file: back it up like a photo.</li>
+</ul>
+<p>The full rules are in the <a href="../docs/Jot-Complete-Specification.pdf">Jot specification</a>. You won&#39;t need them to write.</p>
+</article></div>
+</main>
+</body>
+</html>

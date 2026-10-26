@@ -1,0 +1,32 @@
+---
+Jot: 1.0
+Title: October notebook
+---
+
+# October
+
+### 2026-10-25 | Sunday
+
+A **small beginning** is still a beginning. This is ordinary Markdown.
+
+- [x] Read a little
+- [ ] Make tea
+
+> A line worth remembering.
+
+| Moment | Note |
+| --- | --- |
+| Morning | Quiet enough to think |
+
+[!] Photograph the connector @home
+
+:::record observation #sensory-note
+context: Busy room
+support: Headphones
+body: |
+  There was room to pause.
+:::
+
+### 2026-10-26 | Monday
+
+Another day, in the same .jot file.

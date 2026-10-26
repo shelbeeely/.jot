@@ -1,0 +1,228 @@
+# Writing in Jot
+
+Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
+the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.
+
+This guide covers everything you need to write a `.jot` file by hand. It takes about ten minutes to read, and you can stop after the
+first section.
+
+## Start with just writing
+
+A `.jot` file can be nothing but sentences. This is a complete journal:
+
+```jot
+The rain made the room feel quieter. I wanted to remember that.
+```
+
+Everything else in this guide is optional. Add it when it helps, skip it when it doesn't.
+
+## Dates organise your writing
+
+A heading that starts with a date makes an **entry** for that day. Anything after the date, after a `|`, is up to you (a weekday, a
+place, a word):
+
+```jot
+### 2026-10-25 | Sunday
+
+A slow morning. Tea, then a walk.
+
+### 2026-10-26 | Monday
+
+Back to work. It went better than I expected.
+```
+
+- The date is always `YEAR-MONTH-DAY`, like `2026-10-25`.
+- Any heading level works (`#`, `##`, `###` …); most people use `###` for days and `#` for the month.
+- One file can hold one day, a month, or years. A file is not a day: the dates inside it are what count.
+- The same date can appear twice (a morning and an evening entry); both are kept.
+
+## Quick marks at the start of a line
+
+Start a line with one of these and a space:
+
+| Write | It means |
+| --- | --- |
+| `[ ] Call the pharmacy` | a task to do |
+| `[x] Call the pharmacy` | done |
+| `[>] Call the pharmacy` | moved to another day |
+| `[<] Call the pharmacy` | scheduled for later |
+| `[-] Call the pharmacy` | not doing it after all (cancelled) |
+| `[!] Call the pharmacy` | important (an open task, marked high priority) |
+| `o 4:00p Dentist` | an event |
+| `? Why am I so tired on Mondays` | a question to come back to |
+| `! A shelf by the door for keys` | an idea |
+
+```jot
+### 2026-10-26 | Monday
+
+[x] Water the plants
+[ ] Return the library book
+[>] Fix the bike light
+o 6:30p Soup night with a neighbour
+? What would make tomorrow easier
+! A shelf by the door for keys
+```
+
+A mark needs words after it: `[ ]` on its own is just text until you write the task. That is how the templates work: an empty `[ ] `
+line is a box waiting for you.
+
+A line that continues the item above starts with two spaces:
+
+```jot
+[ ] Plan the weekend
+  Ask Sam about Saturday first.
+```
+
+## Ordinary formatting (Markdown)
+
+Jot uses Markdown for everything else, so what you may already know works:
+
+```jot
+#### Something worth keeping
+
+**Bold**, *italic*, ~~crossed out~~.
+
+- a list item
+- another one
+
+1. first
+2. second
+
+> A line someone said that I want to remember.
+
+| Moment | Note |
+| --- | --- |
+| Morning | Quiet enough to think |
+```
+
+`- [ ] task` (with a dash) also works as a checklist; plain `[ ] task` is the Jot way and is quicker to type.
+
+## Notes in the margin, and things only you see
+
+- `[[ like this ]]` on its own line is a **margin note**: a remark beside the writing, not part of it.
+- Lines between `/*` and `*/` (each on its own line) are **hidden**: they stay in the file but are not shown when the journal is read.
+  Hidden is not secret: anyone who opens the file can read them.
+
+```jot
+[[ written on the bus, so it's short ]]
+
+/*
+Things to look up later: the name of that song.
+*/
+```
+
+## Numbers, ratings and other data (records)
+
+When you want something a program can count (sleep hours, energy, a mood), put it in a **record**. A record starts with
+`:::record` and a type, has one `name: value` per line, and ends with `:::`:
+
+```jot
+:::record observation #sleep-2026-10-26
+bed: 11:40p
+wake: 7:10a
+quality: 3
+:::
+```
+
+- The part after `#` is an id. It is optional, but it must be unique in the file if you use it.
+- Names are lowercase, with dashes instead of spaces (`minutes-outside:`).
+- An empty value (`quality:`) means "not filled in", which is fine.
+- For several lines, write `name: |` and indent the lines under it by two spaces.
+
+```jot
+:::record reflection
+body: |
+  Today was hard, and I still did the one thing.
+  That counts.
+:::
+```
+
+**Scales.** A rating means more when the scale is written down once. Templates do this for you at the top of the file:
+
+```jot
+:::record scale #scale-energy
+name: energy
+kind: ordinal
+minimum: 1
+maximum: 5
+anchor-low: empty
+anchor-high: full
+:::
+
+:::record measurement #energy-2026-10-26
+metric: energy
+scale: #scale-energy
+value: 3
+:::
+```
+
+To fill in a rating, type the number after `value:`. Leaving it empty is always allowed: an empty value never counts as a zero.
+
+## A few other things
+
+- **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.
+- **Time labels:** a line like `.0830 - KITCHEN` (a dot, then a label) marks a scene or a moment in the day.
+- **Tags and places:** `#walk` (a tag) and `@home` (a context, where or with whom) can go anywhere in a sentence.
+- **Metadata:** a block at the very top between two `---` lines describes the whole file. Templates add one; you never need to:
+
+```jot
+---
+Jot: 1.0
+Title: October notebook
+---
+
+### 2026-10-01 | Thursday
+
+A new notebook.
+```
+
+- **When a mark should just be text,** put a backslash before it: `\[ ] this is not a task` or `\# not a heading`.
+
+## Plain and packaged files
+
+- **`.jot`** is plain text: what you see is what is in it. This is what you write and what templates make.
+- **`.jotz`** is a packaged journal: one file that carries pictures, scans or handwriting together with the writing (it is a ZIP inside).
+
+The Jot workspace opens both and saves whichever fits: plain `.jot` when there are no attachments, `.jotz` when there are. A text
+editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open it in the workspace (or unzip it and open
+`journal.txt`).
+
+## Where to write
+
+- **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending. (For colours, see
+  [Colours in your text editor](#colours-in-your-text-editor).)
+- **InkDeck**, the e-ink writing firmware for the Xteink X3/X4: it creates `.jot` files for you.
+- **The Jot workspace** (the Journal page of this site): a preview beside your writing, method ideas, and attachments.
+- **The template editor:** design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
+  See [Using the template editor](template-editor.md).
+
+## Colours in your text editor
+
+Most editors don't know `.jot` yet, but Jot is Markdown underneath. Tell your editor to treat `.jot` as Markdown and you get headings,
+lists, bold and tables in colour. (Jot's own marks, like `o` events and records, show as plain text for now; a Jot extension for
+editors is planned.)
+
+| Editor | How |
+| --- | --- |
+| **VS Code** (and VSCodium, Cursor) | Open a `.jot` file, click the language name at the bottom right ("Plain Text"), choose **Configure File Association for '.jot'…**, then **Markdown** |
+| **Sublime Text** | Open a `.jot` file, then **View → Syntax → Open all with current extension as… → Markdown** |
+| **JetBrains** (IntelliJ, PyCharm …) | **Settings → Editor → File Types → Markdown**, add `*.jot` |
+| **Neovim** | Add `vim.filetype.add({ extension = { jot = 'markdown' } })` to your config |
+| **Vim** | Add `autocmd BufRead,BufNewFile *.jot setfiletype markdown` to your `.vimrc` |
+| **Emacs** (with markdown-mode) | Add `(add-to-list 'auto-mode-alist '("\\.jot\\'" . markdown-mode))` to your init file |
+
+On a phone, any app that edits plain text files works; colour is a bonus, not a need.
+
+## Real diaries to look at
+
+The [Examples](../../site/dist/examples/) page has whole diaries as Jot: Samuel Pepys's ten years, *The Diary of a Nobody* and Wilfrid
+Scawen Blunt's diaries, a dated entry for each day. Open one in the workspace to see how a long journal reads, or download it.
+
+## Small habits that help
+
+- One file a month is easy to find and small enough to type into anywhere. Name it by the month: `2026-10.jot`.
+- Write the date heading first, then anything: a word is enough.
+- Skipped days need nothing. There is no catching up.
+- Keep a copy somewhere else. A `.jot` file is just a file: back it up like a photo.
+
+The full rules are in the [Jot specification](../../site/dist/docs/Jot-Complete-Specification.pdf). You won't need them to write.

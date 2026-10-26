@@ -1,0 +1,4 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {parse} from './jot.mjs';import {proofread} from './proofread.mjs';
+test('writing hints are separate and do not rewrite source',()=>{const s='I kept the the page , carefully.\n';const a=parse(s),h=proofread(a);assert.equal(h.length,2);assert.equal(a.source,s);assert.equal(a.diagnostics.length,0);});
+test('code and structured records are excluded',()=>{const a=parse('```\nthe the\n```\n\n:::record note\nbody: the the\n:::\n');assert.equal(proofread(a).length,0);});
+test('dictionary is opt-in and supports source byte ranges',()=>{const a=parse('🌙 a quiet wurd.\n');assert.equal(proofread(a,{grammar:false}).length,0);const h=proofread(a,{dictionary:new Set(['quiet']),grammar:false});assert.equal(h.length,1);assert.equal(h[0].text,'wurd');const bytes=new TextEncoder().encode(a.source);assert.equal(new TextDecoder().decode(bytes.slice(h[0].start,h[0].end)),'wurd');});

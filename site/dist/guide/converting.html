@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Converting an old diary · Jot</title>
+<link rel="stylesheet" href="../editor/editor.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<a class="skip" href="#guide">Skip to the guide</a>
+<header class="top">
+  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
+</header>
+<main>
+<div class="guide-wrap" id="guide"><h1 id="converting-an-old-diary">Converting an old diary</h1>
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-browser">In the browser</a></li><li><a href="#on-the-command-line-in-three-steps">On the command line, in three steps</a></li><li><a href="#what-you-get">What you get</a></li><li><a href="#dates-it-understands">Dates it understands</a></li><li><a href="#when-the-diary-doesn39t-say-the-year">When the diary doesn&#39;t say the year</a></li><li><a href="#old-style-dates-before-1752">Old Style dates (before 1752)</a></li><li><a href="#big-diaries">Big diaries</a></li><li><a href="#straight-from-the-web">Straight from the web</a></li><li><a href="#other-options">Other options</a></li><li><a href="#diaries-to-try">Diaries to try</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li></ul></nav><article class="guide">
+<p>Have a diary as plain text: an export from another app, notes you kept in a text file, or a published diary from Project Gutenberg?
+The converter turns it into Jot: one dated entry for each day, ready to read in the workspace, print in a book, or keep writing in.</p>
+<p>There are two ways to use it, and they give exactly the same files:</p>
+<ul>
+<li><strong>In your browser:</strong> the <strong>Converter</strong> page of this site. Nothing is uploaded: the diary stays on your device.</li>
+<li><strong>From the command line</strong> (Node 20 or newer), for scripts and many diaries at once: the <code>converter/</code> folder of the Jot project.</li>
+</ul>
+<h2 id="in-the-browser">In the browser</h2>
+<ol>
+<li>Open the <strong>Converter</strong> (in the links at the top of the site).</li>
+<li>Press <strong>Open a text file</strong> and choose the diary, or drop it on the page, or press <strong>Paste text</strong> and paste it.</li>
+<li>Read the summary: how many entries, from when to when, and any warnings. Change the <strong>Options</strong> if it asks you to (a starting
+year, the Old Style calendar); the result updates at once.</li>
+<li>Press <strong>Download this file</strong>. A big diary is split into several files: pick one to look at, or <strong>Download all (.zip)</strong>.</li>
+</ol>
+<p><strong>From a web address</strong> fetches a plain-text file straight from another site, but only from sites that allow it. Project Gutenberg
+doesn&#39;t: download the <strong>Plain Text UTF-8</strong> file first, then open it.</p>
+<p>Everything below works the same on the page: each command-line option has a control with the same name.</p>
+<h2 id="on-the-command-line-in-three-steps">On the command line, in three steps</h2>
+<ol>
+<li><p>Save the diary as a plain-text file (UTF-8). On Project Gutenberg, choose <strong>Plain Text UTF-8</strong>.</p>
+</li>
+<li><p>Run the converter on it:</p>
+<pre tabindex="0"><code>node converter/jot-convert.mjs my-diary.txt &gt; my-diary.jot
+</code></pre>
+</li>
+<li><p>Read what it says about the result (how many entries, from when to when), then open <code>my-diary.jot</code>.</p>
+</li>
+</ol>
+<h2 id="what-you-get">What you get</h2>
+<p>Each day the diary marks becomes an entry. The date as it was written stays after the <code>|</code>, so nothing is lost:</p>
+<pre tabindex="0"><code class="language-jot">---
+Jot: 1.0
+Title: The Diary of a Nobody
+Author: George Grossmith Weedon Grossmith
+Source: https://www.gutenberg.org/ebooks/1026
+Converted-with: jot-convert
+---
+
+### 1888-04-03 | APRIL 3
+
+Tradesmen called for custom, and I promised Farmerson, the
+ironmonger, to give him a turn if I wanted any nails or tools.
+
+### 1888-04-08 | APRIL 8, Sunday
+
+After Church, the Curate came back with us.
+</code></pre>
+<ul>
+<li>Anything before the first dated day (a title page, an introduction) is kept at the top.</li>
+<li>An editor&#39;s note in square brackets becomes a <strong>margin note</strong>, <code>[[ … ]]</code>.</li>
+<li>A line that would look like a Jot mark (a line starting <code>o </code>, <code>#</code> or <code>1660.</code>) gets a backslash before it, so it stays plain writing.</li>
+</ul>
+<h2 id="dates-it-understands">Dates it understands</h2>
+<p>The date has to start a paragraph:</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>The diary says</th>
+<th>It becomes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>January 1st, 1888.</code> or <code>3 April 1888:</code></td>
+<td>that day</td>
+</tr>
+<tr>
+<td><code>APRIL 3.—Tradesmen called…</code></td>
+<td>3 April, in the year it is in</td>
+</tr>
+<tr>
+<td><code>“_20th Jan._—To London…</code></td>
+<td>20 January (quote marks and italics are fine)</td>
+</tr>
+<tr>
+<td><code>Jan. 1st (Lord’s day).</code></td>
+<td>1 January, with &quot;Lord&#39;s day&quot; kept</td>
+</tr>
+<tr>
+<td><code>2nd. In the morning…</code></td>
+<td>the 2nd of the month it is in</td>
+</tr>
+<tr>
+<td><code>JANUARY 1659-1660</code> on a line of its own</td>
+<td>a heading: from here on, the year is 1660</td>
+</tr>
+</tbody></table>
+<p>A date needs something to end it: a full stop, a dash, a colon or the end of the line. So &quot;March 18th, 1884, the monument was
+unveiled&quot; in the middle of an introduction stays text.</p>
+<h2 id="when-the-diary-doesn39t-say-the-year">When the diary doesn&#39;t say the year</h2>
+<p>Some diaries never write the year (<em>The Diary of a Nobody</em> only says &quot;APRIL 3.&quot;). The converter then finds no days and tells you to
+give one:</p>
+<pre tabindex="0"><code>node converter/jot-convert.mjs nobody.txt --year 1888 &gt; nobody.jot
+</code></pre>
+<p>After December comes January of the next year, so one starting year is enough.</p>
+<h2 id="old-style-dates-before-1752">Old Style dates (before 1752)</h2>
+<p>England used the old Julian calendar until 1752, ten or eleven days behind ours. Jot dates are always the modern (Gregorian) calendar,
+so for a diary like Samuel Pepys&#39;s, add <code>--calendar julian</code>. Each entry then has its modern date, and the date Pepys wrote stays
+after the <code>|</code>:</p>
+<pre tabindex="0"><code class="language-jot">### 1660-01-11 | Jan. 1st (Lord’s day) (1660-01-01 Old Style)
+
+This morning (we living lately in the garret,)
+I rose, put on my suit with great skirts, having not lately worn any …
+</code></pre>
+<p>You don&#39;t have to know: if the diary names its weekdays (&quot;Lord&#39;s day&quot;, &quot;Sunday&quot;) and they fit the Old Style calendar better, the
+converter says so and suggests <code>--calendar julian</code>.</p>
+<h2 id="big-diaries">Big diaries</h2>
+<p>The Jot tools open files up to 1 MiB. A long diary is split by year (and a year that is still too big, by month). Give a folder for
+the files:</p>
+<pre tabindex="0"><code>node converter/jot-convert.mjs pepys.txt --calendar julian --out-dir pepys/
+</code></pre>
+<p>That makes <code>pepys/the-diary-of-samuel-pepys-1660.jot</code>, <code>…-1661.jot</code> and so on. <code>--per year</code> or <code>--per month</code> splits a smaller diary
+too; <code>--name pepys</code> gives shorter file names.</p>
+<h2 id="straight-from-the-web">Straight from the web</h2>
+<p>The converter reads standard input when you give <code>-</code> instead of a file name, so a download can go straight in:</p>
+<pre tabindex="0"><code>curl -sL https://www.gutenberg.org/cache/epub/1026/pg1026.txt | node converter/jot-convert.mjs - --year 1888 &gt; nobody.jot
+</code></pre>
+<h2 id="other-options">Other options</h2>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Option</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-o file.jot</code></td>
+<td>write to a file instead of the screen</td>
+</tr>
+<tr>
+<td><code>--notes keep</code></td>
+<td>leave <code>[editor&#39;s notes]</code> as they are; <code>--notes drop</code> leaves them out</td>
+</tr>
+<tr>
+<td><code>--title</code>, <code>--author</code>, <code>--source</code></td>
+<td>set the metadata (read from a Project Gutenberg file without asking)</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td>replace files that are already there (otherwise it stops rather than overwrite)</td>
+</tr>
+<tr>
+<td><code>-q</code></td>
+<td>no summary</td>
+</tr>
+</tbody></table>
+<h2 id="diaries-to-try">Diaries to try</h2>
+<p>The three below are already converted on the <a href="../examples/">Examples</a> page: read them in the workspace or download the
+files, and compare them with your own conversion.</p>
+<p>Project Gutenberg has hundreds of public-domain diaries and logbooks; search for &quot;diary&quot;, &quot;journal&quot; or &quot;logbook&quot; and pick <strong>Plain
+Text UTF-8</strong>. Three that convert well:</p>
+<ul>
+<li><strong>The Diary of Samuel Pepys</strong> (ebook 4200): ten years, every day; use <code>--calendar julian</code>.</li>
+<li><strong>The Diary of a Nobody</strong> by George and Weedon Grossmith (ebook 1026): a comic diary of 1888–89; use <code>--year 1888</code>.</li>
+<li><strong>My Diaries 1888–1914</strong> by Wilfrid Scawen Blunt (ebooks 79491 and 79492): diary entries inside a narrative; the years come from
+the chapter titles.</li>
+</ul>
+<h2 id="if-something-goes-wrong">If something goes wrong</h2>
+<table tabindex="0">
+<thead>
+<tr>
+<th>What you see</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;No dated entries found&quot;</td>
+<td>The diary never states a year: add <code>--year</code>. If it does, its dates may be written in a way the converter doesn&#39;t know</td>
+</tr>
+<tr>
+<td>&quot;fit the Julian (Old Style) calendar&quot;</td>
+<td>Run it again with <code>--calendar julian</code></td>
+</tr>
+<tr>
+<td>&quot;is not UTF-8 text&quot;</td>
+<td>Open the file in a text editor and save it as UTF-8</td>
+</tr>
+<tr>
+<td>&quot;already there&quot;</td>
+<td>Choose another folder or <code>--name</code>, or add <code>--force</code> to replace the files</td>
+</tr>
+<tr>
+<td>&quot;more than the 1 MiB&quot;</td>
+<td>Use <code>--out-dir</code> so it can split the diary</td>
+</tr>
+<tr>
+<td>A day is in the wrong year</td>
+<td>The diary jumped back in time without saying so. Fix the <code>###</code> line by hand: it is just text</td>
+</tr>
+</tbody></table>
+</article></div>
+</main>
+</body>
+</html>

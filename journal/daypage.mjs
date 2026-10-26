@@ -1,0 +1,1271 @@
+// Day page layout: the blocks of a monthly day page, their order and options.
+// Shared by render.mjs (print), the .jot export (jotfile.mjs) and the tests.
+// The layout lives in content/daypage.json; anything missing falls back to DEFAULT_LAYOUT.
+// Fixed, never in the layout: the DATE/TITLE/TAGS header (top). The scan frame, the page code and the SEND TO strip (bottom) are
+// the page's scan marks (scan.mjs): on by default; the layout's `scan` setting and a `sendto` block change them, opt-in.
+import { cleanPrint } from './a11yprint.mjs';
+import { SEND_KEYS, SEND_LABELS, SEND_SIZES, sendBlockHtml, cleanScan, SCAN_CSS } from './scan.mjs';
+import { PZ_WS_MIN, PZ_WS_MAX } from './puzzles/wordsearch.mjs';
+import { PZ_CW_MIN, PZ_CW_MAX } from './puzzles/crossword.mjs';
+import { pzBlock, pzHeight, PZ_CSS } from './puzzles/render.mjs';
+import { pzxBlock, pzxMin, pzxFit, pzxIs, PZX_TYPES, PZX_CSS } from './puzzles/render2.mjs';
+import { PZ_MZ_MIN, PZ_MZ_MAX } from './puzzles/maze.mjs';
+import { PZ_NN_MIN, PZ_NN_MAX } from './puzzles/nonogram.mjs';
+import { PZ_DD_IDS, PZ_DD_SHAPES } from './puzzles/dots.mjs';
+import { NOTE_TYPES, isNote, NOTE_GROUP, REG_GROUP, TRACE_PATTERNS, TRACE_SIZES, STIM_SENSES, STIM_EXAMPLES, REVIEW_DAYS, FLASH_G, flashParts, reviewSteps, stimSenses, noteMin, noteFit, notePlan, mapPlan, tracePaths, NOTE_PITCH } from './noteblocks.mjs';
+import { PHOTO_TYPES, isPhoto, FRAME_SIZES, STRIP_SIZES, SHEET_SIZES, DAILY_SIZES, CUSTOM_MIN, CUSTOM_MAX, photoPlan, photoMin, photoFit, sizeText, dailyDays, monthDays, linesCount, markArm, MARK_INSET_IN, TICK_GAP_IN, zoomOf, gutterProblem } from './photo.mjs';
+import { CH_GROUPS, CH_CSS, chHtml, chMin } from './chores.mjs';
+
+export const IC = {
+  pill: '<rect x="1.3" y="4" width="9.4" height="4" rx="2" transform="rotate(-35 6 6)"/><path d="M6 3.1 L6 8.9" transform="rotate(-35 6 6)"/>',
+  am: '<circle cx="6" cy="6" r="2.3"/><path d="M6 .8V2.2M6 9.8v1.4M.8 6h1.4M9.8 6h1.4M2.3 2.3l1 1M8.7 8.7l1 1M2.3 9.7l1-1M8.7 3.3l1-1"/>',
+  pm: '<path d="M8.6 1.6A4.6 4.6 0 1 0 10.4 8 3.7 3.7 0 0 1 8.6 1.6Z"/>',
+  prn: '<circle cx="6" cy="6" r="4.6"/><path d="M6 3.4V6l1.8 1.2"/>',
+  meal: '<circle cx="6.6" cy="6.4" r="3.4"/><path d="M1.4 1.4v3.4M.6 1.4v2.4a.8.8 0 0 0 1.6 0V1.4M1.4 4.8v5.8"/>',
+  snack: '<path d="M6 3.6c-1.4-1-4-.6-4 2.2 0 2.4 1.6 4.6 3 4.6.5 0 .7-.3 1-.3s.5.3 1 .3c1.4 0 3-2.2 3-4.6 0-2.8-2.6-3.2-4-2.2Z"/><path d="M6 3.6c0-1.2.6-2 1.6-2.4"/>',
+  shower: '<path d="M2 11V3.2A2 2 0 0 1 4 1.2h1.4a2 2 0 0 1 2 2V4"/><path d="M5.2 4h4.4"/><path d="M5.8 6v.4M7.4 6v.4M9 6v.4M5.4 8v.4M7.2 8v.4M9.2 8v.4"/>',
+  teeth: '<path d="M3.2 1.6c-1.4 0-2 1.2-2 2.6 0 2 .8 3 1.2 5.4.2 1 .5 1.4.9 1.4.7 0 .8-2.6 1.4-3.2.3-.3.3-.3.6 0 .6.6.7 3.2 1.4 3.2.4 0 .7-.4.9-1.4.4-2.4 1.2-3.4 1.2-5.4 0-1.4-.6-2.6-2-2.6-1 0-1.4.6-2.3.6s-1.3-.6-2.3-.6Z" transform="translate(.8 0)"/>',
+  joy: '<path d="M6 1.2 7.2 4.8 10.8 6 7.2 7.2 6 10.8 4.8 7.2 1.2 6 4.8 4.8Z"/>',
+  text: '<path d="M1.4 2.2h9.2v6H5.4L2.8 10.4V8.2H1.4Z"/><path d="M3.6 4.6h4.8M3.6 6.2h3"/>',
+  sleep: '<path d="M1 10V3.4M1 7.6h10V10M1 6.2h2.6a1.2 1.2 0 0 0 0-2.4H1"/><path d="M5 6.2V5a1.2 1.2 0 0 1 1.2-1.2H9.8A1.2 1.2 0 0 1 11 5v2.6"/>',
+  work: '<rect x="1" y="3.6" width="10" height="7" rx="1"/><path d="M4 3.6V2.2h4v1.4M1 6.8h10"/>',
+  spoon: '<path d="M 6.03 0.69 C 7.51 0.69 8.14 2.02 8.14 3.26 8.14 4.51 7.12 5.45 6.42 5.92 L 6.81 10.75 Q 6.81 11.69 6.03 11.69 5.25 11.69 5.25 10.75 L 5.64 5.92 C 4.94 5.45 3.92 4.51 3.92 3.26 3.92 2.02 4.55 0.69 6.03 0.69Z"/>',
+  low: '<circle cx="6" cy="6" r="4.8"/><path d="M4.1 8.2c1.1-1 2.7-1 3.8 0"/><path d="M4.3 4.6v.4M7.7 4.6v.4"/>',
+  high: '<circle cx="6" cy="6" r="4.8"/><path d="M3.9 6.8c1.1 1.3 3.1 1.3 4.2 0"/><path d="M4.3 4.3v.4M7.7 4.3v.4"/>',
+  anx: '<path d="M.8 6c1-2 1.8-2 2.6 0s1.6 2 2.6 0 1.6-2 2.6 0 1.6 2 2.6 0"/>',
+  calm: '<path d="M.8 6h10.4"/>',
+  well: '<path d="M1.8 6.4 4.6 9.2 10.2 2.8"/>',
+  hard: '<path d="M1.2 10.2 4.4 3.2 6.6 6.4 8 4.6 10.8 10.2Z"/>',
+  next: '<path d="M1.4 6h8.4M6.8 3l3 3-3 3"/>',
+  water: '<path d="M6 1.2C4.4 3.6 2.6 5.6 2.6 7.6a3.4 3.4 0 0 0 6.8 0C9.4 5.6 7.6 3.6 6 1.2Z"/>',
+  heart: '<path d="M6 10.4 1.9 6.4A2.4 2.4 0 0 1 6 3a2.4 2.4 0 0 1 4.1 3.4Z"/>',
+  cloud: '<path d="M3.6 9.6a2.6 2.6 0 0 1-.4-5.2 3.2 3.2 0 0 1 6 .6 2.3 2.3 0 0 1 .2 4.6Z"/>',
+  rain: '<path d="M3.6 7.4a2.3 2.3 0 0 1-.3-4.6 2.9 2.9 0 0 1 5.4.5 2 2 0 0 1 .2 4.1Z"/><path d="M4 9v1.6M6.2 9v1.6M8.4 9v1.6"/>',
+  snow: '<path d="M6 1.2v9.6M1.8 3.6l8.4 4.8M1.8 8.4l8.4-4.8"/>',
+  smoke: '<path d="M1.2 4.2c1.4-1.2 2.6-1.2 4 0s2.6 1.2 4 0M2.4 7.2c1.4-1.2 2.6-1.2 4 0s2.6 1.2 4 0M1.2 10.2c1.4-1.2 2.6-1.2 4 0s2.6 1.2 4 0"/>',
+  bus: '<rect x="2" y="1.4" width="8" height="8" rx="1.4"/><path d="M2 5.6h8M3.6 9.4v1.4M8.4 9.4v1.4"/><circle cx="4" cy="7.5" r=".4"/><circle cx="8" cy="7.5" r=".4"/>',
+  coin: '<circle cx="6" cy="6" r="4.8"/><path d="M7.6 4.2c-.4-.6-1-.8-1.6-.8-.9 0-1.6.5-1.6 1.2 0 1.6 3.4.9 3.4 2.6 0 .7-.8 1.2-1.8 1.2-.7 0-1.3-.3-1.7-.8M6 2.4v1M6 8.4v1.2"/>',
+  clock: '<circle cx="6" cy="6" r="4.8"/><path d="M6 3.2V6l2 1.4"/>',
+  x4: '<rect x="2.4" y="1" width="7.2" height="10" rx="1.2"/><path d="M4.4 3.4h3.2M4.4 5.4h3.2M4.4 7.4h1.8"/>',
+  ear: '<path d="M3.2 4.6a3 3 0 0 1 6 0c0 1.8-1.6 2.4-1.8 3.8-.2 1.2-.8 2-2 2-.8 0-1.4-.5-1.6-1.2"/><path d="M5 5a1.2 1.2 0 0 1 2.4 0c0 .8-.8 1-.9 1.8"/>',
+  eye: '<path d="M.8 6s2-3.6 5.2-3.6S11.2 6 11.2 6 9.2 9.6 6 9.6.8 6 .8 6Z"/><circle cx="6" cy="6" r="1.6"/>',
+  people: '<circle cx="4.2" cy="4" r="1.8"/><circle cx="8.4" cy="4.6" r="1.4"/><path d="M1 10.4a3.2 3.2 0 0 1 6.4 0M7.2 7.6a2.6 2.6 0 0 1 3.8 2.4"/>',
+  hand: '<path d="M4 10.6 2.2 7.4a1 1 0 0 1 1.7-1l.9 1.2V2.4a.9.9 0 0 1 1.8 0v3.2-1a.9.9 0 0 1 1.8 0v1.4a.9.9 0 0 1 1.6.4v2.8a2.4 2.4 0 0 1-2.4 2.4Z"/>',
+  bolt: '<path d="M6.8 1 2.6 6.8h3.2L5 11l4.4-6H6.2Z"/>',
+  pen: '<path d="M8.2 1.6 10.4 3.8 4 10.2l-2.8.6.6-2.8Z"/><path d="M7 2.8l2.2 2.2"/>',
+  list: '<path d="M4.2 3h6.4M4.2 6h6.4M4.2 9h6.4"/><circle cx="1.8" cy="3" r=".5"/><circle cx="1.8" cy="6" r=".5"/><circle cx="1.8" cy="9" r=".5"/>',
+  sprout: '<path d="M6 11V5.6"/><path d="M6 6.4C6 3.8 4.2 2.4 1.6 2.4c0 2.6 1.8 4 4.4 4ZM6 5.6c0-2.2 1.6-3.6 4.4-3.6 0 2.4-1.8 3.6-4.4 3.6Z"/>',
+  flag: '<path d="M2.4 11V1.4M2.4 1.8h7l-1.6 2.6 1.6 2.6h-7"/>',
+  box: '<rect x="1.4" y="1.4" width="9.2" height="9.2" rx="1"/>',
+  log: '<circle cx="2" cy="2.6" r=".6" fill="currentColor"/><circle cx="2" cy="6" r="1.1"/><path d="M1 9.4h2M4.8 2.6h6M4.8 6h6M4.8 9.4h6"/>',
+  thought: '<path d="M3.4 8.6a2.2 2.2 0 0 1-.2-4.4 2.9 2.9 0 0 1 5.5-.4 2.1 2.1 0 0 1 .2 4.8Z"/><circle cx="3.4" cy="10.4" r=".7"/><circle cx="1.6" cy="11.2" r=".4"/>',
+  needle: '<path d="M9.4 2.6 11 4.2M8.2 3.8 3.2 8.8l-.6 1.6 1.6-.6 5-5M6 6l1.4 1.4M4.6 7.4 6 8.8"/><path d="M2.6 10.4 1 12"/>',
+  body: '<circle cx="6" cy="2.4" r="1.4"/><path d="M6 4.2v4M3 5.4h6M6 8.2 4.2 11M6 8.2 7.8 11"/>',
+  wave: '<path d="M.8 6c1.2-3 2.4-3 3.6 0s2.4 3 3.6 0 2-2.4 3.2-.6"/>',
+  dots: '<circle cx="3.2" cy="3.2" r="2"/><circle cx="8.8" cy="3.2" r="2"/><circle cx="3.2" cy="8.8" r="2"/><circle cx="8.8" cy="8.8" r="2"/><circle cx="3.2" cy="3.2" r="2" fill="currentColor"/><path d="M8.8 6.8a2 2 0 0 1 0 4Z" fill="currentColor"/>',
+  // Tier 2 blocks
+  dump: '<path d="M1.6 3.2c1.6-1.2 2.6 1.2 4.2 0s2.6-1.2 4.6.2M1.6 6.2c1.6-1.2 2.6 1.2 4.2 0s2.6-1.2 4.6.2M1.6 9.2c1.6-1.2 2.6 1.2 4.2 0"/>',
+  wall: '<rect x="1" y="2" width="10" height="8" rx=".6"/><path d="M1 4.7h10M1 7.3h10M5 2v2.7M8.2 4.7v2.6M3.8 7.3V10"/>',
+  rounds: '<rect x="1" y="3.6" width="2.4" height="2.4"/><rect x="4.8" y="3.6" width="2.4" height="2.4"/><rect x="8.6" y="3.6" width="2.4" height="2.4"/><path d="M1 9h10"/>',
+  keep: '<path d="M3 1.2h6v9.6L6 8.4 3 10.8Z"/>',
+  back: '<path d="M10.4 6H2.2M5 3 2 6l3 3"/>',
+  week: '<rect x="1" y="3" width="10" height="6" rx="1"/><path d="M3.5 3v6M6 3v6M8.5 3v6"/>',
+  send: '<path d="M1.6 9.8h2.6M5 9.8h2.6M8.4 9.8h2"/><circle cx="2.9" cy="6.6" r="1.3" stroke-dasharray="1.4 1"/><path d="M6 6.6 8.2 2.4 10.4 6.6Z" fill="currentColor"/>',
+  pixel: '<rect x="1.6" y="1.6" width="8.8" height="8.8" rx="1"/><path d="M1.6 6h8.8v4.4H1.6Z" fill="currentColor"/>',
+  wordsearch: '<rect x="1.4" y="1.4" width="9.2" height="9.2" rx="1"/><path d="M3.4 8.6 8.6 3.4"/>',
+  crossword: '<rect x="1.4" y="1.4" width="9.2" height="9.2" rx="1"/><path d="M1.4 4.5h9.2M1.4 7.5h9.2M4.5 1.4v9.2M7.5 1.4v9.2"/>',
+  sudoku: '<rect x="1.4" y="1.4" width="9.2" height="9.2" rx="1"/><path d="M4.5 1.4v9.2M7.5 1.4v9.2M1.4 4.5h9.2M1.4 7.5h9.2"/><path d="M2.4 3h1.2M5.4 6h1.2M8.4 9h1.2"/>',
+  maze: '<rect x="1.4" y="1.4" width="9.2" height="9.2"/><path d="M4.2 1.4v5M4.2 6.4h3.6M7.8 3.4v5M5.6 3.4h2.2"/>',
+  cryptogram: '<rect x="1.4" y="1.8" width="3.6" height="3.6" rx=".5"/><rect x="7" y="1.8" width="3.6" height="3.6" rx=".5"/><path d="M1.4 8.8h3.6M7 8.8h3.6"/>',
+  wordladder: '<path d="M3.5 1.4v9.2M8.5 1.4v9.2M3.5 3.6h5M3.5 6h5M3.5 8.4h5"/>',
+  nonogram: '<rect x="1.4" y="1.4" width="9.2" height="9.2"/><path d="M4.5 1.4v9.2M7.5 1.4v9.2M1.4 4.5h9.2M1.4 7.5h9.2"/><path d="M4.5 4.5h3v3h-3z" fill="currentColor"/>',
+  kakuro: '<rect x="1.4" y="1.4" width="9.2" height="9.2"/><path d="M1.4 1.4l4 4M5.4 5.4v5.2M5.4 5.4h5.2"/>',
+  dottodot: '<circle cx="2.6" cy="9" r=".8"/><circle cx="6" cy="2.6" r=".8"/><circle cx="9.4" cy="9" r=".8"/><path d="M3 8.2 5.6 3.4M6.4 3.4 9 8.2" stroke-dasharray="1 1"/>',
+  // photo journaling (glue-in): a frame with a hill and a sun, three frames in a row, a small grid with the day ringed, a contact sheet with a tick
+  photoframe: '<rect x="1.4" y="2" width="9.2" height="8" rx="1"/><circle cx="4.3" cy="4.7" r=".9"/><path d="M1.8 9.4l2.9-2.6 1.9 1.7 1.5-1.3 2.1 2"/>',
+  photostrip: '<rect x="1" y="3" width="2.8" height="6" rx=".5"/><rect x="4.6" y="3" width="2.8" height="6" rx=".5"/><rect x="8.2" y="3" width="2.8" height="6" rx=".5"/>',
+  // chores (chores.mjs): a house with a tick, a week grid with a tick
+  chores: '<path d="M1.4 6 6 1.8 10.6 6M2.8 5v5.6h6.4V5"/><path d="M4.6 8.2l1.1 1.1 1.9-2.2"/>',
+  chorerota: '<rect x="1.2" y="1.6" width="9.6" height="8.8" rx="1"/><path d="M1.2 4.6h9.6M4.4 4.6v5.8M7.6 4.6v5.8"/><path d="M5.2 7.6l.9.9 1.6-1.8"/>',
+  photodaily: '<rect x="1.2" y="1.6" width="2.4" height="2.4" rx=".4"/><rect x="4.8" y="1.6" width="2.4" height="2.4" rx=".4"/><rect x="8.4" y="1.6" width="2.4" height="2.4" rx=".4"/><rect x="1.2" y="5" width="2.4" height="2.4" rx=".4"/><rect x="4.8" y="5" width="2.4" height="2.4" rx=".4"/><rect x="8.4" y="5" width="2.4" height="2.4" rx=".4"/><path d="M1.2 10.2h9.6"/>',
+  contactsheet: '<rect x="1.2" y="1.4" width="4" height="4" rx=".5"/><rect x="6.8" y="1.4" width="4" height="4" rx=".5"/><rect x="1.2" y="6.8" width="4" height="4" rx=".5"/><path d="M7.4 8.9l1.2 1.2 2.2-2.4"/>',
+  // notes and study (noteblocks.mjs): a cue column with a summary strip, a lined page, a bubble map, a question mark, a boxed summary, a strip with a dashed fold, three ticks, an arrow that comes round again
+  cornell: '<rect x="1.4" y="1.4" width="9.2" height="9.2" rx="1"/><path d="M4.6 1.4v6.8M1.4 8.2h9.2"/>',
+  notearea: '<path d="M2.4 1.4h5.4l2 2v7.2H2.4Z"/><path d="M4 5.2h4M4 7h4M4 8.8h2.4"/>',
+  conceptmap: '<circle cx="6" cy="6" r="1.7"/><circle cx="2.2" cy="2.4" r="1"/><circle cx="9.8" cy="2.4" r="1"/><circle cx="6" cy="10.2" r="1"/><path d="M4.8 4.8 3 3.2M7.2 4.8 9 3.2M6 7.7v1.5"/>',
+  questions: '<path d="M4.2 4.4a1.9 1.9 0 1 1 2.9 1.6c-.7.5-1.1.9-1.1 1.7"/><circle cx="6" cy="10" r=".55" fill="currentColor"/>',
+  summarybox: '<rect x="1.4" y="2.4" width="9.2" height="7.2" rx="1"/><path d="M3.4 5h5.2M3.4 7h3"/>',
+  flashstrip: '<rect x="1.2" y="2.4" width="9.6" height="7.2" rx=".8"/><path d="M6.6 2.4v7.2" stroke-dasharray="1.2 1"/><path d="M2.8 6h2.2"/>',
+  reviewtracker: '<rect x="1" y="4" width="3" height="3" rx=".5"/><rect x="4.5" y="4" width="3" height="3" rx=".5"/><rect x="8" y="4" width="3" height="3" rx=".5"/><path d="M1.6 5.6l.8.8 1.3-1.6"/><path d="M1 9.4h10"/>',
+  again: '<path d="M9.6 6a3.6 3.6 0 1 1-1.1-2.6"/><path d="M9.6 1.8v2.2H7.4"/>',
+  // regulation: a wave (a stim log), a list of boxes and lines (a menu), a spiral (a pattern to trace), and the six senses of the stim menu
+  stimlog: '<path d="M1 7c1.4-3.4 2.4-3.4 3.5 0s2.1 3.4 3.5 0 1.6-2.2 3-1"/>',
+  stimmenu: '<rect x="1.4" y="2" width="2" height="2" rx=".4"/><rect x="1.4" y="5" width="2" height="2" rx=".4"/><rect x="1.4" y="8" width="2" height="2" rx=".4"/><path d="M5 3h5.6M5 6h5.6M5 9h5.6"/>',
+  stimtrace: '<path d="M6 6c.6 0 .9-.6.5-1s-1.2-.3-1.5.3c-.4.8 0 1.8 1 2.1 1.2.3 2.3-.6 2.2-1.9-.1-1.6-1.6-2.4-3.1-2.1-1.7.4-2.5 2.2-2 3.8"/>',
+  sense_touch: '<path d="M5 6.2V2.9a1 1 0 0 1 2 0v3.2M7 5.6l2-.4a1 1 0 0 1 .4 2L8.6 10H5.4L3.2 7.4"/>',
+  sense_move: '<path d="M6 1.6v8.8M1.6 6h8.8M6 1.6 4.8 2.8M6 1.6 7.2 2.8M6 10.4 4.8 9.2M6 10.4 7.2 9.2"/>',
+  sense_sight: '<path d="M1 6s2-3.4 5-3.4S11 6 11 6s-2 3.4-5 3.4S1 6 1 6Z"/><circle cx="6" cy="6" r="1.3"/>',
+  sense_chew: '<circle cx="6" cy="6" r="4.4"/><path d="M4.2 4.6h.01M7.4 5h.01M5.2 7.6h.01M7.2 7.8h.01" stroke-width="1.7"/>',
+  sense_press: '<path d="M1.2 6h2.8M10.8 6H8M3 4.4 4.6 6 3 7.6M9 4.4 7.4 6 9 7.6"/><rect x="5.1" y="3.4" width="1.8" height="5.2" rx=".6"/>',
+  fold: '<path d="M2 2h6l2 2v6H2Z"/><path d="M8 2v2h2"/>',
+  idea: '<path d="M6 2.4v7.2M2.4 6h7.2"/>',
+};
+export const ic = (k, t = '') => `<svg class="ic" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${t || k}">${IC[k]}</svg>`;
+export const box = (label) => `<span class="ck"><i></i>${label ? `<span>${label}</span>` : ''}</span>`;
+export const spoon = () => `<svg class="spoon" width="7" height="15" viewBox="0 0 7 15"><path d="M3.5 .5C5.4 .5 6.2 2.2 6.2 3.8 6.2 5.4 4.9 6.6 4 7.2L4.5 13.4Q4.5 14.6 3.5 14.6 2.5 14.6 2.5 13.4L3 7.2C2.1 6.6.8 5.4.8 3.8.8 2.2 1.6.5 3.5.5Z" fill="none" stroke="#333" stroke-width="1" stroke-linejoin="round"/></svg>`;
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// AI-scan zones: labelled header boxes (DATE / TITLE / TAGS). Fixed at the top of a page; never a block. (pages.mjs re-exports it.)
+export function headerZone(dateText, titleText = '', tagsText = '') { // tagsText: only jot pages fill it (jotpage.mjs); empty = the header as it always was
+  return `<div class="hz"><div class="zbox zdate" data-zone="date"><span class="zl">DATE:</span><span class="zv">${dateText}</span></div><div class="zbox ztitle" data-zone="title"><span class="zl">TITLE:</span><span class="zv">${titleText}</span></div><div class="zbox ztags" data-zone="tags"><span class="zl">TAGS:</span>${tagsText ? `<span class="zv">${tagsText}</span>` : ''}</div></div>`;
+}
+// 3+ routines collapse into one wrapping row of tick boxes (max 6, then "+N more"), so a busy day keeps its writing space.
+export const ROUTINE_ROWS = 2, ROUTINE_MAX = 6;
+export const ACTION_H = 0.24; // row height in inches: today's
+export function actionZone(n, pre = [], h = ACTION_H) {
+  const st = h === ACTION_H ? '' : ` style="height:${h}in"`, zl = '<div class="zl">ACTION ITEMS:</div>', blank = `<div class="cb"${st}><i></i><span></span></div>`;
+  if (pre.length <= ROUTINE_ROWS) {
+    const blanks = Math.max(1, n - pre.length);
+    return `<div class="az" data-zone="action_items">${zl}${pre.map((t) => `<div class="cb pre"${st}><i></i><span>${esc(t)}</span></div>`).join('')}${Array(blanks).fill(blank).join('')}</div>`;
+  }
+  const more = pre.length - ROUTINE_MAX;
+  return `<div class="az" data-zone="action_items">${zl}<div class="cbi">${pre.slice(0, ROUTINE_MAX).map((t) => `<span class="ci"><i></i><span>${esc(t)}</span></span>`).join('')}${more > 0 ? `<span class="more">+${more} more</span>` : ''}</div>${Array(Math.max(1, n - ROUTINE_ROWS)).fill(blank).join('')}</div>`;
+}
+
+
+// ======================= block library (layout v2) =======================
+// A layout is an ordered list of block instances: { uid, type, on, ...options }.
+// "single" types appear at most once (they carry the day's data); the rest can be added as often as you like.
+// Option kinds: num {lo,hi} · bool · choice {choices:[[value,label]]} · flags {items:{key:label}} · text {max} · list {max}.
+
+export const CARE_ROWS = {
+  meds: { name: 'Meds', icon: 'pill', items: { am: 'Morning', pm: 'Evening', prn: 'As needed' } },
+  meals: { name: 'Meals', icon: 'meal' },
+  self_care: { name: 'Self-care ticks', icon: 'shower', x4: true, items: { shower: 'Shower', teeth: 'Teeth', joy: 'Did something I enjoy', text: 'Texted someone' } },
+  work: { name: 'Work shift', icon: 'work' },
+  checkin: { name: 'Mood', icon: 'high' },
+  anxiety: { name: 'Anxiety', icon: 'anx', x4: true },
+  water: { name: 'Water', icon: 'water' },
+};
+export const REVIEW_ITEMS = { well: 'Went well', hard: 'Was hard', next: 'Tomorrow' };
+// The care split (paper and X4, one system): paper keeps meds, meals, water, mood and the work shift times; the X4 records
+// spoons left, sleep hours, anxiety and the care ticks (self-care, snack). The X4-only rows stay here, switched off, for
+// anyone who wants them on paper too. The little "X4:" line under the block names whatever is not on the page.
+const DEFAULT_ROWS = [
+  { id: 'meds', on: true, items: { am: true, pm: true, prn: true } },
+  { id: 'meals', on: true, meals: 3, snack: false },
+  { id: 'self_care', on: false, items: { shower: true, teeth: true, joy: true, text: true } },
+  { id: 'work', on: true, sleep: false, work: true },
+  { id: 'checkin', on: true, steps: 7 },
+  { id: 'anxiety', on: false },
+  { id: 'water', on: true, count: 8 },
+];
+export const ROW_OPTS = {
+  meds: [{ k: 'items', kind: 'flags', label: 'Boxes', items: CARE_ROWS.meds.items, icons: true }],
+  meals: [{ k: 'meals', kind: 'num', label: 'Meal boxes', lo: 1, hi: 4 }, { k: 'snack', kind: 'bool', label: 'Snack box (X4 has it)' }],
+  self_care: [{ k: 'items', kind: 'flags', label: 'Boxes', items: CARE_ROWS.self_care.items, icons: true }],
+  work: [{ k: 'work', kind: 'bool', label: 'Work shift times' }, { k: 'sleep', kind: 'bool', label: 'Sleep hours (X4 has it)' }],
+  checkin: [{ k: 'steps', kind: 'choice', label: 'Scale', choices: [[5, '5 steps'], [7, '7 steps']] }],
+  anxiety: [],
+  water: [{ k: 'count', kind: 'num', label: 'Glasses', lo: 4, hi: 10 }],
+};
+
+const T = (label, def, max = 40) => ({ k: 'title', kind: 'text', label, def, max });
+const N = (k, label, lo, hi, def) => ({ k, kind: 'num', label, lo, hi, def });
+const B = (k, label, def = true) => ({ k, kind: 'bool', label, def });
+const LST = (k, label, def, max = 10) => ({ k, kind: 'list', label, def, max });
+const PITCH = { k: 'pitch', kind: 'choice', label: 'Line spacing', choices: [[5.6, 'Tight 5.6 mm'], [6.6, 'Standard 6.6 mm'], [8.5, 'Wide 8.5 mm']], def: 5.6 };
+const OMR = B('omr', 'Scan-ready (larger marks)', false);
+export const X4_MAXES = [5, 10, 20, 50, 99, 200, 999]; // "fields": the most the X4 counts up to (paper is unaffected)
+export const BODYSIG = { stomach: 'Hungry', water: 'Thirsty', toilet: 'Toilet', temp: 'Hot/cold', tense: 'Tense', heart: 'Heart', tired: 'Tired' };
+const PAPER = { k: 'paper', kind: 'choice', label: 'Paper', choices: [['lines', 'Lines'], ['dots', 'Dot grid'], ['grid', '4 mm grid']], def: 'lines' };
+
+// Puzzle blocks (wordsearch, crossword): difficulty, where the words come from, and the seed (change it for a different puzzle).
+const PZ_LEVEL = (e, m, h, def = 'easy') => ({ k: 'difficulty', kind: 'choice', label: 'Difficulty', choices: [['easy', e], ['medium', m], ['hard', h]], def });
+const PZX_SEED = { k: 'seed', kind: 'text', label: 'Seed (change it for a new puzzle)', def: '', max: 24 };
+const PZ_SOURCE = [
+  { k: 'source', kind: 'choice', label: 'Words from', choices: [['sample', 'Built-in lists'], ['pack', 'My puzzles pack'], ['custom', 'My own words']], def: 'sample' },
+  { k: 'theme', kind: 'text', label: 'List name (garden, kitchen, sky, calm, or your pack\'s)', def: 'garden', max: 24 },
+  { k: 'words', kind: 'list', label: 'My own words (crossword: word=clue, no commas)', def: [], max: 14, len: 52 },
+  { k: 'seed', kind: 'text', label: 'Seed (change it for a new puzzle)', def: '', max: 24 },
+];
+
+const PH_TURN = { k: 'turn', kind: 'choice', label: 'Turn', choices: [['portrait', 'Portrait (tall)'], ['landscape', 'Landscape (wide)']], def: 'portrait' };
+// Notes, flash cards and stimming (noteblocks.mjs, BUILD-PLAN section 24): paper to write in or trace. Standard line spacing for blocks with two cells to a row.
+const NB_PITCH = (def) => ({ ...PITCH, def });
+const NB_PAPER = { ...PAPER, choices: [...PAPER.choices, ['blank', 'Blank']] };
+const NB_SENSE_DEF = { touch: true, move: true, sound: true, sight: true, chew: true, press: true };
+// group: where the block sits in the "Add blocks" palette.
+export const TYPES = {
+  // ---- from your day (single) ----
+  sky: { name: 'Moon, sun & season', group: 'From your day', icon: 'pm', single: true, hint: 'Moon phase, sunrise–sunset, micro-season', opts: [] },
+  notes: { name: 'Holidays & notes', group: 'From your day', icon: 'flag', single: true, hint: 'Prints only on days that have one', opts: [] },
+  events: { name: 'Events', group: 'From your day', icon: 'clock', single: true, hint: 'One-off calendar events (days with events)', opts: [] },
+  actions: { name: 'Action items', group: 'From your day', icon: 'well', single: true, hint: 'Routines from your calendar fill in first', opts: [N('count', 'Lines', 1, 8, 3), B('routines', 'Pre-fill routines'), { k: 'h', kind: 'choice', label: 'Row height', choices: [[0.24, 'Standard'], [0.3, 'Roomy'], [0.36, 'Wide']], def: 0.24 }] },
+  fact: { name: 'On this day', group: 'From your day', icon: 'pen', single: true, hint: 'One line of history', opts: [] },
+  review: { name: 'Went well · Was hard · Tomorrow', group: 'From your day', icon: 'next', single: true, hint: 'Short review columns', opts: [{ k: 'items', kind: 'flags', label: 'Columns', items: REVIEW_ITEMS, icons: true }, N('h', 'Height (lines)', 1, 5, 2)] },
+  body: { name: 'Writing space', group: 'Writing', icon: 'pen', single: true, locked: true, hint: 'Takes whatever room is left', opts: [{ k: 'style', kind: 'choice', label: 'Paper', choices: [['dots', 'Dot grid'], ['lines', 'Lines'], ['bold', 'Bold lines'], ['grid', '4 mm grid'], ['grid37', '3.7 mm grid'], ['blank', 'Blank']], def: 'dots' }, B('secretLine', 'Secret line', false)] },
+  // ---- check-ins ----
+  care: { name: 'Care check-in', group: 'Check-ins', icon: 'pill', single: true, hint: 'Meds, meals, work shift, mood, water: two columns', opts: [] },
+  spoons: { name: 'Spoons left', group: 'Check-ins', icon: 'spoon', single: true, hint: 'Off by default: the X4 counts spoons left', opts: [N('count', 'How many', 6, 16, 12)] },
+  checks: { name: 'Checkboxes', group: 'Check-ins', icon: 'box', hint: 'Your own tick boxes · also on X4', opts: [T('Label', 'Habits', 24), LST('labels', 'Boxes', ['Stretch', 'Outside', 'Read'], 8)] },
+  scale: { name: 'Scale', group: 'Check-ins', icon: 'bolt', hint: 'Circle a number between two words · also on X4', opts: [T('Label', 'Energy', 18), N('steps', 'Steps', 3, 11, 5), B('zero', 'Number from 0', false), B('signed', 'Signed (−3 … +3)', false), { k: 'lo', kind: 'text', label: 'Left word', def: 'low', max: 10 }, { k: 'hi', kind: 'text', label: 'Right word', def: 'high', max: 10 }] },
+  words: { name: 'Words to circle', group: 'Check-ins', icon: 'list', hint: 'Circle the ones that fit today', opts: [T('Label', 'Feeling', 18), LST('words', 'Words', ['calm', 'tired', 'anxious', 'content', 'flat', 'overwhelmed', 'hopeful', 'irritable', 'proud', 'lonely'], 14), B('x4', 'Pick one on X4 (first 8 words)', false)] },
+  sensory: { name: 'Sensory load', group: 'Check-ins', icon: 'ear', hint: 'How loud was the world today, 0–3', opts: [{ k: 'items', kind: 'flags', label: 'Senses', items: { sound: 'Sound', light: 'Light', crowd: 'Crowds', touch: 'Touch', smell: 'Smell', social: 'Social', temp: 'Temperature', move: 'Movement' }, def: { sound: true, light: true, crowd: true, touch: true, smell: false, social: false, temp: false, move: false } }] },
+  sleeptimes: { name: 'Sleep times', group: 'Check-ins', icon: 'sleep', single: true, hint: 'Bed, wake and how it felt', opts: [B('quality', 'Quality scale')] },
+  habits: { name: 'Habit dots', group: 'Check-ins', icon: 'dots', hint: 'One circle each: leave empty, half-fill or fill · also on X4', opts: [T('Label', 'Habits', 24), LST('labels', 'Habits', ['Stretch', 'Outside', 'Read', 'Water'], 8), B('tiny', 'Legend: half = tiny', false)] },
+  fields: { name: 'Fill-in blanks', group: 'Check-ins', icon: 'pen', hint: 'Label + a blank to write a number or word · also on X4', opts: [T('Label', 'Outside', 18), LST('labels', 'Blanks', ['Minutes outside', 'Steps'], 6), { k: 'max', kind: 'choice', label: 'Highest count on X4', choices: X4_MAXES.map((m) => [m, String(m)]), def: 99 }] },
+  weather: { name: 'Weather & air', group: 'Check-ins', icon: 'cloud', single: true, hint: 'Circle the sky; high, low and air quality', opts: [B('aqi', 'Air quality (smoke season)')] },
+  // ---- therapy pack (opt-in; use with a therapist) ----
+  feelings: { name: 'Feelings 0–5', group: 'Therapy', icon: 'heart', hint: 'Rate each feeling 0 to 5 · diary card', opts: [T('Label', 'Feelings', 18), LST('labels', 'Feelings', ['Sad', 'Shame', 'Anger', 'Fear', 'Joy'], 6), B('x4', 'Also on X4 (one 0–5 item each)', false)] },
+  skills: { name: 'Skills 0–7', group: 'Therapy', icon: 'sprout', hint: 'How far I got with my skills today, 0 to 7', opts: [T('Label', 'Skills', 18), B('key', 'Print what 0–7 mean', true), B('x4', 'Also on X4 (one 0–7 item)', false)] },
+  urge: { name: 'Urge + acted', group: 'Therapy', icon: 'wave', hint: 'Strength of an urge, 0 to 5, and a box if I acted on it', opts: [T('Label', 'Urges', 18), LST('labels', 'Your own words', ['Urge'], 3), B('x4', 'Also on X4 (a 0–5 item and an "acted" tick each)', false)] },
+  thought: { name: 'Thought record', group: 'Therapy', icon: 'thought', hint: '3, 5 or 7 boxes for a thought that hurt', opts: [{ k: 'cols', kind: 'choice', label: 'Boxes', choices: [[3, '3 boxes'], [5, '5 boxes'], [7, '7 boxes']], def: 3 }, N('n', 'Lines per box', 1, 3, 1)] },
+  // ---- body ----
+  sites: { name: 'Injection site rotation', group: 'Body', icon: 'needle', hint: 'Circle where today’s injection went · also on X4', opts: [T('Label', 'Site', 14), LST('labels', 'Sites', ['L thigh', 'R thigh', 'L belly', 'R belly'], 8), B('time', 'Time blank', false)] },
+  bodysig: { name: 'Body signals', group: 'Body', icon: 'body', hint: 'What my body is telling me, a few times a day', opts: [N('n', 'Times a day', 1, 3, 2), { k: 'items', kind: 'flags', label: 'Signals', items: BODYSIG, def: { stomach: true, water: true, toilet: true, temp: false, tense: true, heart: false, tired: true } }] },
+  // ---- writing ----
+  lines: { name: 'Lined notes', group: 'Writing', icon: 'pen', hint: 'A label and a few lines', opts: [T('Label', 'Notes'), N('n', 'Lines', 1, 12, 2), PAPER, PITCH] },
+  bullets: { name: 'Quick bullets', group: 'Writing', icon: 'log', hint: 'Ruled rows with a bullet spot; optional key', opts: [T('Label', 'Log', 24), N('n', 'Rows', 2, 14, 5), B('key', 'Key strip'), PITCH] },
+  good: { name: 'Small good things', group: 'Writing', icon: 'heart', hint: 'Short lines for good moments', opts: [{ k: 'label', kind: 'text', label: 'Label', def: 'Small good things', max: 24 }, N('n', 'Lines', 1, 8, 3), B('because', 'Add "because"', false), { k: 'pitch', kind: 'choice', label: 'Line spacing', choices: [[0.2, 'Tight 5 mm'], [0.26, 'Standard 6.6 mm'], [0.335, 'Wide 8.5 mm']], def: 0.2 }] },
+  split: { name: 'Two columns', group: 'Writing', icon: 'list', hint: 'Two labelled columns side by side', opts: [{ k: 'left', kind: 'text', label: 'Left', def: 'Morning', max: 18 }, { k: 'right', kind: 'text', label: 'Right', def: 'Evening', max: 18 }, N('n', 'Lines', 1, 12, 3), PAPER, PITCH] },
+  top: { name: 'Top priorities', group: 'Writing', icon: 'flag', hint: 'Numbered lines', opts: [T('Label', 'Top 3', 18), N('n', 'How many', 1, 6, 3), N('bubbles', 'Time circles (each circle = 15 min)', 0, 8, 0), B('est', 'Guess / took columns', false), B('carried', 'Carried column', false), PITCH] },
+  sketch: { name: 'Sketch box', group: 'Writing', icon: 'box', hint: 'An empty frame to draw or stick things in', opts: [T('Label', ''), N('h', 'Height (tenths of an inch)', 5, 30, 12), B('corners', 'Tape marks', false), { k: 'caption', kind: 'text', label: 'Caption', def: '', max: 30 }] },
+  // ---- planning ----
+  timeline: { name: 'Time blocks', group: 'Planning', icon: 'clock', single: true, hint: 'Hours down the side to plan the day', opts: [N('from', 'From (hour, 24h)', 0, 14, 8), N('to', 'To (hour, 24h)', 1, 24, 22), { k: 'every', kind: 'choice', label: 'Every', choices: [[1, '1 hour'], [2, '2 hours']], def: 2 }, B('actual', 'Actual column', false), N('replan', 'Re-plan columns', 0, 2, 0), { ...PITCH, label: 'Row height' }] },
+  shift: { name: 'Work shift', group: 'Planning', icon: 'work', single: true, hint: 'In, out, break and a line for notes', opts: [N('n', 'Note lines', 0, 3, 1)] },
+  bus: { name: 'Bus plan', group: 'Planning', icon: 'bus', single: true, hint: 'Route, stop, leave and back', opts: [N('n', 'Trips', 1, 3, 1)] },
+  money: { name: 'Spending', group: 'Planning', icon: 'coin', single: true, hint: 'What and how much', opts: [N('n', 'Rows', 2, 8, 4)] },
+  reach: { name: 'Reach out', group: 'Planning', icon: 'people', single: true, hint: 'People to text or check on', opts: [N('n', 'Names', 1, 4, 2)] },
+  // ---- Tier 2 (docs/journaling/BUILD-PLAN.md section 5): all are palette-only, the default page is unchanged ----
+  tl24: { name: 'Time line 24 h', group: 'Planning', icon: 'clock', hint: 'A 24-hour strip, plan over actual; night shaded from the day\'s sunrise and sunset', opts: [N('start', 'Starts at (hour, 24h)', 0, 23, 0), { k: 'every', kind: 'choice', label: 'Hour labels', choices: [[2, 'Every 2 h'], [3, 'Every 3 h'], [4, 'Every 4 h'], [6, 'Every 6 h']], def: 3 }, B('actual', 'Actual row', false), B('shade', 'Shade night (sunrise–sunset)'), { k: 'h', kind: 'choice', label: 'Row height', choices: [[0.18, 'Compact'], [0.24, 'Standard'], [0.3, 'Roomy']], def: 0.18 }] },
+  dump: { name: 'Brain dump', group: 'Writing', icon: 'dump', hint: 'A box to tip everything out of your head', opts: [T('Label', 'Brain dump', 24), N('n', 'Rows', 1, 10, 1), { k: 'paper', kind: 'choice', label: 'Paper', choices: [['dots', 'Dots'], ['lines', 'Lines'], ['blank', 'Blank']], def: 'dots' }, { ...PITCH, label: 'Row height' }] },
+  later: { name: 'Later', group: 'Writing', icon: 'next', hint: 'Park a thought so it is safe and out of the way', opts: [T('Label', 'Later', 24), N('n', 'Rows', 1, 8, 1), { ...PITCH, label: 'Row height' }] },
+  done: { name: 'Done list', group: 'Writing', icon: 'well', hint: 'What you did, written down after (no plan needed)', opts: [T('Label', 'Done', 24), N('n', 'Rows', 1, 10, 1), B('gutter', 'Tick boxes', true), { ...PITCH, label: 'Row height' }] },
+  wall: { name: 'Wall of Awful', group: 'Writing', icon: 'wall', hint: 'When starting feels hard: circle what is in the way, then a way past. Paper only', opts: [T('Label', 'Wall of Awful', 24), LST('words', 'In the way', ['scary', 'boring', 'too big', 'unclear', 'tired', 'stuck'], 8), LST('ways', 'A way past', ['tiny step', 'ask', '5 minutes', 'not today'], 6), N('n', 'Lines to write below', 0, 4, 0), { ...PITCH, label: 'Row height' }] },
+  stamps: { name: 'Time stamps', group: 'Planning', icon: 'clock', hint: 'Between tasks: the time, and what you switched to', opts: [T('Label', 'Between tasks', 24), N('n', 'Rows', 1, 12, 1), B('resume', 'Resume with line', false), { ...PITCH, label: 'Row height' }] },
+  rounds: { name: 'Focus rounds', group: 'Planning', icon: 'rounds', hint: 'Boxes to fill, one per round, and marks for interruptions · also on X4 (count)', opts: [T('Label', 'Focus rounds', 24), N('n', 'Tasks', 1, 5, 1), N('boxes', 'Rounds per task', 1, 7, 4), B('marks', 'Interruption marks', true), { k: 'len', kind: 'text', label: 'Round length', def: '25 min', max: 8 }, { ...PITCH, label: 'Row height' }] },
+  energy: { name: 'Energy types', group: 'Check-ins', icon: 'bolt', hint: 'How much of each kind of energy is left · also on X4', opts: [T('Label', 'Energy left', 18), LST('labels', 'Kinds', ['Body', 'Mind', 'People', 'Senses'], 6), N('steps', 'Steps', 3, 5, 3)] },
+  accounts: { name: 'Energy accounts', group: 'Check-ins', icon: 'spoon', hint: 'Start with what you have, write what each thing cost. The X4 keeps spoons left', opts: [T('Label', 'Energy account', 24), N('n', 'Items', 2, 6, 2), B('x4', 'Left: on the X4', true)] },
+  weekstrip: { name: 'Week at a glance', group: 'Planning', icon: 'week', hint: 'This week as a strip, today ringed. Dutch door: same strip on every page, no cutting', opts: [N('h', 'Height (tenths of an inch)', 3, 8, 3)] },
+  keep: { name: 'Keep', group: 'Writing', icon: 'keep', hint: 'Words to keep, where they came from, and a moved box for the commonplace pages', opts: [T('Label', 'Words to keep', 24), N('n', 'Lines', 1, 6, 1), B('source', 'Source line', false), B('moved', 'Moved box', true), { ...PITCH, label: 'Row height' }] },
+  lookback: { name: 'A month ago today', group: 'Writing', icon: 'back', hint: 'Prints that date so you can look back at that page. Paper only', opts: [{ k: 'period', kind: 'choice', label: 'Look back', choices: [['month', 'A month'], ['year', 'A year']], def: 'month' }, N('n', 'Lines', 1, 4, 1), { ...PITCH, label: 'Row height' }] },
+  prompt: { name: 'Rotating prompt', group: 'Writing', icon: 'text', hint: 'A prompt that changes by date: the same on any reprint', opts: [{ k: 'every', kind: 'choice', label: 'Changes', choices: [['day', 'Every day'], ['week', 'Every week']], def: 'day' }, N('n', 'Lines', 1, 8, 1), B('pass', 'Pass box', true), { ...PITCH, label: 'Row height' }] },
+  pixel: { name: 'Day pixel', group: 'Check-ins', icon: 'pixel', hint: 'One square for the whole day: fill it to match the level you circle', opts: [{ k: 'levels', kind: 'choice', label: 'Levels', choices: [[5, '5'], [7, '7']], def: 5 }, B('key', 'Low and high words', true)] },
+  range: { name: 'Low and high', group: 'Check-ins', icon: 'low', hint: 'The lowest and highest point of the day', opts: [T('Label', 'Low and high', 18), N('steps', 'Steps', 3, 7, 5), { k: 'lo', kind: 'text', label: 'Left word', def: 'flat', max: 10 }, { k: 'hi', kind: 'text', label: 'Right word', def: 'bright', max: 10 }] },
+  // ---- puzzles (puzzles/): seeded, the same puzzle on any reprint; paper only ----
+  wordsearch: { name: 'Word search', group: 'Puzzles', icon: 'wordsearch', hint: 'A letter grid with hidden words. Same page, same puzzle on every reprint. Paper only', opts: [T('Title', 'Word search', 24), N('size', 'Grid size', PZ_WS_MIN, PZ_WS_MAX, 10), PZ_LEVEL('Across and down', 'And diagonals', 'And backwards'), ...PZ_SOURCE, B('answers', 'Show answers', false), B('big', 'Large print', false)] },
+  crossword: { name: 'Crossword', group: 'Puzzles', icon: 'crossword', hint: 'A small crossword with its clues. Same page, same puzzle on every reprint. Paper only', opts: [T('Title', 'Crossword', 24), N('size', 'Largest grid', PZ_CW_MIN, PZ_CW_MAX, 9), PZ_LEVEL('Fewer, short words', 'More words', 'Most, longer words', 'medium'), ...PZ_SOURCE, B('answers', 'Show answers', false), B('big', 'Large print', false)] },
+  // ---- puzzles P2 (puzzles/render2.mjs, BUILD-PLAN section 20 "Puzzles P2 as built"): seeded, one solution each where that makes sense; paper only ----
+  sudoku: { name: 'Sudoku', group: 'Puzzles', icon: 'sudoku', hint: 'A 4×4, 6×6 or 9×9 number puzzle with exactly one solution. Same page, same puzzle on every reprint. Paper only', opts: [T('Title', 'Sudoku', 24), { k: 'size', kind: 'choice', label: 'Grid', choices: [[4, '4 × 4'], [6, '6 × 6'], [9, '9 × 9']], def: 9 }, PZ_LEVEL('Easy: singles only', 'Medium', 'Hard: fewest numbers given'), PZX_SEED, B('answers', 'Show answers', false), B('big', 'Large print', false)] },
+  maze: { name: 'Maze', group: 'Puzzles', icon: 'maze', hint: 'A square maze with one way through, wide enough to trace with a pen. Paper only', opts: [T('Title', 'Maze', 24), N('size', 'Squares per side', PZ_MZ_MIN, PZ_MZ_MAX, 12), { k: 'style', kind: 'choice', label: 'Style', choices: [['winding', 'Long winding paths'], ['branchy', 'Many short dead ends']], def: 'winding' }, PZX_SEED, B('answers', 'Show the way through', false), B('big', 'Large print', false)] },
+  cryptogram: { name: 'Cryptogram', group: 'Puzzles', icon: 'cryptogram', hint: 'A short sentence in a letter code, with a box for each letter. Paper only', opts: [T('Title', 'Cryptogram', 24), { k: 'length', kind: 'choice', label: 'Length', choices: [['any', 'Any'], ['short', 'Short'], ['long', 'Longer']], def: 'any' }, PZ_SOURCE[0], { ...PZ_SOURCE[1], label: 'List name (gentle, wise, seasons, or your pack\'s)', def: 'gentle' }, { k: 'words', kind: 'list', label: 'My own sentences (letters and . , ! ? only)', def: [], max: 10, len: 110 }, PZX_SEED, B('hint', 'Give one hint letter', false), B('freq', 'Letter count strip', false), B('answers', 'Show answers', false), B('big', 'Large print', false)] },
+  wordladder: { name: 'Word ladder', group: 'Puzzles', icon: 'wordladder', hint: 'Change one letter at a time to get from one word to another. Paper only', opts: [T('Title', 'Word ladder', 24), { k: 'length', kind: 'choice', label: 'Word length', choices: [[3, '3 letters'], [4, '4 letters'], [5, '5 letters']], def: 4 }, N('steps', 'Steps', 2, 8, 4), { k: 'source', kind: 'choice', label: 'Words from', choices: [['sample', 'Built-in words'], ['custom', 'My own pair']], def: 'sample' }, { k: 'words', kind: 'list', label: 'My own pair (start-end, like cold-warm)', def: [], max: 1, len: 24 }, PZX_SEED, B('hint', 'Mark the letter that changes', false), B('answers', 'Show answers', false), B('big', 'Large print', false)] },
+  nonogram: { name: 'Nonogram', group: 'Puzzles', icon: 'nonogram', hint: 'Fill squares from the number clues to reveal a picture; one solution. Paper only', opts: [T('Title', 'Nonogram', 24), N('size', 'Squares per side', PZ_NN_MIN, PZ_NN_MAX, 10), PZ_LEVEL('Easy: line logic', 'Medium', 'Hard: may need a guess', 'medium'), PZX_SEED, B('answers', 'Show answers', false), B('big', 'Large print', false)] },
+  kakuro: { name: 'Kakuro', group: 'Puzzles', icon: 'kakuro', hint: 'A number-sum grid: digits 1 to 9 that add up to the clues, one solution. Paper only', opts: [T('Title', 'Kakuro', 24), { k: 'size', kind: 'choice', label: 'Size', choices: [[5, '4 × 4'], [6, '5 × 5']], def: 6 }, PZX_SEED, B('answers', 'Show answers', false), B('big', 'Large print', false)] },
+  dottodot: { name: 'Dot to dot', group: 'Puzzles', icon: 'dottodot', hint: 'Numbered dots to join into a simple picture. Paper only', opts: [T('Title', 'Dot to dot', 24), { k: 'shape', kind: 'choice', label: 'Picture', choices: [['auto', 'A different one each page'], ...PZ_DD_IDS.map((id) => [id, PZ_DD_SHAPES[id].name.replace(/^an? /, '').replace(/^./, (c) => c.toUpperCase())])], def: 'auto' }, { k: 'detail', kind: 'choice', label: 'Dots', choices: [[1, 'Fewer'], [2, 'More'], [3, 'Most']], def: 2 }, PZX_SEED, B('answers', 'Show the picture', false), B('big', 'Large print', false)] },
+  // ---- photos (photo.mjs, BUILD-PLAN section 23): frames for prints that are GLUED onto the page. Paper only: no image is ever uploaded, stored or printed ----
+  photoframe: { name: 'Photo frame', group: 'Photos', icon: 'photoframe', hint: 'A true-size window for a print you paste in: corner marks, room for glue, caption lines. Paper only', opts: [T('Label', '', 24), { k: 'size', kind: 'choice', label: 'Print size', choices: FRAME_SIZES, def: '2x3' }, PH_TURN, N('cw', 'Custom width (tenths of an inch; custom size only)', CUSTOM_MIN, CUSTOM_MAX, 30), N('ch', 'Custom height (tenths of an inch; custom size only)', CUSTOM_MIN, CUSTOM_MAX, 40), B('cut', 'Trim marks (cut guide)'), { k: 'lines', kind: 'choice', label: 'Caption lines', choices: [['none', 'None'], ['one', 'One: what and where'], ['three', 'Three: what, where, why this one']], def: 'one' }, B('who', 'Who and when line', false)] },
+  photostrip: { name: 'Photo strip', group: 'Photos', icon: 'photostrip', hint: '2 to 4 small frames in a row or a column, a date line under each. Paper only', opts: [T('Label', '', 24), { k: 'size', kind: 'choice', label: 'Print size', choices: STRIP_SIZES, def: '1x1.5' }, PH_TURN, N('n', 'Frames', 2, 4, 3), { k: 'dir', kind: 'choice', label: 'Direction', choices: [['row', 'In a row'], ['column', 'In a column']], def: 'row' }, B('dates', 'Date line under each frame'), { k: 'lines', kind: 'choice', label: 'Caption line', choices: [['none', 'None'], ['one', 'One line under the strip']], def: 'none' }] },
+  photodaily: { name: 'Photo a day', group: 'Photos', icon: 'photodaily', hint: 'A tiny frame for every day of the month, labelled by date, for a photo-a-day habit. Paper only', opts: [T('Label', '', 24), { k: 'size', kind: 'choice', label: 'Print size', choices: DAILY_SIZES, def: '0.5x0.5' }, { k: 'days', kind: 'choice', label: 'Days', choices: [['auto', 'This page\'s month (31 off a day page)'], [28, '28'], [29, '29'], [30, '30'], [31, '31']], def: 'auto' }, B('note', 'Say when the day starts')] },
+  contactsheet: { name: 'Contact sheet', group: 'Photos', icon: 'contactsheet', hint: '6 to 12 small numbered frames and a tick to pick the one to keep. Paper only', opts: [T('Label', '', 24), { k: 'size', kind: 'choice', label: 'Print size', choices: SHEET_SIZES, def: '1x1' }, PH_TURN, N('n', 'Frames', 6, 12, 6), B('pick', 'Pick-one tick under each'), { k: 'lines', kind: 'choice', label: 'Caption line', choices: [['none', 'None'], ['one', 'One: the one I picked, and why']], def: 'one' }] },
+  // ---- chores (chores.mjs, BUILD-PLAN section 25): today's list and the rotation grids. The chores come from the profile; a block holds only how to draw them ----
+  chores: { name: 'Chores today', group: 'Chores', icon: 'chores', hint: 'Today\'s chores as a tick list, from their rhythm and the date. Paper only for now', opts: [T('Label', 'Chores', 24), N('n', 'Lines', 2, 10, 5), { k: 'tiers', kind: 'choice', label: 'Energy versions', choices: [['none', 'Just the chore'], ['text', 'Show the small and the good enough version'], ['ticks', 'Three marks: small, good enough, all of it (one person)']], def: 'none' }, { k: 'groups', kind: 'flags', label: 'Rhythms', items: CH_GROUPS }, B('soon', 'Show a quiet "due soon" mark'), B('people', 'Household: a tick box for each person', false)] },
+  chorerota: { name: 'Chore rotation', group: 'Chores', icon: 'chorerota', hint: 'A week or month grid of chores: daily, weekly, monthly, seasonal. Household adds a box for each person', opts: [T('Label', '', 24), { k: 'period', kind: 'choice', label: 'Grid for', choices: [['week', 'A week'], ['month', 'A month']], def: 'week' }, N('n', 'Most chores shown', 4, 16, 10), { k: 'groups', kind: 'flags', label: 'Rhythms', items: CH_GROUPS }, B('people', 'Household: a box for each person', false), B('tiers', 'Show the small and the good enough version', false)] },
+  // ---- notes and study (noteblocks.mjs, BUILD-PLAN section 24): paper to write in. Nothing is stored or uploaded; paper only ----
+  cornell: { name: 'Cornell notes', group: NOTE_GROUP, icon: 'cornell', hint: 'A cue column, a notes column and a summary strip. Paper only', opts: [T('Label', 'Cornell notes', 24), B('head', 'Topic and date line'), N('n', 'Note rows', 4, 16, 8), N('s', 'Summary lines', 1, 4, 2), { k: 'cue', kind: 'choice', label: 'Cue column', choices: [[30, 'Narrow'], [35, 'Standard'], [40, 'Wide']], def: 35 }, PAPER, PITCH] },
+  notearea: { name: 'Note area', group: NOTE_GROUP, icon: 'notearea', hint: 'Ruled, dot, grid or blank paper with a topic, date and source line. Fills its cell. Paper only', opts: [T('Label', 'Notes', 24), B('topic', 'Topic line'), B('date', 'Date line'), B('source', 'Source line', false), N('n', 'Rows', 2, 24, 8), NB_PAPER, PITCH] },
+  conceptmap: { name: 'Concept map', group: NOTE_GROUP, icon: 'conceptmap', hint: 'A centre bubble with branches to fill in. Paper only', opts: [T('Label', 'Concept map', 24), N('branches', 'Branches', 3, 8, 5), N('h', 'Height (tenths of an inch)', 14, 40, 24)] },
+  questions: { name: 'Questions to answer', group: NOTE_GROUP, icon: 'questions', hint: 'Numbered questions, an answer line under each and a box for when it is answered. Paper only', opts: [T('Label', 'Questions', 24), N('n', 'Questions', 2, 10, 4), B('answers', 'Answer line under each'), B('tick', 'Answered box'), PITCH] },
+  summarybox: { name: 'Summary box', group: NOTE_GROUP, icon: 'summarybox', hint: 'A framed box to say it back in your own words. Paper only', opts: [T('Label', 'Summary', 24), N('n', 'Lines', 2, 8, 3), { k: 'prompt', kind: 'choice', label: 'Prompt', choices: [['none', 'None'], ['one', 'In one sentence'], ['own', 'In my own words'], ['friend', 'What I would tell a friend'], ['main', 'The main idea']], def: 'own' }, PITCH] },
+  flashstrip: { name: 'Flash cards (fold-over strip)', group: NOTE_GROUP, icon: 'flashstrip', hint: 'Term on one side, answer on the other. Fold the page edge along the dashed line to hide the answers. No cutting. Paper only', opts: [T('Label', 'Flash cards', 24), N('n', 'Cards', 4, 12, 6), B('num', 'Numbers'), { k: 'split', kind: 'choice', label: 'Fold position', choices: [[40, 'Term 40 percent, answer 60'], [50, 'Even'], [60, 'Term 60 percent, answer 40']], def: 50 }, { k: 'answer', kind: 'choice', label: 'Answers on', choices: [['auto', 'The outer edge (flips by itself on left-hand pages)'], ['right', 'Always the right (fold the right edge: right-hand pages)'], ['left', 'Always the left (fold the left edge: left-hand pages)']], def: 'auto' }, N('reviews', 'Review ticks per card (0 for none)', 0, 5, 3), B('gotit', 'Got it and again ticks', false), B('hint', '"Fold here" hint'), NB_PITCH(6.6)] },
+  reviewtracker: { name: 'Review tracker', group: NOTE_GROUP, icon: 'reviewtracker', hint: 'Topics with a tick for each review: after 1, 3, 7, 21 days or your own. Paper only', opts: [T('Label', 'Reviews', 24), N('n', 'Topics', 2, 12, 5), { k: 'every', kind: 'flags', label: 'Review after', items: { d1: '1 day', d3: '3 days', d7: '7 days', d14: '14 days', d21: '21 days', d30: '30 days' }, def: { d1: true, d3: true, d7: true, d14: false, d21: true, d30: false } }, B('date', 'Learned-on date'), PITCH] },
+  // ---- regulation (noteblocks.mjs): stimming is self-regulation. These blocks notice what works; none of them asks anyone to stop ----
+  stimlog: { name: 'Stim log', group: REG_GROUP, icon: 'stimlog', hint: 'When, what felt good, what helped, and how settled I felt before and after. Stimming is self-regulation. Paper only', opts: [T('Label', 'Stim log', 24), N('n', 'Entries', 1, 6, 3), B('where', 'Where and what helped'), B('ba', 'Before and after (how settled I felt)'), B('size', 'How much (1 to 5)', false), B('note', 'Line that says stimming is self-regulation'), NB_PITCH(6.6)] },
+  stimmenu: { name: 'Stim menu', group: REG_GROUP, icon: 'stimmenu', hint: 'My favourite stims and tools by sense, with boxes and free lines, and room for new ideas. Stimming is self-regulation. Paper only', opts: [T('Label', 'My stim menu', 24), { k: 'senses', kind: 'flags', label: 'Senses', items: STIM_SENSES, def: NB_SENSE_DEF }, N('rows', 'Rows for each sense', 1, 4, 2), N('ideas', 'New stim idea rows', 0, 4, 2), B('examples', 'Print a few examples in the lines', false), B('note', 'Line that says my stims are valid'), PITCH] },
+  stimtrace: { name: 'Pattern to trace', group: REG_GROUP, icon: 'stimtrace', hint: 'A repeating pattern to trace slowly with a pen or a finger, as a quiet stim. Stimming is self-regulation. Paper only', opts: [T('Label', 'Quiet stim', 24), { k: 'pattern', kind: 'choice', label: 'Pattern', choices: TRACE_PATTERNS, def: 'waves' }, { k: 'size', kind: 'choice', label: 'Size', choices: TRACE_SIZES, def: 'm' }, N('h', 'Height (tenths of an inch)', 8, 40, 14), B('frame', 'Frame')] },
+  // ---- layout ----
+  divider: { name: 'Divider', group: 'Layout', icon: 'calm', hint: 'A thin line', opts: [{ k: 'icon', kind: 'choice', label: 'Icon', choices: [['none', 'None'], ['sun', 'Sun'], ['moon', 'Moon']], def: 'none' }] },
+  sendto: { name: 'Send to', group: 'Layout', icon: 'send', hint: 'The symbol strip the scanner reads, anywhere on the page. Needs the scanning border on', opts: [
+    { k: 'symbols', kind: 'flags', label: 'Symbols', items: SEND_LABELS },
+    { k: 'size', kind: 'choice', label: 'Size', choices: [['s', 'Small'], ['m', 'Standard'], ['l', 'Large']], def: 'm' },
+    { k: 'style', kind: 'choice', label: 'Line', choices: [['rule', 'Rule above'], ['box', 'Box'], ['none', 'None']], def: 'rule' },
+    B('label', 'Print "SEND TO"')] },
+  spacer: { name: 'Space', group: 'Layout', icon: 'box', hint: 'Empty room', opts: [N('h', 'Height (tenths of an inch)', 1, 10, 2)] },
+};
+
+// Ready-made blocks for the palette: a type plus starting options.
+export const PRESETS = [
+  { type: 'lines', name: 'A moment I felt like me', opts: { title: 'A moment I felt like me', n: 2 }, group: 'Writing' },
+  { type: 'lines', name: "Tomorrow's first step", opts: { title: "Tomorrow's first step", n: 1 }, group: 'Writing' },
+  { type: 'lines', name: 'Words to keep', opts: { title: 'Words to keep', n: 2 }, group: 'Writing' },
+  { type: 'lines', name: 'What I ate', opts: { title: 'What I ate', n: 2 }, group: 'Check-ins' },
+  { type: 'checks', name: 'HRT & body care', opts: { title: 'Body care', labels: ['HRT', 'Moisturise', 'Stretch'] }, group: 'Check-ins' },
+  { type: 'scale', name: 'Pain', opts: { title: 'Pain', steps: 6, lo: 'none', hi: 'bad' }, group: 'Check-ins' },
+  { type: 'scale', name: 'Dysphoria', opts: { title: 'Dysphoria', steps: 5, lo: 'quiet', hi: 'loud' }, group: 'Check-ins' },
+  { type: 'fields', name: 'Outside & moving', opts: { title: 'Outside', labels: ['Minutes outside', 'Steps'] }, group: 'Check-ins' },
+];
+// Tier 1 presets (docs/journaling/BUILD-PLAN.md section 5): plain blocks with starting options, labels from the method docs.
+// checks / scale / habits / fields presets are also X4 check-ins after the next Books build.
+const P1 = (type, name, opts, group) => PRESETS.push({ type, name, opts, group });
+P1('checks', 'Rituals', { title: 'Rituals', labels: ['Morning', 'Start', 'Shut down', 'Evening'] }, 'Planning');
+P1('checks', "Today's 3", { title: "Today's 3", labels: ['#1', '#2', '#3'] }, 'Planning');
+P1('checks', 'One Q2 thing', { title: 'Q2', labels: ['Did one Q2 thing'] }, 'Planning');
+P1('checks', 'Inbox cleared', { title: 'GTD', labels: ['Inbox cleared'] }, 'Planning');
+P1('habits', 'Weekly review', { title: 'Review', labels: ['Weekly review'] }, 'Planning');
+P1('checks', 'Shutdown', { title: 'Shutdown', labels: ['Lists captured', "Tomorrow's first block", 'Work closed'] }, 'Planning');
+P1('fields', 'Deep blocks', { title: 'Deep blocks', labels: ['Deep blocks planned', 'Deep blocks done'] }, 'Planning');
+P1('fields', 'Focus rounds count', { title: 'Focus rounds', labels: ['Focus rounds'] }, 'Planning');
+P1('checks', 'Supports', { title: 'Supports', labels: ['Headphones', 'Hood', 'Dark room', 'Alone time'] }, 'Check-ins');
+P1('scale', 'Masking', { title: 'Masking', steps: 4, lo: 'none', hi: 'all day' }, 'Check-ins');
+P1('habits', 'Overload', { title: 'Overload', labels: ['Overload'] }, 'Body');
+P1('lines', 'Special interest', { title: 'Into today', n: 2 }, 'Body');
+P1('scale', 'Felt like me', { title: 'Felt like me', steps: 5, lo: 'not today', hi: 'so me' }, 'Check-ins');
+P1('fields', 'Voice minutes', { title: 'Voice', labels: ['Voice min'] }, 'Check-ins');
+P1('checks', 'Cycle & dose', { title: 'Cycle & dose', labels: ['Period', 'Dose day'] }, 'Check-ins');
+P1('checks', 'Deposits done', { title: 'Deposits', labels: ['Rest', 'Alone time', 'Outside'] }, 'Check-ins');
+P1('checks', 'Sharpen the saw', { title: 'Renew', labels: ['Body', 'Mind', 'Heart', 'Spirit'] }, 'Check-ins');
+P1('fields', 'Places', { title: 'Places', labels: ['Places visited'] }, 'Check-ins');
+P1('checks', 'Something new', { title: 'Firsts', labels: ['Something new', 'Went outside', 'Talked to someone'] }, 'Check-ins');
+P1('checks', 'Made something', { title: 'Made', labels: ['Made something', 'Went outside'] }, 'Check-ins');
+P1('checks', 'Good today', { title: 'Good today', labels: ['Warmth', 'Food', 'Rest', 'People', 'Outside'] }, 'Check-ins');
+P1('checks', 'Device-free hour', { title: 'Device-free', labels: ['Phone away 1 h'] }, 'Check-ins');
+P1('habits', 'Outside & light', { title: 'Outside & light', labels: ['Outside', 'Daylight on face', 'Moved'] }, 'Check-ins');
+P1('fields', 'One small good thing', { title: 'One good thing', labels: ['Good thing'] }, 'Check-ins');
+P1('chores', 'Low-energy chores', { title: 'Chores, any size', n: 4, tiers: 'text' }, 'Chores');
+P1('chorerota', 'Week of chores', { period: 'week' }, 'Chores');
+P1('chorerota', 'Month of chores', { period: 'month', n: 8 }, 'Chores');
+P1('chorerota', 'Household week', { period: 'week', people: true }, 'Chores');
+// scan-ready marks (optical mark reading): added here so the scale block's own option list stays untouched
+TYPES.checks.opts.push(OMR); TYPES.scale.opts.push(OMR);
+// Roomy rows: single-row blocks whose height is fixed today get more room to write in (off = today's page)
+const ROOMY = B('roomy', 'Roomy spacing', false);
+for (const t of ['checks', 'scale', 'words', 'sensory', 'sleeptimes', 'habits', 'fields', 'weather', 'bus', 'money', 'reach', 'shift', 'energy', 'accounts', 'wall', 'pixel', 'range']) TYPES[t].opts.push(ROOMY);
+
+const defOf = (o) => (o.def !== undefined ? structuredClone(o.def) : o.kind === 'flags' ? Object.fromEntries(Object.keys(o.items).map((k) => [k, true])) : o.kind === 'bool' ? true : o.kind === 'num' ? o.lo : '');
+export function newBlock(type, opts = {}, uid) {
+  const t = TYPES[type], b = { uid: uid || type + '-' + Math.random().toString(36).slice(2, 7), type, on: true };
+  for (const o of t.opts) b[o.k] = defOf(o);
+  if (type === 'care') b.rows = structuredClone(DEFAULT_ROWS);
+  return fixOpts({ ...b, ...structuredClone(opts) });
+}
+const clamp = (v, lo, hi, d) => (Number.isFinite(+v) && v !== '' && v !== null ? Math.min(hi, Math.max(lo, Math.round(+v))) : d);
+function fixOpt(o, v) {
+  const d = defOf(o);
+  switch (o.kind) {
+    case 'num': return clamp(v, o.lo, o.hi, d);
+    case 'bool': return v === undefined ? d : !!v;
+    case 'choice': return o.choices.some(([c]) => c == v) ? o.choices.find(([c]) => c == v)[0] : d;
+    case 'flags': return Object.fromEntries(Object.keys(o.items).map((k) => [k, v && v[k] !== undefined ? !!v[k] : d[k]]));
+    case 'text': return v === undefined || v === null ? d : String(v).slice(0, o.max || 40);
+    case 'list': return (Array.isArray(v) ? v : typeof v === 'string' ? v.split(',') : d).map((x) => String(x).trim().slice(0, o.len || 24)).filter(Boolean).slice(0, o.max || 10);
+  }
+  return v;
+}
+function fixOpts(b, kind = 'day') {
+  for (const o of TYPES[b.type].opts) b[o.k] = fixOpt(o, b[o.k]);
+  if (b.type === 'care') {
+    const seen = new Set();
+    const src = (Array.isArray(b.rows) ? b.rows : []).filter((r) => r && CARE_ROWS[r.id] && !seen.has(r.id) && seen.add(r.id));
+    const order = [...src.map((r) => r.id), ...DEFAULT_ROWS.map((r) => r.id).filter((x) => !seen.has(x))];
+    b.rows = order.map((id) => {
+      const d = DEFAULT_ROWS.find((r) => r.id === id), s = src.find((r) => r.id === id) || {}, r = { ...structuredClone(d), ...s, id, on: s.on === undefined ? d.on : !!s.on };
+      for (const o of ROW_OPTS[id]) r[o.k] = fixOpt({ ...o, def: d[o.k] }, r[o.k]);
+      return r;
+    });
+  }
+  if (b.type === 'sendto' && !SEND_KEYS.some((k) => b.symbols[k])) b.symbols = Object.fromEntries(SEND_KEYS.map((k) => [k, true])); // at least one symbol
+  if (b.type === 'reviewtracker' && !reviewSteps(b).length) b.every = { d1: true, d3: true, d7: true, d14: false, d21: true, d30: false }; // at least one review time
+  if (b.type === 'stimmenu' && !stimSenses(b).length) b.senses = { ...NB_SENSE_DEF }; // at least one sense
+  if (TYPES[b.type].locked && bodyLocked(kind)) b.on = true;
+  return b;
+}
+
+// ======================= page kinds (C5a): the same blocks on other pages =======================
+// A day page is one kind of block page. Notes, blank and collection pages are the others: each has its own fixed grid (GRIDS), its own
+// fixed top (the DATE/TITLE/TAGS header on Notes and Collection pages, nothing on a blank page), and the same block library, minus the
+// blocks that read a day (sky, holidays, events, the fact, a month ago today, the rotating prompt, the 24-hour line, the week strip).
+// `body`: the Writing space block is required (and stays on). The scan frame, SEND TO strip and page code belong to the page (scan.mjs).
+export const PAGE_KINDS = {
+  day: { name: 'Day page', body: true, header: 'day' },
+  notes: { name: 'Notes page', body: true, header: 'title' },
+  collection: { name: 'Collection page', body: true, header: 'title' },
+  blank: { name: 'Blank page', body: false, header: 'none' },
+  // Spread days (S1): `spread` is the layout of a whole two-page day, one canvas of 8 columns (the left page's 4, then the right page's 4) with the fold
+  // between columns 4 and 5. It is stored in daypage.json as `spread`. `half` is one page of it (4 columns, as a day page), made by spreadHalf() at print.
+  spread: { name: 'Day spread', body: true, header: 'day' },
+  half: { name: 'Spread page', body: false, header: 'day' },
+};
+// (sendto too: the SEND TO strip is a day page setting; other pages keep the book's scan settings.)
+const DAY_ONLY = new Set(['chores', 'sky', 'notes', 'events', 'fact', 'lookback', 'prompt', 'tl24', 'weekstrip', 'sendto']);
+export const pageKind = (k) => (PAGE_KINDS[k] ? k : 'day');
+// A spread is a day: it can hold the day's own blocks. Not `sendto`: each page of a spread keeps its own SEND TO strip (the strip is the page's).
+export const allowedIn = (kind, type) => (kind === 'day' ? true : kind === 'spread' || kind === 'half' ? type !== 'sendto' : !DAY_ONLY.has(type));
+export const bodyLocked = (kind) => !!PAGE_KINDS[pageKind(kind)].body;
+export const kindHeader = (kind, title = '') => (PAGE_KINDS[pageKind(kind)].header === 'title' ? headerZone('', esc(title)) : '');
+// The starting layout of each kind. Notes: what the original Notes page has (a dot grid, four action lines). Collection: ruled lines.
+export function defaultLayout(kind = 'day') {
+  kind = pageKind(kind);
+  if (kind === 'day') return DEFAULT_LAYOUT;
+  if (kind === 'spread') return defaultSpread();
+  if (kind === 'half') return { v: 2, kind: 'half', grid: true, blocks: [] };
+  const B = (t, o = {}) => newBlock(t, o, t);
+  const blocks = kind === 'notes' ? [B('body'), B('actions', { routines: false, count: 4 })] : kind === 'collection' ? [B('body', { style: 'lines' })] : [];
+  return { v: 2, kind, blocks };
+}
+
+// The Notes page as it has always printed (a dot grid and four action lines). A Notes page with no layout of its own prints exactly this.
+export const notesPage = (title) => `${headerZone('', esc(title))}<div class="dots fill" data-zone="body"></div>${actionZone(4)}`;
+// One page of a block-page kind, finished: its fixed top, then its blocks. `layout` is what the page's entry in book.json holds (or nothing).
+// A page whose layout says what the kind's starting layout says prints the original markup, so saving an untouched page changes nothing:
+// a Notes page prints notesPage() and a blank page its empty box (byte for byte what the books printed before pages were blocks).
+export function kindPage(kind, title, layout, size = 'small', opt = {}) {
+  kind = pageKind(kind);
+  const dflt = normalize(defaultLayout(kind), size, kind), L = layout ? normalize(layout, size, kind) : dflt;
+  if (JSON.stringify(L) === JSON.stringify(dflt)) {
+    if (kind === 'notes') return notesPage(title);
+    if (kind === 'blank') return '<div class="blankpage"></div>';
+  }
+  return dayBlocks({ header: kindHeader(kind, title), routines: [], seed: opt.pageId || title }, L, { size, kind, ...opt });
+}
+// True when a layout is the page kind's starting layout (an entry like that carries no `layout` at all: nothing to save).
+export const isDefaultLayout = (layout, kind, size = 'small') => !layout || JSON.stringify(normalize(layout, size, kind)) === JSON.stringify(normalize(defaultLayout(kind), size, kind));
+// Every reason an entry's `layout` cannot be used, in words (book.json validation). [] = fine.
+export function pageLayoutProblems(layout, kind, size = 'small') {
+  const out = [];
+  if (!layout || typeof layout !== 'object' || Array.isArray(layout)) return ['must be an object like {"v":2,"blocks":[...]}'];
+  if (layout.v !== 2) out.push('"v" must be 2');
+  if (layout.kind !== undefined && layout.kind !== kind) out.push(`"kind" is "${layout.kind}", but this is a ${PAGE_KINDS[kind] ? PAGE_KINDS[kind].name.toLowerCase() : kind}`);
+  if (!Array.isArray(layout.blocks)) return [...out, '"blocks" must be a list'];
+  const uids = new Set();
+  layout.blocks.forEach((b, i) => {
+    if (!b || typeof b !== 'object') { out.push(`blocks[${i}] must be an object`); return; }
+    if (!TYPES[b.type]) out.push(`blocks[${i}]: unknown block type "${b.type}"`);
+    else if (!allowedIn(kind, b.type)) out.push(`blocks[${i}]: ${TYPES[b.type].name} belongs on a day page, so it can't go on this page`);
+    if (typeof b.uid === 'string') { if (uids.has(b.uid)) out.push(`blocks[${i}]: uid "${b.uid}" is used twice`); uids.add(b.uid); }
+  });
+  if (!out.length && layout.grid) out.push(...gridProblems(normalize(layout, size, kind), size).map((x) => x.msg));
+  return out;
+}
+
+// The original page, block for block (uids = type names so v1 layouts map straight across).
+export const DEFAULT_LAYOUT = {
+  v: 2,
+  blocks: [
+    ['sky'], ['notes'], ['events'], ['care'], ['spoons', { on: false }], ['good', { on: false }], ['body'], ['actions'], ['review'], ['fact'],
+  ].map(([t, o]) => newBlock(t, o, t === 'good' ? 'gratitude' : t)),
+};
+
+// Clean up any saved layout: v1 → v2, unknown types dropped, one of each single, the writing space always present.
+// Grid layouts (the "Grid" switch, see "Page grid" below) are v2 with `grid: true` and a placement on every block:
+// { col, row, colSpan, rowSpan }. Flow layouts never carry `grid`; placements left on their blocks are ignored.
+export function normalize(L, size = 'small', kindIn) {
+  const kind = pageKind(kindIn || (L && L.kind));
+  let src = L && Array.isArray(L.blocks) ? L.blocks : (kind === 'day' ? DEFAULT_LAYOUT : defaultLayout(kind)).blocks;
+  if (!L || L.v !== 2) src = src.map((b) => (b && b.id ? { ...b, uid: b.id, type: b.id === 'gratitude' ? 'good' : b.id } : b));
+  const singles = new Set(), uids = new Set(), blocks = [];
+  for (const s of src) {
+    if (!s || !TYPES[s.type] || !allowedIn(kind, s.type)) continue;
+    if (TYPES[s.type].single) { if (singles.has(s.type)) continue; singles.add(s.type); }
+    let uid = typeof s.uid === 'string' && /^[\w-]{1,40}$/.test(s.uid) ? s.uid : s.type;
+    while (uids.has(uid)) uid = s.type + '-' + Math.random().toString(36).slice(2, 7);
+    uids.add(uid);
+    blocks.push(fixOpts({ ...structuredClone(s), uid, on: s.on === undefined ? true : !!s.on }, kind));
+  }
+  if (PAGE_KINDS[kind].body && !singles.has('body')) { const i = blocks.findIndex((b) => b.type === 'actions'); blocks.splice(i < 0 ? blocks.length : i, 0, newBlock('body', {}, 'body')); }
+  const scan = kind === 'day' ? cleanScan(L && L.scan) : undefined, head = kind === 'day' ? { v: 2 } : { v: 2, kind };
+  const grid = kind === 'spread' || kind === 'half' ? true : !!(L && L.grid && L.v === 2); // a spread is always on the grid: it is two pages' grids side by side
+  const prt = kind === 'day' ? cleanPrint(L && L.print) : undefined; // print accessibility options (a11yprint.mjs): only when one is on, so the default layout is unchanged
+  // The day's spread layout (daypage.json `spread`, S1): only when it says something other than the starting spread, so a day layout that never touched it is unchanged
+  let spread;
+  if (kind === 'day' && L && L.spread && typeof L.spread === 'object' && !Array.isArray(L.spread)) { const S = normalize(L.spread, size, 'spread'); if (!isDefaultSpread(S, size)) spread = S; }
+  for (const b of blocks) for (const k of PLACE) { const v = Math.round(+b[k]); if (Number.isFinite(v) && v >= 1 && b[k] !== null && b[k] !== '') b[k] = v; else delete b[k]; }
+  if (!grid) return { ...head, ...(scan ? { scan } : {}), ...(prt ? { print: prt } : {}), blocks, ...(spread ? { spread } : {}) };
+  const out = { ...head, grid: true, ...(scan ? { scan } : {}), ...(prt ? { print: prt } : {}), blocks, ...(spread ? { spread } : {}) };
+  if (blocks.some((b) => PLACE.some((k) => b[k] === undefined))) placeMissing(out, size);
+  return out;
+}
+
+// ======================= page grid (layout switch "Grid") =======================
+// A grid layout puts every block on a fixed grid instead of stacking them: each block has { col, row, colSpan, rowSpan } (1-based).
+// The grid is fixed per page type and trim (GRIDS), never set by the person; blocks only choose where they sit and how far they span.
+// Day page: 4 columns, and rows one tight line high (0.22 in = 5.6 mm), so ruled lines line up with the rows.
+// Measured on the built pages (both trims): the day area is 590.4 px tall; the DATE/TITLE/TAGS header takes 61.6 px plus its 4 px margin,
+// which leaves 524.8 px = 5.47 in, and 5.47 in / 0.22 in = 24.85, so 24 rows fit (0.19 in is left blank above the SEND TO strip).
+// The 8.5x11 book is laid out at the same height as 5.5x8.5 and zoomed 1.294x, so its row count is also 24 (a row is 7.2 mm there, and
+// the columns are wider: still 4). Both trims keep the same columns and rows, so a layout carries across sizes.
+// Other page types can add their own entry here later.
+export const GRIDS = {
+  day: { cols: 4, rowIn: 0.22, gapPx: 8, rows: { small: 24, letter: 24 } },
+  // Notes and Collection pages have the same DATE/TITLE/TAGS header as a day page, so the same room (24 rows). A blank page has no header,
+  // so it has the whole 590.4 px inside the scan frame to itself, measured in Chromium: 590.4 / 21.12 (0.22 in) = 27.95, so 27 rows (28 would be 1 px too tall).
+  notes: { cols: 4, rowIn: 0.22, gapPx: 8, rows: { small: 24, letter: 24 } },
+  collection: { cols: 4, rowIn: 0.22, gapPx: 8, rows: { small: 24, letter: 24 } },
+  blank: { cols: 4, rowIn: 0.22, gapPx: 8, rows: { small: 27, letter: 27 } },
+  // A spread day (S1) is two day pages side by side: 2 x 4 columns and the same 24 rows, with the fold after column 4 (`fold`). Each page keeps its own
+  // fixed header, strip and code, so the grid of one page is exactly a day page's; nothing crosses the fold in this version (BUILD-PLAN section 12).
+  spread: { cols: 8, fold: 4, rowIn: 0.22, gapPx: 8, rows: { small: 24, letter: 24 } },
+  half: { cols: 4, rowIn: 0.22, gapPx: 8, rows: { small: 24, letter: 24 } },
+};
+export const colsOf = (kind = 'day') => GRIDS[pageKind(kind)].cols;
+export const PLACE = ['col', 'row', 'colSpan', 'rowSpan'];
+export const gridRows = (size, kind = 'day') => GRIDS[pageKind(kind)].rows[size === 'letter' ? 'letter' : 'small'];
+// Locked: the DATE/TITLE/TAGS header (above the grid), the SEND TO strip, the page code and the 9pt frame (below and around it) are
+// not blocks and never sit on the grid. The Writing space stays and keeps a minimum: 8 rows (1.76 in, over the 40 mm floor) by 2 columns.
+export const BODY_MIN = { rows: 8, cols: 2 };
+
+// Minimum span per block: the least room its content needs. `cols` is the narrowest it can be; `rows` is its height at that width
+// (a wider block is never taller). Measured on every block type in Chromium; the print editor's test re-measured them (retired; check.mjs still catches a block that does not fit)
+// overflows its own minimum, so the minimum is a floor the content fits in, not a guess at what looks nice.
+const ROW_IN = GRIDS.day.rowIn;
+const rowsIn = (h) => Math.max(1, Math.ceil((h + 0.02) / ROW_IN)); // inches of content (+ a little slack for font differences) -> whole rows
+// type -> (block, colSpan) => [minimum columns, height in inches at that width]. Heights are the measured natural heights of the
+// block at 1-4 columns (small trim, real fonts) plus what each option adds (a ruled line is one pitch, and so on).
+const Pi = (b) => PITCH_IN[b.pitch] || 0.22;
+const at = (H, w) => H[Math.min(3, Math.max(0, w - 1))] * (w <= 2 ? 1.3 : 1); // heights measured at 1, 2, 3, 4 columns (a narrow block gets extra: words wrap unevenly)
+// lines a row of items wraps to (greedy, as flex-wrap does) when `avail` px are free after the label
+const flowLines = (widths, avail) => { let lines = 1, x = 0; for (const w of widths) { if (x && x + w > avail) { lines++; x = 0; } x += w + 4; } return lines; };
+const wrapH = (b, w, itemPx, cnt) => 0.03 + 0.2 * flowLines(cnt.map(itemPx), w * (colPx + gapPx) - gapPx - (b.title || '').length * 5 - 30);
+const more = (n, d) => Math.max(1, Math.ceil(n / d)); // a list longer than the default one wraps onto more lines
+const colPx = 76.8, gapPx = 8; // a column and the gap between columns, in px (small trim; the letter trim is wider, so this is the safe one)
+const fitCols = (px) => { for (let c = 1; c < GRIDS.day.cols; c++) if (c * (colPx + gapPx) - gapPx >= px + 4) return c; return GRIDS.day.cols; };
+const hoursOf = (b) => Math.ceil((Math.max(b.to, b.from + 1) - b.from) / b.every);
+// What a photo block's plan counts when no page is known (a layout is made before any date): a photo-a-day grid of 31 days and its day-start line.
+const photoX = (b) => (b.type === 'photodaily' ? { days: dailyDays(b, ''), note: !!b.note } : {});
+const photoMinOf = (b, w, size) => { const m = photoMin(b, w, size, photoX(b)); return [m.cols, m.h]; };
+const MINSPAN = {
+  sky: () => [2, 0.4], // the season line wraps on some days, so two rows at any width
+  notes: () => [2, 0.15],
+  events: (b, w) => [2, [0.39, 0.39, 0.35, 0.33][w - 1]],
+  fact: (b, w) => [2, [1.02, 0.46, 0.32, 0.32][w - 1]],
+  actions: (b) => [2, 0.13 + Math.max(b.count, b.routines ? 3 : 1) * b.h], // routines fill in first: up to 2 of them sit above one blank line
+  review: (b) => [Math.max(2, Object.values(b.items).filter(Boolean).length), 0.156 + b.h * 0.22],
+  care: (b) => [4, 0.06 + Math.ceil((b.rows.filter((r) => r.on).length + 1) / 2) * 0.245],
+  spoons: (b) => [b.count > 12 ? 3 : 2, 0.313],
+  checks: (b) => { const px = 1.35 * (b.title.length * 5 + 12 + b.labels.reduce((t, l) => t + l.length * 4.3 + 16 + (b.omr ? 3 : 0), 0)), c = fitCols(px); return [c, px + 4 > c * (colPx + gapPx) - gapPx - 12 ? 0.42 : 0.2]; }, // two rows when it is a tight fit
+  scale: (b) => [fitCols(95 + 4.6 * (b.title.length + b.lo.length + b.hi.length) + (b.steps - 5) * 17 + (b.omr ? b.steps * 2 : 0)), 0.2],
+  words: (b, w) => [2, wrapH(b, w, (l) => l.length * 5 + 14, b.words) + 0.1],
+  sensory: (b, w) => [2, at([0.74, 0.46, 0.31, 0.31], w) * more(Object.values(b.items).filter(Boolean).length, 4)],
+  sleeptimes: () => [4, 0.2],
+  habits: (b, w) => [2, wrapH(b, w, (l) => l.length * 5 + 26, b.labels) + 0.1],
+  fields: (b, w) => [2, wrapH(b, w, (l) => l.length * 5 + 42, b.labels) + 0.1],
+  weather: (b) => [b.aqi ? 4 : 3, 0.2],
+  feelings: (b) => [4, 0.5 + 0.2 * Math.ceil(b.labels.length / 2)],
+  skills: () => [4, 0.477],
+  urge: (b) => [4, 0.277 + 0.2 * b.labels.length],
+  thought: (b, w) => { const r = b.cols === 3 ? 1 : 2; return [2, 0.281 + r * (0.1 + 0.22 * b.n) + (w < 4 ? r * 0.1 : 0)]; },
+  sites: (b, w) => [2, at([0.74, 0.31, 0.2, 0.2], w) * more(b.labels.length + (b.time ? 1 : 0), 4)],
+  bodysig: (b, w) => [2, 0.156 + b.n * at([0.8, 0.26, 0.26, 0.2], w) * more(Object.values(b.items).filter(Boolean).length, 5)],
+  lines: (b) => [2, 0.156 + b.n * Pi(b)],
+  bullets: (b) => [b.key ? 3 : 2, b.n * Pi(b) + (b.title || b.key ? 0.24 : 0.04)],
+  good: (b) => [2, 0.05 + b.n * (b.because ? Math.max(0.22, b.pitch) + 0.03 : b.pitch)],
+  split: (b) => [2, 0.17 + b.n * Pi(b)],
+  top: (b) => [b.est || b.carried ? 4 : b.bubbles > 4 ? 3 : 2, 0.156 + b.n * Pi(b) + (b.est || b.carried ? 0.2 : 0)],
+  sketch: (b) => [2, b.h / 10 + 0.07 + (b.title || b.caption ? 0.2 : 0)],
+  timeline: (b) => { const nc = 1 + (b.actual ? 1 : 0) + b.replan, hrs = hoursOf(b); return nc === 1 ? [2, Math.ceil(hrs / 2) * Pi(b) + 0.04] : nc === 2 ? [3, Math.ceil(hrs / 2) * Pi(b) + 0.135] : [3, hrs * Pi(b) + 0.135]; },
+  shift: (b) => [3, 0.242 + b.n * 0.22],
+  bus: (b) => [4, 0.042 + b.n * 0.2],
+  money: (b) => [2, 0.17 + Math.ceil(b.n / 2) * 0.15],
+  reach: (b, w) => [2, at([0.43, 0.29, 0.2, 0.2], w) * more(b.n, 2)],
+  tl24: (b) => [2, 0.16 + b.h * (b.actual ? 2 : 1)],
+  dump: (b) => [2, 0.083 + b.n * Pi(b)],
+  later: (b) => [2, 0.042 + b.n * Pi(b)],
+  done: (b) => [2, 0.042 + b.n * Pi(b)],
+  wall: (b, w) => [2, at([1.77, 0.83, 0.67, 0.55], w) * more(b.words.length + b.ways.length, 10) + b.n * Pi(b)],
+  stamps: (b) => [2, 0.042 + (b.n + (b.resume ? 1 : 0)) * Pi(b)],
+  rounds: (b) => [b.boxes > 4 ? 4 : 3, 0.042 + b.n * Pi(b)],
+  energy: (b, w) => [2, at([0.74, 0.46, 0.31, 0.2], w) * more(b.labels.length * b.steps, 12)],
+  accounts: (b) => [3, 0.346 + (Math.ceil(b.n / 2) - 1) * 0.15],
+  weekstrip: (b) => [3, b.h / 10 + 0.07],
+  keep: (b) => [3, 0.042 + b.n * Pi(b) + (b.source ? 0.2 : 0)],
+  lookback: (b) => [3, 0.042 + b.n * Pi(b)],
+  prompt: (b, w) => [2, 0.042 + b.n * Pi(b) + (w < 3 ? 0.16 : 0)],
+  pixel: (b) => [b.levels > 5 ? 4 : 3, 0.342],
+  range: (b, w) => [2, at([0.45, 0.45, 0.31, 0.2], w) * more(b.steps, 5)],
+  sendto: (b) => { const z = SEND_SIZES[b.size] || SEND_SIZES.m, n = SEND_KEYS.filter((k) => b.symbols[k]).length; return [fitCols((b.label ? 55 : 0) + n * z.px + (n - 1) * 9.6 + (b.style === 'box' ? 14 : 0)), (z.bubble + z.px + 8) / 96 + (b.style === 'box' ? 0.06 : 0)]; },
+  wordsearch: (b) => [4, pzHeight(b)], crossword: (b) => [4, pzHeight(b)], // the grid and its text sit side by side across the whole page width
+  // photo blocks: the plan (photo.mjs) gives the width a print needs and the height of the block; sheets count their worst case (31 days, the day-start line)
+  photoframe: (b, w, size) => photoMinOf(b, w, size), photostrip: (b, w, size) => photoMinOf(b, w, size), photodaily: (b, w, size) => photoMinOf(b, w, size), contactsheet: (b, w, size) => photoMinOf(b, w, size),
+  chores: (b) => chMin(b), chorerota: (b) => chMin(b), // chores.mjs: the head, n rows and what the options add
+  // notes, flash cards and stimming: the plan (noteblocks.mjs) gives the width a block needs at a trim and the height of its rows
+  cornell: (b, w, size) => noteMin(b, size), notearea: (b, w, size) => noteMin(b, size), conceptmap: (b, w, size) => noteMin(b, size), questions: (b, w, size) => noteMin(b, size), summarybox: (b, w, size) => noteMin(b, size),
+  flashstrip: (b, w, size) => noteMin(b, size), reviewtracker: (b, w, size) => noteMin(b, size), stimlog: (b, w, size) => noteMin(b, size), stimmenu: (b, w, size) => noteMin(b, size), stimtrace: (b, w, size) => noteMin(b, size),
+  divider: () => [1, 0.02],
+  spacer: (b) => [1, b.h / 10 + 0.01],
+  body: () => [BODY_MIN.cols, BODY_MIN.rows * ROW_IN - 0.05],
+};
+for (const t of PZX_TYPES) MINSPAN[t] = (b) => pzxMin(b); // puzzles P2: the drawing's own size (puzzles/render2.mjs)
+export function minSpan(b, colSpan = GRIDS.day.cols, size = 'small') {
+  const f = MINSPAN[b.type] || (() => [2, 0.5]);
+  const [cols, h] = f(b, Math.max(colSpan, 1), size === 'letter' ? 'letter' : 'small');
+  return { cols: Math.min(GRIDS.day.cols, cols), rows: rowsIn(h) };
+}
+
+const blockName = (b) => (TYPES[b.type] ? TYPES[b.type].name : b.type);
+const span = (a, n) => (n > 1 ? `${a}–${a + n - 1}` : `${a}`);
+const rectOf = (b) => ({ c1: b.col, c2: b.col + b.colSpan - 1, r1: b.row, r2: b.row + b.rowSpan - 1 });
+const hit = (a, c) => a.c1 <= c.c2 && c.c1 <= a.c2 && a.r1 <= c.r2 && c.r1 <= a.r2;
+const placed = (b) => PLACE.every((k) => Number.isInteger(b[k]) && b[k] >= 1);
+// Nothing crosses the fold of a spread (BUILD-PLAN section 12): a block lies wholly in the left page's columns or the right page's.
+const crossesFold = (b, G) => Math.ceil(b.col / G.fold) !== Math.ceil((b.col + b.colSpan - 1) / G.fold);
+// Every reason a grid layout cannot be printed, in words: [{ uid, code, msg }]. Empty = valid. Blocks that are off take no room.
+export function gridProblems(L, size = 'small') {
+  const G = GRIDS[pageKind(L.kind)], R = gridRows(size, L.kind), out = [], on = L.blocks.filter((b) => b.on);
+  const bad = (b, code, msg) => out.push({ uid: b.uid, code, msg });
+  for (const b of on) {
+    const nm = blockName(b);
+    if (!placed(b)) { bad(b, 'unplaced', `${nm} has no place on the grid yet.`); continue; }
+    if (b.col + b.colSpan - 1 > G.cols) bad(b, 'columns', `${nm} sticks out of the page: it uses columns ${span(b.col, b.colSpan)} and the page has ${G.cols}.`);
+    if (b.row + b.rowSpan - 1 > R) bad(b, 'rows', `${nm} runs off the bottom: it uses rows ${span(b.row, b.rowSpan)} and the page has ${R}.`);
+    if (G.fold && b.col <= G.cols && crossesFold(b, G)) bad(b, 'fold', `${nm} crosses the fold: it uses columns ${span(b.col, b.colSpan)}, and the fold is between columns ${G.fold} and ${G.fold + 1}. Keep it on one page.`);
+    const m = minSpan(b, b.colSpan, size);
+    if (isPhoto(b)) { // a print is a physical size: it fits its cells or the layout says why not (photo.mjs), and it stays clear of the spine
+      const f = photoFit(b, b.colSpan, b.rowSpan, size, photoX(b), nm); if (f) bad(b, f.code, f.msg);
+      const gp = gutterProblem(size); if (gp) bad(b, 'gutter', `${nm}: ${gp}`);
+    } else if (pzxIs(b.type)) { // a puzzle's squares must stay big enough to write in: its own plain reason (puzzles/render2.mjs)
+      const f = pzxFit(b, b.colSpan, b.rowSpan, size, nm, ROW_IN); if (f) bad(b, 'puzzle', f);
+    } else if (isNote(b)) { // a block of fixed rows and widths: it fits its cells or the layout says why not (noteblocks.mjs)
+      const f = noteFit(b, b.colSpan, b.rowSpan, size, nm); if (f) bad(b, f.code, f.msg);
+    } else if (b.type === 'body') {
+      if (b.rowSpan < BODY_MIN.rows || b.colSpan < BODY_MIN.cols) bad(b, 'body', `The Writing space stays at least ${BODY_MIN.rows} rows tall (${(BODY_MIN.rows * 5.588).toFixed(0)} mm) and ${BODY_MIN.cols} columns wide; it is ${b.rowSpan} rows by ${b.colSpan} columns.`);
+    } else if (b.colSpan < m.cols) bad(b, 'min', `${nm} needs at least ${m.cols} columns to fit its content; it has ${b.colSpan}.`);
+    else if (b.rowSpan < m.rows) bad(b, 'min', `${nm} needs at least ${m.rows} rows to fit its content at this width; it has ${b.rowSpan}.`);
+  }
+  for (let i = 0; i < on.length; i++) for (let j = i + 1; j < on.length; j++) {
+    const a = on[i], c = on[j];
+    if (!placed(a) || !placed(c) || !hit(rectOf(a), rectOf(c))) continue;
+    const A = rectOf(a), C = rectOf(c), c1 = Math.max(A.c1, C.c1), c2 = Math.min(A.c2, C.c2), r1 = Math.max(A.r1, C.r1), r2 = Math.min(A.r2, C.r2);
+    bad(c, 'overlap', `${blockName(a)} and ${blockName(c)} overlap at column${c2 > c1 ? 's' : ''} ${span(c1, c2 - c1 + 1)}, row${r2 > r1 ? 's' : ''} ${span(r1, r2 - r1 + 1)}.`);
+  }
+  return out;
+}
+// The first free rectangle of `cols` × `rows` cells (top to bottom, then left to right), ignoring `except` (a uid), or null.
+export function findFree(L, cols, rows, size = 'small', except = null) {
+  const G = GRIDS[pageKind(L.kind)], R = gridRows(size, L.kind), taken = L.blocks.filter((b) => b.on && b.uid !== except && placed(b)).map(rectOf);
+  for (let r = 1; r + rows - 1 <= R; r++) for (let c = 1; c + cols - 1 <= G.cols; c++) {
+    if (G.fold && crossesFold({ col: c, colSpan: cols }, G)) continue;
+    const q = { c1: c, c2: c + cols - 1, r1: r, r2: r + rows - 1 };
+    if (!taken.some((t) => hit(t, q))) return { col: c, row: r, colSpan: cols, rowSpan: rows };
+  }
+  return null;
+}
+// Place a block on the first free spot, as wide as it can be (full width first, then narrower down to its minimum); null if the page is full.
+export function placeBlock(L, b, size = 'small') {
+  const G = GRIDS[pageKind(L.kind)];
+  for (let w = G.fold || G.cols; w >= 1; w--) {
+    const m = minSpan(b, w, size); if (w < m.cols) break;
+    const f = findFree(L, w, m.rows, size, b.uid); if (f) return f;
+  }
+  return null;
+}
+// Today's single-column flow laid on the grid: blocks stacked in list order at full width, each as tall as its minimum, and the Writing
+// space takes every row that is left (at its place in the list, as in the flow layout). Blocks that are off get a spot but take no room.
+// The stack of minimums can be taller than the page (every block gets its worst-case room, including the ones that are usually empty);
+// then blocks are switched off from the end of the list until the Writing space has its minimum. Returns those blocks (uids), in order.
+export function autoPlace(L, size = 'small') {
+  const R = gridRows(size, L.kind), W = GRIDS.day.cols, dropped = [];
+  const used = () => L.blocks.filter((b) => b.on && b.type !== 'body').reduce((t, b) => t + minSpan(b, W, size).rows, 0);
+  const need = PAGE_KINDS[pageKind(L.kind)].body ? BODY_MIN.rows : 0;
+  while (R - used() < need) {
+    const last = [...L.blocks].reverse().find((b) => b.on && b.type !== 'body');
+    if (!last) break;
+    last.on = false; dropped.push(last.uid);
+  }
+  const room = R - used();
+  let row = 1;
+  for (const b of L.blocks) {
+    const rows = b.type === 'body' ? Math.max(BODY_MIN.rows, room) : minSpan(b, W, size).rows;
+    Object.assign(b, { col: 1, row, colSpan: W, rowSpan: rows });
+    if (b.on) row += rows;
+  }
+  return dropped;
+}
+// Blocks in a grid layout that lack a placement (a hand-edited file, or one just added): put them in the free space.
+function placeMissing(L, size) {
+  for (const b of L.blocks) {
+    if (placed(b)) continue;
+    for (const k of PLACE) delete b[k];
+    const m = minSpan(b, undefined, size), at = placeBlock({ ...L, blocks: L.blocks.filter((x) => x !== b) }, b, size);
+    Object.assign(b, at || { col: 1, row: 1, colSpan: GRIDS[pageKind(L.kind)].fold || GRIDS[pageKind(L.kind)].cols, rowSpan: m.rows });
+  }
+}
+
+// ======================= spread days (S1) =======================
+// A day can cover a whole two-page spread (book.json: the `days` entry's `format`, see bookrules.mjs dayFormat). Its layout is `spread` in
+// daypage.json: ONE canvas of 8 columns x 24 rows, the left page's grid (columns 1-4) then the right page's (columns 5-8), the fold between
+// column 4 and 5. In this version no block crosses the fold (BUILD-PLAN section 12), so a block is wholly on one page: that keeps text out of
+// the gutter and the rulings clean, and every page's own grid is exactly a day page's (4 x 24). Each page keeps its own fixed parts, so every
+// page stays unique and scannable: the DATE/TITLE/TAGS header (the right page's says "cont."), the 9 pt frame, the SEND TO strip and its own
+// Data Matrix page code. The default spread is the day page as it is today on the left and one ruled page to write on, on the right.
+let DEFAULT_SPREAD = null;
+export function defaultSpread() {
+  if (!DEFAULT_SPREAD) {
+    const left = { v: 2, grid: true, blocks: DEFAULT_LAYOUT.blocks.map((b) => structuredClone(b)) };
+    autoPlace(left, 'small'); // the day page's own default, on the grid
+    const lines = newBlock('lines', { title: 'Notes', n: 2 }, 'lines');
+    Object.assign(lines, { col: 5, row: 1, colSpan: 4, rowSpan: gridRows('small', 'spread') });
+    DEFAULT_SPREAD = { v: 2, kind: 'spread', grid: true, blocks: [...left.blocks, lines] };
+  }
+  return structuredClone(DEFAULT_SPREAD);
+}
+export const isDefaultSpread = (S, size = 'small') => JSON.stringify(normalizeSpread(S, size)) === JSON.stringify(normalizeSpread(defaultSpread(), size));
+// A spread layout, cleaned: always a grid, every block placed, the Writing space present once.
+export const normalizeSpread = (S, size = 'small') => (S ? normalize(S, size, 'spread') : normalize(defaultSpread(), size, 'spread'));
+// One page of a spread layout as an ordinary day-page grid layout: the blocks of columns 1-4 (left) or 5-8 (right), moved to columns 1-4.
+export function spreadHalf(S, side) {
+  const fold = GRIDS.spread.fold, right = side === 'R';
+  const blocks = S.blocks.filter((b) => (b.col > fold) === right).map((b) => { const c = structuredClone(b); if (right) c.col -= fold; return c; });
+  return { v: 2, kind: 'half', grid: true, blocks };
+}
+// Every reason a spread layout cannot be printed, in words ([] = fine): the grid rules of both pages and the fold.
+export function spreadProblems(S, size = 'small') {
+  const out = [];
+  if (!S || typeof S !== 'object' || Array.isArray(S)) return ['must be an object like {"v":2,"kind":"spread","blocks":[...]}'];
+  if (S.v !== 2) out.push('"v" must be 2');
+  if (S.kind !== undefined && S.kind !== 'spread') out.push(`"kind" is "${S.kind}", but this is a spread layout`);
+  if (!Array.isArray(S.blocks)) return [...out, '"blocks" must be a list'];
+  const uids = new Set();
+  S.blocks.forEach((b, i) => {
+    if (!b || typeof b !== 'object') { out.push(`blocks[${i}] must be an object`); return; }
+    if (!TYPES[b.type]) out.push(`blocks[${i}]: unknown block type "${b.type}"`);
+    else if (!allowedIn('spread', b.type)) out.push(`blocks[${i}]: ${TYPES[b.type].name} can't go on a spread (each page keeps its own SEND TO strip)`);
+    if (typeof b.uid === 'string') { if (uids.has(b.uid)) out.push(`blocks[${i}]: uid "${b.uid}" is used twice`); uids.add(b.uid); }
+  });
+  if (!out.length) out.push(...gridProblems(normalize(S, size, 'spread'), size).map((x) => x.msg));
+  return out;
+}
+// One page of a spread day, finished. `parts` is the day's (header, sky, events ...); `headerR` is the right page's header (it says "cont.").
+export function spreadPage(parts, S, side, opt = {}) {
+  const L = normalizeSpread(S, opt.size);
+  const size = opt.size === 'letter' ? 'letter' : 'small', probs = gridProblems(L, size);
+  if (probs.length && !opt.tag && !(opt.lenient && probs.every((x) => /^(photo|note)/.test(x.code)))) throw new Error('The day spread layout cannot be printed:\n - ' + probs.map((x) => x.msg).join('\n - '));
+  return dayBlocks({ ...parts, header: side === 'R' && parts.headerR ? parts.headerR : parts.header }, spreadHalf(L, side), { ...opt, size, kind: 'half' });
+}
+
+// ---------- rendering ----------
+// Scale numbering. Plain scales print unnumbered bubbles and the X4 stores 1..steps (as ever).
+// zero: 0..steps-1, printed under the bubbles. signed: -k..+k around a centre 0 (steps rounded down to odd), 0 is the ringed one.
+// The X4 stores exactly these numbers (export_pack.py mirrors this).
+export function scaleRange(b) {
+  if (b.signed) { const k = Math.floor((b.steps - 1) / 2); return { lo: -k, hi: k, n: 2 * k + 1, def: 0 }; }
+  if (b.zero) return { lo: 0, hi: b.steps - 1, n: b.steps, def: Math.floor((b.steps - 1) / 2) };
+  return { lo: 1, hi: b.steps, n: b.steps, def: Math.floor((1 + b.steps) / 2) };
+}
+const scaleBubs = (b) => {
+  if (!b.zero && !b.signed) return bubs(b.steps);
+  const { lo, hi } = scaleRange(b);
+  return Array.from({ length: hi - lo + 1 }, (_, i) => { const v = lo + i; return `<span class="bub n${b.signed && v === 0 ? ' mid' : ''}"><i></i><em>${v < 0 ? '\u2212' + -v : b.signed && v > 0 ? '+' + v : v}</em></span>`; }).join('');
+};
+const bubs = (n) => Array(n).fill('<span class="bub"><i></i></span>').join('');
+// Numbered dots (mood -3..+3, anxiety 0..3): the number printed inside, the middle of a signed scale marked with a heavier ring.
+const nbubs = (n, lo, mid = false) => Array.from({ length: n }, (_, i) => { const v = lo + i; return `<span class="bub nb${mid && v === 0 ? ' mid' : ''}"><i>${v > 0 && mid ? '+' : v < 0 ? '−' : ''}${Math.abs(v)}</i></span>`; }).join('');
+// A row's own height (bullets): today's 0.22 in adds nothing.
+const bs = (pitch) => (PITCH_IN[pitch] && PITCH_IN[pitch] !== 0.22 ? ` style="height:${PITCH_IN[pitch]}in"` : '');
+const lbl = (icon, t) => `<b class="xl">${icon ? ic(icon, t) : ''}${t ? `<span>${esc(t)}</span>` : ''}</b>`;
+const PAPER_CLS = { lines: '', dots: 'pd', grid: 'pg' }; // lines = today's ruling, byte for byte
+// Line spacing (mm -> class): tight 5.6 mm is today's 0.22 in and adds nothing; standard 6.6 mm = 0.26 in, wide 8.5 mm = 0.335 in.
+export const PITCH_IN = { 5.6: 0.22, 6.6: 0.26, 8.5: 0.335 }, PITCH_CLS = { 5.6: '', 6.6: 'p26', 8.5: 'p33' };
+const ruled = (n, cls = '', pitch = 5.6) => `<span class="ru ${cls}${PITCH_CLS[pitch] ? (cls ? ' ' : '') + PITCH_CLS[pitch] : ''}" style="height:${(n * PITCH_IN[pitch]).toFixed(2)}in"></span>`;
+function careRow(r) {
+  switch (r.id) {
+    case 'meds': {
+      const it = ['am', 'pm', 'prn'].filter((k) => r.items[k]);
+      if (!it.length) return '';
+      return `<div class="cr" data-zone="meds">${ic('pill', 'Meds')}${it.map((k) => box(ic(k, CARE_ROWS.meds.items[k]))).join('')}${r.items.prn ? '<span class="blank xs"></span>' : ''}</div>`;
+    }
+    case 'meals': return `<div class="cr" data-zone="meals">${ic('meal', 'Meals')}${Array(r.meals).fill(box('')).join('')}${r.snack ? `<span class="gap"></span>${box(ic('snack', 'Snack'))}` : ''}</div>`;
+    case 'self_care': {
+      const it = Object.keys(CARE_ROWS.self_care.items).filter((k) => r.items[k]);
+      return it.length ? `<div class="cr" data-zone="self_care">${it.map((k) => box(ic(k, CARE_ROWS.self_care.items[k]))).join('')}</div>` : '';
+    }
+    case 'work': {
+      if (!r.sleep && !r.work) return '';
+      const s = r.sleep ? `${ic('sleep', 'Sleep')}<span class="blank xs"></span><span class="u">h</span>` : '';
+      const w = r.work ? `${ic('work', 'Work')}${box('<span class="off">off</span>')}<span class="blank xs"></span><span class="u">–</span><span class="blank xs"></span>` : '';
+      return `<div class="cr" data-zone="work">${s}${s && w ? '<span class="gap"></span>' : ''}${w}</div>`;
+    }
+    case 'checkin': return `<div class="cr" data-zone="checkin">${ic('low', 'Low')}${nbubs(r.steps, -(r.steps >> 1), true)}${ic('high', 'High')}</div>`;
+    case 'anxiety': return `<div class="cr" data-zone="anxiety">${ic('calm', 'Calm')}${nbubs(4, 0)}${ic('anx', 'Anxious')}</div>`;
+    case 'water': return `<div class="cr" data-zone="water">${ic('water', 'Water')}${Array(r.count).fill(box('')).join('')}</div>`;
+  }
+  return '';
+}
+const spoonRow = (b) => `<div class="cr sp" data-zone="spoons">${ic('spoon', 'Spoons left')}${Array(b.count).fill(spoon()).join('')}</div>`;
+// One small line under the care block: what the X4 keeps that this page does not. Names only what is off the page.
+function x4Note(b, spoonsOn) {
+  const row = (id) => b.rows.find((r) => r.id === id), on = (id) => row(id) && row(id).on;
+  const w = row('work'), sc = row('self_care');
+  const list = [!spoonsOn && 'spoons', !(on('work') && w.sleep) && 'sleep', !on('anxiety') && 'anxiety', !(on('self_care') && sc && Object.values(sc.items).some(Boolean)) && 'care ticks'].filter(Boolean);
+  return list.length ? `<div class="x4n" data-zone="x4_note">${ic('x4', 'X4')}<span>X4: ${list.join(' · ')}</span></div>` : '';
+}
+// Bullet and habit marks drawn as SVG (never font glyphs, so no Type 3 fonts in the PDF).
+const MK = {
+  task: '<circle cx="4" cy="4" r="1.5" fill="currentColor" stroke="none"/>', event: '<circle cx="4" cy="4" r="2.2"/>', note: '<path d="M1.8 4h4.4"/>',
+  moved: '<path d="M2.8 1.8 5.2 4 2.8 6.2"/>', done: '<path d="M2.2 2.2l3.6 3.6M5.8 2.2 2.2 5.8"/>',
+  me: '<path d="M4.6 1.4 3.4 5.4"/>', other: '<path d="M1.4 4h5.2"/>',
+  half: '<circle cx="4" cy="4" r="3"/><path d="M4 1a3 3 0 0 1 0 6Z" fill="currentColor"/>', full: '<circle cx="4" cy="4" r="3" fill="currentColor"/>',
+};
+const mk = (k) => `<svg class="bmk" width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${k}">${MK[k]}</svg>`;
+const mkKey = (ks, names = {}) => `<span class="mkey">${ks.map((k) => `<span>${mk(k)}${names[k] || k}</span>`).join('')}</span>`;
+const hour = (h) => { const x = h % 24, ap = x < 12 ? 'a' : 'p'; return `${x % 12 || 12}${ap}`; };
+
+// ---- Tier 2 helpers: dates and sun times come from parts.day ({date, rise, set}); the editor's sample day is generic ----
+export const SAMPLE_DAY = { date: '2026-10-31', rise: '7:26a', set: '5:58p' };
+const MON3 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const dparse = (s) => { const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(s || ''); return m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null; };
+const dnum = (dt) => Math.floor(dt.getTime() / 864e5); // days since 1970-01-01 (a Thursday)
+const clock = (s) => { const m = /^(\d{1,2}):(\d\d)([ap])$/.exec(s || ''); return m ? (+m[1] % 12) + (m[3] === 'p' ? 12 : 0) + +m[2] / 60 : null; };
+// A month or year before, same day of the month, clamped to the last day (Mar 31 -> Feb 28).
+export function lookBack(date, period) {
+  const d = dparse(date); if (!d) return '';
+  const y = d.getUTCFullYear() - (period === 'year' ? 1 : 0), m = d.getUTCMonth() - (period === 'year' ? 0 : 1);
+  const last = new Date(Date.UTC(y, m + 1, 0)); // day 0 of the next month = last day of this one
+  const t = new Date(Date.UTC(y, m, Math.min(d.getUTCDate(), last.getUTCDate())));
+  return `${MON3[t.getUTCMonth()]} ${t.getUTCDate()}${period === 'year' ? ', ' + t.getUTCFullYear() : ''}`;
+}
+// Rotating prompts: [tag, text]. Picked by date only (days since 1970, or the Monday's), so a reprint gives the same prompt.
+export const DAY_PROMPTS = [
+  ['noticing', 'One thing I noticed today that I usually miss'], ['body', 'Where my body asked for something today'], ['people', 'Someone I was glad to hear from'],
+  ['small', 'A small thing that went better than I expected'], ['rest', 'What would count as rest today'], ['place', 'A place that felt okay to be in'],
+  ['noticing', 'A sound I liked'], ['self', 'Something I did that was kind to me'], ['past', 'Something I used to worry about that is quieter now'],
+  ['body', 'What my body needed more of this week'], ['people', 'Something I would like to say to someone'], ['small', 'A thing I finished, however small'],
+  ['noticing', 'The light at a time of day I usually miss'], ['self', 'A word I would use for today'], ['rest', 'One thing I can put down until tomorrow'],
+  ['place', 'A corner of my home I like, and why'], ['past', 'A day I got through, and what helped'], ['body', 'What I ate or drank that felt good'],
+  ['people', 'A person who makes things easier'], ['small', 'Something I am looking forward to'], ['noticing', 'Something I saw on the way'],
+  ['self', 'A boundary that helped me'], ['rest', 'What I would do with an empty hour'], ['place', 'The weather today, in three words'],
+  ['past', 'Something I have learned about myself lately'], ['body', 'A moment I felt steady'], ['people', 'A kind thing someone did'],
+  ['small', 'A plan that can stay small'], ['noticing', 'A smell I liked'], ['self', 'What I forgave myself for'], ['rest', 'Where I felt most at ease today'],
+  ['place', 'Somewhere I would like to go'], ['past', 'What I would tell myself a year ago'], ['body', 'How I moved today'], ['people', 'Someone I miss'],
+  ['small', 'A choice that was mine today'],
+];
+// Undated books (book plan): the prompt goes by page number, not by date. k = the day's number in the book, or the week's for "every week".
+export const promptAt = (k) => DAY_PROMPTS[((k % DAY_PROMPTS.length) + DAY_PROMPTS.length) % DAY_PROMPTS.length];
+export function promptFor(date, every) {
+  const d = dparse(date); if (!d) return DAY_PROMPTS[0];
+  const n = dnum(d), k = every === 'week' ? Math.floor((n + 3) / 7) : n; // (n + 3) % 7 = 0 on a Monday, so a week is Monday to Sunday
+  return DAY_PROMPTS[((k % DAY_PROMPTS.length) + DAY_PROMPTS.length) % DAY_PROMPTS.length];
+}
+// The seven days of this date's week, Monday first.
+function weekOf(date) {
+  const d = dparse(date) || dparse(SAMPLE_DAY.date), mon = new Date(d.getTime() - ((d.getUTCDay() + 6) % 7) * 864e5);
+  return Array.from({ length: 7 }, (_, i) => { const t = new Date(mon.getTime() + i * 864e5); return { l: 'MTWTFSS'[i], d: t.getUTCDate(), m: t.getUTCMonth(), today: t.getTime() === d.getTime() }; });
+}
+// Day pixel swatch: a 10x10 square filled from the bottom, level 0 = empty (SVG, so no font glyphs).
+const swatch = (i, n) => { const h = Math.round((i / (n - 1)) * 8); return `<svg class="pxs" width="12" height="12" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width=".9" role="img" aria-label="level ${i + 1} of ${n}"><rect x="1" y="1" width="8" height="8" rx=".8"/>${h ? `<rect x="1" y="${9 - h}" width="8" height="${h}" fill="#888" stroke="none"/>` : ''}</svg>`; };
+// Therapy pack: every block carries a "use with a therapist" note and the same two numbers the book's Support page prints
+// (988 call or text; Trans Lifeline). Keep them in step with content/support.json.
+export const THERAPY_NOTE = '<div class="tn">Use with a therapist. Crisis: call or text <b>988</b> · Trans Lifeline <b>(877) 565-8860</b></div>';
+const SKILLS_KEY = '0 none · 1–2 thought of · 3–5 tried · 6–7 came on their own · 5 and 7 helped';
+// Thought record boxes (CBT): 3 = quick record, 5 = Beck style, 7 = Mind Over Mood style. Feelings/moods are rated 0-100 by hand.
+export const THOUGHT_BOXES = { 3: ['Thought', 'Trap', 'Balanced'], 5: ['Situation', 'Feeling %', 'Thought', 'Balanced', 'Outcome'], 7: ['Situation', 'Mood %', 'Thought', 'For', 'Against', 'Balanced', 'Mood now'] };
+// The seed text of a puzzle block: the page it is on (the day's date, or the page's id), the block's uid and the block's own seed, so a
+// reprint gives the same puzzle and every page gets its own.
+const pzSeed = (b, parts) => `${parts.day ? parts.day.date || 'n' + parts.day.n : parts.seed || ''}|${b.uid}|${b.seed}`;
+function renderBlock(b, parts, zone, opt = {}) {
+  const Z = `data-zone="${zone}"`;
+  switch (b.type) {
+    case 'photoframe': case 'photostrip': case 'photodaily': case 'contactsheet': return photoHtml(b, parts, Z, opt);
+    case 'sudoku': case 'maze': case 'cryptogram': case 'wordladder': case 'nonogram': case 'kakuro': case 'dottodot': { const p = pzxBlock(b, pzSeed(b, parts), { cols: opt.cols }); return `<div class="xb pzx${b.big ? ' big' : ''}" ${Z}>${lbl(b.type, p.label)}${p.body}</div>`; }
+    case 'chores': case 'chorerota': return chHtml(b, parts, Z, { esc, lbl });
+    case 'cornell': case 'notearea': case 'conceptmap': case 'questions': case 'summarybox': case 'flashstrip': case 'reviewtracker': case 'stimlog': case 'stimmenu': case 'stimtrace': return noteHtml(b, Z, opt);
+    case 'wordsearch': case 'crossword': { const p = pzBlock(b, pzSeed(b, parts)); return `<div class="xb pz${b.big ? ' big' : ''}" ${Z}>${lbl(b.type, p.label)}<div class="pzr">${p.body}</div></div>`; }
+    case 'sky': case 'notes': case 'events': case 'fact': return parts[b.type] || '';
+    case 'spoons': return `<div class="care solo">${spoonRow(b)}</div>`;
+    case 'good': return `<div class="grat" ${Z}><b class="zl">${ic('heart', esc(b.label || 'Small good things'))}</b>${b.because ? `<div class="gbs">${Array(b.n).fill(`<div class="gb"><span class="lines" data-pitch="${b.pitch}" style="height:${(b.pitch + 0.02).toFixed(2)}in"></span><i>because</i><span class="lines" data-pitch="${b.pitch}" style="height:${(b.pitch + 0.02).toFixed(2)}in"></span></div>`).join('')}</div>` : `<span class="lines" data-pitch="${b.pitch}" style="height:${(b.n * b.pitch + 0.02).toFixed(2)}in"></span>`}</div>`;
+    case 'body': return `<div class="${{ lines: 'ruled', bold: 'ruled bold', blank: 'plain', grid: 'grid', grid37: 'grid g37' }[b.style] || 'dots'} log${b.secretLine ? ' sl' : ''}" data-zone="body"></div>`;
+    case 'actions': return actionZone(b.count, b.routines ? parts.routines || [] : [], b.h);
+    case 'review': {
+      const it = Object.keys(REVIEW_ITEMS).filter((k) => b.items[k]);
+      return it.length ? `<div class="rev${it.length < 3 ? ` c${it.length}` : ''}" data-zone="review">${it.map((k) => `<div><b class="zl">${ic(k, REVIEW_ITEMS[k])}<i>${REVIEW_ITEMS[k]}</i></b><span class="lines" data-pitch="0.22"${b.h === 2 ? '' : ` style="height:${(b.h * 0.22).toFixed(2)}in"`}></span></div>`).join('')}</div>` : '';
+    }
+    case 'checks': return b.labels.length ? `<div class="xb xrow${b.omr ? ' omr' : ''}" ${Z}>${lbl('', b.title)}${b.labels.map((t) => box(`<span class="t">${esc(t)}</span>`)).join('')}</div>` : '';
+    case 'scale': return `<div class="xb xrow${b.omr ? ' omr' : ''}" ${Z}>${lbl('', b.title)}<span class="end">${esc(b.lo)}</span>${scaleBubs(b)}<span class="end">${esc(b.hi)}</span></div>`;
+    case 'words': return b.words.length ? `<div class="xb xrow wr" ${Z}>${lbl('', b.title)}${b.words.map((w) => `<span class="w">${esc(w)}</span>`).join('')}</div>` : '';
+    case 'sensory': {
+      const S = TYPES.sensory.opts[0].items, it = Object.keys(S).filter((k) => b.items[k]);
+      return it.length ? `<div class="xb xrow wr" ${Z}>${lbl('ear', 'Sensory')}${it.map((k) => `<span class="sn">${S[k]} ${bubs(4)}</span>`).join('')}</div>` : '';
+    }
+    case 'sleeptimes': return `<div class="xb xrow" ${Z}>${lbl('sleep', 'Sleep')}<span class="f">bed <span class="blank"></span></span><span class="f">up <span class="blank"></span></span>${b.quality ? `<span class="end">rough</span>${bubs(5)}<span class="end">rested</span>` : ''}</div>`;
+    case 'habits': return b.labels.length ? `<div class="xb xrow wr xhab" ${Z}>${lbl('', b.title)}${b.labels.map((t) => `<span class="hd"><span class="t">${esc(t)}</span><i></i></span>`).join('')}${b.tiny ? mkKey(['half', 'full'], { half: 'tiny', full: 'done' }) : mkKey(['half', 'full'])}</div>` : '';
+    case 'fields': return `<div class="xb xrow wr" ${Z}>${lbl('', b.title)}${b.labels.map((t) => `<span class="f">${esc(t)} <span class="blank"></span></span>`).join('')}</div>`;
+    case 'weather': return `<div class="xb xrow" ${Z}>${['am', 'cloud', 'rain', 'snow', ...(b.aqi ? ['smoke'] : [])].map((k) => `<span class="cir">${ic(k, k === 'am' ? 'Sun' : k)}</span>`).join('')}<span class="f">hi <span class="blank xs"></span></span><span class="f">lo <span class="blank xs"></span></span>${b.aqi ? '<span class="f">AQI <span class="blank xs"></span></span>' : ''}</div>`;
+    case 'feelings': return b.labels.length ? `<div class="xb" ${Z}>${lbl('heart', b.title)}<div class="frs">${b.labels.map((t) => `<div class="fr"><span>${esc(t)}</span>${nbubs(6, 0)}</div>`).join('')}</div>${THERAPY_NOTE}</div>` : '';
+    case 'skills': return `<div class="xb" ${Z}><div class="xrow">${lbl('sprout', b.title)}<span class="end">not used</span>${nbubs(8, 0)}<span class="end">used, helped</span></div>${b.key ? `<div class="skey">${SKILLS_KEY}</div>` : ''}${THERAPY_NOTE}</div>`;
+    case 'urge': return b.labels.length ? `<div class="xb" ${Z}>${lbl('wave', b.title)}${b.labels.map((t) => `<div class="xrow ur"><span class="ul">${esc(t)}</span><span class="end">none</span>${nbubs(6, 0)}<span class="end">strong</span>${box('<span class="t">acted</span>')}</div>`).join('')}${THERAPY_NOTE}</div>` : '';
+    case 'thought': {
+      const names = THOUGHT_BOXES[b.cols] || THOUGHT_BOXES[3], first = b.cols === 3 ? 3 : Math.ceil(b.cols / 2);
+      return `<div class="xb" ${Z}>${lbl('thought', 'Thought record')}${[names.slice(0, first), names.slice(first)].filter((r) => r.length).map((r) => `<div class="thr">${r.map((t) => `<div><i>${t}</i>${ruled(b.n)}</div>`).join('')}</div>`).join('')}${THERAPY_NOTE}</div>`;
+    }
+    case 'sites': return b.labels.length ? `<div class="xb xrow wr" ${Z}>${lbl('needle', b.title)}${b.labels.map((w) => `<span class="w">${esc(w)}</span>`).join('')}${b.time ? '<span class="f">time <span class="blank xs"></span></span>' : ''}</div>` : '';
+    case 'bodysig': {
+      const it = Object.keys(BODYSIG).filter((k) => b.items[k]);
+      return it.length ? `<div class="xb" ${Z}>${lbl('body', 'Body signals')}${Array(b.n).fill(`<div class="xrow wr"><span class="f">at <span class="blank xs"></span></span>${it.map((k) => box(`<span class="t">${BODYSIG[k]}</span>`)).join('')}</div>`).join('')}</div>` : '';
+    }
+    case 'lines': return `<div class="xb" ${Z}>${lbl('', b.title)}${ruled(b.n, PAPER_CLS[b.paper] || '', b.pitch)}</div>`;
+    case 'bullets': return `<div class="xb xbul" ${Z}>${b.title || b.key ? `<div class="xrow">${b.title ? lbl('', b.title) : ''}${b.key ? mkKey(['task', 'event', 'note', 'moved', 'done']) : ''}</div>` : ''}${Array(b.n).fill(`<div class="bl"><i></i><span${bs(b.pitch)}></span></div>`).join('')}</div>`;
+    case 'split': return `<div class="xb xsplit" ${Z}><div>${lbl('', b.left)}${ruled(b.n, PAPER_CLS[b.paper] || '', b.pitch)}</div><div>${lbl('', b.right)}${ruled(b.n, PAPER_CLS[b.paper] || '', b.pitch)}</div></div>`;
+    case 'top': {
+      if (b.est || b.carried) { // extra columns after the line: bubbles, guess, took, carried; a header row names them
+        const cols = (b.bubbles ? ['auto'] : []).concat(b.est ? ['0.5in', '0.5in'] : [], b.carried ? ['0.42in'] : []), g = `style="grid-template-columns:10px 1fr ${cols.join(' ')}"`;
+        const head = `<div class="num te th" ${g}><span></span><span>${lbl('', b.title)}</span>${b.bubbles ? `<span class="tbub" style="visibility:hidden">${bubs(b.bubbles)}</span>` : ''}${b.est ? '<span class="tc">guess</span><span class="tc">took</span>' : ''}${b.carried ? '<span class="tc">carried</span>' : ''}</div>`;
+        return `<div class="xb" ${Z}>${head}${Array.from({ length: b.n }, (_, i) => `<div class="num te" ${g}><span>${i + 1}</span>${ruled(1, '', b.pitch)}${b.bubbles ? `<span class="tbub">${bubs(b.bubbles)}</span>` : ''}${b.est ? `${ruled(1, 'tcl', b.pitch)}${ruled(1, 'tcl', b.pitch)}` : ''}${b.carried ? '<span class="tck"><i></i></span>' : ''}</div>`).join('')}</div>`;
+      }
+      return `<div class="xb" ${Z}>${lbl('', b.title)}${Array.from({ length: b.n }, (_, i) => b.bubbles ? `<div class="num tb"><span>${i + 1}</span>${ruled(1, '', b.pitch)}<span class="tbub">${bubs(b.bubbles)}</span></div>` : `<div class="num"><span>${i + 1}</span>${ruled(1, '', b.pitch)}</div>`).join('')}</div>`;
+    }
+    case 'sketch': return `<div class="xb" ${Z}>${b.caption ? `<div class="xrow">${b.title ? lbl('', b.title) : ''}<span class="cap">${esc(b.caption)}</span></div>` : b.title ? lbl('', b.title) : ''}<div class="sk-box${b.corners ? ' tp' : ''}" style="height:${(b.h / 10).toFixed(1)}in">${b.corners ? '<i class="tm a"></i><i class="tm b"></i><i class="tm c"></i><i class="tm d"></i>' : ''}</div></div>`;
+    case 'timeline': {
+      const hrs = []; for (let h = b.from; h < Math.max(b.to, b.from + 1); h += b.every) hrs.push(h);
+      const cols = ['plan'].concat(b.actual ? ['actual'] : [], Array.from({ length: b.replan }, (_, i) => (b.replan > 1 ? `re-plan ${i + 1}` : 're-plan')));
+      if (cols.length === 1) return `<div class="xb xtl" ${Z}>${hrs.map((h) => `<div><span class="hr">${hour(h)}</span>${ruled(1, '', b.pitch)}</div>`).join('')}</div>`;
+      // plan + actual / re-plan columns: two halves side by side, or one wide list from three columns up
+      const head = `<div class="xth"><span></span>${cols.map((c) => `<span>${c}</span>`).join('')}</div>`;
+      return `<div class="xb xtl xtc${cols.length > 2 ? ' w1' : ''}" style="--tc:${cols.length}" ${Z}>${head}${cols.length > 2 ? '' : head}${hrs.map((h) => `<div><span class="hr">${hour(h)}</span>${cols.map(() => ruled(1, '', b.pitch)).join('')}</div>`).join('')}</div>`;
+    }
+    case 'shift': return `<div class="xb" ${Z}><div class="xrow">${lbl('work', 'Shift')}<span class="f">in <span class="blank"></span></span><span class="f">out <span class="blank"></span></span><span class="f">break <span class="blank"></span></span></div>${b.n ? ruled(b.n) : ''}</div>`;
+    case 'bus': return `<div class="xb" ${Z}>${Array.from({ length: b.n }, (_, i) => `<div class="xrow">${i ? '<b class="xl"></b>' : lbl('bus', 'Bus')}<span class="f">route <span class="blank xs"></span></span><span class="f">stop <span class="blank"></span></span><span class="f">leave <span class="blank xs"></span></span><span class="f">back <span class="blank xs"></span></span></div>`).join('')}</div>`;
+    case 'money': return `<div class="xb" ${Z}>${lbl('coin', 'Spent')}<div class="xmoney">${Array(b.n).fill('<span class="f"><span class="blank long"></span> $<span class="blank xs"></span></span>').join('')}</div></div>`;
+    case 'reach': return `<div class="xb xrow wr" ${Z}>${lbl('people', 'Reach out')}${Array(b.n).fill(box('<span class="blank"></span>')).join('')}</div>`;
+    case 'tl24': {
+      const dy = parts.day || SAMPLE_DAY, rise = clock(dy.rise), set = clock(dy.set), night = b.shade && rise !== null && set !== null;
+      const hrs = Array.from({ length: 24 }, (_, i) => (b.start + i) % 24);
+      const row = (name) => `<div class="tlr"><span class="tln">${name}</span>${hrs.map((h) => `<i${night && (h + 0.5 < rise || h + 0.5 > set) ? ' class="nt"' : ''}></i>`).join('')}</div>`;
+      return `<div class="xb xtl24"${b.h === 0.18 ? '' : ` style="--th:${b.h}in"`} ${Z}><div class="tlr th"><span class="tln">${ic('clock', '24 h')}</span>${hrs.map((h, i) => `<span>${i % b.every === 0 ? hour(h) : ''}</span>`).join('')}</div>${row('plan')}${b.actual ? row('actual') : ''}</div>`;
+    }
+    case 'dump': return `<div class="xb" ${Z}><div class="dbox"><b class="dbl">${lbl('dump', b.title)}</b>${b.paper === 'blank' ? `<span class="blk" style="height:${(b.n * PITCH_IN[b.pitch]).toFixed(2)}in"></span>` : ruled(b.n, b.paper === 'dots' ? 'pd' : '', b.pitch)}</div></div>`;
+    case 'later': return `<div class="xb xbul" ${Z}><div class="hrw">${lbl('next', b.title)}${ruled(1, '', b.pitch)}</div>${Array(b.n - 1).fill(`<div class="bl">${mk('moved')}<span${bs(b.pitch)}></span></div>`).join('')}</div>`;
+    case 'done': return `<div class="xb xbul dn" ${Z}><div class="hrw">${lbl('well', b.title)}${ruled(1, '', b.pitch)}</div>${Array(b.n - 1).fill(`<div class="bl">${b.gutter ? '<i class="bx"></i>' : mk('done')}<span${bs(b.pitch)}></span></div>`).join('')}</div>`;
+    case 'wall': return `<div class="xb xwall" ${Z}>${b.words.length ? `<div class="xrow wr">${lbl('wall', b.title)}${b.words.map((w) => `<span class="w">${esc(w)}</span>`).join('')}</div>` : `<div class="xrow">${lbl('wall', b.title)}</div>`}${b.ways.length ? `<div class="xrow wr"><span class="wl">${ic('next', 'A way past')}a way past</span>${b.ways.map((w) => `<span class="w">${esc(w)}</span>`).join('')}</div>` : ''}${b.n ? ruled(b.n, '', b.pitch) : ''}</div>`;
+    case 'stamps': return `<div class="xb xst" ${Z}>${Array.from({ length: b.n }, (_, i) => `<div class="str"><span class="tsc">${i ? '<i class="sp"></i>' : ic('clock', b.title)}__:__</span>${ruled(1, '', b.pitch)}</div>`).join('')}${b.resume ? `<div class="str rs"><span class="tsc">${ic('next', 'Resume with')}</span>${ruled(1, '', b.pitch)}</div>` : ''}</div>`;
+    case 'rounds': return `<div class="xb xrd" style="--rc:${b.marks ? 'auto 1fr auto auto' : 'auto 1fr auto'}" ${Z}>${Array.from({ length: b.n }, (_, i) => `<div class="rr"><span class="rn">${i ? i + 1 : lbl('rounds', b.title)}</span>${ruled(1, '', b.pitch)}<span class="rbx">${Array(b.boxes).fill('<i></i>').join('')}${!i && b.len ? `<span class="cap">${esc(b.len)}</span>` : ''}</span>${b.marks ? `<span class="rty"><span>${mk('me')}</span><span>${mk('other')}</span></span>` : ''}</div>`).join('')}</div>`;
+    case 'energy': return b.labels.length ? `<div class="xb xrow wr" ${Z}>${lbl('bolt', b.title)}${b.labels.map((t) => `<span class="sn">${esc(t)} ${bubs(b.steps)}</span>`).join('')}</div>` : '';
+    case 'accounts': return `<div class="xb" ${Z}><div class="xrow">${lbl('spoon', b.title)}<span class="f">start <span class="blank xs"></span></span><span class="f rgt">left ${b.x4 ? `${ic('x4', 'X4')}<span class="dim">X4</span>` : '<span class="blank xs"></span>'}</span></div><div class="xmoney">${Array(b.n).fill('<span class="f"><span class="blank long"></span> <span class="blank xs"></span></span>').join('')}</div></div>`;
+    case 'weekstrip': if (parts.day && parts.day.undated) return `<div class="xb" ${Z}><div class="wsk" style="height:${(b.h / 10).toFixed(1)}in">${[...'MTWTFSS'].map((l) => `<span class="wsc"><b>${l}</b><i></i></span>`).join('')}</div></div>`; return `<div class="xb" ${Z}><div class="wsk" style="height:${(b.h / 10).toFixed(1)}in">${weekOf((parts.day || SAMPLE_DAY).date).map((x) => `<span class="wsc${x.today ? ' td' : ''}"><b>${x.l}</b><i>${x.d === 1 ? MON3[x.m] + ' 1' : x.d}</i></span>`).join('')}</div></div>`;
+    case 'keep': return `<div class="xb" ${Z}><div class="hrw">${lbl('keep', b.title)}${ruled(1, '', b.pitch)}${b.moved ? box('moved') : ''}</div>${b.n > 1 ? ruled(b.n - 1, '', b.pitch) : ''}${b.source ? '<div class="xrow"><span class="f">from <span class="blank long"></span></span></div>' : ''}</div>`;
+    case 'lookback': { const dy = parts.day || SAMPLE_DAY, when = lookBack(dy.date, b.period); return `<div class="xb" ${Z}><div class="hrw">${lbl('back', b.period === 'year' ? 'A year ago today' : 'A month ago today')}${when ? `<span class="cap">${when}</span>` : ''}${ruled(1, '', b.pitch)}</div>${b.n > 1 ? ruled(b.n - 1, '', b.pitch) : ''}</div>`; }
+    case 'prompt': { const dy = parts.day || SAMPLE_DAY, [tag, text] = dy.undated ? promptAt((b.every === 'week' ? dy.w : dy.n) - 1) : promptFor(dy.date, b.every); return `<div class="xb" ${Z}><div class="hrw">${ic('text', 'Prompt: ' + tag)}<span class="pq">${esc(text)}</span>${ruled(1, '', b.pitch)}${b.pass ? box('pass') : ''}</div>${b.n > 1 ? ruled(b.n - 1, '', b.pitch) : ''}</div>`; }
+    case 'pixel': return `<div class="xb xrow xpx" ${Z}>${lbl('pixel', 'Day pixel')}<span class="pxb"></span>${b.key ? '<span class="end">low</span>' : ''}${Array.from({ length: b.levels }, (_, i) => `<span class="pxc">${swatch(i, b.levels)}<i></i></span>`).join('')}${b.key ? '<span class="end">high</span>' : ''}</div>`;
+    case 'range': return `<div class="xb xrow wr" ${Z}>${lbl('', b.title)}${[['low', 'Lowest'], ['high', 'Highest']].map(([k, t]) => `<span class="sn">${ic(k, t)}<span class="end">${esc(b.lo)}</span> ${bubs(b.steps)} <span class="end">${esc(b.hi)}</span></span>`).join('')}</div>`;
+    case 'divider': return b.icon === 'sun' || b.icon === 'moon' ? `<div class="xdiv xdi"><i></i>${ic(b.icon === 'sun' ? 'am' : 'pm', b.icon === 'sun' ? 'Sun' : 'Moon')}<i></i></div>` : `<div class="xdiv"></div>`;
+    case 'sendto': return sendBlockHtml(b);
+    case 'spacer': return `<div class="xsp" style="height:${(b.h / 10).toFixed(1)}in"></div>`;
+  }
+  return '';
+}
+
+// ---------- photo blocks (photo.mjs): the drawn frames ----------
+// A frame is a window the size of the print, drawn as four light corner marks a little INSIDE its edge (so the pasted print covers them and no
+// edge peeks out), with an empty margin round it for the glue. Sizes are physical: in CSS inches under the page's zoom they are W / zoom.
+const inch = (v) => `${+v.toFixed(4)}in`;
+const escA = (t) => esc(t).replace(/"/g, '&quot;');
+const clock12 = (h) => `${h % 12 || 12} ${h % 24 < 12 ? 'a.m.' : 'p.m.'}`;
+function photoHtml(b, parts, Z, opt) {
+  const size = opt.size === 'letter' ? 'letter' : 'small', date = parts.day && !parts.day.undated ? parts.day.date || '' : '';
+  const dayStart = opt.dayStart !== undefined ? opt.dayStart : parts.dayStart;
+  const x = b.type === 'photodaily' ? { days: dailyDays(b, date), note: !!b.note && dayStart > 0 } : {};
+  const p = photoPlan(b, size, opt.cols || GRIDS.day.cols, x), z = p.z, st = sizeText(b);
+  const vars = `--ins:${inch(MARK_INSET_IN / z)};--arm:${inch(markArm(p.print.w, p.print.h) / z)}`;
+  const mk = (f) => `<div class="pjf" aria-hidden="true" style="left:${inch(f.x)};top:${inch(f.y)};width:${inch(f.w)};height:${inch(f.h)}"><i class="pjm a"></i><i class="pjm b"></i><i class="pjm c"></i><i class="pjm d"></i></div>`;
+  const under = (f, cls, inner) => `<span class="pjd${cls}" aria-hidden="true" style="left:${inch(f.x)};top:${inch(f.y + f.h)};width:${inch(f.w)};height:${inch(p.cap)}">${inner}</span>`;
+  const line = (t) => `<div class="hrw">${lbl('', t)}${ruled(1)}</div>`;
+  let head, alt, marks = p.frames.map(mk).join(''), lines = '';
+  if (b.type === 'photoframe') {
+    const f = p.frames[0], tl = Math.max(0.03, p.g - TICK_GAP_IN / z - 0.025 / z), t0 = 0.02 / z, gz = TICK_GAP_IN / z;
+    if (b.cut) marks += `<i class="pjt v" aria-hidden="true" style="left:${inch(f.x + f.w / 2)};top:${inch(t0)};height:${inch(tl)}"></i><i class="pjt v" aria-hidden="true" style="left:${inch(f.x + f.w / 2)};top:${inch(f.y + f.h + gz)};height:${inch(tl)}"></i><i class="pjt h" aria-hidden="true" style="top:${inch(f.y + f.h / 2)};left:${inch(t0)};width:${inch(tl)}"></i><i class="pjt h" aria-hidden="true" style="top:${inch(f.y + f.h / 2)};left:${inch(f.x + f.w + gz)};width:${inch(tl)}"></i>`;
+    head = `${lbl('photoframe', b.title || 'Photo')}<span class="pjs">${st}</span>${b.cut && p.avail * z >= 2.4 ? '<span class="pjc">trim your print to this</span>' : ''}`; // (the words need room: a narrow cell keeps just the four ticks)
+    lines = (b.lines === 'three' ? line('What') + line('Where') + line('Why this one') : b.lines === 'one' ? line('What and where') : '') + (b.who ? `<div class="hrw">${lbl('', 'Who')}${ruled(1)}${lbl('', 'When')}${ruled(1)}</div>` : '');
+    alt = `${b.title || 'Photo frame'}: space for a ${st} print, ${p.print.w > p.print.h ? 'landscape' : p.print.w < p.print.h ? 'portrait' : 'square'}. Paste your print here${b.cut ? ' and trim it to this size' : ''}.${b.lines === 'three' ? ' Three caption lines: what, where, why this one.' : b.lines === 'one' ? ' One caption line: what and where.' : ''}${b.who ? ' A line for who and when.' : ''}`;
+  } else if (b.type === 'photostrip') {
+    if (b.dates) marks += p.frames.map((f) => under(f, '', '<b>date</b><i></i>')).join('');
+    head = `${lbl('photostrip', b.title || 'Photo strip')}<span class="pjs">${p.n} frames · ${st}</span>`;
+    lines = b.lines === 'one' ? line('About these') : '';
+    alt = `${b.title || 'Photo strip'}: ${p.n} frames of ${st}, ${b.dir === 'column' ? 'one under the other' : 'side by side'}.${b.dates ? ' Each has a date line under it.' : ''}${b.lines === 'one' ? ' One caption line under the strip.' : ''}`;
+  } else if (b.type === 'contactsheet') {
+    marks += p.frames.map((f) => under(f, ' sp', `<b>${f.n}</b>${b.pick ? '<span class="pjk"></span>' : ''}`)).join('');
+    head = `${lbl('contactsheet', b.title || 'Contact sheet')}<span class="pjs">${p.n} frames · ${st}</span>`;
+    lines = b.lines === 'one' ? line('The one I picked, and why') : '';
+    alt = `${b.title || 'Contact sheet'}: ${p.n} numbered frames of ${st}.${b.pick ? ' Each has a tick box to pick the one to keep.' : ''}${b.lines === 'one' ? ' One caption line: the one I picked and why.' : ''}`;
+  } else { // photodaily
+    const today = +(date.slice(8, 10) || 0), mo = date ? `${MON3[+date.slice(5, 7) - 1]} ${date.slice(0, 4)}` : '';
+    marks += p.frames.map((f) => under(f, f.n === today ? ' td' : '', `<b>${f.n}</b>`)).join('');
+    head = `${lbl('photodaily', b.title || 'Photo a day')}<span class="pjs">${mo ? mo + ' · ' : ''}${st}</span>`;
+    lines = x.note ? `<div class="hrw"><span class="cap">A day starts at ${clock12(dayStart)}</span></div>` : '';
+    alt = `${b.title || 'Photo a day'}: ${p.n} small frames of ${st}, one for each day${mo ? ' of ' + mo : ''}, numbered by date.${x.note ? ` A day starts at ${clock12(dayStart)}: a photo taken before then goes in the day before.` : ''}`;
+  }
+  return `<div class="pjb" ${Z} role="group" aria-label="${escA(alt)}"><div class="pjh">${head}</div><div class="pjw" style="width:${inch(p.areaW)};height:${inch(p.areaH)};${vars}">${marks}</div>${lines}</div>`;
+}
+
+// ---------- notes, flash cards and stimming (noteblocks.mjs): the drawn blocks ----------
+// Every block is fixed rows: a row's height is its pitch, so the plan in noteblocks.mjs is the height. Rules are the page's ordinary
+// rulings (.ru: vector in print), boxes are 1.1 px borders, the fold line and the tracing patterns are SVG (strokes of 1 px = 0.75 pt or more).
+// Classes are nbk-, flx- and stm- and nothing else on the page uses those names (test-noteblocks.mjs).
+const nbHead = (icon, title, cap = '') => (title || cap ? `<div class="nbk-h">${title ? lbl(icon, title) : ''}${cap ? `<span class="nbk-c">${esc(cap)}</span>` : ''}</div>` : '');
+const nbBox = (n = 1) => '<i class="nbk-bx"></i>'.repeat(n);
+const nbBubs = (n = 5) => `<span class="stm-bb">${bubs(n)}</span>`;
+const nbIn = (v) => `${+v.toFixed(4)}in`;
+const nbPaper = (b, n) => (b.paper === 'blank' ? `<span class="blk nbk-bl" style="height:${nbIn(n * NOTE_PITCH[b.pitch])}"></span>` : ruled(n, PAPER_CLS[b.paper] || '', b.pitch));
+const NB_PROMPT_TEXT = { one: 'In one sentence', own: 'In my own words', friend: 'What I would tell a friend', main: 'The main idea' };
+const nbPlural = (n, one, many = one + 's') => `${n} ${n === 1 ? one : many}`;
+function noteHtml(b, Z, opt) {
+  const size = opt.size === 'letter' ? 'letter' : 'small', cols = opt.cols || GRIDS.day.cols, p = notePlan(b, size, cols), row = NOTE_PITCH[b.pitch] || 0.22;
+  const wrap = (cls, alt, inner) => `<div class="xb ${cls}" ${Z} role="group" aria-label="${escA(alt)}">${inner}</div>`;
+  switch (b.type) {
+    case 'cornell': {
+      const top = b.head ? `<div class="hrw">${lbl('', 'Topic')}${ruled(1)}${lbl('', 'Date')}${ruled(1, 'nbk-d')}</div>` : '';
+      const cg = `<div class="nbk-cg" aria-hidden="true" style="grid-template-columns:${b.cue}% 1fr;height:${nbIn(b.n * row)}"><div class="nbk-cu"></div><div class="nbk-no">${ruled(b.n, PAPER_CLS[b.paper] || '', b.pitch)}</div></div>`;
+      const heads = `<div class="nbk-cg nbk-ch" aria-hidden="true" style="grid-template-columns:${b.cue}% 1fr"><div>${lbl('', 'Cues')}</div><div>${lbl('', 'Notes')}</div></div>`;
+      const sum = `<div class="nbk-su" aria-hidden="true"><div class="nbk-sl">${lbl('', 'Summary')}</div>${ruled(b.s, '', b.pitch)}</div>`;
+      return wrap('nbk-cn', `${b.title || 'Cornell notes'}: ${b.head ? 'a line for the topic and the date, ' : ''}a cue column on the left, ${nbPlural(b.n, 'ruled row')} of notes on the right, and a summary strip of ${nbPlural(b.s, 'line')} at the bottom.`, `${nbHead('cornell', b.title)}${top}${heads}${cg}${sum}`);
+    }
+    case 'notearea': {
+      const first = b.title !== '' || b.topic || b.date;
+      const top = first ? `<div class="hrw">${b.title ? lbl('notearea', b.title) : ''}${b.topic ? `${lbl('', 'Topic')}${ruled(1)}` : ''}${b.date ? `${lbl('', 'Date')}${ruled(1, b.topic ? 'nbk-d' : '')}` : ''}${!b.topic && !b.date ? ruled(1) : ''}</div>` : '';
+      const src = b.source ? `<div class="hrw">${lbl('', 'Source')}${ruled(1)}</div>` : '';
+      const kind = { lines: 'ruled', dots: 'dot grid', grid: '4 mm grid', blank: 'blank' }[b.paper];
+      return wrap('nbk-na', `${b.title || 'Note area'}: ${[b.topic && 'a topic line', b.date && 'a date line', b.source && 'a source line'].filter(Boolean).join(', ') || 'no header lines'}, then ${nbPlural(b.n, 'row')} of ${kind} paper to write on.`, `${top}${src}${nbPaper(b, b.n)}`);
+    }
+    case 'conceptmap': {
+      const W = p.avail - 0.01, H = b.h / 10, mp = mapPlan(b.branches, W, H), px = (v) => +(v * 96).toFixed(2);
+      const ell = (e, w = 1.1) => `<ellipse cx="${px(e.cx)}" cy="${px(e.cy)}" rx="${px(e.rx)}" ry="${px(e.ry)}" stroke-width="${w}"/>`;
+      const svg = `<svg class="nbk-cm" width="${nbIn(W)}" height="${nbIn(H)}" viewBox="0 0 ${px(W)} ${px(H)}" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true">${ell(mp.centre, 1.5)}${mp.nodes.map((e) => ell(e)).join('')}<path stroke-width="1.1" d="${mp.links.map((l) => `M${px(l.x1)} ${px(l.y1)}L${px(l.x2)} ${px(l.y2)}`).join('')}"/></svg>`;
+      return wrap('nbk-mp', `${b.title || 'Concept map'}: a centre bubble with ${nbPlural(b.branches, 'branch', 'branches')} round it, each ending in a bubble to fill in.`, `${nbHead('conceptmap', b.title)}${svg}`);
+    }
+    case 'questions': {
+      const rows = Array.from({ length: b.n }, (_, i) => `<div class="${b.answers ? 'nbk-p' : 'nbk-pn'}"><div class="nbk-q"><span class="nbk-n">${i + 1}</span>${ruled(1, '', b.pitch)}${b.tick ? nbBox() : ''}</div>${b.answers ? `<div class="nbk-q"><span class="nbk-n"></span>${ruled(1, '', b.pitch)}</div>` : ''}</div>`).join('');
+      return wrap('nbk-qs', `${b.title || 'Questions'}: ${nbPlural(b.n, 'numbered question line')}${b.answers ? ', each with an answer line under it' : ''}${b.tick ? ' and a box to tick when it is answered' : ''}.`, `${nbHead('questions', b.title)}${rows}`);
+    }
+    case 'summarybox': {
+      const pr = NB_PROMPT_TEXT[b.prompt] || '';
+      return wrap('nbk-sb', `${b.title || 'Summary'}: a framed box with ${nbPlural(b.n, 'line')} to say it back in your own words${pr ? `. Prompt: ${pr.toLowerCase()}` : ''}.`, `<div class="nbk-bxf"><div class="nbk-h">${lbl('summarybox', b.title || 'Summary')}${pr ? `<span class="nbk-c">${pr}</span>` : ''}</div>${ruled(b.n, '', b.pitch)}</div>`);
+    }
+    case 'flashstrip': {
+      const left = b.answer === 'left' || (b.answer === 'auto' && PAGE_SIDE === 'verso'), at = left ? 100 - b.split : b.split, tpl = left ? `${100 - b.split}% ${b.split}%` : `${b.split}% ${100 - b.split}%`;
+      const tick = b.reviews ? `<span class="flx-k">${nbBox(b.reviews)}</span>` : '', pair = b.gotit ? `<span class="flx-g">${ic('well', 'Got it')}${nbBox()}${ic('again', 'Again')}${nbBox()}</span>` : '';
+      const term = (i) => `<div class="flx-t">${b.num ? `<span class="nbk-n">${i + 1}</span>` : ''}${ruled(1, '', b.pitch)}${tick}${pair}</div>`, ans = `<div class="flx-a">${ruled(1, '', b.pitch)}</div>`;
+      const rows = Array.from({ length: b.n }, (_, i) => `<div class="flx-r" style="grid-template-columns:${tpl};height:${nbIn(row)}">${left ? ans + term(i) : term(i) + ans}</div>`).join('');
+      const th = `<div class="flx-th">${lbl('flashstrip', b.title || 'Flash cards')}</div>`, ah = `<div class="flx-ah${left ? ' l' : ''}">${b.hint ? `${ic('fold', 'Fold')}<span>fold here</span>` : ''}</div>`;
+      const H = b.n * row, fold = `<svg class="flx-f" style="left:${at}%" width="3" height="${+(H * 96).toFixed(2)}" viewBox="0 0 3 ${+(H * 96).toFixed(2)}" aria-hidden="true"><line x1="1.5" y1="0" x2="1.5" y2="${+(H * 96).toFixed(2)}" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3"/></svg>`;
+      const strip = wrap('flx-fs', `${b.title || 'Flash cards'}: ${nbPlural(b.n, 'fold-over card')}. ${left ? 'Answers on the left, terms on the right: fold the left edge of the page along the dashed line to hide the answers.' : 'Terms on the left, answers on the right: fold the right edge of the page along the dashed line to hide the answers.'}${b.reviews ? ` Each card has ${nbPlural(b.reviews, 'tick box', 'tick boxes')} to count reviews.` : ''}${b.gotit ? ' Each card has a got it box and an again box.' : ''} Nothing is cut out.`,
+        `<div class="flx-hd" aria-hidden="true" style="grid-template-columns:${tpl}">${left ? ah + th : th + ah}</div><div class="flx-rw" aria-hidden="true">${rows}${fold}</div>`);
+      return b.answer === 'auto' ? strip.replace(' role="group"', ' data-flx="auto" role="group"') : strip;
+    }
+    case 'reviewtracker': {
+      const ks = reviewSteps(b), tpl = `1fr ${b.date ? '0.5in ' : ''}repeat(${ks.length}, 0.3in)`;
+      const head = `<div class="flx-rh" aria-hidden="true" style="grid-template-columns:${tpl}"><div>${lbl('reviewtracker', b.title || 'Reviews')}</div>${b.date ? '<span class="flx-l">date</span>' : ''}${ks.map((k) => `<span class="flx-l">${REVIEW_DAYS[k]}d</span>`).join('')}</div>`;
+      const rows = Array.from({ length: b.n }, () => `<div class="flx-rv" style="grid-template-columns:${tpl};height:${nbIn(row)}">${ruled(1, '', b.pitch)}${b.date ? ruled(1, '', b.pitch) : ''}${ks.map(() => `<span class="flx-c">${nbBox()}</span>`).join('')}</div>`).join('');
+      return wrap('flx-rt', `${b.title || 'Reviews'}: ${nbPlural(b.n, 'topic line')}${b.date ? ', each with a learned-on date' : ''} and a tick box for a review after ${ks.map((k) => nbPlural(REVIEW_DAYS[k], 'day')).join(', ')}. A starting rhythm to change as you like.`, `${head}<div aria-hidden="true">${rows}</div>`);
+    }
+    case 'stimlog': {
+      const k = (t) => `<span class="stm-k">${t}</span>`;
+      const entry = `<div class="stm-e"><div class="stm-r" style="height:${nbIn(row)}">${k('when')}${ruled(1, 'stm-s', b.pitch)}${k('felt good')}${ruled(1, '', b.pitch)}${b.size ? nbBubs() : ''}</div>${b.where || b.ba ? `<div class="stm-r" style="height:${nbIn(row)}">${b.where ? `${k('where / helped')}${ruled(1, '', b.pitch)}` : ''}${b.ba ? `${k('before')}${nbBubs()}${k('after')}${nbBubs()}` : ''}</div>` : ''}</div>`;
+      return wrap('stm-l', `${b.title || 'Stim log'}: ${nbPlural(b.n, 'entry', 'entries')}, each with a time, what felt good${b.where ? ', where it was and what helped' : ''}${b.ba ? ', and how settled I felt before and after, from 1 unsettled to 5 settled' : ''}${b.size ? ', and how much, from 1 to 5' : ''}. Stimming is self-regulation: nothing here is judged.`,
+        `${nbHead('stimlog', b.title)}${b.note ? '<div class="stm-nt">Stimming is self-regulation.</div>' : ''}${Array(b.n).fill(entry).join('')}`);
+    }
+    case 'stimmenu': {
+      const senses = stimSenses(b), icn = { touch: 'sense_touch', move: 'sense_move', sound: 'ear', sight: 'sense_sight', chew: 'sense_chew', press: 'sense_press' };
+      const grp = (s) => `<div class="stm-s"><div class="stm-sh">${ic(icn[s], STIM_SENSES[s])}<span>${STIM_SENSES[s]}</span></div>${Array.from({ length: b.rows }, (_, i) => { const e = b.examples && STIM_EXAMPLES[s][i]; return `<div class="stm-q" style="height:${nbIn(row)}">${nbBox()}${e ? `<span class="stm-w">${ruled(1, '', b.pitch)}<span class="stm-x">${e}</span></span>` : ruled(1, '', b.pitch)}</div>`; }).join('')}</div>`;
+      const ideas = b.ideas ? `<div class="stm-id">${Array.from({ length: b.ideas }, (_, i) => `<div class="stm-q" style="height:${nbIn(row)}">${ic('idea', 'New stim idea')}${i ? '' : '<span class="stm-k">new stim idea</span>'}${ruled(1, '', b.pitch)}</div>`).join('')}</div>` : '';
+      return wrap('stm-m', `${b.title || 'Stim menu'}: ${senses.map((s) => STIM_SENSES[s].toLowerCase()).join(', ')}, with ${nbPlural(b.rows, 'box and line', 'boxes and lines')} each for my favourite stims and tools${b.examples ? ', a few examples printed lightly in the lines' : ''}${b.ideas ? `, and ${nbPlural(b.ideas, 'row')} for new stim ideas` : ''}. My stims are valid.`,
+        `${nbHead('stimmenu', b.title)}${b.note ? '<div class="stm-nt">My stims are valid.</div>' : ''}<div class="stm-g">${senses.map(grp).join('')}</div>${ideas}`);
+    }
+    case 'stimtrace': {
+      const W = p.avail - (b.frame ? 0.05 : 0.01), H = b.h / 10 - (b.frame ? 0.03 : 0), px = (v) => +(v * 96).toFixed(2);
+      const paths = tracePaths(b.pattern, b.size, W, H);
+      const svg = `<svg class="nbk-tr" width="${nbIn(W)}" height="${nbIn(H)}" viewBox="0 0 ${px(W)} ${px(H)}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths.map((d) => `<path d="${d}"/>`).join('')}</svg>`;
+      const name = (TRACE_PATTERNS.find(([k]) => k === b.pattern) || [0, b.pattern])[1].toLowerCase(), sz = (TRACE_SIZES.find(([k]) => k === b.size) || [0, b.size])[1].toLowerCase();
+      return wrap('nbk-tc', `${b.title || 'Pattern to trace'}: ${name}, ${sz}. Trace slowly with a pen or a finger, for as long as it feels good. A quiet stim.`, `${nbHead('stimtrace', b.title, 'trace slowly')}<div class="nbk-tf${b.frame ? ' fr' : ''}" style="height:${nbIn(b.h / 10)}">${svg}</div>`);
+    }
+  }
+  return '';
+}
+
+// parts: pre-built, data-driven strings from render.mjs: header, sky, notes, events, fact ('' when none), routines [].
+// opt.tag (editor only): mark each block's outer element with data-b="<uid>" so the preview can be dragged.
+// Which side of the book the page being drawn is on. A flash strip whose answers are on "the outer edge" (answer: 'auto') folds on the
+// right edge of a right-hand page and the left edge of a left-hand one, so the fold is always on the edge you can reach. The book builder
+// (book.mjs assemble) draws each page inside withPageSide(), because only it knows the final page order; everywhere else (the editor, a
+// single page) a page is drawn as a right-hand page.
+let PAGE_SIDE = 'recto';
+export const withPageSide = (side, fn) => { const was = PAGE_SIDE; PAGE_SIDE = side === 'verso' ? 'verso' : 'recto'; try { return fn(); } finally { PAGE_SIDE = was; } };
+export function dayBlocks(parts, layout, opt = {}) {
+  const L = normalize(layout, opt.size, opt.kind);
+  if (L.grid) return gridBlocks(parts, L, opt);
+  const on = L.blocks.filter((b) => b.on);
+  const count = {}, out = [];
+  const push = (b, h) => { if (h && b.roomy) h = h.replace(/class="xb( |")/, 'class="xb rm$1'); if (h) out.push(opt.tag ? h.replace(/^<div/, `<div data-b="${b.uid}"`) : h); };
+  for (let i = 0; i < on.length; i++) {
+    const b = on[i];
+    count[b.type] = (count[b.type] || 0) + 1;
+    const zone = count[b.type] > 1 ? `${b.type}_${count[b.type]}` : b.type;
+    if (b.type === 'care') {
+      const sp = on[i + 1] && on[i + 1].type === 'spoons' ? on[++i] : null; // spoons right after care share its box
+      push(b, careBox(b, on, sp));
+      continue;
+    }
+    if (isPhoto(b) && !opt.tag) { const f = photoFit(b, GRIDS.day.cols, undefined, opt.size === 'letter' ? 'letter' : 'small', photoX(b), blockName(b)); if (f) throw new Error(`The day page layout cannot be printed:\n - ${f.msg}`); }
+    if (isNote(b) && !opt.tag) { const f = noteFit(b, GRIDS.day.cols, undefined, opt.size === 'letter' ? 'letter' : 'small', blockName(b)); if (f) throw new Error(`The day page layout cannot be printed:\n - ${f.msg}`); }
+    push(b, renderBlock(b, parts, zone, opt));
+  }
+  return `<div class="day full">\n    ${parts.header}\n    ${out.join('\n    ')}\n  </div>`;
+}
+// The care check-in box (rows in two columns, the X4 line, and the spoons row when it rides along); '' when nothing is on.
+function careBox(b, on, sp) {
+  const rowH = b.rows.filter((r) => r.on).map(careRow).filter(Boolean);
+  const note = x4Note(b, on.some((x) => x.type === 'spoons')); // a spoons block anywhere on the page counts
+  // The X4 line takes the last free cell of the two-column grid; on an even row count it spans the width.
+  const grid = rowH.join('') + (note ? note.replace('class="x4n"', `class="x4n${rowH.length % 2 ? '' : ' wide'}"`) : '');
+  return grid || sp ? `<div class="care" data-zone="care">${grid ? `<div class="cg2">${grid}</div>` : ''}${sp ? spoonRow(sp) : ''}</div>` : '';
+}
+
+// Grid layout: the same block HTML, each block in one cell (.gc) that spans its grid rectangle. The cell carries the block's single
+// data-zone (its rectangle is the scan zone: the zone name of the block's first element moves to the cell) and, in the editor, data-b.
+// Blocks with room to spare (Lined notes, Two columns, Sketch box, Brain dump, Writing space) fill their cell: extra rows become lines.
+// A grid layout that breaks a rule cannot print: the build stops and says why (the editor passes opt.tag and shows the problems instead).
+const FILLS = new Set(['body', 'lines', 'split', 'sketch', 'dump', 'notearea']);
+function gridBlocks(parts, L, opt) {
+  const size = opt.size === 'letter' ? 'letter' : 'small', probs = gridProblems(L, size);
+  // opt.lenient (the page organiser's thumbnails and page counts): a photo frame that only fits the other trim is drawn anyway; the print build never sets it
+  if (probs.length && !opt.tag && !(opt.lenient && probs.every((x) => /^(photo|note)/.test(x.code)))) throw new Error(`The ${PAGE_KINDS[pageKind(L.kind)].name.toLowerCase()} grid layout cannot be printed:\n - ` + probs.map((x) => x.msg).join('\n - '));
+  const on = L.blocks.filter((b) => b.on), count = {}, seen = {}, out = [];
+  for (const b of on) {
+    count[b.type] = (count[b.type] || 0) + 1;
+    let h = b.type === 'care' ? careBox(b, on, null) : renderBlock(b, parts, count[b.type] > 1 ? `${b.type}_${count[b.type]}` : b.type, { ...opt, size, cols: b.colSpan });
+    if (!h) continue; // data-driven blocks (holidays, events, the fact) leave their cell empty on days without one
+    if (b.roomy) h = h.replace(/class="xb( |")/, 'class="xb rm$1');
+    const m = /data-zone="([^"]+)"/.exec(h);
+    let zone = m ? m[1] : b.type;
+    if (m) h = h.replace(` data-zone="${zone}"`, '');
+    seen[zone] = (seen[zone] || 0) + 1; if (seen[zone] > 1) zone += `_${seen[zone]}`;
+    out.push(`<div class="gc${FILLS.has(b.type) ? ' fill' : ''}" data-zone="${zone}"${opt.tag ? ` data-b="${b.uid}"` : ''} style="grid-column:${b.col}/span ${b.colSpan};grid-row:${b.row}/span ${b.rowSpan}">${h}</div>`);
+  }
+  return `<div class="day full gm">\n    ${parts.header}\n    <div class="gg" style="--gr:${gridRows(size, L.kind)}">\n    ${out.join('\n    ')}\n    </div>\n  </div>`;
+}
+
+// Extra CSS the blocks need (appended to the page CSS).
+export const DAYPAGE_CSS = PZ_CSS + PZX_CSS + CH_CSS + `
+.rev .zl { display: flex; align-items: center; gap: 3px; } .rev .zl i { font-style: normal; font-size: 6.5pt; letter-spacing: 0.4px; white-space: nowrap; }
+.cbi { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; padding: 3px 0 4px; font-size: 7.5pt; line-height: 1.2; border-bottom: 1px solid #DCDCDC; }
+.ci { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; } .ci i { width: 10px; height: 10px; border: 1.2px solid #000; flex: none; } .ci span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .cbi .more { font-style: italic; color: #444; }
+.rev.c2 { grid-template-columns: 1fr 1fr; } .rev.c1 { grid-template-columns: 1fr; }
+.x4n { display: flex; align-items: center; gap: 4px; height: 0.23in; font: 500 6.2pt Inter, sans-serif; color: #555; white-space: nowrap; } .x4n.wide { grid-column: 1 / -1; } .x4n .ic { width: 10px; height: 10px; margin-right: 1px; }
+.care.solo { padding: 3px 0; } .care.solo .cr.sp { margin-top: 0; }
+.plain.log { border-top: 1px solid #bbb; }
+/* ruling backgrounds (.ruled/.ru/.pd/.pg/.grid) are for the screen; print redraws them as vectors: drawRulings() in render.mjs, keep its SPECS in sync */
+.ruled.log { background: repeating-linear-gradient(to bottom, transparent 0 calc(0.26in - 1pt), #a0a0a0 calc(0.26in - 1pt) 0.26in); }
+.grat { display: grid; grid-template-columns: auto 1fr; gap: 6px; align-items: start; border-top: 1px solid #9a9a9a; padding-top: 2px; margin-top: 2px; } .grat span { height: 0.62in; }
+.care [data-zone="water"] { gap: 3px; }
+.xb { border-top: 1px solid #bbb; padding: 2px 0 1px; margin-top: 2px; font-size: 7pt; flex: none; }
+.xrow { display: flex; align-items: center; gap: 5px; min-height: 0.2in; } .xrow.wr { flex-wrap: wrap; row-gap: 2px; }
+.xl { display: inline-flex; align-items: center; gap: 3px; font: 700 6.6pt Inter, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; color: #333; margin-right: 2px; white-space: nowrap; }
+.xb > .xl { display: flex; } .xrow > .xl { display: inline-flex; }
+.xl .ic { width: 11px; height: 11px; }
+.xb .ck { gap: 2px; font-size: 7pt; } .xb .ck .t { margin-right: 3px; }
+.bub.n { flex-direction: column; align-items: center; } .bub.n:nth-child(5) i { border-width: 1px; } .bub.n.mid i { border-width: 1.6px; } .bub.n em { font: normal 500 6.3pt/1 Inter, sans-serif; color: #222; margin-top: 1px; min-width: 12px; text-align: center; }
+.xb .w { padding: 0 4px; } .xb .sn { display: inline-flex; align-items: center; gap: 2px; margin-right: 4px; } .xb .sn .bub i { width: 7px; height: 7px; }
+.xb .f { display: inline-flex; align-items: baseline; gap: 2px; white-space: nowrap; } .xb .blank { height: 8px; }
+.xb .cir { display: inline-flex; width: 15px; height: 15px; align-items: center; justify-content: center; } .xb .cir .ic { width: 11px; height: 11px; }
+.ru { display: block; background: repeating-linear-gradient(to bottom, transparent 0 calc(0.22in - 1pt), #a0a0a0 calc(0.22in - 1pt) 0.22in); }
+.xsplit { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.xb .num { display: grid; grid-template-columns: 10px 1fr; align-items: end; font-weight: 600; } .xb .num span:first-child { padding-bottom: 2px; }
+.sk-box { border: 1px solid #999; border-radius: 2px; margin-top: 2px; }
+.xtl { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; } .xtl > div { display: grid; grid-template-columns: 0.26in 1fr; align-items: end; } .xtl .hr { font: 500 6.5pt Inter, sans-serif; color: #444; padding-bottom: 2px; }
+.xmoney { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 3px; padding-top: 2px; } .xmoney .f { display: flex; } .xmoney .blank.long { flex: 1; }
+.bmk { width: 8px; height: 8px; flex: none; } .mkey { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font: 500 6pt Inter, sans-serif; color: #555; white-space: nowrap; } .mkey > span { display: inline-flex; align-items: center; gap: 2px; }
+.xbul .bl { display: grid; grid-template-columns: 9px 1fr; align-items: end; } .xbul .bl span { height: 0.22in; border-bottom: 1px solid #a0a0a0; } .xbul .bl i { width: 3px; height: 3px; border-radius: 50%; background: #999; margin-bottom: 4px; }
+.xhab .hd { display: inline-flex; align-items: center; gap: 3px; margin-right: 5px; font: 500 7pt Inter, sans-serif; white-space: nowrap; } .xhab .hd i { width: 10px; height: 10px; border: 1.1px solid #000; border-radius: 50%; }
+.xdiv { border-top: 1px solid #777; margin: 4px 0 2px; flex: none; } .xsp { flex: none; }
+/* paper: a quiet 4 mm dashed grid (Hobonichi style), lighter than the dot grid; dots on the ruling's baselines */
+.grid.log, .ru.pg { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4mm' height='4mm' viewBox='0 0 40 40'%3E%3Cpath d='M0 1.3H40M1.3 0V40' stroke='%23c8c8c8' stroke-width='2.65' stroke-dasharray='6 4' fill='none'/%3E%3C/svg%3E"); background-size: 4mm 4mm; }
+.ru.pd { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Ccircle cx='11' cy='11' r='1.4' fill='%23808080'/%3E%3C/svg%3E"); background-size: 0.22in 0.22in; background-position: 0 0.09in; }
+/* Tier 1 options (see journal/README.md, "Day page presets and options"): every one is off by default and adds nothing to today's page */
+.ru.p26:not(.pg):not(.pd) { background: repeating-linear-gradient(to bottom, transparent 0 calc(0.26in - 1pt), #a0a0a0 calc(0.26in - 1pt) 0.26in); }
+.ru.p33:not(.pg):not(.pd) { background: repeating-linear-gradient(to bottom, transparent 0 calc(0.335in - 1pt), #a0a0a0 calc(0.335in - 1pt) 0.335in); }
+.ru.pd.p26 { background-size: 0.26in 0.26in; background-position: 0 0.106in; }
+.ru.pd.p33 { background-size: 0.335in 0.335in; background-position: 0 0.137in; }
+.ruled.log.bold { background: repeating-linear-gradient(to bottom, transparent 0 calc(0.5625in - 1.5pt), #000 calc(0.5625in - 1.5pt) 0.5625in); }
+.grid.g37.log { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='3.7mm' height='3.7mm' viewBox='0 0 40 40'%3E%3Cpath d='M0 1.3H40M1.3 0V40' stroke='%23c8c8c8' stroke-width='2.65' stroke-dasharray='6 4' fill='none'/%3E%3C/svg%3E"); background-size: 3.7mm 3.7mm; }
+.log.sl { position: relative; } .log.sl::before { content: ''; position: absolute; left: 0.9in; top: 0; bottom: 0; width: 1pt; background: #c0c0c0; }
+.grat .gbs { display: grid; } .grat .gb { display: grid; grid-template-columns: 1.3fr auto 1fr; gap: 5px; align-items: end; } .grat .gb span { height: 0.22in; } .grat .gb i { font: 500 6.5pt Inter, sans-serif; font-style: normal; color: #555; padding-bottom: 2px; }
+.xb .num.te { column-gap: 4px; align-items: end; } .xb .tc { font: 600 5.5pt Inter, sans-serif; text-transform: uppercase; letter-spacing: 0.4px; color: #555; text-align: center; padding: 0 0 1px; white-space: nowrap; }
+.xb .tck { display: flex; justify-content: center; padding: 0 0 3px; } .xb .tck i { width: 9px; height: 9px; border: 1.1px solid #000; display: block; }
+.sk-box.tp { position: relative; } .tm { position: absolute; width: 9px; height: 9px; border: 0 solid #555; } .tm.a { left: 5px; top: 5px; border-top-width: 1px; border-left-width: 1px; } .tm.b { right: 5px; top: 5px; border-top-width: 1px; border-right-width: 1px; } .tm.c { left: 5px; bottom: 5px; border-bottom-width: 1px; border-left-width: 1px; } .tm.d { right: 5px; bottom: 5px; border-bottom-width: 1px; border-right-width: 1px; }
+.xb .cap { font: italic 500 6.5pt Inter, sans-serif; color: #666; }
+.xdi { display: flex; align-items: center; gap: 6px; border-top: 0; } .xdi i { flex: 1; border-top: 1px solid #777; } .xdi .ic { width: 11px; height: 11px; color: #555; flex: none; }
+.xtc > div, .xtc .xth { grid-template-columns: 0.26in repeat(var(--tc), 1fr); column-gap: 3px; } .xtc .xth { display: grid; font: 600 5.5pt Inter, sans-serif; text-transform: uppercase; letter-spacing: 0.4px; color: #555; text-align: center; } .xtc.w1 { grid-template-columns: 1fr; }
+.xb.omr { gap: 8px; } .xb.omr .bub i { width: 12px; height: 12px; border-width: 1.3px; } .xb.omr .ck i { width: 12px; height: 12px; border-width: 1.3px; } .xb.omr .ck .t { margin-right: 4px; }
+/* top priorities: time circles at the line's end, each = 15 min (estimate, then fill) */
+.xb .num.tb { grid-template-columns: 10px 1fr auto; } .xb .tbub { display: inline-flex; gap: 2px; padding: 0 0 2px 4px; } .xb .tbub .bub i { width: 7px; height: 7px; border-width: 0.8px; }
+
+/* Roomy spacing (option on single-row blocks): more height per row, nothing else changes */
+.xb.rm { padding: 6px 0 5px; } .xb.rm.xrow, .xb.rm .xrow { min-height: 0.34in; gap: 10px; } .xb.rm.xrow.wr, .xb.rm .xrow.wr { row-gap: 7px; } .xb.rm .xmoney { row-gap: 9px; }
+/* Tier 2 blocks: palette-only, so none of this touches today's page */
+.xtl24 .tlr { display: grid; grid-template-columns: 0.42in repeat(24, 1fr); align-items: stretch; } .xtl24 .tlr > i { height: var(--th, 0.18in); border-left: 1px solid #888; border-bottom: 1px solid #888; border-top: 1px solid #888; } .xtl24 .tlr > i:last-child { border-right: 1px solid #888; } .xtl24 .tlr > i.nt { background: #d4d4d4; }
+.xtl24 .tln { font: 500 5.5pt Inter, sans-serif; text-transform: uppercase; letter-spacing: 0.4px; color: #555; align-self: center; } .xtl24 .tln .ic { width: 10px; height: 10px; } .xtl24 .th span { font: 500 5.6pt Inter, sans-serif; color: #444; white-space: nowrap; overflow: visible; height: 0.12in; }
+.dbox { border: 1px solid #999; border-radius: 2px; margin-top: 2px; padding: 0 3px; position: relative; } .dbox .ru { margin: 0; } .blk { display: block; } .dbl { position: absolute; left: 3px; top: 3px; background: #fff; padding: 0 3px; z-index: 1; } .dbl .xl { margin: 0; }
+.hrw { display: flex; align-items: flex-end; gap: 4px; min-height: 0.22in; } .hrw > .ru { flex: 1; min-width: 0.4in; } .hrw > .xl { align-self: center; } .hrw .ck { align-self: center; } .hrw .cap { align-self: center; white-space: nowrap; } .hrw .ic { align-self: center; }
+.xbul .bl .bmk { margin-bottom: 3px; } .xbul.dn .bl i.bx { width: 8px; height: 8px; border: 1.1px solid #000; border-radius: 0; background: none; margin-bottom: 3px; }
+.xwall .wl { font: 500 6pt Inter, sans-serif; color: #555; letter-spacing: 0.3px; display: inline-flex; align-items: center; gap: 3px; } .xwall .w { border: 1px solid #999; border-radius: 999px; padding: 0 5px; }
+.xst .str { display: grid; grid-template-columns: 0.5in 1fr; align-items: end; } .xst .tsc { font: 500 6.5pt Inter, sans-serif; color: #777; padding-bottom: 2px; letter-spacing: 0.3px; display: inline-flex; align-items: center; gap: 3px; } .xst .tsc .ic { width: 10px; height: 10px; color: #333; } .xst .tsc .sp { width: 10px; height: 10px; }
+.xrd { display: grid; grid-template-columns: var(--rc); column-gap: 4px; align-items: end; } .xrd .rr { display: contents; } .xrd .rn { font-weight: 600; padding-bottom: 2px; justify-self: start; } .xrd .rbx { display: inline-flex; align-items: center; gap: 3px; padding-bottom: 3px; } .xrd .rbx i { width: 9px; height: 9px; border: 1.1px solid #000; display: block; } .xrd .rbx .cap { margin-left: 2px; white-space: nowrap; }
+.xrd .rty { display: inline-flex; gap: 4px; padding-bottom: 1px; } .xrd .rty span { width: 0.3in; height: 0.17in; border-bottom: 1px solid #a0a0a0; display: inline-flex; align-items: flex-end; color: #666; }
+.rgt { margin-left: auto; } .xb .f.rgt { margin-left: auto; } .xb .f .ic { width: 10px; height: 10px; align-self: center; }
+.wsk { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 2px; } .wsc { border: 1px solid #999; border-radius: 2px; padding: 1px 3px; display: flex; justify-content: space-between; align-items: flex-start; font: 500 6pt Inter, sans-serif; color: #444; } .wsc b { font-weight: 600; letter-spacing: 0.4px; } .wsc i { font-style: normal; font-weight: 700; color: #000; } .wsc.td { border: 1.8px solid #000; padding: 0 2px; }
+.pq { font: italic 500 7.5pt/1.2 Inter, sans-serif; color: #222; align-self: center; }
+.xpx { gap: 4px; } .xpx .pxb { width: 0.3in; height: 0.3in; border: 1.4px solid #000; border-radius: 2px; margin-right: 4px; flex: none; } .xpx .pxc { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; } .xpx .pxs { width: 12px; height: 12px; display: block; } .xpx .pxc i { width: 8px; height: 8px; border: 1px solid #000; border-radius: 50%; display: block; }
+/* Tier 2 care blocks: therapy pack (feelings, skills, urge, thought record) and body (sites, body signals) */
+.tn { font: 500 6pt Inter, sans-serif; color: #555; margin-top: 2px; line-height: 1.2; } .tn b { font-weight: 700; color: #333; }
+.frs { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; } .fr { display: flex; align-items: center; gap: 3px; min-height: 0.2in; } .fr > span:first-child { flex: none; width: 0.62in; font: 500 7pt Inter, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.skey { font: 500 6pt Inter, sans-serif; color: #444; margin-top: 1px; line-height: 1.25; }
+.xrow.ur .ul { font: 600 7pt Inter, sans-serif; min-width: 0.5in; max-width: 0.9in; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .xrow.ur .ck { margin-left: auto; }
+.thr { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; column-gap: 8px; margin-top: 1px; } .thr > div { min-width: 0; } .thr i { display: block; font: 600 5.8pt Inter, sans-serif; font-style: normal; text-transform: uppercase; letter-spacing: 0.4px; color: #555; }
+/* Page grid (layout switch "Grid"; see GRIDS): 4 columns, rows 0.22 in high, one cell (.gc) per block. Nothing here touches the flow layout. */
+.day.gm .gg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(var(--gr), 0.22in); column-gap: 8px; height: calc(var(--gr) * 0.22in); flex: none; }
+.gc { min-width: 0; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+.day.full.gm .gc > * { margin-top: 0; }
+.day.full.gm .gc > .log { flex: 1; min-height: 0; }
+.gc.fill > .xb { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.gc.fill > .xb > .ru, .gc.fill .sk-box, .gc.fill .dbox > .ru, .gc.fill .dbox > .blk { flex: 1; min-height: 0; height: auto !important; }
+.gc.fill .dbox { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.gc.fill > .xb.xsplit { display: grid; grid-template-rows: minmax(0, 1fr); }
+.gc.fill .xsplit > div { display: flex; flex-direction: column; min-height: 0; } .gc.fill .xsplit > div > .ru { flex: 1; min-height: 0; height: auto !important; }
+/* Photo blocks (photo.mjs): frames for prints that are glued on. Marks are 1px = 0.75pt (the floor), drawn inside the print's edge so the print covers them. */
+.pjb { display: block; font: 500 7pt Inter, sans-serif; color: #333; }
+.pjh { display: flex; align-items: center; gap: 5px; height: 0.22in; overflow: hidden; white-space: nowrap; } .pjh > .xl { flex: 0 1 auto; min-width: 0; } .pjh > .xl > span { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.pjs { flex: none; font: 600 7pt Inter, sans-serif; color: #333; } .pjc { flex: 0 100 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; font: italic 500 6.5pt Inter, sans-serif; color: #666; margin-left: auto; }
+.pjw { position: relative; margin: 0 auto; } .pjf { position: absolute; }
+.pjm { position: absolute; display: block; width: var(--arm); height: var(--arm); border: 0 solid #8c8c8c; }
+.pjm.a { left: var(--ins); top: var(--ins); border-top-width: 1px; border-left-width: 1px; } .pjm.b { right: var(--ins); top: var(--ins); border-top-width: 1px; border-right-width: 1px; }
+.pjm.c { left: var(--ins); bottom: var(--ins); border-bottom-width: 1px; border-left-width: 1px; } .pjm.d { right: var(--ins); bottom: var(--ins); border-bottom-width: 1px; border-right-width: 1px; }
+.pjt { position: absolute; display: block; border: 0 solid #8c8c8c; } .pjt.v { width: 0; border-left-width: 1px; } .pjt.h { height: 0; border-top-width: 1px; }
+.pjd { position: absolute; display: flex; align-items: flex-end; gap: 3px; overflow: hidden; } .pjd b { font: 700 6pt/1 Inter, sans-serif; color: #555; flex: none; } .pjd i { flex: 1; min-width: 0; height: 0.12in; border-bottom: 1px solid #a0a0a0; }
+.pjd.sp { justify-content: space-between; align-items: center; } .pjd .pjk { flex: none; width: 0.1in; height: 0.1in; border: 1.1px solid #000; display: block; }
+.pjd.td b { color: #000; border-bottom: 1.4px solid #000; }
+.pjb .cap { font: italic 500 6.5pt Inter, sans-serif; color: #666; white-space: nowrap; }
+/* Notes, flash cards and stimming (noteblocks.mjs). Class names nbk-, flx- and stm- are used by these blocks alone. Every row has a fixed height (its pitch), so the block's height is its plan.
+   Rules are ordinary .ru rulings (vector in print); boxes are 1.1 px borders; the fold line and the tracing patterns are SVG strokes of 1 px = 0.75 pt or more. */
+.nbk-h { display: flex; align-items: center; gap: 5px; height: 0.22in; overflow: hidden; white-space: nowrap; } .nbk-h > .xl { flex: 0 1 auto; min-width: 0; } .nbk-h > .xl > span { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.nbk-c { flex: 0 100 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; font: italic 500 6.5pt Inter, sans-serif; color: #666; margin-left: auto; }
+.nbk-bx { flex: none; display: block; box-sizing: border-box; width: 10px; height: 10px; border: 1.1px solid #000; }
+.nbk-n { flex: none; width: 0.14in; font: 600 7pt Inter, sans-serif; align-self: flex-end; padding-bottom: 2px; }
+.hrw > .ru.nbk-d { flex: 0 0 0.8in; min-width: 0; }
+.nbk-cg { display: grid; } .nbk-ch { height: 0.2in; } .nbk-ch > div { display: flex; align-items: center; min-width: 0; overflow: hidden; } .nbk-ch > div:first-child, .nbk-cu { border-right: 1px solid #8c8c8c; } .nbk-no { min-width: 0; padding-left: 3px; } .nbk-no > .ru { margin: 0; }
+.nbk-su { margin-top: 0.03in; border-top: 1px solid #8c8c8c; } .nbk-sl { height: 0.2in; display: flex; align-items: center; overflow: hidden; }
+.nbk-q { display: flex; align-items: flex-end; gap: 4px; } .nbk-q > .ru { flex: 1; min-width: 0; } .nbk-q > .nbk-bx { margin-bottom: 0.06in; } .nbk-p { margin-bottom: 0.02in; }
+.nbk-bxf { margin-top: 0.03in; border: 1px solid #999; border-radius: 2px; padding: 0 4px; } .nbk-bxf > .ru { margin: 0; }
+.nbk-cm, .nbk-tr { display: block; margin: 0 auto; } .nbk-cm { color: #777; } .nbk-tr { color: #8c8c8c; }
+.nbk-tf { display: flex; align-items: center; justify-content: center; box-sizing: border-box; overflow: hidden; } .nbk-tf.fr { border: 1px solid #999; border-radius: 3px; }
+.gc.fill > .xb > .nbk-bl { flex: 1; min-height: 0; height: auto !important; }
+.flx-hd, .flx-rh { display: grid; height: 0.22in; align-items: center; overflow: hidden; } .flx-th { min-width: 0; padding: 0 0.025in; overflow: hidden; white-space: nowrap; } .flx-th > .xl { min-width: 0; max-width: 100%; } .flx-th > .xl > span { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.flx-ah { display: flex; align-items: center; gap: 3px; min-width: 0; padding: 0 0.025in; overflow: hidden; white-space: nowrap; font: italic 500 6.5pt Inter, sans-serif; color: #666; } .flx-ah.l { justify-content: flex-end; } .flx-ah .ic { width: 10px; height: 10px; flex: none; }
+.flx-rw { position: relative; } .flx-r { display: grid; } .flx-t, .flx-a { display: flex; align-items: flex-end; gap: 0.04in; min-width: 0; padding: 0 0.025in; } .flx-t > .ru, .flx-a > .ru { flex: 1; min-width: 0; }
+.flx-f { position: absolute; top: 0; margin-left: -1.5px; color: #8c8c8c; display: block; pointer-events: none; }
+.flx-k, .flx-g { flex: none; display: inline-flex; align-items: flex-end; margin-bottom: 0.07in; } .flx-k { gap: 0.034in; } .flx-g { gap: 0.02in; margin-left: 0.03in; } .flx-g .ic { width: 10px; height: 10px; align-self: flex-end; margin-bottom: -1px; }
+.flx-rh > div { min-width: 0; overflow: hidden; } .flx-l { text-align: center; font: 600 5.6pt Inter, sans-serif; text-transform: uppercase; letter-spacing: 0.3px; color: #555; white-space: nowrap; overflow: hidden; }
+.flx-rv { display: grid; } .flx-rv > .ru { min-width: 0; margin-right: 0.04in; } .flx-c { display: flex; align-items: flex-end; justify-content: center; padding-bottom: 0.06in; }
+.stm-nt { height: 0.2in; line-height: 0.2in; font: italic 500 6.5pt Inter, sans-serif; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stm-e { margin-bottom: 0.04in; } .stm-r { display: flex; align-items: flex-end; gap: 4px; } .stm-r > .ru { flex: 1; min-width: 0; } .stm-r > .ru.stm-s { flex: 0 0 0.5in; }
+.stm-k { flex: none; font: 600 6pt Inter, sans-serif; color: #555; padding-bottom: 3px; white-space: nowrap; }
+.stm-bb { flex: none; display: inline-flex; gap: 2px; padding-bottom: 0.06in; } .stm-bb .bub i { width: 7px; height: 7px; border-width: 1px; } .stm-bb .bub:nth-child(5) i { border-width: 1px; }
+.stm-g { display: grid; grid-template-columns: 1fr 1fr; column-gap: 0.12in; } .stm-s { min-width: 0; margin-bottom: 0.05in; }
+.stm-sh { height: 0.2in; display: flex; align-items: center; gap: 3px; font: 700 6.4pt Inter, sans-serif; text-transform: uppercase; letter-spacing: 0.4px; color: #333; white-space: nowrap; overflow: hidden; } .stm-sh .ic { width: 11px; height: 11px; flex: none; } .stm-sh > span { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.stm-w { position: relative; flex: 1; min-width: 0; display: flex; } .stm-w > .ru { flex: 1; min-width: 0; } .stm-x { position: absolute; left: 0.03in; right: 0.02in; bottom: 0.025in; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: italic 500 6.5pt Inter, sans-serif; color: #666; }
+.stm-q { display: flex; align-items: flex-end; gap: 4px; } .stm-q > .ru { flex: 1; min-width: 0; } .stm-q > .nbk-bx { margin-bottom: 0.06in; } .stm-q > .ic { width: 10px; height: 10px; margin-bottom: 0.06in; color: #555; } .stm-id { margin-top: 0.03in; }
+${SCAN_CSS}`;
