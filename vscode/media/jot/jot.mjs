@@ -10,7 +10,44 @@ const inlineMark = (name, ch) => { // a doubled mark: ==text==, ++text++
   return { name, level: 'inline', start: (src) => { const i = src.indexOf(ch + ch); return i < 0 ? undefined : i; },
     tokenizer(src) { const m = re.exec(src); if (m && !m[1].includes('\n\n')) return { type: name, raw: m[0], text: m[1], tokens: this.lexer.inlineTokens(m[1]) }; } };
 };
+// Readable inline presentation: [words]{ink=#rrggbb highlight=#rrggbb strike=#rrggbb underline=#rrggbb}.
+// Balanced brackets allow Markdown links and nested color spans. Only allowlisted six-digit hex values reach CSS.
+const colorSpan = { name: 'colorSpan', level: 'inline', start: (src) => {
+  const i = src.indexOf('['); return i < 0 ? undefined : i;
+}, tokenizer(src) {
+  if (src[0] !== '[') return;
+  let depth = 1, end = -1;
+  for (let i = 1; i < src.length; i++) {
+    if (src[i] === '\\') { if (src[i+1] === '\n') return; i++; continue; }
+    if (src[i] === '\n') return; // selection formatting is inline, one source line
+    if (src[i] === '`') {
+      let count = 1; while (src[i+count] === '`') count++;
+      const fence = '`'.repeat(count);
+      let close = src.indexOf(fence, i+count);
+      while (close >= 0 && (src[close-1] === '`' || src[close+count] === '`')) close = src.indexOf(fence, close+count);
+      if (close >= 0) { if (src.slice(i, close).includes('\n')) return; i = close+count-1; continue; }
+      i += count-1; continue;
+    }
+    if (src[i] === '[') depth++;
+    if (src[i] === ']') { depth--; if (depth === 0) { end = i; break; } }
+  }
+  if (end < 2) return;
+  const attrs = /^\{([^{}\n]+)\}/.exec(src.slice(end + 1));
+  if (!attrs) return;
+  const colors = {};
+  for (const pair of attrs[1].split(' ')) {
+    const [key, value, extra] = pair.split('=');
+    if (extra !== undefined) return;
+    if (colors[key]) return;
+    if (key === 'highlight-style') { if (!['marker','brush','pencil'].includes(value)) return; }
+    else if (!['ink','highlight','strike','underline'].includes(key) || !/^#[0-9a-fA-F]{6}$/.test(value)) return;
+    colors[key] = value.toLowerCase();
+  }
+  const text = src.slice(1, end);
+  return { type: 'colorSpan', raw: src.slice(0, end + 1 + attrs[0].length), text, colors, tokens: this.lexer.inlineTokens(text) };
+} };
 const EXTENSIONS = [
+  colorSpan,
   inlineMark('mark', '='),
   inlineMark('ins', '+'),
   { name: 'sup', level: 'inline', start: (src) => { const i = src.indexOf('^'); return i < 0 ? undefined : i; },
@@ -122,5 +159,5 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
 }
 /** Exact round trip. This does not serialize mutations to derived nodes. */
 export function stringify(ast){if(!ast||typeof ast.source!=='string')throw new TypeError('Expected a Jot AST with original source');return ast.source;}
-export const markdownEngine={name:'Marked',version:'17.0.5',dialect:'GFM',extensions:['mark','ins','sup','footnote','footnoteRef','center','callout']};
+export const markdownEngine={name:'Marked',version:'17.0.5',dialect:'GFM',extensions:['colorSpan','mark','ins','sup','footnote','footnoteRef','center','callout']};
 export default {parse,stringify,markdownEngine};

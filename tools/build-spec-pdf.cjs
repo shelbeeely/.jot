@@ -1,7 +1,7 @@
 // Rebuilds specification/Jot-Complete-Specification.pdf (and its copy in site/dist/docs/) from the Markdown source, so the PDF never
 // says something the source does not.  Needs pandoc and Chromium (Playwright).   node tools/build-spec-pdf.cjs
 const { execFileSync } = require('node:child_process');
-const fs = require('node:fs'), path = require('node:path'), os = require('node:os');
+const fs = require('node:fs'), path = require('node:path');
 const { chromium } = require('playwright');
 const ROOT = path.join(__dirname, '..'), SRC = path.join(ROOT, 'specification/Jot-Complete-Specification.md');
 const OUT = [path.join(ROOT, 'specification/Jot-Complete-Specification.pdf'), path.join(ROOT, 'site/dist/docs/Jot-Complete-Specification.pdf')];
@@ -19,9 +19,8 @@ th { background: #f1f1ec; } tr { break-inside: avoid; }`;
 (async () => {
   const html = execFileSync('pandoc', ['-f', 'gfm', '-t', 'html5', '--standalone', '--metadata', 'title=Jot Complete Specification', '--metadata', 'pagetitle=Jot Complete Specification', SRC]).toString()
     .replace(/<header id="title-block-header">[\s\S]*?<\/header>/, '').replace('</head>', `<style>${CSS}</style></head>`);
-  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'spec-')), 'spec.html'); fs.writeFileSync(tmp, html);
   const b = await chromium.launch(), p = await b.newPage();
-  await p.goto('file://' + tmp);
+  await p.setContent(html, { waitUntil: 'load' });
   const pdf = await p.pdf({ format: 'Letter', printBackground: true, displayHeaderFooter: true, headerTemplate: '<span></span>',
     footerTemplate: '<div style="font:8px Georgia,serif;color:#777;width:100%;text-align:center">Jot Complete Specification · <span class="pageNumber"></span> / <span class="totalPages"></span></div>',
     margin: { top: '22mm', bottom: '22mm', left: '20mm', right: '20mm' } });

@@ -353,3 +353,35 @@ Scawen Blunt's diaries, a dated entry for each day. Open one in the workspace to
 - Keep a copy somewhere else. A `.jot` file is just a file: back it up like a photo.
 
 The full rules are in the [Jot specification](../../site/dist/docs/Jot-Complete-Specification.pdf). You won't need them to write.
+
+## Color in handwritten pages
+
+The workspace opens in **Handwritten** for new users; an existing **Look** preference is kept. The same colors appear in handwritten preview, **Print / PDF**, and **Download page** (standalone HTML).
+
+Select words on one line in **The writing**, choose a palette color or a custom color, choose **Text ink**, **Highlight**, **Strikethrough** or **Underline**, then press **Apply color**. Keep the selection and apply another effect to combine them. To change an effect again, select the same formatted words and apply the new color; the new color replaces that effect in the selected spans. **Clear colors** removes color spans fully included in the selection; select their brackets and attributes too. Ordinary bold, italic, links and writing remain intact. Undo works in the writing field.
+
+Colors are part of the saved journal, rather than browser-only preferences:
+
+```jot
+[Rose-colored writing]{ink=#b33951}
+[A yellow highlight]{highlight=#ffe680}
+[Changed my mind]{strike=#c0392b}
+[Keep this thought]{underline=#245ac2}
+[All together]{ink=#1f3a8a highlight=#ffe680 strike=#c0392b underline=#245ac2}
+```
+
+You can nest spans and use bold or italic inside them. Each color uses six hexadecimal digits; custom CSS is not supported. A color span stays on one source line. Handwriting keeps the chosen hand and grid spacing. Contrast feedback compares ink to light paper, or a highlight to the default blue ink; check the actual preview when combining colors. Choose color printing and enable background graphics if your browser requires it. Physical print and mobile print results still need device checks.
+
+### Highlights with a human hand
+
+For **Highlight**, the **Stroke** control offers **Marker** (a broad translucent pass), **Brush** (overlapping soft passes), and **Pencil** (several loose strokes). Repeated highlights have different edges and coverage, including ordinary `==highlight==` marks. **Rewrite ↻** makes another variation of the handwriting and highlights; it keeps your words and chosen colors. The variation stays consistent on reload, print, and HTML export until you rewrite it again.
+
+```jot
+[A broad marker]{highlight=#ffe680 highlight-style=marker}
+[A softer brush]{highlight=#ffc7df highlight-style=brush}
+[Loose pencil strokes]{highlight=#91bcf0 highlight-style=pencil}
+```
+
+### Reference color palettes
+
+The color menu and **Show color swatches** offer 71 colors from the supplied Mildliner, soft-color and pastel references. They are grouped by collection and labeled with their hex values. Lemon yellow (`#fddd13`) is the default highlight, including `==ordinary highlights==`. The palette is available for text ink, highlights, strikethrough and underline; custom colors remain available. Soft colors are often best behind darker ink—check the contrast message when using them as text. Highlight strokes are translucent, so their appearance on paper is softer than the solid color swatch. Existing journal colors are preserved.

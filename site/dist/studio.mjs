@@ -55,7 +55,7 @@ try{const stored=JSON.parse(localStorage.getItem('jot-workspace-v1'));if(stored&
 function setTab(id){for(const name of ['preview','structure','checks']){$(name+'View').hidden=name!==id;$(name+'Tab').classList.toggle('active',name===id);$(name+'Tab').setAttribute('aria-selected',name===id);}}for(const name of ['preview','structure','checks'])$(name+'Tab').onclick=()=>{clearTimeout(timer);update();if(dirty)save();setTab(name);};
 $('downloadJot').onclick=async()=>{try{await assetsReady;clearTimeout(timer);update();save();$('downloadJot').disabled=true;if(!assets.length){download(editor.value,fileName()+'.jot','text/plain;charset=utf-8');status('Downloaded a plain .jot: your writing, readable in any text editor.');return;}/* draft 3: plain writing is .jot; with attachments it is one .jotz package */const data=await pack({source:editor.value,assets,metadata:{...packageMetadata,title:$('documentName').value}});download(data,fileName()+'.jotz','application/zip');status('Downloaded one .jotz document containing the writing and all '+assets.length+' attached files.');}catch(e){status('Document export failed: '+e.message,true);}finally{$('downloadJot').disabled=false;}};$('markdownBtn').onclick=()=>{download(editor.value,fileName()+'.md','text/markdown');status('Exported the writing only. Download .jot keeps attachments too (as a .jotz).');};$('downloadAST').onclick=()=>{update();download(JSON.stringify(ast,null,2),fileName()+'.ast.json','application/json');};$('openBtn').onclick=()=>$('openFile').click();$('openFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;if(file.size>64*1024*1024){status('This editor accepts Jot documents up to 64 MiB.',true);return;}if(dirty&&!confirm('Replace the current journal? Download it first if you want a separate copy.'))return;try{await assetsReady;const doc=await readDocument(file);setAssets(doc.assets);assetKey=freshKey();packageMetadata=doc.manifest?.metadata||{};editor.value=doc.source;$('documentName').value=file.name.replace(/\.(jot|md|txt)$/i,'');editor.setSelectionRange(editor.value.length,editor.value.length);dirty=true;update();save();await persistAssets();status(doc.packaged?'Opened the .jotz document, including all its assets.':'Opened plain text. Download .jot saves it as plain .jot (or one .jotz if you attach files).');}catch(e){status('Could not open this document: '+e.message,true);}};$('newBtn').onclick=async()=>{if((editor.value||assets.length)&&!confirm('Start a new journal? Download the current .jot first to keep it.'))return;await assetsReady;assetKey=freshKey();packageMetadata={};setAssets([]);editor.value='';$('documentName').value='my-journal';dirty=true;update();save();await persistAssets();};$('checkToggle').onchange=update;
 $('wordListBtn').onclick=()=>$('wordList').click();$('wordList').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>5*1024*1024){status('Choose a word list smaller than 5 MB.',true);return;}dictionary=new Set((await f.text()).toLowerCase().split(/\s+/).filter(Boolean));update();status(`Loaded ${dictionary.size} words for this session. Dictionary misses are suggestions, not errors.`);};
-function pageSettings(){const v=$('journalPaper').value;$('customPaper').hidden=v!=='custom';let w,h;[w,h]=({A5:[148,210],A4:[210,297],Letter:[215.9,279.4],Pocket:[88.9,139.7]})[v]||[Number($('paperW').value),Number($('paperH').value)];if(!Number.isFinite(w)||!Number.isFinite(h)||w<10||h<10||w>5000||h>5000){status('Enter positive dimensions between 10 and 5,000 mm.',true);return false;}geometry=handOn()?pageGeometry([w,h],Number($('pitch').value)):null;$('printSettings').textContent=geometry?geometry.css:pageCSS($('pageStyle').value,[w,h]);$('handTools').hidden=!handOn();$('styleWrap').hidden=handOn();$('paperPreview').classList.toggle('styled',!handOn()&&$('pageStyle').value!=='plain');try{localStorage.setItem('jot-hand-v1',JSON.stringify({style:$('pageStyle').value,look:$('look').value,hand:$('hand').value,ink:$('ink').value,pitch:$('pitch').value,seed:handSeed}));}catch{}preview();return true;}for(const id of ['journalPaper','paperW','paperH','dotGrid','look','hand','ink','pitch','pageStyle'])$(id).onchange=pageSettings;$('exportPage').onclick=async()=>{clearTimeout(timer);update();if(dirty)save();if(!pageSettings())return;setTab('preview');$('exportPage').disabled=true;try{const paper=$('paperPreview');await paper.jotReady;const html=await exportHTML(paper,{title:$('documentName').value||'Journal',lang:document.documentElement.lang||'en',pageCss:$('printSettings').textContent});download(html,fileName()+'.html','text/html;charset=utf-8');status('Downloaded '+fileName()+'.html: the formatted pages in one file. Open it in any browser, or print it for a PDF.');}catch(e){status('Could not make the page: '+e.message,true);}finally{$('exportPage').disabled=false;}};$('reshuffle').onclick=()=>{handSeed=(handSeed%9973)+1;pageSettings();status('Written again, with different wobbles and letter shapes.');};for(const [id,v] of [['pageStyle',handPrefs.style],['look',handPrefs.look],['hand',handPrefs.hand],['ink',handPrefs.ink],['pitch',handPrefs.pitch]])if(v&&[...$(id).options].some(o=>o.value===v))$(id).value=v;$('printBtn').onclick=async()=>{clearTimeout(timer);update();if(dirty)save();if(pageSettings()){setTab('preview');await $('paperPreview').jotReady;window.print();}};pageSettings();
+function pageSettings(){const v=$('journalPaper').value;$('customPaper').hidden=v!=='custom';let w,h;[w,h]=({A5:[148,210],A4:[210,297],Letter:[215.9,279.4],Pocket:[88.9,139.7]})[v]||[Number($('paperW').value),Number($('paperH').value)];if(!Number.isFinite(w)||!Number.isFinite(h)||w<10||h<10||w>5000||h>5000){status('Enter positive dimensions between 10 and 5,000 mm.',true);return false;}geometry=handOn()?pageGeometry([w,h],Number($('pitch').value)):null;$('printSettings').textContent=geometry?geometry.css:pageCSS($('pageStyle').value,[w,h]);$('handTools').hidden=!handOn();$('styleWrap').hidden=handOn();$('paperPreview').classList.toggle('styled',!handOn()&&$('pageStyle').value!=='plain');try{localStorage.setItem('jot-hand-v1',JSON.stringify({style:$('pageStyle').value,look:$('look').value,hand:$('hand').value,ink:$('ink').value,pitch:$('pitch').value,seed:handSeed}));}catch{}preview();return true;}for(const id of ['journalPaper','paperW','paperH','dotGrid','look','hand','ink','pitch','pageStyle'])$(id).onchange=pageSettings;$('exportPage').onclick=async()=>{clearTimeout(timer);update();if(dirty)save();if(!pageSettings())return;setTab('preview');$('exportPage').disabled=true;try{const paper=$('paperPreview');await paper.jotReady;const html=await exportHTML(paper,{title:$('documentName').value||'Journal',lang:document.documentElement.lang||'en',pageCss:$('printSettings').textContent});download(html,fileName()+'.html','text/html;charset=utf-8');status('Downloaded '+fileName()+'.html: the formatted pages in one file. Open it in any browser, or print it for a PDF.');}catch(e){status('Could not make the page: '+e.message,true);}finally{$('exportPage').disabled=false;}};$('reshuffle').onclick=()=>{handSeed=(handSeed%9973)+1;pageSettings();status('Written again, with different letter shapes and highlight strokes.');};for(const [id,v] of [['pageStyle',handPrefs.style],['look',handPrefs.look],['hand',handPrefs.hand],['ink',handPrefs.ink],['pitch',handPrefs.pitch]])if(v&&[...$(id).options].some(o=>o.value===v))$(id).value=v;$('printBtn').onclick=async()=>{clearTimeout(timer);update();if(dirty)save();if(pageSettings()){setTab('preview');await $('paperPreview').jotReady;window.print();}};pageSettings();
 function insert(text){const p=editor.selectionEnd,lead=p&&editor.value[p-1]!=='\n'?'\n\n':'';editor.setRangeText(lead+text+'\n\n',p,p,'end');dirty=true;update();save();editor.focus();}
 fetch(new URL('./jot/profiles.json',import.meta.url)).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{profiles=d.profiles;renderMethods();}).catch(()=>status('Method catalogue could not be loaded. Your journal still works.',true));
 function renderMethods(){const q=$('methodSearch').value.toLowerCase(),list=$('methodsList');list.replaceChildren();for(const p of profiles.filter(p=>(p.label+' '+p.purpose).toLowerCase().includes(q))){const card=el('article',undefined,'method-card');card.append(el('h3',p.label),el('p',p.purpose));const b=el('button','Add writing invitation ＋','button');b.onclick=()=>{let text=`#### ${p.label}\n\n${p.prompt}\n\n`;if($('includeRecord').checked)text+=`:::record ${p.recordType}\nmethod: ${p.id}@${p.version}\n${p.example}\n:::\n`;insert(text);$('methodsDialog').close();};card.append(b);list.append(card);}if(!list.childNodes.length)list.append(el('p','No matching methods. Try a broader word.','small'));}
@@ -87,3 +87,371 @@ $('numbersCsvBtn').onclick=()=>{clearTimeout(timer);update();download(A.numbersC
 $('tasksCsvBtn').onclick=()=>{clearTimeout(timer);update();download(A.tasksCSV(ast),fileName()+'-tasks.csv','text/csv;charset=utf-8');status('Downloaded the tasks as CSV.');};
 $('importCsvBtn').onclick=()=>$('importCsv').click();
 $('importCsv').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>20*1024*1024){status('Choose a CSV smaller than 20 MB.',true);return;}try{const r=A.readCSV(await f.text(),{combine:'sum'});if(!r.numbers.length){status('No numbers found in '+f.name+' (a column of dates and columns of numbers are needed).',true);return;}const w=A.addNumbers(editor.value,r.numbers,{source:f.name});rewrite(w.text,'From '+f.name+': '+w.filled+' blanks filled, '+w.added+' numbers added, '+w.kept+' already there ('+r.metrics.join(', ')+').'+(r.ambiguous?' '+r.ambiguous+' rows had dates that could be read either way round and were left out.':''));}catch(err){status('Could not read '+f.name+': '+err.message,true);}};
+
+// Formatting edits the source, so the same colors survive saving, handwriting and print.
+function formatSelection(clear = false) {
+  const start = editor.selectionStart, end = editor.selectionEnd;
+  let text = editor.value.slice(start, end);
+  if (!text || /[\r\n]/.test(text)) { status('Select words within one line of your writing first.', true); return; }
+  const effect = $('formatEffect').value, color = $('formatColor').value;
+  if (!clear && (!['ink','highlight','strike','underline'].includes(effect) || !/^#[0-9a-f]{6}$/i.test(color))) return;
+  {
+    const strip = token => {
+      if (!token.tokens) return token.raw;
+      let cursor = 0, result = '';
+      for (const child of token.tokens) {
+        const at = token.raw.indexOf(child.raw, cursor);
+        if (at < 0) return token.raw; // preserve source if a future lexer normalizes a token
+        result += token.raw.slice(cursor, at) + strip(child);
+        cursor = at + child.raw.length;
+      }
+      result += token.raw.slice(cursor);
+      if (token.type !== 'colorSpan') return result;
+      const content = result.slice(1, result.lastIndexOf(']{'));
+      const attrs = Object.entries(token.colors).filter(([key]) => !clear && key !== effect && !(effect === 'highlight' && key === 'highlight-style')).map(([key,value]) => key+'='+value).join(' ');
+      return attrs ? `[${content}]{${attrs}}` : content;
+    };
+    const parsed = parse(text, {journal:false});
+    text = parsed.nodes.map(n => n.markdown ? strip(n.markdown) : n.raw).join('');
+  }
+  if (!clear) text = `[${text}]{${effect}=${color}${effect === 'highlight' ? ' highlight-style='+$('highlightStyle').value : ''}}`;
+  editor.focus(); editor.setSelectionRange(start, end);
+  if (!document.execCommand('insertText', false, text)) editor.setRangeText(text, start, end, 'select');
+  editor.setSelectionRange(start, start + text.length);
+  dirty = true; clearTimeout(timer); update(); save();
+  status(clear ? 'Cleared colors from the selected formatting spans.' : 'Applied '+effect+' color. The handwritten page and print use the same color.');
+}
+$('applyColor').onclick = () => formatSelection();
+$('clearColor').onclick = () => formatSelection(true);
+
+const referencePalettes = {
+  "Mildliner \u2014 warm": [
+    [
+      "Smoke blue",
+      "5FB7CA"
+    ],
+    [
+      "Vermilion",
+      "FEBB05"
+    ],
+    [
+      "Gold",
+      "FFC701"
+    ],
+    [
+      "Magenta",
+      "E35BE5"
+    ],
+    [
+      "Brown",
+      "CB7D60"
+    ]
+  ],
+  "Mildliner \u2014 friendly": [
+    [
+      "Lemon yellow",
+      "FDDD13"
+    ],
+    [
+      "Apricot",
+      "FBA276"
+    ],
+    [
+      "Coral pink",
+      "F8898D"
+    ],
+    [
+      "Cyan",
+      "60B3E0"
+    ],
+    [
+      "Dark gray",
+      "717271"
+    ]
+  ],
+  "Mildliner \u2014 refresh bright": [
+    [
+      "Fuchsia",
+      "E277CD"
+    ],
+    [
+      "Marigold",
+      "F9423A"
+    ],
+    [
+      "Citrus green",
+      "CEDC00"
+    ],
+    [
+      "Summer green",
+      "00B2A9"
+    ],
+    [
+      "Lavender",
+      "7474C1"
+    ]
+  ],
+  "Mildliner \u2014 cool and refined": [
+    [
+      "Green",
+      "A0D084"
+    ],
+    [
+      "Dark blue",
+      "9CB2E3"
+    ],
+    [
+      "Grey",
+      "D5D6DA"
+    ],
+    [
+      "Violet",
+      "B6ADD8"
+    ],
+    [
+      "Red",
+      "DE556F"
+    ]
+  ],
+  "Mildliner \u2014 fluorescent": [
+    [
+      "Pink",
+      "F1A5C7"
+    ],
+    [
+      "Orange",
+      "F7C18E"
+    ],
+    [
+      "Yellow",
+      "F6E977"
+    ],
+    [
+      "Blue",
+      "A4D3E6"
+    ],
+    [
+      "Blue green",
+      "85CBB3"
+    ]
+  ],
+  "Soft reference colors": [
+    [
+      "Blush",
+      "FEE7F4"
+    ],
+    [
+      "Lime cream",
+      "F8FBB8"
+    ],
+    [
+      "Butter",
+      "FFE59F"
+    ],
+    [
+      "Mint ice",
+      "C4F4F0"
+    ],
+    [
+      "Ice blue",
+      "C6F4FD"
+    ],
+    [
+      "Dusty periwinkle",
+      "9FACD1"
+    ],
+    [
+      "Soft sage",
+      "C8DE99"
+    ],
+    [
+      "Silver",
+      "CDD2D1"
+    ],
+    [
+      "Lilac",
+      "DFCCF5"
+    ],
+    [
+      "Rose",
+      "EC7990"
+    ],
+    [
+      "Muted teal",
+      "74A7B2"
+    ],
+    [
+      "Orchid",
+      "DD6CDF"
+    ],
+    [
+      "Golden yellow",
+      "F7CA16"
+    ],
+    [
+      "Salmon",
+      "E66B58"
+    ],
+    [
+      "Dusty mauve",
+      "A77E7C"
+    ],
+    [
+      "Watermelon",
+      "FEA1A8"
+    ],
+    [
+      "Tangerine",
+      "FA942E"
+    ],
+    [
+      "Bright lemon",
+      "FFFA42"
+    ],
+    [
+      "Ocean blue",
+      "24B6E1"
+    ],
+    [
+      "Slate",
+      "625E6D"
+    ],
+    [
+      "Cornflower",
+      "6E7DDA"
+    ],
+    [
+      "Turquoise",
+      "24BFA6"
+    ],
+    [
+      "Lime",
+      "E3F57A"
+    ],
+    [
+      "Peach coral",
+      "FF705A"
+    ],
+    [
+      "Candy pink",
+      "FF93FD"
+    ],
+    [
+      "Cloud blue",
+      "D6E3F4"
+    ],
+    [
+      "Lavender mist",
+      "EADEF8"
+    ],
+    [
+      "Rosewater",
+      "FAE1E9"
+    ],
+    [
+      "Vanilla",
+      "FBE8C6"
+    ],
+    [
+      "Pale citron",
+      "F5F9B8"
+    ],
+    [
+      "Cool mist",
+      "D5DDE4"
+    ],
+    [
+      "Olive mist",
+      "D5D7AB"
+    ],
+    [
+      "Sand",
+      "E3CEB5"
+    ],
+    [
+      "Cream",
+      "FBECD1"
+    ],
+    [
+      "Dusty pink",
+      "E9C1C3"
+    ],
+    [
+      "Warm brown",
+      "B14A00"
+    ]
+  ],
+  "Pastel daydreams": [
+    [
+      "Lemon sunshine",
+      "FFDC74"
+    ],
+    [
+      "Beach at sunset",
+      "FBAC87"
+    ],
+    [
+      "Watermelon spring",
+      "FF8C87"
+    ],
+    [
+      "Cotton candy cheeks",
+      "F3A6C8"
+    ],
+    [
+      "Moonlit lily",
+      "DEACF9"
+    ],
+    [
+      "Clear sky sea",
+      "AEB5FF"
+    ],
+    [
+      "Mountain breeze waves",
+      "95C8F3"
+    ],
+    [
+      "Toes in the lagoon",
+      "81E3E1"
+    ],
+    [
+      "Jungle getaway",
+      "7DE198"
+    ],
+    [
+      "Golf club special",
+      "B3E561"
+    ]
+  ]
+};
+const preset = $('formatPreset');
+preset.replaceChildren();
+for (const [group, colors] of Object.entries(referencePalettes)) {
+  const options = el('optgroup'); options.label = group;
+  const swatches = el('fieldset'), legend = el('legend', group); swatches.append(legend);
+  for (const [name, hex] of colors) {
+    const value = '#'+hex.toLowerCase(), option = el('option', name+' · '+value); option.value = value; options.append(option);
+    const button = el('button'); button.type = 'button'; button.className = 'color-swatch'; button.style.backgroundColor = value;
+    button.title = name+' · '+value; button.setAttribute('aria-label', button.title);
+    button.onclick = () => { preset.value = value; $('formatColor').value = value; colorAdvice(); };
+    swatches.append(button);
+  }
+  preset.append(options); $('paletteSwatches').append(swatches);
+}
+const customColor = el('option', 'Custom'); customColor.value = 'custom'; preset.append(customColor);
+preset.value = '#fddd13';
+preset.onchange = () => { if (/^#[0-9a-f]{6}$/.test(preset.value)) $('formatColor').value = preset.value; colorAdvice(); };
+$('formatColor').oninput = () => { $('formatPreset').value = 'custom'; colorAdvice(); };
+$('formatEffect').onchange = colorAdvice;
+function colorAdvice() {
+  const luminance = hex => {
+    const c = hex.match(/[0-9a-f]{2}/gi).map(v => parseInt(v,16)/255).map(v => v <= .04045 ? v/12.92 : ((v+.055)/1.055)**2.4);
+    return c[0]*.2126+c[1]*.7152+c[2]*.0722;
+  };
+  const effect = $('formatEffect').value;
+  $('highlightStyleWrap').hidden = effect !== 'highlight';
+  const a = luminance($('formatColor').value), b = luminance(effect === 'highlight' ? '#1f3a8a' : '#fffffd');
+  const ratio = (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+  $('colorAdvice').textContent = ['ink','highlight'].includes(effect) && ratio < 4.5 ? 'Low contrast against '+(effect === 'highlight' ? 'blue handwriting ink' : 'white paper')+'. Try a '+(effect === 'highlight' ? 'lighter' : 'darker')+' color. Combined colors may differ.' : 'Colors carry through to print. Choose color printing to keep them.';
+}
+colorAdvice();

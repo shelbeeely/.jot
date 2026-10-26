@@ -56,3 +56,33 @@ test('the source is kept exactly', () => {
   const a = parse(src); let end = 0; for (const n of a.nodes) { assert.equal(n.start, end); end = n.end; }
   assert.equal(end, new TextEncoder().encode(src).length, 'byte offsets cover the whole file, in order');
 });
+
+test('color spans combine validated colors, links and nested formatting without changing source', () => {
+  const src = '[**ink** and [a link](https://example.com)]{ink=#AB1234 highlight=#ffe680 strike=#c0392b underline=#245ac2}';
+  const [t] = tokens(src);
+  assert.equal(t.type, 'colorSpan');
+  assert.deepEqual(t.colors, {ink:'#ab1234', highlight:'#ffe680', strike:'#c0392b', underline:'#245ac2'});
+  assert.ok(t.tokens.some(t => t.type === 'strong'));
+  assert.ok(t.tokens.some(t => t.type === 'link'));
+  assert.equal(stringify(parse(src)), src);
+  assert.equal(tokens('[[words]{ink=#123456}]{highlight=#ffe680}')[0].tokens[0].type, 'colorSpan');
+  assert.equal(tokens('[a\\]b]{ink=#123456}')[0].type, 'colorSpan');
+  assert.equal(tokens('[`brackets ] [` and **ink**]{ink=#123456}')[0].type, 'colorSpan');
+});
+
+test('color syntax rejects unsafe, unknown, duplicate and multiline attributes; code stays literal', () => {
+  for (const src of ['[x]{ink=red}', '[x]{ink=#fff}', '[x]{ink=url(evil)}', '[x]{ink=#123456;display:none}', '[x]{background=#123456}', '[x]{ink=#123456 ink=#654321}', '[a\nb]{ink=#123456}', '`[x]{ink=#123456}`', '\\[x]{ink=#123456}']) {
+    assert.ok(!types(src).includes('colorSpan'), src);
+    assert.equal(stringify(parse(src)), src);
+  }
+  assert.equal(parse('[ ] [colored task]{ink=#123456}\n').nodes[0].inline[0].tokens[0].type, 'colorSpan');
+});
+
+test('highlight alternatives persist in color syntax and reject unsupported styles', () => {
+  for (const style of ['marker','brush','pencil']) {
+    const src = `[words]{highlight=#ffe680 highlight-style=${style}}`;
+    assert.equal(tokens(src)[0].colors['highlight-style'], style);
+    assert.equal(stringify(parse(src)), src);
+  }
+  for (const attrs of ['highlight-style=evil','highlight-style=marker highlight-style=pencil','ink=#123456=evil']) assert.ok(!types(`[x]{${attrs}}`).includes('colorSpan'));
+});

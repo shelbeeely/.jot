@@ -51,3 +51,17 @@ test('inside a compressed .zip or .jotz, where the raw bytes hide it', async () 
   assert.ok(found.some((f) => f.includes('x.jotz › journal.txt: a personal place')), JSON.stringify(found));
   assert.ok(found.some((f) => f.includes('x.jotz › private/cal.txt: a private path')), JSON.stringify(found));
 });
+
+
+test('ZIP comments, directory names and binary members are inspected as well as text', async () => {
+  const zip = new globalThis.JSZip();
+  zip.comment = 'someone@example.org';
+  zip.folder('private');
+  zip.file('picture.png', Buffer.from('metadata: someone@example.net'), {comment:'other@example.com'});
+  const data = await zip.generateAsync({type:'nodebuffer',compression:'DEFLATE'});
+  const found = await check(site({'docs/sample.zip':data}));
+  assert.ok(found.some(f=>f.includes('(archive comment): an email address')));
+  assert.ok(found.some(f=>f.includes('private/: a private path')));
+  assert.ok(found.some(f=>f.includes('(comment): an email address')));
+  assert.ok(found.some(f=>f.includes('picture.png: an email address')));
+});

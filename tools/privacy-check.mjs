@@ -1,6 +1,6 @@
 // The privacy gate for the published site: nothing personal, private or secret leaves through GitHub Pages.
 //   node tools/privacy-check.mjs [site/dist]
-// Reads every file (raw bytes, so image text chunks count too), the files inside .zip/.jotz, and the text of PDFs (pdftotext, from
+// Reads every file (raw bytes, so image text chunks count too), decoded .zip/.jotz members and metadata, and PDF text (pdftotext, from
 // poppler-utils: required, so a PDF is never waved through unread). Exit 1 lists every finding.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -47,14 +47,21 @@ export async function check(dir) {
     if (buf.length > PAGES_FILE) problems.push(`${rel}: over the 100 MB GitHub Pages takes for a file`);
     if (!ALLOWED.has(path.extname(rel).toLowerCase())) problems.push(`${rel}: not a kind of file the site publishes`);
     for (const re of BAD_PATH) if (re.test(rel)) problems.push(`${rel}: a private path`);
-    problems.push(...findings(rel, `${rel} (its name)`), ...findings(buf.toString('latin1'), rel), ...findings(buf.toString('utf8'), rel));
-    if (/\.(zip|jotz)$/i.test(rel)) {
+    problems.push(...findings(rel, `${rel} (its name)`));
+    const archive = /\.(zip|jotz)$/i.test(rel);
+    // Compressed payload bytes are not text and can coincidentally resemble an email or token.
+    // Inspect the actual decoded members and comments instead, retaining raw scans for other files.
+    if (!archive) problems.push(...findings(buf.toString('latin1'), rel), ...findings(buf.toString('utf8'), rel));
+    if (archive) {
       const zip = await globalThis.JSZip.loadAsync(buf);
+      problems.push(...findings(zip.comment || '', `${rel} (archive comment)`));
       for (const [name, entry] of Object.entries(zip.files)) {
-        if (entry.dir) continue;
         const inner = `${rel} › ${name}`;
         for (const re of BAD_PATH) if (re.test(name)) problems.push(`${inner}: a private path`);
-        problems.push(...findings(name, `${inner} (its name)`), ...findings(Buffer.from(await entry.async('uint8array')).toString('utf8'), inner));
+        problems.push(...findings(name, `${inner} (its name)`), ...findings(entry.unsafeOriginalName || '', `${inner} (original name)`), ...findings(entry.comment || '', `${inner} (comment)`));
+        if (entry.dir) continue;
+        const data = Buffer.from(await entry.async('uint8array'));
+        problems.push(...findings(data.toString('utf8'), inner), ...findings(data.toString('latin1'), inner));
       }
     }
     if (/\.pdf$/i.test(rel)) {

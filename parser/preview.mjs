@@ -85,7 +85,7 @@ export function renderPreview(ast, target, opts = {}) {
         case 'escape': n = el('span', t.text); break;
         case 'strong': n = el('strong'); inline(t.tokens, n); break;
         case 'em': n = el('em'); inline(t.tokens, n); break;
-        case 'del': n = el('del'); inline(t.tokens, n); break;
+        case 'del': n = el('del'); n.style.setProperty('--jot-strike', 'currentColor'); inline(t.tokens, n); break;
         case 'codespan': n = el('code', decode(t.text)); break;
         case 'br': n = el('br'); break;
         case 'link': {
@@ -101,8 +101,27 @@ export function renderPreview(ast, target, opts = {}) {
           break;
         }
         case 'html': n = el('span', '[HTML omitted]', 'raw-html'); break;
+        case 'colorSpan': {
+          n = el('span', undefined, 'jot-colors');
+          // Validate even caller-supplied ASTs; never accept arbitrary CSS or URLs.
+          for (const [key, value] of Object.entries(t.colors || {})) {
+            if (key === 'highlight-style') { if (['marker','brush','pencil'].includes(value)) n.dataset.highlightStyle = value; continue; }
+            if (!/^#[0-9a-f]{6}$/i.test(value)) continue;
+            if (key === 'ink') n.style.color = value;
+            if (key === 'highlight') { n.style.setProperty('--jot-highlight', value); n.classList.add('jot-highlight'); }
+            if (key === 'strike' || key === 'underline') {
+              n.style.setProperty('--jot-' + key, value);
+              const line = el(key === 'strike' ? 'del' : 'ins');
+              line.style.setProperty('--jot-decoration', value); n.append(line);
+            }
+          }
+          let content = n;
+          // Nest decorations so strike and underline can have independent colors.
+          for (const line of [...n.children]) { if (content !== n) content.append(line); content = line; }
+          inline(t.tokens, content); break;
+        }
         case 'mark': n = el('mark'); inline(t.tokens, n); break;
-        case 'ins': n = el('ins'); inline(t.tokens, n); break;
+        case 'ins': n = el('ins'); n.style.setProperty('--jot-underline', 'currentColor'); inline(t.tokens, n); break;
         case 'sup': n = el('sup'); inline(t.tokens, n); break;
         case 'footnoteRef': {
           if (!notes.order.includes(t.id)) notes.order.push(t.id);
@@ -253,7 +272,10 @@ export function addPageStyles(doc) {
 }
 /** Adds the chart styles to a document once. */
 export const PREVIEW_CSS = `${CHART_CSS}
-mark{background:#fff1a8;color:inherit;padding:0 .1em;border-radius:2px}ins{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.15em}
+.jot-colors{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.jot-highlight{background-color:var(--jot-highlight);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.jot-colors :is(del,ins){text-decoration-color:var(--jot-decoration,currentColor)}
+mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.15em}
 .jot-center{text-align:center}.jot-fn-ref a{text-decoration:none}.jot-footnotes{border-top:1px solid currentColor;border-top-color:color-mix(in srgb,currentColor 25%,transparent);margin-top:1.5em;font-size:.92em}.jot-footnotes ol{padding-left:1.5em}
 .jot-callout{border-left:3px solid var(--jot-callout,#2a78d6);padding:.2em .9em;margin:.8em 0;background:color-mix(in srgb,var(--jot-callout,#2a78d6) 7%,transparent)}.jot-callout-title{font-weight:650;margin:0 0 .2em;color:var(--jot-callout,#2a78d6)}
 .jot-callout-tip{--jot-callout:#1a7f37}.jot-callout-important{--jot-callout:#8250df}.jot-callout-warning{--jot-callout:#9a6700}.jot-callout-caution{--jot-callout:#cf222e}

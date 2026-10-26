@@ -51,6 +51,10 @@ ideas, tags and places, margin notes beside the text. **Style** picks **Journal*
 standalone `.html` with everything inside (`parser/export.mjs`). VS Code has the same styles and **Jot: Export as HTML**. Guide:
 [Beautiful pages](docs/guide/writing-jot.md#beautiful-pages-styles-printing-and-sharing).
 
+## Inline colors
+
+Select words in the workspace and apply text ink, highlight, strikethrough or underline colors, using a palette or custom hex. Colors persist in `.jot` source and appear in handwritten preview, print and standalone HTML export. Handwritten is the default for new workspace preferences. See [Color in handwritten pages](docs/guide/writing-jot.md#color-in-handwritten-pages). Browser regression check: `node site/test-colors-ui.cjs` (Playwright and Chromium).
+
 ## Handwritten pages on a dot grid
 
 In the workspace (**Write**), **Look → Handwritten** writes the journal in a handwriting font (Pen, Neat print or Marker; each letter

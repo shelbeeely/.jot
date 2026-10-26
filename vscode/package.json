@@ -225,7 +225,7 @@
               "typed",
               "handwritten"
             ],
-            "default": "typed",
+            "default": "handwritten",
             "description": "How the preview shows a journal: typed, or written by hand on a dot grid."
           },
           "jot.preview.hand": {

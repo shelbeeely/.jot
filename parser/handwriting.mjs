@@ -62,6 +62,9 @@ export function handwritingCSS(fontBase) {
 .jot-hand :is(ins,u),.jot-hand :is(ins,u) .hw-w{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.18em}
 .jot-hand :is(del,s),.jot-hand :is(del,s) .hw-w{text-decoration:line-through;text-decoration-thickness:.08em}
 .jot-hand mark{color:inherit;background:linear-gradient(176deg,transparent 18%,rgba(255,226,64,.62) 20%,rgba(255,214,40,.55) 78%,transparent 82%);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 .1em}
+.jot-hand .jot-highlight{background:linear-gradient(176deg,transparent 18%,var(--jot-highlight) 20%,var(--jot-highlight) 78%,transparent 82%);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.jot-hand .jot-colors :is(del,ins){text-decoration:none}
+.jot-hand .jot-colors .hw-w{text-decoration:none;background-image:linear-gradient(var(--jot-strike,transparent),var(--jot-strike,transparent)),linear-gradient(var(--jot-underline,transparent),var(--jot-underline,transparent));background-size:100% .08em;background-position:0 55%,0 90%;background-repeat:no-repeat}
 .jot-hand sup{font-size:.72em;vertical-align:baseline;position:relative;top:-.55em;line-height:0}
 .jot-hand :is(.jot-task,.jot-blank-line,.jot-measure,.jot-record,.jot-record strong,.jot-record dt,.jot-record dd,.jot-chart,.jot-callout,.jot-callout-title,.jot-footnotes,.eyebrow,p,li,td,th,blockquote,figcaption,.jc-sum,.jc-name,.jc-unit,.jc-anchors){font-family:inherit;font-size:inherit;color:inherit;letter-spacing:normal;text-transform:none}
 .jot-hand :is(h1,h2,h3,h4,h5,h6){letter-spacing:normal;text-transform:none}
@@ -152,6 +155,24 @@ export function boxSVG(doc, { done = false, seed = 1, label = '', drawn = false,
 function hash(str, seed) { let h = 2166136261 ^ seed; for (let i = 0; i < str.length; i++) h = Math.imul(h ^ str.charCodeAt(i), 16777619); return h >>> 0; }
 function rng(seed) { let s = seed >>> 0 || 1; return () => { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; return ((s >>> 0) % 10000) / 10000; }; }
 
+/** A locally generated ink stroke; stable for a seed and different for each highlighted passage. */
+export function highlightSVG(color = '#fddd13', style = 'marker', seed = 1) {
+  if (!/^#[0-9a-f]{6}$/i.test(color)) color = '#fddd13';
+  if (!['marker','brush','pencil'].includes(style)) style = 'marker';
+  const random = rng(seed), n = (base, spread) => (base + (random() - .5) * spread).toFixed(1);
+  const band = (top, bottom, opacity) => {
+    const upper = Array.from({length:9}, (_, i) => `${n(i*125, i===0||i===8 ? 12 : 24)},${n(top,10)}`);
+    const lower = Array.from({length:9}, (_, i) => `${n((8-i)*125, i===0||i===8 ? 12 : 24)},${n(bottom,10)}`);
+    return `<polygon points="${upper.concat(lower).join(' ')}" fill="${color}" opacity="${opacity}"/>`;
+  };
+  let strokes;
+  if (style === 'pencil') {
+    strokes = Array.from({length:9}, (_, i) => `<path d="M${n(8,18)},${n(25+i*6,8)} Q${n(480,80)},${n(18+i*6,10)} ${n(990,18)},${n(25+i*6,10)}" fill="none" stroke="${color}" stroke-width="${n(2.4,1)}" opacity="${n(.6,.2)}" stroke-linecap="round"/>`).join('');
+  } else if (style === 'brush') strokes = band(27,65,.38) + band(38,79,.48) + band(31,73,.24);
+  else strokes = band(24,77,.65) + band(31,73,.12);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">${strokes}</svg>`;
+}
+
 const SKIP = new Set(['SCRIPT', 'STYLE', 'CANVAS', 'SVG', 'svg', 'INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'IMG', 'SUMMARY']);
 /** Turns every word on the page into handwriting. Safe to call again after a new render (it starts from the page as rendered). */
 export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
@@ -160,6 +181,15 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
   page.style.setProperty('--hw-family', `'${H.family}'`);
   page.style.setProperty('--hw-size', String(H.size));
   page.style.setProperty('--hw-ink', INKS[ink] || (/^#[0-9a-f]{6}$/i.test(ink) ? ink : INKS.blue));
+  let highlightIndex = 0;
+  for (const mark of page.querySelectorAll('mark, .jot-highlight')) {
+    const color = doc.defaultView.getComputedStyle(mark).getPropertyValue('--jot-highlight').trim() || '#fddd13';
+    const svg = highlightSVG(color, mark.dataset.highlightStyle || 'marker', hash(mark.textContent, seed + highlightIndex++ * 7919));
+    mark.style.backgroundColor = 'transparent';
+    mark.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    mark.style.backgroundSize = '100% 100%';
+    mark.style.backgroundRepeat = 'no-repeat';
+  }
   // task boxes and empty lines drawn as a pen would
   let boxes = 0, last = null;
   const pencil = (done) => { const sd = seed * 101 + (boxes++), kinds = boxKinds(sd, last); last = kinds; return boxSVG(doc, { done, seed: sd, kinds, label: done ? 'done' : 'to do', drawn: done }); };

@@ -2,6 +2,8 @@
 
 Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` packages the writing (`journal.txt`) together with its assets. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
 
+The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadmap.mjs` after editing it; CI checks that the parser and published-site copies match. Status below is based on source and automated checks, not just the specification.
+
 ## Status meanings
 
 - Implemented: working source exists, with limitations below.
@@ -12,7 +14,7 @@ Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser imp
 | --- | --- | --- |
 | Plain-text writing and date sections | Implemented; parser tested | Broader malformed-input and large-file fixtures |
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
-| JavaScript parser | ES module for Node/browser; 21 tests pass including proofreading and containers | Stabilize API; complete semantic/profile validation |
+| JavaScript parser | ES module for Node/browser; parser, formatting, proofreading and container suites pass | Stabilize API; complete semantic/profile validation |
 | Composable content blocks and layouts | Planned; existing parser has some block primitives | Mixed typed/handwritten/media blocks, stable source order, accessible reordering and responsive/print layouts |
 | Journaling methods | 55 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
 | Paper sizes | 27 presets in spec; common/custom sizes in app | Expose complete preset registry and physical print proofs |
@@ -24,14 +26,15 @@ Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser imp
 | Mermaid and other diagrams | Fenced blocks identified/preserved; tests pass | Install local rendering engines, accessibility labels and sanitized output |
 | Formatted pages and export | Journal, Notes and Plain styles; dates, task states, signs, tags and margin notes rendered for reading; one standalone HTML export; print with page numbers; browser-tested | More styles, a style of your own, EPUB |
 | Simulated handwriting on a dot grid | Three open handwriting fonts with alternate letter forms, seeded wobbles, every line on a row of dots, printed pages of whole rows; browser-tested | Right-to-left and non-Latin hands, a hand of your own (a font from your writing), print proofs on paper |
-| Fuller formatting | Highlight, underline, superscript, footnotes, callouts and centred lines; tests pass | Definition lists, colour inks per word, subscript once its syntax is settled |
-| Charts of tracked numbers | `:::record chart` drawn as one SVG chart per metric (gaps for empty days, a text summary and a table) in the workspace, the template editor's Page view and VS Code; tests pass | Month and year views, chosen daily aggregations (spec §5.2), charts printed from filled-in numbers |
+| Fuller formatting | Highlight, underline, superscript, footnotes, callouts and centred lines; tests pass | Definition lists, subscript once its syntax is settled |
+| Inline colors and handwritten print | Implemented: text ink, highlight, separate strike and underline colors; 71 reference colors in grouped menus and swatches, custom hex, selection apply/clear, nesting, undo and source persistence. Handwritten is the default for new workspace preferences, template Page previews and VS Code previews. Marker, brush and pencil highlights have seeded per-passage variation; Rewrite changes the strokes while preserving source. Browser tests cover print CSS, generated PDF and standalone HTML export | Physical color-print proofs and mobile print/download checks; underline style/thickness and richer typography remain planned |
+| Charts of tracked numbers | `:::record chart` drawn with bundled Chart.js on canvas per metric (gaps for empty days, a text summary and a table) in the workspace, the template editor's Page view and VS Code; tests pass | Month and year views, chosen daily aggregations (spec §5.2), charts printed from filled-in numbers |
 | Structured observations | Generic records and ordered fields implemented | Scales, units, profile constraints, missing-data validation |
-| Task migration and reviews | Task capture, dates and review profiles specified | Durable task links, explicit migration operations and history |
+| Task migration and reviews | Task capture, calendar/CSV export, today insertion, task rollover and weekly reviews implemented and tested in parser/CLI; workspace controls exist | Durable task links, migration history and cross-document workflows |
 | Plain .jot and packaged .jotz | Plain .jot save; ZIP-based .jotz import/export, asset hashes/limits and browser asset persistence implemented | More recovery, quotas, corrupted-file and interop fixtures |
 | OCR and handwriting transcription | Planned | User-reviewed transcription linked to originals |
-| Local-first persistence | Journal text autosave implemented | Multiple journals, IndexedDB assets, recovery and quota tests |
-| Privacy and security | Client-side processing; safe preview; private hosting | Threat model, encrypted backups and export-redaction implementation |
+| Local-first persistence | Journal text/cursor autosave and IndexedDB assets implemented; browser reload checks pass | Multiple journals, storage exhaustion, cross-tab conflicts and recovery |
+| Privacy and security | Client-side processing, safe DOM preview and automated privacy gate | Threat model, encrypted backups and export-redaction implementation |
 | Accessibility | Labels, focus styles and corner keyboard controls implemented | Mobile/screen-reader and stylus accessibility audit |
 | Round-trip editing | Original parser input preserved; textarea uses browser line endings | AST edits with lossless serialization and file conflict recovery |
 | Neurodivergent-friendly personalization | Planned; some existing controls | Independent focus, density, contrast, ruling and checking preferences; no diagnosis-based preset forced on users |
@@ -41,10 +44,10 @@ Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser imp
 
 ## Near-term order
 
-1. Finish the writing/scanning prototype and persist source, documentation and tests.
-2. Exercise the complete flow on a real phone, including handwriting and PDF downloads.
+1. Complete handwritten formatting polish: physical color-print proofs, mobile print/download checks, then underline styles/thickness. Inline colors and handwritten-by-default workspace are implemented.
+2. Exercise the complete writing flow on a real phone, including handwriting and PDF downloads. Keep the unfinished scanner hidden until its own checks pass.
 3. Reconcile the Jot draft with the JavaScript implementation and expand the conformance suite, including multilingual and input-composition fixtures.
-4. Add composable content blocks with stable identity and source order, then attachment bundles and recovery before users rely on mixed-media journals.
+4. Add composable content blocks with stable identity and source order, then strengthen existing attachment bundles and recovery before users rely on mixed-media journals.
 5. Add local diagram rendering and optional recognition/proofreading adapters without silent network uploads.
 
 ## Scope boundaries

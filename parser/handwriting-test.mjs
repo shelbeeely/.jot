@@ -66,3 +66,16 @@ test('the boxes come in several designs, chosen by seed, never the same twice in
   assert.deepEqual(boxKinds(42), boxKinds(42), 'the same seed, the same box');
   assert.match((await import('./handwriting.mjs')).BOX_CSS, /\.hw-box:not\(\.done\) \.hw-tick\{visibility:hidden\}/, 'an empty box shows no stray dot');
 });
+
+test('highlight strokes have three distinct safe designs, with stable seeded variation', async () => {
+  const { highlightSVG } = await import('./handwriting.mjs');
+  for (const style of ['marker','brush','pencil']) {
+    const a = highlightSVG('#ffe680',style,17);
+    assert.equal(a, highlightSVG('#ffe680',style,17));
+    assert.notEqual(a, highlightSVG('#ffe680',style,18));
+    assert.ok(a.includes('#ffe680'));
+    assert.ok(!/<script|onload=|url\(/i.test(a));
+  }
+  assert.equal(new Set(['marker','brush','pencil'].map(s=>highlightSVG('#ffe680',s,17))).size,3);
+  assert.ok(!highlightSVG('red\" onload=\"evil','unknown',17).includes('evil'));
+});
