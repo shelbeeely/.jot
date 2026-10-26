@@ -9,6 +9,8 @@
  *   metadata (Jot: 1.0, Title, Date)  ·  every scale the template uses, declared once (:::record scale)  ·  # October 2026
  *   front blocks  ·  for each week: ## Week of <Monday>, week-start blocks, then each day: ### 2026-10-05 | Monday and the day's blocks,
  *   then ## Week review · <first> to <last> and the week-end blocks  ·  back blocks
+ * Numbers are measurement records (metric, unit, an empty value:); a week chart is a chart record naming them and its dates, which the
+ * page previews draw (../jot/charts.mjs) and a plain-text reader shows as what it asks for.
  * Writing first: a block is a #### heading with room to write, [ ] boxes to tick, "label:" blanks (in a record when they are numbers),
  * [[a · b]] choices. Nothing for scanning or page layout: no codes, boxes, page breaks or paper size.
  */
@@ -45,9 +47,14 @@ export const BLOCKS = {
   times: { name: 'Time blocks', icon: '◷', hint: 'The hours of the day, one line each.', opts: [T('Plan'), N('from', 'From (hour)', 0, 23, 8), N('to', 'To (hour)', 1, 24, 20), N('every', 'Every (hours)', 1, 6, 2)] },
   table: { name: 'Table', icon: '▦', hint: 'Columns and empty rows: spending, contacts, a log.', opts: [T('Spending'), L('columns', 'Columns', ['What', 'How much'], 8), N('rows', 'Rows', 1, 20, 3)] },
   text: { name: 'Words to keep', icon: '❝', hint: 'Your own words, written into the file as they are: an instruction, a reminder, a quote.', opts: [T('', 'Title (optional)'), { k: 'body', kind: 'text', label: 'Text', def: 'Be gentle with yourself today.', max: 600, long: true }] },
+  numbers: { name: 'Numbers', icon: '#', hint: 'Numbers to write in each day, a unit in brackets: Sleep (h), Steps, Work (h). A week chart draws them.', opts: [T('Numbers'), L('labels', 'Numbers (a unit in brackets)', ['Sleep (h)', 'Steps'], 8)] },
+  chart: { name: 'Week chart', icon: '∿', hint: 'A small chart of the week\'s numbers (from Numbers, Scale, Ratings or Fill-in blanks), drawn in the page preview, the workspace and VS Code. Before or after the days it charts the whole month.', zones: ['weekStart', 'weekEnd', 'front', 'back'], opts: [T('This week in numbers'), L('metrics', 'Numbers to chart (none: all of them)', [], 8), { k: 'style', kind: 'choice', label: 'Style', choices: [['line', 'Line'], ['bars', 'Bars']], def: 'line' }] },
   record: { name: 'Record', icon: '{}', hint: 'A Jot record with named fields to fill in (for apps that read Jot data).', opts: [{ k: 'recordType', kind: 'text', label: 'Record type', def: 'observation', max: 32 }, T('Sleep'), L('fields', 'Fields', ['bed', 'wake', 'quality'], 16)] },
 };
-export const BLOCK_ORDER = ['writing', 'prompt', 'checks', 'tasks', 'scale', 'ratings', 'blanks', 'choose', 'list', 'times', 'table', 'text', 'record', 'page'];
+export const BLOCK_ORDER = ['writing', 'prompt', 'checks', 'tasks', 'scale', 'ratings', 'blanks', 'numbers', 'chart', 'choose', 'list', 'times', 'table', 'text', 'record', 'page'];
+// The "rule of 7": a week page someone takes in at a glance holds 5 to 7 widgets; past that the editor says so (and changes nothing).
+export const WIDGET_LIMIT = 7;
+export const widgetCount = (t, zone = 'weekStart') => (t && t.zones && Array.isArray(t.zones[zone]) ? t.zones[zone].length : 0);
 export const allowedIn = (type, zone) => !!BLOCKS[type] && (!BLOCKS[type].zones || BLOCKS[type].zones.includes(zone));
 
 // ---- starting points ----
@@ -71,6 +78,12 @@ export const STARTERS = [
     front: [], weekStart: [b('tasks', { title: 'Priorities', n: 3 })],
     day: [b('tasks', { title: 'Top 3', n: 3 }), b('times', { title: 'Plan', from: 8, to: 20, every: 2 }), b('list', { title: 'Done', n: 3 })],
     weekEnd: [b('writing', { title: 'Review' })], back: [] } },
+  { id: 'dashboard', name: 'Weekly dashboard', blurb: 'The week at a glance in six widgets: priorities, tasks, schedule, habits, a chart of your numbers, a scratchpad.', zones: {
+    front: [], weekStart: [b('list', { title: 'Top priorities', n: 3, style: 'numbers' }), b('tasks', { title: 'This week', n: 5 }),
+      b('table', { title: 'Schedule', columns: ['Day', 'Plans'], rows: 7 }), b('table', { title: 'Habits', columns: ['Habit', 'M', 'T', 'W', 'T', 'F', 'S', 'S'], rows: 3 }),
+      b('chart', { title: 'This week in numbers', metrics: ['Sleep', 'Work', 'Steps', 'Mood'], style: 'line' }), b('writing', { title: 'Scratchpad' })],
+    day: [b('numbers', { title: 'Numbers', labels: ['Sleep (h)', 'Work (h)', 'Steps'] }), b('scale', { title: 'Mood', min: 1, max: 5, lo: 'low', hi: 'great' }), b('writing', { title: 'Notes' })],
+    weekEnd: [b('writing', { title: 'Looking back' })], back: [] } },
   { id: 'blank', name: 'Start empty', blurb: 'Just the dates. Add what you want.', zones: { front: [], weekStart: [], day: [b('writing', { title: 'Today' })], weekEnd: [], back: [] } },
 ];
 
@@ -160,7 +173,9 @@ function writer() {
   return W;
 }
 // One block. at: the record id stem (a date, or the zone); n: which day of the month (prompts take turns by it).
-function block(W, bl, at, n, level) {
+const unitOf = (label) => { const m = /^(.*?)\s*\(([^()]{1,16})\)\s*$/.exec(one(label)); return m ? [m[1], one(m[2])] : [one(label), '']; };
+// span: { start, end } the dates a chart covers (its week, or the month)
+function block(W, bl, at, n, level, span) {
   const title = one(bl.title), head = (fallback) => W.h(level, title || fallback);
   switch (bl.type) {
     case 'page': W.h(2, title || 'Page'); return;
@@ -180,6 +195,17 @@ function block(W, bl, at, n, level) {
       W.record('observation', `${bl.title || 'ratings'}-${at}`, [['label', title || 'ratings'], ['scale', `#${s}`], ...bl.labels.filter((l) => one(l)).map((l) => [field(l), ''])]);
       return;
     }
+    case 'numbers': {
+      head('Numbers');
+      for (const l of bl.labels) { const [name, unit] = unitOf(l); if (!name) continue; W.record('measurement', `${name}-${at}`, [['metric', slug(name)], ...(unit ? [['unit', unit]] : []), ['value', '']]); }
+      return;
+    }
+    case 'chart': {
+      head('Chart');
+      const metrics = bl.metrics.map((m) => slug(unitOf(m)[0])).filter((m, i, a) => m && a.indexOf(m) === i);
+      W.record('chart', `chart-${at}`, [...(metrics.length ? [['metrics', metrics.join(', ')]] : []), ...(span ? [['start', span.start], ['end', span.end]] : []), ['style', bl.style]]);
+      return;
+    }
     case 'blanks': head('Blanks'); W.record('observation', `${bl.title || 'blanks'}-${at}`, [['label', title || 'blanks'], ...bl.labels.filter((l) => one(l)).map((l) => [field(l), ''])]); return;
     case 'choose': { head('Choose'); const w = bl.words.map(choice).filter(Boolean); W.gap(); if (w.length) W.out(`[[${w.join(' · ')}]]`); W.out(`${prose(title || 'Today')}: `, ''); return; }
     case 'list': head('List'); W.gap(); W.out(...Array.from({ length: bl.n }, (_, i) => (bl.style === 'numbers' ? `${i + 1}. ` : '- ')), ''); return;
@@ -195,7 +221,7 @@ function block(W, bl, at, n, level) {
     default:
   }
 }
-const blocks = (W, list, at, n, level = 4) => { for (const bl of list) block(W, bl, at, n, level); };
+const blocks = (W, list, at, n, level = 4, span = null) => { for (const bl of list) block(W, bl, at, n, level, span); };
 
 /** One file. range: { from, to } (dates) keeps only those days; front blocks go with the month's first day, back blocks with its last.
  *  -> { text, file, days, bytes } */
@@ -206,19 +232,21 @@ export function renderJot(tplIn, range = null) {
   const label = `${MONTHS[+t.month.slice(5) - 1]} ${t.month.slice(0, 4)}`, lastOfMonth = all[all.length - 1].date;
   const W = writer();
   W.h(1, label);
-  if (inR(all[0])) blocks(W, Z.front, `${t.month}-start`, 0, 4);
+  const month = { start: all[0].date, end: all[all.length - 1].date };
+  if (inR(all[0])) blocks(W, Z.front, `${t.month}-start`, 0, 4, month);
   for (const w of weeks) {
     const first = w.days[0].date, last = w.days[w.days.length - 1].date;
     if (Z.weekStart.length || Z.weekEnd.length) W.h(2, `Week of ${w.monday}`);
-    blocks(W, Z.weekStart, `week-${w.monday}`, 0, 4);
+    const week = { start: w.monday, end: iso(Date.parse(w.monday) + 6 * 864e5) }; // a chart shows the whole week, Monday to Sunday
+    blocks(W, Z.weekStart, `week-${w.monday}`, 0, 4, week);
     for (const d of w.days) {
       W.h(3, `${d.date} | ${WEEKDAYS[d.weekday]}`);
       blocks(W, Z.day, d.date, Math.round(d.t / 864e5), 4);
     }
     const weekEnds = last === iso(Date.parse(w.monday) + 6 * 864e5) || last === lastOfMonth;
-    if (Z.weekEnd.length && weekEnds) { W.h(2, `Week review · ${first} to ${last}`); blocks(W, Z.weekEnd, `review-${w.monday}`, 0, 4); }
+    if (Z.weekEnd.length && weekEnds) { W.h(2, `Week review · ${first} to ${last}`); blocks(W, Z.weekEnd, `review-${w.monday}`, 0, 4, week); }
   }
-  if (inR(all[all.length - 1])) blocks(W, Z.back, `${t.month}-end`, 0, 4);
+  if (inR(all[all.length - 1])) blocks(W, Z.back, `${t.month}-end`, 0, 4, month);
   const span = range ? (days.length === 1 ? days[0].date : `${days[0].date} to ${days[days.length - 1].date}`) : label;
   const head = ['---', 'Jot: 1.0', `Title: ${one(t.title)} · ${span}`, `Date: ${days[0].date}`, 'Made-with: Jot template editor', '---', ''];
   for (const s of W.scales.values()) head.push(`:::record scale #${s.id}`, `name: ${slug(s.name)}`, 'kind: ordinal', `minimum: ${s.min}`, `maximum: ${s.max}`, ...(s.lo ? [`anchor-low: ${s.lo}`] : []), ...(s.hi ? [`anchor-high: ${s.hi}`] : []), ':::', '');

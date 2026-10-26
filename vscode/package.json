@@ -1,0 +1,178 @@
+{
+  "name": "jot-journal",
+  "displayName": "Jot journal",
+  "description": "Write .jot journals in VS Code: syntax colours, and a live page preview that draws your numbers as charts and can show the journal handwritten on a dot grid.",
+  "version": "0.1.0",
+  "publisher": "jot-format",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Visualization",
+    "Notebooks"
+  ],
+  "keywords": [
+    "jot",
+    "journal",
+    "diary",
+    "bullet journal",
+    "planner",
+    "habit tracker"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:jot"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "jot",
+        "aliases": [
+          "Jot",
+          "jot"
+        ],
+        "extensions": [
+          ".jot"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "jot",
+        "scopeName": "text.jot",
+        "path": "./syntaxes/jot.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.markdown": "markdown"
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "jot.showPreview",
+        "title": "Open Preview",
+        "category": "Jot",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "jot.showPreviewToSide",
+        "title": "Open Preview to the Side",
+        "category": "Jot",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "jot.insertChart",
+        "title": "Insert a Week Chart",
+        "category": "Jot"
+      },
+      {
+        "command": "jot.toggleHandwriting",
+        "title": "Toggle Handwritten Preview",
+        "category": "Jot"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "jot.showPreviewToSide",
+          "when": "editorLangId == jot",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "jot.showPreview",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.showPreviewToSide",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.insertChart",
+          "when": "editorLangId == jot"
+        },
+        {
+          "command": "jot.toggleHandwriting",
+          "when": "editorLangId == jot || activeWebviewPanelId == 'jot.preview'"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "jot.showPreview",
+        "key": "ctrl+shift+v",
+        "mac": "cmd+shift+v",
+        "when": "editorLangId == jot"
+      },
+      {
+        "command": "jot.showPreviewToSide",
+        "key": "ctrl+k v",
+        "mac": "cmd+k v",
+        "when": "editorLangId == jot"
+      }
+    ],
+    "configuration": {
+      "title": "Jot",
+      "properties": {
+        "jot.preview.look": {
+          "type": "string",
+          "enum": [
+            "typed",
+            "handwritten"
+          ],
+          "default": "typed",
+          "description": "How the preview shows a journal: typed, or written by hand on a dot grid."
+        },
+        "jot.preview.hand": {
+          "type": "string",
+          "enum": [
+            "pen",
+            "print",
+            "marker"
+          ],
+          "enumDescriptions": [
+            "Pen (Caveat, with alternate letter shapes)",
+            "Neat print (Playpen Sans)",
+            "Marker (Shantell Sans)"
+          ],
+          "default": "pen",
+          "description": "The handwriting in the handwritten preview."
+        },
+        "jot.preview.ink": {
+          "type": "string",
+          "enum": [
+            "blue",
+            "black",
+            "green",
+            "purple",
+            "brown"
+          ],
+          "default": "blue",
+          "description": "The ink colour in the handwritten preview."
+        },
+        "jot.preview.dotSpacing": {
+          "type": "number",
+          "enum": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "default": 5,
+          "description": "Millimetres between the dots of the grid in the handwritten preview."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "sync": "node sync.mjs",
+    "test": "node sync.mjs --check && node --test test-extension.mjs && node test-preview.cjs",
+    "package": "node sync.mjs && npx @vscode/vsce package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shelbeeely/.jot"
+  }
+}

@@ -65,7 +65,7 @@ export function page(index) {
     const rows = d.files.map((f) => {
       const href = `diaries/${d.id}/${f.name}`;
       return `<li><span class="f-name">${esc(f.name)}</span><span class="f-meta">${f.entries} ${f.entries === 1 ? 'entry' : 'entries'}${f.from ? ` · ${f.from === f.to ? f.from : `${f.from} to ${f.to}`}` : ''} · ${kb(f.bytes)}</span>`
-        + `<span class="f-act"><a class="btn small" href="../?open=examples/${esc(href)}">Read</a><a class="btn small" href="${esc(href)}" download>Download</a></span></li>`;
+        + `<span class="f-act"><a class="btn small" href="../write/?open=examples/${esc(href)}">Read</a><a class="btn small" href="${esc(href)}" download>Download</a></span></li>`;
     }).join('\n        ');
     const src = d.sources.map((s) => `<a href="${esc(s.url)}">ebook #${s.ebook}</a>`).join(' and ');
     return `<section class="diary" aria-labelledby="h-${d.id}">
@@ -94,7 +94,7 @@ export function page(index) {
 <a class="skip" href="#diaries">Skip to the diaries</a>
 <header class="top">
   <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
-  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="../guide/">Guides</a><a href="./" aria-current="page">Examples</a><a href="../scan/">Scanner</a></nav>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="../guide/">Guides</a><a href="./" aria-current="page">Examples</a><a href="../scan/">Scanner</a></nav>
 </header>
 <main>
   <section class="intro">
@@ -108,8 +108,8 @@ export function page(index) {
   <section class="diary small-ex" aria-labelledby="h-small">
     <h2 id="h-small">Two small files</h2>
     <ul class="files">
-      <li><span class="f-name">plain-text.jot</span><span class="f-meta">a short journal in plain text, with tasks, events and a record</span><span class="f-act"><a class="btn small" href="../?open=examples/plain-text.jot">Read</a><a class="btn small" href="plain-text.jot" download>Download</a></span></li>
-      <li><span class="f-name">packaged.jotz</span><span class="f-meta">the same kind of journal packaged with an attachment (a ZIP inside)</span><span class="f-act"><a class="btn small" href="../?open=examples/packaged.jotz">Read</a><a class="btn small" href="packaged.jotz" download>Download</a></span></li>
+      <li><span class="f-name">plain-text.jot</span><span class="f-meta">a short journal in plain text, with tasks, events and a record</span><span class="f-act"><a class="btn small" href="../write/?open=examples/plain-text.jot">Read</a><a class="btn small" href="plain-text.jot" download>Download</a></span></li>
+      <li><span class="f-name">packaged.jotz</span><span class="f-meta">the same kind of journal packaged with an attachment (a ZIP inside)</span><span class="f-act"><a class="btn small" href="../write/?open=examples/packaged.jotz">Read</a><a class="btn small" href="packaged.jotz" download>Download</a></span></li>
     </ul>
   </section>
   <p class="foot">Reading one replaces the writing in the workspace, after asking: download yours first if you want to keep it. <a href="../guide/converting.html">Convert your own diary</a> · <a href="../guide/writing-jot.html">Writing in Jot</a></p>

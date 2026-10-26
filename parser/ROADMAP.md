@@ -22,6 +22,9 @@ Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser imp
 | Spelling | Native browser spellcheck plus optional supplied word list | Locale selection, personal dictionary persistence |
 | Grammar | Optional English pattern hints implemented/tested | Real grammar-engine adapter; language-specific checks |
 | Mermaid and other diagrams | Fenced blocks identified/preserved; tests pass | Install local rendering engines, accessibility labels and sanitized output |
+| Simulated handwriting on a dot grid | Three open handwriting fonts with alternate letter forms, seeded wobbles, every line on a row of dots, printed pages of whole rows; browser-tested | Right-to-left and non-Latin hands, a hand of your own (a font from your writing), print proofs on paper |
+| Fuller formatting | Highlight, underline, superscript, footnotes, callouts and centred lines; tests pass | Definition lists, colour inks per word, subscript once its syntax is settled |
+| Charts of tracked numbers | `:::record chart` drawn as one SVG chart per metric (gaps for empty days, a text summary and a table) in the workspace, the template editor's Page view and VS Code; tests pass | Month and year views, chosen daily aggregations (spec §5.2), charts printed from filled-in numbers |
 | Structured observations | Generic records and ordered fields implemented | Scales, units, profile constraints, missing-data validation |
 | Task migration and reviews | Task capture, dates and review profiles specified | Durable task links, explicit migration operations and history |
 | Plain .jot and packaged .jotz | Plain .jot save; ZIP-based .jotz import/export, asset hashes/limits and browser asset persistence implemented | More recovery, quotas, corrupted-file and interop fixtures |

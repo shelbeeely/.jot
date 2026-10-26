@@ -1,5 +1,39 @@
 /** Jot JavaScript parser, draft 0.1. Source-preserving block parser + Marked 17.0.5. */
-import { lexer } from './vendor/marked.mjs';
+import { Marked } from './vendor/marked.mjs';
+
+// Fuller formatting (spec 4.2.1), as Marked extensions: the tokens carry their text and children like Marked's own.
+//   ==highlight==   ++underline++   ^superscript^   [^note] and [^note]: a footnote   -> a centred line <-
+// > [!NOTE] (TIP, IMPORTANT, WARNING, CAUTION) on a blockquote's first line makes a callout (added after lexing, below).
+// Each needs a non-space just inside its marks, so "a == b", "C++ and C++" and "2 ^ 3" stay prose.
+const inlineMark = (name, ch) => { // a doubled mark: ==text==, ++text++
+  const e = '\\' + ch, re = new RegExp(`^${e}${e}(?=\\S)([\\s\\S]*?\\S)${e}${e}(?!${e})`);
+  return { name, level: 'inline', start: (src) => { const i = src.indexOf(ch + ch); return i < 0 ? undefined : i; },
+    tokenizer(src) { const m = re.exec(src); if (m && !m[1].includes('\n\n')) return { type: name, raw: m[0], text: m[1], tokens: this.lexer.inlineTokens(m[1]) }; } };
+};
+const EXTENSIONS = [
+  inlineMark('mark', '='),
+  inlineMark('ins', '+'),
+  { name: 'sup', level: 'inline', start: (src) => { const i = src.indexOf('^'); return i < 0 ? undefined : i; },
+    tokenizer(src) { const m = /^\^([^\s^\[\]]+)\^/.exec(src); if (m) return { type: 'sup', raw: m[0], text: m[1], tokens: this.lexer.inlineTokens(m[1]) }; } },
+  { name: 'footnoteRef', level: 'inline', start: (src) => { const i = src.indexOf('[^'); return i < 0 ? undefined : i; },
+    tokenizer(src) { const m = /^\[\^([A-Za-z0-9_-]{1,40})\](?!:)/.exec(src); if (m) return { type: 'footnoteRef', raw: m[0], id: m[1] }; } },
+  { name: 'footnote', level: 'block', start: (src) => { const m = /(?:^|\n)\[\^[A-Za-z0-9_-]{1,40}\]:/.exec(src); return m ? m.index + (m[0][0] === '\n' ? 1 : 0) : undefined; },
+    tokenizer(src) { const m = /^\[\^([A-Za-z0-9_-]{1,40})\]:[ \t]*([^\n]*(?:\n(?: {2,}|\t)[^\n]*)*)(?:\n|$)/.exec(src); if (m) { const text = m[2].replace(/\n(?: {2,}|\t)/g, '\n').trim(); return { type: 'footnote', raw: m[0], id: m[1], text, tokens: this.lexer.inlineTokens(text) }; } } },
+  { name: 'center', level: 'block', start: (src) => { const m = /(?:^|\n)->/.exec(src); return m ? m.index + (m[0][0] === '\n' ? 1 : 0) : undefined; },
+    tokenizer(src) { const m = /^->[ \t]+([^\n]*?\S)[ \t]+<-[ \t]*(?:\n|$)/.exec(src); if (m) return { type: 'center', raw: m[0], text: m[1], tokens: this.lexer.inlineTokens(m[1]) }; } },
+];
+const md = new Marked({ gfm: true, breaks: false, extensions: EXTENSIONS });
+const lexer = (src) => md.lexer(src);
+const ALERT = /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\][ \t]*(?:\n|$)/i;
+/** A blockquote whose first line is [!NOTE] (and so on) is a callout: { kind: 'note', ... } on the node; the marker leaves the tokens. */
+function callout(token) {
+  const first = token.tokens && token.tokens[0];
+  if (!first || first.type !== 'paragraph') return null;
+  const m = ALERT.exec(first.text); if (!m) return null;
+  const rest = first.text.slice(m[0].length);
+  if (rest.trim()) { first.text = rest; first.raw = rest; first.tokens = md.Lexer.lexInline ? md.Lexer.lexInline(rest, md.defaults) : lexer(rest)[0]?.tokens || []; } else token.tokens.shift();
+  return m[1].toLowerCase();
+}
 const enc=new TextEncoder();
 const bytes=s=>enc.encode(s).length;
 const RECORD=/^:::record ([a-z][a-z0-9-]*)(?: #([A-Za-z0-9][A-Za-z0-9._-]{0,127}))?$/;
@@ -29,12 +63,13 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
   // normalized-to-source character boundary map, then compute UTF-8 spans.
   const normalized=raw.replace(/\r\n|\r/g,'\n'),map=[0];let k=0;
   while(k<raw.length){if(raw[k]==='\r'&&raw[k+1]==='\n')k+=2;else k++;map.push(k);}
-  const tokens=lexer(normalized,{gfm:true,breaks:false});let pos=0;
+  const tokens=lexer(normalized);let pos=0;
   for(const token of tokens){const end=pos+token.raw.length,original=raw.slice(map[pos],map[end]);const extra={markdown:token};
    if(token.type==='code'){
     const language=(token.lang||'').trim().split(/\s+/)[0].toLowerCase(),engine={...builtinDiagrams,...diagramLanguages}[language];
     if(engine){extra.diagram={engine,language,source:token.text};if(engine==='vega'||engine==='vega-lite'){try{const value=JSON.parse(token.text);if(!value||Array.isArray(value)||typeof value!=='object')throw Error('Expected object');extra.diagram.config=value;}catch{ast.diagnostics.push({severity:'warning',code:'invalid-diagram-json',message:'Chart block must contain a JSON object; source retained.',start:offset,end:offset+bytes(original)});}}}
    }
+   if(token.type==='blockquote'){const kind=callout(token);if(kind)extra.callout=kind;}
    if(token.type==='heading'){extra.level=token.depth;extra.text=token.text;const match=day.exec(token.text);if(match){if(validDate(match[1]))extra.date=match[1];else ast.diagnostics.push({severity:'warning',code:'invalid-date',message:'Invalid Gregorian entry date.',start:offset,end:offset+bytes(original)});}}
    else if(token.type==='paragraph')extra.text=token.text;
    node(token.type==='space'?'blank':token.type,original,offset,extra);offset+=bytes(original);pos=end;
@@ -70,7 +105,7 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
   const d=directive.exec(t);if(d){flush();node('directive',l.raw,l.start,{name:d[1],value:d[2]});i++;continue;}
   const a=task.exec(t),s=simple.exec(t);
   if(a||s){flush();let raw=l.raw,text=(a||s)[2];i++;while(i<lines.length&&lines[i].text.startsWith('  ')){raw+=lines[i].raw;text+='\n'+lines[i].text.slice(2);i++;}
-   if(a){const status={' ':'open',x:'completed','>':'migrated','<':'scheduled','-':'cancelled','!':'open'}[a[1]];node('task',raw,l.start,{text,status,priority:a[1]==='!'?'high':'normal',inline:lexer(text,{gfm:true})});}
+   if(a){const status={' ':'open',x:'completed','>':'migrated','<':'scheduled','-':'cancelled','!':'open'}[a[1]];node('task',raw,l.start,{text,status,priority:a[1]==='!'?'high':'normal',inline:lexer(text)});}
    else node({'o':'event','?':'question','!':'idea','=':'synopsis','::voice':'voice'}[s[1]],raw,l.start,{text});continue;
   }
   if(t.startsWith('.')&&/^\.\S/.test(t)){flush();node('scene',l.raw,l.start,{text:t.slice(1)});i++;continue;}
@@ -87,5 +122,5 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
 }
 /** Exact round trip. This does not serialize mutations to derived nodes. */
 export function stringify(ast){if(!ast||typeof ast.source!=='string')throw new TypeError('Expected a Jot AST with original source');return ast.source;}
-export const markdownEngine={name:'Marked',version:'17.0.5',dialect:'GFM'};
+export const markdownEngine={name:'Marked',version:'17.0.5',dialect:'GFM',extensions:['mark','ins','sup','footnote','footnoteRef','center','callout']};
 export default {parse,stringify,markdownEngine};

@@ -190,6 +190,22 @@ Markdown is the base writing syntax. Implementations SHOULD use an established C
 
 `[[annotation text]]` is marginalia, not a wiki link. It is single-line and ends at the next unescaped `]]`. Links use `[label](target)` with nonempty label and a target containing no unescaped whitespace or parentheses. Internal targets use `#id` or `other.jot#id`; external targets use explicit `https:` or `http:` schemes. Raw web addresses remain readable text. No script execution is permitted. Nested markup within annotations or link labels remains literal. Overlapping delimiters are consumed left-to-right with precedence: escape, code, link, marginalia, emphasis, tags/contexts. No construct starts inside code.
 
+#### 4.2.1 Fuller formatting
+
+Jot adds six constructs that common Markdown editors share. Each is presentation only: none creates a record, a task or a link target.
+
+| Source | Meaning |
+| --- | --- |
+| `==text==` | highlighted (rendered as `mark`) |
+| `++text++` | underlined (rendered as `ins`) |
+| `^text^` | superscript; `text` contains no whitespace, `^` or brackets |
+| `[^label]` | a footnote reference; `label` is 1 to 40 of `A-Z a-z 0-9 _ -` |
+| `[^label]: text` at the start of a line | the footnote; indented (two spaces or a tab) lines continue it |
+| `-> text <-` alone on a line | a centred line |
+| `> [!NOTE]` as the whole first line of a blockquote | a callout: `NOTE`, `TIP`, `IMPORTANT`, `WARNING` or `CAUTION`, case-insensitive, as GitHub alerts |
+
+An opening `==` or `++` must be followed, and its closing mark preceded, by a non-whitespace character; the closing mark is not followed by the same character; the content does not cross a blank line. So `a == b`, `C++` and `2 ^ 3` remain text. They are inline and nest with emphasis, in the precedence order above (after code and links, before emphasis). Footnotes are numbered by first reference; a renderer gathers them at the end of the page or document, and a footnote never referenced is still shown. A reference to a missing footnote stays a visible reference. `~text~` remains text (no subscript).
+
 A Markdown blockquote preserves quoted writing; a `quotation` record additionally stores explicit attribution and source fields. Hidden comments are omitted from rendered journal pages but retained by default in editable exports. They are neither encrypted nor safe places for secrets.
 
 ### 4.3 Generic structured record
@@ -217,7 +233,7 @@ Reserved common fields are `method`, `privacy`, `author`, `created`, `modified`,
 
 ### 5.1 Common record types
 
-The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction` and `relation`. Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
+The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation` and `chart` (§5.2.1). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
 
 To make the profile contracts usable, every profile has an ID and integer version. A `method: id@1` field selects it. Every catalogue subsection lists its intended record type, required fields for a **complete** record, optional fields and validation notes. Core always accepts partial capture. Missing required profile fields produce a `profile-incomplete` warning, never rejection of the note. Unless explicitly repeatable, fields in a complete profile are singleton; duplicates warn and their last value supplies the effective value. `body`, `source`, `relation`, `label`, `author`, `privacy`, `created` and `modified` are available to every profile. Common record IDs are separate from profile fields.
 
@@ -248,6 +264,23 @@ A structured numeric value is an ASCII decimal without grouping, exponent or NaN
 A scale declares `name` and `kind` (`ordinal`, `numeric` or `categorical`). Numeric and ordinal scales declare `minimum` and `maximum`, with optional anchors. Categorical scales repeat `option` in display order. A reference to a missing scale is unresolved rather than defaulted. A missing measurement MUST remain visually distinct from the lowest value. Multiple mood observations on one day require a declared daily aggregation (`latest`, `mean`, `minimum`, `maximum` or `user-selected`) before a year-in-pixels view is generated; mean applies only to numeric scales. If no aggregation is chosen, display multiple markers or no single-day aggregate.
 
 Inline state tags such as `[Energy: High]` are display annotations only. They MUST NOT become numeric measurements without an explicit import mapping. Legacy `Telemetry:` and `Theme-Check:` blocks require conversion into records. A free-form `telemetry` record MAY preserve source text while the author decides its mapping.
+
+### 5.2.1 Charts
+
+A `chart` record asks a reader to draw numbers the document already holds. It is a view, not data: it never carries values, and removing it loses nothing.
+
+```jot
+:::record chart #week-2026-10-26
+metrics: sleep, steps
+start: 2026-10-26
+end: 2026-11-01
+style: line
+:::
+```
+
+`metrics` is a comma-separated list of metric keys; absent, every metric with a number in the range is charted. A metric's key is its measurement `metric`, or the name of any other record's field whose value is a structured numeric value (§5.2), lowercased with runs of other characters folded to `-` and a leading `x-` removed. Fields that describe a record rather than count something (the reserved common fields of §4.3, and `metric`, `value`, `unit`, `scale`, `status`, `name`, `kind`, `minimum`, `maximum`) are never metrics. `start` and `end` are inclusive dates. Absent, a chart inside a dated entry covers that entry's ISO week (Monday to Sunday); one outside any entry covers the dates that have numbers. A reversed range is read in date order. `style` is `line` (default) or `bars`.
+
+A number's date is its record's own `date` (or the date part of `at`) when valid, else the dated entry containing it. Two numbers for one metric on one date are shown as their mean in a chart; this is a display choice and MUST NOT be written back as data. A day with no number MUST be drawn as a gap, never as zero (§5.2). Each metric is drawn against its own value axis: metrics with different units or scales MUST NOT share one axis. When a measurement names a scale, its `minimum` and `maximum` bound the axis, unless a value falls outside them. A renderer SHOULD give each chart a text alternative (the metric, the range, how many days have numbers, the mean, the lowest and highest) and the numbers as a table. Readers that do not draw charts show the record as any other record.
 
 ### 5.3 Dates, times and duration
 
@@ -399,6 +432,12 @@ Renderers MUST preserve all selected writing. Overflow modes are `continue`, `ad
 An attachment declares `path`, `media-type`, `alt`, optional `sha256`, `captured-at`, `page-label`, `region`, `physical-location` and `ocr-status`. `region` is a normalized `x,y,width,height` string with each decimal in [0,1] and the rectangle within the page. A transcription is a separate record linked with `derived-from`, with `origin: imported`, `review-status: unreviewed` or `verified`, and an optional confidence note. Handwriting recognition MUST NOT directly complete tasks, confirm doses or overwrite original values without review.
 
 A `.jotz` is the portable bundle described in section 2.0. Handwriting images and editable stroke data, scans, photos and other attachments live inside it under `assets/`, referenced by readable paths in `journal.txt`. Missing referenced assets must be reported; supplied but unused assets remain included until the user explicitly removes them. A plain `.jot` or a writing export is not a self-contained backup of a document with assets. Jot applications must save/restore the included assets along with writing and clearly distinguish an attachment download from downloading the whole document.
+
+### 8.3.1 Simulated handwriting
+
+A renderer MAY present typed writing as handwriting: a handwriting font, alternate letter forms, small per-word rotation and offset, and ink colour. It is presentation only. It MUST NOT change the text, its order, selection, copying or accessible text, and SHOULD be deterministic for the same text and seed so a reprint matches. Real handwriting (section 8.3) and simulated handwriting are never confused: simulation creates no attachment or stroke data.
+
+A dot-grid presentation puts every line of writing on a row of dots: line height equals the dot pitch, block spacing and block heights are whole rows, larger text spans whole rows with its baseline on a row, and a printed page's writing area is a whole number of rows so pages stay aligned. The reference implementation snaps the pitch to the layout engine's unit (1/64 CSS px) so long documents do not drift.
 
 ### 8.4 E-ink and physical styles
 

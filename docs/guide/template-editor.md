@@ -36,6 +36,8 @@ A zone you leave empty adds nothing. If nothing happens weekly, the file has no 
 - **Morning pages:** a prompt and room to write, every day
 - **Gratitude:** three small good things a day
 - **Day planner:** top three, time blocks and a done list
+- **Weekly dashboard:** the week at a glance in six widgets (top priorities, tasks, a schedule, a habit table, a chart of your
+  numbers and a scratchpad), with sleep, work hours, steps and mood to write in each day. See [Numbers and charts](#numbers-and-charts)
 - **Start empty:** just the dates and a place to write
 
 ## Blocks
@@ -51,6 +53,8 @@ Press **Add a block** in a zone and pick one. Here is what each block puts in th
 | **Scale** | a rating with an empty `value:` | typing a number after `value:` |
 | **Ratings** | several things on one scale | typing a number after each name |
 | **Fill-in blanks** | `sleep-hours:` and the like | typing after each name |
+| **Numbers** | a measurement for each number, with its unit and an empty `value:` | typing a number after `value:` |
+| **Week chart** | a chart record naming the numbers and the week's dates | (nothing: the page preview draws it from your numbers) |
 | **Choose words** | `[[calm · tired · hopeful]]` and a line | writing the words that fit on the line |
 | **List** | `- ` or `1. ` lines | writing after each one |
 | **Time blocks** | `- 08:00 `, `- 10:00 ` … | writing what happens after each hour |
@@ -61,6 +65,42 @@ Press **Add a block** in a zone and pick one. Here is what each block puts in th
 
 Every block has **options** (the ⚙ button): its title, its labels (one a line), its numbers. A scale always keeps a real range: if
 "To" is lower than "From", it is raised to fit.
+
+## Numbers and charts
+
+Checkboxes say yes or no. Numbers say how much: hours slept, hours worked, steps, a mood from 1 to 5. Write them as numbers and a
+chart shows the week at a glance, so you can see whether sleep is holding steady or where the hours went.
+
+1. Add a **Numbers** block to **Each day**. Put one number a line, with its unit in brackets: `Sleep (h)`, `Work (h)`, `Steps`.
+   **Scale**, **Ratings** and **Fill-in blanks** make numbers too.
+2. Add a **Week chart** to **Each week begins** (or **Each week ends**). In its options, list the numbers to chart by name (`Sleep`,
+   `Steps`), or leave the list empty to chart all of them. Choose a line or bars.
+3. Each day, write the number after `value:`. Leave a day blank if you didn't track it: the chart leaves a gap, it doesn't count a
+   zero.
+
+Each number gets its own small chart: the days of the week along the bottom, the values up the side, a dashed line at the week's
+average and a line of figures above it (`avg 7.2 h · 6–8.5 h · 6/7 days`). A number with a scale (mood 1 to 5) is charted on that
+scale. Under the charts, **The numbers** opens the same figures as a table.
+
+A chart in **Before the days** or **After the days** covers the whole month.
+
+The charts are drawn by the **Page** view here, by the workspace (**Write**) and by the Jot extension for VS Code. In the file itself a
+chart is a short record that says what it charts, so the file stays plain text:
+
+```jot
+:::record chart #chart-week-2026-10-05
+metrics: sleep, steps
+start: 2026-10-05
+end: 2026-10-11
+style: line
+:::
+```
+
+### A weekly dashboard
+
+A week page is easiest to take in with 5 to 7 widgets: about as many things as working memory holds at once (George Miller's "magical
+number seven", 1956; later research puts it nearer four, one more reason to keep the page short). The **Weekly dashboard** starter
+has six. When **Each week begins** holds more than seven blocks the editor says so, and changes nothing: it is a nudge, not a rule.
 
 ## Arranging blocks
 
@@ -74,7 +114,10 @@ Every block has **options** (the ⚙ button): its title, its labels (one a line)
 
 ## The file on the right
 
-The right-hand side is the file you will download, updated as you work. Above it:
+The right-hand side is the file you will download, updated as you work. **Text** shows it as plain text; **Page** shows it the way a
+journal reader does, with the charts drawn. When the template has a chart, **Sample numbers** fills the empty days with made-up
+numbers so you can see what a filled-in week will look like (they are never written to the file). **Handwritten** shows the page
+written by hand on a dot grid (see [Handwritten pages on a dot grid](writing-jot.md#handwritten-pages-on-a-dot-grid)). Above it:
 
 - **valid Jot**, or the problems found, if any (there should not be any: the editor checks its own output);
 - how many days the file holds and its size;
@@ -135,12 +178,6 @@ nothing.
 
 You can also keep the template as its own file: **More → Save template (.json)**, and open it the same way.
 
-## Bringing in a print layout
-
-If you have a day layout from the Journalwright print editor (a `daypage.json` file), **More → Import a print day layout** turns it
-into your **Each day** blocks. Blocks that only make sense on paper (sketch boxes, photos, puzzles) and the printed data (moon,
-holidays, events) are left out, and the message names them. **Undo** takes the import back.
-
 ## With InkDeck
 
 InkDeck is writing firmware for the Xteink X3/X4 e-ink readers with a Bluetooth keyboard.
@@ -153,11 +190,6 @@ InkDeck is writing firmware for the Xteink X3/X4 e-ink readers with a Bluetooth 
 
 New files you make on InkDeck itself are `.jot` too, with the metadata block already at the top. Name them by date (`2026-10-26.jot`),
 or start them with a `### 2026-10-26` heading, so they know which day they belong to.
-
-## Printing a book
-
-The print engine in this project (the `journal/` folder) can print your filled-in `.jot` writing into a monthly book, after each
-week's pages. It runs from the command line; see its README. You don't need it to keep a Jot journal.
 
 ## Privacy
 

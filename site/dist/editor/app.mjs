@@ -1,8 +1,9 @@
 // Jot template editor: the page. The model and the .jot text come from template.mjs; the check uses the Jot parser (../jot/jot.mjs).
 // The template is kept in this browser (localStorage, if allowed); nothing is sent anywhere.
-import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, monthLabel, templateFromJot } from './template.mjs';
-import { importDayLayout } from './import.mjs';
+import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, monthLabel, templateFromJot } from './template.mjs';
 import { parse } from '../jot/jot.mjs';
+import { renderPreview, addChartStyles } from '../jot/preview.mjs';
+addChartStyles(document);
 
 const $ = (s) => document.querySelector(s);
 const KEY = 'jot-template-v1';
@@ -77,7 +78,7 @@ function drawZones(focusSel) {
   $('#zones').innerHTML = ZONES.map((z) => {
     const list = tpl.zones[z.id];
     return `<section class="zone" data-zone="${z.id}" aria-labelledby="z-${z.id}">
-      <h2 id="z-${z.id}">${esc(z.name)}</h2><p class="hint">${esc(z.hint)}</p>
+      <h2 id="z-${z.id}">${esc(z.name)}</h2><p class="hint">${esc(z.hint)}</p>${z.id === 'weekStart' && widgetCount(tpl) > WIDGET_LIMIT ? `<p class="hint warn-note" role="note">${widgetCount(tpl)} widgets on the week page. Five to seven is what most people can take in at a glance (the "rule of 7"); think about folding some together.</p>` : ''}
       ${list.length ? `<ol class="blocks">${list.map((b, i) => blockHtml(b, z.id, i, list.length)).join('')}</ol>` : '<p class="empty">Nothing here yet.</p>'}
       <button class="btn small add" type="button" data-act="add" data-zone="${z.id}"><span aria-hidden="true">＋</span> Add a block</button>
     </section>`;
@@ -237,7 +238,25 @@ function drawPreview() {
   const ul = $('#problems'); ul.hidden = !probs.length;
   ul.innerHTML = probs.slice(0, 8).map((p) => `<li>${esc(p.message)}</li>`).join('');
   document.title = `${tpl.title} · ${monthLabel(tpl.month)} · Jot template editor`;
+  const hasNumbers = ast.nodes.some((n) => n.type === 'record' && n.recordType === 'chart');
+  $('#sample-wrap').hidden = view !== 'page' || !hasNumbers;
+  $('#hand-wrap').hidden = view !== 'page';
+  if (view === 'page') renderPreview(ast, $('#page'), { sample: hasNumbers && $('#sample').checked, empty: 'Add a block to see the page.', hand: $('#handwritten').checked ? { hand: 'pen', ink: 'blue', pitchMm: 5 } : null });
 }
+// ---- Text or Page: the file as it is, or as a journal reader shows it (charts drawn) ----
+let view = 'text';
+function setView(v, focus) {
+  view = v;
+  for (const [id, name] of [['#tab-text', 'text'], ['#tab-page', 'page']]) { const t = $(id); t.setAttribute('aria-selected', String(name === v)); t.tabIndex = name === v ? 0 : -1; if (focus && name === v) t.focus(); }
+  $('#jot').hidden = v !== 'text'; $('#page-view').hidden = v !== 'page';
+  $('#preview-h').textContent = v === 'text' ? 'The .jot file' : 'The page';
+  drawPreview();
+}
+$('#tab-text').onclick = () => setView('text');
+$('#tab-page').onclick = () => setView('page');
+$('.view-tabs').addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setView(view === 'text' ? 'page' : 'text', true); } });
+$('#sample').onchange = () => drawPreview();
+$('#handwritten').onchange = () => drawPreview();
 $('#file-sel').addEventListener('change', (e) => { shown = +e.target.value; drawPreview(); });
 
 // ---- files out and in ----
@@ -259,9 +278,8 @@ $('#more-menu').addEventListener('keydown', (e) => {
 });
 $('#save-tpl').onclick = () => { menu(false); download(`${tpl.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'journal'}.jot-template.json`, `${JSON.stringify(tpl, null, 1)}\n`, 'application/json'); toast('Saved the template'); };
 $('#open-tpl').onclick = () => { menu(false); $('#open-file').click(); };
-$('#import-day').onclick = () => { menu(false); $('#open-file').click(); };
-// One way in for every file: a .jot made here (plain or packaged) brings its template back, a template .json opens, and a print
-// editor's daypage.json becomes the "Each day" blocks. Anything else is refused and the template is left as it was.
+// One way in for every file: a .jot made here (plain or packaged) brings its template back, and a template .json opens. Anything else is
+// refused and the template is left as it was.
 async function openFile(f) {
   if (f.size > 4 * 1024 * 1024) throw new Error('That file is too big to be a template');
   const bytes = new Uint8Array(await f.arrayBuffer());
@@ -272,13 +290,7 @@ async function openFile(f) {
   if (fromJot) { record(''); tpl = fromJot; open.clear(); drawSettings(); changed(true); return `Opened ${tpl.title} from ${f.name}`; }
   let raw = null; try { raw = JSON.parse(text); } catch { /* not JSON */ }
   if (raw && typeof raw === 'object' && raw.zones) { record(''); tpl = normalizeTemplate(raw); open.clear(); drawSettings(); changed(true); return `Opened ${tpl.title}`; }
-  if (raw && typeof raw === 'object' && Array.isArray(raw.blocks)) {
-    const r = importDayLayout(raw), blocks = normalizeTemplate({ zones: { day: r.blocks } }).zones.day;
-    if (!blocks.length) throw new Error('That day layout has nothing to fill in');
-    record(''); tpl.zones.day = blocks; open.clear(); changed(true);
-    return `Imported ${blocks.length} blocks into Each day${r.skipped.length ? `. Left out, paper only or printed data: ${r.skipped.join(', ')}` : ''}`;
-  }
-  throw new Error(/\.jotz?$/i.test(f.name) ? 'This journal file has no template in it (it was not made with this editor)' : 'That file is not a Jot template, a .jot or a day layout');
+  throw new Error(/\.jotz?$/i.test(f.name) ? 'This journal file has no template in it (it was not made with this editor)' : 'That file is not a Jot template or a .jot');
 }
 $('#open-file').onchange = async () => {
   const f = $('#open-file').files[0]; $('#open-file').value = ''; if (!f) return;

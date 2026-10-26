@@ -1,0 +1,21 @@
+/* The Jot preview inside VS Code: the editor's own theme colours (--vscode-*), so it fits light, dark and high-contrast themes. */
+body { margin: 0; padding: 16px 20px 40px; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); font: 15px/1.6 var(--vscode-font-family, system-ui, sans-serif); }
+.jot-page { max-width: 820px; margin: 0 auto; overflow-wrap: anywhere; }
+.jot-page h1, .jot-page h2, .jot-page h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; line-height: 1.25; margin: 1.1em 0 .4em; }
+.jot-page h1 { font-size: 2em; } .jot-page h2 { font-size: 1.5em; border-top: 1px solid var(--vscode-panel-border, #8884); padding-top: .5em; } .jot-page h3 { font-size: 1.25em; }
+.jot-page h4 { font-size: 1em; font-weight: 650; margin: 1em 0 .3em; }
+.jot-page a { color: var(--vscode-textLink-foreground); }
+.jot-page code { font-family: var(--vscode-editor-font-family, monospace); background: var(--vscode-textCodeBlock-background); padding: 0 3px; border-radius: 3px; }
+.jot-page pre { background: var(--vscode-textCodeBlock-background); padding: 10px; border-radius: 6px; overflow-x: auto; }
+.jot-page blockquote { margin: 0; padding-left: 12px; border-left: 3px solid var(--vscode-textBlockQuote-border, #8886); color: var(--vscode-descriptionForeground); }
+.jot-page table { border-collapse: collapse; width: 100%; } .jot-page th, .jot-page td { border: 1px solid var(--vscode-panel-border, #8885); padding: 4px 8px; height: 1.8em; text-align: left; }
+.jot-page .jot-task { margin: 2px 0; }
+.jot-page .jot-record { border-left: 3px solid var(--vscode-panel-border, #8886); padding: 4px 10px; margin: 6px 0; font-size: .92em; }
+.jot-page .jot-record dl { display: grid; grid-template-columns: max-content 1fr; gap: 0 10px; margin: 4px 0 0; } .jot-page .jot-record dd { margin: 0; }
+.jot-page .jot-measure { display: flex; gap: 6px; align-items: baseline; } .jot-page .jot-blank { opacity: .6; letter-spacing: 2px; }
+.jot-page .eyebrow { font-size: .75em; letter-spacing: 1.6px; font-weight: 700; opacity: .75; }
+.jot-page .diagram-note, .jot-page .raw-html { opacity: .7; font-style: italic; }
+.jot-page .pagebreak { border: 0; border-top: 2px dashed var(--vscode-panel-border, #8886); margin: 24px 0; }
+body .jot-page .jot-chart { --jc-ink: var(--vscode-editor-foreground); --jc-muted: var(--vscode-descriptionForeground); --jc-grid: var(--vscode-panel-border, #8884); --jc-axis: var(--vscode-descriptionForeground); --jc-surface: var(--vscode-editor-background); --jc-series: var(--vscode-charts-blue, #2a78d6); }
+.jot-status { position: fixed; right: 12px; bottom: 8px; margin: 0; font-size: 12px; color: var(--vscode-descriptionForeground); background: var(--vscode-editor-background); padding: 2px 6px; border-radius: 4px; }
+.jot-page.jot-hand { max-width: none; width: fit-content; min-width: min(100%, 560px); padding: 16px; border-radius: 4px; box-shadow: 0 1px 6px #0003; }

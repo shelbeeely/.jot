@@ -1,10 +1,10 @@
 // The Jot template editor in a real browser (Chromium via Playwright): editing, downloads, keeping the template, phone width, accessibility.
-//   node test-editor-ui.cjs [shots-folder]      (axe-core from ../journal/node_modules when present)
+//   node test-editor-ui.cjs [shots-folder]      (axe-core from ../node_modules when present: npm install at the root)
 const { chromium } = require('playwright');
 const http = require('http'), fs = require('fs'), path = require('path'), os = require('os');
 const assert = require('node:assert/strict');
 const ROOT = path.join(__dirname, 'dist'), SHOTS = process.argv[2] || fs.mkdtempSync(path.join(os.tmpdir(), 'jot-editor-'));
-const AXE = path.join(__dirname, '../journal/node_modules/axe-core/axe.min.js');
+const AXE = path.join(__dirname, '../node_modules/axe-core/axe.min.js');
 const TYPES = { '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json' };
 let n = 0; const ok = (c, m) => { assert.ok(c, m); n++; console.log('ok   ' + m); };
 
@@ -115,7 +115,7 @@ const srv = http.createServer((q, r) => {
   await p.mouse.up(); ok((await p.$$eval('[data-zone="front"] .blk', (e) => e.length)) === 1 && /can't go in Each day/.test(await p.textContent('#toast')), 'and stays where it was, saying why');
 
   await p.setViewportSize({ width: 1280, height: 900 });
-  // a downloaded .jot brings its template back; a print day layout imports
+  // a downloaded .jot brings its template back
   await p.selectOption('#t-per', 'month');
   const dl1 = p.waitForEvent('download'); await p.click('#download'); const jd = await dl1, jpath = await jd.path();
   const want = await p.evaluate(() => localStorage.getItem('jot-template-v1'));
@@ -126,12 +126,9 @@ const srv = http.createServer((q, r) => {
   await p.setInputFiles('#open-file', { name: 'other.jot', mimeType: 'text/plain', buffer: Buffer.from('### 2026-10-01\n\nWritten somewhere else.\n') });
   await p.waitForFunction(() => /no template in it/.test(document.querySelector('#toast').textContent));
   ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'a .jot made elsewhere is refused, and nothing changes');
-  const daypage = { v: 2, blocks: [{ type: 'sky', on: true }, { type: 'scale', title: 'Pain', steps: 6, on: true }, { type: 'checks', title: 'Body care', labels: ['HRT', 'Stretch'], on: true }, { type: 'sudoku', on: true }, { type: 'body', on: true }] };
-  await p.click('#more'); ok(await p.isVisible('#import-day'), 'More offers Import a print day layout');
-  await p.click('#import-day'); await p.setInputFiles('#open-file', { name: 'daypage.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(daypage)) });
-  await p.waitForFunction(() => /Imported 3 blocks into Each day/.test(document.querySelector('#toast').textContent));
-  ok(JSON.stringify(await dayTitles()) === JSON.stringify(['Pain', 'Body care', 'Writing']) && /Moon, sun & season, Sudoku/.test(await p.textContent('#toast')), 'daypage.json becomes the Each day blocks, and says what was left out');
-  await p.click('#undo'); ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'and Undo takes the import back');
+  await p.setInputFiles('#open-file', { name: 'daypage.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ v: 2, blocks: [{ type: 'sky', on: true }] })) });
+  await p.waitForFunction(() => /not a Jot template or a \.jot/.test(document.querySelector('#toast').textContent));
+  ok((await p.evaluate(() => localStorage.getItem('jot-template-v1'))) === want, 'any other file (an old print day layout, say) is refused, and nothing changes');
   await p.selectOption('#t-per', 'month'); await p.screenshot({ path: path.join(SHOTS, 'editor-desktop.png'), fullPage: false });
 
   // phone width, light and dark, accessibility
@@ -151,15 +148,69 @@ const srv = http.createServer((q, r) => {
       const v2 = await ph.evaluate(async () => (await axe.run(document.querySelector('#palette'), { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => x.id));
       ok(v2.length === 0 && await ph.$('#palette [data-type="page"]'), `${scheme}: the block palette passes axe and offers a page title before the days`);
       await ph.keyboard.press('Escape');
-    } else console.log('-- axe-core not found (npm ci in journal/): accessibility scan not run');
+    } else console.log('-- axe-core not found (npm install at the repository root): accessibility scan not run');
     await ph.screenshot({ path: path.join(SHOTS, `editor-phone-${scheme}.png`), fullPage: false });
     await ph.close();
   }
-  // the workspace (site root): plain .jot without attachments, one .jotz with them (spec draft 3)
+  // the weekly dashboard: the starter, the Page view, its charts with sample numbers, the rule-of-7 note
+  { const d = await b.newPage({ viewport: { width: 1280, height: 900 } }); d.on('pageerror', (e) => errs.push(e.message));
+    await d.goto(URL0); await d.evaluate(() => { try { localStorage.clear(); } catch {} }); await d.reload(); await d.waitForSelector('#jot:not(:empty)');
+    await d.click('#starter'); await d.click('#starter-list >> text=Weekly dashboard');
+    ok((await d.$$eval('[data-zone="weekStart"] .blk', (e) => e.length)) === 6 && /:::record chart #chart-week-2026-\d\d-\d\d\nmetrics: sleep, work, steps, mood\nstart: /.test(await d.textContent('#jot')), 'Weekly dashboard: six widgets for the week, and a chart record naming its numbers and dates');
+    ok(await d.$eval('#sample-wrap', (e) => e.hidden), 'the Text view has no sample switch');
+    await d.click('#tab-page');
+    ok(!(await d.$eval('#page-view', (e) => e.hidden)) && await d.$eval('#jot', (e) => e.hidden) && (await d.textContent('#preview-h')) === 'The page', 'Page shows the file as a journal reader would');
+    const charts = await d.$$eval('#page .jot-chart', (c) => c.length);
+    // what Chart.js holds for each canvas (the same module instance the page loaded)
+    const drawn = (pg, sel) => pg.evaluate(async (s) => { const { Chart } = await import('/jot/vendor/chart.mjs'); return [...document.querySelectorAll(s)].map((c) => { const ch = Chart.getChart(c); return ch ? { type: ch.config.type, data: ch.data.datasets[0].data, w: c.width, label: c.getAttribute('aria-label') } : null; }); }, sel);
+    const empty = await drawn(d, '#page .jot-chart canvas');
+    ok(charts >= 5 && empty.length === charts * 4 && empty.every((c) => c && c.w > 0 && c.data.every((v) => v === null) && /no numbers yet/.test(c.label)) && /nothing written yet/.test(await d.textContent('#page .jot-chart')), `a chart a week (${charts}), four Chart.js charts each, drawn and named, empty until numbers are written`);
+    await d.check('#sample');
+    const sampled = await drawn(d, '#page .jot-chart canvas');
+    ok(sampled.length === charts * 4 && sampled.every((c) => c.type === 'line' && c.data.every((v) => typeof v === 'number')) && /sample numbers/.test(await d.textContent('#page .jot-chart')), 'Sample numbers fills every chart, and says they are samples');
+    if (fs.existsSync(AXE)) {
+      await d.addScriptTag({ path: AXE });
+      const v = await d.evaluate(async () => (await axe.run(document.querySelector('.preview'), { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
+      ok(v.length === 0, 'the Page view with its charts: axe finds nothing serious' + (v.length ? ': ' + v.join(', ') : ''));
+    }
+    await d.screenshot({ path: path.join(SHOTS, 'editor-dashboard-page.png'), fullPage: true });
+    ok(await d.$$eval('#page .jot-blank-line', (l) => l.length) > 0 && !/:::record scale/.test(await d.textContent('#page')), 'empty task and list lines show as lines to write on; scale definitions are not printed');
+    await d.keyboard.press('Escape'); await d.focus('#tab-page'); await d.keyboard.press('ArrowLeft');
+    ok(await d.evaluate(() => document.activeElement.id === 'tab-text') && !(await d.$eval('#jot', (e) => e.hidden)), 'the arrow keys move between Text and Page');
+    ok(!(await d.$('.warn-note')), 'six widgets: no rule-of-7 note');
+    await d.click('[data-act="add"][data-zone="weekStart"]'); await d.click('#palette [data-type="writing"]');
+    await d.click('[data-act="add"][data-zone="weekStart"]'); await d.click('#palette [data-type="writing"]');
+    ok(/8 widgets on the week page/.test(await d.textContent('[data-zone="weekStart"] .warn-note')), 'eight: the week zone says five to seven is what most people take in at a glance');
+    await d.close(); }
+  // the home page: why Jot, no editor on it, a live chart, phone width and dark, axe
+  for (const scheme of ['light', 'dark']) {
+    const h = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme }); h.on('pageerror', (e) => errs.push(e.message));
+    await h.goto(URL0.replace('/editor/', '/')); await h.waitForSelector('#demo-chart canvas');
+    const demo = await h.evaluate(async () => { const { Chart } = await import('/jot/vendor/chart.mjs'); return [...document.querySelectorAll('#demo-chart canvas')].map((c) => Chart.getChart(c).data.datasets[0].data.length); });
+    ok(!(await h.$('#writing, textarea')) && /Why keep a journal in Jot\?/.test(await h.textContent('main')) && demo.join() === '7,7', `home (${scheme}): why Jot, no editor, and the example week drawn by Chart.js`);
+    ok(await h.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), `home (${scheme}, 390 px): no sideways scroll`);
+    const hrefs = await h.$$eval('a[href]', (as) => [...new Set(as.map((a) => a.href))].filter((u) => u.startsWith(location.origin)));
+    for (const u of hrefs) { const res = await h.request.get(u.split('#')[0]); assert.equal(res.status(), 200, u); }
+    ok(hrefs.length >= 10, `home: every link on the page answers (${hrefs.length})`);
+    ok(await h.$$eval('main input, main textarea, main select, main [contenteditable], main form', (e) => e.length) === 0, `home (${scheme}): no editor and nothing to fill in, only reasons and pictures`);
+    ok(await h.evaluate(() => { const p = document.querySelector('#written-demo'); return p.classList.contains('jot-hand') && p.querySelectorAll('svg.hw-box[role="img"][aria-label="done"]').length === 2 && p.querySelectorAll('svg.hw-box[aria-label="to do"]').length === 1; }), `home (${scheme}): a sample page written by hand, its tasks in pencil boxes a screen reader can name`);
+    if (fs.existsSync(AXE)) {
+      await h.addScriptTag({ path: AXE });
+      const v = await h.evaluate(async () => (await axe.run(document, { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
+      ok(v.length === 0, `home (${scheme}): axe finds nothing serious` + (v.length ? ': ' + v.join(', ') : ''));
+    }
+    await h.screenshot({ path: path.join(SHOTS, `home-${scheme}.png`), fullPage: true });
+    await h.close();
+  }
+  // the workspace (/write/): plain .jot without attachments, one .jotz with them (spec draft 3)
   { const w = await b.newPage({ viewport: { width: 1280, height: 900 }, acceptDownloads: true }); w.on('pageerror', (e) => errs.push(e.message));
-    await w.goto(URL0.replace('/editor/', '/')); await w.waitForSelector('#writing');
+    await w.goto(URL0.replace('/editor/', '/write/')); await w.waitForSelector('#writing');
     await w.evaluate(async () => { try { localStorage.clear(); } catch {} });
     await w.reload(); await w.waitForSelector('#writing'); await w.waitForTimeout(400);
+    await w.fill('#writing', '### 2026-10-26 | Monday\n\n:::record measurement #s1\nmetric: sleep\nunit: h\nvalue: 7\n:::\n\n### 2026-10-27\n\n:::record measurement #s2\nmetric: sleep\nunit: h\nvalue: 8\n:::\n\n:::record chart #week\nmetrics: sleep\n:::\n'); await w.dispatchEvent('#writing', 'input');
+    await w.waitForSelector('#paperPreview .jot-chart canvas');
+    const ws = await w.evaluate(async () => { const { Chart } = await import('/jot/vendor/chart.mjs'); return Chart.getChart(document.querySelector('#paperPreview .jot-chart canvas')).data.datasets[0].data; });
+    ok(/avg 7\.5 h/.test(await w.textContent('#paperPreview .jot-chart')) && ws.filter((v) => v !== null).join() === '7,8', 'workspace: a chart record in the writing is drawn in the page preview (its week, from the entry it is in)');
     await w.fill('#writing', '### 2026-10-26 | Monday\n\nA plain day.\n');
     const d1p = w.waitForEvent('download'); await w.click('#downloadJot'); const d1 = await d1p, t1 = fs.readFileSync(await d1.path());
     ok(/\.jot$/.test(d1.suggestedFilename()) && t1[0] !== 0x50 && /A plain day/.test(t1.toString()) && (await w.textContent('#docExt')) === '.jot', `workspace: no attachments, Download .jot saves plain text (${d1.suggestedFilename()})`);
@@ -169,6 +220,49 @@ const srv = http.createServer((q, r) => {
     const d2p = w.waitForEvent('download'); await w.click('#downloadJot'); const d2 = await d2p, t2 = fs.readFileSync(await d2.path());
     ok(/\.jotz$/.test(d2.suggestedFilename()) && t2[0] === 0x50 && t2[1] === 0x4b, `workspace: with an attachment it saves one .jotz package (${d2.suggestedFilename()})`);
     await w.close(); }
+  // fuller formatting and the handwritten page on a dot grid (the workspace)
+  { const w = await b.newPage({ viewport: { width: 1280, height: 900 } }); w.on('pageerror', (e) => errs.push(e.message));
+    await w.goto(URL0.replace('/editor/', '/write/')); await w.waitForSelector('#writing');
+    await w.evaluate(() => { try { localStorage.clear(); } catch {} }); await w.reload(); await w.waitForSelector('#writing');
+    const journal = '# Notebook\n\n### 2026-10-26 | Monday\n\nThe rain made the room ==quieter== and ++softer++, x^2^.[^1]\n\n[x] Walk\n[ ] Call Sam\n\n> [!TIP]\n> Headphones helped.\n\n-> A small beginning. <-\n\n| What | How much |\n| --- | --- |\n| Tea | 2 |\n\n:::record measurement #s\nmetric: sleep\nunit: h\nvalue: 7.5\n:::\n\n:::record chart #c\nmetrics: sleep\n:::\n\n[^1]: At the kitchen table.\n\n' + Array.from({ length: 40 }, (_, i) => `### 2026-10-${String(i % 28 + 1).padStart(2, '0')}\n\nA long day of writing, line after line, so the journal runs onto several printed pages and every one of them must keep its words on the dots. Day ${i + 1}.\n`).join('\n');
+    await w.fill('#writing', journal); await w.dispatchEvent('#writing', 'input'); await w.waitForSelector('#paperPreview .jot-callout');
+    ok(await w.$eval('#paperPreview', (p) => !!(p.querySelector('mark') && p.querySelector('ins') && p.querySelector('sup:not(.jot-fn-ref)') && p.querySelector('.jot-fn-ref a[href^="#"]') && p.querySelector('.jot-footnotes li') && p.querySelector('.jot-callout-tip .jot-callout-title') && p.querySelector('p.jot-center'))), 'typed: highlight, underline, superscript, a footnote and its note, a callout and a centred line');
+    await w.selectOption('#look', 'hand'); await w.waitForFunction(() => document.querySelector('#paperPreview').jotGrid);
+    const g = await w.evaluate(() => { const p = document.querySelector('#paperPreview'), pad = parseFloat(getComputedStyle(p).paddingTop), pitch = p.jotGrid.pitch;
+      const blocks = [...p.children].filter((e) => !e.classList.contains('hw-page-edge'));
+      const top0 = p.getBoundingClientRect().top + pad, off = blocks.map((e) => (e.getBoundingClientRect().top - top0 - (parseFloat(e.style.top) || 0)) / pitch).filter((r) => Math.abs(r - Math.round(r)) > 0.005);
+      const heights = blocks.map((e) => e.getBoundingClientRect().height / pitch).filter((r) => Math.abs(r - Math.round(r)) > 0.005);
+      const alts = new Set([...p.querySelectorAll('.hw-c')].map((c) => c.style.fontFeatureSettings || 'none'));
+      return { pitch, off, heights, alts: [...alts].sort(), words: p.querySelectorAll('.hw-w').length, fonts: document.fonts.check("16px 'Jot Caveat'"), edges: p.querySelectorAll('.hw-page-edge').length, css: document.getElementById('printSettings').textContent, text: p.textContent.replace(/\s+/g, ' ').slice(0, 60), dy: p.style.getPropertyValue('--hw-dy'), base: p.jotGrid.baseline }; });
+    ok(g.fonts && g.words > 400 && g.alts.join() === '"ss01","ss02",none', `handwritten: the pen font is loaded, ${g.words} words written, letters in all three shapes`);
+    ok(g.off.length === 0 && g.heights.length === 0, 'every block starts on a row of the grid and is a whole number of rows tall' + (g.off.length ? ` (off: ${g.off.slice(0, 3)})` : '') + (g.heights.length ? ` (heights: ${g.heights.slice(0, 3)})` : ''));
+    ok(g.pitch === 18.890625 && Math.abs(parseFloat(g.dy) - (g.base - g.pitch / 2)) < 0.01, 'the dots are drawn where the letters sit (5 mm, snapped to the layout unit)');
+    const geo = /@page \{ size: 148mm 210mm; margin: ([\d.]+)px ([\d.]+)px; \}/.exec(g.css);
+    ok(geo && Math.abs(210 * 96 / 25.4 - 2 * geo[1] - 38 * g.pitch) < 0.05, 'the printed A5 page holds exactly 38 rows of dots');
+    ok(g.edges >= 2 && /Notebook/.test(g.text), `on screen, a dashed line where each printed page ends (${g.edges})`);
+    const pdf = await w.pdf({ preferCSSPageSize: true }), pages = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
+    ok(pages === g.edges + 1, `printing makes the same pages the screen shows (${pages})`);
+    const before = await w.$eval('#paperPreview', (p) => [p.textContent, [...p.querySelectorAll('.hw-c')].slice(0, 80).map((c) => c.style.fontFeatureSettings).join()]);
+    await w.click('#reshuffle'); await w.waitForFunction(() => document.querySelector('#paperPreview').jotGrid);
+    const after = await w.$eval('#paperPreview', (p) => [p.textContent, [...p.querySelectorAll('.hw-c')].slice(0, 80).map((c) => c.style.fontFeatureSettings).join()]);
+    ok(after[0] === before[0] && after[1] !== before[1], 'Rewrite changes the letter shapes, never the words');
+    if (fs.existsSync(AXE)) {
+      await w.addScriptTag({ path: AXE });
+      const v = await w.evaluate(async () => (await axe.run(document.querySelector('#paperPreview'), { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
+      ok(v.length === 0, 'the handwritten page: axe finds nothing serious' + (v.length ? ': ' + v.join(', ') : ''));
+    }
+    await w.reload(); await w.waitForSelector('#writing');
+    ok((await w.$eval('#look', (s) => s.value)) === 'hand' && !(await w.$eval('#handTools', (e) => e.hidden)), 'the look is remembered');
+    await w.selectOption('#look', 'typed'); await w.waitForTimeout(400);
+    ok(!(await w.$('#paperPreview.jot-hand')) && !(await w.$('#paperPreview .hw-w')) && /margin: 10mm/.test(await w.textContent('#printSettings')), 'Typed puts the page back as it was');
+    await w.screenshot({ path: path.join(SHOTS, 'workspace-typed-formatting.png') });
+    await w.close(); }
+  // the template editor's Page view, handwritten
+  { const d = await b.newPage({ viewport: { width: 1280, height: 900 } }); d.on('pageerror', (e) => errs.push(e.message));
+    await d.goto(URL0); await d.waitForSelector('#jot:not(:empty)'); await d.click('#tab-page'); await d.check('#handwritten');
+    await d.waitForFunction(() => document.querySelector('#page').jotGrid);
+    ok(await d.$eval('#page', (p) => p.classList.contains('jot-hand') && p.querySelectorAll('.hw-w').length > 20), 'the template editor\'s Page view can be handwritten too');
+    await d.close(); }
   // the guides: readable on a phone and in the dark, nothing serious for axe
   for (const [pg, scheme] of [['guide/', 'light'], ['guide/writing-jot.html', 'dark'], ['guide/template-editor.html', 'light']]) {
     const gp = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme }); gp.on('pageerror', (e) => errs.push(e.message));

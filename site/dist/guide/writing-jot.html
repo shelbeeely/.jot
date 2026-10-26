@@ -12,11 +12,11 @@
 <a class="skip" href="#guide">Skip to the guide</a>
 <header class="top">
   <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
-  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="writing-in-jot">Writing in Jot</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li></ul></nav><article class="guide">
 <p>Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
 the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.</p>
 <p>This guide covers everything you need to write a <code>.jot</code> file by hand. It takes about ten minutes to read, and you can stop after the
@@ -123,6 +123,53 @@ line is a box waiting for you.</p>
 | Morning | Quiet enough to think |
 </code></pre>
 <p><code>- [ ] task</code> (with a dash) also works as a checklist; plain <code>[ ] task</code> is the Jot way and is quicker to type.</p>
+<h3 id="more-ways-to-mark-words">More ways to mark words</h3>
+<p>Jot adds a few marks that many Markdown editors (Obsidian, Typora, iA Writer) and GitHub also understand:</p>
+<pre tabindex="0"><code class="language-jot">I want to remember ==this part== most.
+Something ++underlined++, and E = mc^2^.
+A claim that needs its source.[^where]
+
+-&gt; A line in the middle of the page &lt;-
+
+&gt; [!TIP]
+&gt; Headphones helped more than pushing through.
+
+[^where]: Overheard on the bus, 26 October.
+</code></pre>
+<table tabindex="0">
+<thead>
+<tr>
+<th>You write</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>==words==</code></td>
+<td>a highlight, like a marker pen</td>
+</tr>
+<tr>
+<td><code>++words++</code></td>
+<td>underlined words</td>
+</tr>
+<tr>
+<td><code>x^2^</code></td>
+<td>superscript (no spaces inside)</td>
+</tr>
+<tr>
+<td><code>[^name]</code> and, on a line of its own, <code>[^name]: the note</code></td>
+<td>a footnote: a small number in the text and the note at the end of the page. A note can go on over lines indented by two spaces</td>
+</tr>
+<tr>
+<td><code>-&gt; words &lt;-</code></td>
+<td>a line centred on the page</td>
+</tr>
+<tr>
+<td><code>&gt; [!NOTE]</code> on the first line of a quote (also <code>TIP</code>, <code>IMPORTANT</code>, <code>WARNING</code>, <code>CAUTION</code>)</td>
+<td>a callout box, as on GitHub</td>
+</tr>
+</tbody></table>
+<p>Each mark needs a letter just inside it, so ordinary writing like <code>a == b</code>, <code>C++</code> or <code>2 ^ 3</code> stays as you typed it. Inside
+<code>`code`</code> nothing is a mark.</p>
 <h2 id="notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</h2>
 <ul>
 <li><code>[[ like this ]]</code> on its own line is a <strong>margin note</strong>: a remark beside the writing, not part of it.</li>
@@ -173,6 +220,45 @@ value: 3
 :::
 </code></pre>
 <p>To fill in a rating, type the number after <code>value:</code>. Leaving it empty is always allowed: an empty value never counts as a zero.</p>
+<p><strong>Units.</strong> A measurement can say what its number counts in: <code>unit: h</code> for hours, <code>unit: km</code>, <code>unit: ml</code>.</p>
+<h2 id="charts-of-your-numbers">Charts of your numbers</h2>
+<p>Numbers you write day after day can be drawn as a chart, so a week&#39;s sleep or steps shows at a glance. Add a <code>chart</code> record:</p>
+<pre tabindex="0"><code class="language-jot">### 2026-10-26 | Monday
+
+:::record measurement #sleep-2026-10-26
+metric: sleep
+unit: h
+value: 7.5
+:::
+
+:::record observation #today-2026-10-26
+steps: 8200
+:::
+
+### 2026-10-27 | Tuesday
+
+:::record measurement #sleep-2026-10-27
+metric: sleep
+unit: h
+value: 6
+:::
+
+:::record chart #week-2026-10-26
+metrics: sleep, steps
+:::
+</code></pre>
+<ul>
+<li><strong>What it charts:</strong> <code>metrics:</code> names the numbers, by their <code>metric:</code> (in a measurement) or their field name (<code>steps:</code> in any other
+record). Leave <code>metrics:</code> out to chart every number.</li>
+<li><strong>Which days:</strong> a chart inside a dated entry covers that entry&#39;s week, Monday to Sunday. <code>start:</code> and <code>end:</code> (dates) choose other
+days; a chart outside any entry covers the days that have numbers.</li>
+<li><strong>How:</strong> <code>style: line</code> (the default) or <code>style: bars</code>.</li>
+<li><strong>Each number gets its own small chart,</strong> on its own scale, with the days along the bottom, the week&#39;s average as a dashed line and
+a summary (<code>avg 6.8 h · 6–7.5 h · 2/7 days</code>). A measurement with a <code>scale:</code> is charted from the scale&#39;s minimum to its maximum.
+Days with nothing written are gaps, never zeros. Two numbers for one metric on one day are averaged.</li>
+<li><strong>Where you see it:</strong> the workspace (<strong>Write</strong>), the template editor&#39;s <strong>Page</strong> view and the Jot extension for VS Code draw it. Anywhere
+else the record shows as the few lines above, which still say what it charts.</li>
+</ul>
 <h2 id="a-few-other-things">A few other things</h2>
 <ul>
 <li><strong>Page break:</strong> <code>===</code> on its own line, after an empty line, starts a new page when the journal is printed.</li>
@@ -192,6 +278,24 @@ A new notebook.
 <ul>
 <li><strong>When a mark should just be text,</strong> put a backslash before it: <code>\[ ] this is not a task</code> or <code>\# not a heading</code>.</li>
 </ul>
+<h2 id="handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</h2>
+<p>The workspace (<strong>Write</strong>) can show your journal as if you had written it by hand in a dot-grid notebook, and print it that way:</p>
+<ol>
+<li>Under the page preview, set <strong>Look</strong> to <strong>Handwritten</strong>.</li>
+<li>Choose a <strong>Hand</strong>: <strong>Pen</strong> (a natural pen hand; each letter comes in three shapes, so two <code>e</code>s side by side are never quite the
+same), <strong>Neat print</strong> or <strong>Marker</strong>. Choose an <strong>Ink</strong> colour, and how far apart the dots are (<strong>Dots every</strong> 4 to 7 mm; 5 mm is
+the usual notebook).</li>
+<li>Pick the <strong>Paper</strong> (A5, A4, Letter, pocket or your own size), then <strong>Print / PDF</strong>. In the print dialog keep the margins at
+<strong>Default</strong> and the scale at <strong>100%</strong>.</li>
+</ol>
+<p>Every line of writing sits on a row of dots, page after page: the printed dots and the letters come out together, so the page looks
+filled in by hand. Headings take two rows, a blank row separates paragraphs, and charts, tables and pictures are rounded up to whole
+rows so nothing after them slips off the grid. Dashed lines in the preview show where each printed page ends.</p>
+<p>Task boxes are drawn in pencil, each a slightly different wobbly square, and a done task gets a scribbled tick that runs past the box
+the way a quick pen does. Each word leans and sits a little differently, and the wobbles are worked out from the words themselves, so the same journal always
+prints the same. <strong>Rewrite ↻</strong> writes it again with other wobbles and letter shapes; your words never change. Turn <strong>Dots</strong> off to
+print the handwriting on plain paper, or on paper that already has a dot grid.</p>
+<p>The template editor&#39;s <strong>Page</strong> view and the VS Code extension can show the handwritten look too.</p>
 <h2 id="plain-and-packaged-files">Plain and packaged files</h2>
 <ul>
 <li><strong><code>.jot</code></strong> is plain text: what you see is what is in it. This is what you write and what templates make.</li>
@@ -205,14 +309,19 @@ editor or InkDeck works with <code>.jot</code>; to get the writing out of a <cod
 <li><strong>Any text editor</strong>, on a computer or a phone. Save the file with a <code>.jot</code> ending. (For colours, see
 <a href="#colours-in-your-text-editor">Colours in your text editor</a>.)</li>
 <li><strong>InkDeck</strong>, the e-ink writing firmware for the Xteink X3/X4: it creates <code>.jot</code> files for you.</li>
-<li><strong>The Jot workspace</strong> (the Journal page of this site): a preview beside your writing, method ideas, and attachments.</li>
+<li><strong>The Jot workspace</strong> (<strong>Write</strong>, on this site): a preview beside your writing, with charts, method ideas and attachments.</li>
+<li><strong>VS Code</strong>, with the Jot extension: colours for Jot&#39;s marks and a live page preview with charts. See
+<a href="#colours-in-your-text-editor">Colours in your text editor</a>.</li>
 <li><strong>The template editor:</strong> design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
 See <a href="template-editor.html">Using the template editor</a>.</li>
 </ul>
 <h2 id="colours-in-your-text-editor">Colours in your text editor</h2>
-<p>Most editors don&#39;t know <code>.jot</code> yet, but Jot is Markdown underneath. Tell your editor to treat <code>.jot</code> as Markdown and you get headings,
-lists, bold and tables in colour. (Jot&#39;s own marks, like <code>o</code> events and records, show as plain text for now; a Jot extension for
-editors is planned.)</p>
+<p><strong>VS Code</strong> has a Jot extension (in the <code>vscode/</code> folder of the Jot project): dates, tasks, events, records and their numbers in
+colour, and <strong>Jot: Open Preview to the Side</strong> (<code>Ctrl+K V</code>, <code>Cmd+K V</code> on a Mac) for a live page preview that draws your charts.
+<strong>Jot: Insert a Week Chart</strong> writes a chart record for this week. Until it is in the Marketplace, install it from the folder: run
+<code>npx @vscode/vsce package</code> there, then <strong>Extensions → … → Install from VSIX</strong>.</p>
+<p>Other editors don&#39;t know <code>.jot</code> yet, but Jot is Markdown underneath. Tell your editor to treat <code>.jot</code> as Markdown and you get
+headings, lists, bold and tables in colour. (Jot&#39;s own marks, like <code>o</code> events and records, show as plain text.)</p>
 <table tabindex="0">
 <thead>
 <tr>
@@ -221,7 +330,7 @@ editors is planned.)</p>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>VS Code</strong> (and VSCodium, Cursor)</td>
+<td><strong>VS Code</strong> (and VSCodium, Cursor), without the extension</td>
 <td>Open a <code>.jot</code> file, click the language name at the bottom right (&quot;Plain Text&quot;), choose <strong>Configure File Association for &#39;.jot&#39;…</strong>, then <strong>Markdown</strong></td>
 </tr>
 <tr>

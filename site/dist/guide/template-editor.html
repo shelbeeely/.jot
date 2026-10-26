@@ -12,11 +12,11 @@
 <a class="skip" href="#guide">Skip to the guide</a>
 <header class="top">
   <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
-  <nav aria-label="Jot tools"><a href="../">Journal</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./">Guides</a><a href="../examples/">Examples</a><a href="../scan/">Scanner</a></nav>
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="using-the-template-editor">Using the template editor</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-five-steps">In five steps</a></li><li><a href="#the-five-zones">The five zones</a></li><li><a href="#starters">Starters</a></li><li><a href="#blocks">Blocks</a></li><li><a href="#arranging-blocks">Arranging blocks</a></li><li><a href="#the-file-on-the-right">The file on the right</a></li><li><a href="#downloading">Downloading</a></li><li><a href="#filling-it-in">Filling it in</a></li><li><a href="#changing-the-template-later">Changing the template later</a></li><li><a href="#bringing-in-a-print-layout">Bringing in a print layout</a></li><li><a href="#with-inkdeck">With InkDeck</a></li><li><a href="#printing-a-book">Printing a book</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-five-steps">In five steps</a></li><li><a href="#the-five-zones">The five zones</a></li><li><a href="#starters">Starters</a></li><li><a href="#blocks">Blocks</a></li><li><a href="#numbers-and-charts">Numbers and charts</a></li><li><a href="#arranging-blocks">Arranging blocks</a></li><li><a href="#the-file-on-the-right">The file on the right</a></li><li><a href="#downloading">Downloading</a></li><li><a href="#filling-it-in">Filling it in</a></li><li><a href="#changing-the-template-later">Changing the template later</a></li><li><a href="#with-inkdeck">With InkDeck</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li></ul></nav><article class="guide">
 <p>The template editor builds the <strong>shape</strong> of a journal: what each day, week and month asks of you. It gives you a plain-text <code>.jot</code>
 file with a dated entry for every day, ready to fill in by hand on any keyboard, a phone or InkDeck.</p>
 <p>It runs in your browser. Your template stays in that browser and nothing is sent anywhere.</p>
@@ -67,6 +67,8 @@ file with a dated entry for every day, ready to fill in by hand on any keyboard,
 <li><strong>Morning pages:</strong> a prompt and room to write, every day</li>
 <li><strong>Gratitude:</strong> three small good things a day</li>
 <li><strong>Day planner:</strong> top three, time blocks and a done list</li>
+<li><strong>Weekly dashboard:</strong> the week at a glance in six widgets (top priorities, tasks, a schedule, a habit table, a chart of your
+numbers and a scratchpad), with sleep, work hours, steps and mood to write in each day. See <a href="#numbers-and-charts">Numbers and charts</a></li>
 <li><strong>Start empty:</strong> just the dates and a place to write</li>
 </ul>
 <h2 id="blocks">Blocks</h2>
@@ -115,6 +117,16 @@ file with a dated entry for every day, ready to fill in by hand on any keyboard,
 <td>typing after each name</td>
 </tr>
 <tr>
+<td><strong>Numbers</strong></td>
+<td>a measurement for each number, with its unit and an empty <code>value:</code></td>
+<td>typing a number after <code>value:</code></td>
+</tr>
+<tr>
+<td><strong>Week chart</strong></td>
+<td>a chart record naming the numbers and the week&#39;s dates</td>
+<td>(nothing: the page preview draws it from your numbers)</td>
+</tr>
+<tr>
 <td><strong>Choose words</strong></td>
 <td><code>[[calm · tired · hopeful]]</code> and a line</td>
 <td>writing the words that fit on the line</td>
@@ -152,6 +164,34 @@ file with a dated entry for every day, ready to fill in by hand on any keyboard,
 </tbody></table>
 <p>Every block has <strong>options</strong> (the ⚙ button): its title, its labels (one a line), its numbers. A scale always keeps a real range: if
 &quot;To&quot; is lower than &quot;From&quot;, it is raised to fit.</p>
+<h2 id="numbers-and-charts">Numbers and charts</h2>
+<p>Checkboxes say yes or no. Numbers say how much: hours slept, hours worked, steps, a mood from 1 to 5. Write them as numbers and a
+chart shows the week at a glance, so you can see whether sleep is holding steady or where the hours went.</p>
+<ol>
+<li>Add a <strong>Numbers</strong> block to <strong>Each day</strong>. Put one number a line, with its unit in brackets: <code>Sleep (h)</code>, <code>Work (h)</code>, <code>Steps</code>.
+<strong>Scale</strong>, <strong>Ratings</strong> and <strong>Fill-in blanks</strong> make numbers too.</li>
+<li>Add a <strong>Week chart</strong> to <strong>Each week begins</strong> (or <strong>Each week ends</strong>). In its options, list the numbers to chart by name (<code>Sleep</code>,
+<code>Steps</code>), or leave the list empty to chart all of them. Choose a line or bars.</li>
+<li>Each day, write the number after <code>value:</code>. Leave a day blank if you didn&#39;t track it: the chart leaves a gap, it doesn&#39;t count a
+zero.</li>
+</ol>
+<p>Each number gets its own small chart: the days of the week along the bottom, the values up the side, a dashed line at the week&#39;s
+average and a line of figures above it (<code>avg 7.2 h · 6–8.5 h · 6/7 days</code>). A number with a scale (mood 1 to 5) is charted on that
+scale. Under the charts, <strong>The numbers</strong> opens the same figures as a table.</p>
+<p>A chart in <strong>Before the days</strong> or <strong>After the days</strong> covers the whole month.</p>
+<p>The charts are drawn by the <strong>Page</strong> view here, by the workspace (<strong>Write</strong>) and by the Jot extension for VS Code. In the file itself a
+chart is a short record that says what it charts, so the file stays plain text:</p>
+<pre tabindex="0"><code class="language-jot">:::record chart #chart-week-2026-10-05
+metrics: sleep, steps
+start: 2026-10-05
+end: 2026-10-11
+style: line
+:::
+</code></pre>
+<h3 id="a-weekly-dashboard">A weekly dashboard</h3>
+<p>A week page is easiest to take in with 5 to 7 widgets: about as many things as working memory holds at once (George Miller&#39;s &quot;magical
+number seven&quot;, 1956; later research puts it nearer four, one more reason to keep the page short). The <strong>Weekly dashboard</strong> starter
+has six. When <strong>Each week begins</strong> holds more than seven blocks the editor says so, and changes nothing: it is a nudge, not a rule.</p>
 <h2 id="arranging-blocks">Arranging blocks</h2>
 <ul>
 <li><strong>Drag</strong> a block by its handle (⠿) to a new place, in the same zone or another one. A purple line shows where it will land; a red
@@ -163,7 +203,10 @@ line means it can&#39;t go there (a page title only goes before or after the day
 single step.</li>
 </ul>
 <h2 id="the-file-on-the-right">The file on the right</h2>
-<p>The right-hand side is the file you will download, updated as you work. Above it:</p>
+<p>The right-hand side is the file you will download, updated as you work. <strong>Text</strong> shows it as plain text; <strong>Page</strong> shows it the way a
+journal reader does, with the charts drawn. When the template has a chart, <strong>Sample numbers</strong> fills the empty days with made-up
+numbers so you can see what a filled-in week will look like (they are never written to the file). <strong>Handwritten</strong> shows the page
+written by hand on a dot grid (see <a href="writing-jot.html#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a>). Above it:</p>
 <ul>
 <li><strong>valid Jot</strong>, or the problems found, if any (there should not be any: the editor checks its own output);</li>
 <li>how many days the file holds and its size;</li>
@@ -216,10 +259,6 @@ don&#39;t show it). To change the shape later, even after you have started writi
 <p>The template comes back exactly as it was. A <code>.jot</code> written anywhere else has no template inside; the editor says so and changes
 nothing.</p>
 <p>You can also keep the template as its own file: <strong>More → Save template (.json)</strong>, and open it the same way.</p>
-<h2 id="bringing-in-a-print-layout">Bringing in a print layout</h2>
-<p>If you have a day layout from the Journalwright print editor (a <code>daypage.json</code> file), <strong>More → Import a print day layout</strong> turns it
-into your <strong>Each day</strong> blocks. Blocks that only make sense on paper (sketch boxes, photos, puzzles) and the printed data (moon,
-holidays, events) are left out, and the message names them. <strong>Undo</strong> takes the import back.</p>
 <h2 id="with-inkdeck">With InkDeck</h2>
 <p>InkDeck is writing firmware for the Xteink X3/X4 e-ink readers with a Bluetooth keyboard.</p>
 <ol>
@@ -231,9 +270,6 @@ blocks a day can go over that, and the editor warns you when it does.</li>
 </ol>
 <p>New files you make on InkDeck itself are <code>.jot</code> too, with the metadata block already at the top. Name them by date (<code>2026-10-26.jot</code>),
 or start them with a <code>### 2026-10-26</code> heading, so they know which day they belong to.</p>
-<h2 id="printing-a-book">Printing a book</h2>
-<p>The print engine in this project (the <code>journal/</code> folder) can print your filled-in <code>.jot</code> writing into a monthly book, after each
-week&#39;s pages. It runs from the command line; see its README. You don&#39;t need it to keep a Jot journal.</p>
 <h2 id="privacy">Privacy</h2>
 <ul>
 <li>The template is kept in this browser only (if the browser allows it). Clearing the site&#39;s data removes it, so save a copy with

@@ -1,0 +1,8 @@
+{
+  "name": "jot",
+  "private": true,
+  "description": "Jot: a plain-text journal format, its parser, the site and the VS Code extension. Only the browser tests need these.",
+  "devDependencies": {
+    "axe-core": "^4.13.0"
+  }
+}

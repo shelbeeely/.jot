@@ -1,9 +1,9 @@
 // The Jot template editor's model and generator (dist/editor/template.mjs). Run: node --test test-editor.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks, templateFromJot, templateComment } from './dist/editor/template.mjs';
-import { importDayLayout } from './dist/editor/import.mjs';
+import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks, templateFromJot, templateComment } from './dist/editor/template.mjs';
 import { parse } from './dist/jot/jot.mjs';
+import { charts } from './dist/jot/charts.mjs';
 
 const records = (a) => a.nodes.filter((n) => n.type === 'record');
 const every = () => normalizeTemplate({ title: 'Every block', month: '2026-10', zones: Object.fromEntries(ZONES.map((z) => [z.id, BLOCK_ORDER.filter((t) => allowedIn(t, z.id)).map((t) => newBlock(t, z.id))])) });
@@ -102,27 +102,31 @@ test('a downloaded .jot carries its template, so opening it brings the template 
   assert.equal(renderJot(t).text, renderJot(JSON.parse(JSON.stringify(t))).text, 'the same template writes the same file');
 });
 
-test('a print day layout (daypage.json) imports as the Each day blocks', () => {
-  const r = importDayLayout({ v: 2, blocks: [
-    { type: 'sky', on: true }, { type: 'care', on: true }, { type: 'body', on: true }, { type: 'actions', on: true, count: 4 }, { type: 'review', on: true, items: { well: true, hard: false, next: true } },
-    { type: 'scale', title: 'Pain', steps: 6, zero: true, lo: 'none', hi: 'bad', on: true }, { type: 'checks', title: 'Body care', labels: ['HRT', 'Stretch'], on: true },
-    { type: 'sketch', on: true }, { type: 'sudoku', on: true }, { type: 'words', title: 'Feeling', words: ['calm', 'tired'], on: true }, { type: 'habits', on: false, labels: ['x'] }] });
-  assert.deepEqual(r.skipped, ['Moon, sun & season', 'Sketch box', 'Sudoku']);
-  const day = normalizeTemplate({ month: '2026-10', zones: { day: r.blocks } }).zones.day;
-  assert.deepEqual(day.map((b) => `${b.type}:${b.title || ''}`), ['checks:Care', 'scale:Mood', 'blanks:Care numbers', 'writing:Writing', 'tasks:Action items', 'writing:Went well', 'writing:Tomorrow', 'scale:Pain', 'checks:Body care', 'choose:Feeling']);
-  assert.deepEqual([day[7].min, day[7].max, day[4].n], [0, 5, 4], 'options carry over (a 6-step scale from 0, four action lines)');
-  assert.equal(parse(renderJot({ month: '2026-10', zones: { day } }).text).diagnostics.length, 0);
-  assert.throws(() => importDayLayout({ nope: 1 }), /not a day layout/);
+test('Numbers and Week chart: measurements with units each day, a chart record per week that finds them', () => {
+  const t = { month: '2026-10', zones: { weekStart: [{ type: 'chart', title: 'Week', metrics: ['Sleep (h)', 'Steps', 'Sleep'], style: 'bars' }], day: [{ type: 'numbers', title: 'Numbers', labels: ['Sleep (h)', 'Steps', ''] }], back: [{ type: 'chart', title: 'The month', metrics: [] }] } };
+  const { text } = renderJot(t), a = parse(text);
+  assert.equal(a.diagnostics.length, 0);
+  assert.match(text, /#### Numbers\n\n:::record measurement #sleep-2026-10-14\nmetric: sleep\nunit: h\nvalue:\n:::\n\n:::record measurement #steps-2026-10-14\nmetric: steps\nvalue:\n:::/);
+  assert.match(text, /## Week of 2026-10-12\n\n#### Week\n\n:::record chart #chart-week-2026-10-12\nmetrics: sleep, steps\nstart: 2026-10-12\nend: 2026-10-18\nstyle: bars\n:::/, 'a unit is not part of the name; a name twice is charted once');
+  assert.match(text, /## Week of 2026-09-28\n\n#### Week\n\n:::record chart #chart-week-2026-09-28\nmetrics: sleep, steps\nstart: 2026-09-28\nend: 2026-10-04/, 'the first week is charted Monday to Sunday, into September');
+  assert.match(text, /:::record chart #chart-2026-10-end\nstart: 2026-10-01\nend: 2026-10-31\nstyle: line\n:::/, 'after the days: the whole month, every number');
+  const cs = charts(a);
+  assert.equal(cs.length, 6);
+  assert.ok(cs.every((c) => c.model && !c.model.empty && c.model.series.every((s) => s.stats.n === 0)), 'every chart finds its metrics, with nothing written yet');
+  assert.equal(cs[5].model.days.length, 31);
+  assert.ok(!allowedIn('chart', 'day') && allowedIn('chart', 'weekEnd') && allowedIn('numbers', 'day'), 'a chart goes with a week or the month, not a day');
 });
 
-test('every block the print library has either becomes a Jot block or is named as left out', async () => {
-  const { TYPES, newBlock: printBlock, normalize } = await import('../journal/daypage.mjs'); // the print engine in this repository
-  const all = normalize({ v: 2, blocks: Object.keys(TYPES).map((t) => ({ ...printBlock(t, {}, t), on: true })) });
-  const r = importDayLayout(JSON.parse(JSON.stringify(all)));
-  const covered = r.skipped.length + new Set(all.blocks.filter((b) => !r.skipped.includes(TYPES[b.type].name)).map((b) => b.type)).size;
-  assert.equal(covered, Object.keys(TYPES).length, `skipped: ${r.skipped.join(', ')}`);
-  assert.ok(r.skipped.every((n) => Object.values(TYPES).some((t) => t.name === n)), 'skipped blocks go by their print names');
-  const tpl = normalizeTemplate({ month: '2026-10', zones: { day: r.blocks } });
-  assert.equal(tpl.zones.day.length, r.blocks.length, 'every converted block is a valid Jot block');
-  assert.equal(parse(renderJot(tpl).text).diagnostics.length, 0);
+test('Weekly dashboard: six widgets a week (within the rule of 7), numbers every day, a month that fits InkDeck', () => {
+  const t = fromStarter('dashboard', { month: '2026-10' });
+  assert.equal(widgetCount(t), 6); assert.ok(widgetCount(t) <= WIDGET_LIMIT && WIDGET_LIMIT === 7);
+  const [m] = renderFiles({ ...t, per: 'month' }), a = parse(m.text);
+  assert.ok(m.bytes <= INKDECK_BYTES, `${m.bytes} bytes`);
+  const cs = charts(a);
+  assert.equal(cs.length, 5);
+  assert.deepEqual(cs[1].model.series.map((s) => [s.metric, s.unit]), [['sleep', 'h'], ['work', 'h'], ['steps', ''], ['mood', '']]);
+  assert.deepEqual([cs[1].model.series[3].min, cs[1].model.series[3].max], [1, 5], 'mood charts on its 1 to 5 scale');
+  // filled in: the chart reads the numbers written that week
+  const filled = m.text.replace('#sleep-2026-10-06\nmetric: sleep\nunit: h\nvalue:', '#sleep-2026-10-06\nmetric: sleep\nunit: h\nvalue: 7.5');
+  assert.deepEqual(charts(parse(filled))[1].model.series[0].points, [null, 7.5, null, null, null, null, null]);
 });

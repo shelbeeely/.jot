@@ -20,14 +20,52 @@ file before refusing it. Plain and packaged files now look different before anyo
 This supersedes draft 2, which used `.jot` for both, and the older statements that called plain `.jot` legacy-only or the package the
 only native representation.
 
+## Numbers, charts and the weekly dashboard (26 October 2026)
+
+- **A chart is a record** (`:::record chart`, spec §5.2.1): it names metrics and dates and holds no values, so the file stays plain
+  text that says what it charts, and a reader without charts loses nothing. The numbers stay where they were written: `measurement`
+  records, and plain-number fields of other records (the template editor's Ratings and Fill-in blanks).
+- **One metric, one chart.** Each metric is drawn on its own value axis (a scale's range when it has one), days with nothing written
+  are gaps, and two numbers on a day are averaged for display only. No dual axes: sleep hours and steps never share a scale.
+- **One renderer, drawn by Chart.js.** `parser/charts.mjs` reads the numbers and builds each chart's Chart.js configuration (pure, tested
+  in Node); Chart.js 4.6.1 draws it, bundled as `parser/vendor/chart.mjs` with only line and bar charts, so nothing is fetched at run
+  time. Each canvas is named by a text summary and the numbers are also a table. `parser/preview.mjs` (the page, DOM only) is shared by
+  the workspace, the template editor's Page view, the home page and the VS Code extension, which carry copies (`site/dist/jot/`,
+  `vscode/media/jot/`) checked in CI.
+- **The rule of 7 is a nudge.** The template editor says when a week page has more than seven widgets; it never refuses.
+- **No book maker.** The print engine (`journal/`, KDP books) and the template editor's print day layout import are removed: Jot is
+  written and read as text, and printed from the browser (the workspace's Print / PDF).
+- **The site's home page explains Jot;** the writing workspace moved from `/` to `/write/` (examples open there with `?open=`).
+
+## Fuller formatting and handwritten pages (26 October 2026)
+
+- **Six more marks** (spec 4.2.1): `==highlight==`, `++underline++`, `^superscript^`, footnotes (`[^1]`, `[^1]: …`), centred lines
+  (`-> … <-`) and callouts (`> [!NOTE]`). Chosen because Obsidian, Typora, iA Writer, markdown-it plugins and GitHub already use them,
+  so a `.jot` reads the same elsewhere. They are Marked extensions in `parser/jot.mjs`; each needs a non-space just inside its marks,
+  so ordinary prose (`a == b`, `C++`) is untouched. No subscript: `~text~` stays text (4.2).
+- **Handwriting is a look, not data** (spec 8.3.1). `parser/handwriting.mjs` writes a rendered page in an open handwriting font
+  (Caveat as Pen, with its two full alternate sets chosen per letter; Playpen Sans and Shantell Sans, which bring their own contextual
+  alternates), with small seeded wobbles per word. The text in the page stays the text: copying, search and screen readers are
+  unaffected. Same text and seed, same page.
+- **On the dots.** Lines are one dot pitch apart, the pitch is snapped to Chromium's 1/64 px layout unit, blocks are rounded up to whole
+  rows, two-row headings are nudged onto a row, the dots are drawn at the measured baseline, and the printed page's writing area is a
+  whole number of rows (`pageGeometry`). Printed, the dots and the letters land together on every page.
+- **Hand-drawn boxes belong to the handwritten look.** On a handwritten page a task's box is a wobbly pencil square and a done task's
+  a scribbled tick (`boxSVG`, SVG paths from a seed), in the ink colour so they print as lines; the tick draws itself with a CSS stroke
+  animation (`pathLength` 1, dash offset 1 to 0), finished at once for reduced motion and in print. Typed pages keep plain boxes. No
+  extra font for the boxes: the page already writes in Caveat.
+- **The home page explains; it takes no input.** No editor or form on it: the writing workspace is at `/write/`.
+- **Fonts are bundled** (`parser/fonts/`, SIL OFL 1.1, Latin and Latin Extended, regular and bold), never fetched; the site publishes
+  `.woff2` for them.
+
 ## What the current code does
 
 - parse(text) parses writing and preserves its source; stringify(ast) returns that original source, not edits to AST nodes.
 - readDocument(input) reads either representation by content and returns source/assets plus a packaged flag.
 - pack(...) writes the bytes of a `.jotz`; unpack(...) validates and reads one.
-- The workspace opens `.jot`, `.jotz`, `.md` and `.txt`. Download .jot saves plain `.jot` when the journal has no attachments, and one
+- The workspace (`/write/`) opens `.jot`, `.jotz`, `.md` and `.txt`. Download .jot saves plain `.jot` when the journal has no attachments, and one
   `.jotz` when it has. Export writing .md writes the writing only.
-- The template editor writes plain `.jot` and opens either. The print engine (`journal/`) reads `*.jot` and `*.jotz`.
+- The template editor writes plain `.jot` and opens either.
 - readDocument's detection is a prototype, not a claim that every malformed package can be told apart from arbitrary text.
 
 ## Packaging and product boundaries

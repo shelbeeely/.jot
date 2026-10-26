@@ -33,6 +33,46 @@ Use a Markdown fenced code block with one of these language names: `mermaid`, `d
 
 Diagram rendering is separate. This package does not include those engines, validate their grammars, or send source to a remote service. An editor can provide local rendering adapters or show the preserved code. Adapters must restrict external resources and sanitize SVG/HTML. Unknown fenced languages remain ordinary code. Links, renderer directives and chart data URLs are not fetched by this parser.
 
+## Charts and the page preview
+
+`charts.mjs` reads the numbers a journal holds (`measurement` records, and plain-number fields of any other record) and draws the
+charts that `:::record chart` asks for (spec §5.2.1): `collectNumbers(ast)`, `chartModel(ast, node)`, `charts(ast)`, and
+`chartConfig(model, series, theme)`, the [Chart.js](https://www.chartjs.org) configuration for one metric (its own value axis, gaps for
+empty days, the average dashed), plus `summaryText()` (each chart's accessible name) and `CHART_CSS` (light and dark). Pure, so it runs
+in Node.
+
+`preview.mjs` draws a parsed journal into a DOM element: `renderPreview(ast, element, { asset, sample })`, and `drawChart(element, model)`
+for one chart on its own. Charts are drawn by Chart.js 4.6.1, vendored as one ES module (`vendor/chart.mjs`: line and bar charts only,
+built with esbuild; its header says how), with a text summary on each canvas and the numbers as a table. Markdown becomes elements
+built one by one (never `innerHTML`), raw HTML is never rendered, links are only `http(s)`, `mailto` and `#`, and images come only from
+attachments the caller lends through `asset(path)`. The workspace, the template editor and the VS Code extension all use it.
+
+```javascript
+import { parse } from './jot.mjs';
+import { renderPreview, addChartStyles } from './preview.mjs';
+addChartStyles(document);
+renderPreview(parse(text), document.querySelector('#page'));
+```
+
+Tests: `node --test charts-test.mjs`.
+
+## Fuller formatting
+
+Beyond GFM, the lexer understands `==highlight==` (`mark` tokens), `++underline++` (`ins`), `^superscript^` (`sup`), footnotes
+(`footnoteRef` inline, `footnote` blocks), centred lines (`center` blocks) and GitHub callouts (a blockquote node gains
+`callout: 'note' | 'tip' | 'important' | 'warning' | 'caution'`). Spec 4.2.1. `markdownEngine.extensions` lists them. Tests:
+`node --test formatting-test.mjs`.
+
+## Handwritten pages
+
+`handwriting.mjs` makes a rendered page look written by hand on a dot grid: `handwrite(page, {hand, ink, seed})`, then
+`alignToGrid(page, {pitchMm, dots, pageRows})` once the font has loaded; `pageGeometry(paperMm, pitchMm)` gives the `@page` box whose
+writing area is whole rows of dots. `renderPreview(ast, el, { hand: {…} })` does all three and resolves `el.jotReady` when the page is
+aligned. On a handwritten page, task boxes are hand-drawn SVG in the ink colour (`boxSVG`: a wobbly square, and for a done task a
+scribbled tick that draws itself; `BOX_CSS`). The hands are open fonts in `fonts/` (SIL OFL 1.1, each with its licence): Caveat (Pen), Playpen Sans (Neat print) and
+Shantell Sans (Marker), Latin and Latin Extended, regular and bold. Tests: `node --test handwriting-test.mjs` (the browser side is in
+`site/test-editor-ui.cjs` and `vscode/test-preview.cjs`).
+
 ## Handwriting
 
 Handwritten writing can be preserved as editable strokes plus a PNG attachment, linked through an ordinary Jot record. Stroke files are assets inside the same document, not prose in disguise. A separate, user-reviewed transcription may link to them using `derived-from`; it must never replace the original handwriting. The scanner includes browser pen input and stroke export. This parser does not perform handwriting recognition.
@@ -41,11 +81,11 @@ Handwritten writing can be preserved as editable strokes plus a PNG attachment, 
 
 `source` contains the original string. Nodes include `type`, `raw`, `start` and `end`; offsets count UTF-8 bytes. Markdown nodes carry the original Marked token in `markdown`. Record fields are ordered `{name,value}` pairs. Date headings generate an `entries` index without splitting the source into files. Repeated dates remain separate entries. Unicode and original newline sequences are preserved in source slices, even though Markdown token text normalizes newlines.
 
-`stringify(ast)` returns the unmodified original source. It does not serialize edits made to derived tokens. There is no HTML renderer, profile validator, OCR engine, date-time scheduler, attachment loader or remote include processor. Diagnostics cover malformed metadata/records, unclosed fences/comments, invalid dates and duplicate record IDs. The parser never executes content or fetches linked files.
+`stringify(ast)` returns the unmodified original source. It does not serialize edits made to derived tokens. The page renderer is `preview.mjs` (above); there is no profile validator, OCR engine, date-time scheduler, attachment loader or remote include processor. Diagnostics cover malformed metadata/records, unclosed fences/comments, invalid dates and duplicate record IDs. The parser never executes content or fetches linked files.
 
 ## Dependency notice
 
-`vendor/marked.mjs` is Marked 17.0.5, distributed under its MIT license in `vendor/marked-LICENSE.md`. It is included to keep Markdown behavior grounded in an established parser rather than an ad hoc collection of replacement expressions. Jot's wrapper is original project code.
+`vendor/chart.mjs` is Chart.js 4.6.1 with @kurkle/color 0.3.4, both MIT (`vendor/chart-LICENSE.md`). `vendor/marked.mjs` is Marked 17.0.5, distributed under its MIT license in `vendor/marked-LICENSE.md`. It is included to keep Markdown behavior grounded in an established parser rather than an ad hoc collection of replacement expressions. Jot's wrapper is original project code.
 
 
 ## Optional spelling and grammar hints
