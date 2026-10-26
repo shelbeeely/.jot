@@ -84,6 +84,51 @@ const srv = http.createServer((q, r) => {
     await w.selectOption('#look', 'typed'); await w.reload();
     await w.waitForFunction(() => document.querySelector('#paperPreview [data-block-id="notes"]')?.dataset.usedRows);
     assert.equal(await w.inputValue('#look'), 'hand', 'saved layout is restored after unrelated typed preferences');
+    // Every hand and pitch keeps a checkbox in the first grid cell and visible text between the dot rows.
+    for (const hand of ['pen', 'print', 'marker']) for (const pitch of ['4', '5', '6', '7']) {
+      await w.selectOption('#hand', hand); await w.selectOption('#pitch', pitch);
+      await w.$eval('#paperPreview', async (page) => { await page.jotReady; });
+      const alignment = await w.$eval('#paperPreview', (page) => {
+        const row = page.querySelector('.jot-task'), box = row.querySelector('.hw-box'), text = row.querySelector('.jot-task-text');
+        const r = row.getBoundingClientRect(), b = box.getBoundingClientRect(), p = page.jotGrid.pitch;
+        const word = text.querySelector('.hw-w'), probe = document.createElement('span');
+        probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline'; word.append(probe);
+        const style = getComputedStyle(word), canvas = document.createElement('canvas'), context = canvas.getContext('2d');
+        context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+        const ink = context.measureText(word.textContent), baseline = probe.getBoundingClientRect().top; probe.remove();
+        return { pitch: p, boxX: b.left + b.width / 2 - r.left, boxY: b.top + b.height / 2 - r.top,
+          textX: text.getBoundingClientRect().left - r.left, inkY: baseline - (ink.actualBoundingBoxAscent - ink.actualBoundingBoxDescent) / 2 - r.top,
+          phase: parseFloat(page.style.getPropertyValue('--hw-dy')), rowHeight: r.height };
+      });
+      assert.ok(Math.abs(alignment.boxX - alignment.pitch / 2) < .1, `${hand}/${pitch}: checkbox column centre`);
+      assert.ok(Math.abs(alignment.boxY - alignment.pitch / 2) < .1, `${hand}/${pitch}: checkbox row centre`);
+      assert.ok(Math.abs(alignment.textX - alignment.pitch) < .1, `${hand}/${pitch}: text begins at the next column`);
+      assert.ok(Math.abs(alignment.inkY - alignment.pitch / 2) < 2, `${hand}/${pitch}: visible text centred in the row (${alignment.inkY})`);
+      assert.ok(Math.abs(alignment.rowHeight - alignment.pitch) < .1, `${hand}/${pitch}: one row per short task`);
+      assert.ok(Math.abs(alignment.phase + alignment.pitch / 2) < .01, `${hand}/${pitch}: dot rows mark cell boundaries`);
+    }
+    await w.selectOption('#hand', 'pen'); await w.selectOption('#pitch', '5');
+    await w.$eval('#paperPreview', async (page) => { await page.jotReady; });
+    const emptyAndWrapped = await w.evaluate(async () => {
+      const { parse } = await import('/jot/jot.mjs');
+      const { renderPreview } = await import('/jot/preview.mjs');
+      const page = document.createElement('article'); page.className = 'paper-preview'; page.style.width = '250px'; document.body.append(page);
+      renderPreview(parse('[ ] ' + 'A longer task that wraps onto several grid rows. '.repeat(8) + '\n\n[ ] \n[ ] \n'), page, { hand: { hand: 'pen', pitchMm: 5 } });
+      await page.jotReady;
+      const row = page.querySelector('.jot-task'), r = row.getBoundingClientRect(), box = row.querySelector('.hw-box').getBoundingClientRect();
+      const empty = [...page.querySelectorAll('.jot-blank-line')].map((line) => {
+        const b = line.querySelector('.hw-box').getBoundingClientRect(), rect = line.getBoundingClientRect();
+        return { height: rect.height, x: b.left + b.width / 2 - rect.left, y: b.top + b.height / 2 - rect.top };
+      });
+      const result = { pitch: page.jotGrid.pitch, wrappedHeight: r.height, wrappedBoxY: box.top + box.height / 2 - r.top, empty }; page.remove(); return result;
+    });
+    assert.ok(emptyAndWrapped.wrappedHeight > emptyAndWrapped.pitch * 2, 'the task actually wraps');
+    assert.ok(Math.abs(emptyAndWrapped.wrappedBoxY - emptyAndWrapped.pitch / 2) < .1, 'wrapped task keeps its checkbox centred in the first row');
+    assert.equal(emptyAndWrapped.empty.length, 2);
+    for (const row of emptyAndWrapped.empty) {
+      assert.ok(Math.abs(row.height - emptyAndWrapped.pitch) < .1, 'an empty task line uses one grid row');
+      assert.ok(Math.abs(row.x - emptyAndWrapped.pitch / 2) < .1 && Math.abs(row.y - emptyAndWrapped.pitch / 2) < .1, 'empty checkboxes are centred in their grid cells');
+    }
     const download = w.waitForEvent('download'); await w.click('#exportPage'); const d = await download;
     const html = fs.readFileSync(await d.path(), 'utf8');
     assert.match(html, /data-min-rows="8"/); assert.match(html, /@page \{ size: 215.9mm 279.4mm/);
@@ -116,6 +161,6 @@ const srv = http.createServer((q, r) => {
       assert.deepEqual(violations, []);
     }
     assert.deepEqual(errors, []);
-    console.log('PASS: grid geometry, page starts, Auto, undo/redo, keyboard and drag sizing, overflow, .jot round trips, Write, standalone HTML and PDF, phone width and accessibility.');
+    console.log('PASS: grid geometry, page starts, Auto, undo/redo, keyboard and drag sizing, overflow, .jot round trips, Write, standalone HTML and PDF, phone width, accessibility and text/checkbox alignment across all hands and grid pitches.');
   } finally { await browser.close(); srv.close(); }
 })().catch((e) => { console.error(e); srv.close(); process.exitCode = 1; });

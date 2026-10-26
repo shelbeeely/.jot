@@ -1,5 +1,12 @@
 # Latest Jot v1 decisions
 
+## Text and checkbox alignment within grid cells (26 October 2026)
+
+Dots now mark cell boundaries. The handwritten renderer measures each font's visible letter height and centres body text within one
+row and headings within their line boxes. This replaces the earlier baseline-on-dots alignment. Checkboxes are centred in the first
+grid cell; task text starts at the next column. Wrapped tasks keep their checkbox in the first row, and empty task lines use one row.
+The shared renderer carries the alignment into Write, VS Code, printing and standalone HTML.
+
 ## Optional template grid layout (26 October 2026)
 
 The template editor now previews full-width blocks on physical handwritten pages. This supersedes the earlier template-editor

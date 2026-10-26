@@ -2,7 +2,7 @@
  * DOM only; used by the page preview (preview.mjs) for the workspace, the template editor and the VS Code extension.
  *
  *   handwrite(page, { hand: 'pen', ink: 'blue', seed: 1 })   letters and words in a handwriting font, each a little different
- *   alignToGrid(page, { pitchMm: 5 })                         every line on a row of dots; returns { pitch, rows, baseline }
+ *   alignToGrid(page, { pitchMm: 5 })                         every line centred between rows of dots; returns { pitch, rows, baseline }
  *   handwritingCSS(fontBase)                                  the fonts and the look (add once, with the fonts folder's URL)
  *   pageGeometry(paperMm, pitchMm, marginMm)                  @page size and margins so a printed page holds whole rows of dots
  *
@@ -84,7 +84,7 @@ export function handwritingCSS(fontBase) {
 .jot-hand th{font-weight:700}
 .jot-hand a{color:inherit;text-decoration:underline}
 .jot-hand img{display:block;max-width:100%}
-.jot-hand .hw-w{display:inline-block;transform:translateY(var(--y,0)) rotate(var(--r,0deg)) skewX(var(--k,0deg));transform-origin:50% 80%;opacity:var(--o,1);white-space:pre}
+.jot-hand .hw-w{display:inline-block;transform:translateY(calc(var(--hw-text-shift,0px) + var(--y,0em))) rotate(var(--r,0deg)) skewX(var(--k,0deg));transform-origin:50% 80%;opacity:var(--o,1);white-space:pre}
 .jot-hand .hw-c{position:relative;top:var(--cy,0)}
 .jot-hand em,.jot-hand i,.jot-hand cite{font-style:normal;--k:-9deg}
 .jot-hand :is(ins,u),.jot-hand :is(ins,u) .hw-w{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.18em}
@@ -98,8 +98,16 @@ export function handwritingCSS(fontBase) {
 .jot-hand :is(h1,h2,h3,h4,h5,h6){letter-spacing:normal;text-transform:none}
 .jot-hand :is(.jot-task,.jot-record,.jot-measure,.jot-blanks,.jot-blank-line,.jot-footnotes,.jot-callout,dl,figure,figcaption,details){padding-top:0;padding-bottom:0;margin:0;border-top:0;border-bottom:0;border-radius:0}
 .jot-hand .hw-box{width:.78em;height:.78em;margin-right:.3em;vertical-align:-.08em}
-.jot-hand :is(.jot-task,.jot-sign){display:block} /* one line of writing, one row of dots */
-.jot-hand .jot-box{display:inline-block;width:auto}.jot-hand .jot-sym{display:inline-block;width:1.1em}
+.jot-hand .jot-task{display:flex;align-items:baseline;gap:0;min-height:var(--hw-pitch)}
+.jot-hand .jot-sign{display:block}
+.jot-hand .jot-box{display:block;flex:0 0 var(--hw-pitch);width:var(--hw-pitch);text-align:center}
+.jot-hand .jot-sym{display:inline-block;width:var(--hw-pitch);text-align:center}
+.jot-hand .jot-task-text{flex:1;min-width:0}
+.jot-hand .jot-task>.hw-box{flex:none;align-self:flex-start;width:calc(var(--hw-pitch)*.78);height:calc(var(--hw-pitch)*.78);margin:calc(var(--hw-pitch)*.11) calc(var(--hw-pitch)*.11) 0}
+.jot-hand .jot-blank-line{gap:0;min-height:var(--hw-pitch);align-items:baseline}
+.jot-hand .jot-mark{display:inline-flex;justify-content:center;flex:0 0 var(--hw-pitch);min-width:var(--hw-pitch);height:var(--hw-pitch)}
+.jot-hand .hw-check-mark{align-items:flex-start}
+.jot-hand .hw-check-mark .hw-box{width:calc(var(--hw-pitch)*.78);height:calc(var(--hw-pitch)*.78);margin:calc(var(--hw-pitch)*.11) 0 0}
 .jot-hand .jot-record,.jot-hand .jot-callout{border:0;border-left:2px solid color-mix(in srgb,var(--hw-ink) 35%,transparent);background:none;padding:0 0 0 calc(var(--hw-pitch) - 2px);box-shadow:none}
 .jot-hand .jot-record strong{text-transform:none;letter-spacing:0;font-size:1em}
 .jot-hand .jot-record dl{display:block}.jot-hand .jot-record dt{display:inline;font-weight:700}.jot-hand .jot-record dt::after{content:': '}.jot-hand .jot-record dd{display:inline;margin:0}.jot-hand .jot-record dd::after{content:'';display:block}
@@ -227,6 +235,10 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
     const st = b.dataset.status; if (st !== 'open' && st !== 'completed') continue;
     b.replaceWith(pencil(st === 'completed'));
   }
+  for (const mark of page.querySelectorAll('.jot-mark')) {
+    if (!['☐', '☑'].includes(mark.textContent.trim())) continue;
+    const done = mark.textContent.trim() === '☑'; mark.classList.add('hw-check-mark'); mark.replaceChildren(pencil(done));
+  }
   for (const cb of page.querySelectorAll('input[type=checkbox]')) cb.replaceWith(pencil(cb.checked));
   const walker = doc.createTreeWalker(page, 4 /* NodeFilter.SHOW_TEXT */, { acceptNode: (n) => { for (let p = n.parentNode; p && p !== page; p = p.parentNode) if (SKIP.has(p.nodeName) || (p.classList && (p.classList.contains('hw-w') || p.classList.contains('jot-chart-table')))) return 2; return n.nodeValue.trim() ? 1 : 2; } });
   const texts = []; for (let n = walker.nextNode(); n; n = walker.nextNode()) texts.push(n);
@@ -262,20 +274,34 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
 
 /** Puts every line of the page on a row of the dot grid. The page must be in the document (it is measured) with its fonts loaded.
  *  Block by block: no margins, a blank row between blocks, each block's height rounded up to whole rows, and headings (two rows tall)
- *  nudged so their letters sit on a row. The dots are drawn where the body text's letters sit. */
+ *  centred within their line boxes. Dots mark cell boundaries; checkboxes occupy the first cell. */
 export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {}) {
   const doc = page.ownerDocument, p = pitchPx(pitchMm);
   page.style.setProperty('--hw-pitch', `${p}px`);
   page.style.setProperty('--hw-dots', dots ? `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${p}' height='${p}'><circle cx='${p / 2}' cy='${p / 2}' r='${Math.max(0.55, p * 0.032).toFixed(2)}' fill='#9aa0a6'/></svg>`)}")` : 'none');
   for (const e of page.querySelectorAll('.hw-page-edge')) e.remove();
-  // where a line of body text puts its letters: a probe line, its baseline measured with a zero-size inline-block
-  const baselineOf = (tag) => { const el = doc.createElement(tag), mark = doc.createElement('span'); mark.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline'; el.style.cssText = 'margin:0;padding:0;border:0;position:absolute;visibility:hidden;left:0;top:0;'; el.append('Hg', mark); page.append(el); const b = mark.getBoundingClientRect().top - el.getBoundingClientRect().top; el.remove(); return b; }; // fractional: offsetTop rounds to whole pixels
-  const base = baselineOf('p');
+  // Measure the font's visible ink, rather than centring its em box (the handwriting fonts have different ascenders).
+  const canvas = doc.createElement('canvas'), context = canvas.getContext('2d');
+  const metricsOf = (tag) => {
+    const probe = doc.createElement(tag), mark = doc.createElement('span');
+    mark.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+    probe.style.cssText = 'margin:0;padding:0;border:0;position:absolute;visibility:hidden;left:0;top:0;';
+    probe.append('Hx', mark); page.append(probe);
+    const baseline = mark.getBoundingClientRect().top - probe.getBoundingClientRect().top;
+    const style = doc.defaultView.getComputedStyle(probe);
+    context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+    const ink = context.measureText('Hx');
+    const ascent = ink.actualBoundingBoxAscent, descent = ink.actualBoundingBoxDescent;
+    const shift = snap(parseFloat(style.lineHeight) / 2 - baseline + (ascent - descent) / 2);
+    probe.remove(); return { baseline, shift };
+  };
+  const body = metricsOf('p'), base = body.baseline;
+  page.style.setProperty('--hw-text-shift', `${body.shift}px`);
   page.style.setProperty('--hw-dx', `${-p / 2}px`);
-  page.style.setProperty('--hw-dy', `${base - p / 2}px`); // a dot's centre exactly where the letters sit
-  for (const tag of ['h1', 'h2', 'h3']) { // a two-row heading: its letters on the second row
-    const b = baselineOf(tag), shift = (base + p) - b;
-    for (const h of page.querySelectorAll(`:scope > ${tag}, :scope > * > ${tag}`)) { h.style.position = 'relative'; h.style.top = `${shift}px`; }
+  page.style.setProperty('--hw-dy', `${-p / 2}px`); // dots at the cell boundaries, text in the space between them
+  for (const tag of ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) {
+    const { shift } = metricsOf(tag);
+    for (const h of page.querySelectorAll(tag)) { h.style.top = ''; h.style.setProperty('--hw-text-shift', `${shift}px`); }
   }
   const groups = [...page.querySelectorAll(':scope > .jot-layout-block')];
   for (const group of groups) {

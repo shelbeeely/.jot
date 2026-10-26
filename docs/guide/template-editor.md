@@ -83,7 +83,8 @@ Select an outlined block on the page, or open its ⚙ options:
 For example, **8 rows** at **5 mm** reserves **40 mm** vertically. Drag the selected block's bottom handle to change its minimum
 in whole rows. You can also focus the handle and use **Up/Down**, or type a number in the labelled field. Undo and redo include sizing.
 
-The page shows each block's actual row count, page boundaries and the space left on the last page. A block that fits a page moves to
+The page shows each block's actual row count, page boundaries and the space left on the last page. Handwritten text is centred
+between the dot rows; checkboxes sit in the first grid cell with task text starting at the next grid column. A block that fits a page moves to
 the next page if necessary. A block taller than a page continues across pages; writing beyond a minimum expands the block without
 clipping it. These are full-width blocks in reading order; side-by-side columns are not supported.
 

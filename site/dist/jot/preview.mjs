@@ -190,7 +190,7 @@ export function renderPreview(ast, target, opts = {}) {
   for (const c of [...target.classList]) if (c.startsWith('jot-style-')) target.classList.remove(c);
   if (!hand && opts.style && isStyle(opts.style)) { addPageStyles(doc); target.classList.add(`jot-style-${opts.style}`); }
   if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.pen).family}'`); }
-  else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy']) target.style.removeProperty(k);
+  else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift']) target.style.removeProperty(k);
   const root = doc.createDocumentFragment();
   let frag = root;
   for (const n of ast.nodes) {

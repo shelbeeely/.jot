@@ -255,7 +255,7 @@ const srv = http.createServer((q, r) => {
     const kinds = await w.evaluate(() => [...document.querySelectorAll('#paperPreview svg.hw-box')].map((b) => b.dataset.box + '/' + b.dataset.tick));
     ok(kinds.length === 5 && kinds.every((k, i) => i === 0 || k.split('/').every((x, j) => x !== kinds[i - 1].split('/')[j])) && new Set(kinds).size >= 3, `the pencil boxes vary: ${kinds.join(', ')}`);
     ok(g.off.length === 0 && g.heights.length === 0, 'every block starts on a row of the grid and is a whole number of rows tall' + (g.off.length ? ` (off: ${g.off.slice(0, 3)})` : '') + (g.heights.length ? ` (heights: ${g.heights.slice(0, 3)})` : ''));
-    ok(g.pitch === 18.890625 && Math.abs(parseFloat(g.dy) - (g.base - g.pitch / 2)) < 0.01, 'the dots are drawn where the letters sit (5 mm, snapped to the layout unit)');
+    ok(g.pitch === 18.890625 && Math.abs(parseFloat(g.dy) + g.pitch / 2) < 0.01, 'dots mark cell boundaries, with handwriting centred between rows (5 mm, snapped to the layout unit)');
     const geo = /@page \{ size: 148mm 210mm; margin: ([\d.]+)px ([\d.]+)px; \}/.exec(g.css);
     ok(geo && Math.abs(210 * 96 / 25.4 - 2 * geo[1] - 38 * g.pitch) < 0.05, 'the printed A5 page holds exactly 38 rows of dots');
     ok(g.edges >= 2 && /Notebook/.test(g.text), `on screen, a dashed line where each printed page ends (${g.edges})`);
