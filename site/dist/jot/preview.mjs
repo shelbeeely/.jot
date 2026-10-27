@@ -21,7 +21,7 @@
  */
 import { charts, chartConfig, summaryText, fmt, CHART_CSS, metricLabel } from './charts.mjs';
 import { Chart } from './vendor/chart.mjs';
-import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFromComment } from './handwriting.mjs';
+import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFromComment, paintHighlights } from './handwriting.mjs';
 import { parse } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
 export { CHART_CSS };
@@ -275,7 +275,7 @@ export function renderPreview(ast, target, opts = {}) {
       for (const c of target.querySelectorAll('.jot-chart canvas')) { const ch = Chart.getChart(c); if (ch) ch.update('none'); } // repaint: the hand's font is there now to label the axes
       target.jotGrid = alignToGrid(target, hand); return target.jotGrid;
     });
-  }
+  } else paintHighlights(target);
   return target;
 }
 const FONT_BASE = new URL('./fonts/', import.meta.url).href;
@@ -293,6 +293,10 @@ export function addPageStyles(doc) {
 /** Adds the chart styles to a document once. */
 export const PREVIEW_CSS = `${CHART_CSS}
 .jot-colors{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.jot-highlighter-active{background-image:none!important;background-color:transparent!important;padding:0}
+.jot-highlight-space{background-image:var(--jot-highlight-stroke);background-size:100% 1lh;background-position:center;background-repeat:no-repeat;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.jot-highlight-word{display:inline-block;position:relative;isolation:isolate;white-space:pre;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.jot-highlight-word::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background-image:var(--jot-highlight-stroke);background-size:100% 100%;background-repeat:no-repeat;mix-blend-mode:multiply;print-color-adjust:exact;-webkit-print-color-adjust:exact}
 .jot-highlight{background-color:var(--jot-highlight);box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .jot-colors :is(del,ins){text-decoration-color:var(--jot-decoration,currentColor)}
 mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.15em}

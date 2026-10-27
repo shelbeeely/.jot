@@ -385,3 +385,9 @@ For **Highlight**, the **Stroke** control offers **Marker** (a broad translucent
 ### Reference color palettes
 
 The color menu and **Show color swatches** offer 71 colors from the supplied Mildliner, soft-color and pastel references. They are grouped by collection and labeled with their hex values. Lemon yellow (`#fddd13`) is the default highlight, including `==ordinary highlights==`. The palette is available for text ink, highlights, strikethrough and underline; custom colors remain available. Soft colors are often best behind darker ink—check the contrast message when using them as text. Highlight strokes are translucent, so their appearance on paper is softer than the solid color swatch. Existing journal colors are preserved.
+
+### How highlighter and ink combine
+
+Highlighter strokes sit on top of the writing and blend with the ink underneath, like a translucent marker on paper. Changing the
+text ink changes the visible result under the same highlight. The source keeps both colors separately; the effect carries through
+to Typed and Handwritten preview, print, PDF and standalone HTML. Marker, brush and pencil use the same blending rule.

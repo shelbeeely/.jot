@@ -110,7 +110,7 @@ standalone `.html` with everything inside (`parser/export.mjs`). VS Code has the
 
 ### Inline colors
 
-Select words in the workspace and apply text ink, highlight, strikethrough or underline colors, using a palette or custom hex. Colors persist in `.jot` source and appear in handwritten preview, print and standalone HTML export. Handwritten is the default for new workspace preferences. See [Color in handwritten pages](docs/guide/writing-jot.md#color-in-handwritten-pages). Browser regression check: `node site/test-colors-ui.cjs` (Playwright and Chromium).
+Select words in the workspace and apply text ink, highlight, strikethrough or underline colors, using a palette or custom hex. Colors persist in `.jot` source and appear in preview, print and standalone HTML export. Highlighter strokes blend over the ink, so the text color underneath affects the result. Handwritten is the default for new workspace preferences. See [Color in handwritten pages](docs/guide/writing-jot.md#color-in-handwritten-pages). Browser regression check: `node site/test-colors-ui.cjs` (Playwright and Chromium).
 
 ### Handwritten pages on a dot grid
 
@@ -216,6 +216,7 @@ Browser regression checks require Playwright, Chromium and the root `axe-core` d
 `npm install`, then `node site/test-editor-ui.cjs` and `node site/test-colors-ui.cjs`.
 Run `node site/test-layout-ui.cjs` for grid sizing, page starts, save/reopen, overflow and HTML export checks.
 Run `node site/test-paper-ui.cjs` to check shared styling, paper modes, homepage examples and accessibility across the site.
+Run `node site/test-highlight-blend-ui.cjs` for pixel checks of highlights over ink, including HTML export, print and PDF.
 These browser checks are separate from the Node.js tests above.
 
 Before changing behavior, read [DECISIONS.md](DECISIONS.md) and the relevant component README. Parser code is copied into the site and

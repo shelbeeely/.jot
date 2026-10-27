@@ -163,11 +163,11 @@ ${paperCSS()}
 .jot-hand .jot-layout-block{position:relative;display:flow-root;box-sizing:border-box;break-inside:auto}
 .jot-hand .jot-layout-block>*{box-sizing:border-box}
 .jot-hand .hw-page-edge{position:absolute;left:0;right:0;height:0;border-top:1px dashed #c7a7ff;pointer-events:none}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .jot-hand{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}:root:not([data-theme=light]) .jot-hand .jot-colors[data-ink]:not(.jot-highlight):not(.jot-highlight .jot-colors){color:color-mix(in srgb,var(--jot-source-ink) var(--jot-ink-ratio),#e1e5fa)!important}:root:not([data-theme=light]) .jot-hand :is(mark,.jot-highlight){color:#172c5c;background-color:#fff5c6!important}}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .jot-hand{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}:root:not([data-theme=light]) .jot-hand .jot-colors[data-ink]{color:color-mix(in srgb,var(--jot-source-ink) var(--jot-ink-ratio),#e1e5fa)!important}}
 :root[data-theme=dark] .jot-hand{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}
-:root[data-theme=dark] .jot-hand .jot-colors[data-ink]:not(.jot-highlight):not(.jot-highlight .jot-colors){color:color-mix(in srgb,var(--jot-source-ink) var(--jot-ink-ratio),#e1e5fa)!important}
-:root[data-theme=dark] .jot-hand :is(mark,.jot-highlight){color:#172c5c;background-color:#fff5c6!important}
-@media print{.jot-hand{color:var(--hw-ink)!important}.jot-hand .hw-page-edge{display:none}.jot-hand .jot-colors[data-ink]{color:var(--jot-source-ink)!important}.jot-hand :is(mark,.jot-highlight){color:inherit;background-color:transparent!important}}
+:root[data-theme=dark] .jot-hand .jot-colors[data-ink]{color:color-mix(in srgb,var(--jot-source-ink) var(--jot-ink-ratio),#e1e5fa)!important}
+
+@media print{.jot-hand{color:var(--hw-ink)!important}.jot-hand .hw-page-edge{display:none}.jot-hand .jot-colors[data-ink]{color:var(--jot-source-ink)!important}}
 ${BOX_CSS}`.replace(/\.jot-hand(?![\w-])/g, '.jot-hand.jot-hand'); // doubled: the hand's rules win over a page's own typed styles
 }
 
@@ -259,6 +259,37 @@ export function highlightSVG(color = '#fddd13', style = 'marker', seed = 1) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">${strokes}</svg>`;
 }
 
+/** A translucent stroke is painted above ink with multiply blending, rather than only behind it.
+ * Each word owns its overlay so wrapping, selection and print pagination remain native text layout. */
+export function paintHighlights(page, { seed = 1 } = {}) {
+  const doc = page.ownerDocument;
+  let index = 0;
+  for (const mark of page.querySelectorAll('mark, .jot-highlight')) {
+    const color = doc.defaultView.getComputedStyle(mark).getPropertyValue('--jot-highlight').trim() || '#fddd13';
+    const svg = highlightSVG(color, mark.dataset.highlightStyle || 'marker', hash(mark.textContent, seed + index++ * 7919));
+    const image = `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    mark.style.setProperty('--jot-highlight-stroke', image);
+    // Keep the seed image as metadata; fragments paint it above ink without masking the paper or grid beneath.
+    mark.classList.add('jot-highlighter-active');
+    mark.style.backgroundColor = 'transparent'; mark.style.backgroundImage = image;
+    const walker = doc.createTreeWalker(mark, 4), nodes = [];
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (n.nodeValue && !n.parentElement.closest('.hw-w,.jot-highlight-word,.jot-highlight-space,script,style,svg')) nodes.push(n);
+    }
+    for (const node of nodes) {
+      const fragment = doc.createDocumentFragment();
+      for (const part of node.nodeValue.split(/(\s+)/)) {
+        if (!part) continue;
+        const span = doc.createElement('span');
+        span.className = /^\s+$/.test(part) ? 'jot-highlight-space' : 'jot-highlight-word';
+        span.textContent = part; fragment.append(span);
+      }
+      node.replaceWith(fragment);
+    }
+    for (const word of mark.querySelectorAll('.hw-w')) word.classList.add('jot-highlight-word');
+  }
+}
+
 const SKIP = new Set(['SCRIPT', 'STYLE', 'CANVAS', 'SVG', 'svg', 'INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'IMG', 'SUMMARY']);
 /** Turns every word on the page into handwriting. Safe to call again after a new render (it starts from the page as rendered). */
 export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
@@ -267,15 +298,6 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
   page.style.setProperty('--hw-family', `'${H.family}'`);
   page.style.setProperty('--hw-size', String(H.size));
   page.style.setProperty('--hw-ink', INKS[ink] || (/^#[0-9a-f]{6}$/i.test(ink) ? ink : INKS.blue));
-  let highlightIndex = 0;
-  for (const mark of page.querySelectorAll('mark, .jot-highlight')) {
-    const color = doc.defaultView.getComputedStyle(mark).getPropertyValue('--jot-highlight').trim() || '#fddd13';
-    const svg = highlightSVG(color, mark.dataset.highlightStyle || 'marker', hash(mark.textContent, seed + highlightIndex++ * 7919));
-    mark.style.backgroundColor = 'transparent';
-    mark.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-    mark.style.backgroundSize = '100% 100%';
-    mark.style.backgroundRepeat = 'no-repeat';
-  }
   // task boxes and empty lines drawn as a pen would
   let boxes = 0, last = null;
   const pencil = (done) => { const sd = seed * 101 + (boxes++), kinds = boxKinds(sd, last); last = kinds; return boxSVG(doc, { done, seed: sd, kinds, label: done ? 'done' : 'to do', drawn: done }); };
@@ -317,6 +339,7 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
     }
     node.replaceWith(frag);
   }
+  paintHighlights(page, { seed });
   return page;
 }
 

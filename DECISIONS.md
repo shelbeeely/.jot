@@ -1,5 +1,16 @@
 # Latest Jot v1 decisions
 
+## Highlighter strokes above ink (26 October 2026)
+
+A highlight now composites a translucent marker, brush or pencil stroke **above** the text with multiply blending, so the visible
+result depends on the ink beneath it. The source ink and highlight colors remain separate, unchanged Jot attributes. The stroke
+covers letters and their decorations; text selection, links and screen-reader text stay native.
+
+Each word owns a non-interactive overlay, so wrapping and print pagination do not rely on screen coordinates. The original passage
+stroke joins the spaces between words. Typed and handwritten previews use the same stroke generator and compositing rules. Dark
+mode no longer forces highlighted text to a fixed blue on a cream strip. Print and standalone HTML retain the compositing; pixel
+checks verify changed ink pixels, and PDF checks verify the retained multiply operation.
+
 ## One paper stylesheet for the site and preview (26 October 2026)
 
 Every site page links to `jot/handwriting.css`, including the workspace that renders journal previews. The sheet is generated from
