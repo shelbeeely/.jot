@@ -3,6 +3,21 @@
   "formatVersion": "1.0",
   "files": [
     {
+      "path": ".claude/commands/verify.md",
+      "byteLength": 367,
+      "sha256": "cb26974ff1f4f3d212c113b4acd58234f4246d067c5923fa9eecb11be6d090ef"
+    },
+    {
+      "path": ".claude/hooks/check-generated.mjs",
+      "byteLength": 1387,
+      "sha256": "67108c57185988c43d96f20b718dc8b9798bd9da04b32b0ef9cf5017a1c43da3"
+    },
+    {
+      "path": ".claude/settings.json",
+      "byteLength": 210,
+      "sha256": "b95facf0a90e6af4ad58c002acacd24b03f6c5baf1a1bfafd58791e68404c520"
+    },
+    {
       "path": ".github/workflows/pages.yml",
       "byteLength": 2615,
       "sha256": "024634569237d25201ff323c7395557e34a2b578ea213f25f434b751de19f517"
@@ -14,8 +29,13 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 4974,
-      "sha256": "b4826a595ecd8c86387601a65fd83b25c1a046b6ad0ba4e882940fbcf048890f"
+      "byteLength": 3843,
+      "sha256": "996cdd7d9defaea1b602145d6b7723ef99fe39793a880b7b3cadcec0ce5c7eec"
+    },
+    {
+      "path": "CLAUDE.md",
+      "byteLength": 621,
+      "sha256": "b56b7fff1609bed862a01539b8bc78e210f9a7091851dbc8d8a27e9cf1f34bc1"
     },
     {
       "path": "DECISIONS.md",
@@ -621,6 +641,16 @@
       "path": "references/Historical-DotJot-Specification.pdf",
       "byteLength": 96351,
       "sha256": "9a6f8166671a3f913788bf53574ce9bbc35dd9ce017e361e0b924c3c487ea980"
+    },
+    {
+      "path": "site/AGENTS.md",
+      "byteLength": 1824,
+      "sha256": "e746a3c527366d625f3bc6b5e19bfeaa1048890d92517f511e73c11789da4444"
+    },
+    {
+      "path": "site/CLAUDE.md",
+      "byteLength": 11,
+      "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
     },
     {
       "path": "site/README.md",
@@ -1456,6 +1486,16 @@
       "path": "vscode/.vscodeignore",
       "byteLength": 31,
       "sha256": "432cf24952c2326612af3021ccbf156f75883d01759820c18833baf11adb44d1"
+    },
+    {
+      "path": "vscode/AGENTS.md",
+      "byteLength": 614,
+      "sha256": "3203be38fcc5914acbef49c210c694dffbdd80567ffff01e91f75f2fd7e8cdd2"
+    },
+    {
+      "path": "vscode/CLAUDE.md",
+      "byteLength": 11,
+      "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
     },
     {
       "path": "vscode/README.md",

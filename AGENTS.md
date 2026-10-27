@@ -1,32 +1,25 @@
 # Working on Jot
 
-Jot is a plain-text journal format with a JavaScript parser, CLI, static website and VS Code extension. Read `README.md`, `DECISIONS.md` and the relevant guide before changing behavior. This file follows https://agents.md/ and applies throughout the repository.
+Jot is a plain-text journal format with a JavaScript parser, CLI, static website and VS Code extension. Read `README.md`, `DECISIONS.md` and the relevant guide before changing behavior. This file follows https://agents.md/ and applies throughout the repository. `site/` and `vscode/` have their own `AGENTS.md` with rules for that area; read it too before changing files there.
 
 ## Project map
 
 - `parser/`: canonical parser, renderer, shared handwriting styles, fonts and export code.
-- `site/dist/`: committed, buildless website. Writer: `studio.mjs`, `studio.css`, `write/`; template editor: `editor/`. Site-only listening capture: `jot/music.mjs`.
+- `site/dist/`: committed, buildless website (rules: `site/AGENTS.md`). Writer: `studio.mjs`, `studio.css`, `write/`; template editor: `editor/`. Site-only listening capture: `jot/music.mjs`.
 - `docs/guide/`: guide sources; `site/build-guides.mjs` generates `site/dist/guide/`.
-- `converter/`, `cli/`, `vscode/`: converter, command-line tools and extension.
+- `converter/`, `cli/`, `vscode/`: converter, command-line tools and extension (rules: `vscode/AGENTS.md`).
 - `.github/workflows/pages.yml`: required checks and publication from `main`.
 
 ## Local development
 
-Use Node.js 22 (CI), Python 3 and, for privacy checks, `pdftotext` from Poppler. Serve the site with `python3 -m http.server 8000 --directory site/dist`; open `/write/` or `/editor/`. No build or dependency installation is required to use the site or CLI.
-
-For browser tests, run `npm ci` for axe-core and provide Playwright with Chromium in the execution environment. Browser suites are `site/test-*-ui.cjs`; select suites relevant to the change. They start their own local servers. Never use real account credentials in tests.
+Use Node.js 22 (CI), Python 3 and, for privacy checks, `pdftotext` from Poppler. No build or dependency installation is required to use the site or CLI. Browser tests need `npm ci` and Playwright with Chromium; never use real account credentials in tests.
 
 ## Product and code conventions
 
 - Keep `.jot` readable and editable in ordinary text editors. Optional integrations insert plain text; opening a document must not require an account or network request.
-- Keep the homepage informational, with renderer-backed examples. Do not restore an editor or input form there.
 - Use the shared renderer stylesheet for site and preview. Maintain paper appearance in light/dark modes, dot-grid alignment and light-paper printing. Change `parser/handwriting.mjs`, then generate CSS; do not patch generated sheets individually.
-- Preserve the reference Mildliner palette in `site/dist/jot/palettes.mjs`. Highlights are translucent strokes above ink, using multiply blending.
 - Follow nearby vanilla JavaScript/ES module conventions. Avoid new runtime dependencies or externally hosted fonts/scripts. Treat imported documents and service metadata as untrusted; use DOM text APIs and validate URLs.
-- External service requests must be explicit. Never upload journal text as part of music capture. No background playback polling, microphone capture or media import belongs in the listening tool.
-- Keep secrets and account tokens out of Git, journals, local storage and exports. Spotify tokens stay in page memory; only public app identifiers and opted-in usernames may persist. Fetching music fills review fields; adding a note requires the user's Add action.
-- Label recently played tracks separately from reported current playback. Do not invent timestamps or turn stale history into “playing now.”
-- Preserve relative URLs for GitHub Pages subpaths, keyboard access, mobile layouts and accessible labels/status messages.
+- External service requests must be explicit. Keep secrets and account tokens out of Git, journals, local storage and exports.
 
 ## Generated files
 
@@ -59,7 +52,7 @@ python3 tools/build-parser-zip.py --check
 node tools/manifest.cjs --check
 ```
 
-The workflow also compares parser/converter copies and font directories. Music changes need `node site/test-music-ui.cjs`; styling changes need the relevant paper/color/layout browser suites. Check mobile light/dark mode and accessibility. Report mocked service tests separately from live account verification.
+The workflow also compares parser/converter copies and font directories. Report mocked service tests separately from live account verification.
 
 ## Git and publication
 
