@@ -155,6 +155,14 @@ only native representation.
 - **Times are only what is written.** An event's time is read only when it is unambiguous (`19:00`, `7pm`, `at 21`); "at 7" is all day.
   A CSV date like `03/04/2026` is left out and counted unless the reader says the day comes first.
 
+## Checking files and the to-jot skill (27 October 2026)
+
+- **`jot check`** prints the parser's diagnostics as `file:line:col severity code message` (1-based, columns in characters) and exits 1
+  on an error; warnings fail only with `--strict`. It reads `.jotz` through `readDocument`, unlike the other commands.
+- **One skill for every agent.** `.agents/skills/to-jot/` (where Codex looks) is the only copy; `.claude/skills/to-jot` is a relative
+  symlink, which Claude Code follows (checked by asking it to load a symlinked probe skill). `MANIFEST.json` hashes a symlink as git
+  stores it: its target path. The skill never invents dates or values and finishes with `jot check`.
+
 ## What the current code does
 
 - parse(text) parses writing and preserves its source; stringify(ast) returns that original source, not edits to AST nodes.

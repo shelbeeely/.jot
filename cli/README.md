@@ -12,6 +12,7 @@ installing beyond this repository (it uses `../parser`).
 | `jot numbers <files…> [--metric M] [--json]` | the numbers as CSV (date, metric, value, unit) |
 | `jot ics <files…> [-o FILE] [--name N] [--done] [--tasks-as-events]` | an iCalendar file of events and dated open tasks |
 | `jot json <files…>` | tasks, events and numbers as one JSON document |
+| `jot check <files…> [--strict] [--json]` | problems as `file:line:col severity code message`; exit 1 on an error (on a warning too with `--strict`); reads `.jotz` |
 | `jot import <csv> --into <journal> [--combine sum\|mean\|last] [--day-first] [--source N] [--metric M…]` | numbers from a CSV into their days |
 | `jot today <journal> [--date D] [--weather LAT,LON]` | today's entry (and the day's weather from Open-Meteo) |
 | `jot rollover <journal> [--date D]` | open tasks from earlier days carried to today |

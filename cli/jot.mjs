@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from '../parser/jot.mjs';
+import { readDocument } from '../parser/container.mjs';
 import A from '../parser/automation.mjs';
 import { sendWebhook, todoistAdd, weather } from '../parser/connect.mjs';
 
@@ -17,6 +18,8 @@ Reading (any number of files; nothing is changed):
   jot ics <files…> [-o out.ics] [--name NAME] [--done] [--tasks-as-events]
                                                          events and dated tasks for any calendar app
   jot json <files…>                                      everything above, as one JSON document
+  jot check <files…> [--strict] [--json]                 problems as file:line:col severity code message; exit 1 on an
+                                                         error (or, with --strict, a warning); reads .jotz too
 
 Writing (one journal; --dry-run prints the new text instead):
   jot import <numbers.csv> --into <journal.jot> [--combine sum|mean|last] [--day-first] [--source NAME] [--metric NAME…]
@@ -43,6 +46,7 @@ const out = (s) => process.stdout.write(s.endsWith('\n') ? s : `${s}\n`);
 
 async function main() {
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { out(HELP); return; }
+  if (cmd === 'check') return check();
   if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
   if (['tasks', 'events', 'numbers', 'ics', 'json', 'post'].includes(cmd)) {
     const url = cmd === 'post' ? args.shift() : null;
@@ -112,5 +116,28 @@ async function main() {
     return writeBack(file, A.markSynced(src, 'todoist', todo.filter((t) => sent.some((s) => s.key === t.key)), { at: new Date().toISOString().slice(0, 16) }), `sent ${sent.length} ${sent.length === 1 ? 'task' : 'tasks'} to Todoist`, false);
   }
   fail(`unknown command "${cmd}" (jot help lists them)`);
+}
+// Byte offsets (the parser's) become 1-based line and column (in characters), as editors and CI annotations expect. Lines end at
+// \n, \r\n or \r, as the parser counts them. A missing or unreadable file is reported as an error and the others are still checked.
+async function check() {
+  const json = flag('--json'), strict = flag('--strict'), unknown = args.find((a) => a.startsWith('--')); if (unknown) fail(`check: unknown option ${unknown}`);
+  const files = args; if (!files.length) fail('check: which .jot files?');
+  const found = [], problem = (file, code, message) => found.push({ file, line: 1, column: 1, severity: 'error', code, message });
+  for (const file of files) {
+    if (!fs.existsSync(file)) { problem(file, 'missing', 'No such file.'); continue; }
+    const raw = fs.readFileSync(file); let source = raw.toString('utf8');
+    if (raw[0] === 0x50 && raw[1] === 0x4b) try { ({ source } = await readDocument(new Uint8Array(raw))); } catch (e) { problem(file, 'unreadable', e.message); continue; }
+    source = source.replace(/^\uFEFF/, '');
+    const bytes = Buffer.from(source, 'utf8'), starts = [0];
+    for (let i = 0; i < bytes.length; i++) if (bytes[i] === 0x0a || (bytes[i] === 0x0d && bytes[i + 1] !== 0x0a)) starts.push(i + 1);
+    for (const d of parse(source).diagnostics) {
+      let lo = 0, hi = starts.length - 1; while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (starts[mid] <= d.start) lo = mid; else hi = mid - 1; }
+      found.push({ file, line: lo + 1, column: [...bytes.subarray(starts[lo], d.start).toString('utf8')].length + 1, severity: d.severity, code: d.code, message: d.message });
+    }
+  }
+  const errors = found.filter((d) => d.severity === 'error').length, warnings = found.filter((d) => d.severity === 'warning').length;
+  if (json) out(JSON.stringify(found, null, 2)); else if (found.length) out(found.map((d) => `${d.file}:${d.line}:${d.column} ${d.severity} ${d.code} ${d.message}`).join('\n'));
+  process.stderr.write(`${files.length} ${files.length === 1 ? 'file' : 'files'}: ${errors} ${errors === 1 ? 'error' : 'errors'}, ${warnings} ${warnings === 1 ? 'warning' : 'warnings'}\n`);
+  if (errors || (strict && warnings)) process.exitCode = 1;
 }
 main().catch((e) => fail(e.message));

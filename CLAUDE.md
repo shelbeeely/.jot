@@ -11,4 +11,6 @@ Shared project guidance lives in `AGENTS.md` (above) and in `parser/AGENTS.md`, 
 - A SessionStart hook (`.claude/hooks/session-start.sh`) that runs `npm install` in cloud sessions, for the linter and browser suites.
 - A deny rule for `.ics` calendar files (personal data).
 
+Project skills: `.claude/skills/to-jot` is a symlink to `.agents/skills/to-jot` (the location Codex reads; Claude Code reads only `.claude/skills/`, and follows the link). Edit the skill there, not through a copy.
+
 `/verify` runs the full verification list from `AGENTS.md`. Put personal notes in `CLAUDE.local.md` (gitignored).

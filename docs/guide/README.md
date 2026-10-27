@@ -10,6 +10,8 @@
   forward, and connect to other services (webhooks, Todoist, the weather), only when you ask.
 - [Converting an old diary](converting.md): turn a diary kept as plain text (your own, or one from Project Gutenberg) into dated
   Jot entries.
+- [Turning anything into Jot](turning-anything-into-jot.md): chats, notes, meeting minutes, spreadsheets and photographed pages,
+  with an AI agent's help (the to-jot skill), and `jot check` to see that a file is valid.
 
 To see Jot at length, the [Examples](../../site/dist/examples/) page has whole public-domain diaries converted to `.jot`.
 

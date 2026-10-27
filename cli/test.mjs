@@ -51,8 +51,31 @@ test('the webhook: tasks, events and numbers posted as JSON; the writing is not'
   } finally { srv.close(); }
 });
 
+test('check: problems as file:line:col, exit 1 on an error; warnings fail only with --strict; .jotz is read too', async () => {
+  const d = tmp(), ok = path.join(d, 'ok.jot'), bad = path.join(d, 'bad.jot'), warn = path.join(d, 'warn.jot'); fs.writeFileSync(ok, J);
+  fs.writeFileSync(bad, '### 2026-10-25 | Sunday\n\nCafé — notes\n\n:::record measurement #x\nmetric: sleep\n'); fs.writeFileSync(warn, '### 2026-02-30 | Monday\n\nHi\n');
+  let r = await run(['check', ok]); assert.equal(r.code, 0); assert.equal(r.stdout, ''); assert.match(r.stderr, /1 file: 0 errors, 0 warnings/);
+  r = await run(['check', ok, bad]); assert.equal(r.code, 1); assert.equal(r.stdout, `${bad}:5:1 error unclosed-record Record consumes through end of file. Add ::: to close it.\n`);
+  r = await run(['check', warn]); assert.equal(r.code, 0); assert.match(r.stdout, /warn\.jot:1:1 warning invalid-date /);
+  r = await run(['check', warn, '--strict', '--json']); assert.equal(r.code, 1); assert.deepEqual(JSON.parse(r.stdout).map((x) => [x.line, x.column, x.severity, x.code]), [[1, 1, 'warning', 'invalid-date']]);
+  assert.equal((await run(['check', new URL('../examples/packaged.jotz', import.meta.url).pathname])).code, 0);
+  const cr = path.join(d, 'cr.jot'), bom = path.join(d, 'bom.jot'); fs.writeFileSync(cr, '### 2026-10-25 | Sunday\r\rHi\r\r:::record x\rmetric: a\r'); fs.writeFileSync(bom, '\uFEFF### 2026-02-30 | Monday\r\n\r\nHi\r\n');
+  assert.match((await run(['check', cr])).stdout, /cr\.jot:5:1 error unclosed-record/);
+  assert.match((await run(['check', bom])).stdout, /bom\.jot:1:1 warning invalid-date/, 'a byte-order mark hides nothing');
+  r = await run(['check', bad, path.join(d, 'gone.jot')]); assert.equal(r.code, 1); assert.match(r.stdout, /bad\.jot:5:1 error unclosed-record[^\n]*\n.*gone\.jot:1:1 error missing No such file\.\n$/);
+});
+
+test('the to-jot skill: one copy for Codex and Claude Code, and its worked examples pass check --strict', async () => {
+  const root = new URL('../', import.meta.url).pathname, skill = path.join(root, '.agents/skills/to-jot');
+  const link = path.join(root, '.claude/skills/to-jot'); // a checkout without symlinks (Windows) writes the link as a file naming its target
+  assert.equal(fs.lstatSync(link).isSymbolicLink() ? fs.readlinkSync(link) : fs.readFileSync(link, 'utf8'), '../../.agents/skills/to-jot');
+  assert.match(fs.readFileSync(path.join(skill, 'SKILL.md'), 'utf8'), /^---\nname: to-jot\ndescription: \S[^\n]+\n---\n/);
+  const examples = fs.readdirSync(path.join(skill, 'reference')).filter((f) => f.endsWith('.jot')).map((f) => path.join(skill, 'reference', f));
+  assert.ok(examples.length >= 3); const r = await run(['check', '--strict', ...examples]); assert.equal(r.code, 0, r.stdout); assert.equal(r.stdout, '');
+});
+
 test('mistakes are said plainly, with a non-zero exit', async () => {
-  for (const [args, msg] of [[['nope'], /unknown command "nope"/], [['tasks'], /which \.jot files/], [['tasks', '/no/such.jot'], /no such file/], [['today', 'x.jot', '--date', 'tomorrow'], /--date must look like 2026-10-26/], [['todoist', 'x.jot'], /no such file|TODOIST_TOKEN/], [['post', 'http://example.com/x', JOT], /https:\/\//]]) {
+  for (const [args, msg] of [[['nope'], /unknown command "nope"/], [['tasks'], /which \.jot files/], [['tasks', '/no/such.jot'], /no such file/], [['check'], /which \.jot files/], [['check', '--stirct', 'x.jot'], /unknown option --stirct/], [['today', 'x.jot', '--date', 'tomorrow'], /--date must look like 2026-10-26/], [['todoist', 'x.jot'], /no such file|TODOIST_TOKEN/], [['post', 'http://example.com/x', JOT], /https:\/\//]]) {
     const r = await run(args); assert.notEqual(r.code, 0, args.join(' ')); assert.match(r.stderr, msg, args.join(' '));
   }
   assert.match((await run(['help'])).stdout, /jot import <numbers\.csv> --into <journal\.jot>/);
