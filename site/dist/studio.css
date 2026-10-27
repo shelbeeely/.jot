@@ -22,3 +22,15 @@ nav{display:flex;align-items:center;gap:24px}nav a,nav button{text-decoration:no
 @media print{#musicDialog{display:none!important}}
 
 #musicDialog [hidden]{display:none!important}
+
+#voiceDialog{width:min(660px,calc(100vw - 24px));padding:22px;max-height:90vh;overflow:auto}#voiceDialog [hidden]{display:none!important}
+.voice-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0}.voice-mic{color:var(--jot-muted)}.voice-mic.on{color:var(--jot-accent);font-weight:600}
+.voice-now{margin:12px 0 6px;font-size:28px}#voiceHz{font-variant-numeric:tabular-nums}#voiceHz[data-in-range=true]{color:var(--jot-accent)}
+#voiceStrip{display:block;width:100%;height:120px;border:1px solid var(--jot-edge);border-radius:6px;background:var(--jot-paper)}
+.voice-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}.voice-stats div{border:1px solid var(--jot-edge);border-radius:6px;padding:6px 10px}.voice-stats dt{color:var(--jot-muted);font-size:.85em}.voice-stats dd{margin:0;font-variant-numeric:tabular-nums}
+.voice-clock{color:var(--jot-muted)}#voiceClock{font-variant-numeric:tabular-nums;color:var(--jot-ink)}
+#voiceTargetBox{margin:12px 0;padding:12px;border:1px solid var(--jot-edge);border-radius:6px}#voiceTargetBox summary{min-height:44px;cursor:pointer}
+.voice-pair{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px;align-items:center;margin:8px 0}
+.voice-fields{display:grid;gap:6px;margin:16px 0}.voice-fields :is(input,textarea,select),.voice-pair input{width:100%;min-width:0;min-height:44px;padding:8px 10px;border:1px solid var(--jot-edge);font-size:21px}
+.voice-recording{display:flex;flex-wrap:wrap;gap:8px}.voice-recording select{flex:1 1 180px}#voiceStatus{color:var(--jot-muted)}
+@media print{#voiceDialog{display:none!important}}

@@ -5,7 +5,7 @@ Jot is a plain-text journal format with a JavaScript parser, CLI, static website
 ## Project map
 
 - `parser/`: canonical parser, renderer, shared handwriting styles, fonts and export code (rules: `parser/AGENTS.md`).
-- `site/dist/`: committed, buildless website (rules: `site/AGENTS.md`). Writer: `studio.mjs`, `studio.css`, `write/`; template editor: `editor/`. Site-only listening capture: `jot/music.mjs`.
+- `site/dist/`: committed, buildless website (rules: `site/AGENTS.md`). Writer: `studio.mjs`, `studio.css`, `write/`; template editor: `editor/`. Site-only listening capture: `jot/music.mjs`; voice practice: `jot/voice.mjs`.
 - `docs/guide/`: guide sources; `site/build-guides.mjs` generates `site/dist/guide/`.
 - `converter/`, `cli/`, `vscode/`: converter, command-line tools and extension (rules: `vscode/AGENTS.md`).
 - `.github/workflows/pages.yml`: required checks and publication from `main`.
@@ -41,7 +41,7 @@ Run relevant tests and all checks required by `pages.yml` before publishing. Cor
 
 ```sh
 npm ci && npm run lint
-node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs parser/*test.mjs cli/test.mjs site/test-editor.mjs site/test-guides.mjs site/test-music.mjs vscode/test-extension.mjs
+node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs parser/*test.mjs cli/test.mjs site/test-editor.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
 node site/test-core.cjs
 node tools/privacy-check.mjs site/dist
 node tools/build-handwriting-css.mjs --check

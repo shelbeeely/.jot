@@ -1,5 +1,21 @@
 # Latest Jot v1 decisions
 
+## On-device pitch meter for voice practice (27 October 2026)
+
+The writer's Voice practice tool may use the microphone, as a scoped exception to the rule that capture tools do not. The listening
+tool still never uses it. The microphone opens only after the person presses Start (`getUserMedia` with echo cancellation, noise
+suppression and automatic gain off, so they do not bend the pitch); the sound goes to an `AnalyserNode` that is never connected to
+the speakers, and a YIN estimate a few times a second keeps only voiced pitches in page memory. No audio is recorded, stored or sent;
+no measurements leave the page. Stop, closing the dialog and leaving the page stop every track and close the audio context, and the
+dialog says "Microphone off". The only preference kept is an optional target range, in local storage, with no default: no gendered
+presets, scores or judgement words.
+
+The summary is median and 10th/90th percentiles of voiced frames, plus voiced time. The journal changes only on Add, with plain text:
+a `#### Voice practice` note, `:::record measurement` records for `pitch-hz` (Hz, with `low`/`high`) and `voice-minutes`, and an
+observation with `method: voice-practice@1` (`exercise`, `resonance`, `strain`, `felt-like-me`, `recording`), so existing charts plot
+progress. A recording made elsewhere can be attached to the document from the dialog and is linked only on Add; there is no in-app
+recording. Browser tests use Chromium's fake microphone with a generated tone; no real device is required.
+
 ## Optional music capture, plain-text listening notes (26 October 2026)
 
 The writer's Listening tool can capture title, artist, album, link, capture time and setting notes. Its output is an ordinary

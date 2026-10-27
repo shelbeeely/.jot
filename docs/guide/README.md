@@ -8,6 +8,8 @@
   the week.
 - [Automation and connections](automation.md): put your events on your calendar, bring in numbers from a fitness app, carry tasks
   forward, and connect to other services (webhooks, Todoist, the weather), only when you ask.
+- [Voice practice](voice-practice.md): an optional pitch meter that runs on your device (nothing recorded or sent), a
+  session timer and a practice note whose numbers chart over time.
 - [Converting an old diary](converting.md): turn a diary kept as plain text (your own, or one from Project Gutenberg) into dated
   Jot entries.
 

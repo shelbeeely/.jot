@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 2671,
-      "sha256": "01e0d06fa59bc55a622c3dce4ac9054eb0ede20e458846c0c1100320f0d701ca"
+      "byteLength": 2691,
+      "sha256": "fd943a8bbed1575b756bd1289df64b7eb691a90e13cec116e6a5e8160a37de1c"
     },
     {
       "path": ".gitignore",
@@ -39,8 +39,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 4233,
-      "sha256": "fbbad34cd209fb70e4c2e7a129ced29729c0accf7879e0905966c84deb9cfb21"
+      "byteLength": 4286,
+      "sha256": "ba5b168c331a5b37a5928fa1809138f51f336cd1cb9f37a0bc665d8282bb3478"
     },
     {
       "path": "CLAUDE.md",
@@ -49,8 +49,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 16223,
-      "sha256": "964f4bc7dcbe43bae78cd2410353d2291f2afec259d1edf7bfe7977eebf42b02"
+      "byteLength": 17748,
+      "sha256": "92e20a4a6623b06f0fc2b6814669531286ecdc519ebfd65e598f4fd7cd685c97"
     },
     {
       "path": "README.md",
@@ -124,8 +124,8 @@
     },
     {
       "path": "docs/guide/README.md",
-      "byteLength": 1168,
-      "sha256": "689cb63f3696e8d305fb14fb1c790a71d46d32a06fada695e396f6545a0e6f36"
+      "byteLength": 1353,
+      "sha256": "f7b05e8f20d198f0c2e30b37636753179cab153c72f92dd8dc45e07d9e4bd6d3"
     },
     {
       "path": "docs/guide/automation.md",
@@ -141,6 +141,11 @@
       "path": "docs/guide/template-editor.md",
       "byteLength": 13047,
       "sha256": "363c666be1104f1e8779a78b89dae8ee8b5b0ff340481b599e007d00965b3033"
+    },
+    {
+      "path": "docs/guide/voice-practice.md",
+      "byteLength": 4399,
+      "sha256": "ffaa4f672cf2d3923d3faa09551bb865a847a4aea0ec199972d0c6cc9c80f024"
     },
     {
       "path": "docs/guide/writing-jot.md",
@@ -669,8 +674,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 1824,
-      "sha256": "e746a3c527366d625f3bc6b5e19bfeaa1048890d92517f511e73c11789da4444"
+      "byteLength": 2632,
+      "sha256": "6ee7ffc2dd53ad73cad2ae66e6998d961c8771df302ba3230de7f964580a4800"
     },
     {
       "path": "site/CLAUDE.md",
@@ -1049,13 +1054,18 @@
     },
     {
       "path": "site/dist/guide/index.html",
-      "byteLength": 2262,
-      "sha256": "22e53b870227d5530d889f4ded0a3f7f0ea3409574ff8883edf6751f471b73a0"
+      "byteLength": 2465,
+      "sha256": "0c429f82c7c373a888322aa69e4f955e5453841bd98810067874eb6fc1a76a17"
     },
     {
       "path": "site/dist/guide/template-editor.html",
       "byteLength": 18722,
       "sha256": "8831c6ae0c6ad036151f56353fa88ecbf7b1836a063b72eabde3faba83f431b6"
+    },
+    {
+      "path": "site/dist/guide/voice-practice.html",
+      "byteLength": 6467,
+      "sha256": "c1392a0b43cc86a6200d95b164a62ae44213d64cc2ad95d638f8cf33207b4d70"
     },
     {
       "path": "site/dist/guide/writing-jot.html",
@@ -1288,6 +1298,11 @@
       "sha256": "8108e22b5c43045972894c9ac6389c198850973ec1f0e83b83f0e69e9fc7a3eb"
     },
     {
+      "path": "site/dist/jot/voice.mjs",
+      "byteLength": 18410,
+      "sha256": "c84ea9f69979173d3ec52eee5d4f49afc8fdea81a30b7c9dfd676141a1838482"
+    },
+    {
       "path": "site/dist/scan/app.js",
       "byteLength": 18900,
       "sha256": "4276a167bdce2a568010e9a9d2c62260f26509218dbd24bbef28317fc20ac123"
@@ -1314,18 +1329,18 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 11679,
-      "sha256": "7c5e40b6b2974a8788512269ebb208c9c8ddf29259efb2e28eb7d5ca883a432d"
+      "byteLength": 13327,
+      "sha256": "6a350b189858766c3ade23519a892bfd81416ab174de610f59441736a14df9f8"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 29581,
-      "sha256": "c49c698267dced93ce18999398778c1bbc596d79f46578312fabc4e7dffe7873"
+      "byteLength": 30019,
+      "sha256": "a95910adef706c448c642a360a27a4c4a484fc6a60146d745d8014cb83bf200d"
     },
     {
       "path": "site/dist/write/index.html",
-      "byteLength": 15350,
-      "sha256": "0065f65a10a5921898794a8c09718e3c80f6161a0da2b5e79592f1a4962bd1f1"
+      "byteLength": 19958,
+      "sha256": "c6a3ca11b8842d4f720570e2e8d2280d70f9271eea9462b2b42c8f7a7c9bdf1a"
     },
     {
       "path": "site/dist/write/spotify-callback.html",
@@ -1391,6 +1406,16 @@
       "path": "site/test-paper-ui.cjs",
       "byteLength": 7343,
       "sha256": "e8685568745976c481f8f10d8adb5ed45453a6ac6d1ac701277620bb0297c876"
+    },
+    {
+      "path": "site/test-voice-ui.cjs",
+      "byteLength": 9244,
+      "sha256": "8605f6a4c2a6be3644453cb62774a04863e4a313406a8f52038abe1e5d2d92c0"
+    },
+    {
+      "path": "site/test-voice.mjs",
+      "byteLength": 6165,
+      "sha256": "053b2792b768be740b0c046fbbea30c9341c0aa54fad6e34351976cbf93aa4b3"
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
