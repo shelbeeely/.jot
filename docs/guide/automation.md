@@ -187,3 +187,29 @@ and only the [currently-playing permission](https://developer.spotify.com/docume
 Access and refresh tokens stay in page memory and are never added to a journal, local storage or an export. Reloading the page ends
 the connection; **Disconnect** also clears it. You can revoke the app separately in your Spotify account settings. Existing notes
 stay readable and editable after disconnection. Your journal text is not sent to Spotify.
+
+### Scrobbling services
+
+**Listening → Last.fm / ListenBrainz** can read a public profile's currently playing track or its ten most recent tracks. Choose the
+service, enter your username, and choose **Fetch listening activity**. Select a track to review, add your setting notes, then choose
+**Add to this entry**. Fetching only fills the fields; it does not change your writing or submit a scrobble.
+
+- **ListenBrainz:** public reads need a username, with no app registration or user token. Your player or scrobbler must already send
+  listening activity to ListenBrainz. See its [playing-now and recent-listens API](https://listenbrainz.readthedocs.io/en/latest/users/api/core.html).
+- **Last.fm:** enter your username and an application API key from [Create an API account](https://www.last.fm/api/account/create).
+  Do not enter the shared secret. Public recent-track reads need no account authorization. See
+  [user.getRecentTracks](https://www.last.fm/api/show/user.getRecentTracks). The key stays in this page's fields and is not saved.
+- **Android:** an optional app such as [Pano Scrobbler](https://github.com/kawaiiDango/pano-scrobbler) can send supported players'
+  activity to these services after you grant its permissions. Jot reads the service, not Android's notifications or media sessions.
+- **Libre.fm:** manual links remain supported. Direct fetching is not enabled: its public API returned an access challenge during
+  integration checks, so browser access could not be verified. Follow its [developer documentation](https://github.com/libre-fm/developer)
+  for current API requirements; no unsupported proxy or account-password workaround is used.
+
+A note labels the source and whether the service reported current playback or a recent listen. Available historical timestamps are
+stored separately as **Listened**, while **Captured** means when Jot fetched the details. “Playing now” is a service report, not a
+guarantee: players may send updates late or leave stale status. If nothing is reported, try recent tracks or enter the song manually.
+Editing the song fields clears the fetched provenance so it is not attached to a different song.
+
+Only the requested username and, for Last.fm, application API key are sent to the selected service. The browser remembers a username
+after a successful fetch; no journal text is sent. There is no background polling, account write access or scrobble submission.
+Service errors leave existing writing and review fields unchanged. Requests are spaced and rate limits respected.

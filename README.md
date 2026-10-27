@@ -136,7 +136,10 @@ VS Code all use the same code. Guide: [Automation and connections](docs/guide/au
 In **Write → Listening ♫**, add a song title, artist, Spotify or YouTube Music link, and a note about the setting. Spotify's optional
 **Fetch currently playing** fills the fields for review before insertion. The saved note is ordinary Jot/Markdown and stays useful
 in any text editor. Live Spotify capture requires a registered app's public Client ID; [setup instructions](docs/guide/automation.md#spotify-setup)
-cover configuration and Spotify's access limits. Tokens stay in page memory; the journal is never uploaded.
+cover configuration and Spotify's access limits. **Last.fm / ListenBrainz** can also fetch public current/recent listening activity
+for review, with source and listen-time labels. ListenBrainz needs only a username; Last.fm needs an application API key.
+[Scrobbler setup](docs/guide/automation.md#scrobbling-services) includes Android options and Libre.fm's current limitation.
+Tokens and API keys stay in page memory; the journal is never uploaded.
 
 ## Jot for VS Code
 

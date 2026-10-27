@@ -136,3 +136,7 @@ Mildliner reference colors live in `dist/jot/palettes.mjs`, shared by the writin
 returns the authorization result to the originating writer window. Set a public Client ID in `dist/jot/spotify-config.json`, or enter
 one in the writer. Never put a client secret or account token in the repository. See the automation guide for provider setup and limits.
 Tests: `node --test site/test-music.mjs` and `node site/test-music-ui.cjs` (Spotify HTTP responses are stubbed).
+
+Last.fm and ListenBrainz public-profile reads are also in `music.mjs`: explicit now/recent requests, reviewable selection, source and
+listen-time provenance, no submissions or journal uploads. Last.fm needs an application API key in page memory; ListenBrainz public
+reads need only a username. Libre.fm is documented as manual-only until direct browser API access can be verified.

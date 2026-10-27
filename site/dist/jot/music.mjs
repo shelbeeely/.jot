@@ -12,7 +12,7 @@ export function serviceName(url) {
   if (!url) return 'track'; const host = new URL(url).hostname;
   return host === 'open.spotify.com' ? 'Spotify' : ['music.youtube.com', 'youtube.com', 'www.youtube.com', 'youtu.be'].includes(host) ? 'YouTube Music' : 'track';
 }
-export function listeningNote({ title, artist = '', album = '', url = '', notes = '', capturedAt = new Date().toISOString(), paused = false }) {
+export function listeningNote({ title, artist = '', album = '', url = '', notes = '', capturedAt = new Date().toISOString(), paused = false, source = '', playbackState = '', listenedAt = '' }) {
   title = one(title); if (!title) throw new Error('Add a song or episode title first.');
   const link = musicURL(url), at = new Date(capturedAt);
   if (!Number.isFinite(at.getTime())) throw new Error('The capture time is invalid.');
@@ -20,6 +20,10 @@ export function listeningNote({ title, artist = '', album = '', url = '', notes 
   if (one(album)) lines.push(`Album / show: ${prose(one(album))}`, '');
   if (link) { const service = serviceName(link); lines.push(`[${service === 'track' ? 'Open track' : 'Open in ' + service}](${link})`, ''); }
   lines.push(`Captured: ${at.toISOString()}${paused ? ' (playback paused)' : ''}`, '');
+  if (['Last.fm', 'ListenBrainz'].includes(source)) {
+    lines.push(`Source: ${source}${playbackState === 'now' ? ' (reported playing now)' : ' (recently played)'}`, '');
+    if (listenedAt && Number.isFinite(new Date(listenedAt).getTime())) lines.push(`Listened: ${new Date(listenedAt).toISOString()}`, '');
+  }
   const context = String(notes).replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, '').slice(0, 2000).trim();
   if (context) lines.push(context.split('\n').map(prose).join('\n'), '');
   return lines.join('\n');
@@ -32,6 +36,59 @@ export function spotifyTrack(data, capturedAt = new Date().toISOString()) {
   return { title: one(item.name), artist: item.type === 'episode' ? one(item.show?.publisher || item.show?.name) : (item.artists || []).map((a) => one(a.name)).filter(Boolean).join(', '),
     album: one(item.album?.name || item.show?.name), url, capturedAt, paused: data.is_playing !== true };
 }
+// Public listening reads only: no scrobble submissions, passwords or account tokens.
+export function scrobbledTrack(item, provider, mode, capturedAt = new Date().toISOString()) {
+  const lb = provider === 'listenbrainz', metadata = lb ? item?.track_metadata : item;
+  if (!metadata || !one(lb ? metadata.track_name : metadata.name)) return null;
+  const timestamp = Number(lb ? item.listened_at : item.date?.uts);
+  const isNow = lb ? mode === 'now' : item['@attr']?.nowplaying === 'true';
+  if (mode === 'now' && !isNow) return null;
+  const extra = metadata.additional_info || {};
+  let url = lb ? extra.origin_url || '' : metadata.url || '';
+  // Broken or unsafe service metadata should not prevent a readable note.
+  try { url = musicURL(url); } catch { url = ''; }
+  return { title: one(lb ? metadata.track_name : metadata.name),
+    artist: one(lb ? metadata.artist_name : typeof metadata.artist === 'string' ? metadata.artist : metadata.artist?.['#text']),
+    album: one(lb ? metadata.release_name : metadata.album?.['#text']), url, capturedAt, paused: false,
+    source: lb ? 'ListenBrainz' : 'Last.fm', playbackState: isNow ? 'now' : 'recent',
+    listenedAt: !isNow && timestamp > 0 && Number.isFinite(new Date(timestamp * 1000).getTime()) ? new Date(timestamp * 1000).toISOString() : '' };
+}
+export function createScrobbleClient({ fetchImpl = (...a) => fetch(...a), now = () => Date.now() } = {}) {
+  let nextRequest = 0;
+  return { async read({ provider, username, apiKey = '', mode = 'now' }) {
+    if (!['lastfm', 'listenbrainz'].includes(provider) || !['now', 'recent'].includes(mode)) throw new Error('Choose a supported service and listening option.');
+    username = String(username || '').trim();
+    if (!username || username.length > 100 || /[\s/\\?#\u0000-\u001f]/.test(username)) throw new Error('Enter your service username, rather than a profile URL.');
+    if (provider === 'lastfm' && !/^[a-f0-9]{32}$/i.test(apiKey)) throw new Error('Enter your Last.fm application API key. No shared secret is needed.');
+    if (now() < nextRequest) throw new Error('Please wait a moment before fetching again.');
+    nextRequest = now() + 1100;
+    const url = provider === 'lastfm' ? new URL('https://ws.audioscrobbler.com/2.0/') : new URL(`https://api.listenbrainz.org/1/user/${encodeURIComponent(username)}/${mode === 'now' ? 'playing-now' : 'listens'}`);
+    if (provider === 'lastfm') url.search = new URLSearchParams({ method: 'user.getrecenttracks', user: username, api_key: apiKey, format: 'json', limit: mode === 'now' ? '1' : '10' });
+    else if (mode === 'recent') url.searchParams.set('count', '10');
+    const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 15000);
+    try {
+      const response = await fetchImpl(url.href, { credentials: 'omit', referrerPolicy: 'no-referrer', signal: controller.signal });
+      if (response.status === 429) {
+        const seconds = Math.max(1, Math.min(3600, Number(response.headers.get('Retry-After') || response.headers.get('X-RateLimit-Reset-In')) || 30));
+        nextRequest = now() + seconds * 1000;
+        throw new Error('This service is limiting requests. Wait before trying again.');
+      }
+      if (response.status === 404) throw new Error('That username was not found. Check the selected service and username.');
+      if (!response.ok) throw new Error('Could not read listening activity. Check that the profile is public, or enter the song yourself.');
+      const data = await response.json();
+      if (Number(data.error) === 29) { nextRequest = now() + 30000; throw new Error('Last.fm is limiting requests. Wait before trying again.'); }
+      if (data.error) throw new Error(Number(data.error) === 10 || Number(data.error) === 26 ? 'Last.fm rejected this API key. Check your application settings.' : 'Last.fm could not read this profile. Check the username and profile visibility.');
+      const raw = provider === 'lastfm' ? data.recenttracks?.track : data.payload?.listens;
+      const items = Array.isArray(raw) ? raw : raw && typeof raw === 'object' ? [raw] : [];
+      return items.slice(0, 11).map(item => scrobbledTrack(item, provider, mode, new Date(now()).toISOString())).filter(Boolean);
+    } catch (error) {
+      if (error.name === 'AbortError') throw new Error('The music service took too long. Try again or enter a song yourself.');
+      if (error instanceof TypeError) throw new Error('Could not reach the music service from this browser. Check your connection or enter a song yourself.');
+      throw error;
+    } finally { clearTimeout(timeout); }
+  } };
+}
+
 export async function pkcePair(cryptoImpl = globalThis.crypto) {
   if (!cryptoImpl?.subtle) throw new Error('Spotify sign-in needs HTTPS or a secure loopback page.');
   const random = (n) => [...cryptoImpl.getRandomValues(new Uint8Array(n))].map((b) => b.toString(16).padStart(2, '0')).join('');
@@ -88,11 +145,12 @@ export function createSpotifyClient({ fetchImpl = (...a) => fetch(...a), now = (
 }
 
 export function setupMusicCapture({ insert }) {
-  const $ = (id) => document.getElementById(id), dialog = $('musicDialog'), client = createSpotifyClient();
+  const $ = (id) => document.getElementById(id), dialog = $('musicDialog'), client = createSpotifyClient(), scrobbler = createScrobbleClient();
   const redirectUri = new URL('../write/spotify-callback.html', import.meta.url).href;
   $('spotifyRedirect').value = redirectUri;
   try { $('spotifyClient').value = localStorage.getItem('jot-spotify-client-id') || ''; } catch { /* manual capture still works */ }
-  let pending = null, fetchVersion = 0, capturedAt = '', paused = false;
+  let pending = null, fetchVersion = 0, capturedAt = '', paused = false, provenance = {}, results = [];
+  try { $('scrobbleUser').value = localStorage.getItem('jot-scrobble-user-' + $('scrobbleService').value) || ''; } catch {}
   const say = (text) => { $('musicStatus').textContent = text; };
   const connectionUI = () => { $('spotifyDisconnect').hidden = !client.connected(); $('spotifyFetch').disabled = !client.connected() || !!pending; $('spotifyConnect').disabled = !!pending; $('spotifyCancel').hidden = !pending; };
   function cancelSignIn() { if (pending) { clearInterval(pending.watch); pending.channel?.close(); try { pending.popup?.close(); } catch {} pending = null; client.disconnect(); } }
@@ -108,8 +166,9 @@ export function setupMusicCapture({ insert }) {
     finally { $('spotifyConnect').disabled = false; }
   };
   $('musicClose').onclick = () => dialog.close();
-  dialog.addEventListener('close', () => { fetchVersion++; cancelSignIn(); $('spotifyConnect').disabled = false; $('spotifyFetch').disabled = !client.connected(); });
+  dialog.addEventListener('close', () => { fetchVersion++; $('scrobbleFetch').disabled = false; cancelSignIn(); $('spotifyConnect').disabled = false; $('spotifyFetch').disabled = !client.connected(); });
   $('spotifyConnect').onclick = async () => {
+    resetScrobbleResults();
     const id = $('spotifyClient').value.trim();
     if (!/^[a-z0-9]{32}$/i.test(id)) { $('spotifySetup').open = true; say('Enter your Spotify app’s public Client ID in connection settings. You can also enter a song manually.'); $('spotifyClient').focus(); return; }
     fetchVersion++; cancelSignIn();
@@ -148,23 +207,52 @@ export function setupMusicCapture({ insert }) {
   $('spotifyCancel').onclick = () => { cancelSignIn(); connectionUI(); say('Sign-in cancelled. Your journal is unchanged.'); };
   $('spotifyDisconnect').onclick = () => { fetchVersion++; cancelSignIn(); client.disconnect(); connectionUI(); say('Disconnected. Existing listening notes stay in your journal.'); };
   $('spotifyFetch').onclick = async () => {
+    resetScrobbleResults();
     const version = ++fetchVersion; $('spotifyFetch').disabled = true; say('Reading currently playing information from Spotify…');
     try {
       const song = await client.current(); if (version !== fetchVersion || !dialog.open) return;
       if (!song) { say('No song is currently available. Start playback in Spotify and try again, or enter a song yourself.'); return; }
       $('musicTitle').value = song.title; $('musicArtist').value = song.artist; $('musicAlbum').value = song.album; $('musicURL').value = song.url;
-      capturedAt = song.capturedAt; paused = song.paused;
+      capturedAt = song.capturedAt; paused = song.paused; provenance = {}; $('scrobbleResults').hidden = true;
       say(paused ? 'Spotify playback is paused. Review the details; the note will say it was paused.' : 'Song fetched. Add setting notes, review the details, then add it to your entry.');
     } catch (e) { if (version === fetchVersion && dialog.open) say(e.message); }
     finally { if (version === fetchVersion) connectionUI(); }
   };
-  for (const id of ['musicTitle', 'musicArtist', 'musicAlbum', 'musicURL']) $(id).addEventListener('input', () => { paused = false; capturedAt = new Date().toISOString(); });
+  function resetScrobbleResults() { fetchVersion++; results = []; $('scrobbleResults').hidden = true; $('scrobbleFetch').disabled = false; connectionUI(); }
+  $('scrobbleService').onchange = () => {
+    resetScrobbleResults(); $('lastfmKeyField').hidden = $('scrobbleService').value !== 'lastfm';
+    try { $('scrobbleUser').value = localStorage.getItem('jot-scrobble-user-' + $('scrobbleService').value) || ''; } catch { $('scrobbleUser').value = ''; }
+  };
+  for (const id of ['scrobbleUser', 'lastfmKey', 'scrobbleMode']) $(id).addEventListener('input', resetScrobbleResults);
+  function chooseScrobble() {
+    const song = results[Number($('scrobbleTrack').value)]; if (!song) return;
+    for (const [id, field] of [['musicTitle','title'], ['musicArtist','artist'], ['musicAlbum','album'], ['musicURL','url']]) $(id).value = song[field];
+    capturedAt = song.capturedAt; paused = false; provenance = { source: song.source, playbackState: song.playbackState, listenedAt: song.listenedAt };
+    say(song.playbackState === 'now' ? 'Reported playing now. Review the details before adding.' : 'Recently played, not confirmed playing now. Review the details before adding.');
+  }
+  $('scrobbleTrack').onchange = chooseScrobble;
+  $('scrobbleFetch').onclick = async () => {
+    const version = ++fetchVersion; $('scrobbleFetch').disabled = true; $('scrobbleResults').hidden = true; connectionUI();
+    say('Reading your requested listening activity…');
+    const provider = $('scrobbleService').value, username = $('scrobbleUser').value.trim();
+    try {
+      const songs = await scrobbler.read({ provider, username, apiKey: $('lastfmKey').value.trim(), mode: $('scrobbleMode').value });
+      if (version !== fetchVersion || !dialog.open) return;
+      try { localStorage.setItem('jot-scrobble-user-' + provider, username); } catch {}
+      results = songs;
+      if (!songs.length) { say('No matching listening activity was reported. Try Recent tracks, check your scrobbler, or enter a song yourself.'); return; }
+      $('scrobbleTrack').replaceChildren(...songs.map((song, i) => { const option = document.createElement('option'); option.value = String(i); option.textContent = `${song.title} — ${song.artist}${song.playbackState === 'now' ? ' · playing now' : song.listenedAt ? ' · ' + new Date(song.listenedAt).toLocaleString() : ' · recently played'}`; return option; }));
+      $('scrobbleResults').hidden = false; chooseScrobble();
+    } catch (e) { if (version === fetchVersion && dialog.open) say(e.message); }
+    finally { if (version === fetchVersion) $('scrobbleFetch').disabled = false; }
+  };
+  for (const id of ['musicTitle', 'musicArtist', 'musicAlbum', 'musicURL']) $(id).addEventListener('input', () => { resetScrobbleResults(); paused = false; provenance = {}; capturedAt = new Date().toISOString(); });
   $('musicAdd').onclick = () => {
     try {
-      const note = listeningNote({ title: $('musicTitle').value, artist: $('musicArtist').value, album: $('musicAlbum').value, url: $('musicURL').value, notes: $('musicNotes').value, capturedAt: capturedAt || new Date().toISOString(), paused });
+      const note = listeningNote({ title: $('musicTitle').value, artist: $('musicArtist').value, album: $('musicAlbum').value, url: $('musicURL').value, notes: $('musicNotes').value, capturedAt: capturedAt || new Date().toISOString(), paused, ...provenance });
       dialog.close(); insert(note);
       for (const id of ['musicTitle', 'musicArtist', 'musicAlbum', 'musicURL', 'musicNotes']) $(id).value = '';
-      capturedAt = ''; paused = false; say('Enter a song yourself, or connect Spotify to fetch currently playing information.');
+      capturedAt = ''; paused = false; provenance = {}; $('scrobbleResults').hidden = true; say('Enter a song yourself, or connect Spotify to fetch currently playing information.');
     } catch (e) { say(e.message); }
   };
   connectionUI();

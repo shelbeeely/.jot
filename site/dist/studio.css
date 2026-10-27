@@ -16,7 +16,9 @@ nav{display:flex;align-items:center;gap:24px}nav a,nav button{text-decoration:no
 
 #musicDialog{width:min(660px,calc(100vw - 24px));padding:22px;max-height:90vh;overflow:auto}
 .music-actions{display:flex;flex-wrap:wrap;gap:10px}.music-fields{display:grid;gap:6px;margin:16px 0}
-.music-fields :is(input,textarea),#spotifyClient,#spotifyRedirect{width:100%;min-width:0;min-height:44px;padding:8px 10px;border:1px solid var(--jot-edge);font-size:21px}
+.music-fields :is(input,textarea,select),#spotifyClient,#spotifyRedirect{width:100%;min-width:0;min-height:44px;padding:8px 10px;border:1px solid var(--jot-edge);font-size:21px}
 #spotifySetup{margin:18px 0;padding:12px;border:1px solid var(--jot-edge);border-radius:6px}#spotifySetup summary{min-height:44px;cursor:pointer}
-#spotifySetup label{display:block;margin:10px 0 4px}#musicStatus{color:var(--jot-muted)}
+#lastfmKeyField label,#spotifySetup label{display:block;margin:10px 0 4px}#musicStatus{color:var(--jot-muted)}
 @media print{#musicDialog{display:none!important}}
+
+#musicDialog [hidden]{display:none!important}

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { listeningNote, spotifyTrack, pkcePair, spotifyAuthorization, createSpotifyClient, musicURL } from './dist/jot/music.mjs';
+import { listeningNote, spotifyTrack, pkcePair, spotifyAuthorization, createSpotifyClient, musicURL, scrobbledTrack, createScrobbleClient } from './dist/jot/music.mjs';
 import { parse } from '../parser/jot.mjs';
 const id = 'a'.repeat(32), redirectUri = 'https://example.com/jot/write/spotify-callback.html';
 const song = { item: { type: 'track', name: 'A small song', artists: [{name:'An artist'}], album:{name:'A small album'}, external_urls:{spotify:'https://open.spotify.com/track/example'} }, is_playing:true };
@@ -51,4 +51,38 @@ test('disconnect while authentication is pending prevents a late token from reco
   let finish;const c=createSpotifyClient({fetchImpl:()=>new Promise(r=>{finish=r;})});
   const connecting=c.connect({code:'code',verifier:'v',redirectUri,id});c.disconnect();finish(json({access_token:'late-token'}));
   await assert.rejects(()=>connecting,/cancelled/);assert.equal(c.connected(),false);
+});
+
+const lastTrack = {name:'A recent song',artist:{'#text':'A performer'},album:{'#text':'An album'},url:'https://www.last.fm/music/example',date:{uts:'1793008800'}};
+const brainzTrack = {listened_at:1793008800,track_metadata:{track_name:'A recent song',artist_name:'A performer',release_name:'An album',additional_info:{origin_url:'https://music.youtube.com/watch?v=example'}}};
+test('scrobbling preserves provenance, timestamps and the current/history distinction', () => {
+  assert.equal(scrobbledTrack(lastTrack,'lastfm','now'),null);
+  const recent=scrobbledTrack(lastTrack,'lastfm','recent','2026-10-27');
+  assert.equal(recent.playbackState,'recent'); assert.equal(recent.source,'Last.fm'); assert.ok(recent.listenedAt);
+  const note=listeningNote(recent);assert.match(note,/recently played/);assert.match(note,/Listened:/);assert.match(note,/Captured:/);assert.deepEqual(parse(note).diagnostics,[]);
+  const current=scrobbledTrack({...lastTrack,'@attr':{nowplaying:'true'}},'lastfm','now');assert.equal(current.listenedAt,'');assert.match(listeningNote(current),/reported playing now/);
+  const lb=scrobbledTrack(brainzTrack,'listenbrainz','recent');assert.equal(lb.title,recent.title);assert.equal(lb.listenedAt,recent.listenedAt);
+  assert.equal(scrobbledTrack(brainzTrack,'listenbrainz','now').listenedAt,'');
+  assert.equal(scrobbledTrack({name:'Unsafe',url:'javascript:alert(1)'},'lastfm','recent').url,'');
+  assert.equal(scrobbledTrack({},'lastfm','recent'),null);
+});
+test('public reads need no account token and send only explicit username requests', async () => {
+  const requests=[];let time=0;
+  const c=createScrobbleClient({now:()=>time,fetchImpl:async(url,options)=>{requests.push([new URL(url),options]);return json(url.includes('listenbrainz')?{payload:{listens:[brainzTrack]}}:{recenttracks:{track:[lastTrack]}});}});
+  assert.equal(requests.length,0);await assert.rejects(()=>c.read({provider:'lastfm',username:'example'}),/API key/);assert.equal(requests.length,0);
+  const songs=await c.read({provider:'listenbrainz',username:'example',mode:'recent'});assert.equal(songs.length,1);
+  assert.equal(requests[0][0].pathname,'/1/user/example/listens');assert.equal(requests[0][0].searchParams.get('count'),'10');assert.equal(requests[0][1].credentials,'omit');assert.equal(requests[0][1].referrerPolicy,'no-referrer');assert.equal(requests[0][1].headers,undefined);
+  await assert.rejects(()=>c.read({provider:'listenbrainz',username:'example'}),/wait a moment/);
+  time=1200;assert.deepEqual(await c.read({provider:'lastfm',username:'example',apiKey:'a'.repeat(32)}),[],'recent history cannot be reported as now playing');
+  assert.equal(requests[1][0].searchParams.get('method'),'user.getrecenttracks');assert.equal(requests[1][0].searchParams.get('api_key'),'a'.repeat(32));
+  await assert.rejects(()=>c.read({provider:'other',username:'example'}),/supported/);
+  await assert.rejects(()=>c.read({provider:'listenbrainz',username:'../example'}),/username/);
+});
+test('scrobble errors, empty data and rate-limit backoff are recoverable', async () => {
+  for(const [response,pattern] of [[json({error:10}),/API key/],[new Response(null,{status:404}),/not found/],[new Response(null,{status:403}),/public/],[new Response(null,{status:429}),/limiting/]]){
+    const c=createScrobbleClient({fetchImpl:async()=>response});await assert.rejects(()=>c.read({provider:'listenbrainz',username:'example'}),pattern);
+  }
+  let time=0,calls=0;const c=createScrobbleClient({now:()=>time,fetchImpl:async()=>{calls++;return new Response(null,{status:429,headers:{'Retry-After':'60'}});}});
+  await assert.rejects(()=>c.read({provider:'listenbrainz',username:'example'}),/limiting/);time=2000;await assert.rejects(()=>c.read({provider:'listenbrainz',username:'example'}),/wait/);assert.equal(calls,1);
+  assert.deepEqual(await createScrobbleClient({fetchImpl:async()=>json({payload:{listens:[]}})}).read({provider:'listenbrainz',username:'example'}),[]);
 });
