@@ -562,3 +562,41 @@ helps: A short list I can reread
 context: Work meetings
 script: Could you send that as a message so I can come back to it?
 :::
+
+#### Drawing practice sessions
+
+:::record session #example-drawing-practice
+method: drawing-practice@1
+subject: Hands holding a mug
+medium: Graphite, 2B
+focus: gesture
+minutes: 20
+reference: My own left hand, in a mirror
+what-worked: Long lines for the fingers kept them in proportion.
+next-try: Draw the mug first, then wrap the hand around it.
+:::
+
+#### Design iterations and critique
+
+:::record review #example-design-iteration-and-critique
+method: design-iteration-and-critique@1
+project: Library app sign-up
+iteration: v3
+decision: Move the password rules above the field.
+rationale: Two of five testers missed the rules when they appeared only after an error.
+critique: The rules read as a wall of text.
+critique-from: Peer designer
+change-next: Group the rules as a short checklist.
+:::
+
+#### Moodboards and colour palettes
+
+:::record palette #example-moodboard-and-palette
+method: moodboard-and-palette@1
+theme: Rainy bookshop poster
+mood-word: quiet
+mood-word: warm
+color: #2E3A46 slate night (background)
+color: #C8A165 lamplight (accent)
+color: #E9E2D3 paper (text)
+:::

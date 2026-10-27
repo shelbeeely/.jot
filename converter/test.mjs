@@ -98,13 +98,13 @@ test('a date needs an ending: "March 18th, 1884, the monument…" is just text',
 });
 
 test('Project Gutenberg: the header and licence are left out; title, author and source are kept', () => {
-  const pg = '﻿The Project Gutenberg eBook of A Diary\r\n\r\nTitle: A Diary\r\n       of Someone\r\nAuthor: A. Writer\r\n\r\nRelease date: 1 January 2000 [eBook #12345]\r\n\r\n*** START OF THE PROJECT GUTENBERG EBOOK A DIARY ***\r\nJANUARY 1888\r\n\r\nJan. 1st.—Begun.\r\n\r\nEnd of the Project Gutenberg EBook of A Diary\r\n\r\n*** END OF THE PROJECT GUTENBERG EBOOK A DIARY ***\r\nThe licence.\r\n';
+  const pg = '﻿The Project Gutenberg eBook of A Diary\r\n\r\nTitle: A Diary\r\n       of Someone\r\nAuthor: A. Writer\r\n        B. Writer\r\n\r\nRelease date: 1 January 2000 [eBook #12345]\r\n\r\n*** START OF THE PROJECT GUTENBERG EBOOK A DIARY ***\r\nJANUARY 1888\r\n\r\nJan. 1st.—Begun.\r\n\r\nEnd of the Project Gutenberg EBook of A Diary\r\n\r\n*** END OF THE PROJECT GUTENBERG EBOOK A DIARY ***\r\nThe licence.\r\n';
   const s = stripGutenberg(pg.replace(/\r\n/g, '\n'));
-  assert.deepEqual(s.meta, { title: 'A Diary of Someone', author: 'A. Writer', source: 'https://www.gutenberg.org/ebooks/12345' });
+  assert.deepEqual(s.meta, { title: 'A Diary of Someone', author: 'A. Writer and B. Writer', source: 'https://www.gutenberg.org/ebooks/12345' });
   const r = convert(pg);
   const t = r.files[0].text;
   clean(t);
-  assert.ok(t.startsWith('---\nJot: 1.0\nTitle: A Diary of Someone\nAuthor: A. Writer\nSource: https://www.gutenberg.org/ebooks/12345\nConverted-with: jot-convert\n---\n'));
+  assert.ok(t.startsWith('---\nJot: 1.0\nTitle: A Diary of Someone\nAuthor: A. Writer and B. Writer\nSource: https://www.gutenberg.org/ebooks/12345\nConverted-with: jot-convert\n---\n'));
   assert.ok(!/gutenberg ebook|licence|\r/i.test(t.replace('www.gutenberg.org', '')));
   assert.equal(r.files[0].name, 'a-diary-of-someone.jot');
 });

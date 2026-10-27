@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const COPIES = 'jot|container|proofread|charts|preview|handwriting|styles|palette|export|automation|connect|include|query';
+const COPIES = 'jot|container|proofread|charts|preview|handwriting|styles|palette|export|automation|connect|include|query|health';
 const GENERATED = [
   [new RegExp(`^site/dist/jot/((${COPIES})\\.mjs$|vendor/(chart|marked)\\.mjs$|fonts/)`), 'the module in parser/, then copy it to site/dist/jot/'],
   [/^site\/dist\/jot\/convert\.mjs$/, 'converter/convert.mjs, then copy it to site/dist/jot/'],

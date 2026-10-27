@@ -4,7 +4,7 @@ The .jot file holds the writing: one moment, a day, a month or an ongoing journa
 
 ## Contents
 
-- `Jot-Complete-Specification.pdf`: readable specification, 59 method/style profiles, grammar, migration and acceptance criteria.
+- `Jot-Complete-Specification.pdf`: readable specification, 62 method/style profiles, grammar, migration and acceptance criteria.
 - `Jot-Complete-Specification.md`: editable source of the PDF.
 - `example-month.txt`: writing-first, multiple dates and styles in one file.
 - `examples-methods.txt`: optional structured examples for each profile; example asset paths are illustrative.

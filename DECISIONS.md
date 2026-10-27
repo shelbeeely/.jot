@@ -14,6 +14,22 @@
 - **Preview ids are per page** (`jotln-<page>-<target>`, like footnotes' `jotfn-`), so embedded and side-by-side previews never clash.
   Each target shows a **Linked from** line naming the entries and records that link to it; unresolved links render as text.
 
+## On-device pitch meter for voice practice (27 October 2026)
+
+The writer's Voice practice tool may use the microphone, as a scoped exception to the rule that capture tools do not. The listening
+tool still never uses it. The microphone opens only after the person presses Start (`getUserMedia` with echo cancellation, noise
+suppression and automatic gain off, so they do not bend the pitch); the sound goes to an `AnalyserNode` that is never connected to
+the speakers, and a YIN estimate a few times a second keeps only voiced pitches in page memory. No audio is recorded, stored or sent;
+no measurements leave the page. Stop, closing the dialog and leaving the page stop every track and close the audio context, and the
+dialog says "Microphone off". The only preference kept is an optional target range, in local storage, with no default: no gendered
+presets, scores or judgement words.
+
+The summary is median and 10th/90th percentiles of voiced frames, plus voiced time. The journal changes only on Add, with plain text:
+a `#### Voice practice` note, `:::record measurement` records for `pitch-hz` (Hz, with `low`/`high`) and `voice-minutes`, and an
+observation with `method: voice-practice@1` (`exercise`, `resonance`, `strain`, `felt-like-me`, `recording`), so existing charts plot
+progress. A recording made elsewhere can be attached to the document from the dialog and is linked only on Add; there is no in-app
+recording. Browser tests use Chromium's fake microphone with a generated tone; no real device is required.
+
 ## Optional music capture, plain-text listening notes (26 October 2026)
 
 The writer's Listening tool can capture title, artist, album, link, capture time and setting notes. Its output is an ordinary
@@ -154,6 +170,28 @@ only native representation.
   PNG pictures with their summaries as alternative text, attachments and the hand in use as data: URLs, no scripts, nothing fetched.
   PDF is the browser's print, with `@page` margins and page numbers.
 
+## Health data import (27 October 2026)
+
+- **From the app's own export, on this device.** `parser/health.mjs` reads Apple Health's `export.xml` and daily CSVs from Health
+  Connect, Google Fit, Fitbit, Garmin and Oura; the workspace's **Import health data**, `jot import-health` and the tests share it.
+  No service APIs, accounts or network. `export.zip` is not opened: Apple's archives hold directories and members far beyond the
+  `.jotz` reader's limits, so people unzip it and choose `export.xml`, which is scanned as a stream (a regular expression over `<Record>`
+  tags, never a DOM), keeping only daily totals of the chosen kinds, up to 2 GB.
+- **The author chooses, and sees it first.** Metrics and dates are chosen (the last 30 days to begin with), and every record to be
+  added or filled is shown before **Add to journal**. Writing goes through `addNumbers`, so imports fill blanks, never repeat a day and
+  carry `source:`; each record also says its `aggregation`. `addNumbers` now parses twice per call instead of twice per number.
+- **How a day is counted.** Totals (steps, distance, energy, flights, exercise) take the larger source per day, so phone and watch are
+  not added together; heart rate, HRV, SpO2 and respiratory rate are means (lowest/highest offered, off by default); body mass and fat
+  are the last reading; sleep is time asleep with every source's spans merged, dated on the morning it ends; mindful minutes are merged
+  spans. Dates are the export's own local dates.
+- **Units as exported.** No conversion; a metric seen in two units becomes two metrics (`body-mass-kg`, `body-mass-lb`), CSV sleep in
+  minutes or seconds is `sleep-minutes`/`sleep-seconds`, and `addNumbers` leaves a blank with a different `unit:` empty (`skipped`).
+  HealthKit's percent is a fraction in `export.xml`, so 0.97 % is written as the 97 % it means.
+- **Left out on purpose.** Medications, lab and clinical records (`export_cda.xml` is refused), reproductive and sexual health, and
+  location (routes, latitude/longitude columns) are never read, even by the generic CSV fallback: they are the most sensitive parts of an export and a journal is often
+  shared, synced or printed. Vendor scores (readiness, sleep score, body battery, stress) are calculations, not measurements. Nothing
+  infers a health state from the numbers.
+
 ## Automation and connections (26 October 2026)
 
 - **The file stays the source.** Automation reads what a journal holds (`parser/automation.mjs`: tasks, events, numbers) and writes back
@@ -197,6 +235,14 @@ only native representation.
   and a missing picture shows the usual "not attached" note. A paragraph of only pictures is drawn as the same grid.
 - **Copying is explicit.** The workspace copies the palette at the caret as CSS custom properties or JSON (Clipboard API, then the
   older copy command, then a download), and Add to palette writes plain text into the record.
+
+## Checking files and the to-jot skill (27 October 2026)
+
+- **`jot check`** prints the parser's diagnostics as `file:line:col severity code message` (1-based, columns in characters) and exits 1
+  on an error; warnings fail only with `--strict`. It reads `.jotz` through `readDocument`, unlike the other commands.
+- **One skill for every agent.** `.agents/skills/to-jot/` (where Codex looks) is the only copy; `.claude/skills/to-jot` is a relative
+  symlink, which Claude Code follows (checked by asking it to load a symlinked probe skill). `MANIFEST.json` hashes a symlink as git
+  stores it: its target path. The skill never invents dates or values and finishes with `jot check`.
 
 ## What the current code does
 
@@ -254,3 +300,29 @@ an access challenge; direct browser compatibility was not established. Provider 
 - **One catalogue, tested.** The site copy of `profiles.json` now says `"format": "jot-profiles"` like the canonical file (nothing
   read the old `dotjot-profiles` value), and `tools/test-profiles.mjs` checks the copies are identical, ids are unique kebab-case,
   every example parses with no diagnostics as a complete record of its profile, and §13 catalogues every profile.
+
+## Artist and designer profiles (27 October 2026)
+
+- **Three profiles, each with a method guide.** `drawing-practice@1` (a `session`: subject, medium, focus, optional minutes,
+  reference, credit, what worked, next try, asset/alt), `design-iteration-and-critique@1` (a `review`: project, iteration, decision,
+  rationale, critique by role, change-next, linked to the previous version with `relation: revises #id`) and
+  `moodboard-and-palette@1` (a `palette`: theme, `color: #RRGGBB name` lines, mood words, assets with alt text and credits).
+- **Colours always have names.** A palette colour is `#RRGGBB name`; swatches are an optional rendering, and any role a colour plays
+  is written in its name, so colour is never the only carrier of meaning (spec §8.1).
+- **Credit and roles, not names.** References made by others carry `credit`; critique is recorded by role (`critique-from`), not
+  by person, unless they agreed to be named.
+- **No streaks or scores.** Drawing progress is seen by comparing drawings of the same focus.
+- **No separate creative-session profile.** Time, focus and interruptions are covered by `pomodoro-log`, energy by
+  `spoon-theory-energy-accounting`, and experiments by `project-lab-log`; a fourth profile would duplicate them.
+
+## Writing preferences and gentle return (27 October 2026)
+
+The writer has a Preferences panel with independent choices (text size, line spacing, line length, density, higher contrast, reduced
+motion, and hiding the preview, parser tabs, counts and decoration), a focus mode left with Escape or its visible button, a one-line
+Quick note into today's entry, and return to the saved caret/scroll with an optional note for next time. There are no presets named
+after diagnoses, no timers, sounds, streaks or catch-up prompts. Choices and the note are per-viewer conveniences in localStorage
+(`jot-prefs-v1`), never in the journal, and every read/write tolerates failing storage. They apply to the screen only: the shared
+renderer stylesheet, the handwriting grid and print are unchanged; a hidden preview is moved off screen, not removed, so handwritten
+pages are still measured for print and export. Quick note uses `automation.addToDay` (the entry logic behind Today ＋ and rollover,
+now exported), escapes a leading heading/fence/record marker so the note stays one plain line, and inserts only the difference, so
+it is one undo step and the cursor stays put. The ROADMAP rows are marked partial: not yet validated with intended users.

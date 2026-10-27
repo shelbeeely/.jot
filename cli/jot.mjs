@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 // jot: a journal's tasks, events and numbers on the command line, for scripts, cron, Shortcuts and automation services.
-// Reading never changes a file; the commands that write (import, today, rollover, review, todoist) say what they changed, and --dry-run
+// Reading never changes a file; the commands that write (import, import-health, today, rollover, review, todoist) say what they changed, and --dry-run
 // prints the result instead. Only `post`, `todoist` and `today --weather` reach the internet, and only when you run them.
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from '../parser/jot.mjs';
+import { readDocument } from '../parser/container.mjs';
 import A from '../parser/automation.mjs';
 import Q from '../parser/query.mjs';
+
+import H from '../parser/health.mjs';
 import { sendWebhook, todoistAdd, weather } from '../parser/connect.mjs';
 import { flatten, notice } from '../parser/include.mjs';
 
@@ -28,9 +31,16 @@ Reading (any number of files; nothing is changed):
             [--stat count|sum|average|min|max] [--limit N] [--json]
                                                          or ask one here, of each file (same fields as the record)
 
+  jot check <files…> [--strict] [--json]                 problems as file:line:col severity code message; exit 1 on an
+                                                         error (or, with --strict, a warning); reads .jotz too
+
 Writing (one journal; --dry-run prints the new text instead):
   jot import <numbers.csv> --into <journal.jot> [--combine sum|mean|last] [--day-first] [--source NAME] [--metric NAME…]
                                                          numbers from a health or fitness app's CSV, into their days
+  jot import-health <export.xml|export.csv> --into <journal.jot> [--metric NAME…] [--since DATE] [--until DATE]
+                    [--list] [--day-first] [--source NAME]
+                                                         daily numbers from Apple Health's export.xml, or a Health Connect,
+                                                         Google Fit, Fitbit, Garmin or Oura CSV; --list shows what is in it
   jot today <journal.jot> [--date DATE] [--weather LAT,LON]   today's entry, if there is none (and the day's weather, from Open-Meteo)
   jot rollover <journal.jot> [--date DATE]               open tasks from earlier days carried to today ([>] where they were)
   jot review <journal.jot> [--date DATE]                 a review of the week: done, open, the numbers, a chart
@@ -55,7 +65,9 @@ async function main() {
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { out(HELP); return; }
   if (cmd === 'flatten') return flattenCmd();
   if (cmd === 'query') return query();
-  if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
+
+  if (cmd === 'check') return check();
+  if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'import-health', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
   if (['tasks', 'events', 'numbers', 'ics', 'json', 'post'].includes(cmd)) {
     const url = cmd === 'post' ? args.shift() : null;
     const status = opt('--status'), since = opt('--since'), metric = opt('--metric'), o = opt('-o'), name = opt('--name');
@@ -103,6 +115,31 @@ async function main() {
     if (r.ambiguous) process.stderr.write(`${r.ambiguous} rows have dates like 03/04/2026 that could be either way round: add --day-first if the day comes first\n`);
     const w = A.addNumbers(fs.existsSync(into) ? read(into) : '', r.numbers, { source: from || path.basename(csv) });
     return writeBack(into, w.text, `${into}: ${w.filled} blanks filled, ${w.added} numbers added, ${w.kept} already there (${r.metrics.join(', ') || 'no numbers'}; ${r.rows} rows${r.skipped ? `, ${r.skipped} without a date` : ''})`, dry);
+  }
+  if (cmd === 'import-health') {
+    const input = args.shift(), into = opt('--into'), from = opt('--source'), since = opt('--since'), until = opt('--until'), dayFirst = flag('--day-first'), list = flag('--list'), only = [];
+    for (let m; (m = opt('--metric'));) only.push(m.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''));
+    if (!input || (!into && !list)) fail('import-health <export.xml|file.csv> --into <journal.jot> (or --list)');
+    for (const [v, n] of [[since, '--since'], [until, '--until']]) if (v) date(v, n);
+    if (!fs.existsSync(input)) fail(`no such file: ${input}`);
+    const fd = fs.openSync(input, 'r'), start = Buffer.alloc(512); fs.readSync(fd, start, 0, 512, 0); fs.closeSync(fd);
+    const kind = H.healthKind(input, start.toString('utf8')); if (kind instanceof Error) fail(kind.message);
+    let s;
+    if (kind === 'apple') { if (fs.statSync(input).size > H.LIMITS.xmlBytes) fail(`${input} is larger than ${H.LIMITS.xmlBytes / 1024 ** 3} GB, more than Jot reads at once`); const sc = H.appleHealthScanner(); for await (const chunk of fs.createReadStream(input, { encoding: 'utf8', highWaterMark: 1 << 20 })) sc.push(chunk); s = sc.end(); }
+    else { if (fs.statSync(input).size > H.LIMITS.csvBytes) fail(`${input} is larger than ${H.LIMITS.csvBytes / 1024 ** 2} MB; export a shorter date range`); s = H.readHealthCSV(read(input), { dayFirst: dayFirst || null }); }
+    if (list || !s.metrics.length) {
+      out(`${s.name}${s.preset === 'generic' ? ' (columns read as they are)' : ''}: ${s.metrics.length ? `${s.first} to ${s.last}` : 'no numbers Jot reads'}`);
+      for (const m of s.metrics) out(`  ${m.metric.padEnd(24)} ${String(m.days).padStart(5)} days  ${m.first} to ${m.last}  ${m.aggregation}${m.unit ? `, ${m.unit}` : ''}${m.optional ? '  (only with --metric)' : ''}`);
+      if (s.leftOut?.length) out(`  left out: ${s.leftOut.join(', ')}`);
+      out(`  never read: ${H.LEFT_OUT}`);
+      if (!s.metrics.length && !list) process.exitCode = 1;
+      return;
+    }
+    const unknown = only.filter((m) => !s.metrics.some((x) => x.metric === m)); if (unknown.length) fail(`not in this file: ${unknown.join(', ')} (--list shows what is)`);
+    if (s.ambiguous) process.stderr.write(`${s.ambiguous} rows have dates like 03/04/2026 that could be either way round: add --day-first if the day comes first\n`);
+    const numbers = s.numbers({ metrics: only.length ? only : null, since, until });
+    const w = A.addNumbers(fs.existsSync(into) ? read(into) : '', numbers, { source: from || (kind === 'apple' ? `Apple Health ${path.basename(input)}` : `${s.name} ${path.basename(input)}`.replace(/^(CSV|Health app) /, '')) });
+    return writeBack(into, w.text, `${into}: ${w.filled} blanks filled, ${w.added} numbers added, ${w.kept} already there${w.skipped ? `, ${w.skipped} blanks left empty (a different unit)` : ''} (${[...new Set(numbers.map((n) => n.metric))].join(', ') || 'no numbers in that range'})`, dry);
   }
   const file = args.shift(); if (!file) fail(`${cmd}: which journal?`);
   const d = date(opt('--date'));
@@ -169,5 +206,28 @@ function query() {
   if (json) out(JSON.stringify(results.map(({ file, model }) => ({ file, id: model.id, label: model.label, show: model.show, start: model.start || null, end: model.end || null, total: model.total, summary: model.summary, stats: model.stats, rows: model.rows, problems: model.problems })), null, 2));
   else out(results.map(({ file, model }) => (fields.length ? (files.length > 1 ? `# ${path.basename(file)}\n` : '') : `# ${model.label || (model.id ? `#${model.id}` : 'Query')}${files.length > 1 ? ` (${path.basename(file)})` : ''}\n`) + Q.queryText(model)).join('\n\n'));
   if (problems.length) process.exitCode = 1;
+}
+// Byte offsets (the parser's) become 1-based line and column (in characters), as editors and CI annotations expect. Lines end at
+// \n, \r\n or \r, as the parser counts them. A missing or unreadable file is reported as an error and the others are still checked.
+async function check() {
+  const json = flag('--json'), strict = flag('--strict'), unknown = args.find((a) => a.startsWith('--')); if (unknown) fail(`check: unknown option ${unknown}`);
+  const files = args; if (!files.length) fail('check: which .jot files?');
+  const found = [], problem = (file, code, message) => found.push({ file, line: 1, column: 1, severity: 'error', code, message });
+  for (const file of files) {
+    if (!fs.existsSync(file)) { problem(file, 'missing', 'No such file.'); continue; }
+    const raw = fs.readFileSync(file); let source = raw.toString('utf8');
+    if (raw[0] === 0x50 && raw[1] === 0x4b) try { ({ source } = await readDocument(new Uint8Array(raw))); } catch (e) { problem(file, 'unreadable', e.message); continue; }
+    source = source.replace(/^\uFEFF/, '');
+    const bytes = Buffer.from(source, 'utf8'), starts = [0];
+    for (let i = 0; i < bytes.length; i++) if (bytes[i] === 0x0a || (bytes[i] === 0x0d && bytes[i + 1] !== 0x0a)) starts.push(i + 1);
+    for (const d of parse(source).diagnostics) {
+      let lo = 0, hi = starts.length - 1; while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (starts[mid] <= d.start) lo = mid; else hi = mid - 1; }
+      found.push({ file, line: lo + 1, column: [...bytes.subarray(starts[lo], d.start).toString('utf8')].length + 1, severity: d.severity, code: d.code, message: d.message });
+    }
+  }
+  const errors = found.filter((d) => d.severity === 'error').length, warnings = found.filter((d) => d.severity === 'warning').length;
+  if (json) out(JSON.stringify(found, null, 2)); else if (found.length) out(found.map((d) => `${d.file}:${d.line}:${d.column} ${d.severity} ${d.code} ${d.message}`).join('\n'));
+  process.stderr.write(`${files.length} ${files.length === 1 ? 'file' : 'files'}: ${errors} ${errors === 1 ? 'error' : 'errors'}, ${warnings} ${warnings === 1 ? 'warning' : 'warnings'}\n`);
+  if (errors || (strict && warnings)) process.exitCode = 1;
 }
 main().catch((e) => fail(e.message));

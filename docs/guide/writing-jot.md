@@ -95,7 +95,8 @@ Jot uses Markdown for everything else, so what you may already know works:
 | Morning | Quiet enough to think |
 ```
 
-`- [ ] task` (with a dash) also works as a checklist; plain `[ ] task` is the Jot way and is quicker to type.
+`- [ ] task` (with a dash) also shows as a checklist, but only plain `[ ] task` lines count as Jot tasks (with states like moved or
+cancelled), and they are quicker to type.
 
 ### More ways to mark words
 
@@ -348,7 +349,8 @@ instead; nothing is fetched from the internet. Two or more pictures on their own
 
 - **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.
 - **Time labels:** a line like `.0830 - KITCHEN` (a dot, then a label) marks a scene or a moment in the day.
-- **Tags and places:** `#walk` (a tag) and `@home` (a context, where or with whom) can go anywhere in a sentence.
+- **Tags and places:** `#walk` (a tag) and `@home` (a context, where or with whom) can go anywhere in a sentence. (The
+  specification defines them; the tools here keep them as ordinary words for now and don't yet list or search them.)
 - **Metadata:** a block at the very top between two `---` lines describes the whole file. Templates add one; you never need to:
 
 ```jot
@@ -433,6 +435,23 @@ editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open i
 - **The template editor:** design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
   See [Using the template editor](template-editor.md).
 
+## Making the workspace comfortable
+
+Everyone writes differently, so the workspace (**Write**) lets you change how it looks, one thing at a time. None of these choices
+go into your journal: they are remembered in this browser only, and the page works the same without them.
+
+- **Preferences** (in the tools row): text size, line spacing, line length and how dense the controls are; higher contrast;
+  reduced motion (your system's reduce-motion setting is always followed too); and, separately, whether to show the page preview,
+  the parser and writing-check tabs, the word and check counts, and decoration like small headings and taglines. **Back to
+  standard settings** undoes them. Printing and Download page are not affected.
+- **Focus mode** shows only the writing, its name and whether it is saved. Press **Escape** or **Leave focus mode** to see
+  everything again.
+- **Quick note ＋** adds one line to the end of today's dated entry (making the entry if there is none) and leaves your cursor
+  where it was, unless you tick the box to go there. Undo (`Ctrl+Z`) takes it back.
+- **Coming back:** your cursor and scroll position return when you reopen the page. If you like, write a short note for next time
+  in Preferences, such as "Next: the paragraph about the walk". It is shown when you come back, with **Back to where I was**,
+  **Start at the end** and **Dismiss**. Nothing counts days, keeps streaks or asks you to catch up.
+
 ## Colours in your text editor
 
 **VS Code** has a Jot extension (in the `vscode/` folder of the Jot project): dates, tasks, events, records and their numbers in
@@ -456,7 +475,7 @@ On a phone, any app that edits plain text files works; colour is a bonus, not a 
 
 ## Real diaries to look at
 
-The [Examples](../../site/dist/examples/) page has whole diaries as Jot: Samuel Pepys's ten years, *The Diary of a Nobody* and Wilfrid
+The [Examples](../../site/dist/examples/) page has whole diaries as Jot: Samuel Pepys's nine and a half years, *The Diary of a Nobody* and Wilfrid
 Scawen Blunt's diaries, a dated entry for each day. Open one in the workspace to see how a long journal reads, or download it.
 
 ## Small habits that help
@@ -464,6 +483,7 @@ Scawen Blunt's diaries, a dated entry for each day. Open one in the workspace to
 - One file a month is easy to find and small enough to type into anywhere. Name it by the month: `2026-10.jot`.
 - Write the date heading first, then anything: a word is enough.
 - Skipped days need nothing. There is no catching up.
+- Write down how you use it: [Write your own manual](manual.md) takes ten minutes and makes the system yours.
 - Keep a copy somewhere else. A `.jot` file is just a file: back it up like a photo.
 
 The full rules are in the [Jot specification](../../site/dist/docs/Jot-Complete-Specification.pdf). You won't need them to write.

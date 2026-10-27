@@ -35,7 +35,7 @@ Jot's text parser is a separate deliverable; this scanner does not treat a photo
 
 The workspace's **Look** control switches the page to **Handwritten** (`jot/handwriting.mjs`): a hand, an ink and a dot spacing,
 **Rewrite ↻** for new wobbles, and `@page` set from `pageGeometry` so the printed writing area is whole rows of dots; the choices are
-remembered in this browser (`jot-hand-v1`). The writing workspace uses the separate Jot parser with Marked for Markdown, safe DOM-only previews (`jot/preview.mjs`, shared with the template editor and the VS Code extension) that draw `:::record chart` as charts (`jot/charts.mjs`), browser spellcheck, optional pattern hints, a 55-method catalogue, local text autosave and a visible roadmap. Diagram engine rendering and handwriting OCR are not yet implemented.
+remembered in this browser (`jot-hand-v1`). The writing workspace uses the separate Jot parser with Marked for Markdown, safe DOM-only previews (`jot/preview.mjs`, shared with the template editor and the VS Code extension) that draw `:::record chart` as charts (`jot/charts.mjs`), browser spellcheck, optional pattern hints, a 62-method catalogue, local text autosave and a visible roadmap. Diagram engine rendering and handwriting OCR are not yet implemented.
 
 
 ## Template editor (`dist/editor/`)
@@ -46,7 +46,7 @@ a phone or InkDeck). Optional handwritten page layout reserves grid rows per blo
 - **Five zones:** before the days, each week begins, each day, each week ends, after the days.
 - **Blocks:** writing space, prompt (several questions take turns, one a day), checkboxes, task lines, scale, ratings, fill-in blanks,
   numbers (measurements with units), week chart (a chart record for the week or the month), choose words, list, time blocks, table,
-  words to keep, record, page title. Seven starters (daily check-in, rapid log, morning pages, gratitude, day planner, weekly
+  words to keep, record, page title, my manual (why I keep this, what I do, my marks, after a gap). Seven starters (daily check-in, rapid log, morning pages, gratitude, day planner, weekly
   dashboard, empty). Past seven blocks in **Each week begins** the zone says so (the "rule of 7"; a note, never a refusal).
 - **Text or Page:** the right-hand side shows the file as text, or as a page with its charts drawn (`../jot/preview.mjs`). **Sample
   numbers** fills empty days with stand-in numbers in the Page view only; they never reach the file.

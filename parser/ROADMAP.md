@@ -16,7 +16,7 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
 | JavaScript parser | ES module for Node/browser; parser, formatting, proofreading and container suites pass | Stabilize API; complete semantic/profile validation |
 | Composable content blocks and layouts | Partial: full-width template blocks reserve handwritten grid rows, gaps and page starts; visual sizing, persistence and shared rendering are browser-tested | Responsive columns, richer mixed-media blocks and physical printer proofs |
-| Journaling methods | 55 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
+| Journaling methods | 62 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
 | Paper sizes | 27 presets in spec; common/custom sizes in app | Expose complete preset registry and physical print proofs |
 | Perspective scanner | Hidden from the site while unfinished (no links, noindex); core geometry/detection tests pass | Real Pixel camera, varied lighting, small pages and long pages |
 | PDF export | Generated multi-page PDF validated for page count and physical geometry | Verify download flow across Android browsers |
@@ -35,10 +35,10 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | OCR and handwriting transcription | Planned | User-reviewed transcription linked to originals |
 | Local-first persistence | Journal text/cursor autosave and IndexedDB assets implemented; browser reload checks pass | Multiple journals, storage exhaustion, cross-tab conflicts and recovery |
 | Privacy and security | Client-side processing, safe DOM preview and automated privacy gate | Threat model, encrypted backups and export-redaction implementation |
-| Accessibility | Labels, focus styles and corner keyboard controls implemented | Mobile/screen-reader and stylus accessibility audit |
+| Accessibility | Labels, focus styles and corner keyboard controls implemented; writer reduced-motion (setting and system) and higher-contrast preferences browser-tested | Mobile/screen-reader and stylus accessibility audit |
 | Round-trip editing | Original parser input preserved; textarea uses browser line endings | AST edits with lossless serialization and file conflict recovery |
-| Neurodivergent-friendly personalization | Planned; some existing controls | Independent focus, density, contrast, ruling and checking preferences; no diagnosis-based preset forced on users |
-| Low-effort capture and re-entry | Planned | One-line capture, an optional next-step/resume note, restore position and gentle restart without catch-up debt |
+| Neurodivergent-friendly personalization | Partial: the writer's Preferences panel sets text size, line spacing, line length, density, higher contrast and reduced motion, and hides the preview, parser tabs, counts and decoration independently; a focus mode leaves with Escape or its button; choices stay in this browser; browser-tested | Ruling choices, deferred checking, the template editor and other surfaces, and testing with people who have different needs; no diagnosis-based preset forced on users |
+| Low-effort capture and re-entry | Partial: Quick note adds one line under today's entry as one undo step without moving the cursor; caret and scroll come back after a reload; an optional note for next time is offered on return with Back, Start at the end and Dismiss; browser-tested | Sketch or photo quick capture, multiple documents and prior-draft recovery |
 | Multilingual writing and interface | Planned; Unicode text already preserved | Separate interface/document/checking locales, RTL/mixed scripts, IME, translated prompts and script-aware tests |
 | Stable format | Draft specification | Reconcile grammar/Markdown precedences; independent reader; versioned conformance release |
 
@@ -71,7 +71,9 @@ These are optional capabilities for varied preferences and access needs, not med
 | P2 | User-controlled cues | Optional explicit start/stop timer or reminder; no default countdowns, streak penalties, escalating notifications, surprise sounds or automatic backlog migration |
 | P2 | Alternative input and reading support | Keyboard, stylus, touch and browser/OS dictation pathways; optional read-aloud only where available and chosen; preserve handwritten originals without requiring recognition |
 
-Existing baseline: plain-text capture without a required method; 55 mixable invitations; a handwriting canvas; local text autosave; optional writing hints; a dot-grid toggle; reduced-motion CSS and keyboard-accessible scanner corners. The new track is not marked implemented merely because these related features exist.
+Delivered so far (partial, browser-tested in `site/test-prefs-ui.cjs`, not yet validated with intended users): the first form of **Focus and sensory controls** (no ruling choice yet), **Quick capture** for one line of text (not sketches or photos), **Gentle return** (position, optional note, Start at the end; one document only) and part of **Quiet writing assistance** (hide counts and the parser/check tabs; Writing hints can already be turned off). **Easy recovery and orientation** is unchanged.
+
+Existing baseline: plain-text capture without a required method; 62 mixable invitations; a handwriting canvas; local text autosave; optional writing hints; a dot-grid toggle; reduced-motion CSS and keyboard-accessible scanner corners. The new track is not marked implemented merely because these related features exist.
 
 Suggested first delivery: a small writing-preferences panel, then quick capture and return-to-position, then recovery and saved blended templates. Validate each feature with its intended users before making it a default. Do not claim that any font, color, timer length or journal routine universally works for neurodivergent people.
 

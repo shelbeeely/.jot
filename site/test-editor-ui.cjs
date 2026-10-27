@@ -113,6 +113,14 @@ const srv = http.createServer((q, r) => {
   await dragTo('[data-zone="front"] .blk:first-child .drag', '[data-zone="day"] .blk:first-child');
   ok(await p.evaluate(() => document.querySelector('.drop-mark').classList.contains('bad')), 'a block that cannot go there shows a warning line');
   await p.mouse.up(); const rejected = { count: await p.$$eval('[data-zone="front"] .blk', (e) => e.length), toast: await p.textContent('#toast') }; ok(rejected.count === 1 && /can't go in Each day/.test(rejected.toast), 'and stays where it was, saying why: ' + JSON.stringify(rejected));
+  // my manual: a block before the days, and the manual on its own
+  await p.click('[data-act="add"][data-zone="day"]'); ok(!(await p.$('#palette [data-type="manual"]')), 'the day zone does not offer My manual');
+  await p.keyboard.press('Escape');
+  await p.click('[data-act="add"][data-zone="front"]'); await p.click('#palette [data-type="manual"]');
+  const withManual = await jot();
+  ok(/\n## My manual\n\n#### Why I keep this\n/.test(withManual) && /\nEach day:\n\n- /.test(withManual) && /valid Jot/.test(await p.textContent('#check')), 'My manual before the days: its headings, and What I do written from the template; still valid Jot');
+  await p.click('#more'); const dlM = p.waitForEvent('download'); await p.click('#dl-manual'); const md = await dlM, mtext = fs.readFileSync(await md.path(), 'utf8');
+  ok(md.suggestedFilename() === 'field-notes-manual.jot' && mtext.startsWith('---\nJot: 1.0\nTitle: Field notes · My manual\n') && /Downloaded your manual/.test(await p.textContent('#toast')), 'More → Download my manual gives the manual as its own .jot');
 
   await p.setViewportSize({ width: 1280, height: 900 });
   // a downloaded .jot brings its template back

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Voice practice · Jot</title>
+<link rel="stylesheet" href="../editor/editor.css">
+<link rel="stylesheet" href="guide.css">
+<link id="jot-hand-css" rel="stylesheet" href="../jot/handwriting.css">
+</head>
+<body class="jot-site">
+<a class="skip" href="#guide">Skip to the guide</a>
+<header class="top">
+  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./">Guides</a><a href="../examples/">Examples</a></nav>
+</header>
+<main>
+<div class="guide-wrap" id="guide"><h1 id="voice-practice">Voice practice</h1>
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#using-the-pitch-meter">Using the pitch meter</a></li><li><a href="#what-gets-added">What gets added</a></li><li><a href="#charting-progress">Charting progress</a></li><li><a href="#recordings-you-made-elsewhere">Recordings you made elsewhere</a></li><li><a href="#privacy-in-short">Privacy, in short</a></li></ul></nav><article class="guide">
+<p>The workspace&#39;s <strong>Voice practice</strong> tool is a small practice companion: an optional pitch meter, a session timer and a short form
+for how it went. What it adds to your journal is ordinary text, so you can also write the same thing by hand.</p>
+<p><strong>What happens to your voice.</strong> The microphone turns on only when you press <strong>Start pitch meter</strong>, and only after your browser
+asks your permission. The sound is analysed inside the page, a few times a second, to estimate its pitch. Nothing is recorded,
+saved or sent anywhere: no audio, and no stream of numbers. <strong>Stop</strong>, closing the dialog or leaving the page turns the microphone
+off, and the dialog says <strong>Microphone off</strong>. Your journal changes only when you press <strong>Add to this entry</strong>.</p>
+<h2 id="using-the-pitch-meter">Using the pitch meter</h2>
+<ol>
+<li>In <strong>Write</strong>, choose <strong>Voice practice</strong> in the Tools row.</li>
+<li>Press <strong>Start pitch meter</strong> and allow the microphone. Speak, hum or sing as you usually practise.</li>
+<li>The dialog shows the pitch right now, a strip of the last half minute, and the session&#39;s <strong>median</strong> (the middle value), <strong>low</strong>
+and <strong>high</strong> (the 10th and 90th percentiles, so a stray squeak or a cough barely moves them) and <strong>voiced time</strong> (how long it
+heard a clear pitch, not breaths or silence).</li>
+<li>Press <strong>Stop</strong> when you are done. You can start again; the measurements add up until you choose <strong>Clear measurements</strong>.</li>
+</ol>
+<p>The meter reads roughly 60 to 500 Hz. It works best in a quiet room with one voice. Browsers&#39; echo cancelling, noise suppression and
+automatic volume are turned off for the meter so they do not bend the sound. A screen reader hears the median every few seconds
+rather than every change.</p>
+<p><strong>Target range (optional).</strong> If you want one, enter a range in Hz; it is shown as a band behind the strip, and the current reading
+is coloured while it is inside. There is no default and no score: the range is yours to choose, change or leave empty. It is the
+only thing the tool remembers, in this browser only.</p>
+<p><strong>Session timer.</strong> Start and pause it whenever you like; it counts up, never down. The minutes come from it (or from how long the
+meter was on), and you can change them.</p>
+<h2 id="what-gets-added">What gets added</h2>
+<p>Fill in what is useful, all optional: minutes, the exercise, resonance on your own 1–5 scale, strain (0 none to 5 a lot), how much
+it felt like you (1–5), and a note. Uncheck <strong>Include the measured pitch</strong> to keep the numbers out. <strong>Add to this entry</strong> writes it
+at the cursor, inside the day you are writing:</p>
+<pre tabindex="0"><code class="language-jot">### 2026-10-27 | Tuesday
+
+#### Voice practice
+
+Pitch, measured on this device: median 182 Hz, most of the time between 160 and 205 Hz, over 2 min 05 s of voiced sound. No audio was recorded.
+
+Easier after humming first.
+
+Recording: [take-1.m4a](assets/take-1.m4a)
+
+:::record measurement
+metric: pitch-hz
+unit: Hz
+value: 182
+low: 160
+high: 205
+:::
+
+:::record measurement
+metric: voice-minutes
+unit: min
+value: 12
+:::
+
+:::record observation
+method: voice-practice@1
+exercise: Sirens
+resonance: 4
+strain: 1
+felt-like-me: 5
+recording: assets/take-1.m4a
+:::
+</code></pre>
+<p>The <code>observation</code> uses the field names of the <code>voice-practice</code> method, so notes written from its writing invitation line up with
+the tool&#39;s.</p>
+<h2 id="charting-progress">Charting progress</h2>
+<p>The numbers belong to the day they are in. A chart record draws them over time; this one shows the last few weeks:</p>
+<pre tabindex="0"><code class="language-jot">:::record chart
+metrics: pitch-hz, voice-minutes, felt-like-me
+start: 2026-10-01
+end: 2026-10-31
+:::
+</code></pre>
+<p>Two notes for the same metric on one day are drawn as their average, so for a day&#39;s total minutes, add one note at the end of
+the day or change the first one&#39;s <code>value:</code>. Use <strong>Numbers .csv ↓</strong> in the Tools row to take them to a spreadsheet.</p>
+<h2 id="recordings-you-made-elsewhere">Recordings you made elsewhere</h2>
+<p>The tool never records. If you recorded yourself with another app, choose <strong>Attach a recording ＋</strong> in the dialog: the file is
+attached to this journal (it travels inside the <code>.jotz</code> when you download) and named in the note as <code>recording:</code>, with a link to it, when you press Add.
+Recordings already attached with <strong>Attach a file ＋</strong> are in the list too.</p>
+<h2 id="privacy-in-short">Privacy, in short</h2>
+<ul>
+<li>No microphone access until you press Start; it ends on Stop, on closing the dialog and on leaving the page.</li>
+<li>Sound is analysed in the page and dropped; no audio or measurements are kept, uploaded or sent.</li>
+<li>Only your target range is remembered, in this browser. The journal holds only what you add.</li>
+</ul>
+</article></div>
+</main>
+</body>
+</html>

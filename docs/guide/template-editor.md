@@ -62,6 +62,7 @@ Press **Add a block** in a zone and pick one. Here is what each block puts in th
 | **Words to keep** | your own text, as you typed it | (nothing: it is a reminder or an instruction) |
 | **Record** | a record with named fields | typing after each field name |
 | **Page title** | `## Season theme` (before or after the days only) | (nothing: it starts a named page) |
+| **My manual** | `## My manual`: why you keep this, what you do (written from your template), your marks, what you skip, after a gap, when you revise it (before or after the days only) | writing under each heading, and after each dash. See [Write your own manual](manual.md) |
 
 Every block has **options** (the ⚙ button): its title, its labels (one a line), its numbers. A scale always keeps a real range: if
 "To" is lower than "From", it is raised to fit.
@@ -206,6 +207,9 @@ The template comes back exactly as it was. A `.jot` written anywhere else has no
 nothing.
 
 You can also keep the template as its own file: **More → Save template (.json)**, and open it the same way.
+
+**More → Download my manual (.jot)** saves your manual on its own (see [Write your own manual](manual.md)); it carries the template
+too.
 
 ## With InkDeck
 

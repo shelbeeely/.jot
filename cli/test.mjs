@@ -51,8 +51,31 @@ test('the webhook: tasks, events and numbers posted as JSON; the writing is not'
   } finally { srv.close(); }
 });
 
+test('check: problems as file:line:col, exit 1 on an error; warnings fail only with --strict; .jotz is read too', async () => {
+  const d = tmp(), ok = path.join(d, 'ok.jot'), bad = path.join(d, 'bad.jot'), warn = path.join(d, 'warn.jot'); fs.writeFileSync(ok, J);
+  fs.writeFileSync(bad, '### 2026-10-25 | Sunday\n\nCafé — notes\n\n:::record measurement #x\nmetric: sleep\n'); fs.writeFileSync(warn, '### 2026-02-30 | Monday\n\nHi\n');
+  let r = await run(['check', ok]); assert.equal(r.code, 0); assert.equal(r.stdout, ''); assert.match(r.stderr, /1 file: 0 errors, 0 warnings/);
+  r = await run(['check', ok, bad]); assert.equal(r.code, 1); assert.equal(r.stdout, `${bad}:5:1 error unclosed-record Record consumes through end of file. Add ::: to close it.\n`);
+  r = await run(['check', warn]); assert.equal(r.code, 0); assert.match(r.stdout, /warn\.jot:1:1 warning invalid-date /);
+  r = await run(['check', warn, '--strict', '--json']); assert.equal(r.code, 1); assert.deepEqual(JSON.parse(r.stdout).map((x) => [x.line, x.column, x.severity, x.code]), [[1, 1, 'warning', 'invalid-date']]);
+  assert.equal((await run(['check', new URL('../examples/packaged.jotz', import.meta.url).pathname])).code, 0);
+  const cr = path.join(d, 'cr.jot'), bom = path.join(d, 'bom.jot'); fs.writeFileSync(cr, '### 2026-10-25 | Sunday\r\rHi\r\r:::record x\rmetric: a\r'); fs.writeFileSync(bom, '\uFEFF### 2026-02-30 | Monday\r\n\r\nHi\r\n');
+  assert.match((await run(['check', cr])).stdout, /cr\.jot:5:1 error unclosed-record/);
+  assert.match((await run(['check', bom])).stdout, /bom\.jot:1:1 warning invalid-date/, 'a byte-order mark hides nothing');
+  r = await run(['check', bad, path.join(d, 'gone.jot')]); assert.equal(r.code, 1); assert.match(r.stdout, /bad\.jot:5:1 error unclosed-record[^\n]*\n.*gone\.jot:1:1 error missing No such file\.\n$/);
+});
+
+test('the to-jot skill: one copy for Codex and Claude Code, and its worked examples pass check --strict', async () => {
+  const root = new URL('../', import.meta.url).pathname, skill = path.join(root, '.agents/skills/to-jot');
+  const link = path.join(root, '.claude/skills/to-jot'); // a checkout without symlinks (Windows) writes the link as a file naming its target
+  assert.equal(fs.lstatSync(link).isSymbolicLink() ? fs.readlinkSync(link) : fs.readFileSync(link, 'utf8'), '../../.agents/skills/to-jot');
+  assert.match(fs.readFileSync(path.join(skill, 'SKILL.md'), 'utf8'), /^---\nname: to-jot\ndescription: \S[^\n]+\n---\n/);
+  const examples = fs.readdirSync(path.join(skill, 'reference')).filter((f) => f.endsWith('.jot')).map((f) => path.join(skill, 'reference', f));
+  assert.ok(examples.length >= 3); const r = await run(['check', '--strict', ...examples]); assert.equal(r.code, 0, r.stdout); assert.equal(r.stdout, '');
+});
+
 test('mistakes are said plainly, with a non-zero exit', async () => {
-  for (const [args, msg] of [[['nope'], /unknown command "nope"/], [['tasks'], /which \.jot files/], [['tasks', '/no/such.jot'], /no such file/], [['today', 'x.jot', '--date', 'tomorrow'], /--date must look like 2026-10-26/], [['todoist', 'x.jot'], /no such file|TODOIST_TOKEN/], [['post', 'http://example.com/x', JOT], /https:\/\//]]) {
+  for (const [args, msg] of [[['nope'], /unknown command "nope"/], [['tasks'], /which \.jot files/], [['tasks', '/no/such.jot'], /no such file/], [['check'], /which \.jot files/], [['check', '--stirct', 'x.jot'], /unknown option --stirct/], [['today', 'x.jot', '--date', 'tomorrow'], /--date must look like 2026-10-26/], [['todoist', 'x.jot'], /no such file|TODOIST_TOKEN/], [['post', 'http://example.com/x', JOT], /https:\/\//]]) {
     const r = await run(args); assert.notEqual(r.code, 0, args.join(' ')); assert.match(r.stderr, msg, args.join(' '));
   }
   assert.match((await run(['help'])).stdout, /jot import <numbers\.csv> --into <journal\.jot>/);
@@ -87,4 +110,20 @@ test('query: runs the query records in a file, or one asked with flags; a proble
   const none = path.join(d, 'none.jot'); fs.writeFileSync(none, J);
   assert.match((await run(['query', none])).stderr, /no query records/);
   assert.equal(fs.readFileSync(none, 'utf8'), J);
+});
+
+test('import-health: Apple Health export.xml, chosen metrics and dates, --list, --dry-run; ZIP refused; a Fitbit CSV', async () => {
+  const d = tmp(), f = path.join(d, 'j.jot'), xml = path.join(d, 'export.xml'), zip = path.join(d, 'export.zip'); fs.writeFileSync(f, J);
+  const r = (type, day, value, unit = 'count') => `<Record type="HKQuantityTypeIdentifier${type}" sourceName="Phone" unit="${unit}" startDate="${day} 08:00:00 +0000" endDate="${day} 09:00:00 +0000" value="${value}"/>\n`;
+  fs.writeFileSync(xml, `<?xml version="1.0"?>\n<HealthData>\n${r('StepCount', '2026-10-25', 4000)}${r('StepCount', '2026-10-25', 1000)}${r('StepCount', '2026-10-26', 300)}${r('HeartRate', '2026-10-25', 64, 'count/min')}${r('BloodGlucose', '2026-10-25', 90, 'mg/dL')}</HealthData>\n`);
+  const list = await run(['import-health', xml, '--list']); assert.match(list.stdout, /Apple Health: 2026-10-25 to 2026-10-26\n {2}heart-rate\s+1 days/); assert.match(list.stdout, /never read: medications/); assert.doesNotMatch(list.stdout, /glucose/i);
+  const dry = await run(['import-health', xml, '--into', f, '--metric', 'steps', '--until', '2026-10-25', '--dry-run']);
+  assert.match(dry.stdout, /#steps-2026-10-25\nmetric: steps\nvalue: 5000\naggregation: sum\nsource: Apple Health export\.xml\n:::/); assert.doesNotMatch(dry.stdout, /heart-rate|2026-10-26/); assert.equal(fs.readFileSync(f, 'utf8'), J);
+  assert.match((await run(['import-health', xml, '--into', f])).stderr, /0 blanks filled, 3 numbers added, 0 already there \(heart-rate, steps\)/);
+  assert.match((await run(['import-health', xml, '--into', f])).stderr, /3 already there/);
+  assert.match((await run(['import-health', xml, '--into', f, '--metric', 'glucose'])).stderr, /not in this file: glucose/);
+  fs.writeFileSync(zip, 'PK\u0003\u0004rest'); assert.match((await run(['import-health', zip, '--into', f])).stderr, /Unzip export\.zip first/);
+  const csv = path.join(d, 'fitbit.csv'); fs.writeFileSync(csv, 'Date,Steps,Minutes Asleep,Minutes Sedentary\n2026-10-27,"9,000",420,600\n');
+  assert.match((await run(['import-health', csv, '--into', f, '--metric', 'Sleep Minutes', '--metric', 'steps'])).stderr, /2 numbers added.*\(sleep-minutes, steps\)/);
+  assert.match(fs.readFileSync(f, 'utf8'), /#sleep-minutes-2026-10-27\nmetric: sleep-minutes\nvalue: 420\nunit: min\naggregation: sum\nsource: Fitbit fitbit\.csv/);
 });

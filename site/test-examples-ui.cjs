@@ -23,7 +23,7 @@ const srv = http.createServer((q, r) => {
   const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', (e) => errs.push(e.message));
   await p.goto(BASE + 'examples/');
-  ok((await p.$$eval('.diary h2', (h) => h.map((x) => x.textContent))).join('|') === [...index.diaries.map((d) => d.title), 'Two small files'].join('|'), 'the examples page lists each diary, then the two small files');
+  ok((await p.$$eval('.diary h2', (h) => h.map((x) => x.textContent))).join('|') === [...index.diaries.map((d) => d.title), 'Small files'].join('|'), 'the examples page lists each diary, then the two small files');
 
   // every link on the page answers
   const hrefs = await p.$$eval('main a[href]', (as) => [...new Set(as.map((a) => a.href))]);

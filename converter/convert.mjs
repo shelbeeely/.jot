@@ -68,8 +68,10 @@ export function stripGutenberg(text) {
   const e = text.slice(afterStart).search(/^\*\*\* ?END OF (THE|THIS) PROJECT GUTENBERG/im);
   let body = e < 0 ? text.slice(afterStart) : text.slice(afterStart, afterStart + e);
   body = body.replace(/^[ \t]*End of (the )?Project Gutenberg.*$/gim, ''); // older ebooks end the text with their own line too
-  const field = (k) => { const m = new RegExp(`^${k}:\\s*(.+(?:\\n {6,}.+)*)`, 'im').exec(head); return m ? m[1].replace(/\s+/g, ' ').trim() : ''; };
-  meta.title = field('Title'); meta.author = field('Author');
+  // a field's indented lines continue it: more of the title, or (for Author) one more person each
+  const lines = (k) => { const m = new RegExp(`^${k}:\\s*(.+(?:\\n {6,}.+)*)`, 'im').exec(head); return m ? m[1].split('\n').map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean) : []; };
+  const people = (a) => (a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`);
+  meta.title = lines('Title').join(' '); meta.author = people(lines('Author'));
   const n = /\[E(?:Book|Text) #(\d+)\]/i.exec(head); if (n) meta.source = `https://www.gutenberg.org/ebooks/${n[1]}`;
   return { text: body, meta };
 }

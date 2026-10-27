@@ -22,3 +22,51 @@ nav{display:flex;align-items:center;gap:24px}nav a,nav button{text-decoration:no
 @media print{#musicDialog{display:none!important}}
 
 #musicDialog [hidden]{display:none!important}
+
+/* Writing preferences (studio.mjs): per-viewer data attributes on <html>. Screen only, so printing always shows the formatted pages.
+   A hidden preview is moved off screen rather than removed, so handwritten pages keep being measured for the dot grid, print and export. */
+#prefsDialog,#captureDialog{width:min(640px,calc(100vw - 24px));max-height:90vh;overflow:auto}
+.prefs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}.prefs-grid fieldset{border:1px solid var(--jot-edge);border-radius:6px;margin:0;padding:10px 12px;display:grid;gap:6px;align-content:start;min-width:0}.prefs-grid legend{padding:0 4px}.prefs-grid label{display:flex;align-items:center;gap:8px;min-height:44px}.prefs-grid label[for]{min-height:0;margin-top:4px}.prefs-grid select,.prefs-grid textarea{font-size:20px;width:100%;min-width:0;min-height:44px;padding:6px 8px;border:1px solid var(--jot-edge)}.prefs-grid input[type=checkbox],.capture-go input{width:20px;height:20px;flex:none}
+.prefs-actions{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+#captureForm{display:grid;gap:8px;margin-top:12px}#captureText{font-size:20px;width:100%;min-width:0;min-height:44px;padding:8px 10px;border:1px solid var(--jot-edge)}.capture-go{display:flex;align-items:center;gap:8px;min-height:44px}#captureForm .button{justify-self:start}
+.return-note{margin:0 0 14px;padding:12px 16px;border:1px solid var(--jot-edge);border-radius:8px;background:var(--jot-paper);color:var(--jot-ink)}.return-note h2{font-size:24px;margin:0}.return-note p{margin:6px 0;overflow-wrap:anywhere;white-space:pre-wrap}.return-actions{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+@media(max-width:620px){.prefs-grid{grid-template-columns:1fr}}
+@media print{#prefsDialog,#captureDialog,.return-note{display:none!important}}
+@media screen{
+html[data-pref-size=s] body.jot-site #writing{font-size:19px}html[data-pref-size=l] body.jot-site #writing{font-size:28px}html[data-pref-size=xl] body.jot-site #writing{font-size:34px}
+html[data-pref-spacing=tight] body.jot-site #writing{line-height:1.35}html[data-pref-spacing=roomy] body.jot-site #writing{line-height:1.9}html[data-pref-spacing=roomier] body.jot-site #writing{line-height:2.3}
+html[data-pref-measure=medium] body.jot-site #writing{max-width:calc(65ch + 46px);align-self:center}html[data-pref-measure=short] body.jot-site #writing{max-width:calc(45ch + 46px);align-self:center}
+html[data-pref-density=compact] .jot-site :is(.studio-bar,.pane-tabs,.writing-footer,.format-tools,.tool-row){min-height:40px;padding-top:2px;padding-bottom:2px;gap:2px 8px}html[data-pref-density=compact] .jot-site .pane-title{padding-top:8px}
+html[data-pref-density=spacious] .jot-site :is(.studio-bar,.pane-tabs,.writing-footer,.format-tools,.tool-row){padding-top:12px;padding-bottom:12px;gap:12px 22px}html[data-pref-density=spacious] .jot-site .pane-title{padding-top:30px;padding-bottom:12px}
+html[data-pref-contrast] .jot-site :is(header,.studio-intro,.return-note,.studio-workspace,.notice,.asset-shelf,.resource-links,dialog){--jot-muted:var(--jot-ink);--muted:var(--jot-ink);--jot-edge:color-mix(in srgb,var(--jot-ink) 65%,var(--jot-paper));--line:color-mix(in srgb,var(--jot-ink) 65%,var(--jot-paper))}
+html[data-pref-contrast] .jot-site :is(.writing-footer,.pane-title,.pane-title>span,.pane-tabs button,.paper-tools,.preview-note,.notice,.tool-row,.format-tools,#saveState,#docExt,#wordCount,.small,.privacy){color:var(--jot-ink)}
+html[data-pref-contrast] .jot-site :focus-visible{outline:3px solid var(--jot-ink)!important;outline-offset:2px}
+html:is([data-hide-preview],[data-focus]) .jot-site .preview-pane{position:fixed;top:0;left:-300vw;width:600px;height:100vh;overflow:hidden;visibility:hidden}html[data-hide-preview] .jot-site .writing-grid{grid-template-columns:1fr}
+html[data-hide-parser] .jot-site :is(#structureTab,#checksTab){display:none}
+html[data-hide-counters] .jot-site :is(#wordCount,#checkCount){display:none}
+html[data-hide-decoration] .jot-site :is(.eyebrow,.studio-intro .subtitle,.status-dot,.jot-foundation,footer>p){display:none}
+html[data-focus] body.jot-site>header,html[data-focus] .jot-site :is(.studio-intro,.return-note,.format-tools,.asset-shelf,.resource-links,.jot-foundation,footer,.tool-row>:not(#focusBtn)){display:none}html[data-focus] .jot-site .writing-grid{grid-template-columns:1fr}html[data-focus] .jot-site #writing{min-height:70vh}html[data-focus] .jot-site #focusBtn{font-weight:700}
+}
+html[data-pref-motion] .jot-site *,html[data-pref-motion] .jot-site *::before,html[data-pref-motion] .jot-site *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+@media(prefers-reduced-motion:reduce){.jot-site *,.jot-site *::before,.jot-site *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+#voiceDialog{width:min(660px,calc(100vw - 24px));padding:22px;max-height:90vh;overflow:auto}#voiceDialog [hidden]{display:none!important}
+.voice-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0}.voice-mic{color:var(--jot-muted)}.voice-mic.on{color:var(--jot-accent);font-weight:600}
+.voice-now{margin:12px 0 6px;font-size:28px}#voiceHz{font-variant-numeric:tabular-nums}#voiceHz[data-in-range=true]{color:var(--jot-accent)}
+#voiceStrip{display:block;width:100%;height:120px;border:1px solid var(--jot-edge);border-radius:6px;background:var(--jot-paper)}
+.voice-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}.voice-stats div{border:1px solid var(--jot-edge);border-radius:6px;padding:6px 10px}.voice-stats dt{color:var(--jot-muted);font-size:.85em}.voice-stats dd{margin:0;font-variant-numeric:tabular-nums}
+.voice-clock{color:var(--jot-muted)}#voiceClock{font-variant-numeric:tabular-nums;color:var(--jot-ink)}
+#voiceTargetBox{margin:12px 0;padding:12px;border:1px solid var(--jot-edge);border-radius:6px}#voiceTargetBox summary{min-height:44px;cursor:pointer}
+.voice-pair{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px;align-items:center;margin:8px 0}
+.voice-fields{display:grid;gap:6px;margin:16px 0}.voice-fields :is(input,textarea,select),.voice-pair input{width:100%;min-width:0;min-height:44px;padding:8px 10px;border:1px solid var(--jot-edge);font-size:21px}
+.voice-recording{display:flex;flex-wrap:wrap;gap:8px}.voice-recording select{flex:1 1 180px}#voiceStatus{color:var(--jot-muted)}
+@media print{#voiceDialog{display:none!important}}
+
+#healthDialog{width:min(660px,calc(100vw - 24px));padding:22px;max-height:90vh;overflow:auto}#healthDialog [hidden]{display:none!important}
+#healthDialog fieldset{margin:14px 0;padding:10px 12px;border:1px solid var(--jot-edge);border-radius:6px;min-width:0}
+#healthMetrics{display:grid;gap:4px}#healthMetrics label{display:flex;gap:10px;align-items:center;min-height:44px;cursor:pointer}#healthMetrics input{width:22px;height:22px;flex:none}
+.health-count{margin-left:auto;color:var(--jot-muted);white-space:nowrap}.health-range{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.health-range input{min-height:44px;padding:6px 8px;border:1px solid var(--jot-edge);font:inherit;background:inherit;color:inherit}
+#healthPreview{max-height:40vh;overflow:auto;padding:10px;border:1px solid var(--jot-edge);border-radius:6px;white-space:pre-wrap;word-break:break-word}
+#healthStatus.error{font-weight:700}#healthDayFirstRow label{display:flex;gap:10px;align-items:center;min-height:44px}#healthDayFirst{width:22px;height:22px}.health-review-title{margin:12px 0 4px;font-size:1.1em}
+@media print{#healthDialog{display:none!important}}

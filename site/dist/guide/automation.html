@@ -17,7 +17,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="automation-and-connections">Automation and connections</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-workspace-the-tools-row">In the workspace: the Tools row</a></li><li><a href="#events-and-tasks-on-your-calendar">Events and tasks on your calendar</a></li><li><a href="#numbers-from-a-fitness-or-health-app">Numbers from a fitness or health app</a></li><li><a href="#the-jot-command-line">The jot command line</a></li><li><a href="#in-vs-code">In VS Code</a></li><li><a href="#connecting-to-other-services">Connecting to other services</a></li><li><a href="#ideas">Ideas</a></li><li><a href="#listening-notes">Listening notes</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-workspace-the-tools-row">In the workspace: the Tools row</a></li><li><a href="#events-and-tasks-on-your-calendar">Events and tasks on your calendar</a></li><li><a href="#numbers-from-a-fitness-or-health-app">Numbers from a fitness or health app</a></li><li><a href="#health-data">Health data</a></li><li><a href="#the-jot-command-line">The jot command line</a></li><li><a href="#in-vs-code">In VS Code</a></li><li><a href="#connecting-to-other-services">Connecting to other services</a></li><li><a href="#ideas">Ideas</a></li><li><a href="#listening-notes">Listening notes</a></li></ul></nav><article class="guide">
 <p>A <code>.jot</code> is plain text, but the tasks, events and numbers in it can be read by a program. This guide covers what you can do with
 them: put your events on your calendar, bring in numbers from a fitness app, carry unfinished tasks forward, and connect to other
 services.</p>
@@ -97,6 +97,74 @@ average them instead (heart rate), or keep the last.</li>
 it is left out and counted; on the command line, <code>--day-first</code> reads it as the 3rd of April.</li>
 </ul>
 <p>The numbers then chart like any others: see <a href="template-editor.html#numbers-and-charts">Numbers and charts</a>.</p>
+<h2 id="health-data">Health data</h2>
+<p><strong>Import health data</strong> in the Tools row reads a health app&#39;s own export and writes one number per day for each kind you choose. It
+works on this device: nothing is uploaded, no account is needed, and nothing changes until you press <strong>Add to journal</strong> (Ctrl+Z takes
+it out again).</p>
+<ul>
+<li><strong>Apple Health</strong>: in the Health app, tap your picture, then <strong>Export All Health Data</strong>. Unzip <code>export.zip</code> and choose
+<code>apple_health_export/export.xml</code>. The file can be very large; it is read in pieces, up to 2 GB.</li>
+<li><strong>Health Connect, Google Fit, Fitbit, Garmin, Oura</strong>: choose the daily CSV the app (or an export app) writes. Known columns are
+read with their units; others are listed as left out. A CSV Jot doesn&#39;t recognise is read like any other numbers CSV, still without
+the columns listed under &quot;Never read&quot; below.</li>
+</ul>
+<p>You then tick the numbers you want and choose the dates (the last 30 days to begin with); the dialog shows how many days each has and
+every record it will add or fill. How a day&#39;s readings become one number:</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Number</th>
+<th>Metric</th>
+<th>A day&#39;s number</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Steps, distance, active energy, flights, exercise minutes</td>
+<td><code>steps</code>, <code>distance</code>, <code>active-energy</code>, <code>flights</code>, <code>exercise</code></td>
+<td>the day&#39;s total. When two devices count the same day (a phone and a watch), the larger total is used, not both added</td>
+</tr>
+<tr>
+<td>Heart rate, resting heart rate, heart rate variability, blood oxygen, respiratory rate</td>
+<td><code>heart-rate</code>, <code>resting-heart-rate</code>, <code>hrv</code>, <code>spo2</code>, <code>respiratory-rate</code></td>
+<td>the day&#39;s average. The lowest and highest (<code>heart-rate-min</code>, <code>heart-rate-max</code> …) are there to tick if you want them</td>
+</tr>
+<tr>
+<td>Sleep</td>
+<td><code>sleep</code> (h)</td>
+<td>hours asleep (not in bed, not awake), every source merged so overlapping apps count once, given to the date you woke up. A nap counts on the day it ends</td>
+</tr>
+<tr>
+<td>Body mass, body fat</td>
+<td><code>body-mass</code>, <code>body-fat</code></td>
+<td>the last reading of the day</td>
+</tr>
+<tr>
+<td>Mindful minutes</td>
+<td><code>mindful</code> (min)</td>
+<td>the day&#39;s total, overlapping sessions counted once</td>
+</tr>
+</tbody></table>
+<p>A reading belongs to the day written in the export, in the time zone it was recorded in. Units stay as the app wrote them (kg or lb,
+km or mi); a metric recorded in two units becomes two metrics (<code>body-mass-kg</code>, <code>body-mass-lb</code>) rather than being converted, and sleep a
+CSV counts in minutes or seconds is <code>sleep-minutes</code> or <code>sleep-seconds</code>, so it never shares an axis with hours. A template blank whose
+<code>unit:</code> differs from the number&#39;s is left empty and counted. The one change is blood oxygen and body fat, which Apple writes as fractions (0.97) and Jot as the percent they mean
+(97 %). Each record says how its day was counted and where it came from:</p>
+<pre tabindex="0"><code class="language-jot">### 2026-10-26 | Monday
+
+:::record measurement #sleep-2026-10-26
+metric: sleep
+value: 7.25
+unit: h
+aggregation: sum
+source: Apple Health export.xml
+:::
+</code></pre>
+<p>Never read, whatever the file holds: medications, lab results and clinical records (including <code>export_cda.xml</code>), reproductive and
+sexual health, and location (workout routes, latitude and longitude columns). They stay in the export, out of a journal you may share,
+sync or print. Readiness, sleep and stress scores are an app&#39;s calculations rather than measurements, so they are left out too, and
+Jot never turns any number into a statement about your health.</p>
+<p>On the command line, <code>jot import-health export.xml --list</code> shows what a file holds; then, for example,
+<code>jot import-health export.xml --into journal.jot --metric steps --metric sleep --since 2026-10-01 --dry-run</code>.</p>
 <h2 id="the-jot-command-line">The jot command line</h2>
 <p><code>cli/jot.mjs</code> in the Jot project (Node 20 or later) does the same things from a terminal, so scripts, scheduled jobs and Apple
 Shortcuts can use them:</p>
@@ -105,6 +173,7 @@ jot events journal.jot --since 2026-10-01
 jot numbers journal.jot                      # CSV
 jot ics journal.jot -o ~/Calendars/jot.ics   # a calendar file
 jot import fit.csv --into journal.jot        # numbers in, into their days
+jot import-health export.xml --into journal.jot --metric steps --since 2026-10-01
 jot today journal.jot                        # today&#39;s entry
 jot rollover journal.jot                     # carry open tasks to today
 jot review journal.jot                       # this week&#39;s review

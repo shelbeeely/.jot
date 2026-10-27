@@ -8,6 +8,7 @@
  *   readCSV(text, opts)                a CSV of numbers (a health or fitness app's export) as numbers by date
  *   addNumbers(source, numbers, opts)  those numbers written into the journal: into empty value: blanks first, else under their day
  *   todayEntry(source, date, opts)     a dated entry for today, if there is none
+ *   addToDay(source, date, text)       text at the end of a day's entry (making the entry, in date order, if there is none)
  *   rollover(source, date)             open tasks from earlier days carried to today (marked [>] where they were)
  *   weekReview(source, date)           a review of the week: what got done, what is open, the numbers, a chart, room to write
  *   pendingSync / markSynced           which tasks a service has not had yet, and the record that remembers it
@@ -157,6 +158,10 @@ const one = (s) => String(s ?? '').replace(/[\r\n]+/g, ' ').trim();
 const fmtNum = (v) => (Number.isInteger(v) ? String(v) : String(Math.round(v * 100) / 100));
 const heading = (date) => `### ${date} | ${weekday(date)}`;
 /** Puts text at the end of the entry for date (making the entry, in date order, if there is none). */
+export function addToDay(source, date, text) {
+  if (!validDate(date)) throw new Error(`Not a date: ${date}`);
+  return intoEntry(source, date, text);
+}
 function intoEntry(source, date, text) {
   const ast = parse(source), at = charSpans(source), e = ast.entries.find((x) => x.date === date);
   if (e) {
@@ -170,34 +175,62 @@ function intoEntry(source, date, text) {
   if (later) { const pos = at(ast.nodes[later.startNode].start); return `${source.slice(0, pos)}${block}\n${source.slice(pos)}`; }
   return `${source.replace(/\s+$/, '')}${source.trim() ? '\n\n' : ''}${block}`;
 }
-/** Numbers ([{date, metric, value, unit}]) written into the journal. An empty value: blank for that metric on that day (a template's)
+/** Numbers ([{date, metric, value, unit, aggregation?}]) written into the journal. An empty value: blank for that metric on that day (a template's)
  *  is filled in where it is; a day that already has that number is left alone (so importing twice adds nothing); the rest go at the
- *  end of their day as measurement records, with source: when given. -> { text, filled, added, kept } */
+ *  end of their day as measurement records, with source: when given. A blank whose unit: differs from the number's is left
+ *  empty and counted in skipped. -> { text, filled, added, kept, skipped } */
 export function addNumbers(source, numbers, { source: from = '' } = {}) {
-  let text = String(source); let filled = 0, added = 0, kept = 0;
-  const ids = new Set(parse(text).nodes.filter((n) => n.id).map((n) => n.id));
-  const byDate = new Map(); for (const n of numbers) { if (!validDate(n.date) || !Number.isFinite(Number(n.value))) continue; if (!byDate.has(n.date)) byDate.set(n.date, []); byDate.get(n.date).push(n); }
-  for (const [date, list] of byDate) {
-    const blocks = [];
-    for (const n of list) {
-      const ast = parse(text), dates = dateOfNode(ast), at = charSpans(text), metric = metricKey(n.metric);
-      const mine = ast.nodes.map((x, i) => [x, i]).filter(([x, i]) => x.type === 'record' && x.recordType === 'measurement' && metricKey(fieldOf(x, 'metric')) === metric && ((DATE.test((fieldOf(x, 'date') || fieldOf(x, 'at')).slice(0, 10)) ? (fieldOf(x, 'date') || fieldOf(x, 'at')).slice(0, 10) : dates[i]) === date));
-      if (mine.some(([x]) => fieldOf(x, 'value') !== '')) { kept++; continue; }
-      const blank = mine.find(([x]) => fieldOf(x, 'value') === '');
-      if (blank) {
-        const [node] = blank, s = at(node.start), e = at(node.end), raw = text.slice(s, e);
-        let rec = raw.replace(/^value:[ \t]*$/m, `value: ${fmtNum(Number(n.value))}`);
-        if (n.unit && !/^unit:/m.test(rec)) rec = rec.replace(/^(value: .*)$/m, `unit: ${one(n.unit)}\n$1`);
-        if (from && !/^source:/m.test(rec)) rec = rec.replace(/^:::[ \t]*$/m, `source: ${one(from)}\n:::`);
-        text = text.slice(0, s) + rec + text.slice(e); filled++; continue;
-      }
-      let id = `${metric}-${date}`, k = 1; while (ids.has(id)) id = `${metric}-${date}-${++k}`; ids.add(id);
-      blocks.push([`:::record measurement #${id}`, `metric: ${metric}`, `value: ${fmtNum(Number(n.value))}`, ...(n.unit ? [`unit: ${one(n.unit)}`] : []), ...(from ? [`source: ${one(from)}`] : []), ':::'].join('\n'));
-      added++;
+  // One parse to decide, the blanks filled in one pass, one more parse to place the new records: a year of numbers stays quick.
+  let text = String(source); let filled = 0, added = 0, kept = 0, skipped = 0;
+  const ast = parse(text), dates = dateOfNode(ast), at = charSpans(text), ids = new Set(ast.nodes.filter((n) => n.id).map((n) => n.id));
+  const have = new Map(); // date|metric -> { value: true if a number is there, blanks: [node] }
+  ast.nodes.forEach((x, i) => {
+    if (x.type !== 'record' || x.recordType !== 'measurement') return;
+    const own = (fieldOf(x, 'date') || fieldOf(x, 'at')).slice(0, 10), date = DATE.test(own) ? own : dates[i], k = `${date}|${metricKey(fieldOf(x, 'metric'))}`;
+    const h = have.get(k) || { value: false, blanks: [] }; if (fieldOf(x, 'value') !== '') h.value = true; else h.blanks.push(x); have.set(k, h);
+  });
+  const fills = [], blocks = new Map();
+  for (const n of numbers) {
+    if (!validDate(n.date) || !Number.isFinite(Number(n.value))) continue;
+    const date = n.date, metric = metricKey(n.metric), k = `${date}|${metric}`, h = have.get(k) || { value: false, blanks: [] }; have.set(k, h);
+    if (h.value) { kept++; continue; }
+    if (h.blanks.length) { // a filled blank is a number that is there; records added in this same call are not (as before)
+      const node = h.blanks[0], s = at(node.start), e = at(node.end), has = fieldOf(node, 'unit');
+      if (has && n.unit && has !== one(n.unit)) { skipped++; continue; } // a blank in hours is never filled with minutes (spec 5.2)
+      h.value = true;
+      let rec = text.slice(s, e).replace(/^value:[ \t]*$/m, `value: ${fmtNum(Number(n.value))}`);
+      if (n.unit && !/^unit:/m.test(rec)) rec = rec.replace(/^(value: .*)$/m, `unit: ${one(n.unit)}\n$1`);
+      if (n.aggregation && !/^aggregation:/m.test(rec)) rec = rec.replace(/^(value: .*)$/m, `$1\naggregation: ${one(n.aggregation)}`);
+      if (from && !/^source:/m.test(rec)) rec = rec.replace(/^:::[ \t]*$/m, `source: ${one(from)}\n:::`);
+      fills.push([s, e, rec]); filled++; continue;
     }
-    if (blocks.length) text = intoEntry(text, date, blocks.join('\n\n'));
+    let id = `${metric}-${date}`, c = 1; while (ids.has(id)) id = `${metric}-${date}-${++c}`; ids.add(id);
+    if (!blocks.has(date)) blocks.set(date, []);
+    blocks.get(date).push([`:::record measurement #${id}`, `metric: ${metric}`, `value: ${fmtNum(Number(n.value))}`, ...(n.unit ? [`unit: ${one(n.unit)}`] : []), ...(n.aggregation ? [`aggregation: ${one(n.aggregation)}`] : []), ...(from ? [`source: ${one(from)}`] : []), ':::'].join('\n'));
+    added++;
   }
-  return { text, filled, added, kept };
+  for (const [s, e, rec] of fills.sort((a, b) => b[0] - a[0])) text = text.slice(0, s) + rec + text.slice(e);
+  if (blocks.size) text = intoEntries(text, new Map([...blocks].map(([d, b]) => [d, b.join('\n\n')])));
+  return { text, filled, added, kept, skipped };
+}
+/** intoEntry for many dates at once ({date: text}), with the same result as one date after another in date order. */
+function intoEntries(source, byDate) {
+  const ast = parse(source), at = charSpans(source), edits = [], before = new Map(), end = [];
+  for (const date of [...byDate.keys()].sort()) {
+    const body = byDate.get(date).replace(/\s+$/, ''), e = ast.entries.find((x) => x.date === date);
+    if (e) {
+      const p = e.endNode < ast.nodes.length ? at(ast.nodes[e.endNode].start) : source.length;
+      if (p === source.length) { end.push(body); continue; }
+      const ws1 = /\s*$/.exec(source.slice(0, p))[0].length, ws2 = /^\s*/.exec(source.slice(p))[0].length;
+      edits.push([p - ws1, p + ws2, `\n\n${body}\n\n`]); continue;
+    }
+    const block = body ? `${heading(date)}\n\n${body}\n` : `${heading(date)}\n`, later = ast.entries.find((x) => x.date > date);
+    if (later) { const p = at(ast.nodes[later.startNode].start); before.set(p, `${before.get(p) || ''}${block}\n`); } else end.push(block.replace(/\s+$/, ''));
+  }
+  for (const [p, t] of before) edits.push([p, p, t]);
+  if (end.length) { const trimmed = source.replace(/\s+$/, ''); edits.push([trimmed.length, source.length, `${trimmed.trim() ? '\n\n' : ''}${end.join('\n\n')}\n`]); }
+  let text = source; for (const [s, e, t] of edits.sort((a, b) => b[0] - a[0] || b[1] - a[1])) text = text.slice(0, s) + t + text.slice(e);
+  return text;
 }
 /** A dated entry for date at the end of the journal (or in date order), unless there is one. extra: lines to start it with. */
 export function todayEntry(source, date, { extra = '' } = {}) {
@@ -273,4 +306,4 @@ export function payload(ast, { file = '', open = false, since = '' } = {}) {
     numbers: numbers.filter((n) => keep(n.date)),
   };
 }
-export default { extract, timeOf, toICS, numbersCSV, tasksCSV, parseCSV, csvDate, readCSV, addNumbers, todayEntry, rollover, weekReview, pendingSync, markSynced, taskKey, payload, mondayOf, localToday };
+export default { extract, timeOf, toICS, numbersCSV, tasksCSV, parseCSV, csvDate, readCSV, addNumbers, todayEntry, addToDay, rollover, weekReview, pendingSync, markSynced, taskKey, payload, mondayOf, localToday };

@@ -1,6 +1,6 @@
 // Jot template editor: the page. The model and the .jot text come from template.mjs; the check uses the Jot parser (../jot/jot.mjs).
 // The template is kept in this browser (localStorage, if allowed); nothing is sent anywhere.
-import { BLOCKS, LAYOUT_OPTS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, renderJot, monthLabel, templateFromJot } from './template.mjs';
+import { BLOCKS, LAYOUT_OPTS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, renderManual, renderJot, monthLabel, templateFromJot } from './template.mjs';
 import { parse } from '../jot/jot.mjs';
 import { renderPreview, addChartStyles } from '../jot/preview.mjs';
 import { pageGeometry, PAPERS } from '../jot/handwriting.mjs';
@@ -403,6 +403,10 @@ $('#more-menu').addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); items[(i + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length].focus(); }
 });
 $('#save-tpl').onclick = () => { menu(false); download(`${tpl.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'journal'}.jot-template.json`, `${JSON.stringify(tpl, null, 1)}\n`, 'application/json'); toast('Saved the template'); };
+$('#dl-manual').onclick = () => {
+  menu(false); const m = renderManual(tpl); download(m.file, m.text);
+  toast(tpl.zones.front.concat(tpl.zones.back).some((x) => x.type === 'manual') ? 'Downloaded your manual' : 'Downloaded a manual. Add My manual before the days to keep it in each month too');
+};
 $('#open-tpl').onclick = () => { menu(false); $('#open-file').click(); };
 // One way in for every file: a .jot made here (plain or packaged) brings its template back, and a template .json opens. Anything else is
 // refused and the template is left as it was.
