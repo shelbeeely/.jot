@@ -178,3 +178,21 @@ prose. Current reports and recent history have distinct labels; historical liste
 requires no service connection. No scrobbles are submitted. Last.fm's application key stays in page memory, usernames persist only
 after successful reads, and requests use no browser credentials/referrer. Libre.fm is manual-only because live API probing returned
 an access challenge; direct browser compatibility was not established. Provider responses are mocked in regression tests.
+
+## Voice practice and AuDHD profiles (27 October 2026)
+
+- **Four new method profiles**, in `specification/profiles.json` (and its site copy), spec §13.56–13.59 and, for the first three, a
+  guide in `docs/methods/`: `voice-practice@1` (session), `task-initiation-and-transitions@1` (task), `low-demand-check-in@1`
+  (observation) and `access-needs-and-scripts@1` (collection). They complement, and link to, the ADHD, sensory, stimming, spoons,
+  habit and gender euphoria profiles rather than repeating them.
+- **Voice practice is non-medical and sets no target.** Numbers (`minutes`, `pitch-hz`, `resonance`, `felt-like-me`) are plain
+  decimals so charts draw them; scale records with anchors fix the rating axes. No gender target, "passing" score, comparison with
+  other voices or required dysphoria. `recording` only names a clip (in a `.jotz` or elsewhere); clips and pitch figures can identify
+  a person, so exports should leave them out unless selected.
+- **AuDHD profiles carry no debt.** `started` has no failure value; estimate versus actual time is for learning, never a score.
+  `status: skipped` is a complete check-in, gaps stay gaps, and there are no streaks, catch-up prompts or missed-day counts. The
+  check-in names its energy `check-in-energy` so it never merges with other profiles' differently scaled `energy`. No
+  diagnosis is required or recorded.
+- **One catalogue, tested.** The site copy of `profiles.json` now says `"format": "jot-profiles"` like the canonical file (nothing
+  read the old `dotjot-profiles` value), and `tools/test-profiles.mjs` checks the copies are identical, ids are unique kebab-case,
+  every example parses with no diagnostics as a complete record of its profile, and §13 catalogues every profile.

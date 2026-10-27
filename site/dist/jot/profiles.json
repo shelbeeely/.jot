@@ -1,5 +1,5 @@
 {
-  "format": "dotjot-profiles",
+  "format": "jot-profiles",
   "version": 1,
   "profiles": [
     {
@@ -1136,6 +1136,92 @@
       ],
       "example": "body: I remember the music more clearly than the room.\nconfidence: Details may have changed in memory.",
       "notes": "Remembering is not verification of an event. No generated detail should be inserted as remembered fact. Resurfacing and sharing memories are explicit choices."
+    },
+    {
+      "id": "voice-practice",
+      "version": 1,
+      "label": "Voice practice and voice training",
+      "recordType": "session",
+      "purpose": "Log voice practice on your own terms: what you practised, for how long, how your voice felt and, if you like, a median pitch or the name of a clip. Useful for gender-affirming voice training, singing or speech practice. You set the goals.",
+      "prompt": "What did I practise, how did my voice feel, and did it feel like me?",
+      "required": [
+        "minutes",
+        "exercise"
+      ],
+      "optional": [
+        "pitch-hz",
+        "resonance",
+        "strain",
+        "felt-like-me",
+        "recording",
+        "goal",
+        "at"
+      ],
+      "example": "minutes: 12\nexercise: straw phonation, then reading aloud\npitch-hz: 182\nresonance: 3\nstrain: none\nfelt-like-me: 4\nrecording: voice-2026-10-27.m4a\nbody: The warm-up made the reading easier.",
+      "notes": "Not medical advice and not an assessment. minutes, pitch-hz (a median in hertz from any pitch app), resonance (the writer's own ordinal scale) and felt-like-me (1-5) are plain numbers so charts can draw them; a scale record with anchors fixes their axes. strain is none, some or a lot, and a lot is a reason to rest. No gender target, passing score, comparison with other voices or requirement to record dysphoria. recording names a clip attached to a .jotz or kept elsewhere. Voice clips and pitch figures can identify a person: choose them deliberately when exporting or sharing."
+    },
+    {
+      "id": "task-initiation-and-transitions",
+      "version": 1,
+      "label": "Task initiation and transitions (AuDHD)",
+      "recordType": "task",
+      "purpose": "Get from one activity to the next with a tiny first step, a cue that marks the switch, an optional body double, and a time estimate set beside what actually happened. Written for AuDHD brains that find both starting and stopping hard.",
+      "prompt": "What am I leaving, what is the next tiny step, and what will tell me it is time to switch?",
+      "required": [
+        "next-step"
+      ],
+      "optional": [
+        "from",
+        "cue",
+        "warning",
+        "estimate-min",
+        "actual-min",
+        "body-double",
+        "started",
+        "at"
+      ],
+      "example": "from: Drawing\nnext-step: Stand up and fill the water glass\ncue: Timer song ends\nwarning: 10 min\nestimate-min: 5\nactual-min: 15\nbody-double: Video call with Sam\nstarted: yes",
+      "notes": "started is yes, partly, not yet or chose not to; none is a failure. estimate-min and actual-min are minutes, kept to learn personal time, never to grade it. A transition can be logged without any task finishing. See adhd-journaling for daily planning and interstitial-journaling for notes between tasks. No streaks, productivity scores or assumption that a missed start means low effort."
+    },
+    {
+      "id": "low-demand-check-in",
+      "version": 1,
+      "label": "Low-demand check-in (AuDHD)",
+      "recordType": "observation",
+      "purpose": "A check-in that asks almost nothing: capacity, sensory load and energy as single numbers, one word for what would help, and skipped as a complete answer. Built for AuDHD and demand-sensitive days.",
+      "prompt": "Only if I want to: how much capacity, how loud is the world, how much energy?",
+      "required": [
+        "status"
+      ],
+      "optional": [
+        "capacity",
+        "sensory-load",
+        "check-in-energy",
+        "need",
+        "scale",
+        "at"
+      ],
+      "example": "status: observed\ncapacity: 2\nsensory-load: 4\ncheck-in-energy: 2\nneed: quiet",
+      "notes": "status is observed, estimated or skipped; skipped is a complete record and never a low score. Every number is optional and on the writer's own scale; scale: names one scale record shared by the three numbers and fixes their axes. No streaks, reminders to catch up, backfill of missed days or totals of missed days: a gap stays a gap. check-in-energy is named apart from the energy of symptom-tracking and spoon-theory-energy-accounting so differently scaled numbers are never charted as one. See autistic-sensory-journaling for detailed sensory logs."
+    },
+    {
+      "id": "access-needs-and-scripts",
+      "version": 1,
+      "label": "Access needs and scripts (AuDHD)",
+      "recordType": "collection",
+      "purpose": "Keep a personal list of what helps, where, and the exact words to ask for it, so an AuDHD writer does not have to improvise self-advocacy when overloaded. Shared only if and when the writer chooses.",
+      "prompt": "What helps me, and how would I like to ask for it?",
+      "required": [
+        "need"
+      ],
+      "optional": [
+        "helps",
+        "context",
+        "script",
+        "share-with"
+      ],
+      "example": "need: Written instructions\nhelps: A short list I can reread\ncontext: Work meetings\nscript: Could you send that as a message so I can come back to it?",
+      "notes": "need and helps are repeatable. No diagnosis is required or recorded, and the list is not a medical document. share-with names who may see an entry; it is the writer's note to themselves, not an access control. Export only the entries chosen for a reader. See stimming-and-self-regulation for a support menu."
     }
   ]
 }

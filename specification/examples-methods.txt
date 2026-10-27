@@ -513,3 +513,52 @@ method: memory-life-story@1
 body: I remember the music more clearly than the room.
 confidence: Details may have changed in memory.
 :::
+
+#### Voice practice and voice training
+
+:::record session #example-voice-practice
+method: voice-practice@1
+minutes: 12
+exercise: straw phonation, then reading aloud
+pitch-hz: 182
+resonance: 3
+strain: none
+felt-like-me: 4
+recording: voice-2026-10-27.m4a
+body: The warm-up made the reading easier.
+:::
+
+#### Task initiation and transitions (AuDHD)
+
+:::record task #example-task-initiation-and-transitions
+method: task-initiation-and-transitions@1
+from: Drawing
+next-step: Stand up and fill the water glass
+cue: Timer song ends
+warning: 10 min
+estimate-min: 5
+actual-min: 15
+body-double: Video call with Sam
+started: yes
+:::
+
+#### Low-demand check-in (AuDHD)
+
+:::record observation #example-low-demand-check-in
+method: low-demand-check-in@1
+status: observed
+capacity: 2
+sensory-load: 4
+check-in-energy: 2
+need: quiet
+:::
+
+#### Access needs and scripts (AuDHD)
+
+:::record collection #example-access-needs-and-scripts
+method: access-needs-and-scripts@1
+need: Written instructions
+helps: A short list I can reread
+context: Work meetings
+script: Could you send that as a message so I can come back to it?
+:::

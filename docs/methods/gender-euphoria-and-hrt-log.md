@@ -181,6 +181,7 @@ A gender euphoria journal records the moments you feel right in your gender: bei
 - Recording: file name or date only. Listen weekly, not daily.
 - Self-rating: the TWVQ (30 items, 4-point scale) is used by clinicians to measure voice-related quality of life. A daily 1–5 "my voice felt like me" is enough for a journal.
 - If your throat hurts, stop and note it. Strain is a reason to see a voice clinician, not to push.
+- A fuller practice log with chartable minutes, pitch and "felt like me" ratings: [Voice practice and voice training log](voice-practice.md) (Jot profile `voice-practice@1`).
 
 ### Name and pronoun milestones
 

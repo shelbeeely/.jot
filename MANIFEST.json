@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 2671,
-      "sha256": "01e0d06fa59bc55a622c3dce4ac9054eb0ede20e458846c0c1100320f0d701ca"
+      "byteLength": 2695,
+      "sha256": "da5e4de6b6bf21008ccc9c52fb9088ca61315aeadbfced930bdb785859532fdc"
     },
     {
       "path": ".gitignore",
@@ -39,8 +39,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 4233,
-      "sha256": "fbbad34cd209fb70e4c2e7a129ced29729c0accf7879e0905966c84deb9cfb21"
+      "byteLength": 4257,
+      "sha256": "11638aa48036cf0144e4c62c09040dd037b7169426dce158cf1a6671f33fdc2f"
     },
     {
       "path": "CLAUDE.md",
@@ -49,13 +49,13 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 16223,
-      "sha256": "964f4bc7dcbe43bae78cd2410353d2291f2afec259d1edf7bfe7977eebf42b02"
+      "byteLength": 17979,
+      "sha256": "d398af94d9e15b4a877137d70697da705914225f70d09c0f19a0cc20a373c771"
     },
     {
       "path": "README.md",
-      "byteLength": 17504,
-      "sha256": "8bbe9c296dd44bd6ab70b8426d998c60902fd2dd6b5537a82ef1c38ae4817348"
+      "byteLength": 17651,
+      "sha256": "0ffa42f4bfaee9b23eb717145f4a933efc1838f7952786e613bc14e2cf0ad183"
     },
     {
       "path": "cli/README.md",
@@ -249,8 +249,8 @@
     },
     {
       "path": "docs/methods/gender-euphoria-and-hrt-log.md",
-      "byteLength": 49298,
-      "sha256": "1bfa9b6e9ab723f4b835d1f7ec788793508ed27543064d5c316b4a021719382e"
+      "byteLength": 49473,
+      "sha256": "95cae6fe230841d051f80871017aae6bd3801947380414d6f1663592ebf1addd"
     },
     {
       "path": "docs/methods/getting-things-done-paper.md",
@@ -286,6 +286,11 @@
       "path": "docs/methods/jibun-techo.md",
       "byteLength": 48130,
       "sha256": "d55ad7e5a67ec3ff35000d7315444060f2b859f6ec7875f61ce7f4ebbb4d3545"
+    },
+    {
+      "path": "docs/methods/low-demand-check-in.md",
+      "byteLength": 10735,
+      "sha256": "9e7371622f11c3cb1ffa0eacf582f9b4eb86e28e28f9ae4d6c4c0b32d62f487a"
     },
     {
       "path": "docs/methods/mood-tracking-year-in-pixels.md",
@@ -368,6 +373,11 @@
       "sha256": "7a6f3075fcd1bba08e9cdc8b2c357ff0f36e15d21c5db64e4c62ea16e89bb9d3"
     },
     {
+      "path": "docs/methods/task-initiation-and-transitions.md",
+      "byteLength": 12854,
+      "sha256": "e8db49faa3fab83bebcd34b3eb799a1ec68a8048f46d9087c10fe839941c04af"
+    },
+    {
       "path": "docs/methods/theme-system-journal.md",
       "byteLength": 57178,
       "sha256": "3644333ab0b40f23767dfbbf4d96c5ba7ad473a68683b6dac851998b9210458e"
@@ -386,6 +396,11 @@
       "path": "docs/methods/travelers-notebook.md",
       "byteLength": 41219,
       "sha256": "5a86157090edbc0c2ba6f8f3cdd94e9470640b227fc8cf307a092cdef27db0e9"
+    },
+    {
+      "path": "docs/methods/voice-practice.md",
+      "byteLength": 16385,
+      "sha256": "ba0c867890bea6c153d14d32a7ac2a25a885bbdd6f701578897794a99fa06481"
     },
     {
       "path": "eslint.config.mjs",
@@ -1075,7 +1090,7 @@
     {
       "path": "site/dist/index.html",
       "byteLength": 11194,
-      "sha256": "ec173dc809b33b3ae5270a5c41334c566f33f18703d0ae449398db2797e4fbef"
+      "sha256": "6072e974686e955b242a9fb98e606aba7f58e09e5658fa882fd7f87dce30e4e2"
     },
     {
       "path": "site/dist/jot/automation.mjs",
@@ -1219,8 +1234,8 @@
     },
     {
       "path": "site/dist/jot/profiles.json",
-      "byteLength": 50896,
-      "sha256": "7408613346bd744d2e22de8480afd9763b0177fa408bdb531c02201f5e973bad"
+      "byteLength": 56211,
+      "sha256": "e08f06ff0c89751d270cca13fef3d7a09f3b329c20266189c0b32739d7478a5d"
     },
     {
       "path": "site/dist/jot/proofread.mjs",
@@ -1325,7 +1340,7 @@
     {
       "path": "site/dist/write/index.html",
       "byteLength": 15350,
-      "sha256": "0065f65a10a5921898794a8c09718e3c80f6161a0da2b5e79592f1a4962bd1f1"
+      "sha256": "f549d2fba03a892f22cb1b96f63150381874e1a98a08232b7d8e5c8c807919a5"
     },
     {
       "path": "site/dist/write/spotify-callback.html",
@@ -1394,8 +1409,8 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 122599,
-      "sha256": "f9e73253e3034b856b049c9eaa4dcbcefbeb805c0299aacbdfea716737aba787"
+      "byteLength": 129488,
+      "sha256": "ff0ae26662e013b257f6a1c7e50510d303d84be858e153075c3ba02a9d921d6d"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
@@ -1410,7 +1425,7 @@
     {
       "path": "specification/README.md",
       "byteLength": 1638,
-      "sha256": "1b83830732044034c83f84c4d033f4f03342a97e4c80c37aefb5db26165a97c6"
+      "sha256": "109f9b2b2b842b370a7f7332efd1e0907624c55a788dbc737988aa94a5a450ef"
     },
     {
       "path": "specification/ROADMAP.md",
@@ -1439,8 +1454,8 @@
     },
     {
       "path": "specification/examples-methods.txt",
-      "byteLength": 12307,
-      "sha256": "a059de80ef9c78c92a8c04d16f17df690e57d3eb00f296bddd352dac76da924e"
+      "byteLength": 13410,
+      "sha256": "c79b23b490e0223f8f44090973e4c52aaa398f9a99006e85d95b44fac8642b41"
     },
     {
       "path": "specification/jot-ast.schema.json",
@@ -1454,13 +1469,13 @@
     },
     {
       "path": "specification/profiles.json",
-      "byteLength": 50893,
-      "sha256": "ecaccc860b03d863849c6b74816f67808449d7f711bb927084f145dad52b4a74"
+      "byteLength": 56211,
+      "sha256": "e08f06ff0c89751d270cca13fef3d7a09f3b329c20266189c0b32739d7478a5d"
     },
     {
       "path": "specification/source-register.md",
-      "byteLength": 4522,
-      "sha256": "a2e011fd0790aa13dfa20d564326761ef4f761e298e23bd6694ac8965ce61152"
+      "byteLength": 4935,
+      "sha256": "b4693250e3b8101a9a65440aeb827abb127b65dabb937da25236be191adfc6c0"
     },
     {
       "path": "tools/build-examples.mjs",
@@ -1511,6 +1526,11 @@
       "path": "tools/test-privacy.mjs",
       "byteLength": 3798,
       "sha256": "cf702ec1f50594b53c9fdc015b074ef2da1898174d57019cac66ad69e49e046e"
+    },
+    {
+      "path": "tools/test-profiles.mjs",
+      "byteLength": 5684,
+      "sha256": "9fccc476eba68727843600e6a111b41250f27a690350f28791e678d74c64dff5"
     },
     {
       "path": "vscode/.vscodeignore",
