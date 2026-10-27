@@ -230,6 +230,45 @@ metrics: sleep, steps
 - **Where you see it:** the workspace (**Write**), the template editor's **Page** view and the Jot extension for VS Code draw it. Anywhere
   else the record shows as the few lines above, which still say what it charts.
 
+## Palettes and moodboards
+
+For designers and artists: a `palette` record keeps colors as text, one `color:` line each, a hex code then a name.
+
+```jot
+:::record palette #autumn-zine
+label: Autumn zine
+color: #c0392b brick red
+color: #f4d03f mustard
+color: #234 deep slate
+:::
+```
+
+- **The page draws swatches** that always print the name and hex code in words, in black or white, whichever reads better on
+  that color. Color is never the only clue. Three digits (`#234`) are short for six (`#223344`); transparency is not part of a swatch.
+- **A color Jot can't read** (`color: brick`) stays exactly as you wrote it, and the page shows a note in its place, with a warning
+  under **Checks**.
+- **Copy palette CSS ⧉** and **Copy palette JSON ⧉** in the workspace's Tools row copy the palette your cursor is in (or the nearest
+  one before it) as CSS custom properties (`:root { --brick-red: #c0392b; }`) or as JSON. **Add to palette ＋**, beside the color
+  menu, writes the chosen color into that palette, or starts one.
+
+A `moodboard` record gathers pictures you've attached, each `image:` a path then a few words saying what it shows. `caption:` and
+`credit:` lines after a picture belong to it; `color:` lines add swatches.
+
+```jot
+:::record moodboard #rain-study
+label: Rain study
+image: assets/boots.jpg Wet boots on the bus floor
+caption: Tuesday, 8am
+credit: my phone
+image: assets/ticket.png A crumpled blue bus ticket
+color: #1f3a8a ink blue
+body: Grey, wet, a little blue.
+:::
+```
+
+The page lays the pictures out in a grid that fits the screen. A picture that isn't attached shows its path and description
+instead; nothing is fetched from the internet. Two or more pictures on their own in one paragraph are laid out the same way.
+
 ## A few other things
 
 - **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.

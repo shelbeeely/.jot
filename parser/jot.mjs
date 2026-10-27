@@ -1,5 +1,6 @@
 /** Jot JavaScript parser, draft 0.1. Source-preserving block parser + Marked 17.0.5. */
 import { Marked } from './vendor/marked.mjs';
+import { COLOR, isPaletteRecord } from './palette.mjs';
 
 // Fuller formatting (spec 4.2.1), as Marked extensions: the tokens carry their text and children like Marked's own.
 //   ==highlight==   ++underline++   ^superscript^   [^note] and [^note]: a footnote   -> a centred line <-
@@ -129,12 +130,14 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
   // Markdown-indented code is never interpreted as a journal command.
   if(/^( {4}|\t)/.test(t)){append(l);i++;continue;}
   const record=RECORD.exec(t);
-  if(record){flush();let raw=l.raw;const fields=[],unparsed=[];i++;let closed=false;
+  if(record){flush();let raw=l.raw;const fields=[],unparsed=[],colors=[];i++;let closed=false;
    while(i<lines.length){const f=lines[i];raw+=f.raw;i++;if(f.text===':::'){closed=true;break;}if(!f.text.trim())continue;
     const m=/^([a-z][a-z0-9-]*):[ \t]*(.*)$/.exec(f.text);
     if(!m){unparsed.push(f.text);diag('invalid-field','Record fields use lowercase-name: value.',f);continue;}
-    let value=m[2].trim();if(value==='|'){const parts=[];while(i<lines.length&&lines[i].text.startsWith('  ')){parts.push(lines[i].text.slice(2));raw+=lines[i].raw;i++;}value=parts.join('\n');}fields.push({name:m[1],value});
+    let value=m[2].trim();if(value==='|'){const parts=[];while(i<lines.length&&lines[i].text.startsWith('  ')){parts.push(lines[i].text.slice(2));raw+=lines[i].raw;i++;}value=parts.join('\n');}fields.push({name:m[1],value});if(m[1]==='color')colors.push([value,f]);
    }
+   // Palette colors (palette.mjs): #RRGGBB or #RGB, then a name. Kept as written either way; the preview shows a note.
+   if(isPaletteRecord({type:'record',recordType:record[1],fields}))for(const [v,f] of colors)if(!COLOR.test(v))diag('invalid-color','Palette colors are written color: #RRGGBB name (or #RGB name).',f);
    node('record',raw,l.start,{recordType:record[1],...(record[2]?{id:record[2]}:{}),fields,unparsed});if(!closed)diag('unclosed-record','Record consumes through end of file. Add ::: to close it.',l,'error');continue;
   }
   if(t==='/*'){flush();let raw=l.raw;i++;let closed=false;while(i<lines.length){const x=lines[i++];raw+=x.raw;if(x.text==='*/'){closed=true;break;}}node('comment',raw,l.start);if(!closed)diag('unclosed-comment','Hidden comment is unclosed.',l);continue;}

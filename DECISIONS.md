@@ -155,6 +155,20 @@ only native representation.
 - **Times are only what is written.** An event's time is read only when it is unambiguous (`19:00`, `7pm`, `at 21`); "at 7" is all day.
   A CSV date like `03/04/2026` is left out and counted unless the reader says the day comes first.
 
+## Palettes and moodboards (27 October 2026)
+
+- **Colors are text first.** `:::record palette` holds `color: #RRGGBB name` lines (`parser/palette.mjs`). `#RGB` is accepted as
+  shorthand because people write it and it expands without guessing; alpha and color functions are not, because a printed swatch is
+  opaque and a hex code is what other design tools paste.
+- **Every swatch says its name and hex in words**, in black or white by WCAG contrast (never below 4.5:1). Color alone never carries
+  meaning (spec §8.1).
+- **Nothing is dropped silently.** A color Jot cannot read stays in the source, shows a note on the page and is an `invalid-color`
+  warning. Only `palette`, `moodboard` and `moodboard-and-palette` records are checked; `color:` elsewhere is just a string.
+- **Moodboards use attachments only.** `image:` paths resolve through the same asset lookup as Markdown images; nothing is fetched,
+  and a missing picture shows the usual "not attached" note. A paragraph of only pictures is drawn as the same grid.
+- **Copying is explicit.** The workspace copies the palette at the caret as CSS custom properties or JSON (Clipboard API, then the
+  older copy command, then a download), and Add to palette writes plain text into the record.
+
 ## What the current code does
 
 - parse(text) parses writing and preserves its source; stringify(ast) returns that original source, not edits to AST nodes.

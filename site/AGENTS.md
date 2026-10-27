@@ -10,6 +10,7 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 
 - Music changes: `node site/test-music-ui.cjs`.
 - Styling changes: the relevant paper, color, highlight-blend and layout suites. Check mobile light/dark mode and accessibility.
+- Palettes, moodboards and the palette tools: `node site/test-palette-ui.cjs`.
 
 ## Conventions
 

@@ -17,7 +17,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="writing-in-jot">Writing in Jot</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#beautiful-pages-styles-printing-and-sharing">Beautiful pages: styles, printing and sharing</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li><li><a href="#color-in-handwritten-pages">Color in handwritten pages</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#palettes-and-moodboards">Palettes and moodboards</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#beautiful-pages-styles-printing-and-sharing">Beautiful pages: styles, printing and sharing</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li><li><a href="#color-in-handwritten-pages">Color in handwritten pages</a></li></ul></nav><article class="guide">
 <p>Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
 the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.</p>
 <p>This guide covers everything you need to write a <code>.jot</code> file by hand. It takes about ten minutes to read, and you can stop after the
@@ -260,6 +260,38 @@ Days with nothing written are gaps, never zeros. Two numbers for one metric on o
 <li><strong>Where you see it:</strong> the workspace (<strong>Write</strong>), the template editor&#39;s <strong>Page</strong> view and the Jot extension for VS Code draw it. Anywhere
 else the record shows as the few lines above, which still say what it charts.</li>
 </ul>
+<h2 id="palettes-and-moodboards">Palettes and moodboards</h2>
+<p>For designers and artists: a <code>palette</code> record keeps colors as text, one <code>color:</code> line each, a hex code then a name.</p>
+<pre tabindex="0"><code class="language-jot">:::record palette #autumn-zine
+label: Autumn zine
+color: #c0392b brick red
+color: #f4d03f mustard
+color: #234 deep slate
+:::
+</code></pre>
+<ul>
+<li><strong>The page draws swatches</strong> that always print the name and hex code in words, in black or white, whichever reads better on
+that color. Color is never the only clue. Three digits (<code>#234</code>) are short for six (<code>#223344</code>); transparency is not part of a swatch.</li>
+<li><strong>A color Jot can&#39;t read</strong> (<code>color: brick</code>) stays exactly as you wrote it, and the page shows a note in its place, with a warning
+under <strong>Checks</strong>.</li>
+<li><strong>Copy palette CSS ⧉</strong> and <strong>Copy palette JSON ⧉</strong> in the workspace&#39;s Tools row copy the palette your cursor is in (or the nearest
+one before it) as CSS custom properties (<code>:root { --brick-red: #c0392b; }</code>) or as JSON. <strong>Add to palette ＋</strong>, beside the color
+menu, writes the chosen color into that palette, or starts one.</li>
+</ul>
+<p>A <code>moodboard</code> record gathers pictures you&#39;ve attached, each <code>image:</code> a path then a few words saying what it shows. <code>caption:</code> and
+<code>credit:</code> lines after a picture belong to it; <code>color:</code> lines add swatches.</p>
+<pre tabindex="0"><code class="language-jot">:::record moodboard #rain-study
+label: Rain study
+image: assets/boots.jpg Wet boots on the bus floor
+caption: Tuesday, 8am
+credit: my phone
+image: assets/ticket.png A crumpled blue bus ticket
+color: #1f3a8a ink blue
+body: Grey, wet, a little blue.
+:::
+</code></pre>
+<p>The page lays the pictures out in a grid that fits the screen. A picture that isn&#39;t attached shows its path and description
+instead; nothing is fetched from the internet. Two or more pictures on their own in one paragraph are laid out the same way.</p>
 <h2 id="a-few-other-things">A few other things</h2>
 <ul>
 <li><strong>Page break:</strong> <code>===</code> on its own line, after an empty line, starts a new page when the journal is printed.</li>
