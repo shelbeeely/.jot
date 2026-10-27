@@ -74,3 +74,17 @@ test('every site page and its previews share the renderer stylesheet; the homepa
   assert.ok(!/<(?:textarea|input|select|form)\b|contenteditable=/i.test(home), 'the homepage stays informational');
   assert.match(home, /id="feature-samples"/);
 });
+
+
+test('the shared Mildliner palette matches all 25 reference colors', async () => {
+  const { referencePalettes, mildlinerPalettes } = await import('./dist/jot/palettes.mjs');
+  assert.equal(Object.keys(mildlinerPalettes).length, 5);
+  assert.deepEqual(Object.values(mildlinerPalettes).flat().map(([, hex]) => hex), [
+    '5FB7CA', 'FE5B05', 'FFC701', 'E35BE5', 'CB7D60',
+    'FDDD13', 'FBA276', 'F8898D', '60B3E0', '717271',
+    'E277CD', 'F9423A', 'CEDC00', '00B2A9', '7474C1',
+    'A0D084', '9CB2E3', 'D5D6DA', 'B6ADD8', 'DE556F',
+    'F1A5C7', 'F7C18E', 'F6E977', 'A4D3E6', '85CBB3',
+  ]);
+  assert.equal(Object.values(referencePalettes).flat().length, 71);
+});

@@ -127,3 +127,5 @@ System light/dark mode is supported; print uses light paper. Exports embed the l
 
 The homepage has no editor or form. Its color and formatting gallery uses actual Jot previews with expandable source examples.
 Browser regression: `node site/test-paper-ui.cjs` (Chromium, Playwright and axe-core).
+
+Mildliner reference colors live in `dist/jot/palettes.mjs`, shared by the writing palette and homepage swatches. All five groups and 25 hex codes are checked against the reference chart.

@@ -88,7 +88,7 @@ are. A repository ZIP contains the project itself; it is a different download fr
 ## Features
 
 The site and journal preview share one handwriting stylesheet, with cream paper in light mode and charcoal paper in dark mode.
-The homepage demonstrates ink colors, highlights and other Jot marks without a writing editor; open **Write** to make your own page.
+The homepage demonstrates ink colors, highlights and other Jot marks, including all 25 Mildliner reference colors shared with the picker, without a writing editor; open **Write** to make your own page.
 
 
 ### Numbers, charts and the weekly dashboard

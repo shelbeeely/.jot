@@ -26,10 +26,20 @@ const srv = http.createServer((q, r) => {
         ink: getComputedStyle(document.body).color, paper: getComputedStyle(document.documentElement).getPropertyValue('--jot-paper').trim(), wide: document.documentElement.scrollWidth - innerWidth }));
       assert.match(style.font, /Jot Caveat/); assert.match(style.texture, /svg/);
       assert.equal(style.paper, mode === 'light' ? '#fffdf6' : '#242622'); assert.equal(style.wide, 0, `${mode} ${route}: mobile width`);
+      if (route === '/write/') {
+        const picker = await p.locator('#formatPreset optgroup').evaluateAll((groups) => groups.filter((group) => group.label.startsWith('Mildliner')).flatMap((group) => [...group.children].map((option) => option.value)));
+        const reference = await p.evaluate(async () => Object.values((await import('/jot/palettes.mjs')).mildlinerPalettes).flat().map(([, hex]) => '#' + hex.toLowerCase()));
+        assert.deepEqual(picker, reference);
+      }
       if (route === '/') {
         await p.waitForFunction(() => [...document.querySelectorAll('.jot-page')].every((page) => page.jotGrid));
         assert.equal(await p.locator('main textarea, main input, main select, main form, [contenteditable]').count(), 0);
-        assert.equal(await p.locator('.feature-example').count(), 6);
+        assert.equal(await p.locator('.feature-gallery .feature-example').count(), 6);
+        assert.equal(await p.locator('.mildliner-group').count(), 5);
+        assert.equal(await p.locator('.mildliner-colors .jot-highlight').count(), 25);
+        const swatches = await p.locator('.mildliner-colors li').evaluateAll((rows) => rows.map((row) => row.dataset.hex));
+        const reference = await p.evaluate(async () => Object.values((await import('/jot/palettes.mjs')).mildlinerPalettes).flat().map(([, hex]) => '#' + hex.toLowerCase()));
+        assert.deepEqual(swatches, reference); assert.ok(swatches.includes('#fe5b05'));
         assert.ok(await p.locator('.feature-example .jot-colors[data-ink]').count() >= 4);
         assert.ok(await p.locator('.feature-example .jot-highlight').count() >= 4);
         assert.ok(await p.locator('.feature-example .jot-task-completed').count() > 0);

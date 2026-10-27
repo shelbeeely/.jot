@@ -1,3 +1,4 @@
+import { mildlinerPalettes } from './jot/palettes.mjs';
 // The home page's pictures, made by the same code as the workspace: a jotted note and the formatted page it becomes, a week of numbers
 // drawn by Chart.js, and a sample page written by hand on a dot grid. The homepage stays informational: its examples use the real renderer, with no writing inputs.
 import { parse } from './jot/jot.mjs';
@@ -33,15 +34,16 @@ renderPreview(parse(page), document.getElementById('written-demo'), { hand: { ha
 
 
 // Rendered examples, not an editor: each example can reveal the plain Jot that produced it.
+const mildColor = (name) => '#' + Object.values(mildlinerPalettes).flat().find(([label]) => label === name)[1];
 const examples = [
   ['A little color in the margins', `[Blue for plans]{ink=#245ac2}, [rose for memories]{ink=#b33951}, [green for small wins]{ink=#1d5c3a}.
 
-One thought can hold [more than one color]{ink=#6e4094 highlight=#f9df79}.`],
-  ['Keep the good bits', `A [sunshine thought]{highlight=#ffdc74 highlight-style=marker}.
+One thought can hold [more than one color]{ink=#6e4094 highlight=${mildColor('Gold')}}.`],
+  ['Keep the good bits', `A [sunshine thought]{highlight=${mildColor('Lemon yellow')} highlight-style=marker}.
 
-A [pink reminder]{highlight=#f8b9cf highlight-style=brush}.
+A [pink reminder]{highlight=${mildColor('Coral pink')} highlight-style=brush}.
 
-A [quiet green note]{highlight=#c6dda0 highlight-style=pencil}.
+A [quiet green note]{highlight=${mildColor('Green')} highlight-style=pencil}.
 
 [Let this go]{strike=#b33951}. [Keep this close]{underline=#245ac2}.`],
   ['Make a little plan', `[x] Water the plants
@@ -89,4 +91,20 @@ for (const [i, [title, source]] of examples.entries()) {
   summary.textContent = 'See the .jot'; code.textContent = source; pre.tabIndex = 0; pre.append(code); details.append(summary, pre);
   card.append(heading, preview, details); document.getElementById('feature-samples').append(card);
   renderPreview(parse(source), preview, { hand: { hand: 'pen', ink: 'blue', pitchMm: 5, seed: i + 10 } });
+}
+
+
+for (const [groupIndex, [group, colors]] of Object.entries(mildlinerPalettes).entries()) {
+  const card = document.createElement('article'); card.className = 'feature-example mildliner-group';
+  const title = document.createElement('h3'); title.textContent = group.replace('Mildliner — ', '');
+  const list = document.createElement('ul'); list.className = 'mildliner-colors';
+  card.append(title, list); document.getElementById('mildliner-groups').append(card);
+  for (const [colorIndex, [name, hex]] of colors.entries()) {
+    const row = document.createElement('li'); row.dataset.hex = '#' + hex.toLowerCase();
+    const dot = document.createElement('span'); dot.className = 'reference-dot'; dot.style.backgroundColor = '#' + hex; dot.setAttribute('aria-hidden', 'true');
+    const preview = document.createElement('div'); preview.className = 'palette-preview'; preview.id = `mildliner-${groupIndex}-${colorIndex}`;
+    const code = document.createElement('code'); code.textContent = '#' + hex;
+    row.append(dot, preview, code); list.append(row);
+    renderPreview(parse(`[${name}]{highlight=#${hex}}`), preview, { hand: { hand: 'pen', ink: 'blue', pitchMm: 5, seed: groupIndex * 5 + colorIndex + 1 } });
+  }
 }
