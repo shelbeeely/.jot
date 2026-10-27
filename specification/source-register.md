@@ -6,7 +6,7 @@ Primary inspiration: [Fountain repository README](https://github.com/nyousefi/Fo
 
 ## Additional profiles
 
-free-diary, shared-journal, travel-field-log, reading-media-journal, decision-journal, project-lab-log, food-cooking-journal, spiritual-reflection, and memory-life-story are original complementary Jot profiles. Their presence does not imply a corresponding guide in the linked directory. The data model specifies recording behavior and makes no independent therapeutic effectiveness claims.
+free-diary, shared-journal, travel-field-log, reading-media-journal, decision-journal, project-lab-log, food-cooking-journal, spiritual-reflection, memory-life-story and access-needs-and-scripts are original complementary Jot profiles. Their presence does not imply a corresponding guide in the linked directory. voice-practice, task-initiation-and-transitions and low-demand-check-in (added 27 October 2026) are original Jot profiles with guides of their own in `docs/methods/`. The data model specifies recording behavior and makes no independent therapeutic effectiveness claims.
 
 ## Repository guide mapping
 
@@ -56,3 +56,6 @@ free-diary, shared-journal, travel-field-log, reading-media-journal, decision-jo
 44. [time-block-planner.md](../docs/methods/time-block-planner.md)
 45. [time-logging-lifelog.md](../docs/methods/time-logging-lifelog.md)
 46. [travelers-notebook.md](../docs/methods/travelers-notebook.md)
+47. [voice-practice.md](../docs/methods/voice-practice.md)
+48. [task-initiation-and-transitions.md](../docs/methods/task-initiation-and-transitions.md)
+49. [low-demand-check-in.md](../docs/methods/low-demand-check-in.md)

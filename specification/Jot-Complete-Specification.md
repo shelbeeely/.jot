@@ -1769,6 +1769,124 @@ confidence: Details may have changed in memory.
 :::
 ```
 
+### 13.56 Voice practice and voice training
+
+Profile: `voice-practice@1` | Record type: `session`
+
+Log voice practice on your own terms: what you practised, for how long, how your voice felt and, if you like, a median pitch or the name of a clip. Useful for gender-affirming voice training, singing or speech practice. The writer sets the goals.
+
+Writing invitation: What did I practise, how did my voice feel, and did it feel like me?
+
+Complete structured record: `minutes`, `exercise`. Optional fields: `pitch-hz`, `resonance`, `strain`, `felt-like-me`, `recording`, `goal`, `at`.
+
+`minutes`, `pitch-hz`, `resonance` and `felt-like-me` are structured numeric values (§5.2) so a chart (§5.2.1) can draw them; `pitch-hz` is a median fundamental frequency in hertz from whichever tool the writer uses, and is optional. `resonance` is an ordinal scale whose anchors the writer chooses (for example "darker" and "brighter"); `felt-like-me` is 1 to 5. A writer who wants fixed axes declares scale records and writes those ratings as measurements naming them. `strain` is `none`, `some` or `a lot`. `recording` names a clip attached to a `.jotz` (section 2.0) or kept elsewhere; a reader MUST NOT fetch or play it without the writer's action. The profile is not medical advice, not an assessment instrument and not a substitute for a voice clinician. Implementations MUST NOT supply a gender target, a "passing" score, a comparison with other people's voices or a requirement to record dysphoria, and MUST NOT infer gender, health or progress from the numbers. Voice clips and pitch figures can identify a person: exports and shared copies SHOULD leave them out unless selected. The voice log in the gender-euphoria-and-hrt-log guide links here.
+
+```jot
+:::record session #example-voice-practice
+method: voice-practice@1
+minutes: 12
+exercise: straw phonation, then reading aloud
+pitch-hz: 182
+resonance: 3
+strain: none
+felt-like-me: 4
+recording: voice-2026-10-27.m4a
+body: The warm-up made the reading easier.
+:::
+```
+
+Scales that make the two ratings chart on their own axes:
+
+```jot
+:::record scale #felt-like-me-scale
+name: felt like me
+kind: ordinal
+minimum: 1
+maximum: 5
+anchor-low: Did not feel like me
+anchor-high: Felt like me
+:::
+
+:::record measurement #felt-like-me-20261027
+method: voice-practice@1
+metric: felt-like-me
+value: 4
+scale: #felt-like-me-scale
+status: observed
+:::
+```
+
+### 13.57 Task initiation and transitions (AuDHD)
+
+Profile: `task-initiation-and-transitions@1` | Record type: `task`
+
+Get from one activity to the next with a tiny first step, a cue that marks the switch, an optional body double, and a time estimate set beside what actually happened. Written for AuDHD writers (autistic and ADHD) who find both starting and stopping hard.
+
+Writing invitation: What am I leaving, what is the next tiny step, and what will tell me it is time to switch?
+
+Complete structured record: `next-step`. Optional fields: `from`, `cue`, `warning`, `estimate-min`, `actual-min`, `body-double`, `started`, `at`.
+
+`started` is `yes`, `partly`, `not yet` or `chose not to`; none of them is a failure state. `estimate-min` and `actual-min` are minutes as structured numeric values, kept so the writer can learn their own time, never to grade it; implementations MUST NOT compute a punctuality or productivity score from them. `warning` is how long before the switch a reminder helps (free text). A record may describe a transition with no task finished. Complements `adhd-journaling@1` (daily planning) and `interstitial-journaling@1` (notes between tasks) rather than replacing them. Diagnosis is neither required nor recorded.
+
+```jot
+:::record task #example-task-initiation-and-transitions
+method: task-initiation-and-transitions@1
+from: Drawing
+next-step: Stand up and fill the water glass
+cue: Timer song ends
+warning: 10 min
+estimate-min: 5
+actual-min: 15
+body-double: Video call with Sam
+started: yes
+:::
+```
+
+### 13.58 Low-demand check-in (AuDHD)
+
+Profile: `low-demand-check-in@1` | Record type: `observation`
+
+A check-in that asks almost nothing: capacity, sensory load and energy as single numbers, one word for what would help, and skipped as a complete answer.
+
+Writing invitation: Only if I want to: how much capacity, how loud is the world, how much energy?
+
+Complete structured record: `status`. Optional fields: `capacity`, `sensory-load`, `check-in-energy`, `need`, `scale`, `at`.
+
+`status` is `observed`, `estimated` or `skipped`. A record with `status: skipped` and no numbers is complete and MUST NOT be shown or counted as a low value (§5.2). Implementations MUST NOT add streaks, missed-day totals, catch-up prompts or automatic backfill for this profile; a day with no check-in is drawn as a gap. Each number is on the writer's own scale; `scale` names one scale record that applies to all three numbers in the record and fixes their chart axes. The energy number is `check-in-energy`, not `energy`, so it never merges with the differently scaled energy of `symptom-tracking@1` or `spoon-theory-energy-accounting@1` (§5.2). A shared scale's anchors SHOULD be neutral ("low", "high"), because a high capacity and a high sensory load mean different things. Detailed sensory logs belong to `autistic-sensory-journaling@1`.
+
+```jot
+:::record observation #example-low-demand-check-in
+method: low-demand-check-in@1
+status: observed
+capacity: 2
+sensory-load: 4
+check-in-energy: 2
+need: quiet
+:::
+```
+
+### 13.59 Access needs and scripts (AuDHD)
+
+Profile: `access-needs-and-scripts@1` | Record type: `collection`
+
+Keep a personal list of what helps, where, and the exact words to ask for it, so a writer does not have to improvise self-advocacy when overloaded.
+
+Writing invitation: What helps me, and how would I like to ask for it?
+
+Complete structured record: `need`. Optional fields: `helps`, `context`, `script`, `share-with`.
+
+`need` and `helps` are repeatable. No diagnosis is required, recorded or implied, and the list is not a medical or legal accommodation document. `share-with` is the writer's own note about who may see an entry, not an access control; exports SHOULD include only the entries selected for a reader. A static support menu lives in `stimming-and-self-regulation@1`.
+
+```jot
+:::record collection #example-access-needs-and-scripts
+method: access-needs-and-scripts@1
+need: Written instructions
+helps: A short list I can reread
+context: Work meetings
+script: Could you send that as a message so I can come back to it?
+:::
+```
+
 ## 14. Implementation sequence and source register
 
 ### 14.1 A small, useful first implementation
@@ -1815,7 +1933,7 @@ Primary inspiration: [Fountain repository README](https://github.com/nyousefi/Fo
 
 #### Additional profiles
 
-free-diary, shared-journal, travel-field-log, reading-media-journal, decision-journal, project-lab-log, food-cooking-journal, spiritual-reflection, and memory-life-story are original complementary Jot profiles. Their presence does not imply a corresponding guide in the linked directory. The data model specifies recording behavior and makes no independent therapeutic effectiveness claims.
+free-diary, shared-journal, travel-field-log, reading-media-journal, decision-journal, project-lab-log, food-cooking-journal, spiritual-reflection, memory-life-story and access-needs-and-scripts are original complementary Jot profiles. Their presence does not imply a corresponding guide in the linked directory. voice-practice, task-initiation-and-transitions and low-demand-check-in (added 27 October 2026) are original Jot profiles with guides of their own in `docs/methods/`. The data model specifies recording behavior and makes no independent therapeutic effectiveness claims.
 
 #### Repository guide mapping
 
@@ -1865,6 +1983,9 @@ free-diary, shared-journal, travel-field-log, reading-media-journal, decision-jo
 44. [time-block-planner.md](../docs/methods/time-block-planner.md)
 45. [time-logging-lifelog.md](../docs/methods/time-logging-lifelog.md)
 46. [travelers-notebook.md](../docs/methods/travelers-notebook.md)
+47. [voice-practice.md](../docs/methods/voice-practice.md)
+48. [task-initiation-and-transitions.md](../docs/methods/task-initiation-and-transitions.md)
+49. [low-demand-check-in.md](../docs/methods/low-demand-check-in.md)
 
 
 ## 15. JavaScript, diagrams, handwriting and the project roadmap
