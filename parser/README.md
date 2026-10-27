@@ -56,6 +56,16 @@ renderPreview(parse(text), document.querySelector('#page'));
 
 Tests: `node --test charts-test.mjs`.
 
+## Queries
+
+`query.mjs` reads what a `:::record query` asks for (spec §5.2.2): a view of the tasks, events, entries or numbers in the same journal,
+filtered by `status`, `priority`, `tag`, `context`, `text`, `metric` and dates (`start`/`end`, or `period: day|week|month` of the entry
+it is in), counted or summed (`stat`), at most `limit` rows. `runQuery(ast, fields, { date })`, `queryModel(ast, node)`, `queries(ast)`,
+`queryText(model)`, and `queryDiagnostics(ast)`, which returns each unreadable field as an `invalid-query` warning shaped like the
+parser's own diagnostics. `marks(text)` and `TAGGED` read `#tags` and `@contexts` the way the preview marks them. Nothing is executed and
+nothing is stored: a query with a field it can't read shows that problem instead of results. `preview.mjs` draws each query as its
+summary sentence and a table.
+
 ## Page styles and export
 
 `styles.mjs`: `STYLES` (journal, notes, plain), `styleCSS()` (each scoped to `.jot-style-<id>`, system fonts only, nothing fetched) and

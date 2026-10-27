@@ -230,6 +230,56 @@ metrics: sleep, steps
 - **Where you see it:** the workspace (**Write**), the template editor's **Page** view and the Jot extension for VS Code draw it. Anywhere
   else the record shows as the few lines above, which still say what it charts.
 
+## Lists that find things for you (queries)
+
+A `query` record asks a question of the journal it is in: which tasks are still open, what you tagged `#health` this week, how much
+you slept on average this month. The answer is worked out each time the page is shown, so it is never out of date, and the file only
+holds the question:
+
+```jot
+### 2026-10-26 | Monday
+
+[ ] Call the dentist @phone #health
+[x] Walk round the park #health
+[!] Post the letter
+
+:::record measurement #sleep-2026-10-26
+metric: sleep
+unit: h
+value: 7.5
+:::
+
+:::record query #open-health
+label: Still to do for my health
+show: tasks
+status: open
+tag: health
+:::
+
+:::record query #sleep-this-week
+label: Sleep this week
+show: numbers
+metric: sleep
+period: week
+stat: average
+:::
+```
+
+The page shows each query as one plain sentence ("1 open task tagged #health.") and a table of what it found.
+
+- **What to show:** `show: tasks`, `events`, `entries` (dated sections) or `numbers`. This is the one field a query needs.
+- **Which ones:** `status:` (open, completed, migrated, scheduled, cancelled; several with commas mean any of them), `priority: high`,
+  `tag:` and `context:` (several with commas mean all of them), `text:` (words it contains) and, for numbers, `metric:`.
+- **Which days:** `period: day`, `week` or `month` counts from the entry the query is written in (a week is Monday to Sunday), or
+  from its own `date:`;
+  `start:` and `end:` choose dates instead. With neither, every date counts, and so do tasks written before the first date.
+- **How many:** `stat: count` is the default; numbers can also have `sum`, `average`, `min` or `max`, each metric on its own.
+  `limit: 20` shows only the first 20 rows (the sentence still counts them all; 50 is the default).
+- **Mistakes are shown, not hidden.** A word the query doesn't know (`status: opne`, a blank `tag:`, a metric the journal doesn't have) shows what is
+  wrong where the answer would be, and in the workspace's checks, instead of quietly showing nothing or everything.
+- A query never changes your writing and never runs anything. On the command line, `jot query journal.jot` prints the answers, and
+  `jot query journal.jot --show tasks --status open --tag health` asks one without writing it down.
+
 ## A few other things
 
 - **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.
