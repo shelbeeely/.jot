@@ -1,10 +1,10 @@
 # Working on Jot
 
-Jot is a plain-text journal format with a JavaScript parser, CLI, static website and VS Code extension. Read `README.md`, `DECISIONS.md` and the relevant guide before changing behavior. This file follows https://agents.md/ and applies throughout the repository. `site/` and `vscode/` have their own `AGENTS.md` with rules for that area; read it too before changing files there.
+Jot is a plain-text journal format with a JavaScript parser, CLI, static website and VS Code extension. Read `README.md`, `DECISIONS.md` and the relevant guide before changing behavior. This file follows https://agents.md/ and applies throughout the repository. `parser/`, `site/` and `vscode/` have their own `AGENTS.md` with rules for that area; read it too before changing files there.
 
 ## Project map
 
-- `parser/`: canonical parser, renderer, shared handwriting styles, fonts and export code.
+- `parser/`: canonical parser, renderer, shared handwriting styles, fonts and export code (rules: `parser/AGENTS.md`).
 - `site/dist/`: committed, buildless website (rules: `site/AGENTS.md`). Writer: `studio.mjs`, `studio.css`, `write/`; template editor: `editor/`. Site-only listening capture: `jot/music.mjs`.
 - `docs/guide/`: guide sources; `site/build-guides.mjs` generates `site/dist/guide/`.
 - `converter/`, `cli/`, `vscode/`: converter, command-line tools and extension (rules: `vscode/AGENTS.md`).
@@ -23,7 +23,7 @@ Use Node.js 22 (CI), Python 3 and, for privacy checks, `pdftotext` from Poppler.
 
 ## Generated files
 
-After changing canonical parser modules, copy affected modules to `site/dist/jot/` and run `node vscode/sync.mjs`. Regenerate only affected deliverables:
+Never hand-edit a generated file or copy; change its source and regenerate. After changing canonical parser modules, follow `parser/AGENTS.md`. Regenerate only affected deliverables:
 
 ```sh
 node tools/build-handwriting-css.mjs
@@ -33,7 +33,7 @@ python3 tools/build-parser-zip.py
 node tools/manifest.cjs
 ```
 
-Run the manifest command last, including new files. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. Avoid unrelated generated changes.
+Run the manifest command last, including new files. `node tools/check-generated.mjs` runs the fast generated-file checks in about a second; run it before every commit. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. Avoid unrelated generated changes.
 
 ## Verification
 

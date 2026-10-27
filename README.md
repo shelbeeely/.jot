@@ -230,6 +230,7 @@ Run `node site/test-highlight-blend-ui.cjs` for pixel checks of highlights over 
 Run `node site/test-music-ui.cjs` for manual listening notes and Spotify connection/capture checks with stubbed service responses.
 These browser checks are separate from the Node.js tests above.
 
+Contributors and coding agents: [AGENTS.md](AGENTS.md) holds the working rules (with more in `parser/`, `site/` and `vscode/`).
 Before changing behavior, read [DECISIONS.md](DECISIONS.md) and the relevant component README. Parser code is copied into the site and
 VS Code extension; keep those copies in sync when editing shared modules. After changing tracked files, regenerate the manifest with
 `node tools/manifest.cjs` and commit it alongside the changes. The complete publishing checks are in

@@ -3,7 +3,8 @@ same files always make the same zip.   python3 tools/build-parser-zip.py [--chec
 import pathlib, sys, zipfile, io
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / 'parser', ROOT / 'site/dist/docs/jot-parser.zip'
-files = sorted(p for p in SRC.rglob('*') if p.is_file() and 'node_modules' not in p.parts)
+AGENT_NOTES = {'AGENTS.md', 'CLAUDE.md', 'CLAUDE.local.md'}  # repository guidance for coding agents, not part of the download
+files = sorted(p for p in SRC.rglob('*') if p.is_file() and 'node_modules' not in p.parts and p.name not in AGENT_NOTES)
 def build():
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, 'w', zipfile.ZIP_DEFLATED) as z:

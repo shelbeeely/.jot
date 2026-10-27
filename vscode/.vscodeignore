@@ -1,3 +1,5 @@
 test-*.mjs
 test-*.cjs
 sync.mjs
+AGENTS.md
+CLAUDE.md

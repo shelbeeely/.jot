@@ -9,8 +9,8 @@
     },
     {
       "path": ".claude/hooks/check-generated.mjs",
-      "byteLength": 1387,
-      "sha256": "67108c57185988c43d96f20b718dc8b9798bd9da04b32b0ef9cf5017a1c43da3"
+      "byteLength": 951,
+      "sha256": "adfa562c2d13b82f422d939230c23f08a5e258df609801de62bc7fa55f60b0b6"
     },
     {
       "path": ".claude/settings.json",
@@ -24,18 +24,18 @@
     },
     {
       "path": ".gitignore",
-      "byteLength": 89,
-      "sha256": "be96877d051aa8fd4228f2a9a4a9535f2e1568cbca09c096f868bfbe5fddf38a"
+      "byteLength": 175,
+      "sha256": "42b3979908dfea7785f539e5ecccf2f54d7f881fd32f037f45492384739f8028"
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 3843,
-      "sha256": "996cdd7d9defaea1b602145d6b7723ef99fe39793a880b7b3cadcec0ce5c7eec"
+      "byteLength": 4027,
+      "sha256": "5ab6872c25ce08960ec49f5e3e5c928b8e6edb2cad81a777a5b92133e2bdb6dc"
     },
     {
       "path": "CLAUDE.md",
-      "byteLength": 621,
-      "sha256": "b56b7fff1609bed862a01539b8bc78e210f9a7091851dbc8d8a27e9cf1f34bc1"
+      "byteLength": 667,
+      "sha256": "61d5d7cc51baddad5b7c97468b39b4279acffeb4d493f2d7ee608e79258d74d0"
     },
     {
       "path": "DECISIONS.md",
@@ -44,8 +44,8 @@
     },
     {
       "path": "README.md",
-      "byteLength": 17376,
-      "sha256": "055e57323284f3b6776462853223ea91668615dfbccbadf46ecf4a333ec178f6"
+      "byteLength": 17504,
+      "sha256": "8bbe9c296dd44bd6ab70b8426d998c60902fd2dd6b5537a82ef1c38ae4817348"
     },
     {
       "path": "cli/README.md",
@@ -401,6 +401,16 @@
       "path": "package.json",
       "byteLength": 230,
       "sha256": "59aff513f06512832c92ee9bfa54467f03173fff1104ab3cc9d29a6ccb159bfa"
+    },
+    {
+      "path": "parser/AGENTS.md",
+      "byteLength": 1683,
+      "sha256": "2a30eb3affd7bb8db429deeeb9b9a49cbc39b4bb98230ebb4890b119ecdea9ee"
+    },
+    {
+      "path": "parser/CLAUDE.md",
+      "byteLength": 11,
+      "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
     },
     {
       "path": "parser/CONTAINER.md",
@@ -1449,13 +1459,18 @@
     },
     {
       "path": "tools/build-parser-zip.py",
-      "byteLength": 1223,
-      "sha256": "0ffa6aca2d5239d5faf512f107742ab1d057bec1f3d27c58a51b321cdda1c27c"
+      "byteLength": 1380,
+      "sha256": "a691dfee46ce4cf235ce1979eaaf9938d56ac6d56aeb79ca03499dc73a05e07a"
     },
     {
       "path": "tools/build-spec-pdf.cjs",
       "byteLength": 2775,
       "sha256": "d84fc3995ada67ce7bfba1927f3f568efddd2652dc04df7e6418250d3f23f136"
+    },
+    {
+      "path": "tools/check-generated.mjs",
+      "byteLength": 1090,
+      "sha256": "6f77b80f3cd9ceb5b92237be8db5652cc2d2077003762c141c2f034c457aef0c"
     },
     {
       "path": "tools/manifest.cjs",
@@ -1484,8 +1499,8 @@
     },
     {
       "path": "vscode/.vscodeignore",
-      "byteLength": 31,
-      "sha256": "432cf24952c2326612af3021ccbf156f75883d01759820c18833baf11adb44d1"
+      "byteLength": 51,
+      "sha256": "032736b8a7f11f8c40b5ed94eb3fe5ccc0ce7e449ce8fde931bba851e6d13c2d"
     },
     {
       "path": "vscode/AGENTS.md",

@@ -4,3 +4,6 @@
 vscode/*.vsix
 node_modules/
 .DS_Store
+# personal Claude Code notes and settings
+CLAUDE.local.md
+.claude/settings.local.json
