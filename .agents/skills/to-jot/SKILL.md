@@ -1,12 +1,32 @@
 ---
 name: to-jot
-description: Generate, edit, convert and validate Jot journals and templates (.jot and .jotz). Use for new journals, planners, prompts, trackers, method records and fixing invalid Jot, as well as turning source material into Jot. Use when asked to convert, import, journal or "make a jot" from text, notes, chat logs, emails, transcripts, meeting notes, calendar exports, CSV or health/fitness exports, Markdown/Obsidian/Day One/Notion exports, or photos, scans and PDFs of pages. Produces canonical, dated plain-text Jot that `node cli/jot.mjs check` accepts, without inventing dates or values.
+description: Generate, edit, convert and validate Jot journals and templates (.jot and .jotz). Use for plain-language requests, guided interviews, new journals, planners, prompts, trackers, method records and fixing invalid Jot, as well as turning source material into Jot. Use when asked to convert, import, journal or "make a jot" from text, notes, chat logs, emails, transcripts, meeting notes, calendar exports, CSV or health/fitness exports, Markdown/Obsidian/Day One/Notion exports, or photos, scans and PDFs of pages. Produces canonical, dated plain-text Jot that `node cli/jot.mjs check` accepts, without inventing dates or values.
 ---
 
 # Generate and validate Jot
 
 Jot is plain text: Markdown plus a few line marks, dated headings and `:::record` blocks. The result must read well in any
 text editor, keep the writer's words, and pass strict validation with no errors or warnings. Repository tool paths below are relative to the Jot repository root; the bundled validation script works from any directory. The syntax is in `reference/cheatsheet.md`; worked examples (input, then output) are in `reference/`.
+
+## Choose the conversation
+
+- **Plain-language brief:** “Make a gentle weekly planner with room for meals.” Turn that request directly into a useful first
+  draft. Use ordinary language with the user; they do not need to learn Jot syntax, record fields or profile names.
+- **Guided interview:** “Interview me and make my journal.” Ask one short question at a time, starting with “What would you like
+  this journal to help you with?” Offer a few examples if useful, and let the user skip any question or say “make it now”.
+- **Existing material:** use the conversion procedure below. Do not interview the user again about information already supplied.
+
+For an interview, adapt the next question to the answers. Learn only what is needed: the purpose, whether the result is a blank
+reusable template or a filled entry, the sections that would help, and any requested dates or cadence. For a filled entry, ask
+about actual experiences in the user's own terms. Do not make every question mandatory, demand personal disclosures, infer a
+diagnosis, or turn uncertainty into invented facts. For a template, ask about helpful prompts rather than personal history.
+
+Once there is enough information, briefly reflect back the intended structure, create the file and strictly validate it. Do not
+require an approval step unless a material ambiguity prevents a useful result. If the user wants to revise it, update the same
+draft and validate again. Keep technical validation details in the delivery message rather than in interview questions.
+
+Distinguish supported output formats from proposals: this runtime currently validates `.jot` and `.jotz`. The planned multi-document container is `.jotbook`. Do not rename an archive
+to `.jotbook` and claim support or book validation before its container reader and validator exist.
 
 ## Create from a brief
 

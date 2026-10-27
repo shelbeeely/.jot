@@ -17,7 +17,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="turning-anything-into-jot">Turning anything into Jot</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#check-any-jot-file">Check any .jot file</a></li><li><a href="#the-to-jot-agent-skill">The to-jot agent skill</a></li><li><a href="#what-the-skill-will-not-do">What the skill will not do</a></li><li><a href="#what-comes-out">What comes out</a></li><li><a href="#pictures-photographed-pages-and-pdfs">Pictures, photographed pages and PDFs</a></li><li><a href="#validate-from-any-directory">Validate from any directory</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#check-any-jot-file">Check any .jot file</a></li><li><a href="#the-to-jot-agent-skill">The to-jot agent skill</a></li><li><a href="#describe-it-or-build-it-through-a-conversation">Describe it, or build it through a conversation</a></li><li><a href="#what-the-skill-will-not-do">What the skill will not do</a></li><li><a href="#what-comes-out">What comes out</a></li><li><a href="#pictures-photographed-pages-and-pdfs">Pictures, photographed pages and PDFs</a></li><li><a href="#validate-from-any-directory">Validate from any directory</a></li></ul></nav><article class="guide">
 <p>Notes in a phone app, a chat with a friend, meeting minutes, a spreadsheet of sleep hours, an Obsidian vault, a photographed page:
 most of what you would want in a journal already exists somewhere else. This guide covers two helpers for bringing it into Jot:
 an <strong>agent skill</strong> that tells an AI coding agent how to write good Jot, and <strong><code>jot check</code></strong>, which says whether a file is valid.</p>
@@ -54,6 +54,16 @@ ideas marked only where the material clearly has them, and numbers in records on
 <li><strong>Escape</strong> any line that would accidentally read as a Jot mark (<code>o well, never mind</code> becomes <code>\o well, never mind</code>).</li>
 <li><strong>Run <code>jot check --strict</code></strong> on the final saved file and fix every error and warning before saying it is validated.</li>
 </ol>
+<h2 id="describe-it-or-build-it-through-a-conversation">Describe it, or build it through a conversation</h2>
+<p>You do not need to know Jot&#39;s syntax. Ask for what you want:</p>
+<ul>
+<li>“Make a gentle weekly planner with space for meals and one small priority.”</li>
+<li>“Interview me and create a journal template that fits how I write.”</li>
+<li>“Ask me about my day, then turn my answers into a Jot entry.”</li>
+</ul>
+<p>The agent can draft directly from your brief or ask one short question at a time. You can skip questions, change the direction,
+or say “make it now”. A template has blank answers; a filled entry uses only the experiences you describe. Once it has enough
+information, the agent writes the file, validates it, and lets you revise it without learning the file format.</p>
 <h2 id="what-the-skill-will-not-do">What the skill will not do</h2>
 <ul>
 <li><strong>Invent anything.</strong> No guessed dates, years, times, numbers or units. Notes without a date stay undated, at the top

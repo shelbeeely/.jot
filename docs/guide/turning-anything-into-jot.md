@@ -43,6 +43,18 @@ The skill tells the agent to:
 3. **Escape** any line that would accidentally read as a Jot mark (`o well, never mind` becomes `\o well, never mind`).
 4. **Run `jot check --strict`** on the final saved file and fix every error and warning before saying it is validated.
 
+## Describe it, or build it through a conversation
+
+You do not need to know Jot's syntax. Ask for what you want:
+
+- “Make a gentle weekly planner with space for meals and one small priority.”
+- “Interview me and create a journal template that fits how I write.”
+- “Ask me about my day, then turn my answers into a Jot entry.”
+
+The agent can draft directly from your brief or ask one short question at a time. You can skip questions, change the direction,
+or say “make it now”. A template has blank answers; a filled entry uses only the experiences you describe. Once it has enough
+information, the agent writes the file, validates it, and lets you revise it without learning the file format.
+
 ## What the skill will not do
 
 - **Invent anything.** No guessed dates, years, times, numbers or units. Notes without a date stay undated, at the top
