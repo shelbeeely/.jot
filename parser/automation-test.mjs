@@ -82,6 +82,9 @@ test('today, rollover and the week review', () => {
   assert.equal(A.todayEntry(J, '2026-10-25').added, false);
   assert.match(A.todayEntry(J, '2026-10-28').text, /### 2026-10-27[\s\S]*### 2026-10-28 \| Wednesday\n\n$/);
   assert.match(A.todayEntry(J, '2026-10-26').text, /\[!\] Pay rent[\s\S]*### 2026-10-26 \| Monday\n\n### 2026-10-27/, 'in date order');
+  assert.match(A.addToDay(J, '2026-10-25', 'A late line.'), /A late line\.\n\n### 2026-10-27/, 'under an existing day, before the next');
+  assert.match(A.addToDay(J, '2026-10-28', 'New day.'), /### 2026-10-28 \| Wednesday\n\nNew day\.\n$/);
+  assert.throws(() => A.addToDay(J, 'soon', 'x'));
   const r = A.rollover(J, '2026-10-28');
   assert.equal(r.moved, 3);
   assert.match(r.text, /\[>\] Call Sam back\n\[>\] Pay rent\n\[>\] Old thing/);

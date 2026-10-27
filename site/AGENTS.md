@@ -9,6 +9,7 @@ Serve the site with `python3 -m http.server 8000 --directory site/dist`; open `/
 Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for axe-core and provide Playwright with Chromium; each suite starts its own local server. Select the suites relevant to the change:
 
 - Music changes: `node site/test-music-ui.cjs`.
+- Writer preferences, focus mode, quick notes and return to position: `node site/test-prefs-ui.cjs`.
 - Styling changes: the relevant paper, color, highlight-blend and layout suites. Check mobile light/dark mode and accessibility.
 
 ## Conventions

@@ -319,6 +319,23 @@ editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open i
 - **The template editor:** design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
   See [Using the template editor](template-editor.md).
 
+## Making the workspace comfortable
+
+Everyone writes differently, so the workspace (**Write**) lets you change how it looks, one thing at a time. None of these choices
+go into your journal: they are remembered in this browser only, and the page works the same without them.
+
+- **Preferences** (in the tools row): text size, line spacing, line length and how dense the controls are; higher contrast;
+  reduced motion (your system's reduce-motion setting is always followed too); and, separately, whether to show the page preview,
+  the parser and writing-check tabs, the word and check counts, and decoration like small headings and taglines. **Back to
+  standard settings** undoes them. Printing and Download page are not affected.
+- **Focus mode** shows only the writing, its name and whether it is saved. Press **Escape** or **Leave focus mode** to see
+  everything again.
+- **Quick note ＋** adds one line to the end of today's dated entry (making the entry if there is none) and leaves your cursor
+  where it was, unless you tick the box to go there. Undo (`Ctrl+Z`) takes it back.
+- **Coming back:** your cursor and scroll position return when you reopen the page. If you like, write a short note for next time
+  in Preferences, such as "Next: the paragraph about the walk". It is shown when you come back, with **Back to where I was**,
+  **Start at the end** and **Dismiss**. Nothing counts days, keeps streaks or asks you to catch up.
+
 ## Colours in your text editor
 
 **VS Code** has a Jot extension (in the `vscode/` folder of the Jot project): dates, tasks, events, records and their numbers in

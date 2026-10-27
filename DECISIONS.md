@@ -178,3 +178,15 @@ prose. Current reports and recent history have distinct labels; historical liste
 requires no service connection. No scrobbles are submitted. Last.fm's application key stays in page memory, usernames persist only
 after successful reads, and requests use no browser credentials/referrer. Libre.fm is manual-only because live API probing returned
 an access challenge; direct browser compatibility was not established. Provider responses are mocked in regression tests.
+
+## Writing preferences and gentle return (27 October 2026)
+
+The writer has a Preferences panel with independent choices (text size, line spacing, line length, density, higher contrast, reduced
+motion, and hiding the preview, parser tabs, counts and decoration), a focus mode left with Escape or its visible button, a one-line
+Quick note into today's entry, and return to the saved caret/scroll with an optional note for next time. There are no presets named
+after diagnoses, no timers, sounds, streaks or catch-up prompts. Choices and the note are per-viewer conveniences in localStorage
+(`jot-prefs-v1`), never in the journal, and every read/write tolerates failing storage. They apply to the screen only: the shared
+renderer stylesheet, the handwriting grid and print are unchanged; a hidden preview is moved off screen, not removed, so handwritten
+pages are still measured for print and export. Quick note uses `automation.addToDay` (the entry logic behind Today ＋ and rollover,
+now exported), escapes a leading heading/fence/record marker so the note stays one plain line, and inserts only the difference, so
+it is one undo step and the cursor stays put. The ROADMAP rows are marked partial: not yet validated with intended users.

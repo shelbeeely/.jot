@@ -8,6 +8,7 @@
  *   readCSV(text, opts)                a CSV of numbers (a health or fitness app's export) as numbers by date
  *   addNumbers(source, numbers, opts)  those numbers written into the journal: into empty value: blanks first, else under their day
  *   todayEntry(source, date, opts)     a dated entry for today, if there is none
+ *   addToDay(source, date, text)       text at the end of a day's entry (making the entry, in date order, if there is none)
  *   rollover(source, date)             open tasks from earlier days carried to today (marked [>] where they were)
  *   weekReview(source, date)           a review of the week: what got done, what is open, the numbers, a chart, room to write
  *   pendingSync / markSynced           which tasks a service has not had yet, and the record that remembers it
@@ -157,6 +158,10 @@ const one = (s) => String(s ?? '').replace(/[\r\n]+/g, ' ').trim();
 const fmtNum = (v) => (Number.isInteger(v) ? String(v) : String(Math.round(v * 100) / 100));
 const heading = (date) => `### ${date} | ${weekday(date)}`;
 /** Puts text at the end of the entry for date (making the entry, in date order, if there is none). */
+export function addToDay(source, date, text) {
+  if (!validDate(date)) throw new Error(`Not a date: ${date}`);
+  return intoEntry(source, date, text);
+}
 function intoEntry(source, date, text) {
   const ast = parse(source), at = charSpans(source), e = ast.entries.find((x) => x.date === date);
   if (e) {
@@ -273,4 +278,4 @@ export function payload(ast, { file = '', open = false, since = '' } = {}) {
     numbers: numbers.filter((n) => keep(n.date)),
   };
 }
-export default { extract, timeOf, toICS, numbersCSV, tasksCSV, parseCSV, csvDate, readCSV, addNumbers, todayEntry, rollover, weekReview, pendingSync, markSynced, taskKey, payload, mondayOf, localToday };
+export default { extract, timeOf, toICS, numbersCSV, tasksCSV, parseCSV, csvDate, readCSV, addNumbers, todayEntry, addToDay, rollover, weekReview, pendingSync, markSynced, taskKey, payload, mondayOf, localToday };
