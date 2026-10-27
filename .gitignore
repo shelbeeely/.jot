@@ -7,3 +7,5 @@ node_modules/
 # personal Claude Code notes and settings
 CLAUDE.local.md
 .claude/settings.local.json
+# Claude Code worker checkouts (worktrees) live here; never commit them
+.claude/worktrees/

@@ -198,7 +198,7 @@ new files start with the Jot metadata block, and ZIP-packaged `.jot` files are r
 | [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
 | [`cli/`](cli/) | `jot`, the command line: tasks, events, numbers, calendar and CSV out, numbers in, today, rollover, review, webhooks, Todoist |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries |
-| [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (49 guides, CC0) |
+| [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (52 guides, CC0) |
 | [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz`. Whole diaries as Jot (Pepys, *The Diary of a Nobody*, Blunt) are on the site's Examples page, [`site/dist/examples/`](site/dist/examples/) |
 | [`references/`](references/) | The historical DotJot document (background only) |
 | `tools/` | `privacy-check.mjs` (the gate before the site is published; `test-privacy.mjs` tests it), `build-examples.mjs` (the site's example diaries, converted from Project Gutenberg; `--check` verifies them), `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file), `build-spec-pdf.cjs` (the spec PDF from its Markdown), `build-parser-zip.py` (the site's parser download), `test-files.mjs` (plain `.jot` vs packaged `.jotz`, by content) and `test-profiles.mjs` (the method catalogue and its site copy match, and every profile example parses as a complete record) |

@@ -79,8 +79,8 @@
     },
     {
       "path": ".gitignore",
-      "byteLength": 175,
-      "sha256": "42b3979908dfea7785f539e5ecccf2f54d7f881fd32f037f45492384739f8028"
+      "byteLength": 266,
+      "sha256": "e2a826326a680219a9e84eb66584de7b168ac8388bdf7f8791cde70c7a029aa5"
     },
     {
       "path": "AGENTS.md",
@@ -100,7 +100,7 @@
     {
       "path": "README.md",
       "byteLength": 17651,
-      "sha256": "0ffa42f4bfaee9b23eb717145f4a933efc1838f7952786e613bc14e2cf0ad183"
+      "sha256": "b438ce358266060c0b722cf4d7896d58800e54ca945213d8962fdee499079af1"
     },
     {
       "path": "cli/README.md",
