@@ -17,7 +17,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="writing-in-jot">Writing in Jot</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#beautiful-pages-styles-printing-and-sharing">Beautiful pages: styles, printing and sharing</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li><li><a href="#color-in-handwritten-pages">Color in handwritten pages</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#links-between-days-and-records">Links between days and records</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#beautiful-pages-styles-printing-and-sharing">Beautiful pages: styles, printing and sharing</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li><li><a href="#color-in-handwritten-pages">Color in handwritten pages</a></li></ul></nav><article class="guide">
 <p>Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
 the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.</p>
 <p>This guide covers everything you need to write a <code>.jot</code> file by hand. It takes about ten minutes to read, and you can stop after the
@@ -259,6 +259,28 @@ a summary (<code>avg 6.8 h · 6–7.5 h · 2/7 days</code>). A measurement with 
 Days with nothing written are gaps, never zeros. Two numbers for one metric on one day are averaged.</li>
 <li><strong>Where you see it:</strong> the workspace (<strong>Write</strong>), the template editor&#39;s <strong>Page</strong> view and the Jot extension for VS Code draw it. Anywhere
 else the record shows as the few lines above, which still say what it charts.</li>
+</ul>
+<h2 id="links-between-days-and-records">Links between days and records</h2>
+<p>Every dated heading is a place you can link to: write the date after <code>#</code>. A record with an ID (<code>:::record note #plan</code>) can be linked by its ID the same way. Links work anywhere you write: in paragraphs, lists, tables, quotes, footnotes, tasks and margin notes.</p>
+<pre tabindex="0"><code class="language-jot">### 2026-10-25 | Sunday
+
+Started sketching the garden plan.
+
+### 2026-10-26 | Monday
+
+Back to what I began [yesterday](#2026-10-25), and to [the plan](#plan).
+
+:::record note #plan
+body: Beans along the fence.
+relation: continues #2026-10-25
+:::
+</code></pre>
+<ul>
+<li><strong>In the preview,</strong> a link jumps to that day or record, and each one shows a short <strong>Linked from</strong> line: the days and records that point at it.</li>
+<li><strong>A link to something that isn&#39;t there</strong> (a typo, or a date with no heading yet) still shows as written, and the checker lists it as an unresolved link. Nothing stops you writing.</li>
+<li><strong>If two headings share a date,</strong> a link goes to the first.</li>
+<li><strong>Records link too:</strong> <code>relation: continues #2026-10-25</code>, <code>member: #plan</code> and <code>source: #2026-10-25</code> point at a day or record when the value is just the <code>#</code> link (after the kind, for <code>relation</code>).</li>
+<li><strong>Another file:</strong> <code>[last month](september.jot#2026-09-30)</code> is kept as written. Jot never opens or fetches the other file to check it.</li>
 </ul>
 <h2 id="a-few-other-things">A few other things</h2>
 <ul>

@@ -210,6 +210,19 @@ Inline colors use `[text]{ink=#rrggbb highlight=#rrggbb strike=#rrggbb underline
 
 A Markdown blockquote preserves quoted writing; a `quotation` record additionally stores explicit attribution and source fields. Hidden comments are omitted from rendered journal pages but retained by default in editable exports. They are neither encrypted nor safe places for secrets.
 
+#### 4.2.2 Links within and across documents
+
+A link is `[label](#target)`. Two things in a document are link targets, and nothing else is:
+
+- a record's ID: `:::record note #plan` is the target `#plan`;
+- a dated heading's date: `### 2026-10-25 | Sunday` is the target `#2026-10-25`. When several headings share a date, the first is the target; a link to that date resolves to it and carries an `ambiguous-reference` warning, while repeated dates with no link to them remain valid (§2.3). A record ID equal to a date takes precedence over the heading.
+
+Links are found wherever inline writing is: paragraphs, headings, list items, table cells, blockquotes, footnotes, tasks, events, questions, ideas, synopses, voice lines and margin notes. Code and escaped brackets are never links. Record fields `relation: kind #target`, `member`, `source`, `parent`, `migrated-to` and `prompt` are links when their value (for `relation`, the part after the first space) is exactly `#target` or `path.jot#target`; any other value, such as a book title in `source`, is prose.
+
+A `#target` naming nothing in the document, or naming a duplicated record ID (§4.3), is an `unresolved-reference` warning at the link. The link stays visible as written and never prevents writing. `other.jot#id` (or `.jotz`, a path relative to the current document) names another document: a reader keeps it as written, does not open, fetch or validate that file, and does not flag it. Links do not include, embed or copy content.
+
+A renderer gives each target an element ID unique to that rendering (for example `jotln-<page>-2026-10-25`, so two previews in one page never clash) and points resolved links at it. It MAY list beside a target where it is linked from: the dated entry, or the record, that holds each link. Unresolved links render as text, not as a dangling anchor.
+
 ### 4.3 Generic structured record
 
 ```jot
@@ -495,11 +508,11 @@ A migration MUST NOT invent dates, task targets, health units, timestamps, autho
 
 The normative interchange is a source-preserving JSON envelope. The companion `jot-ast.schema.json` validates that envelope and structural node shapes. It does not validate clinical instruments, dates, cross-references or every profile. Those are semantic validation rules in this document. A structural schema success MUST NOT be reported as full journal conformance.
 
-The root has `format: jot`, `version: 1.0`, original `source`, ordered `metadata`, ordered flat `nodes`, and ordered `diagnostics`. Each node has `type`, byte `start`, byte `end` and `raw`. Record nodes also have `recordType`, optional `id`, ordered `fields`, and `unparsed`. Field objects have `name` and decoded string `value`. Heading nodes have `level` and `text`; paragraph and other text blocks have `text`. A derived entry index MAY reference node ranges, but MUST NOT duplicate or replace source ownership. Semantic caches and views are rebuildable.
+The root has `format: jot`, `version: 1.0`, original `source`, ordered `metadata`, ordered flat `nodes`, and ordered `diagnostics`. Each node has `type`, byte `start`, byte `end` and `raw`. Record nodes also have `recordType`, optional `id`, ordered `fields`, and `unparsed`. Field objects have `name` and decoded string `value`. Heading nodes have `level` and `text`; paragraph and other text blocks have `text`. A derived entry index MAY reference node ranges, but MUST NOT duplicate or replace source ownership. A link target node MAY carry `anchor` (its record ID or entry date, §4.2.2), and a derived `links` list MAY give each internal link's `href`, `target`, optional `file` and `field`, byte `start`/`end`, the index of the `node` holding it and, when it resolves, the index `to` of its target. Semantic caches and views are rebuildable.
 
 Every node's `raw` MUST equal the UTF-8 slice `source[start:end]`. Nodes are contiguous, non-overlapping and cover the document body after the metadata region, including blank-line nodes. Metadata includes its own source range in `metadataRange` when present; without metadata, coverage starts at byte zero. The AST retains every byte, including line endings, unknown blocks and malformed content. Normalized semantic edits may change bytes; untouched nodes MUST remain identical in lossless mode. Canonical formatting is a separate explicit operation.
 
-Diagnostics have `severity` (`info`, `warning`, `error`), stable `code`, `message`, `start` and `end`. Minimum codes: `unsupported-version`, `unclosed-fence`, `unclosed-record`, `unclosed-comment`, `invalid-field`, `invalid-date`, `duplicate-id`, `duplicate-singleton`, `unresolved-reference`, `profile-incomplete`, `profile-conflict`, `invalid-measurement`, `ambiguous-local-time`, `unsafe-path`, `missing-asset` and `layout-overflow`.
+Diagnostics have `severity` (`info`, `warning`, `error`), stable `code`, `message`, `start` and `end`. Minimum codes: `unsupported-version`, `unclosed-fence`, `unclosed-record`, `unclosed-comment`, `invalid-field`, `invalid-date`, `duplicate-id`, `duplicate-singleton`, `unresolved-reference`, `ambiguous-reference`, `profile-incomplete`, `profile-conflict`, `invalid-measurement`, `ambiguous-local-time`, `unsafe-path`, `missing-asset` and `layout-overflow`.
 
 ### 11.2 Semantic validation checklist
 
@@ -519,6 +532,8 @@ The following cases are normative input/expected-behavior pairs. They form a sta
 | `I AM TIRED` between blank lines | Prose, no voice inference. |
 | `[[Remember the spare key]]` | Annotation, no link. |
 | `[earlier](#day-am)` | Internal link, unresolved if ID absent. |
+| `[then](#2026-10-25)` beneath that dated heading | Link to the entry's first heading with that date. |
+| `[there](other.jot#a)` | Link to another document; kept, not opened or flagged. |
 | `[ ] literal` inside a code fence | Literal, no task. |
 | Escaped `\[ ] literal` | Prose showing `[ ] literal`. |
 | Two headings with the same date | Two ordered entries. |

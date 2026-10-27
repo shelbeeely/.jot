@@ -68,6 +68,26 @@
       "expected": "duplicate-id error; links to a unresolved."
     },
     {
+      "id": "link-date",
+      "input": "### 2026-10-25\nRain.\n\n### 2026-10-26\nAfter [yesterday](#2026-10-25).\n",
+      "expected": "The link resolves to the 2026-10-25 heading; no diagnostics."
+    },
+    {
+      "id": "link-unresolved",
+      "input": "See [earlier](#day-am).\n",
+      "expected": "unresolved-reference warning at the link; the link text is kept."
+    },
+    {
+      "id": "link-other-file",
+      "input": "See [there](other.jot#a).\n",
+      "expected": "A link to another document; kept as written, not opened, no diagnostic."
+    },
+    {
+      "id": "link-field",
+      "input": ":::record note #b\nrelation: continues #a\n:::\n",
+      "expected": "The relation field is a link; #a is absent, so unresolved-reference."
+    },
+    {
       "id": "zero",
       "input": ":::record measurement\nmetric: effort\nstatus: observed\nvalue: 0\n:::\n",
       "expected": "Observed numeric zero, not missing."

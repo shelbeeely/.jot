@@ -230,6 +230,31 @@ metrics: sleep, steps
 - **Where you see it:** the workspace (**Write**), the template editor's **Page** view and the Jot extension for VS Code draw it. Anywhere
   else the record shows as the few lines above, which still say what it charts.
 
+## Links between days and records
+
+Every dated heading is a place you can link to: write the date after `#`. A record with an ID (`:::record note #plan`) can be linked by its ID the same way. Links work anywhere you write: in paragraphs, lists, tables, quotes, footnotes, tasks and margin notes.
+
+```jot
+### 2026-10-25 | Sunday
+
+Started sketching the garden plan.
+
+### 2026-10-26 | Monday
+
+Back to what I began [yesterday](#2026-10-25), and to [the plan](#plan).
+
+:::record note #plan
+body: Beans along the fence.
+relation: continues #2026-10-25
+:::
+```
+
+- **In the preview,** a link jumps to that day or record, and each one shows a short **Linked from** line: the days and records that point at it.
+- **A link to something that isn't there** (a typo, or a date with no heading yet) still shows as written, and the checker lists it as an unresolved link. Nothing stops you writing.
+- **If two headings share a date,** a link goes to the first.
+- **Records link too:** `relation: continues #2026-10-25`, `member: #plan` and `source: #2026-10-25` point at a day or record when the value is just the `#` link (after the kind, for `relation`).
+- **Another file:** `[last month](september.jot#2026-09-30)` is kept as written. Jot never opens or fetches the other file to check it.
+
 ## A few other things
 
 - **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.

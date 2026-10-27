@@ -152,9 +152,37 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
   append(l);i++;
  }
  flush();
- const ids=new Map();for(const n of ast.nodes)if(n.id){if(ids.has(n.id))ast.diagnostics.push({severity:'error',code:'duplicate-id',message:'Record ID occurs more than once: '+n.id,start:n.start,end:n.end});else ids.set(n.id,n);}
+ const ids=new Map(),dupIds=new Set();for(const n of ast.nodes)if(n.id){if(ids.has(n.id)){dupIds.add(n.id);ast.diagnostics.push({severity:'error',code:'duplicate-id',message:'Record ID occurs more than once: '+n.id,start:n.start,end:n.end});}else ids.set(n.id,n);}
  let entry=null;for(let j=0;j<ast.nodes.length;j++){const n=ast.nodes[j];if(n.date){if(entry)entry.endNode=j;entry={date:n.date,heading:n.text,startNode:j,endNode:ast.nodes.length};ast.entries.push(entry);}}
+ if(journal)links(ast,ids,dupIds);
  return ast;
+}
+// Links (spec 4.2.2). Targets: a record's unique #id, and a dated heading's date (its first heading; a record ID of the same name wins).
+// [label](#id) anywhere in the writing (paragraphs, lists, tables, quotes, footnotes, tasks, events, questions, ideas, margin notes) and
+// the link fields of records point at them. A missing or duplicated #id is an unresolved-reference warning; other.jot#id names another
+// document and is never opened or checked here. ast.links lists every internal link; `to` is the target's node index when it resolves.
+const LINK_FIELDS=new Set(['relation','member','source','parent','migrated-to','prompt']);
+const INLINE_TEXT=new Set(['event','question','idea','synopsis','voice','annotation']);
+const INTERNAL=/^(?:((?![a-z][a-z0-9+.-]*:)[^#\s]*\.jotz?))?#([^\s#]+)$/i; // #id or relative/path.jot#id
+function linkTokens(t,out){if(!t||typeof t!=='object')return;if(Array.isArray(t)){for(const x of t)linkTokens(x,out);return;}if(t.type==='link')out.push({href:t.href||'',raw:t.raw||''});for(const k of ['tokens','items','header','rows'])if(t[k])linkTokens(t[k],out);}
+function links(ast,ids,dupIds){
+ const targets=new Map(),dupDates=new Set();
+ ast.nodes.forEach((n,j)=>{if(n.type==='record'&&n.id&&!dupIds.has(n.id)){targets.set(n.id,j);n.anchor=n.id;}});
+ ast.nodes.forEach((n,j)=>{if(!n.date)return;if(targets.has(n.date)){if(ast.nodes[targets.get(n.date)].date)dupDates.add(n.date);}else if(!ids.has(n.date)){targets.set(n.date,j);n.anchor=n.date;}});
+ ast.links=[];
+ ast.nodes.forEach((n,j)=>{
+  const found=[];
+  if(n.markdown)linkTokens(n.markdown,found);else if(n.type==='task')linkTokens(n.inline,found);else if(INLINE_TEXT.has(n.type)&&n.text.includes(']('))linkTokens(lexer(n.text),found);
+  else if(n.type==='record')for(const f of n.fields)if(LINK_FIELDS.has(f.name)){const v=f.name==='relation'?(/^\S+\s+(\S+)$/.exec(f.value)||[])[1]:f.value;if(v&&INTERNAL.test(v))found.push({href:v,raw:v,field:f.name});}
+  let at=0;
+  for(const l of found){const m=INTERNAL.exec(l.href);if(!m)continue;
+   const k=n.raw.indexOf(l.raw,l.field?n.raw.indexOf('\n'+l.field+':',at)+1:at),start=k<0?n.start:n.start+bytes(n.raw.slice(0,k)),end=k<0?n.end:start+bytes(l.raw);if(k>=0)at=k+l.raw.length;
+   const link={href:l.href,target:m[2],start,end,node:j,...(l.field?{field:l.field}:{}),...(m[1]?{file:m[1]}:{})};ast.links.push(link);
+   if(m[1])continue; // another document: kept as written, never fetched
+   if(targets.has(m[2])){link.to=targets.get(m[2]);if(dupDates.has(m[2]))ast.diagnostics.push({severity:'warning',code:'ambiguous-reference',message:`Several headings have the date ${m[2]}; this link goes to the first.`,start,end});}
+   else ast.diagnostics.push({severity:'warning',code:'unresolved-reference',message:dupIds.has(m[2])?`The ID ${m[2]} occurs more than once, so this link cannot choose one.`:`Nothing in this document has the ID or date ${m[2]}.`,start,end});
+  }
+ });
 }
 /** Exact round trip. This does not serialize mutations to derived nodes. */
 export function stringify(ast){if(!ast||typeof ast.source!=='string')throw new TypeError('Expected a Jot AST with original source');return ast.source;}
