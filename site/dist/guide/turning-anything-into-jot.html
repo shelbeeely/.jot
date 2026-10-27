@@ -17,7 +17,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="turning-anything-into-jot">Turning anything into Jot</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#check-any-jot-file">Check any .jot file</a></li><li><a href="#the-to-jot-agent-skill">The to-jot agent skill</a></li><li><a href="#what-the-skill-will-not-do">What the skill will not do</a></li><li><a href="#what-comes-out">What comes out</a></li><li><a href="#pictures-photographed-pages-and-pdfs">Pictures, photographed pages and PDFs</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#check-any-jot-file">Check any .jot file</a></li><li><a href="#the-to-jot-agent-skill">The to-jot agent skill</a></li><li><a href="#what-the-skill-will-not-do">What the skill will not do</a></li><li><a href="#what-comes-out">What comes out</a></li><li><a href="#pictures-photographed-pages-and-pdfs">Pictures, photographed pages and PDFs</a></li><li><a href="#validate-from-any-directory">Validate from any directory</a></li></ul></nav><article class="guide">
 <p>Notes in a phone app, a chat with a friend, meeting minutes, a spreadsheet of sleep hours, an Obsidian vault, a photographed page:
 most of what you would want in a journal already exists somewhere else. This guide covers two helpers for bringing it into Jot:
 an <strong>agent skill</strong> that tells an AI coding agent how to write good Jot, and <strong><code>jot check</code></strong>, which says whether a file is valid.</p>
@@ -36,10 +36,11 @@ too.</li>
 <p>Nothing is changed and nothing leaves your computer.</p>
 <h2 id="the-to-jot-agent-skill">The to-jot agent skill</h2>
 <p>The Jot project includes a skill called <strong>to-jot</strong>: written instructions an AI agent follows when you ask it to turn something
-into a journal. It lives in the project at <code>.agents/skills/to-jot/</code>, where OpenAI&#39;s Codex finds skills, and Claude Code finds the
+into a journal, generate a new template, or fix an invalid Jot file. It lives in the project at <code>.agents/skills/to-jot/</code>, where OpenAI&#39;s Codex finds skills, and Claude Code finds the
 same folder through <code>.claude/skills/to-jot</code>. There is one copy, so both agents work the same way.</p>
 <p>Open the Jot project in either agent and ask in your own words:</p>
 <ul>
+<li>&quot;Create an undated daily check-in template and validate the saved file.&quot;</li>
 <li>&quot;Turn <code>chat-export.txt</code> into a jot.&quot;</li>
 <li>&quot;Make a journal from these meeting notes, one entry per meeting.&quot;</li>
 <li>&quot;Import <code>sleep.csv</code> into <code>2026-10.jot</code>.&quot;</li>
@@ -51,7 +52,7 @@ same folder through <code>.claude/skills/to-jot</code>. There is one copy, so bo
 <li><strong>Write the rest by hand in Jot&#39;s form:</strong> a <code>### YYYY-MM-DD | Weekday</code> heading for each day, tasks, events, questions and
 ideas marked only where the material clearly has them, and numbers in records only where the value is written down.</li>
 <li><strong>Escape</strong> any line that would accidentally read as a Jot mark (<code>o well, never mind</code> becomes <code>\o well, never mind</code>).</li>
-<li><strong>Run <code>jot check</code></strong> on the result and fix every error before saying it is done.</li>
+<li><strong>Run <code>jot check --strict</code></strong> on the final saved file and fix every error and warning before saying it is validated.</li>
 </ol>
 <h2 id="what-the-skill-will-not-do">What the skill will not do</h2>
 <ul>
@@ -102,6 +103,16 @@ ocr-status: unreviewed
 :::
 </code></pre>
 <p>Open the <code>.jot</code> in the workspace (<strong>Write</strong>) and attach the pictures there, and it saves the <code>.jotz</code> for you.</p>
+<h2 id="validate-from-any-directory">Validate from any directory</h2>
+<p>The skill includes a strict validation helper. Replace the skill path with its installed location:</p>
+<pre tabindex="0"><code class="language-sh">node /path/to/to-jot/scripts/validate.mjs /path/to/journal.jot
+node /path/to/to-jot/scripts/validate.mjs --json /path/to/journal.jot
+</code></pre>
+<p>It uses the same parser and package checks as <code>jot check --strict</code>, requires Node.js 22 or later, and needs no npm install.
+The downloadable skill bundles the validator; a repository installation finds the project automatically. An installed copy without
+that runtime can use <code>--repo /path/to/.jot</code>. Errors and warnings fail validation. Missing tools are reported as a setup failure.</p>
+<p>A successful check proves that the parser/package checks passed. The agent must also review source fidelity, dates, units and
+method profile fields; parser success alone does not establish factual correctness or full profile compliance.</p>
 </article></div>
 </main>
 </body>

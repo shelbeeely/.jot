@@ -62,7 +62,7 @@ source: sleep.csv
   `reflection` (`body:`), `attachment` (`path`, `media-type`, `alt`), `chart` (`metrics: sleep, steps`).
 - Reserved fields any record may use: `method`, `privacy`, `author`, `created`, `modified`, `date`, `at`, `start`, `end`,
   `body`, `source`, `relation`, `label`.
-- A method profile is chosen with `method: <id>@1` (ids in `specification/profiles.json`); missing profile fields only warn.
+- A method profile is chosen with `method: <id>@1` (ids in `specification/profiles.json`, or bundled `reference/profiles.json`). Check required fields manually: the parser is not a full profile validator.
 
 ## Escaping
 

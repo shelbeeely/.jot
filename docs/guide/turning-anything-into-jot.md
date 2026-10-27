@@ -24,11 +24,12 @@ Nothing is changed and nothing leaves your computer.
 ## The to-jot agent skill
 
 The Jot project includes a skill called **to-jot**: written instructions an AI agent follows when you ask it to turn something
-into a journal. It lives in the project at `.agents/skills/to-jot/`, where OpenAI's Codex finds skills, and Claude Code finds the
+into a journal, generate a new template, or fix an invalid Jot file. It lives in the project at `.agents/skills/to-jot/`, where OpenAI's Codex finds skills, and Claude Code finds the
 same folder through `.claude/skills/to-jot`. There is one copy, so both agents work the same way.
 
 Open the Jot project in either agent and ask in your own words:
 
+- "Create an undated daily check-in template and validate the saved file."
 - "Turn `chat-export.txt` into a jot."
 - "Make a journal from these meeting notes, one entry per meeting."
 - "Import `sleep.csv` into `2026-10.jot`."
@@ -40,7 +41,7 @@ The skill tells the agent to:
 2. **Write the rest by hand in Jot's form:** a `### YYYY-MM-DD | Weekday` heading for each day, tasks, events, questions and
    ideas marked only where the material clearly has them, and numbers in records only where the value is written down.
 3. **Escape** any line that would accidentally read as a Jot mark (`o well, never mind` becomes `\o well, never mind`).
-4. **Run `jot check`** on the result and fix every error before saying it is done.
+4. **Run `jot check --strict`** on the final saved file and fix every error and warning before saying it is validated.
 
 ## What the skill will not do
 
@@ -103,3 +104,19 @@ ocr-status: unreviewed
 ```
 
 Open the `.jot` in the workspace (**Write**) and attach the pictures there, and it saves the `.jotz` for you.
+
+## Validate from any directory
+
+The skill includes a strict validation helper. Replace the skill path with its installed location:
+
+```sh
+node /path/to/to-jot/scripts/validate.mjs /path/to/journal.jot
+node /path/to/to-jot/scripts/validate.mjs --json /path/to/journal.jot
+```
+
+It uses the same parser and package checks as `jot check --strict`, requires Node.js 22 or later, and needs no npm install.
+The downloadable skill bundles the validator; a repository installation finds the project automatically. An installed copy without
+that runtime can use `--repo /path/to/.jot`. Errors and warnings fail validation. Missing tools are reported as a setup failure.
+
+A successful check proves that the parser/package checks passed. The agent must also review source fidelity, dates, units and
+method profile fields; parser success alone does not establish factual correctness or full profile compliance.

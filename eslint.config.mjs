@@ -23,7 +23,7 @@ export default [
   },
   // The parser runs in browsers and in Node; the site and the extension's webview run in browsers.
   { files: ['parser/**', 'site/dist/**', 'vscode/media/**'], languageOptions: { globals: { ...globals.browser, ...globals.node } } },
-  { files: ['cli/**', 'converter/**', 'tools/**', 'site/*.mjs', 'vscode/*.mjs', '.claude/**', 'eslint.config.mjs'], languageOptions: { globals: globals.node } },
+  { files: ['cli/**', 'converter/**', 'tools/**', 'site/*.mjs', 'vscode/*.mjs', '.claude/**', '.agents/**', 'eslint.config.mjs'], languageOptions: { globals: globals.node } },
   // CommonJS scripts; the browser suites pass functions into the page, so they see browser globals too.
   { files: ['**/*.cjs', 'vscode/extension.js'], languageOptions: { sourceType: 'commonjs', globals: { ...globals.node, ...globals.browser, axe: 'readonly' } } },
   { files: ['vscode/media/**'], languageOptions: { globals: { acquireVsCodeApi: 'readonly' } } },

@@ -1,13 +1,69 @@
 ---
 name: to-jot
-description: Turn any material into a Jot journal (.jot). Use when asked to convert, import, journal or "make a jot" from text, notes, chat logs, emails, transcripts, meeting notes, calendar exports, CSV or health/fitness exports, Markdown/Obsidian/Day One/Notion exports, or photos, scans and PDFs of pages. Produces canonical, dated plain-text Jot that `node cli/jot.mjs check` accepts, without inventing dates or values.
+description: Generate, edit, convert and validate Jot journals and templates (.jot and .jotz). Use for new journals, planners, prompts, trackers, method records and fixing invalid Jot, as well as turning source material into Jot. Use when asked to convert, import, journal or "make a jot" from text, notes, chat logs, emails, transcripts, meeting notes, calendar exports, CSV or health/fitness exports, Markdown/Obsidian/Day One/Notion exports, or photos, scans and PDFs of pages. Produces canonical, dated plain-text Jot that `node cli/jot.mjs check` accepts, without inventing dates or values.
 ---
 
-# Turning anything into Jot
+# Generate and validate Jot
 
 Jot is plain text: Markdown plus a few line marks, dated headings and `:::record` blocks. The result must read well in any
-text editor, keep the writer's words, and pass `node cli/jot.mjs check` with no errors. Paths below are relative to the Jot
-repository root. The syntax is in `reference/cheatsheet.md`; worked examples (input, then output) are in `reference/`.
+text editor, keep the writer's words, and pass strict validation with no errors or warnings. Repository tool paths below are relative to the Jot repository root; the bundled validation script works from any directory. The syntax is in `reference/cheatsheet.md`; worked examples (input, then output) are in `reference/`.
+
+## Create from a brief
+
+When the user asks for a new journal, planner, template or tracker rather than a conversion:
+
+1. Use the requested purpose, dates and fields. Draft prompts and headings freely when authoring is requested; keep sample or
+   fictional entries clearly labelled. Never present invented experiences or measurements as the user's facts.
+2. If dates are unspecified, make an undated template. For an explicit request for “today”, use the session's user timezone and
+   date. Use real ISO dates for a dated template; keep weekday labels optional rather than guessing them.
+3. Write UTF-8 `.jot`. Leave answers and measurements blank. Use a `measurement` record for each metric, retain requested units,
+   and add chart or query records only when requested and supported by the reference. Prefer simple prose to invented syntax.
+4. For a method record, read its actual version, record type and required fields in `specification/profiles.json` (or the bundled
+   `reference/profiles.json`). Check these manually: parser success does **not** prove full profile compliance.
+5. Save the file, validate the actual saved bytes, repair diagnostics and rerun. Validate again after every subsequent edit or
+   packaging step. Never claim validation from inspecting text, or from a successful run on an earlier draft.
+
+A minimal undated tracker (not a record of real measurements):
+
+```jot
+---
+Jot: 1.0
+Title: Daily check-in template
+---
+
+## Check-in
+
+What would make today easier?
+
+[ ] One small task
+
+:::record measurement #sleep
+metric: sleep
+unit: h
+value:
+:::
+```
+
+## Run validation
+
+Find this skill's absolute directory from the agent's skill listing. Run with Node.js 22 or later; no npm install is needed:
+
+```sh
+node /absolute/path/to/to-jot/scripts/validate.mjs /absolute/path/to/journal.jot
+node /absolute/path/to/to-jot/scripts/validate.mjs --json /absolute/path/to/journal.jot
+```
+
+The script checks one or more `.jot` or `.jotz` files, never edits them, and fails on **errors or warnings**. It uses the bundled
+canonical CLI in the downloadable skill, or finds the repository above the installed skill/current directory. If needed, specify
+`--repo /absolute/path/to/.jot`. Repository equivalent: `node cli/jot.mjs check --strict journal.jot`.
+
+- Exit 0: parser/package validation passed, no errors or warnings. Report this exact scope.
+- Exit 1: invalid input or diagnostics. Fix the cause and rerun; do not deliver it as validated.
+- Exit 2 from the wrapper: validator/setup failure. Report that validation did not run; never infer success.
+- Review meaning too: dates, wording, units, task states, unique IDs, reference targets and profile requirements. A clean parser
+  cannot prove factual accuracy, all attachment references, rendered appearance or every profile constraint.
+- Deliver the saved file and state the command, exit status and any remaining limitations. If the runtime is unavailable, label
+  the result **unvalidated** rather than claiming it is valid.
 
 ## Rules that are never bent
 
@@ -90,10 +146,10 @@ repository root. The syntax is in `reference/cheatsheet.md`; worked examples (in
    ```
    Write the `.jot` first, then package it with the images: open it in the site's workspace (`/write/`) and attach them, or
    call `pack({ source, assets })` from `parser/container.mjs`. A plain `.jot` must never contain binary data or base64.
-6. **Validate and fix.** Run `node cli/jot.mjs check out.jot`. Fix every `error` (an unclosed `:::record` needs its `:::`; a
-   duplicated id needs a new one). Look at each warning: an `invalid-date` heading means a date that does not exist, so fix the
-   transcription or drop the date from the heading; never "correct" it by guessing. Run it again until there are no errors.
-   `node cli/jot.mjs tasks out.jot` and `node cli/jot.mjs events out.jot` show what was understood.
+6. **Validate and fix.** Run the validation script above (or `node cli/jot.mjs check --strict out.jot`). Fix every error and
+   warning, then rerun until exit 0. For invalid dates, check the source; leave an uncertain date as prose rather than guessing.
+   Do not suppress warnings to pass. Validate the final `.jotz` too if packaging attachments. Inspect parsed tasks/events when
+   relevant with `node cli/jot.mjs tasks out.jot` and `node cli/jot.mjs events out.jot`.
 7. **Report.** Tell the user what file you wrote, how many dated entries (first and last date), what stayed undated, anything
    left out or uncertain, and the result of `check`.
 

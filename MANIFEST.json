@@ -4,8 +4,8 @@
   "files": [
     {
       "path": ".agents/skills/to-jot/SKILL.md",
-      "byteLength": 9679,
-      "sha256": "8700ce99415fa9616f89f3b6a6c625802ac0c0cd39a5ef52362ecff824f1c61c"
+      "byteLength": 12916,
+      "sha256": "0185b0efe505d5f8b5e8897d8f0575d182c71c83eac157c54275df5e8f1043c8"
     },
     {
       "path": ".agents/skills/to-jot/reference/brain-dump.jot",
@@ -29,8 +29,8 @@
     },
     {
       "path": ".agents/skills/to-jot/reference/cheatsheet.md",
-      "byteLength": 3523,
-      "sha256": "c11913d3f6e29f71343cfd3ca17699dc8dc3dccb1cf88e8ec9bc6d188eee1460"
+      "byteLength": 3603,
+      "sha256": "195a690a98310ed599e80cb47bab14a0245007e40b3e260c4561ea765fe6efef"
     },
     {
       "path": ".agents/skills/to-jot/reference/sleep.csv",
@@ -41,6 +41,11 @@
       "path": ".agents/skills/to-jot/reference/sleep.jot",
       "byteLength": 701,
       "sha256": "4422ffe5440a7329a18db1cbeb325635371857c0924e5cf556cf894060c1ab35"
+    },
+    {
+      "path": ".agents/skills/to-jot/scripts/validate.mjs",
+      "byteLength": 1704,
+      "sha256": "6bcaef5528cae323207f8725cb222f199e94d2b5d4e7fe72c37c442b794cf50b"
     },
     {
       "path": ".claude/commands/verify.md",
@@ -84,8 +89,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 4573,
-      "sha256": "1dc916f91c80b260a251494ca6fb58d85d2fbc9f64eab7db07807845441f9549"
+      "byteLength": 4607,
+      "sha256": "0bab939b6fa65e977deac1451adf91f80cd874e2f1ce5e03ced28dbc5486bd15"
     },
     {
       "path": "CLAUDE.md",
@@ -114,8 +119,8 @@
     },
     {
       "path": "cli/test.mjs",
-      "byteLength": 13369,
-      "sha256": "a70083d6ae9680b76b7385a4862da109d2f948a92ec23ccc244ad7a363f95aca"
+      "byteLength": 14696,
+      "sha256": "094719f231bb1990f872078511fac8203ae9dc7988e0d7f0f9bea71c6353a64b"
     },
     {
       "path": "converter/README.md",
@@ -194,8 +199,8 @@
     },
     {
       "path": "docs/guide/turning-anything-into-jot.md",
-      "byteLength": 4567,
-      "sha256": "039ac71affa253c9a1e4486d898a1deaf78b0e480580a7b6faa475cae5425931"
+      "byteLength": 5630,
+      "sha256": "3b81821e569e519031bc0ad5ba3e84d8d2a3e077b573eaf15e7729905a8ef808"
     },
     {
       "path": "docs/guide/voice-practice.md",
@@ -479,8 +484,8 @@
     },
     {
       "path": "eslint.config.mjs",
-      "byteLength": 1946,
-      "sha256": "51c196dea7d594540f79eb666ac2f00c9aeca3d2bc617cb59d337eb5f1621f86"
+      "byteLength": 1960,
+      "sha256": "eb394f4d44d79952ada8c2100d3abbfe9be92181d320f59a678cc3a9f8ffa070"
     },
     {
       "path": "examples/README.md",
@@ -1209,8 +1214,8 @@
     },
     {
       "path": "site/dist/guide/turning-anything-into-jot.html",
-      "byteLength": 6996,
-      "sha256": "6ca3fe33df070eacc18f5231d81ac5d5ab8209430a395e359338324513659c42"
+      "byteLength": 8280,
+      "sha256": "1cf8e2884a4134e41dfb51d1bb774c78d9a692374770e90c93f044155de5aacc"
     },
     {
       "path": "site/dist/guide/voice-practice.html",
@@ -1681,6 +1686,11 @@
       "path": "specification/source-register.md",
       "byteLength": 4935,
       "sha256": "b4693250e3b8101a9a65440aeb827abb127b65dabb937da25236be191adfc6c0"
+    },
+    {
+      "path": "tools/build-agent-skill.py",
+      "byteLength": 2514,
+      "sha256": "3a45e0845a72a2293171f0c785eca6c64db8f55af14f5b2a21485e9024eae895"
     },
     {
       "path": "tools/build-examples.mjs",

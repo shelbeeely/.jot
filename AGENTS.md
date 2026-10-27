@@ -9,7 +9,7 @@ Jot is a plain-text journal format with a JavaScript parser, CLI, static website
 - `docs/guide/`: guide sources; `site/build-guides.mjs` generates `site/dist/guide/`.
 - `converter/`, `cli/`, `vscode/`: converter, command-line tools and extension (rules: `vscode/AGENTS.md`).
 - `.github/workflows/pages.yml`: required checks and publication from `main`.
-- `.agents/skills/to-jot/`: the agent skill for turning any material into a journal (Codex reads it here; `.claude/skills/to-jot` is a symlink to it). Use it whenever you are asked to make a `.jot` from other material, and validate with `node cli/jot.mjs check`.
+- `.agents/skills/to-jot/`: the agent skill for generating, converting and validating journals and templates (Codex reads it here; `.claude/skills/to-jot` is a symlink to it). Use it whenever you are asked to make a `.jot` from other material, and validate with `node cli/jot.mjs check --strict`.
 
 ## Local development
 

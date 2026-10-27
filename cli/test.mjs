@@ -127,3 +127,20 @@ test('import-health: Apple Health export.xml, chosen metrics and dates, --list, 
   assert.match((await run(['import-health', csv, '--into', f, '--metric', 'Sleep Minutes', '--metric', 'steps'])).stderr, /2 numbers added.*\(sleep-minutes, steps\)/);
   assert.match(fs.readFileSync(f, 'utf8'), /#sleep-minutes-2026-10-27\nmetric: sleep-minutes\nvalue: 420\nunit: min\naggregation: sum\nsource: Fitbit fitbit\.csv/);
 });
+
+
+test('skill validator runs outside the repository, rejects warnings and errors, and checks packages', async () => {
+  const validator = new URL('../.agents/skills/to-jot/scripts/validate.mjs', import.meta.url).pathname;
+  const d = tmp(), good = path.join(d, 'good.jot'), warning = path.join(d, 'warning.jot'), bad = path.join(d, 'bad.jot');
+  fs.writeFileSync(good, J); fs.writeFileSync(warning, '### 2026-02-30\n'); fs.writeFileSync(bad, ':::record observation\nbody: unfinished\n');
+  const validate = (args) => new Promise((resolve) => execFile(process.execPath, [validator, ...args], { cwd: d }, (err, stdout, stderr) => resolve({ code: err ? err.code : 0, stdout, stderr })));
+  assert.equal((await validate([good])).code, 0);
+  let r = await validate(['--json', warning]); assert.equal(r.code, 1); assert.equal(JSON.parse(r.stdout)[0].code, 'invalid-date');
+  assert.equal((await validate([bad])).code, 1);
+  assert.equal((await validate([path.join(d, 'missing.jot')])).code, 1);
+  assert.equal((await validate(['--repo', d, good])).code, 2);
+  const { pack } = await import('../parser/container.mjs');
+  const packed = path.join(d, 'good.jotz'); fs.writeFileSync(packed, await pack({ source: J, assets: [] }));
+  assert.equal((await validate([packed])).code, 0);
+  assert.equal(fs.readFileSync(good, 'utf8'), J);
+});
