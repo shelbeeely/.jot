@@ -1711,6 +1711,81 @@ confidence: Details may have changed in memory.
 :::
 ```
 
+### 13.56 Drawing practice sessions
+
+Profile: `drawing-practice@1` | Record type: `session`
+
+Log one drawing practice session: the subject, the medium, the skill in focus (gesture, value, perspective…), what worked and what to try next. Progress is seen by comparing drawings of the same focus, not by streaks or scores.
+
+Writing invitation: What did I draw, what was I practising, what worked, and what will I try next time?
+
+Complete structured record: `subject`, `medium`, `focus`. Optional fields: `minutes`, `reference`, `credit`, `what-worked`, `next-try`, `asset`, `alt`.
+
+focus, reference, credit, asset and alt are repeatable; alt pairs with asset in order. minutes is a whole number of minutes actually spent, never required and never inferred from a timer. reference may be a description, an assets/ path or a URL; a reference made by someone else carries credit (creator, source, licence). No streak, score or grade fields: a day without practice records nothing. An attached image is optional and needs alt text; the record does not claim to reproduce the drawing.
+
+```jot
+:::record session #example-drawing-practice
+method: drawing-practice@1
+subject: Hands holding a mug
+medium: Graphite, 2B
+focus: gesture
+minutes: 20
+reference: My own left hand, in a mirror
+what-worked: Long lines for the fingers kept them in proportion.
+next-try: Draw the mug first, then wrap the hand around it.
+:::
+```
+
+### 13.57 Design iterations and critique
+
+Profile: `design-iteration-and-critique@1` | Record type: `review`
+
+Record one version of a design or art project: the decision and its rationale, the critique it received and what changes next. Each version links to the one it revises, so the history reads in order without rewriting earlier thinking.
+
+Writing invitation: What changed in this version and why? What did the critique say, and what will change next?
+
+Complete structured record: `project`, `iteration`, `decision`, `rationale`. Optional fields: `critique`, `critique-from`, `change-next`, `asset`, `alt`.
+
+critique, critique-from, change-next, asset and alt are repeatable; critique-from pairs with critique and alt with asset, in order. critique-from names a role (peer designer, client, usability participant), not a person, unless that person agreed to be named. Link to the previous version with relation: revises #id (section 6.2), so give each iteration a record ID; an unresolved link stays visible and never blocks writing. A later version never edits an earlier decision. Screens need alt text saying what changed, and annotations must not rely on colour alone (section 8.1).
+
+```jot
+:::record review #example-design-iteration-and-critique
+method: design-iteration-and-critique@1
+project: Library app sign-up
+iteration: v3
+decision: Move the password rules above the field.
+rationale: Two of five testers missed the rules when they appeared only after an error.
+critique: The rules read as a wall of text.
+critique-from: Peer designer
+change-next: Group the rules as a short checklist.
+relation: revises #signup-v2
+:::
+```
+
+### 13.58 Moodboards and colour palettes
+
+Profile: `moodboard-and-palette@1` | Record type: `palette`
+
+Gather a theme, mood words, credited references and a named colour palette before making something. Every colour has a hex value and a name, so the palette is readable without seeing the swatches.
+
+Writing invitation: What is this board for, which words describe the feel, and which colours and references carry it?
+
+Complete structured record: `theme`, `color`. Optional fields: `mood-word`, `asset`, `alt`, `credit`.
+
+color is repeatable, one per line, written #RRGGBB name: # and six hex digits, a space, then a plain name; a colour without a name is incomplete. Renderers may draw a swatch beside each name, but colour is never the only carrier of meaning (section 8.1): write any role (background, accent, warning) in the name. mood-word, asset, alt and credit are repeatable; alt and credit pair with asset in order, and attachments follow section 8.3. A reference made by someone else carries credit (creator, source, licence). Hex values are screen colours, not print specifications.
+
+```jot
+:::record palette #example-moodboard-and-palette
+method: moodboard-and-palette@1
+theme: Rainy bookshop poster
+mood-word: quiet
+mood-word: warm
+color: #2E3A46 slate night (background)
+color: #C8A165 lamplight (accent)
+color: #E9E2D3 paper (text)
+:::
+```
+
 ## 14. Implementation sequence and source register
 
 ### 14.1 A small, useful first implementation
@@ -1807,6 +1882,9 @@ free-diary, shared-journal, travel-field-log, reading-media-journal, decision-jo
 44. [time-block-planner.md](../docs/methods/time-block-planner.md)
 45. [time-logging-lifelog.md](../docs/methods/time-logging-lifelog.md)
 46. [travelers-notebook.md](../docs/methods/travelers-notebook.md)
+47. [drawing-practice.md](../docs/methods/drawing-practice.md) (added 27 October 2026, written with its profile)
+48. [design-iteration-and-critique.md](../docs/methods/design-iteration-and-critique.md) (added 27 October 2026, written with its profile)
+49. [moodboard-and-palette.md](../docs/methods/moodboard-and-palette.md) (added 27 October 2026, written with its profile)
 
 
 ## 15. JavaScript, diagrams, handwriting and the project roadmap

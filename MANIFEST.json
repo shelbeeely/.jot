@@ -49,8 +49,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 16223,
-      "sha256": "964f4bc7dcbe43bae78cd2410353d2291f2afec259d1edf7bfe7977eebf42b02"
+      "byteLength": 17483,
+      "sha256": "2917645ed70f1e95645e99077b6028606d68a5b78de53af46ad3d9f2e2550b26"
     },
     {
       "path": "README.md",
@@ -169,8 +169,8 @@
     },
     {
       "path": "docs/methods/art-and-junk-journaling.md",
-      "byteLength": 45578,
-      "sha256": "32d7d4343e7a6ac42339a659019c13270eb35136090789a9356c7f7b37b65eb0"
+      "byteLength": 45683,
+      "sha256": "1fc6ee562cc0deecb755d7cb18f7a68fac7ab331388a6f25988e6b64891ae6e8"
     },
     {
       "path": "docs/methods/autistic-sensory-journaling.md",
@@ -198,9 +198,19 @@
       "sha256": "ec62fb01ecb8f84907c12f0d05892b3da9233c1d0c33832a96fb0e250a68f257"
     },
     {
+      "path": "docs/methods/design-iteration-and-critique.md",
+      "byteLength": 14781,
+      "sha256": "f5e8b11756f4f886a1e10090b62dd182b24687d64263baec3e008d560e493674"
+    },
+    {
       "path": "docs/methods/digital-daily-notes.md",
       "byteLength": 41026,
       "sha256": "8f3a456aa81798d7462146406dd8068c1c3e74c7847f61c499d9d5141112ec3d"
+    },
+    {
+      "path": "docs/methods/drawing-practice.md",
+      "byteLength": 16277,
+      "sha256": "44b48d13b6fdc515a21d247803a19421a0eef5566c186c4bc5b09d3f2e5451c0"
     },
     {
       "path": "docs/methods/dream-journal.md",
@@ -291,6 +301,11 @@
       "path": "docs/methods/mood-tracking-year-in-pixels.md",
       "byteLength": 62142,
       "sha256": "bcfab078b989e236a406bcaf9fcf9a46d1f766c01b22c65cc9f6031a94fb0b54"
+    },
+    {
+      "path": "docs/methods/moodboard-and-palette.md",
+      "byteLength": 13594,
+      "sha256": "bed5b4393f57aa9e5571c295498d491d54f64cd854897a8b0c5e68acbf2d53bd"
     },
     {
       "path": "docs/methods/morning-pages.md",
@@ -1219,8 +1234,8 @@
     },
     {
       "path": "site/dist/jot/profiles.json",
-      "byteLength": 50896,
-      "sha256": "7408613346bd744d2e22de8480afd9763b0177fa408bdb531c02201f5e973bad"
+      "byteLength": 55479,
+      "sha256": "01df4accdc9727470364913173832c032824fe1bf36952d8f55d34d09ce2e812"
     },
     {
       "path": "site/dist/jot/proofread.mjs",
@@ -1394,8 +1409,8 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 122599,
-      "sha256": "f9e73253e3034b856b049c9eaa4dcbcefbeb805c0299aacbdfea716737aba787"
+      "byteLength": 127383,
+      "sha256": "1d68907d24dcd0dc63eafc57582015b9e01302538e9e4d32bf07f2e097d7fa53"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
@@ -1454,8 +1469,8 @@
     },
     {
       "path": "specification/profiles.json",
-      "byteLength": 50893,
-      "sha256": "ecaccc860b03d863849c6b74816f67808449d7f711bb927084f145dad52b4a74"
+      "byteLength": 55476,
+      "sha256": "384f36c977a7bb65d5f9b9f3adb8c81f11ddb4e980222a5ffe2755b9ee6c34fe"
     },
     {
       "path": "specification/source-register.md",

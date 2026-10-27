@@ -178,3 +178,17 @@ prose. Current reports and recent history have distinct labels; historical liste
 requires no service connection. No scrobbles are submitted. Last.fm's application key stays in page memory, usernames persist only
 after successful reads, and requests use no browser credentials/referrer. Libre.fm is manual-only because live API probing returned
 an access challenge; direct browser compatibility was not established. Provider responses are mocked in regression tests.
+
+## Artist and designer profiles (27 October 2026)
+
+- **Three profiles, each with a method guide.** `drawing-practice@1` (a `session`: subject, medium, focus, optional minutes,
+  reference, credit, what worked, next try, asset/alt), `design-iteration-and-critique@1` (a `review`: project, iteration, decision,
+  rationale, critique by role, change-next, linked to the previous version with `relation: revises #id`) and
+  `moodboard-and-palette@1` (a `palette`: theme, `color: #RRGGBB name` lines, mood words, assets with alt text and credits).
+- **Colours always have names.** A palette colour is `#RRGGBB name`; swatches are an optional rendering, and any role a colour plays
+  is written in its name, so colour is never the only carrier of meaning (spec §8.1).
+- **Credit and roles, not names.** References made by others carry `credit`; critique is recorded by role (`critique-from`), not
+  by person, unless they agreed to be named.
+- **No streaks or scores.** Drawing progress is seen by comparing drawings of the same focus.
+- **No separate creative-session profile.** Time, focus and interruptions are covered by `pomodoro-log`, energy by
+  `spoon-theory-energy-accounting`, and experiments by `project-lab-log`; a fourth profile would duplicate them.

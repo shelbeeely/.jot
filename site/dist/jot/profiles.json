@@ -1136,6 +1136,73 @@
       ],
       "example": "body: I remember the music more clearly than the room.\nconfidence: Details may have changed in memory.",
       "notes": "Remembering is not verification of an event. No generated detail should be inserted as remembered fact. Resurfacing and sharing memories are explicit choices."
+    },
+    {
+      "id": "drawing-practice",
+      "version": 1,
+      "label": "Drawing practice sessions",
+      "recordType": "session",
+      "purpose": "Log one drawing practice session: the subject, the medium, the skill in focus (gesture, value, perspective…), what worked and what to try next. Progress is seen by comparing drawings of the same focus, not by streaks or scores.",
+      "prompt": "What did I draw, what was I practising, what worked, and what will I try next time?",
+      "required": [
+        "subject",
+        "medium",
+        "focus"
+      ],
+      "optional": [
+        "minutes",
+        "reference",
+        "credit",
+        "what-worked",
+        "next-try",
+        "asset",
+        "alt"
+      ],
+      "example": "subject: Hands holding a mug\nmedium: Graphite, 2B\nfocus: gesture\nminutes: 20\nreference: My own left hand, in a mirror\nwhat-worked: Long lines for the fingers kept them in proportion.\nnext-try: Draw the mug first, then wrap the hand around it.",
+      "notes": "focus, reference, credit, asset and alt are repeatable; alt pairs with asset in order. minutes is a whole number of minutes actually spent, never required and never inferred from a timer. reference may be a description, an assets/ path or a URL; a reference made by someone else carries credit (creator, source, licence). No streak, score or grade fields: a day without practice records nothing. An attached image is optional and needs alt text; the record does not claim to reproduce the drawing."
+    },
+    {
+      "id": "design-iteration-and-critique",
+      "version": 1,
+      "label": "Design iterations and critique",
+      "recordType": "review",
+      "purpose": "Record one version of a design or art project: the decision and its rationale, the critique it received and what changes next. Each version links to the one it revises, so the history reads in order without rewriting earlier thinking.",
+      "prompt": "What changed in this version and why? What did the critique say, and what will change next?",
+      "required": [
+        "project",
+        "iteration",
+        "decision",
+        "rationale"
+      ],
+      "optional": [
+        "critique",
+        "critique-from",
+        "change-next",
+        "asset",
+        "alt"
+      ],
+      "example": "project: Library app sign-up\niteration: v3\ndecision: Move the password rules above the field.\nrationale: Two of five testers missed the rules when they appeared only after an error.\ncritique: The rules read as a wall of text.\ncritique-from: Peer designer\nchange-next: Group the rules as a short checklist.\nrelation: revises #signup-v2",
+      "notes": "critique, critique-from, change-next, asset and alt are repeatable; critique-from pairs with critique and alt with asset, in order. critique-from names a role (peer designer, client, usability participant), not a person, unless that person agreed to be named. Link to the previous version with relation: revises #id, so give each iteration a record ID; an unresolved link stays visible and never blocks writing. A later version never edits an earlier decision. Screens need alt text saying what changed, and annotations must not rely on colour alone."
+    },
+    {
+      "id": "moodboard-and-palette",
+      "version": 1,
+      "label": "Moodboards and colour palettes",
+      "recordType": "palette",
+      "purpose": "Gather a theme, mood words, credited references and a named colour palette before making something. Every colour has a hex value and a name, so the palette is readable without seeing the swatches.",
+      "prompt": "What is this board for, which words describe the feel, and which colours and references carry it?",
+      "required": [
+        "theme",
+        "color"
+      ],
+      "optional": [
+        "mood-word",
+        "asset",
+        "alt",
+        "credit"
+      ],
+      "example": "theme: Rainy bookshop poster\nmood-word: quiet\nmood-word: warm\ncolor: #2E3A46 slate night (background)\ncolor: #C8A165 lamplight (accent)\ncolor: #E9E2D3 paper (text)",
+      "notes": "color is repeatable, one per line, written #RRGGBB name: # and six hex digits, a space, then a plain name; a colour without a name is incomplete. Renderers may draw a swatch beside each name, but colour is never the only carrier of meaning: write any role (background, accent, warning) in the name. mood-word, asset, alt and credit are repeatable; alt and credit pair with asset in order. A reference made by someone else carries credit (creator, source, licence). Hex values are screen colours, not print specifications."
     }
   ]
 }
