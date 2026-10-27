@@ -12,13 +12,13 @@ Jot is a plain-text journal format with a JavaScript parser, CLI, static website
 
 ## Local development
 
-Use Node.js 22 (CI), Python 3 and, for privacy checks, `pdftotext` from Poppler. No build or dependency installation is required to use the site or CLI. Browser tests need `npm ci` and Playwright with Chromium; never use real account credentials in tests.
+Use Node.js 22 (CI), Python 3 and, for privacy checks, `pdftotext` from Poppler. No build or dependency installation is required to use the site or CLI. The linter and browser tests need `npm ci` (dev dependencies only; the browser tests also need Playwright with Chromium); never use real account credentials in tests.
 
 ## Product and code conventions
 
 - Keep `.jot` readable and editable in ordinary text editors. Optional integrations insert plain text; opening a document must not require an account or network request.
 - Use the shared renderer stylesheet for site and preview. Maintain paper appearance in light/dark modes, dot-grid alignment and light-paper printing. Change `parser/handwriting.mjs`, then generate CSS; do not patch generated sheets individually.
-- Follow nearby vanilla JavaScript/ES module conventions. Avoid new runtime dependencies or externally hosted fonts/scripts. Treat imported documents and service metadata as untrusted; use DOM text APIs and validate URLs.
+- Follow nearby vanilla JavaScript/ES module conventions. ESLint (`eslint.config.mjs`) checks correctness only, not formatting; fix findings rather than disabling rules inline. Avoid new runtime dependencies or externally hosted fonts/scripts. Treat imported documents and service metadata as untrusted; use DOM text APIs and validate URLs.
 - External service requests must be explicit. Keep secrets and account tokens out of Git, journals, local storage and exports.
 
 ## Generated files
@@ -40,6 +40,7 @@ Run the manifest command last, including new files. `node tools/check-generated.
 Run relevant tests and all checks required by `pages.yml` before publishing. Core checks:
 
 ```sh
+npm ci && npm run lint
 node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs parser/*test.mjs cli/test.mjs site/test-editor.mjs site/test-guides.mjs site/test-music.mjs vscode/test-extension.mjs
 node site/test-core.cjs
 node tools/privacy-check.mjs site/dist

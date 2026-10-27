@@ -1,8 +1,14 @@
 {
   "name": "jot",
   "private": true,
-  "description": "Jot: a plain-text journal format, its parser, the site and the VS Code extension. Only the browser tests need these.",
+  "description": "Jot: a plain-text journal format, its parser, the site and the VS Code extension. Only the linter and the browser tests need these.",
+  "scripts": {
+    "lint": "eslint ."
+  },
   "devDependencies": {
-    "axe-core": "^4.13.0"
+    "@eslint/js": "^10.0.1",
+    "axe-core": "^4.13.0",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0"
   }
 }

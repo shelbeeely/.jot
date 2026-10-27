@@ -57,7 +57,7 @@ test('the webview page: a nonce-only script policy, nothing remote, the title es
 // A stand-in VS Code good enough to run the automation commands on a document and see what they write
 function harness(text, settings = {}, answers = {}) {
   const http = require('node:http'), url = require('node:url'), path = require('node:path'), os = require('node:os');
-  const cmds = new Map(), saved = [], shown = [], secrets = new Map(), writes = new Map();
+  const cmds = new Map(), shown = [], secrets = new Map(), writes = new Map();
   const doc = { uri: { toString: () => 'file:///j/journal.jot' }, fileName: '/j/journal.jot', languageId: 'jot', text, getText() { return this.text; },
     positionAt(i) { return i; } };
   const media = path.join(path.dirname(url.fileURLToPath(import.meta.url)), 'media');
@@ -74,7 +74,7 @@ function harness(text, settings = {}, answers = {}) {
       fs: { writeFile: async (u, b) => writes.set(u.fsPath, Buffer.from(b).toString('utf8')), readFile: async (u) => require('node:fs').readFileSync(u.fsPath) },
     },
     window: { activeTextEditor: { document: doc, selection: null, revealRange() {} }, showInformationMessage: async (m) => (shown.push(m), undefined), showErrorMessage: async (m) => (shown.push(`ERROR ${m}`), undefined),
-      showWarningMessage: async (m) => (shown.push(m), answers.warning), showInputBox: async (o) => answers.input, showQuickPick: async (items) => items.find((i) => i.label === answers.pick || i.id === answers.pick) || items[0],
+      showWarningMessage: async (m) => (shown.push(m), answers.warning), showInputBox: async () => answers.input, showQuickPick: async (items) => items.find((i) => i.label === answers.pick || i.id === answers.pick) || items[0],
       showSaveDialog: async (o) => Uri.file(path.join(os.tmpdir(), path.basename(o.defaultUri.fsPath))), showOpenDialog: async () => (answers.open ? [Uri.file(answers.open)] : undefined) },
     env: { openExternal() {} },
   };

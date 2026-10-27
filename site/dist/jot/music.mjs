@@ -82,8 +82,8 @@ export function createScrobbleClient({ fetchImpl = (...a) => fetch(...a), now = 
       const items = Array.isArray(raw) ? raw : raw && typeof raw === 'object' ? [raw] : [];
       return items.slice(0, 11).map(item => scrobbledTrack(item, provider, mode, new Date(now()).toISOString())).filter(Boolean);
     } catch (error) {
-      if (error.name === 'AbortError') throw new Error('The music service took too long. Try again or enter a song yourself.');
-      if (error instanceof TypeError) throw new Error('Could not reach the music service from this browser. Check your connection or enter a song yourself.');
+      if (error.name === 'AbortError') throw new Error('The music service took too long. Try again or enter a song yourself.', { cause: error });
+      if (error instanceof TypeError) throw new Error('Could not reach the music service from this browser. Check your connection or enter a song yourself.', { cause: error });
       throw error;
     } finally { clearTimeout(timeout); }
   } };

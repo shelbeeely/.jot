@@ -77,10 +77,9 @@ const RECORD=/^:::record ([a-z][a-z0-9-]*)(?: #([A-Za-z0-9][A-Za-z0-9._-]{0,127}
 const directive=/^@([a-z][a-z0-9-]*):\s*(.*)$/;
 const task=/^\[([ x><!\-])\] (.+)$/;
 const simple=/^(o|\?|!|=|::voice) (.+)$/;
-const name=/^[a-z][a-z0-9-]*$/;
 const day=/^(\d{4}-\d{2}-\d{2})(?:\s*\|.*)?$/;
 const builtinDiagrams={mermaid:'mermaid',dot:'graphviz',graphviz:'graphviz',plantuml:'plantuml',puml:'plantuml',d2:'d2',vega:'vega','vega-lite':'vega-lite',vegalite:'vega-lite'};
-function linesOf(s){const ls=[];let start=0,offset=0;for(const m of s.matchAll(/[^\r\n]*(?:\r\n|\n|\r|$)/g)){if(!m[0])continue;const raw=m[0],text=raw.replace(/(?:\r\n|\n|\r)$/,'');ls.push({raw,text,start:offset});start+=raw.length;offset+=bytes(raw);}return ls;}
+function linesOf(s){const ls=[];let offset=0;for(const m of s.matchAll(/[^\r\n]*(?:\r\n|\n|\r|$)/g)){if(!m[0])continue;const raw=m[0],text=raw.replace(/(?:\r\n|\n|\r)$/,'');ls.push({raw,text,start:offset});offset+=bytes(raw);}return ls;}
 function validDate(s){const [y,m,d]=s.split('-').map(Number);if(m<1||m>12||d<1)return false;const leap=y%4===0&&(y%100!==0||y%400===0),days=[31,leap?29:28,31,30,31,30,31,31,30,31,30,31];return d<=days[m-1];}
 
 /**

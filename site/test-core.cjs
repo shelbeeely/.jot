@@ -3,7 +3,7 @@ const C=require('./dist/scan/scanner-core.js');
 const q=[{x:10,y:20},{x:110,y:25},{x:100,y:170},{x:15,y:160}],m=C.homography(q);
 [[0,0],[1,0],[1,1],[0,1]].forEach(([u,v],i)=>{const p=C.project(m,u,v);assert.ok(Math.abs(p.x-q[i].x)<1e-7);assert.ok(Math.abs(p.y-q[i].y)<1e-7);});
 assert.equal(C.validQuad(q),true);assert.equal(C.validQuad([q[0],q[2],q[1],q[3]]),false);
-const img=new Uint8ClampedArray([255,0,0,255,0,255,0,255,0,0,255,255,255,255,255,255]);const rect=[{x:0,y:0},{x:10,y:0},{x:10,y:10},{x:0,y:10}];assert.throws(()=>C.warp(img,2,2,[q[0],q[2],q[1],q[3]],3,3));
+const img=new Uint8ClampedArray([255,0,0,255,0,255,0,255,0,0,255,255,255,255,255,255]);assert.throws(()=>C.warp(img,2,2,[q[0],q[2],q[1],q[3]],3,3));
 // Use a sufficiently large exact rectangle for non-degenerate geometry validation.
 const w=21,h=21,pixels=new Uint8ClampedArray(w*h*4);for(let y=0;y<h;y++)for(let x=0;x<w;x++){const k=(y*w+x)*4;pixels[k]=x*10;pixels[k+1]=y*10;pixels[k+2]=80;pixels[k+3]=255;}
 const identity=[{x:0,y:0},{x:20,y:0},{x:20,y:20},{x:0,y:20}];assert.deepEqual(C.warp(pixels,w,h,identity,w,h),pixels);

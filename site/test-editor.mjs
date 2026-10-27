@@ -38,7 +38,7 @@ test('each block writes what it says', () => {
   assert.match(day([{ type: 'choose', title: 'Feeling', words: ['calm', 'odd]]word'] }]), /\[\[calm · odd\] \]word\]\]\nFeeling: /);
   assert.match(day([{ type: 'list', title: 'Ideas', n: 2, style: 'numbers' }]), /1\. \n2\. /);
   assert.match(day([{ type: 'times', title: 'Plan', from: 8, to: 12, every: 2 }]), /- 08:00 \n- 10:00 \n(?!- 12)/);
-  assert.match(day([{ type: 'table', title: 'Spending', columns: ['What', 'a|b'], rows: 2 }]), /\| What \| a\\\|b \|\n\| --- \| --- \|\n\|  \|  \|\n\|  \|  \|/);
+  assert.match(day([{ type: 'table', title: 'Spending', columns: ['What', 'a|b'], rows: 2 }]), /\| What \| a\\\|b \|\n\| --- \| --- \|\n\| {2}\| {2}\|\n\| {2}\| {2}\|/);
   assert.match(day([{ type: 'text', title: '', body: 'Breathe.\n[ ] not a task\n# not a heading' }]), /Breathe\.\n\\\[ \] not a task\n\\# not a heading/);
   assert.match(day([{ type: 'record', recordType: 'Sleep Log', title: 'Sleep', fields: ['bed', 'wake'] }]), /:::record sleep-log #sleep-2026-10-14\nlabel: Sleep\nbed:\nwake:\n:::/);
   assert.match(day([{ type: 'writing', title: 'Notes' }]), /#### Notes/);

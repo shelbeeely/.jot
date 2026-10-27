@@ -56,7 +56,7 @@ export function drawChart(section, model) {
     box.append(canvas); fig.append(cap, box);
     if (s.anchors && (s.anchors.lo || s.anchors.hi)) fig.append(el('span', `${fmt(s.min)} = ${s.anchors.lo || 'low'}, ${fmt(s.max)} = ${s.anchors.hi || 'high'}`, 'jc-anchors'));
     grid.append(fig);
-    new Chart(canvas, chartConfig(model, s, theme)); // eslint-disable-line no-new
+    new Chart(canvas, chartConfig(model, s, theme));
   }
   const det = el('details', undefined, 'jot-chart-table'), wrap = el('div', undefined, 'jc-scroll'), table = el('table'), thead = el('thead'), hr = el('tr'), tbody = el('tbody');
   wrap.tabIndex = 0; wrap.setAttribute('role', 'region'); wrap.setAttribute('aria-label', 'The numbers');

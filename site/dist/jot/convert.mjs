@@ -121,7 +121,7 @@ export function summary(r, options = {}) {
 export function convert(input, options = {}) {
   const o = { calendar: 'as-written', notes: 'margin', per: 'auto', ...options };
   const warnings = [];
-  let text = String(input).replace(/^﻿/, '').replace(/\r\n?/g, '\n');
+  let text = String(input).replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
   const g = stripGutenberg(text); text = g.text;
   const meta = { title: o.title || g.meta.title || 'Diary', author: o.author || g.meta.author || '', source: o.source || g.meta.source || '' };
   // paragraphs: runs of non-blank lines

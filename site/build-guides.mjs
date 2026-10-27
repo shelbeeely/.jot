@@ -28,7 +28,7 @@ export function buildPage(file, md) {
     html({ text }) { return esc(text); }, // the guides hold no HTML; anything that looks like it prints as text
   } });
   // code and tables scroll sideways on a phone: each can take focus, so a keyboard can scroll it too
-  const body = md2.parse(md).replace(/<pre>/g, '<pre tabindex="0">').replace(/<table>/g, '<table tabindex="0">'), title = (/^# (.+)$/m.exec(md) || [, 'Jot guide'])[1];
+  const body = md2.parse(md).replace(/<pre>/g, '<pre tabindex="0">').replace(/<table>/g, '<table tabindex="0">'), title = /^# (.+)$/m.exec(md)?.[1] ?? 'Jot guide';
   const h1 = (/<h1[^>]*>[\s\S]*?<\/h1>\n?/.exec(body) || [''])[0], rest = body.replace(h1, ''); // the title goes above the contents list, so a phone reads title first
   const nav = toc.length > 2 ? `<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul>${toc.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join('')}</ul></nav>` : '';
   return `<!doctype html>

@@ -155,8 +155,8 @@ const mark = document.createElement('div'); mark.className = 'drop-mark'; mark.h
 function dropTarget(x, y) {
   const el = document.elementFromPoint(x, y), zoneEl = el && el.closest('.zone'); if (!zoneEl) return null;
   const zone = zoneEl.dataset.zone, items = [...zoneEl.querySelectorAll('.blk')].filter((li) => li.dataset.id !== drag.id);
-  let index = items.length, ref = null;
-  for (const [k, li] of items.entries()) { const r = li.getBoundingClientRect(); if (y < r.top + r.height / 2) { index = k; ref = li; break; } }
+  let ref = null;
+  for (const li of items) { const r = li.getBoundingClientRect(); if (y < r.top + r.height / 2) { ref = li; break; } }
   const list = zoneEl.querySelector('.blocks') || zoneEl.querySelector('.empty') || zoneEl, box = list.getBoundingClientRect();
   const top = ref ? ref.getBoundingClientRect().top - 5 : items.length ? items[items.length - 1].getBoundingClientRect().bottom + 3 : box.top + box.height / 2;
   // index among the zone's blocks with the dragged one put back (what moveBlock expects)
@@ -247,7 +247,7 @@ function drawPreview() {
   $('#sample-wrap').hidden = view !== 'page' || !hasNumbers;
   $('#hand-wrap').hidden = view !== 'page';
   $('#layout-tools').hidden = view !== 'page' || !$('#handwritten').checked;
-  if (view === 'page') drawPage(ast);
+  if (view === 'page') drawPage();
 
 }
 // ---- physical paper preview and block sizing ----
@@ -271,7 +271,7 @@ function selectPreviewBlock(id) {
   const group = [...$('#page').querySelectorAll('.jot-layout-block')].find((x) => x.dataset.blockId === id);
   $('#block-size').textContent = group ? `${group.dataset.usedRows} rows used · ${Number(group.dataset.usedRows) * tpl.layout.pitchMm} mm high${at.b.minRows && Number(group.dataset.naturalRows) > at.b.minRows ? ' · content has expanded beyond the minimum' : ''}` : 'This block is outside the current preview. Choose Whole selected file to see it.';
 }
-async function drawPage(ast) {
+async function drawPage() {
   const revision = ++previewRevision, page = $('#page');
   page.style.transform = ''; page.style.minHeight = ''; page.style.width = ''; page.style.padding = '';
   const hand = $('#handwritten').checked, layout = tpl.layout;
