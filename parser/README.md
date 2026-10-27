@@ -47,6 +47,14 @@ built with esbuild; its header says how), with a text summary on each canvas and
 built one by one (never `innerHTML`), raw HTML is never rendered, links are only `http(s)`, `mailto` and `#`, and images come only from
 attachments the caller lends through `asset(path)`. The workspace, the template editor and the VS Code extension all use it.
 
+`include.mjs` handles includes: `![label](other.jot#id)` on a line of its own shows that part of another local journal in place,
+framed and labelled with its source (a record by ID, every entry with a date, or the whole file). View-only: the source keeps its one
+line. Paths are relative `.jot` paths that stay inside the root the host names; schemes, absolute paths and climbs above the root are
+refused, and nothing is ever fetched from a network. The host reads the files and lends their text through `renderPreview`'s
+`include(path)` (with `from`, the document's own path); `gather()` finds what to lend. Includes nest 3 deep; loops, missing files and
+unknown fragments show a notice on the page instead of a blank. `flatten()` writes a copy with includes expanded, as an explicit
+operation (`jot flatten`). Tests: `node --test include-test.mjs`.
+
 ```javascript
 import { parse } from './jot.mjs';
 import { renderPreview, addChartStyles } from './preview.mjs';
@@ -90,7 +98,7 @@ Handwritten writing can be preserved as editable strokes plus a PNG attachment, 
 
 `source` contains the original string. Nodes include `type`, `raw`, `start` and `end`; offsets count UTF-8 bytes. Markdown nodes carry the original Marked token in `markdown`. Record fields are ordered `{name,value}` pairs. Date headings generate an `entries` index without splitting the source into files. Repeated dates remain separate entries. Unicode and original newline sequences are preserved in source slices, even though Markdown token text normalizes newlines.
 
-`stringify(ast)` returns the unmodified original source. It does not serialize edits made to derived tokens. The page renderer is `preview.mjs` (above); there is no profile validator, OCR engine, date-time scheduler, attachment loader or remote include processor. Diagnostics cover malformed metadata/records, unclosed fences/comments, invalid dates and duplicate record IDs. The parser never executes content or fetches linked files.
+`stringify(ast)` returns the unmodified original source. It does not serialize edits made to derived tokens. The page renderer is `preview.mjs` (above); there is no profile validator, OCR engine, date-time scheduler, attachment loader or remote include processor (local, view-only includes are `include.mjs`, which reads nothing itself). Diagnostics cover malformed metadata/records, unclosed fences/comments, invalid dates and duplicate record IDs. The parser never executes content or fetches linked files.
 
 ## Dependency notice
 

@@ -48,6 +48,15 @@ srv.listen(0, '127.0.0.1', async () => {
     await p.evaluate(() => window.postMessage({ type: 'update', text: '### 2026-10-28\n\nJust words.\n' }, '*'));
     await p.waitForFunction(() => !document.querySelector('.jot-chart'));
     ok(/Just words/.test(await p.textContent('.jot-page')), 'an edit redraws the page');
+    const includes = { 'notes/week.jot': '### 2026-10-25\n\nRain on the window[^r].\n\n[^r]: Heavy.\n\n![back](../main.jot)\n\n### 2026-10-26\n\nSun.\n', 'loop/a.jot': '![](b.jot)\n', 'loop/b.jot': '![](a.jot)\n', 'd/1.jot': '![](2.jot)\n', 'd/2.jot': '![](3.jot)\n', 'd/3.jot': '![](4.jot)\n', 'd/4.jot': 'Bottom.\n' };
+    await p.evaluate((inc) => window.postMessage({ type: 'update', from: 'main.jot', includes: inc, text: 'Mine[^r].\n\n[^r]: Mine too.\n\n![Sunday](notes/week.jot#2026-10-25)\n\n![gone](gone.jot)\n\n![web](https://example.com/x.jot)\n\n![loop](loop/a.jot)\n\n![deep](d/1.jot)\n\n![x](notes/week.jot#nope)\n' }, '*'), includes);
+    await p.waitForSelector('.jot-include[aria-label="Included from notes/week.jot#2026-10-25"]');
+    const inc = await p.evaluate(() => { const box = document.querySelector('.jot-include[data-source="notes/week.jot#2026-10-25"]'); return { text: box.textContent, ids: [...document.querySelectorAll('[id]')].map((e) => e.id), notes: [...document.querySelectorAll('.jot-include-missing')].map((e) => e.textContent) }; });
+    ok(/Sunday · notes\/week\.jot#2026-10-25/.test(inc.text) && /Rain on the window/.test(inc.text) && !/Sun\./.test(inc.text), 'an include shows the dated entry it names, framed and labelled with its source');
+    ok(new Set(inc.ids).size === inc.ids.length && inc.ids.some((i) => /inc\d+-r$/.test(i)), 'included footnotes keep ids of their own (no clash with the page\'s)');
+    ok(inc.notes.some((t) => /not repeated: \.\.\/main\.jot/.test(t)) && inc.notes.some((t) => /not repeated: a\.jot|not repeated: b\.jot/.test(t)), 'a loop stops with a notice');
+    ok(inc.notes.some((t) => /not found: gone\.jot/.test(t)) && inc.notes.some((t) => /not allowed: https:/.test(t)) && inc.notes.some((t) => /too deep: 4\.jot/.test(t)) && inc.notes.some((t) => /not found: notes\/week\.jot#nope/.test(t)), 'missing, unsafe, too-deep and unknown-fragment includes each say so');
+    ok(await p.evaluate(() => /Bottom/.test(document.body.textContent) === false), 'nothing beyond three levels is drawn');
     ok(errs.length === 0, 'no page errors' + (errs.length ? ': ' + errs.join(' | ') : ''));
     console.log(`\n${n} checks passed`);
   } finally { await b.close(); srv.close(); }

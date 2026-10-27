@@ -18,6 +18,7 @@ installing beyond this repository (it uses `../parser`).
 | `jot review <journal> [--date D]` | a review of the week |
 | `jot post <url> <files…> [--open] [--since D]` | the tasks, events and numbers as JSON to a webhook (https) |
 | `jot todoist <journal>` | open tasks not sent before, to Todoist (`TODOIST_TOKEN`) |
+| `jot flatten <journal> [-o FILE] [--root DIR]` | a copy with every `![label](other.jot#id)` include written out (`parser/include.mjs`); never over the journal |
 
 Reading commands never change a file; writing commands say what they changed, and `--dry-run` prints the result instead. Only `post`,
 `todoist` and `today --weather` reach the internet. Everything is the same code as the workspace and VS Code
