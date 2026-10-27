@@ -17,7 +17,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="writing-in-jot">Writing in Jot</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#links-between-days-and-records">Links between days and records</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#beautiful-pages-styles-printing-and-sharing">Beautiful pages: styles, printing and sharing</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li><li><a href="#color-in-handwritten-pages">Color in handwritten pages</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-with-just-writing">Start with just writing</a></li><li><a href="#dates-organise-your-writing">Dates organise your writing</a></li><li><a href="#quick-marks-at-the-start-of-a-line">Quick marks at the start of a line</a></li><li><a href="#ordinary-formatting-markdown">Ordinary formatting (Markdown)</a></li><li><a href="#notes-in-the-margin-and-things-only-you-see">Notes in the margin, and things only you see</a></li><li><a href="#numbers-ratings-and-other-data-records">Numbers, ratings and other data (records)</a></li><li><a href="#charts-of-your-numbers">Charts of your numbers</a></li><li><a href="#links-between-days-and-records">Links between days and records</a></li><li><a href="#lists-that-find-things-for-you-queries">Lists that find things for you (queries)</a></li><li><a href="#a-few-other-things">A few other things</a></li><li><a href="#beautiful-pages-styles-printing-and-sharing">Beautiful pages: styles, printing and sharing</a></li><li><a href="#handwritten-pages-on-a-dot-grid">Handwritten pages on a dot grid</a></li><li><a href="#plain-and-packaged-files">Plain and packaged files</a></li><li><a href="#where-to-write">Where to write</a></li><li><a href="#colours-in-your-text-editor">Colours in your text editor</a></li><li><a href="#real-diaries-to-look-at">Real diaries to look at</a></li><li><a href="#small-habits-that-help">Small habits that help</a></li><li><a href="#color-in-handwritten-pages">Color in handwritten pages</a></li></ul></nav><article class="guide">
 <p>Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
 the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.</p>
 <p>This guide covers everything you need to write a <code>.jot</code> file by hand. It takes about ten minutes to read, and you can stop after the
@@ -281,6 +281,52 @@ relation: continues #2026-10-25
 <li><strong>If two headings share a date,</strong> a link goes to the first.</li>
 <li><strong>Records link too:</strong> <code>relation: continues #2026-10-25</code>, <code>member: #plan</code> and <code>source: #2026-10-25</code> point at a day or record when the value is just the <code>#</code> link (after the kind, for <code>relation</code>).</li>
 <li><strong>Another file:</strong> <code>[last month](september.jot#2026-09-30)</code> is kept as written. Jot never opens or fetches the other file to check it.</li>
+</ul>
+<h2 id="lists-that-find-things-for-you-queries">Lists that find things for you (queries)</h2>
+<p>A <code>query</code> record asks a question of the journal it is in: which tasks are still open, what you tagged <code>#health</code> this week, how much
+you slept on average this month. The answer is worked out each time the page is shown, so it is never out of date, and the file only
+holds the question:</p>
+<pre tabindex="0"><code class="language-jot">### 2026-10-26 | Monday
+
+[ ] Call the dentist @phone #health
+[x] Walk round the park #health
+[!] Post the letter
+
+:::record measurement #sleep-2026-10-26
+metric: sleep
+unit: h
+value: 7.5
+:::
+
+:::record query #open-health
+label: Still to do for my health
+show: tasks
+status: open
+tag: health
+:::
+
+:::record query #sleep-this-week
+label: Sleep this week
+show: numbers
+metric: sleep
+period: week
+stat: average
+:::
+</code></pre>
+<p>The page shows each query as one plain sentence (&quot;1 open task tagged #health.&quot;) and a table of what it found.</p>
+<ul>
+<li><strong>What to show:</strong> <code>show: tasks</code>, <code>events</code>, <code>entries</code> (dated sections) or <code>numbers</code>. This is the one field a query needs.</li>
+<li><strong>Which ones:</strong> <code>status:</code> (open, completed, migrated, scheduled, cancelled; several with commas mean any of them), <code>priority: high</code>,
+<code>tag:</code> and <code>context:</code> (several with commas mean all of them), <code>text:</code> (words it contains) and, for numbers, <code>metric:</code>.</li>
+<li><strong>Which days:</strong> <code>period: day</code>, <code>week</code> or <code>month</code> counts from the entry the query is written in (a week is Monday to Sunday), or
+from its own <code>date:</code>;
+<code>start:</code> and <code>end:</code> choose dates instead. With neither, every date counts, and so do tasks written before the first date.</li>
+<li><strong>How many:</strong> <code>stat: count</code> is the default; numbers can also have <code>sum</code>, <code>average</code>, <code>min</code> or <code>max</code>, each metric on its own.
+<code>limit: 20</code> shows only the first 20 rows (the sentence still counts them all; 50 is the default).</li>
+<li><strong>Mistakes are shown, not hidden.</strong> A word the query doesn&#39;t know (<code>status: opne</code>, a blank <code>tag:</code>, a metric the journal doesn&#39;t have) shows what is
+wrong where the answer would be, and in the workspace&#39;s checks, instead of quietly showing nothing or everything.</li>
+<li>A query never changes your writing and never runs anything. On the command line, <code>jot query journal.jot</code> prints the answers, and
+<code>jot query journal.jot --show tasks --status open --tag health</code> asks one without writing it down.</li>
 </ul>
 <h2 id="a-few-other-things">A few other things</h2>
 <ul>

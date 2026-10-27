@@ -62,7 +62,7 @@ export function collectNumbers(ast) {
     d.sum += value; d.n += 1; m.byDate.set(date, d);
   };
   ast.nodes.forEach((n, i) => {
-    if (n.type !== 'record' || n.recordType === 'scale' || n.recordType === 'chart') return;
+    if (n.type !== 'record' || n.recordType === 'scale' || n.recordType === 'chart' || n.recordType === 'query') return; // views hold no numbers (a query's limit: 20 is not a metric)
     const own = DATE.exec(fieldOf(n, 'date') || fieldOf(n, 'at'));
     const date = own && validDate(own[1]) ? own[1] : dates[i];
     const scale = fieldOf(n, 'scale').replace(/^#/, '');

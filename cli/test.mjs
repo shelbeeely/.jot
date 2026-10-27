@@ -72,3 +72,19 @@ test('flatten: a copy with includes written out; nothing outside the folder is r
   assert.equal((await run(['--flatten', f, '--root', d])).stdout.includes('Private.'), true, '--root widens what may be read, explicitly');
   assert.match((await run(['flatten', f, '-o', f])).stderr, /writes a copy/); assert.equal(fs.readFileSync(f, 'utf8'), src);
 });
+
+test('query: runs the query records in a file, or one asked with flags; a problem is an error, never an empty answer', async () => {
+  const d = tmp(), f = path.join(d, 'j.jot');
+  fs.writeFileSync(f, `${J}\n:::record query #open\nlabel: Still open\nshow: tasks\nstatus: open\n:::\n`);
+  const r = await run(['query', f]);
+  assert.equal(r.code, 0); assert.equal(r.stdout, '# Still open\n2 open tasks.\n\nDate        State        Task\n2026-10-25  to do        Call Sam back\n2026-10-27  to do, high  Post the letter\n');
+  const j = JSON.parse((await run(['query', f, '--show', 'tasks', '--text', 'sam', '--json'])).stdout);
+  assert.deepEqual([j[0].total, j[0].rows[0].text, j[0].summary], [1, 'Call Sam back', '1 task containing “sam”.']);
+  assert.match((await run(['query', f, '--show', 'tasks', '--period', 'week', '--date', '2026-10-28'])).stdout, /^1 task from 2026-10-26 to 2026-11-01\./);
+  const bad = await run(['query', f, '--show', 'tasks', '--status', 'opne']);
+  assert.equal(bad.code, 1); assert.match(bad.stderr, /status: "opne" is not one of/);
+  assert.match((await run(['query', f, '--colour', 'red'])).stderr, /unknown option --colour/);
+  const none = path.join(d, 'none.jot'); fs.writeFileSync(none, J);
+  assert.match((await run(['query', none])).stderr, /no query records/);
+  assert.equal(fs.readFileSync(none, 'utf8'), J);
+});

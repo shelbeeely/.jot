@@ -81,6 +81,8 @@ jot today journal.jot                        # today's entry
 jot rollover journal.jot                     # carry open tasks to today
 jot review journal.jot                       # this week's review
 jot json journal.jot                         # everything, as JSON
+jot query journal.jot                        # the answers to the query records in it
+jot query journal.jot --show tasks --tag health --period week   # or ask one here
 ```
 
 The reading commands never change a file. The writing commands say what they changed, and `--dry-run` prints the result instead of

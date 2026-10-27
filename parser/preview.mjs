@@ -2,7 +2,8 @@
  * VS Code extension, so a journal looks the same in each. DOM only: Markdown becomes elements built one by one (never innerHTML), raw
  * HTML is never rendered, links are only http(s), mailto and #, and images come only from the attachments the caller lends.
  * A `:::record chart` becomes one Chart.js chart per metric (charts.mjs chartConfig, vendor/chart.mjs), each with a text summary as its
- * accessible name and the numbers as a table.
+ * accessible name and the numbers as a table. A `:::record query` (query.mjs) becomes its summary sentence and a table of what it found,
+ * or, when a field can't be read, says what is wrong instead.
  *
  * Fuller formatting (spec 4.2.1): ==highlight==, ++underline++, ^superscript^, footnotes ([^1] and [^1]: …, gathered at the end),
  * callouts (> [!NOTE]) and centred lines (-> … <-).
@@ -25,6 +26,7 @@
  */
 import { charts, chartConfig, summaryText, fmt, CHART_CSS, metricLabel } from './charts.mjs';
 import { Chart } from './vendor/chart.mjs';
+import { queries, TAGGED } from './query.mjs';
 import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFromComment, paintHighlights } from './handwriting.mjs';
 import { parse } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
@@ -75,7 +77,6 @@ const BLANKS = /^(?:(?:\d+\.|[-*+]|\[[ x]\])[ \t]*(?:\r?\n|$))+$/i;
 const RASTER = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif']);
 const TASK = { open: ['☐', 'to do'], completed: ['☑', 'done'], migrated: ['→', 'moved'], scheduled: ['←', 'scheduled'], cancelled: ['✕', 'cancelled'] };
 const SIGN = { event: ['○', 'Event'], question: ['?', 'Question'], idea: ['!', 'Idea'], voice: ['❝', 'Voice'], synopsis: ['≡', 'Summary'] };
-const TAGGED = /(^|[\s(\[])([#@][\p{L}\p{N}_][\p{L}\p{N}_-]*)/gu;
 const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 /** "2026-10-26" as words; the rest of the heading after "|" is kept when it says more than the weekday. */
 export function dateWords(date, rest = '', locale = 'en-GB') {
@@ -205,6 +206,24 @@ export function renderPreview(ast, target, opts = {}) {
     }
     into.append(n);
   }
+  const queryOf = new Map(queries(ast).map((q) => [q.node, q.model]));
+  function drawQuery(model) { // its summary is its text alternative; the rows are a plain table, read in order
+    const box = el('section', undefined, 'jot-record jot-query'), title = model.label || 'Query';
+    box.setAttribute('aria-label', `Query: ${title}`); box.append(el('strong', title));
+    if (model.problems.length) { // the problems, said once (the summary repeats them for plain-text readers)
+      const note = el('div', undefined, 'jot-query-problem'), ul = el('ul'); note.setAttribute('role', 'note');
+      note.append(el('p', 'This query can’t be shown until it is fixed:')); for (const p of model.problems) ul.append(el('li', p.message)); note.append(ul);
+      box.append(note); return box;
+    }
+    box.append(el('p', model.summary, 'jot-query-sum'));
+    if (!model.cells.length) return box;
+    const wrap = el('div', undefined, 'jot-query-scroll'), table = el('table'), hr = el('tr'), tbody = el('tbody');
+    wrap.tabIndex = 0; wrap.setAttribute('role', 'region'); wrap.setAttribute('aria-label', `${title}: results`);
+    for (const h of model.head) { const th = el('th', h); th.scope = 'col'; hr.append(th); }
+    for (const r of model.cells) { const tr = el('tr'); r.forEach((c, i) => { const td = el('td'); if (i === r.length - 1) td.append(tagged(c)); else td.textContent = c; tr.append(td); }); tbody.append(tr); }
+    const thead = el('thead'); thead.append(hr); table.append(thead, tbody); wrap.append(table); box.append(wrap);
+    return box;
+  }
   const chartOf = new Map(charts(ast, { sample: !!opts.sample }).map((c) => [c.node, c.model])), drawn = [];
   const pageId = (target.id || 'page').replace(/[^\w-]/g, '');
   let notes = { order: [], defs: new Map(), prefix: `jotfn-${pageId}-` };
@@ -249,6 +268,7 @@ export function renderPreview(ast, target, opts = {}) {
     const sub = parsed(text), list = excerpt(sub, inc.fragment);
     if (!list) return say('no-fragment');
     if (list.some((x) => x.type === 'record' && x.recordType === 'chart')) for (const c of chartsOf(sub, !!opts.sample)) chartOf.set(c.node, c.model); // only when it shows a chart
+    if (list.some((x) => x.type === 'record' && x.recordType === 'query')) for (const q of queries(sub)) queryOf.set(q.node, q.model); // counted in the file it is written in
     const where = `${inc.path}${inc.fragment ? '#' + inc.fragment : ''}`, box = el('section', undefined, 'jot-include');
     box.setAttribute('aria-label', `Included from ${where}`); box.dataset.source = where;
     const head = el('p', undefined, 'jot-include-source'); head.append(el('span', '⧉', 'jot-sym'), ' ', inc.label ? `${inc.label} · ` : '', el('span', where, 'jot-include-path'));
@@ -304,7 +324,8 @@ export function renderPreview(ast, target, opts = {}) {
       else if (n.type === 'record' && n.recordType === 'chart') {
         const box = el('section', undefined, 'jot-chart'); box.setAttribute('aria-label', 'Chart');
         frag.append(box); drawn.push([box, chartOf.get(n)]);
-      } else if (n.type === 'record' && n.recordType === 'measurement' && n.fields.some((f) => f.name === 'metric')) {
+      } else if (n.type === 'record' && n.recordType === 'query') frag.append(drawQuery(queryOf.get(n)));
+      else if (n.type === 'record' && n.recordType === 'measurement' && n.fields.some((f) => f.name === 'metric')) {
         const get = (k) => (n.fields.find((f) => f.name === k) || {}).value || '';
         const box = el('section', undefined, 'jot-record jot-measure');
         box.append(el('strong', metricLabel(get('metric').replace(/[^a-z0-9]+/gi, '-').toLowerCase()) + ':'), doc.createTextNode(' '));
@@ -392,6 +413,8 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-tag,.jot-context{white-space:nowrap}.jot-tag{color:var(--jot-tag-ink,#8250df)}.jot-context{color:var(--jot-context-ink,#1a7f37)}
 .jot-include{border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:6px;padding:.1em .9em .4em;margin:.8em 0}.jot-include-source{font-size:.82em;opacity:.75;margin:.4em 0;overflow-wrap:anywhere}.jot-include-path{font-style:italic}
 .jot-include-missing{display:flex;gap:.45em;align-items:baseline;font-size:.9em;font-style:italic;opacity:.85;padding:.3em .9em;overflow-wrap:anywhere}.jot-include-inline{opacity:.8;font-style:italic}
+.jot-query-sum{margin:.25em 0 .4em}.jot-query-scroll{max-width:100%;overflow-x:auto}.jot-query table{border-collapse:collapse;font-variant-numeric:tabular-nums}.jot-query :is(th,td){padding:2px .9em 2px 0;text-align:left;vertical-align:top;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}.jot-query th{font-weight:600}.jot-query td:first-child{white-space:nowrap}
+.jot-query-problem{border-left:3px solid #b35900;padding-left:.7em}.jot-query-problem p{margin:.2em 0;font-weight:650}.jot-query-problem ul{margin:.2em 0;padding-left:1.2em}
 .jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;

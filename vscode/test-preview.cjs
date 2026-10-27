@@ -54,6 +54,15 @@ srv.listen(0, '127.0.0.1', async () => {
     ok(await p.evaluate(() => document.querySelector('#page .jot-record dd a')?.getAttribute('href') === '#jotln-page-2026-10-25'), 'a record\'s relation field links to its target');
     await p.click('#page .jot-record dd a'); await p.waitForFunction(() => location.hash === '#jotln-page-2026-10-25');
     ok(await p.evaluate(() => document.querySelector(':target')?.tagName === 'H3'), 'following that link targets the dated heading');
+    const q = `${text}\n[ ] Call the dentist @phone #health\n[x] Walk again #health\n\n:::record query #open-health\nlabel: Still to do\nshow: tasks\nstatus: open\ntag: health\n:::\n\n:::record query #sleep\nshow: numbers\nmetric: sleep\nstat: average\n:::\n\n:::record query #typo\nshow: tasks\nstatus: opne\n:::\n`;
+    for (const hand of [null, { hand: 'pen', ink: 'blue', pitchMm: 5 }]) {
+      await p.evaluate(([t, h]) => window.postMessage({ type: 'update', text: t, hand: h }, '*'), [q, hand]);
+      await p.waitForFunction((h) => document.querySelectorAll('#page .jot-query').length === 3 && (!h || document.querySelector('#page').jotGrid), hand);
+      const got = await p.evaluate(() => [...document.querySelectorAll('#page .jot-query')].map((s) => ({ name: s.getAttribute('aria-label'), sum: (s.querySelector('.jot-query-sum') || {}).textContent || '', rows: [...s.querySelectorAll('tbody tr')].map((r) => r.textContent.replace(/\s+/g, ' ').trim()), problem: (s.querySelector('.jot-query-problem[role=note]') || {}).textContent || '' })));
+      ok(got[0].name === 'Query: Still to do' && got[0].sum === '1 open task tagged #health.' && got[0].rows.length === 1 && /Call the dentist @phone #health/.test(got[0].rows[0]), `${hand ? 'handwritten' : 'typed'}: a task query shows its summary and the matching row`);
+      ok(got[1].sum === 'Sleep: average 6.8 h over 2 days.' && got[1].rows.length === 2, `${hand ? 'handwritten' : 'typed'}: a numbers query averages and lists the nights`);
+      ok(/status: "opne" is not one of/.test(got[2].problem) && !got[2].rows.length && !got[2].sum, `${hand ? 'handwritten' : 'typed'}: an unreadable query says what is wrong instead of showing nothing`);
+    }
     await p.evaluate(() => window.postMessage({ type: 'update', text: '### 2026-10-28\n\nJust words.\n' }, '*'));
     await p.waitForFunction(() => !document.querySelector('.jot-chart'));
     ok(/Just words/.test(await p.textContent('.jot-page')), 'an edit redraws the page');

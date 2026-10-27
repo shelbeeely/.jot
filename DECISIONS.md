@@ -169,6 +169,21 @@ only native representation.
 - **Times are only what is written.** An event's time is read only when it is unambiguous (`19:00`, `7pm`, `at 21`); "at 7" is all day.
   A CSV date like `03/04/2026` is left out and counted unless the reader says the day comes first.
 
+## Query views (27 October 2026)
+
+- **A query is a view, like a chart.** `:::record query` (spec §5.2.2) lists or counts the tasks, events, entries or numbers in the
+  same journal; the answer is computed when the page is shown and never written back, so the file holds only the question.
+- **A fixed vocabulary, not a language.** `show`, `status`, `priority`, `tag`, `context`, `text`, `metric`, `period`/`start`/`end`,
+  `stat`, `limit`, `label`: no expressions, no code, nothing fetched. Several tags mean all of them; several statuses any of them.
+- **Periods count from the query's own `date:`, else the entry it is in** (`period: week` is that entry's ISO week, as a chart's default), so a query
+  copied into a template's daily or weekly page means "this day/week" wherever it lands. With no dates every item counts.
+- **Never a silent answer.** Any field the reader can't read (unknown name or value, a blank filter, wrong for the `show`, an unknown metric) replaces
+  the result with the problem and an `invalid-query` warning, because quietly ignoring `status: opne` would show every task.
+- **One implementation.** `parser/query.mjs` serves the preview, the workspace's checks and `jot query`; `#tag`/`@context` recognition
+  moved there (`TAGGED`, `marks`) so the renderer and queries read the same marks. A query and its `limit` are never chart numbers.
+- **The command line** runs the query records in each file (`jot query journal.jot`), or one typed as flags, asked of each file on its own
+  (`jot query a.jot b.jot --show tasks --tag health`), where `--period` counts from `--date` (default today). A problem exits 1.
+
 ## What the current code does
 
 - parse(text) parses writing and preserves its source; stringify(ast) returns that original source, not edits to AST nodes.

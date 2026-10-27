@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from '../parser/jot.mjs';
 import A from '../parser/automation.mjs';
+import Q from '../parser/query.mjs';
 import { sendWebhook, todoistAdd, weather } from '../parser/connect.mjs';
 import { flatten, notice } from '../parser/include.mjs';
 
@@ -21,6 +22,11 @@ Reading (any number of files; nothing is changed):
   jot flatten <journal.jot> [-o copy.jot] [--root DIR]   a copy with every ![label](other.jot#id) include written out (to
                                                          stdout, or -o; never over the journal). Only .jot files inside DIR
                                                          (default: the journal's folder) are read
+  jot query <files…> [--json]                            run the query records (:::record query) written in the files
+  jot query <files…> --show tasks|events|entries|numbers [--status S] [--priority high|normal] [--tag T] [--context C]
+            [--text WORDS] [--metric M] [--start DATE] [--end DATE | --period day|week|month [--date DATE]]
+            [--stat count|sum|average|min|max] [--limit N] [--json]
+                                                         or ask one here, of each file (same fields as the record)
 
 Writing (one journal; --dry-run prints the new text instead):
   jot import <numbers.csv> --into <journal.jot> [--combine sum|mean|last] [--day-first] [--source NAME] [--metric NAME…]
@@ -48,6 +54,7 @@ const out = (s) => process.stdout.write(s.endsWith('\n') ? s : `${s}\n`);
 async function main() {
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { out(HELP); return; }
   if (cmd === 'flatten') return flattenCmd();
+  if (cmd === 'query') return query();
   if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
   if (['tasks', 'events', 'numbers', 'ics', 'json', 'post'].includes(cmd)) {
     const url = cmd === 'post' ? args.shift() : null;
@@ -135,5 +142,32 @@ async function flattenCmd() {
   const r = await flatten(src, { from, read: (rel) => readInside(root, rel) });
   for (const p of r.problems) process.stderr.write(`${p.from}: include ${notice(p.kind, p.href)}\n`);
   if (o) { fs.writeFileSync(o, r.text); process.stderr.write(`wrote ${o}: ${r.expanded} ${r.expanded === 1 ? 'include' : 'includes'} written out${r.problems.length ? `, ${r.problems.length} left as they were` : ''}\n`); } else process.stdout.write(r.text);
+}
+// A query is the same whether written in a journal or typed here (query.mjs); a problem with it is an error, never an empty answer.
+function query() {
+  const json = flag('--json'), anchor = opt('--date'), fields = [];
+  for (const name of ['show', 'status', 'priority', 'tag', 'context', 'text', 'metric', 'period', 'start', 'end', 'stat', 'limit']) {
+    const v = opt(`--${name}`); if (v === null) continue;
+    if (v === undefined || v.startsWith('--')) fail(`query: --${name} needs a value`);
+    fields.push({ name, value: v });
+  }
+  if (anchor !== null && (anchor === undefined || anchor.startsWith('--'))) fail('query: --date needs a value');
+  const stray = args.find((a) => a.startsWith('--')); if (stray) fail(`query: unknown option ${stray} (jot help lists them)`);
+  const files = args; if (!files.length) fail('query: which .jot files?');
+  let results;
+  if (fields.length) {
+    if (!fields.some((f) => f.name === 'show')) fail('query: say what to show (--show tasks, events, entries or numbers)');
+    const d = date(anchor); // each file on its own, so one file's dates and open blocks never run into the next
+    results = files.map((file) => ({ file, model: Q.runQuery(parse(read(file)), fields, { date: d }) }));
+  } else {
+    if (anchor) fail('query: --date anchors --period; a query record counts from its own entry');
+    results = files.flatMap((file) => Q.queries(parse(read(file))).map(({ model }) => ({ file, model })));
+    if (!results.length) fail(`query: no query records in ${files.join(', ')} (write :::record query, or ask with --show)`);
+  }
+  const problems = results.filter((r) => r.model.problems.length);
+  for (const { file, model } of problems) for (const p of model.problems) process.stderr.write(`jot: ${file ? `${file}: ` : ''}query${model.id ? ` #${model.id}` : ''}: ${p.message}\n`);
+  if (json) out(JSON.stringify(results.map(({ file, model }) => ({ file, id: model.id, label: model.label, show: model.show, start: model.start || null, end: model.end || null, total: model.total, summary: model.summary, stats: model.stats, rows: model.rows, problems: model.problems })), null, 2));
+  else out(results.map(({ file, model }) => (fields.length ? (files.length > 1 ? `# ${path.basename(file)}\n` : '') : `# ${model.label || (model.id ? `#${model.id}` : 'Query')}${files.length > 1 ? ` (${path.basename(file)})` : ''}\n`) + Q.queryText(model)).join('\n\n'));
+  if (problems.length) process.exitCode = 1;
 }
 main().catch((e) => fail(e.message));

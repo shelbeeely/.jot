@@ -248,7 +248,7 @@ Reserved common fields are `method`, `privacy`, `author`, `created`, `modified`,
 
 ### 5.1 Common record types
 
-The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation`, `chart` (§5.2.1) and `sync` (§5.3.1). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
+The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation`, `chart` (§5.2.1), `query` (§5.2.2) and `sync` (§5.3.1). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
 
 To make the profile contracts usable, every profile has an ID and integer version. A `method: id@1` field selects it. Every catalogue subsection lists its intended record type, required fields for a **complete** record, optional fields and validation notes. Core always accepts partial capture. Missing required profile fields produce a `profile-incomplete` warning, never rejection of the note. Unless explicitly repeatable, fields in a complete profile are singleton; duplicates warn and their last value supplies the effective value. `body`, `source`, `relation`, `label`, `author`, `privacy`, `created` and `modified` are available to every profile. Common record IDs are separate from profile fields.
 
@@ -297,6 +297,37 @@ style: line
 
 A number's date is its record's own `date` (or the date part of `at`) when valid, else the dated entry containing it. Two numbers for one metric on one date are shown as their mean in a chart; this is a display choice and MUST NOT be written back as data. A day with no number MUST be drawn as a gap, never as zero (§5.2). Each metric is drawn against its own value axis: metrics with different units or scales MUST NOT share one axis. When a measurement names a scale, its `minimum` and `maximum` bound the axis, unless a value falls outside them. A renderer SHOULD give each chart a text alternative (the metric, the range, how many days have numbers, the mean, the lowest and highest) and the numbers as a table. Readers that do not draw charts show the record as any other record.
 
+### 5.2.2 Queries
+
+A `query` record asks a reader to list or count what the same document already holds. Like a chart it is a view, not data: a reader computes it each time it is shown, never writes the result into the document, and removing it loses nothing. It is not a program: its fields are the fixed vocabulary below, and nothing in it is evaluated or fetched.
+
+```jot
+:::record query #open-health
+label: Still to do for my health
+show: tasks
+status: open
+tag: health
+period: week
+:::
+```
+
+| Field | Values |
+| --- | --- |
+| `show` (required) | `tasks` (§4.1 rapid tasks), `events` (`o` events and `event` records), `entries` (dated entries, §2.3) or `numbers` (as §5.2.1 reads them, one per metric and date, two on one date as their mean) |
+| `status` | tasks only: comma-separated `open`, `completed`, `migrated`, `scheduled`, `cancelled`; a task matching any of them |
+| `priority` | tasks only: `high` or `normal` |
+| `tag`, `context` | tasks, events and entries: comma-separated names, with or without `#` / `@`; an item carrying all of them (§4.1, compared case-insensitively). An entry carries the tags and contexts written anywhere in it outside records, comments and code; a task or event, those in its text including continuation lines (an `event` record, its `label`, `title` and `body`) |
+| `text` | words the item contains, compared case-insensitively |
+| `metric` | numbers only: comma-separated metric keys, folded as in §5.2.1 |
+| `period` | `day`, `week` (ISO, Monday to Sunday) or `month` containing the query's own `date` (or the date part of `at`) when valid, else the date of the dated entry it is in |
+| `start`, `end` | inclusive dates; either alone leaves the other side open; a reversed range is read in date order |
+| `stat` | `count` (default); for numbers also `sum`, `average`, `min`, `max`, computed for each metric separately |
+| `limit` | the number of rows shown, 1 to 500 (default 50); counts and statistics still use every match |
+
+`label` titles the view; the other reserved common fields of §4.3 are allowed and do not filter. Without `period`, `start` or `end` every item counts, including undated ones; with any of them an item needs a date in the range. Items are listed in document order (numbers in date order).
+
+A reader MUST NOT show a query it cannot fully read as an empty or unfiltered result. An unknown field, a repeated field, a filter field with an empty value, a value outside the vocabulary, a field that does not apply to the `show` (for example `status` with `numbers`, or `stat: sum` with `tasks`), `period` with `start` or `end`, `period` in an undated query outside any dated entry, an invalid date or a `metric` the document does not have, is a visible problem in place of the result and an `invalid-query` warning. A renderer SHOULD give each query a plain-text summary naming what was asked and how many matched (or each statistic and the number of days it covers), and the matches as a table. Readers that do not compute queries show the record as any other record.
+
 ### 5.3 Dates, times and duration
 
 Dates use valid Gregorian `YYYY-MM-DD`. A complete instant uses an RFC 3339 timestamp with seconds and explicit offset or `Z`. Local timestamps lacking an offset MAY be stored as capture text but remain unresolved. A timezone field never resolves a repeated daylight-saving hour without an offset. An offset inconsistent with a declared IANA zone produces a warning; the written instant is preserved. A plain `HH:MM` is display-only unless a profile also supplies date and timezone and ambiguity is resolved explicitly.
@@ -343,6 +374,8 @@ Relations use `relation: kind target`, split on the first space. Standard kinds 
 ### 6.3 Reviews, summaries and recurring activity
 
 A `review` record declares `period-start`, `period-end` (exclusive), `scope`, and repeated `source` references. Scopes include `day`, `week`, `month`, `quarter`, `season`, `year` and user labels. Highlights selected for a weekly review SHOULD link to their source entries. User conclusions and generated summaries MUST be distinguishable via `origin: human`, `origin: imported` or `origin: generated`. Generated text MUST name its source selection and remain editable. Absence from a summary does not delete a source entry.
+
+A `query` record (§5.2.2) is a view computed when shown, not a stored summary, so it needs no `origin`; text copied out of one into the document is generated text as above.
 
 Core has no executable recurrence language. A profile MAY store `cadence: daily`, `weekly`, `monthly` or a human description, but MUST NOT infer missed tasks, fabricate observations, or schedule notifications. A habit observation is `done`, `partial`, `not-done`, `skipped`, `unknown` or `not-applicable`; only the first three describe participation. Missing days do not become `not-done`. Streak calculations, if offered, MUST state how partial/skipped days and denominator selection work and MUST be optional.
 
