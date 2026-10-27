@@ -64,8 +64,8 @@
     },
     {
       "path": "cli/jot.mjs",
-      "byteLength": 13312,
-      "sha256": "d0e9d6e4ebb9460fc13c11c86ae33c0d65d5e646dfc51be0bbdb9db34e0e7a1e"
+      "byteLength": 13327,
+      "sha256": "2574fcbd01eda4f8e8188df57232f10cfc4fa93dd4042121c880c04441a58693"
     },
     {
       "path": "cli/test.mjs",

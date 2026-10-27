@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // jot: a journal's tasks, events and numbers on the command line, for scripts, cron, Shortcuts and automation services.
-// Reading never changes a file; the commands that write (import, today, rollover, review, todoist) say what they changed, and --dry-run
+// Reading never changes a file; the commands that write (import, import-health, today, rollover, review, todoist) say what they changed, and --dry-run
 // prints the result instead. Only `post`, `todoist` and `today --weather` reach the internet, and only when you run them.
 import fs from 'node:fs';
 import path from 'node:path';
