@@ -4,6 +4,9 @@
  * A `:::record chart` becomes one Chart.js chart per metric (charts.mjs chartConfig, vendor/chart.mjs), each with a text summary as its
  * accessible name and the numbers as a table. A `:::record query` (query.mjs) becomes its summary sentence and a table of what it found,
  * or, when a field can't be read, says what is wrong instead.
+ * A `:::record palette` becomes swatch chips (palette.mjs): each names its color and hex in text, in black or white, whichever has the
+ * higher contrast; a color that is not #RRGGBB or #RGB shows a note. A `:::record moodboard` is a grid of its attached pictures (with
+ * descriptions, captions and credits), and a paragraph of two or more pictures alone is drawn as the same grid.
  *
  * Fuller formatting (spec 4.2.1): ==highlight==, ++underline++, ^superscript^, footnotes ([^1] and [^1]: …, gathered at the end),
  * callouts (> [!NOTE]) and centred lines (-> … <-).
@@ -31,6 +34,7 @@ import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFrom
 import { parse } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
 import { includeLines, excerpt, notice, MAX_DEPTH } from './include.mjs';
+import { isPaletteRecord, paletteOf, moodboardOf } from './palette.mjs';
 export { CHART_CSS };
 const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
@@ -116,13 +120,7 @@ export function renderPreview(ast, target, opts = {}) {
           if (/^(https?:|mailto:)/i.test(href)) { n = el('a'); n.href = href; n.rel = 'noopener noreferrer'; n.target = '_blank'; inline(t.tokens, n); } else { n = el('span'); inline(t.tokens, n); }
           break;
         }
-        case 'image': {
-          const a = asset(t.href);
-          if (a && a.url && RASTER.has(a.mediaType)) { n = el('img'); n.src = a.url; n.alt = t.text || 'Handwriting or image'; n.loading = 'lazy'; }
-          else if (/\.jot(?:#|$)/i.test(t.href || '')) n = el('span', `[Include: ${t.text || 'journal'} · ${t.href} · on a line of its own, it shows here]`, 'jot-include-inline');
-          else n = el('span', `[Image: ${t.text || 'attachment'} · ${t.href}${a ? '' : ' · not attached'}]`);
-          break;
-        }
+        case 'image': n = /\.jot(?:#|$)/i.test(t.href || '') ? el('span', `[Include: ${t.text || 'journal'} · ${t.href} · on a line of its own, it shows here]`, 'jot-include-inline') : picture(t.href, t.text, 'Handwriting or image'); break;
         case 'html': n = el('span', '[HTML omitted]', 'raw-html'); break;
         case 'colorSpan': {
           n = el('span', undefined, 'jot-colors');
@@ -156,6 +154,36 @@ export function renderPreview(ast, target, opts = {}) {
       into.append(n);
     }
   }
+  function picture(href, alt, fallback) { // an attached picture, or a note saying what is missing; nothing outside the attachments is fetched
+    const a = asset(href);
+    if (a && a.url && RASTER.has(a.mediaType)) { const n = el('img'); n.src = a.url; n.alt = alt || fallback; n.loading = 'lazy'; return n; }
+    return el('span', `[Image: ${alt || 'attachment'} · ${href}${a ? '' : ' · not attached'}]`, 'jot-missing');
+  }
+  function moodGrid(items) { // [{ path, alt, caption, credit }] as figures in a responsive grid
+    const grid = el('div', undefined, 'jot-mood-grid');
+    for (const it of items) {
+      const fig = el('figure', undefined, 'jot-mood'), pic = picture(it.path, it.alt || it.caption, 'Moodboard picture');
+      if (pic.tagName !== 'IMG') fig.classList.add('jot-mood-missing');
+      fig.append(pic);
+      if (it.caption || it.credit) {
+        const cap = el('figcaption'); if (it.caption) { const c = el('span', undefined, 'jot-mood-caption'); inline(inlineOf(it.caption), c); cap.append(c); }
+        if (it.credit) { const c = el('span', undefined, 'jot-mood-credit'); c.append('Credit: '); inline(inlineOf(it.credit), c); cap.append(c); }
+        fig.append(cap);
+      }
+      grid.append(fig);
+    }
+    return grid;
+  }
+  function swatches(p) { // name and hex always as text; the label ink is black or white by WCAG contrast (palette.mjs labelInk)
+    const ul = el('ul', undefined, 'jot-swatches'); ul.setAttribute('role', 'list');
+    for (const s of p.swatches) {
+      const li = el('li', undefined, 'jot-swatch'); li.style.backgroundColor = s.hex; li.style.color = s.ink; li.dataset.hex = s.hex;
+      li.append(el('span', s.name || 'Unnamed', 'jot-swatch-name'), el('span', s.hex, 'jot-swatch-hex'));
+      ul.append(li);
+    }
+    for (const raw of p.invalid) { ul.append(el('li', `Not a color: “${raw}”. Write color: #RRGGBB name.`, 'jot-swatch-invalid')); }
+    return ul;
+  }
   function tagged(text) { // #tags and @contexts at a word's start (spec 4.1), marked; the rest stays plain text
     const span = el('span'); let at = 0;
     for (const m of text.matchAll(TAGGED)) {
@@ -179,7 +207,13 @@ export function renderPreview(ast, target, opts = {}) {
         } else inline(t.tokens, n);
         break;
       }
-      case 'paragraph': case 'text': n = el('p'); inline(t.tokens || [{ type: 'text', text: t.text }], n); break;
+      case 'paragraph': {
+        const tokens = t.tokens || [], pics = tokens.filter((x) => x.type === 'image');
+        if (pics.length > 1 && tokens.every((x) => x.type === 'image' || x.type === 'br' || (x.type === 'text' && !x.tokens && !String(x.text).trim()))) { // a run of pictures: a moodboard
+          n = moodGrid(pics.map((x) => ({ path: x.href, alt: x.text, caption: x.title ? decode(x.title) : '' }))); n.setAttribute('role', 'group'); n.setAttribute('aria-label', 'Pictures'); break;
+        }
+      } // falls through
+      case 'text': n = el('p'); inline(t.tokens || [{ type: 'text', text: t.text }], n); break;
       case 'blockquote': n = el('blockquote'); for (const c of t.tokens || []) block(c, n); break;
       case 'list':
         n = el(t.ordered ? 'ol' : 'ul'); if (t.ordered && t.start) n.start = t.start;
@@ -331,6 +365,14 @@ export function renderPreview(ast, target, opts = {}) {
         box.append(el('strong', metricLabel(get('metric').replace(/[^a-z0-9]+/gi, '-').toLowerCase()) + ':'), doc.createTextNode(' '));
         box.append(get('value') ? el('span', `${get('value')}${get('unit') ? ' ' + get('unit') : ''}`, 'jot-value') : el('span', '____', 'jot-blank'));
         frag.append(box);
+      } else if (isPaletteRecord(n)) {
+        const board = n.recordType !== 'palette', p = board ? moodboardOf(n) : paletteOf(n);
+        const box = el('section', undefined, `jot-record ${board ? 'jot-moodboard' : 'jot-palette'}`); box.setAttribute('aria-label', `${board ? 'Moodboard' : 'Palette'}: ${p.title}`);
+        box.append(el('strong', p.title));
+        if (board && p.images.length) box.append(moodGrid(p.images));
+        if (p.swatches.length || p.invalid.length) box.append(swatches(p));
+        if (p.rest.length) { const dl = el('dl'); for (const f of p.rest) dl.append(el('dt', f.name), el('dd', f.value)); box.append(dl); }
+        frag.append(box);
       } else if (n.type === 'record') {
         const box = el('section', undefined, 'jot-record'); box.append(el('strong', n.recordType));
         const dl = el('dl');
@@ -415,6 +457,14 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-include-missing{display:flex;gap:.45em;align-items:baseline;font-size:.9em;font-style:italic;opacity:.85;padding:.3em .9em;overflow-wrap:anywhere}.jot-include-inline{opacity:.8;font-style:italic}
 .jot-query-sum{margin:.25em 0 .4em}.jot-query-scroll{max-width:100%;overflow-x:auto}.jot-query table{border-collapse:collapse;font-variant-numeric:tabular-nums}.jot-query :is(th,td){padding:2px .9em 2px 0;text-align:left;vertical-align:top;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}.jot-query th{font-weight:600}.jot-query td:first-child{white-space:nowrap}
 .jot-query-problem{border-left:3px solid #b35900;padding-left:.7em}.jot-query-problem p{margin:.2em 0;font-weight:650}.jot-query-problem ul{margin:.2em 0;padding-left:1.2em}
+.jot-swatches,.jot-record .jot-swatches{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,8.5rem),1fr));gap:.5em;padding:0;margin:.5em 0}
+.jot-swatch{display:flex;flex-direction:column;justify-content:flex-end;gap:.1em;min-height:4.2em;margin:0;padding:.45em .6em;border-radius:6px;border:1px solid color-mix(in srgb,currentColor 28%,transparent);box-shadow:inset 0 0 0 1px rgb(127 127 127/.25);overflow-wrap:anywhere;line-height:1.25;break-inside:avoid;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.jot-record .jot-swatches>li{margin:0}.jot-swatch-name{font-weight:650}.jot-swatch-hex{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85em;letter-spacing:.02em}
+.jot-swatch-invalid{grid-column:1/-1;margin:0;padding:.45em .6em;border:1px dashed color-mix(in srgb,currentColor 45%,transparent);border-radius:6px;font-size:.9em}
+.jot-mood-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,10rem),1fr));gap:.6em;align-items:start;margin:.5em 0}
+.jot-mood{margin:0;min-width:0;break-inside:avoid}.jot-mood img{display:block;width:100%;height:auto;border-radius:4px}
+.jot-mood figcaption{font-size:.86em;margin-top:.25em}.jot-mood-caption,.jot-mood-credit{display:block}.jot-mood-credit{font-style:italic;font-size:.92em}
+.jot-mood-missing{border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:4px;padding:.6em;font-size:.88em;overflow-wrap:anywhere}
 .jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;

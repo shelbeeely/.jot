@@ -83,6 +83,14 @@ styles copied in, charts as PNG pictures, attachments and the hand in use embedd
 Jot's marks as a reader expects: dates in words (`dateWords`), task states, event, question and idea signs, tags and contexts, margin
 notes, time labels. Tests: `node --test styles-test.mjs`.
 
+## Palettes and moodboards
+
+`palette.mjs`: `parseColor('#c0392b brick red')` (`#RRGGBB` or `#RGB`), `contrast(a, b)` (WCAG 2), `labelInk(hex)` (black or white,
+always at least 4.5:1), `paletteOf(record)` / `moodboardOf(record)` (swatches, invalid colors kept as written, pictures with their
+alt text, captions and credits), `isPaletteRecord(node)`, and `paletteCSS` / `paletteJSON` for copying. The parser warns
+`invalid-color` on a palette's unreadable `color:` line; the preview draws swatch chips and a moodboard grid. Tests:
+`node --test palette-test.mjs`.
+
 ## Fuller formatting
 
 Beyond GFM, the lexer understands `==highlight==` (`mark` tokens), `++underline++` (`ins`), `^superscript^` (`sup`), footnotes

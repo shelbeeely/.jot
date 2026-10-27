@@ -248,7 +248,7 @@ Reserved common fields are `method`, `privacy`, `author`, `created`, `modified`,
 
 ### 5.1 Common record types
 
-The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation`, `chart` (§5.2.1), `query` (§5.2.2) and `sync` (§5.3.1). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
+The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation`, `chart` (§5.2.1), `query` (§5.2.2), `sync` (§5.3.1), and `palette` and `moodboard` (§8.1.5). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
 
 To make the profile contracts usable, every profile has an ID and integer version. A `method: id@1` field selects it. Every catalogue subsection lists its intended record type, required fields for a **complete** record, optional fields and validation notes. Core always accepts partial capture. Missing required profile fields produce a `profile-incomplete` warning, never rejection of the note. Unless explicitly repeatable, fields in a complete profile are singleton; duplicates warn and their last value supplies the effective value. `body`, `source`, `relation`, `label`, `author`, `privacy`, `created` and `modified` are available to every profile. Common record IDs are separate from profile fields.
 
@@ -477,6 +477,14 @@ PDF page boxes MUST match the requested sheet dimensions using 72 points per inc
 
 Renderer acceptance cases: A4 portrait and landscape; A5 and A6; Letter and Half-Letter; ISO-B5 distinct from a custom 182 x 257 mm page; a 110 x 210 mm custom page; a square page; mirrored margins; a gutter; oversized margins; unsupported presets; a mid-document paper change; and invariant 5 mm dot pitch across all sizes. A physical calibration proof SHOULD include a labeled 100 mm line and a grid sample. Previewing successfully is not proof that a printer used the correct paper or scaling setting.
 
+### 8.1.5 Palettes and moodboards
+
+A `palette` record holds repeatable `color` fields, each `#RRGGBB` or the shorthand `#RGB` (case-insensitive; `#RGB` means `#RRGGBB` with each digit doubled), then optionally whitespace and a name: `color: #c0392b brick red`. `label` names the palette. Alpha (`#RRGGBBAA`) and color functions are not colors here. A field that does not match is preserved as written and produces an `invalid-color` warning on its line; a renderer shows a visible note in its place and never drops it silently. The same check applies to `color` fields in a `moodboard` record and in any record using the `moodboard-and-palette` profile; `color` fields elsewhere are ordinary strings.
+
+A renderer draws each color as a swatch whose name and hex value are text on the swatch (color MUST NOT be the only carrier, §8.1), in whichever of black or white has the higher WCAG 2 contrast against it, which is always at least 4.5:1. Swatches print with their colors (print-color-adjust exact) and keep their text when backgrounds are not printed. Exports MAY write the colors as CSS custom properties on `:root` (names from the swatch name, letters and digits kept, otherwise `--color-N`, made unique with `-2`, `-3` …) or as JSON `{ name, colors: [{ name, hex, variable }] }`.
+
+A `moodboard` record holds repeatable `image` (or `asset`) fields: a path to an attachment, then optionally a text description used as the picture's alternative text. `alt`, `caption` and `credit` fields after an `image` describe that picture. Other fields keep their order. A renderer draws only attached pictures (§9: no network request); a picture that is not attached shows its path and description. A paragraph containing only two or more Markdown images MAY be drawn as the same grid.
+
 ### 8.2 Pagination and overflow
 
 Renderers MUST preserve all selected writing. Overflow modes are `continue`, `additional-page` or `summary-with-source`. Clipping or silently shrinking text below the chosen minimum is forbidden. A renderer MUST show omitted content counts and continuation locators when a summary is explicitly chosen. Print output MUST declare paper size, scale, margins and page numbering. Privacy selection must remove excluded content from the exported document, not merely conceal it in a hidden layer.
@@ -545,7 +553,7 @@ The root has `format: jot`, `version: 1.0`, original `source`, ordered `metadata
 
 Every node's `raw` MUST equal the UTF-8 slice `source[start:end]`. Nodes are contiguous, non-overlapping and cover the document body after the metadata region, including blank-line nodes. Metadata includes its own source range in `metadataRange` when present; without metadata, coverage starts at byte zero. The AST retains every byte, including line endings, unknown blocks and malformed content. Normalized semantic edits may change bytes; untouched nodes MUST remain identical in lossless mode. Canonical formatting is a separate explicit operation.
 
-Diagnostics have `severity` (`info`, `warning`, `error`), stable `code`, `message`, `start` and `end`. Minimum codes: `unsupported-version`, `unclosed-fence`, `unclosed-record`, `unclosed-comment`, `invalid-field`, `invalid-date`, `duplicate-id`, `duplicate-singleton`, `unresolved-reference`, `ambiguous-reference`, `profile-incomplete`, `profile-conflict`, `invalid-measurement`, `ambiguous-local-time`, `unsafe-path`, `missing-asset` and `layout-overflow`.
+Diagnostics have `severity` (`info`, `warning`, `error`), stable `code`, `message`, `start` and `end`. Minimum codes: `unsupported-version`, `unclosed-fence`, `unclosed-record`, `unclosed-comment`, `invalid-field`, `invalid-date`, `duplicate-id`, `duplicate-singleton`, `unresolved-reference`, `ambiguous-reference`, `profile-incomplete`, `profile-conflict`, `invalid-measurement`, `ambiguous-local-time`, `unsafe-path`, `missing-asset`, `layout-overflow` and `invalid-color` (§8.1.5).
 
 ### 11.2 Semantic validation checklist
 

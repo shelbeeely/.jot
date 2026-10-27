@@ -10,6 +10,7 @@ import {pageCSS} from './jot/styles.mjs';
 import {exportHTML} from './jot/export.mjs';
 import A from './jot/automation.mjs';
 import {queryDiagnostics} from './jot/query.mjs';
+import {isPaletteRecord,paletteOf,moodboardOf,paletteCSS,paletteJSON,contrast} from './jot/palette.mjs';
 addChartStyles(document);
 let assets=[],assetUrls=new Map(),assetKey='legacy-active',packageMetadata={},assetsReady=Promise.resolve();
 const rasterTypes=new Set(['image/png','image/jpeg','image/webp','image/gif','image/avif']);
@@ -160,16 +161,54 @@ preset.onchange = () => { if (/^#[0-9a-f]{6}$/.test(preset.value)) $('formatColo
 $('formatColor').oninput = () => { $('formatPreset').value = 'custom'; colorAdvice(); };
 $('formatEffect').onchange = colorAdvice;
 function colorAdvice() {
-  const luminance = hex => {
-    const c = hex.match(/[0-9a-f]{2}/gi).map(v => parseInt(v,16)/255).map(v => v <= .04045 ? v/12.92 : ((v+.055)/1.055)**2.4);
-    return c[0]*.2126+c[1]*.7152+c[2]*.0722;
-  };
   const effect = $('formatEffect').value;
   $('highlightStyleWrap').hidden = effect !== 'highlight';
-  const a = luminance($('formatColor').value), b = luminance(effect === 'highlight' ? '#1f3a8a' : '#fffffd');
-  const ratio = (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+  const ratio = contrast($('formatColor').value, effect === 'highlight' ? '#1f3a8a' : '#fffffd');
   $('colorAdvice').textContent = ['ink','highlight'].includes(effect) && ratio < 4.5 ? 'Low contrast against '+(effect === 'highlight' ? 'blue handwriting ink' : 'white paper')+'. Try a '+(effect === 'highlight' ? 'lighter' : 'darker')+' color. Combined colors may differ.' : 'Colors carry through to print. Choose color printing to keep them.';
 }
 colorAdvice();
+
+
+// Palettes (jot/palette.mjs): copy the one at the caret as CSS custom properties or JSON, or add the chosen color to it.
+const byteAt = i => new TextEncoder().encode(editor.value.slice(0, i)).length; // AST offsets count UTF-8 bytes
+function paletteAtCaret() { // the palette the caret is in, or the nearest one before it
+  const nodes = parse(editor.value).nodes, list = nodes.filter(isPaletteRecord), at = byteAt(editor.selectionStart);
+  const record = nodes.find(n => n.type === 'record' && at > n.start && at < n.end), node = list.find(n => at >= n.start && at < n.end) || list.filter(n => n.start <= at).pop();
+  return { node, record, inside: !!node && at >= node.start && at < node.end, count: list.length, index: list.indexOf(node) + 1 };
+}
+async function copyText(text) {
+  try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; } } catch { /* try the older way */ }
+  const back = document.activeElement, t = el('textarea'); t.value = text; t.setAttribute('readonly', ''); t.setAttribute('aria-hidden', 'true'); t.style.cssText = 'position:fixed;left:-9999px;top:0';
+  document.body.append(t); t.select(); let ok; try { ok = document.execCommand('copy'); } catch { ok = false; }
+  t.remove(); if (back && back.focus) back.focus(); return ok;
+}
+async function copyPalette(kind) {
+  const found = paletteAtCaret();
+  if (!found.node) { status(found.count ? 'No palette before the caret. Put the caret in the palette you want to copy.' : 'No palette here yet. Write :::record palette with lines like color: #c0392b brick red, or use Add to palette.', true); return; }
+  const p = found.node.recordType === 'palette' ? paletteOf(found.node) : moodboardOf(found.node);
+  if (!p.swatches.length) { status(`“${p.title}” has no colors to copy yet${p.invalid.length ? ' (some are not written as #RRGGBB name)' : ''}.`, true); return; }
+  const text = kind === 'css' ? paletteCSS(p) : paletteJSON(p), which = found.count > 1 ? ` (palette ${found.index} of ${found.count}; put the caret in another to copy that one)` : '';
+  const skipped = p.invalid.length ? ` ${p.invalid.length} not a color, left out.` : '';
+  if (await copyText(text)) status(`Copied ${p.swatches.length} ${p.swatches.length === 1 ? 'color' : 'colors'} from “${p.title}” as ${kind === 'css' ? 'CSS custom properties' : 'JSON'}${which}.${skipped}`);
+  else { download(text, fileName() + '-palette.' + kind, kind === 'css' ? 'text/css;charset=utf-8' : 'application/json'); status('Copying was blocked here, so the palette downloaded as a file instead.' + skipped); }
+}
+$('paletteCssBtn').onclick = () => copyPalette('css');
+$('paletteJsonBtn').onclick = () => copyPalette('json');
+$('addSwatch').onclick = () => {
+  const hex = $('formatColor').value.toLowerCase(); if (!/^#[0-9a-f]{6}$/.test(hex)) return;
+  const option = $('formatPreset').selectedOptions[0], name = option && option.value === hex ? option.textContent.split(' · ')[0] : 'custom';
+  const line = `color: ${hex} ${name}`, found = paletteAtCaret();
+  if (found && found.inside) { // before the record's closing :::, as text so Ctrl+Z takes it back
+    const bytes = new TextEncoder().encode(editor.value), charAt = b => new TextDecoder().decode(bytes.slice(0, b)).length;
+    const start = charAt(found.node.start), end = charAt(found.node.end), close = editor.value.lastIndexOf('\n:::', end - 1);
+    const closed = close > start && /^\n:::[ \t]*(\r?\n|$)/.test(editor.value.slice(close, end + 1)), at = closed ? close + 1 : end;
+    const text = closed ? line + '\n' : (editor.value[at - 1] === '\n' ? '' : '\n') + line + '\n';
+    editor.focus(); editor.setSelectionRange(at, at);
+    if (!document.execCommand('insertText', false, text)) editor.setRangeText(text, at, at, 'end');
+    dirty = true; update(); save(); status(`Added ${hex} ${name} to “${paletteOf(found.node).title}”.`); return;
+  }
+  if (found.record) { const end = new TextDecoder().decode(new TextEncoder().encode(editor.value).slice(0, found.record.end)).length; editor.setSelectionRange(end, end); } // not inside another record: after it
+  insert(`:::record palette\nlabel: My palette\n${line}\n:::`); status(`Started a palette with ${hex} ${name}. Rename it on the label: line.`);
+};
 
 setupMusicCapture({ insert });
