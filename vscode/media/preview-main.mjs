@@ -14,7 +14,8 @@ function show(text, hand = null, style = 'plain') {
   // images and links to attachments only exist in a packaged .jotz; a plain .jot preview names them instead of loading anything
   renderPreview(ast, page, { empty: 'Nothing written yet.', hand, style: hand ? null : style });
   const charts = ast.nodes.filter((n) => n.type === 'record' && n.recordType === 'chart').length, d = ast.diagnostics.length;
-  status.textContent = `${ast.entries.length} dated ${ast.entries.length === 1 ? 'entry' : 'entries'}${charts ? ` · ${charts} ${charts === 1 ? 'chart' : 'charts'}` : ''} · ${d ? `${d} ${d === 1 ? 'problem' : 'problems'}` : 'valid Jot'}`;
+  const links = (ast.links || []).length, broken = ast.diagnostics.filter((x) => x.code === 'unresolved-reference').length; // links within the journal and to other files
+  status.textContent = `${ast.entries.length} dated ${ast.entries.length === 1 ? 'entry' : 'entries'}${charts ? ` · ${charts} ${charts === 1 ? 'chart' : 'charts'}` : ''}${links ? ` · ${links} ${links === 1 ? 'link' : 'links'}${broken ? ` (${broken} unresolved)` : ''}` : ''} · ${d ? `${d} ${d === 1 ? 'problem' : 'problems'}` : 'valid Jot'}`;
   if (vscode) vscode.setState({ text, hand, style });
 }
 window.addEventListener('message', async (e) => {

@@ -31,7 +31,7 @@ const JOURNAL = `.S{--ink:#2b2622;--muted:#776b5f;--accent:#8a3b12;--rule:#ddd2c
 .S .jot-date{font-size:.8em;font-weight:600;font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);border-top:1px solid var(--rule);padding-top:1.15em;margin:2.3em 0 .9em;font-variant-numeric:lining-nums}
 .S>.jot-date:first-child{border-top:0;padding-top:0;margin-top:0}
 .S .jot-date-note{letter-spacing:.06em;text-transform:none;font-style:italic;font-weight:400;color:var(--muted);font-size:1.05em}
-.S .jot-date+p:not(.jot-scene)::first-letter,.S .jot-date+.jot-scene+p::first-letter{float:left;font-size:3.35em;line-height:.82;margin:.06em .09em 0 0;color:var(--accent);font-weight:400}
+.S .jot-date+p:not(.jot-scene,.jot-backlinks)::first-letter,.S .jot-date+:is(.jot-scene,.jot-backlinks)+p:not(.jot-scene)::first-letter,.S .jot-date+.jot-backlinks+.jot-scene+p::first-letter{float:left;font-size:3.35em;line-height:.82;margin:.06em .09em 0 0;color:var(--accent);font-weight:400}
 .S a{color:var(--accent);text-decoration-thickness:.06em;text-underline-offset:.15em}
 .S strong{font-weight:650}
 .S mark{background:linear-gradient(transparent 52%,var(--mark) 52%,var(--mark) 92%,transparent 92%);padding:0 .08em}

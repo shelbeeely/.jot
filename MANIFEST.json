@@ -29,8 +29,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 2671,
-      "sha256": "01e0d06fa59bc55a622c3dce4ac9054eb0ede20e458846c0c1100320f0d701ca"
+      "byteLength": 2693,
+      "sha256": "6a475c33d8c669ef450c8bad4b4bfc5b478f2564daa8ecb5b2f0e3cfeab8d3cb"
     },
     {
       "path": ".gitignore",
@@ -49,8 +49,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 16223,
-      "sha256": "964f4bc7dcbe43bae78cd2410353d2291f2afec259d1edf7bfe7977eebf42b02"
+      "byteLength": 17643,
+      "sha256": "f1138ee859d00722d9318c489fe956f2252ed5f34899735d74990ee06177836c"
     },
     {
       "path": "README.md",
@@ -144,8 +144,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 18577,
-      "sha256": "08c05b8d8e1ca6dee20d79385e5cffa18f750884ba6e9e71f24b3c7cbe5e046d"
+      "byteLength": 19855,
+      "sha256": "df2c1c47d7bd722dccceb5e0911657cfc7d9dc6a5a6e117e543b0faa7d8d0892"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -434,8 +434,8 @@
     },
     {
       "path": "parser/README.md",
-      "byteLength": 9880,
-      "sha256": "391d3c7dedd5fadbf658043aa21b50d736f992848c563dde811091f949071b09"
+      "byteLength": 10304,
+      "sha256": "d0785243eff54dc0a0477b6f702dd0ce38bc8faf4c4479b3cd17e40d45229bb0"
     },
     {
       "path": "parser/ROADMAP.md",
@@ -584,8 +584,13 @@
     },
     {
       "path": "parser/jot.mjs",
-      "byteLength": 13324,
-      "sha256": "79a3ec2c770d5da029bb6ef2fb6fe325eb41bc9f68f69543e4f5e3862ec6f412"
+      "byteLength": 16317,
+      "sha256": "1d6e595ba05fe08bdf66e2d4fd1bdb54cff4c7bed0e7bf885c679d849e7c4900"
+    },
+    {
+      "path": "parser/links-test.mjs",
+      "byteLength": 4500,
+      "sha256": "e3a365c1b5fba3db83a7b8fffadb3aad5a33035c1d0f66c21d6a0cb7fbd8f8cb"
     },
     {
       "path": "parser/package.json",
@@ -594,8 +599,8 @@
     },
     {
       "path": "parser/preview.mjs",
-      "byteLength": 25185,
-      "sha256": "0cce7e3b6d59aef8c19f5d7861ada4ee17c160af6cb3989b9024230dbb620e45"
+      "byteLength": 28583,
+      "sha256": "c3bcfd537fee2aac288f27fa088130d0e80b5de40e28ac6b9cb2cabe27840de0"
     },
     {
       "path": "parser/proofread-test.mjs",
@@ -614,8 +619,8 @@
     },
     {
       "path": "parser/styles.mjs",
-      "byteLength": 12869,
-      "sha256": "fae659ef46d3cf9cc2ef9dcf928fbef5e5f3306ccc6e2d158b832fc02c1be82b"
+      "byteLength": 12975,
+      "sha256": "c46fd09b3b0a1c006fb50175a961e696f99ca4d5aa0526babb491365765dc9a3"
     },
     {
       "path": "parser/test.mjs",
@@ -729,8 +734,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 876504,
-      "sha256": "d20d8f8c1ddbce7450e740ad25431822228a97ad6878581b4bd2c003f3c40005"
+      "byteLength": 880675,
+      "sha256": "47801e681460eb0bb651b13f20f7cf1033b8410bd13a5439ef67dff1004a7faa"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -1059,8 +1064,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 26175,
-      "sha256": "ed39ba0d6b482118c2423e6f054b3102f220944463e825e6b271409146c7e1b3"
+      "byteLength": 27847,
+      "sha256": "2a26099265484670e043dbac83102da579245082b1dff66b74364c339ac5a6eb"
     },
     {
       "path": "site/dist/home.css",
@@ -1194,8 +1199,8 @@
     },
     {
       "path": "site/dist/jot/jot.mjs",
-      "byteLength": 13324,
-      "sha256": "79a3ec2c770d5da029bb6ef2fb6fe325eb41bc9f68f69543e4f5e3862ec6f412"
+      "byteLength": 16317,
+      "sha256": "1d6e595ba05fe08bdf66e2d4fd1bdb54cff4c7bed0e7bf885c679d849e7c4900"
     },
     {
       "path": "site/dist/jot/music.mjs",
@@ -1214,8 +1219,8 @@
     },
     {
       "path": "site/dist/jot/preview.mjs",
-      "byteLength": 25185,
-      "sha256": "0cce7e3b6d59aef8c19f5d7861ada4ee17c160af6cb3989b9024230dbb620e45"
+      "byteLength": 28583,
+      "sha256": "c3bcfd537fee2aac288f27fa088130d0e80b5de40e28ac6b9cb2cabe27840de0"
     },
     {
       "path": "site/dist/jot/profiles.json",
@@ -1244,8 +1249,8 @@
     },
     {
       "path": "site/dist/jot/styles.mjs",
-      "byteLength": 12869,
-      "sha256": "fae659ef46d3cf9cc2ef9dcf928fbef5e5f3306ccc6e2d158b832fc02c1be82b"
+      "byteLength": 12975,
+      "sha256": "c46fd09b3b0a1c006fb50175a961e696f99ca4d5aa0526babb491365765dc9a3"
     },
     {
       "path": "site/dist/jot/vendor/chart-LICENSE.md",
@@ -1394,8 +1399,8 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 122599,
-      "sha256": "f9e73253e3034b856b049c9eaa4dcbcefbeb805c0299aacbdfea716737aba787"
+      "byteLength": 124947,
+      "sha256": "dce4948da3101150960e3039ba9cd7d57c3c7d1c5b791bde977b1084cd9665a9"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
@@ -1419,8 +1424,8 @@
     },
     {
       "path": "specification/conformance.json",
-      "byteLength": 3596,
-      "sha256": "3718b3a4940ad3a0970d7bf0b582f71fd3b3f4e19d2a262b6c1f6698d9ec90be"
+      "byteLength": 4358,
+      "sha256": "75fa5cc10d10f9c71006df0a2845fb96c3460714b1f24293f3595e0c0a460656"
     },
     {
       "path": "specification/example-ast.json",
@@ -1444,8 +1449,8 @@
     },
     {
       "path": "specification/jot-ast.schema.json",
-      "byteLength": 4061,
-      "sha256": "7c7222e9c86a0a13f3940aa1b1aeb45804e493b008f2215b61d599b33088654b"
+      "byteLength": 5226,
+      "sha256": "4e3b3aab26061466c42cda999b0f8edc0251c7afae7326cf5fb8b55aada4d28f"
     },
     {
       "path": "specification/paper-sizes.json",
@@ -1649,18 +1654,18 @@
     },
     {
       "path": "vscode/media/jot/jot.mjs",
-      "byteLength": 13324,
-      "sha256": "79a3ec2c770d5da029bb6ef2fb6fe325eb41bc9f68f69543e4f5e3862ec6f412"
+      "byteLength": 16317,
+      "sha256": "1d6e595ba05fe08bdf66e2d4fd1bdb54cff4c7bed0e7bf885c679d849e7c4900"
     },
     {
       "path": "vscode/media/jot/preview.mjs",
-      "byteLength": 25185,
-      "sha256": "0cce7e3b6d59aef8c19f5d7861ada4ee17c160af6cb3989b9024230dbb620e45"
+      "byteLength": 28583,
+      "sha256": "c3bcfd537fee2aac288f27fa088130d0e80b5de40e28ac6b9cb2cabe27840de0"
     },
     {
       "path": "vscode/media/jot/styles.mjs",
-      "byteLength": 12869,
-      "sha256": "fae659ef46d3cf9cc2ef9dcf928fbef5e5f3306ccc6e2d158b832fc02c1be82b"
+      "byteLength": 12975,
+      "sha256": "c46fd09b3b0a1c006fb50175a961e696f99ca4d5aa0526babb491365765dc9a3"
     },
     {
       "path": "vscode/media/jot/vendor/chart-LICENSE.md",
@@ -1684,8 +1689,8 @@
     },
     {
       "path": "vscode/media/preview-main.mjs",
-      "byteLength": 2092,
-      "sha256": "e4e83cd3540d1166febaf70e084d191fc2692cbebdab18f26db86f9e487c5a2c"
+      "byteLength": 2369,
+      "sha256": "679de12a7de6b3e702ca6477088c1e6f302091b9a52014ccc5b0e826e1645dd4"
     },
     {
       "path": "vscode/media/preview.css",
@@ -1714,8 +1719,8 @@
     },
     {
       "path": "vscode/test-preview.cjs",
-      "byteLength": 6535,
-      "sha256": "50fa106a68a561e2ab690606a7910bd322e84644de3a268cd62cec38c3c7bbe4"
+      "byteLength": 8473,
+      "sha256": "4f20b54a7ededb7e7a2a131215d20f05b050f579eb9da9a232fc049d5154711d"
     }
   ]
 }

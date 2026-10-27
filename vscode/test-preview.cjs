@@ -45,6 +45,15 @@ srv.listen(0, '127.0.0.1', async () => {
     await p.waitForFunction(() => window.__sent.some((m) => m.type === 'exported'));
     const ex = await p.evaluate(() => window.__sent.find((m) => m.type === 'exported'));
     ok(!ex.error && /^<!doctype html>/.test(ex.html) && /<title>week<\/title>/.test(ex.html) && /jot-style-journal/.test(ex.html) && /<img[^>]+src="data:image\/png;base64,/.test(ex.html) && !/127\.0\.0\.1|<canvas|<script/.test(ex.html) && /@page \{ size: 210mm 297mm;/.test(ex.html), 'Export as HTML: one standalone page, charts as pictures, nothing to fetch or run, A4 for printing');
+    await p.evaluate(() => window.postMessage({ type: 'update', text: '### 2026-10-25 | Sunday\n\nRain.\n\n### 2026-10-26 | Monday\n\nSee [yesterday](#2026-10-25), [the plan](#plan), [gone](#nowhere) and [elsewhere](other.jot#a).\n\n:::record note #plan\nrelation: continues #2026-10-25\n:::\n' + '\n'.repeat(80) + 'End.\n' }, '*'));
+    await p.waitForSelector('#page .jot-backlinks');
+    const links = await p.evaluate(() => { const a = [...document.querySelectorAll('#page a')].find((x) => x.textContent === 'yesterday'), t = document.querySelector(a.getAttribute('href')); return { href: a.getAttribute('href'), tag: t && t.tagName, rec: !!document.querySelector('#page section.jot-record#jotln-page-plan'), back: [...document.querySelectorAll('#page .jot-backlinks')].map((b) => b.textContent), gone: document.querySelector('#page .jot-link-unresolved')?.textContent, status: document.querySelector('#status').textContent }; });
+    ok(links.href === '#jotln-page-2026-10-25' && links.tag === 'H3' && links.rec, 'a link to a date or #id points at the prefixed id of that heading or record');
+    ok(links.back.length === 2 && links.back.every((t) => /^Linked from /.test(t)) && /Monday,? 26 October 2026 · note #plan$/.test(links.back[0]), 'targets list where they are linked from (the entry, and the record by its relation)');
+    ok(links.gone === 'gone' && /5 links \(1 unresolved\) · 1 problem/.test(links.status), 'a missing target stays visible text, and the status line counts links');
+    ok(await p.evaluate(() => document.querySelector('#page .jot-record dd a')?.getAttribute('href') === '#jotln-page-2026-10-25'), 'a record\'s relation field links to its target');
+    await p.click('#page .jot-record dd a'); await p.waitForFunction(() => location.hash === '#jotln-page-2026-10-25');
+    ok(await p.evaluate(() => document.querySelector(':target')?.tagName === 'H3'), 'following that link targets the dated heading');
     await p.evaluate(() => window.postMessage({ type: 'update', text: '### 2026-10-28\n\nJust words.\n' }, '*'));
     await p.waitForFunction(() => !document.querySelector('.jot-chart'));
     ok(/Just words/.test(await p.textContent('.jot-page')), 'an edit redraws the page');

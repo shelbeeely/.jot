@@ -97,7 +97,14 @@ export function renderPreview(ast, target, opts = {}) {
         case 'link': {
           const href = t.href || '', a = asset(href);
           if (a && a.url) { n = el('a'); n.href = a.url; n.download = href.split('/').pop(); inline(t.tokens, n); break; }
-          if (/^(https?:|mailto:|#)/i.test(href)) { n = el('a'); n.href = href; n.rel = 'noopener noreferrer'; if (!href.startsWith('#')) n.target = '_blank'; inline(t.tokens, n); } else { n = el('span'); inline(t.tokens, n); }
+          if (href.startsWith('#')) { // a link within this journal (spec 4.2.2): to its date heading or record, by this page's prefixed id
+            const id = decode(href.slice(1));
+            if (anchors.has(id)) { n = el('a'); n.href = `#${anchors.prefix}${id}`; }
+            else if (resolved.has(id)) n = el('span'); // a target that is not drawn (a scale's definition)
+            else { n = el('span', undefined, 'jot-link-unresolved'); n.title = `Nothing here is called ${id}`; }
+            inline(t.tokens, n); break;
+          }
+          if (/^(https?:|mailto:)/i.test(href)) { n = el('a'); n.href = href; n.rel = 'noopener noreferrer'; n.target = '_blank'; inline(t.tokens, n); } else { n = el('span'); inline(t.tokens, n); }
           break;
         }
         case 'image': {
@@ -190,7 +197,30 @@ export function renderPreview(ast, target, opts = {}) {
     into.append(n);
   }
   const chartOf = new Map(charts(ast, { sample: !!opts.sample }).map((c) => [c.node, c.model])), drawn = [];
-  const notes = { order: [], defs: new Map(), prefix: `jotfn-${(target.id || 'page').replace(/[^\w-]/g, '')}-` };
+  const pageId = (target.id || 'page').replace(/[^\w-]/g, ''), notes = { order: [], defs: new Map(), prefix: `jotfn-${pageId}-` };
+  // Link targets get this page's prefix too, so two previews in one document never share an id. Backlinks: target node -> linking nodes.
+  const hidden = (n) => n.type === 'record' && (n.recordType === 'scale' || n.recordType === 'sync'); // targets that are never drawn
+  const anchors = new Set(ast.nodes.filter((n) => n.anchor && !hidden(n)).map((n) => n.anchor)), resolved = new Set(), fieldLinks = new Set(), linkedFrom = new Map(), entryAt = [];
+  anchors.prefix = `jotln-${pageId}-`;
+  for (const l of ast.links || []) {
+    if (l.file || !Number.isInteger(l.to)) continue;
+    resolved.add(l.target); if (l.field) fieldLinks.add(`${l.node} ${l.field} ${l.target}`);
+    if (l.to !== l.node) { const from = linkedFrom.get(l.to) || []; if (!from.includes(l.node)) from.push(l.node); linkedFrom.set(l.to, from); }
+  }
+  for (const e of ast.entries || []) for (let k = e.startNode; k < e.endNode; k++) entryAt[k] = ast.nodes[e.startNode];
+  const nameOf = (n) => n.date === n.anchor ? dateWords(n.date, '', opts.locale).words : `${n.recordType} #${n.anchor}`;
+  function backlinks(j) { // "Linked from" each place that links here: the linking record, or the dated entry the link is written in
+    const p = el('p', undefined, 'jot-backlinks'), seen = new Set(); p.append(el('span', 'Linked from', 'jot-backlinks-title'), ' ');
+    for (const k of linkedFrom.get(j)) {
+      const h = entryAt[k], src = anchors.has(ast.nodes[k].anchor) ? ast.nodes[k] : h && anchors.has(h.anchor) ? h : null;
+      const key = src ? src.anchor : h ? `date ${h.date}` : '';
+      if (seen.has(key) || (src && src === ast.nodes[j])) continue; seen.add(key);
+      if (seen.size > 1) p.append(' · ');
+      if (src) { const a = el('a', nameOf(src)); a.href = `#${anchors.prefix}${src.anchor}`; p.append(a); }
+      else p.append(el('span', h ? dateWords(h.date, '', opts.locale).words : 'undated writing')); // a repeated date's later heading has no id of its own
+    }
+    return seen.size ? p : null;
+  }
   const hand = opts.hand ? { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0, ...opts.hand } : null;
   target.classList.toggle('jot-hand', !!hand); // before anything is drawn, so charts size themselves to the grid
   for (const c of [...target.classList]) if (c.startsWith('jot-style-')) target.classList.remove(c);
@@ -199,7 +229,7 @@ export function renderPreview(ast, target, opts = {}) {
   else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift']) target.style.removeProperty(k);
   const root = doc.createDocumentFragment();
   let frag = root;
-  for (const n of ast.nodes) {
+  function drawNode(n, j) {
     if (n.type === 'comment') {
       const layout = blockLayoutFromComment(n.raw);
       if (layout) {
@@ -208,21 +238,21 @@ export function renderPreview(ast, target, opts = {}) {
         frag.dataset.gap = layout.gap; frag.dataset.newPage = layout.newPage;
         root.append(frag);
       } else if (/^\/\*\r?\njot-block-end\r?\n\*\//.test(n.raw)) frag = root;
-      continue;
+      return;
     }
-    if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank') continue;
+    if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank') return;
     if (n.markdown && n.markdown.type === 'paragraph' && BLANKS.test(n.markdown.raw.trim())) { // a template's empty lines: "1. ", "- ", "[ ] " to write after
       const box = el('div', undefined, 'jot-blanks');
       for (const line of n.markdown.raw.trim().split(/\r?\n/)) { const m = line.trim(), mark = /^\[x\]/i.test(m) ? '☑' : m.startsWith('[') ? '☐' : /^\d/.test(m) ? m : '•'; const row = el('div', undefined, 'jot-blank-line'); row.append(el('span', mark, 'jot-mark'), el('span', '', 'jot-rule')); box.append(row); }
-      frag.append(box); continue;
+      frag.append(box); return;
     }
-    if (n.type === 'record' && (n.recordType === 'scale' || n.recordType === 'sync')) continue; // a scale is a definition (its range shows on the charts that use it); a sync record is bookkeeping for a connection
+    if (n.type === 'record' && (n.recordType === 'scale' || n.recordType === 'sync')) return; // a scale is a definition (its range shows on the charts that use it); a sync record is bookkeeping for a connection
     if (n.markdown && n.markdown.type === 'blockquote' && n.callout) {
       const box = el('aside', undefined, `jot-callout jot-callout-${n.callout}`); box.setAttribute('role', 'note');
       box.append(el('p', CALLOUTS[n.callout], 'jot-callout-title')); for (const c of n.markdown.tokens || []) block(c, box);
-      frag.append(box); continue;
+      frag.append(box); return;
     }
-    if (n.markdown) { if (n.diagram) frag.append(el('p', n.diagram.engine + ' source · rendering adapter not installed', 'diagram-note')); block(n.markdown, frag); continue; }
+    if (n.markdown) { if (n.diagram) frag.append(el('p', n.diagram.engine + ' source · rendering adapter not installed', 'diagram-note')); block(n.markdown, frag); return; }
     if (n.type === 'task') {
       const [sym, said] = TASK[n.status] || TASK.open, row = el('div', undefined, `jot-task jot-task-${n.status}${n.priority === 'high' ? ' jot-task-high' : ''}`);
       const box = el('span', sym, 'jot-box'); box.setAttribute('role', 'img'); box.setAttribute('aria-label', said); box.dataset.status = n.status;
@@ -241,13 +271,26 @@ export function renderPreview(ast, target, opts = {}) {
       frag.append(box);
     } else if (n.type === 'record') {
       const box = el('section', undefined, 'jot-record'); box.append(el('strong', n.recordType));
-      const dl = el('dl'); for (const f of n.fields) dl.append(el('dt', f.name), el('dd', f.value)); box.append(dl); frag.append(box);
+      const dl = el('dl');
+      for (const f of n.fields) { // a link field (relation: kind #target, member:, source: …) that resolves here becomes a link
+        const dd = el('dd'), m = /^(.*?)#([^\s#]+)$/.exec(f.value);
+        if (m && anchors.has(m[2]) && fieldLinks.has(`${j} ${f.name} ${m[2]}`)) { const a = el('a', `#${m[2]}`); a.href = `#${anchors.prefix}${m[2]}`; dd.append(m[1], a); }
+        else dd.textContent = f.value;
+        dl.append(el('dt', f.name), dd);
+      }
+      box.append(dl); frag.append(box);
     } else if (n.type === 'pagebreak') frag.append(el('hr', undefined, 'pagebreak'));
     else if (n.type === 'scene') { const m = /^(\d{2})(\d{2})\s*[-–]\s*(.+)$/.exec(n.text); frag.append(el('p', m ? `${m[1]}:${m[2]} · ${m[3]}` : n.text, 'jot-scene eyebrow')); }
     else if (n.type === 'annotation') { const a = el('aside', undefined, 'jot-margin'); a.setAttribute('aria-label', 'Margin note'); inline(inlineOf(n.text), a); frag.append(a); }
     else if (SIGN[n.type]) { const [sym, said] = SIGN[n.type], p = el('p', undefined, `jot-sign jot-${n.type}`), b = el('span', sym, 'jot-sym'); b.setAttribute('role', 'img'); b.setAttribute('aria-label', said); p.append(b, ' '); inline(inlineOf(n.text), p); frag.append(p); }
     else frag.append(el('p', n.text || n.raw));
   }
+  ast.nodes.forEach((n, j) => {
+    const before = frag.lastChild; drawNode(n, j);
+    if (!n.anchor || frag.lastChild === before || !frag.lastChild.setAttribute) return;
+    frag.lastChild.id = `${anchors.prefix}${n.anchor}`;
+    const back = linkedFrom.has(j) && backlinks(j); if (back) frag.append(back);
+  });
   frag = root;
   if (notes.defs.size) { // footnotes, numbered by first mention; ones never mentioned come last
     const sec = el('section', undefined, 'jot-footnotes'), ol = el('ol'); sec.setAttribute('aria-label', 'Notes');
@@ -300,7 +343,7 @@ export const PREVIEW_CSS = `${CHART_CSS}
 .jot-highlight{background-color:var(--jot-highlight);box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .jot-colors :is(del,ins){text-decoration-color:var(--jot-decoration,currentColor)}
 mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.15em}
-.jot-center{text-align:center}.jot-fn-ref a{text-decoration:none}.jot-footnotes{border-top:1px solid currentColor;border-top-color:color-mix(in srgb,currentColor 25%,transparent);margin-top:1.5em;font-size:.92em}.jot-footnotes ol{padding-left:1.5em}
+.jot-center{text-align:center}.jot-backlinks{font-size:.85em;opacity:.8;margin:.2em 0 .6em}.jot-backlinks-title{font-style:italic}.jot-link-unresolved{text-decoration:underline dotted;text-underline-offset:.15em}.jot-fn-ref a{text-decoration:none}.jot-footnotes{border-top:1px solid currentColor;border-top-color:color-mix(in srgb,currentColor 25%,transparent);margin-top:1.5em;font-size:.92em}.jot-footnotes ol{padding-left:1.5em}
 .jot-callout{border-left:3px solid var(--jot-callout,#2a78d6);padding:.2em .9em;margin:.8em 0;background:color-mix(in srgb,var(--jot-callout,#2a78d6) 7%,transparent)}.jot-callout-title{font-weight:650;margin:0 0 .2em;color:var(--jot-callout,#2a78d6)}
 .jot-callout-tip{--jot-callout:#1a7f37}.jot-callout-important{--jot-callout:#8250df}.jot-callout-warning{--jot-callout:#9a6700}.jot-callout-caution{--jot-callout:#cf222e}
 .jot-date{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2em .6em}.jot-date-note{font-size:.72em;font-weight:400;opacity:.7;letter-spacing:.02em}

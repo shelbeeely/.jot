@@ -68,6 +68,13 @@
       "items": {
         "$ref": "#/$defs/diagnostic"
       }
+    },
+    "links": {
+      "type": "array",
+      "description": "Derived: every internal link (spec 4.2.2). Rebuildable from source.",
+      "items": {
+        "$ref": "#/$defs/link"
+      }
     }
   },
   "$defs": {
@@ -138,6 +145,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "anchor": {
+          "type": "string",
+          "description": "This node is a link target: its record ID or its entry date (spec 4.2.2)."
         }
       },
       "allOf": [
@@ -203,6 +214,48 @@
           "minimum": 0
         },
         "end": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "link": {
+      "type": "object",
+      "required": [
+        "href",
+        "target",
+        "start",
+        "end",
+        "node"
+      ],
+      "properties": {
+        "href": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "node": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "to": {
           "type": "integer",
           "minimum": 0
         }

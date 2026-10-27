@@ -1,5 +1,19 @@
 # Latest Jot v1 decisions
 
+## Links between days and records (27 October 2026)
+
+- **Targets:** a record's `#id`, and a dated heading's date (`#2026-10-25`). The first heading with a date is the target; a record ID
+  equal to a date wins. Nothing else (other headings, tags, footnotes) is a target, so links stay stable when wording changes.
+- **Repeated dates stay valid.** Spec §2.3 and the `same-day` case keep two headings with one date warning-free; only a link to such a
+  date carries `ambiguous-reference`, since it may mean either.
+- **Unresolved, never blocking.** A missing `#id`, or one that names a duplicated record ID, is an `unresolved-reference` warning at the
+  link; the text stays as written. Links are found in all inline writing (including tasks, events and margin notes) and in the record
+  fields `relation` (after the kind), `member`, `source`, `parent`, `migrated-to` and `prompt` when the value is exactly a link.
+- **Other files are not opened.** `other.jot#id` is kept as written and not flagged; checking it would need file access a reader
+  of one document does not have. The AST gains a derived `links` list and `anchor` on target nodes (schema updated).
+- **Preview ids are per page** (`jotln-<page>-<target>`, like footnotes' `jotfn-`), so embedded and side-by-side previews never clash.
+  Each target shows a **Linked from** line naming the entries and records that link to it; unresolved links render as text.
+
 ## Optional music capture, plain-text listening notes (26 October 2026)
 
 The writer's Listening tool can capture title, artist, album, link, capture time and setting notes. Its output is an ordinary
