@@ -178,3 +178,18 @@ prose. Current reports and recent history have distinct labels; historical liste
 requires no service connection. No scrobbles are submitted. Last.fm's application key stays in page memory, usernames persist only
 after successful reads, and requests use no browser credentials/referrer. Libre.fm is manual-only because live API probing returned
 an access challenge; direct browser compatibility was not established. Provider responses are mocked in regression tests.
+
+## Includes (27 October 2026)
+
+- **View-only, explicit, local.** `![label](other.jot#id)` on a line of its own shows that part of another journal in place (a record
+  by ID, every entry with a date, or the whole file), framed and labelled with where it came from. The source keeps its one line;
+  `jot flatten` writes a copy with includes expanded, only when run, and never over the journal. This replaces "no includes" in spec
+  11.2; remote includes stay forbidden.
+- **Paths stay inside.** Only relative `.jot` paths, resolved against the including file and kept within the root the host names (the
+  VS Code workspace folder or the document's folder, the `.jotz` package, the CLI journal's folder or `--root`). Schemes, absolute
+  paths and climbs above the root are refused, symlinks may not lead out, files over 1 MiB are not read, and nothing reaches a network.
+- **Hosts read, the renderer draws.** `parser/include.mjs` is pure; the host lends file text through `renderPreview`'s `include(path)`.
+  In VS Code the extension reads the files and posts their text to the webview, whose strict content policy is unchanged; in
+  `/write/` includes resolve against `.jot` attachments of the open `.jotz` (attaching a `.jot` inserts an include line).
+- **Never a silent blank.** Includes nest 3 deep; a loop, a missing file, an unknown fragment, an unsafe path or the depth limit says
+  so in place. Included footnotes stay in the frame with their own ids; page-layout comments in an included file are ignored.

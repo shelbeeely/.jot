@@ -123,3 +123,18 @@ test('the webhook sends only tasks, events and numbers, after asking; nothing go
     assert.ok(!JSON.stringify(got[0]).includes('private thought'), 'the writing itself is never sent');
   } finally { srv.close(); }
 });
+
+test('includes: the extension reads only .jot files inside the folder (no climbing, no links out, no large files); the webview never fetches', async () => {
+  const { readInclude } = require('./extension.js'), os = require('node:os'), path = require('node:path'), fsx = require('node:fs');
+  const base = fsx.mkdtempSync(path.join(os.tmpdir(), 'jot-inc-')), root = path.join(base, 'root'), outside = path.join(base, 'secret.jot');
+  fsx.mkdirSync(path.join(root, 'notes'), { recursive: true }); fsx.writeFileSync(path.join(root, 'notes/week.jot'), 'Week.\n'); fsx.writeFileSync(outside, 'Private.\n');
+  fsx.writeFileSync(path.join(root, 'big.jot'), 'x'.repeat(1024 * 1024 + 1)); fsx.writeFileSync(path.join(root, 'note.txt'), 'Not a journal.\n');
+  try { fsx.symlinkSync(outside, path.join(root, 'link.jot')); } catch { /* no symlinks here */ }
+  assert.equal(await readInclude(root, 'notes/week.jot'), 'Week.\n');
+  assert.equal(await readInclude(root, 'notes/week.jot', (abs) => (abs === path.join(root, 'notes/week.jot') ? 'Unsaved.\n' : null)), 'Unsaved.\n', 'an open editor\'s text wins');
+  for (const bad of ['../secret.jot', 'notes/../../secret.jot', outside, '/etc/passwd', 'note.txt', 'big.jot', 'missing.jot', 'link.jot', 'C:/x.jot', 'notes//week.jot', null])
+    assert.equal(await readInclude(root, bad), null, String(bad));
+  const main = fsx.readFileSync(new URL('./media/preview-main.mjs', import.meta.url), 'utf8'), inc = fsx.readFileSync(new URL('./media/jot/include.mjs', import.meta.url), 'utf8');
+  for (const src of [main, inc]) assert.doesNotMatch(src, /\bfetch\(|XMLHttpRequest|WebSocket|import\(/);
+  assert.match(main, /include: \(p\) => \(Object\.hasOwn\(files, p\)/, 'the webview only uses the text the extension lent');
+});

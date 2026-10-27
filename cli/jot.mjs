@@ -7,6 +7,7 @@ import path from 'node:path';
 import { parse } from '../parser/jot.mjs';
 import A from '../parser/automation.mjs';
 import { sendWebhook, todoistAdd, weather } from '../parser/connect.mjs';
+import { flatten, notice } from '../parser/include.mjs';
 
 const HELP = `jot: tasks, events and numbers from .jot journals
 
@@ -17,6 +18,9 @@ Reading (any number of files; nothing is changed):
   jot ics <files…> [-o out.ics] [--name NAME] [--done] [--tasks-as-events]
                                                          events and dated tasks for any calendar app
   jot json <files…>                                      everything above, as one JSON document
+  jot flatten <journal.jot> [-o copy.jot] [--root DIR]   a copy with every ![label](other.jot#id) include written out (to
+                                                         stdout, or -o; never over the journal). Only .jot files inside DIR
+                                                         (default: the journal's folder) are read
 
 Writing (one journal; --dry-run prints the new text instead):
   jot import <numbers.csv> --into <journal.jot> [--combine sum|mean|last] [--day-first] [--source NAME] [--metric NAME…]
@@ -32,7 +36,7 @@ Connections (only when you run them):
 
 DATE is YYYY-MM-DD; "today" is your computer's date.`;
 
-const args = process.argv.slice(2), cmd = args.shift();
+const args = process.argv.slice(2), cmd = ((c) => (c === '--flatten' ? 'flatten' : c))(args.shift());
 const opt = (name, def = null) => { const i = args.indexOf(name); if (i < 0) return def; const v = args[i + 1]; args.splice(i, 2); return v; };
 const flag = (name) => { const i = args.indexOf(name); if (i < 0) return false; args.splice(i, 1); return true; };
 const fail = (msg) => { process.stderr.write(`jot: ${msg}\n`); process.exit(1); };
@@ -43,6 +47,7 @@ const out = (s) => process.stdout.write(s.endsWith('\n') ? s : `${s}\n`);
 
 async function main() {
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { out(HELP); return; }
+  if (cmd === 'flatten') return flattenCmd();
   if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
   if (['tasks', 'events', 'numbers', 'ics', 'json', 'post'].includes(cmd)) {
     const url = cmd === 'post' ? args.shift() : null;
@@ -112,5 +117,23 @@ async function main() {
     return writeBack(file, A.markSynced(src, 'todoist', todo.filter((t) => sent.some((s) => s.key === t.key)), { at: new Date().toISOString().slice(0, 16) }), `sent ${sent.length} ${sent.length === 1 ? 'task' : 'tasks'} to Todoist`, false);
   }
   fail(`unknown command "${cmd}" (jot help lists them)`);
+}
+// An include's file, read only inside the root: the path is already checked (include.mjs), and a symlink may not lead out either.
+function readInside(root, rel) {
+  const inside = (r, a) => { const d = path.relative(r, a); return !!d && !d.startsWith('..') && !path.isAbsolute(d); };
+  try {
+    const abs = path.resolve(root, ...rel.split('/')); if (!inside(root, abs) || !/\.jot$/i.test(abs)) return null;
+    const real = fs.realpathSync(abs); if (!inside(fs.realpathSync(root), real) || !fs.statSync(real).isFile() || fs.statSync(real).size > 1024 * 1024) return null;
+    const b = fs.readFileSync(real); return b[0] === 0x50 && b[1] === 0x4b ? null : b.toString('utf8');
+  } catch { return null; }
+}
+async function flattenCmd() {
+  const o = opt('-o'), rootOpt = opt('--root'), file = args.find((a) => !a.startsWith('--')); if (!file) fail('flatten: which journal?');
+  const src = read(file), root = path.resolve(rootOpt || path.dirname(file)), from = path.relative(root, path.resolve(file)).split(path.sep).join('/');
+  if (!from || from.startsWith('..') || path.isAbsolute(from)) fail('flatten: the journal must be inside --root');
+  if (o && path.resolve(o) === path.resolve(file)) fail('flatten writes a copy: give -o another name than the journal');
+  const r = await flatten(src, { from, read: (rel) => readInside(root, rel) });
+  for (const p of r.problems) process.stderr.write(`${p.from}: include ${notice(p.kind, p.href)}\n`);
+  if (o) { fs.writeFileSync(o, r.text); process.stderr.write(`wrote ${o}: ${r.expanded} ${r.expanded === 1 ? 'include' : 'includes'} written out${r.problems.length ? `, ${r.problems.length} left as they were` : ''}\n`); } else process.stdout.write(r.text);
 }
 main().catch((e) => fail(e.message));

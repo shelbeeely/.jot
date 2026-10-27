@@ -9,7 +9,11 @@
  *
  *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …',
  *                                style: 'journal' | 'notes' | 'plain' | null (styles.mjs; a typed page only),
- *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 } })
+ *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 },
+ *                                include(path) -> text | null, from: '' })
+ *     `![label](other.jot#id)` on a line of its own shows that part of another journal in place, framed and labelled with where it
+ *     came from (include.mjs). The host reads the file and lends its text through opts.include (the path is already checked to stay
+ *     inside the root; `from` is this document's own path there); a missing, unsafe, looping or too-deep include says so on the page.
  *     With `hand`, the page is written in a handwriting font on a dot grid (handwriting.mjs); target.jotReady resolves when it is
  *     aligned (after the fonts load).
  *   drawChart(section, model)   one chart record's figures into an element (the home page uses it on its own)
@@ -24,6 +28,7 @@ import { Chart } from './vendor/chart.mjs';
 import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFromComment, paintHighlights } from './handwriting.mjs';
 import { parse } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
+import { includeLines, excerpt, notice, MAX_DEPTH } from './include.mjs';
 export { CHART_CSS };
 const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
@@ -78,6 +83,9 @@ export function dateWords(date, rest = '', locale = 'en-GB') {
   const note = String(rest || '').trim();
   return { words, note: note && note.toLowerCase() !== WEEKDAYS[t.getUTCDay()] ? note : '' };
 }
+const PARSED = new Map(); // included files, parsed once while their text stays the same (the page redraws on every edit)
+const CHARTS = new WeakMap(), chartsOf = (a, sample) => { const k = sample ? 's' : 'r'; let m = CHARTS.get(a); if (!m) CHARTS.set(a, (m = {})); return m[k] || (m[k] = charts(a, { sample })); }; // an included file's chart models, once per text
+const parsed = (text) => { let a = PARSED.get(text); if (!a) { a = parse(text); if (PARSED.size > 32) PARSED.delete(PARSED.keys().next().value); PARSED.set(text, a); } return a; };
 const decode = (s) => String(s || '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 
 export function renderPreview(ast, target, opts = {}) {
@@ -103,6 +111,7 @@ export function renderPreview(ast, target, opts = {}) {
         case 'image': {
           const a = asset(t.href);
           if (a && a.url && RASTER.has(a.mediaType)) { n = el('img'); n.src = a.url; n.alt = t.text || 'Handwriting or image'; n.loading = 'lazy'; }
+          else if (/\.jot(?:#|$)/i.test(t.href || '')) n = el('span', `[Include: ${t.text || 'journal'} · ${t.href} · on a line of its own, it shows here]`, 'jot-include-inline');
           else n = el('span', `[Image: ${t.text || 'attachment'} · ${t.href}${a ? '' : ' · not attached'}]`);
           break;
         }
@@ -190,75 +199,103 @@ export function renderPreview(ast, target, opts = {}) {
     into.append(n);
   }
   const chartOf = new Map(charts(ast, { sample: !!opts.sample }).map((c) => [c.node, c.model])), drawn = [];
-  const notes = { order: [], defs: new Map(), prefix: `jotfn-${(target.id || 'page').replace(/[^\w-]/g, '')}-` };
+  let notes = { order: [], defs: new Map(), prefix: `jotfn-${(target.id || 'page').replace(/[^\w-]/g, '')}-` };
   const hand = opts.hand ? { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0, ...opts.hand } : null;
   target.classList.toggle('jot-hand', !!hand); // before anything is drawn, so charts size themselves to the grid
   for (const c of [...target.classList]) if (c.startsWith('jot-style-')) target.classList.remove(c);
   if (!hand && opts.style && isStyle(opts.style)) { addPageStyles(doc); target.classList.add(`jot-style-${opts.style}`); }
   if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.pen).family}'`); }
   else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift']) target.style.removeProperty(k);
-  const root = doc.createDocumentFragment();
-  let frag = root;
-  for (const n of ast.nodes) {
-    if (n.type === 'comment') {
-      const layout = blockLayoutFromComment(n.raw);
-      if (layout) {
-        frag = el('section', undefined, 'jot-layout-block');
-        frag.dataset.blockId = layout.id; frag.dataset.minRows = layout.rows;
-        frag.dataset.gap = layout.gap; frag.dataset.newPage = layout.newPage;
-        root.append(frag);
-      } else if (/^\/\*\r?\njot-block-end\r?\n\*\//.test(n.raw)) frag = root;
-      continue;
-    }
-    if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank') continue;
-    if (n.markdown && n.markdown.type === 'paragraph' && BLANKS.test(n.markdown.raw.trim())) { // a template's empty lines: "1. ", "- ", "[ ] " to write after
-      const box = el('div', undefined, 'jot-blanks');
-      for (const line of n.markdown.raw.trim().split(/\r?\n/)) { const m = line.trim(), mark = /^\[x\]/i.test(m) ? '☑' : m.startsWith('[') ? '☐' : /^\d/.test(m) ? m : '•'; const row = el('div', undefined, 'jot-blank-line'); row.append(el('span', mark, 'jot-mark'), el('span', '', 'jot-rule')); box.append(row); }
-      frag.append(box); continue;
-    }
-    if (n.type === 'record' && (n.recordType === 'scale' || n.recordType === 'sync')) continue; // a scale is a definition (its range shows on the charts that use it); a sync record is bookkeeping for a connection
-    if (n.markdown && n.markdown.type === 'blockquote' && n.callout) {
-      const box = el('aside', undefined, `jot-callout jot-callout-${n.callout}`); box.setAttribute('role', 'note');
-      box.append(el('p', CALLOUTS[n.callout], 'jot-callout-title')); for (const c of n.markdown.tokens || []) block(c, box);
-      frag.append(box); continue;
-    }
-    if (n.markdown) { if (n.diagram) frag.append(el('p', n.diagram.engine + ' source · rendering adapter not installed', 'diagram-note')); block(n.markdown, frag); continue; }
-    if (n.type === 'task') {
-      const [sym, said] = TASK[n.status] || TASK.open, row = el('div', undefined, `jot-task jot-task-${n.status}${n.priority === 'high' ? ' jot-task-high' : ''}`);
-      const box = el('span', sym, 'jot-box'); box.setAttribute('role', 'img'); box.setAttribute('aria-label', said); box.dataset.status = n.status;
-      const words = el('span', undefined, 'jot-task-text'); const p = n.inline && n.inline.find((x) => x.tokens); inline(p ? p.tokens : [{ type: 'text', text: n.text }], words);
-      row.append(box, ' ', words); if (n.priority === 'high') row.append(' ', el('span', '!', 'jot-priority'));
-      frag.append(row);
-    }
-    else if (n.type === 'record' && n.recordType === 'chart') {
-      const box = el('section', undefined, 'jot-chart'); box.setAttribute('aria-label', 'Chart');
-      frag.append(box); drawn.push([box, chartOf.get(n)]);
-    } else if (n.type === 'record' && n.recordType === 'measurement' && n.fields.some((f) => f.name === 'metric')) {
-      const get = (k) => (n.fields.find((f) => f.name === k) || {}).value || '';
-      const box = el('section', undefined, 'jot-record jot-measure');
-      box.append(el('strong', metricLabel(get('metric').replace(/[^a-z0-9]+/gi, '-').toLowerCase()) + ':'), doc.createTextNode(' '));
-      box.append(get('value') ? el('span', `${get('value')}${get('unit') ? ' ' + get('unit') : ''}`, 'jot-value') : el('span', '____', 'jot-blank'));
-      frag.append(box);
-    } else if (n.type === 'record') {
-      const box = el('section', undefined, 'jot-record'); box.append(el('strong', n.recordType));
-      const dl = el('dl'); for (const f of n.fields) dl.append(el('dt', f.name), el('dd', f.value)); box.append(dl); frag.append(box);
-    } else if (n.type === 'pagebreak') frag.append(el('hr', undefined, 'pagebreak'));
-    else if (n.type === 'scene') { const m = /^(\d{2})(\d{2})\s*[-–]\s*(.+)$/.exec(n.text); frag.append(el('p', m ? `${m[1]}:${m[2]} · ${m[3]}` : n.text, 'jot-scene eyebrow')); }
-    else if (n.type === 'annotation') { const a = el('aside', undefined, 'jot-margin'); a.setAttribute('aria-label', 'Margin note'); inline(inlineOf(n.text), a); frag.append(a); }
-    else if (SIGN[n.type]) { const [sym, said] = SIGN[n.type], p = el('p', undefined, `jot-sign jot-${n.type}`), b = el('span', sym, 'jot-sym'); b.setAttribute('role', 'img'); b.setAttribute('aria-label', said); p.append(b, ' '); inline(inlineOf(n.text), p); frag.append(p); }
-    else frag.append(el('p', n.text || n.raw));
+  const root = doc.createDocumentFragment(), lend = typeof opts.include === 'function' ? opts.include : () => null;
+  let includes = 0;
+  function include(inc, into, at) { // one `![label](file.jot#id)`: the part it names, framed, or a notice saying why not
+    const say = (kind) => { const p = el('p', undefined, 'jot-include jot-include-missing'); p.setAttribute('role', 'note'); p.append(el('span', '⧉', 'jot-sym'), ' ', el('span', `Include ${notice(kind, inc.href)}`)); into.append(p); };
+    if (inc.error) return say(inc.error);
+    if (at.stack.includes(inc.path)) return say('loop');
+    if (at.level >= MAX_DEPTH) return say('too-deep');
+    let text; try { text = lend(inc.path); } catch { text = null; }
+    if (typeof text !== 'string') return say('not-found');
+    const sub = parsed(text), list = excerpt(sub, inc.fragment);
+    if (!list) return say('no-fragment');
+    if (list.some((x) => x.type === 'record' && x.recordType === 'chart')) for (const c of chartsOf(sub, !!opts.sample)) chartOf.set(c.node, c.model); // only when it shows a chart
+    const where = `${inc.path}${inc.fragment ? '#' + inc.fragment : ''}`, box = el('section', undefined, 'jot-include');
+    box.setAttribute('aria-label', `Included from ${where}`); box.dataset.source = where;
+    const head = el('p', undefined, 'jot-include-source'); head.append(el('span', '⧉', 'jot-sym'), ' ', inc.label ? `${inc.label} · ` : '', el('span', where, 'jot-include-path'));
+    box.append(head);
+    const outer = notes; notes = { order: [], defs: new Map(), prefix: `${outer.prefix}inc${++includes}-` }; // its footnotes stay inside the frame, with ids of their own
+    draw(list, box, { level: at.level + 1, stack: [...at.stack, inc.path], from: inc.path });
+    footnotes(box); notes = outer;
+    into.append(box);
   }
-  frag = root;
-  if (notes.defs.size) { // footnotes, numbered by first mention; ones never mentioned come last
-    const sec = el('section', undefined, 'jot-footnotes'), ol = el('ol'); sec.setAttribute('aria-label', 'Notes');
-    for (const id of notes.defs.keys()) if (!notes.order.includes(id)) notes.order.push(id);
-    for (const id of notes.order) {
-      if (!notes.defs.has(id)) continue;
-      const li = el('li'); li.id = `${notes.prefix}${id}`; li.value = notes.order.indexOf(id) + 1; inline(notes.defs.get(id), li);
-      ol.append(li);
+  function draw(list, root, at) {
+    let frag = root;
+    for (const n of list) {
+      const incs = includeLines(n, at.from);
+      if (incs) { for (const inc of incs) include(inc, frag, at); continue; }
+      if (n.type === 'comment') {
+        if (at.level) continue; // a page layout belongs to the page, not to what it includes
+        const layout = blockLayoutFromComment(n.raw);
+        if (layout) {
+          frag = el('section', undefined, 'jot-layout-block');
+          frag.dataset.blockId = layout.id; frag.dataset.minRows = layout.rows;
+          frag.dataset.gap = layout.gap; frag.dataset.newPage = layout.newPage;
+          root.append(frag);
+        } else if (/^\/\*\r?\njot-block-end\r?\n\*\//.test(n.raw)) frag = root;
+        continue;
+      }
+      if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank') continue;
+      if (n.markdown && n.markdown.type === 'paragraph' && BLANKS.test(n.markdown.raw.trim())) { // a template's empty lines: "1. ", "- ", "[ ] " to write after
+        const box = el('div', undefined, 'jot-blanks');
+        for (const line of n.markdown.raw.trim().split(/\r?\n/)) { const m = line.trim(), mark = /^\[x\]/i.test(m) ? '☑' : m.startsWith('[') ? '☐' : /^\d/.test(m) ? m : '•'; const row = el('div', undefined, 'jot-blank-line'); row.append(el('span', mark, 'jot-mark'), el('span', '', 'jot-rule')); box.append(row); }
+        frag.append(box); continue;
+      }
+      if (n.type === 'record' && (n.recordType === 'scale' || n.recordType === 'sync')) continue; // a scale is a definition (its range shows on the charts that use it); a sync record is bookkeeping for a connection
+      if (n.markdown && n.markdown.type === 'blockquote' && n.callout) {
+        const box = el('aside', undefined, `jot-callout jot-callout-${n.callout}`); box.setAttribute('role', 'note');
+        box.append(el('p', CALLOUTS[n.callout], 'jot-callout-title')); for (const c of n.markdown.tokens || []) block(c, box);
+        frag.append(box); continue;
+      }
+      if (n.markdown) { if (n.diagram) frag.append(el('p', n.diagram.engine + ' source · rendering adapter not installed', 'diagram-note')); block(n.markdown, frag); continue; }
+      if (n.type === 'task') {
+        const [sym, said] = TASK[n.status] || TASK.open, row = el('div', undefined, `jot-task jot-task-${n.status}${n.priority === 'high' ? ' jot-task-high' : ''}`);
+        const box = el('span', sym, 'jot-box'); box.setAttribute('role', 'img'); box.setAttribute('aria-label', said); box.dataset.status = n.status;
+        const words = el('span', undefined, 'jot-task-text'); const p = n.inline && n.inline.find((x) => x.tokens); inline(p ? p.tokens : [{ type: 'text', text: n.text }], words);
+        row.append(box, ' ', words); if (n.priority === 'high') row.append(' ', el('span', '!', 'jot-priority'));
+        frag.append(row);
+      }
+      else if (n.type === 'record' && n.recordType === 'chart') {
+        const box = el('section', undefined, 'jot-chart'); box.setAttribute('aria-label', 'Chart');
+        frag.append(box); drawn.push([box, chartOf.get(n)]);
+      } else if (n.type === 'record' && n.recordType === 'measurement' && n.fields.some((f) => f.name === 'metric')) {
+        const get = (k) => (n.fields.find((f) => f.name === k) || {}).value || '';
+        const box = el('section', undefined, 'jot-record jot-measure');
+        box.append(el('strong', metricLabel(get('metric').replace(/[^a-z0-9]+/gi, '-').toLowerCase()) + ':'), doc.createTextNode(' '));
+        box.append(get('value') ? el('span', `${get('value')}${get('unit') ? ' ' + get('unit') : ''}`, 'jot-value') : el('span', '____', 'jot-blank'));
+        frag.append(box);
+      } else if (n.type === 'record') {
+        const box = el('section', undefined, 'jot-record'); box.append(el('strong', n.recordType));
+        const dl = el('dl'); for (const f of n.fields) dl.append(el('dt', f.name), el('dd', f.value)); box.append(dl); frag.append(box);
+      } else if (n.type === 'pagebreak') frag.append(el('hr', undefined, 'pagebreak'));
+      else if (n.type === 'scene') { const m = /^(\d{2})(\d{2})\s*[-–]\s*(.+)$/.exec(n.text); frag.append(el('p', m ? `${m[1]}:${m[2]} · ${m[3]}` : n.text, 'jot-scene eyebrow')); }
+      else if (n.type === 'annotation') { const a = el('aside', undefined, 'jot-margin'); a.setAttribute('aria-label', 'Margin note'); inline(inlineOf(n.text), a); frag.append(a); }
+      else if (SIGN[n.type]) { const [sym, said] = SIGN[n.type], p = el('p', undefined, `jot-sign jot-${n.type}`), b = el('span', sym, 'jot-sym'); b.setAttribute('role', 'img'); b.setAttribute('aria-label', said); p.append(b, ' '); inline(inlineOf(n.text), p); frag.append(p); }
+      else frag.append(el('p', n.text || n.raw));
     }
-    sec.append(ol); frag.append(sec);
   }
+  function footnotes(frag) {
+    if (notes.defs.size) { // footnotes, numbered by first mention; ones never mentioned come last
+      const sec = el('section', undefined, 'jot-footnotes'), ol = el('ol'); sec.setAttribute('aria-label', 'Notes');
+      for (const id of notes.defs.keys()) if (!notes.order.includes(id)) notes.order.push(id);
+      for (const id of notes.order) {
+        if (!notes.defs.has(id)) continue;
+        const li = el('li'); li.id = `${notes.prefix}${id}`; li.value = notes.order.indexOf(id) + 1; inline(notes.defs.get(id), li);
+        ol.append(li);
+      }
+      sec.append(ol); frag.append(sec);
+    }
+  }
+  draw(ast.nodes, root, { level: 0, stack: [String(opts.from || '')], from: String(opts.from || '') });
+  footnotes(root);
   for (const c of target.querySelectorAll('canvas')) { const old = Chart.getChart(c); if (old) old.destroy(); } // the last drawing's charts
   target.replaceChildren(root);
   for (const [box, model] of drawn) drawChart(box, model); // once in the page: Chart.js measures the box and reads its colours
@@ -308,6 +345,8 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-sign{display:flex;gap:.45em;align-items:baseline}.jot-sym{flex:none;width:1.1em;text-align:center;font-weight:700;opacity:.7}
 .jot-margin{font-size:.88em;font-style:italic;opacity:.8;border-left:2px solid color-mix(in srgb,currentColor 25%,transparent);padding-left:.7em;margin:.4em 0}
 .jot-tag,.jot-context{white-space:nowrap}.jot-tag{color:var(--jot-tag-ink,#8250df)}.jot-context{color:var(--jot-context-ink,#1a7f37)}
+.jot-include{border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:6px;padding:.1em .9em .4em;margin:.8em 0}.jot-include-source{font-size:.82em;opacity:.75;margin:.4em 0;overflow-wrap:anywhere}.jot-include-path{font-style:italic}
+.jot-include-missing{display:flex;gap:.45em;align-items:baseline;font-size:.9em;font-style:italic;opacity:.85;padding:.3em .9em;overflow-wrap:anywhere}.jot-include-inline{opacity:.8;font-style:italic}
 .jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;

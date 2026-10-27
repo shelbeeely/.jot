@@ -1,8 +1,31 @@
 // Jot for VS Code: the .jot language (jot.tmLanguage.json) and a live page preview. The preview runs the Jot parser and the shared page
 // renderer (media/jot/, copies of ../parser kept in step by sync.mjs) inside a webview, so a journal looks the same here as in the
 // workspace and the template editor, charts included. Nothing leaves the machine: the webview loads only this extension's own files.
+// Includes (`![label](other.jot#id)`, media/jot/include.mjs) are read here, not in the webview: only .jot files inside the document's
+// workspace folder (or its own folder), never through a link that leads outside it, each at most 1 MiB, and only their text is lent.
 'use strict';
 const path = require('path');
+const fs = require('fs');
+
+/** The text of an included file, or null: `rel` is a checked include path (include.mjs includeTarget), read only inside `root`.
+ * `openText(abs)` gives an open editor's unsaved text. Pure Node (no vscode), so the tests can try to climb out. */
+const READ = new Map(); // real path -> { mtime, size, text }: an included file is read again only when it changes
+const samePath = (a, b) => (process.platform === 'win32' ? path.normalize(a).toLowerCase() === path.normalize(b).toLowerCase() : path.normalize(a) === path.normalize(b));
+async function readInclude(root, rel, openText = () => null, limit = 1024 * 1024) {
+  if (typeof rel !== 'string' || !/\.jot$/i.test(rel) || rel.split('/').some((s) => !s || s === '.' || s === '..') || /[\\:\0]/.test(rel)) return null;
+  const abs = path.resolve(root, ...rel.split('/')), inside = (r, a) => { const d = path.relative(r, a); return !!d && !d.startsWith('..') && !path.isAbsolute(d); };
+  if (!inside(root, abs)) return null;
+  try {
+    const [realRoot, real] = await Promise.all([fs.promises.realpath(root), fs.promises.realpath(abs)]); // a symlink may not lead out
+    if (!inside(realRoot, real)) return null;
+    const open = openText(abs); if (typeof open === 'string') return open.length > limit ? null : open;
+    const st = await fs.promises.stat(real); if (!st.isFile() || st.size > limit) return null;
+    const hit = READ.get(real); if (hit && hit.mtime === st.mtimeMs && hit.size === st.size) return hit.text; // unchanged since the last redraw
+    const text = await fs.promises.readFile(real, 'utf8'); READ.set(real, { mtime: st.mtimeMs, size: st.size, text });
+    if (READ.size > 64) READ.delete(READ.keys().next().value);
+    return text;
+  } catch { return null; }
+}
 
 /** The webview page. Pure (no vscode), so the tests render it in Chromium. */
 function webviewHtml({ cspSource, nonce, scriptUri, styleUri, title = 'Jot preview' }) {
@@ -33,7 +56,21 @@ function activate(context) {
   // the look the settings ask for: typed, or handwritten on a dot grid (media/jot/handwriting.mjs)
   const look = () => { const c = vscode.workspace.getConfiguration('jot.preview'); return c.get('look') === 'handwritten' ? { hand: c.get('hand'), ink: c.get('ink'), pitchMm: c.get('dotSpacing') } : null; };
   const style = () => vscode.workspace.getConfiguration('jot.preview').get('style') || 'plain';
-  function send(panel, doc) { panel.webview.postMessage({ type: 'update', text: doc.getText(), name: path.basename(doc.fileName), hand: look(), style: style() }); }
+  const includeLib = () => import(vscode.Uri.joinPath(media, 'jot', 'include.mjs').toString());
+  async function lent(doc) { // the included files' text for the preview, read from disk (or an open editor), never from a network
+    if (doc.isUntitled || !doc.uri || doc.uri.scheme !== 'file') return { from: '', includes: {} };
+    const folder = vscode.workspace.getWorkspaceFolder ? vscode.workspace.getWorkspaceFolder(doc.uri) : null;
+    const root = folder ? folder.uri.fsPath : path.dirname(doc.fileName), from = path.relative(root, doc.fileName).split(path.sep).join('/');
+    const openText = (abs) => { const d = vscode.workspace.textDocuments.find((t) => t.uri.scheme === 'file' && samePath(t.uri.fsPath, abs)); return d ? d.getText() : null; };
+    const { gather } = await includeLib(), g = await gather(doc.getText(), { from, read: (rel) => readInclude(root, rel, openText) });
+    return { from, includes: g.files };
+  }
+  async function send(panel, doc) {
+    const n = (panel.jotSeq = (panel.jotSeq || 0) + 1); let inc = { from: '', includes: {} };
+    try { inc = await lent(doc); } catch { /* the page still draws; its includes say they were not found */ }
+    if (panel.jotSeq !== n) return; // a newer edit is on its way
+    try { await panel.webview.postMessage({ type: 'update', text: doc.getText(), name: path.basename(doc.fileName), hand: look(), style: style(), ...inc }); } catch { /* the panel closed */ }
+  }
   const ready = new Map(), exports = new Map(); // document uri -> when its preview has said it is ready; -> an export waiting for its page
 
   function open(doc, column) {
@@ -44,7 +81,7 @@ function activate(context) {
     w.html = webviewHtml({ cspSource: w.cspSource, nonce: nonce(), scriptUri: w.asWebviewUri(vscode.Uri.joinPath(media, 'preview-main.mjs')), styleUri: w.asWebviewUri(vscode.Uri.joinPath(media, 'preview.css')), title: `Preview ${path.basename(doc.fileName)}` });
     let isReady; ready.set(key, new Promise((r) => { isReady = r; }));
     w.onDidReceiveMessage((m) => {
-      if (m && m.type === 'ready') { send(panel, doc); isReady(); }
+      if (m && m.type === 'ready') send(panel, doc).finally(isReady);
       if (m && m.type === 'exported' && typeof m.html === 'string') { const done = exports.get(key); exports.delete(key); if (done) done(m); }
     });
     panels.set(key, panel);
@@ -53,7 +90,7 @@ function activate(context) {
   // Export: the preview makes the page (media/jot/export.mjs, the same as the site's Download page), the extension saves it
   async function exportDoc(doc) {
     open(doc, vscode.ViewColumn.Beside);
-    const key = doc.uri.toString(); await ready.get(key); send(panels.get(key), doc);
+    const key = doc.uri.toString(); await ready.get(key); await send(panels.get(key), doc);
     const got = new Promise((resolve) => exports.set(key, resolve));
     panels.get(key).webview.postMessage({ type: 'export', title: path.basename(doc.fileName, path.extname(doc.fileName)) });
     const m = await got;
@@ -84,7 +121,7 @@ function activate(context) {
     await vscode.workspace.fs.writeFile(target, Buffer.from(data, 'utf8')); return target;
   }
 
-  let timer;
+  let timer, others;
   context.subscriptions.push(
     vscode.commands.registerCommand('jot.showPreview', () => { const d = active(); if (d) open(d, vscode.ViewColumn.Active); else vscode.window.showInformationMessage('Open a .jot file to preview it.'); }),
     vscode.commands.registerCommand('jot.showPreviewToSide', () => { const d = active(); if (d) open(d, vscode.ViewColumn.Beside); else vscode.window.showInformationMessage('Open a .jot file to preview it.'); }),
@@ -152,6 +189,7 @@ function activate(context) {
     })),
     vscode.workspace.onDidSaveTextDocument(async (doc) => { // exports on save, when the settings name where to
       if (doc.languageId !== 'jot') return;
+      for (const [key, panel] of panels) { const d = key !== doc.uri.toString() && vscode.workspace.textDocuments.find((t) => t.uri.toString() === key); if (d) send(panel, d); } // a saved file may be included elsewhere
       const ics = cfg().get('exportOnSave.ics'), csv = cfg().get('exportOnSave.csv'); if (!ics && !csv) return;
       try { const { A, parse } = await lib(), ast = parse(doc.getText()); if (ics) await writeNear(doc, ics, A.toICS(ast, { name: path.basename(doc.fileName, '.jot'), tasksAsEvents: !!cfg().get('calendar.tasksAsEvents'), stamp: new Date().toISOString().replace(/[-:]|\.\d+/g, '') })); if (csv) await writeNear(doc, csv, A.numbersCSV(ast)); }
       catch (e) { vscode.window.showErrorMessage(`Jot: could not export on save (${e.message})`); }
@@ -166,10 +204,15 @@ function activate(context) {
       for (const [key, panel] of panels) { const doc = vscode.workspace.textDocuments.find((d) => d.uri.toString() === key); if (doc) send(panel, doc); }
     }),
     vscode.workspace.onDidChangeTextDocument((ev) => {
-      const panel = panels.get(ev.document.uri.toString()); if (!panel) return;
+      const panel = panels.get(ev.document.uri.toString());
+      if (!panel) { // another journal changed: previews that may include it redraw (with its unsaved text), a moment after typing stops
+        if (ev.document.languageId !== 'jot' || !panels.size) return;
+        clearTimeout(others); others = setTimeout(() => { for (const [key, p] of panels) { const d = vscode.workspace.textDocuments.find((t) => t.uri.toString() === key); if (d) send(p, d); } }, 400);
+        return;
+      }
       clearTimeout(timer); timer = setTimeout(() => send(panel, ev.document), 200);
     }),
   );
 }
 function deactivate() {}
-module.exports = { activate, deactivate, webviewHtml };
+module.exports = { activate, deactivate, webviewHtml, readInclude };

@@ -57,3 +57,18 @@ test('mistakes are said plainly, with a non-zero exit', async () => {
   }
   assert.match((await run(['help'])).stdout, /jot import <numbers\.csv> --into <journal\.jot>/);
 });
+
+test('flatten: a copy with includes written out; nothing outside the folder is read; the journal is never overwritten', async () => {
+  const d = tmp(), dir = path.join(d, 'j'); fs.mkdirSync(path.join(dir, 'notes'), { recursive: true });
+  const f = path.join(dir, 'main.jot'), src = '# Me\n\n![Sunday](notes/week.jot#2026-10-25)\n\n![secret](../secret.jot)\n\n![gone](gone.jot)\n';
+  fs.writeFileSync(f, src); fs.writeFileSync(path.join(d, 'secret.jot'), 'Private.\n');
+  fs.writeFileSync(path.join(dir, 'notes/week.jot'), '### 2026-10-25\n\nRain.\n\n![back](../main.jot)\n\n### 2026-10-26\n\nSun.\n');
+  const r = await run(['flatten', f]);
+  assert.equal(r.code, 0); assert.match(r.stdout, /\/\*\nincluded from notes\/week\.jot#2026-10-25\n\*\/\n### 2026-10-25\n\nRain\.\n\n!\[back\]\(\.\.\/main\.jot\)\n/);
+  assert.doesNotMatch(r.stdout, /Sun\.|Private/); assert.match(r.stdout, /!\[secret\]\(\.\.\/secret\.jot\)/);
+  assert.match(r.stderr, /include not repeated: \.\.\/main\.jot/); assert.match(r.stderr, /include not allowed: \.\.\/secret\.jot/); assert.match(r.stderr, /include not found: gone\.jot/);
+  const o = path.join(d, 'flat.jot'), w = await run(['flatten', f, '-o', o]);
+  assert.match(w.stderr, /wrote .*flat\.jot: 1 include written out, 3 left as they were/); assert.match(fs.readFileSync(o, 'utf8'), /Rain\./);
+  assert.equal((await run(['--flatten', f, '--root', d])).stdout.includes('Private.'), true, '--root widens what may be read, explicitly');
+  assert.match((await run(['flatten', f, '-o', f])).stderr, /writes a copy/); assert.equal(fs.readFileSync(f, 'utf8'), src);
+});

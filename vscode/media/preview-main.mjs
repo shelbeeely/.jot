@@ -9,21 +9,23 @@ const page = document.getElementById('page'), status = document.getElementById('
 addChartStyles(document);
 
 let current = { style: 'plain' };
-function show(text, hand = null, style = 'plain') {
-  const ast = parse(text); current = { style };
+// the included files' text, lent by the extension (it reads them; this page never fetches anything): { 'notes/week.jot': '…' }
+const lentFiles = (v) => { const out = Object.create(null); if (v && typeof v === 'object') for (const [k, t] of Object.entries(v)) if (typeof t === 'string') out[k] = t; return out; };
+function show(text, hand = null, style = 'plain', includes = {}, from = '') {
+  const ast = parse(text), files = lentFiles(includes); current = { style };
   // images and links to attachments only exist in a packaged .jotz; a plain .jot preview names them instead of loading anything
-  renderPreview(ast, page, { empty: 'Nothing written yet.', hand, style: hand ? null : style });
+  renderPreview(ast, page, { empty: 'Nothing written yet.', hand, style: hand ? null : style, from: String(from || ''), include: (p) => (Object.hasOwn(files, p) ? files[p] : null) });
   const charts = ast.nodes.filter((n) => n.type === 'record' && n.recordType === 'chart').length, d = ast.diagnostics.length;
   status.textContent = `${ast.entries.length} dated ${ast.entries.length === 1 ? 'entry' : 'entries'}${charts ? ` · ${charts} ${charts === 1 ? 'chart' : 'charts'}` : ''} · ${d ? `${d} ${d === 1 ? 'problem' : 'problems'}` : 'valid Jot'}`;
-  if (vscode) vscode.setState({ text, hand, style });
+  if (vscode) vscode.setState({ text, hand, style, includes: files, from });
 }
 window.addEventListener('message', async (e) => {
   const m = e.data;
-  if (m && m.type === 'update' && typeof m.text === 'string') show(m.text, m.hand && typeof m.hand === 'object' ? m.hand : null, typeof m.style === 'string' ? m.style : 'plain');
+  if (m && m.type === 'update' && typeof m.text === 'string') show(m.text, m.hand && typeof m.hand === 'object' ? m.hand : null, typeof m.style === 'string' ? m.style : 'plain', m.includes, typeof m.from === 'string' ? m.from : '');
   if (m && m.type === 'export' && vscode) {
     try { vscode.postMessage({ type: 'exported', html: await exportHTML(page, { title: String(m.title || 'Journal'), pageCss: pageCSS(current.style, [210, 297]) }) }); } catch (err) { vscode.postMessage({ type: 'exported', html: '', error: String(err && err.message || err) }); }
   }
 });
 const saved = vscode && vscode.getState();
-if (saved && typeof saved.text === 'string') show(saved.text, saved.hand || null, saved.style || 'plain');
+if (saved && typeof saved.text === 'string') show(saved.text, saved.hand || null, saved.style || 'plain', saved.includes, saved.from || '');
 if (vscode) vscode.postMessage({ type: 'ready' });
