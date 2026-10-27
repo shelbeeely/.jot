@@ -1,4 +1,5 @@
 import { setupMusicCapture } from './jot/music.mjs';
+import { setupHealthImport } from './health-import.mjs';
 import { referencePalettes } from './jot/palettes.mjs';
 import {parse} from './jot/jot.mjs';
 import {proofread} from './jot/proofread.mjs';
@@ -98,6 +99,7 @@ $('icsBtn').onclick=()=>{clearTimeout(timer);update();download(A.toICS(ast,{name
 $('numbersCsvBtn').onclick=()=>{clearTimeout(timer);update();download(A.numbersCSV(ast),fileName()+'-numbers.csv','text/csv;charset=utf-8');status('Downloaded the numbers as CSV.');};
 $('tasksCsvBtn').onclick=()=>{clearTimeout(timer);update();download(A.tasksCSV(ast),fileName()+'-tasks.csv','text/csv;charset=utf-8');status('Downloaded the tasks as CSV.');};
 $('importCsvBtn').onclick=()=>$('importCsv').click();
+setupHealthImport({editor,rewrite});
 $('importCsv').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>20*1024*1024){status('Choose a CSV smaller than 20 MB.',true);return;}try{const r=A.readCSV(await f.text(),{combine:'sum'});if(!r.numbers.length){status('No numbers found in '+f.name+' (a column of dates and columns of numbers are needed).',true);return;}const w=A.addNumbers(editor.value,r.numbers,{source:f.name});rewrite(w.text,'From '+f.name+': '+w.filled+' blanks filled, '+w.added+' numbers added, '+w.kept+' already there ('+r.metrics.join(', ')+').'+(r.ambiguous?' '+r.ambiguous+' rows had dates that could be read either way round and were left out.':''));}catch(err){status('Could not read '+f.name+': '+err.message,true);}};
 
 // Formatting edits the source, so the same colors survive saving, handwriting and print.

@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from '../parser/jot.mjs';
 import A from '../parser/automation.mjs';
+import H from '../parser/health.mjs';
 import { sendWebhook, todoistAdd, weather } from '../parser/connect.mjs';
 
 const HELP = `jot: tasks, events and numbers from .jot journals
@@ -21,6 +22,10 @@ Reading (any number of files; nothing is changed):
 Writing (one journal; --dry-run prints the new text instead):
   jot import <numbers.csv> --into <journal.jot> [--combine sum|mean|last] [--day-first] [--source NAME] [--metric NAME…]
                                                          numbers from a health or fitness app's CSV, into their days
+  jot import-health <export.xml|export.csv> --into <journal.jot> [--metric NAME…] [--since DATE] [--until DATE]
+                    [--list] [--day-first] [--source NAME]
+                                                         daily numbers from Apple Health's export.xml, or a Health Connect,
+                                                         Google Fit, Fitbit, Garmin or Oura CSV; --list shows what is in it
   jot today <journal.jot> [--date DATE] [--weather LAT,LON]   today's entry, if there is none (and the day's weather, from Open-Meteo)
   jot rollover <journal.jot> [--date DATE]               open tasks from earlier days carried to today ([>] where they were)
   jot review <journal.jot> [--date DATE]                 a review of the week: done, open, the numbers, a chart
@@ -43,7 +48,7 @@ const out = (s) => process.stdout.write(s.endsWith('\n') ? s : `${s}\n`);
 
 async function main() {
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { out(HELP); return; }
-  if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
+  if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'import-health', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
   if (['tasks', 'events', 'numbers', 'ics', 'json', 'post'].includes(cmd)) {
     const url = cmd === 'post' ? args.shift() : null;
     const status = opt('--status'), since = opt('--since'), metric = opt('--metric'), o = opt('-o'), name = opt('--name');
@@ -91,6 +96,31 @@ async function main() {
     if (r.ambiguous) process.stderr.write(`${r.ambiguous} rows have dates like 03/04/2026 that could be either way round: add --day-first if the day comes first\n`);
     const w = A.addNumbers(fs.existsSync(into) ? read(into) : '', r.numbers, { source: from || path.basename(csv) });
     return writeBack(into, w.text, `${into}: ${w.filled} blanks filled, ${w.added} numbers added, ${w.kept} already there (${r.metrics.join(', ') || 'no numbers'}; ${r.rows} rows${r.skipped ? `, ${r.skipped} without a date` : ''})`, dry);
+  }
+  if (cmd === 'import-health') {
+    const input = args.shift(), into = opt('--into'), from = opt('--source'), since = opt('--since'), until = opt('--until'), dayFirst = flag('--day-first'), list = flag('--list'), only = [];
+    for (let m; (m = opt('--metric'));) only.push(m.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''));
+    if (!input || (!into && !list)) fail('import-health <export.xml|file.csv> --into <journal.jot> (or --list)');
+    for (const [v, n] of [[since, '--since'], [until, '--until']]) if (v) date(v, n);
+    if (!fs.existsSync(input)) fail(`no such file: ${input}`);
+    const fd = fs.openSync(input, 'r'), start = Buffer.alloc(512); fs.readSync(fd, start, 0, 512, 0); fs.closeSync(fd);
+    const kind = H.healthKind(input, start.toString('utf8')); if (kind instanceof Error) fail(kind.message);
+    let s;
+    if (kind === 'apple') { if (fs.statSync(input).size > H.LIMITS.xmlBytes) fail(`${input} is larger than ${H.LIMITS.xmlBytes / 1024 ** 3} GB, more than Jot reads at once`); const sc = H.appleHealthScanner(); for await (const chunk of fs.createReadStream(input, { encoding: 'utf8', highWaterMark: 1 << 20 })) sc.push(chunk); s = sc.end(); }
+    else { if (fs.statSync(input).size > H.LIMITS.csvBytes) fail(`${input} is larger than ${H.LIMITS.csvBytes / 1024 ** 2} MB; export a shorter date range`); s = H.readHealthCSV(read(input), { dayFirst: dayFirst || null }); }
+    if (list || !s.metrics.length) {
+      out(`${s.name}${s.preset === 'generic' ? ' (columns read as they are)' : ''}: ${s.metrics.length ? `${s.first} to ${s.last}` : 'no numbers Jot reads'}`);
+      for (const m of s.metrics) out(`  ${m.metric.padEnd(24)} ${String(m.days).padStart(5)} days  ${m.first} to ${m.last}  ${m.aggregation}${m.unit ? `, ${m.unit}` : ''}${m.optional ? '  (only with --metric)' : ''}`);
+      if (s.leftOut?.length) out(`  left out: ${s.leftOut.join(', ')}`);
+      out(`  never read: ${H.LEFT_OUT}`);
+      if (!s.metrics.length && !list) process.exitCode = 1;
+      return;
+    }
+    const unknown = only.filter((m) => !s.metrics.some((x) => x.metric === m)); if (unknown.length) fail(`not in this file: ${unknown.join(', ')} (--list shows what is)`);
+    if (s.ambiguous) process.stderr.write(`${s.ambiguous} rows have dates like 03/04/2026 that could be either way round: add --day-first if the day comes first\n`);
+    const numbers = s.numbers({ metrics: only.length ? only : null, since, until });
+    const w = A.addNumbers(fs.existsSync(into) ? read(into) : '', numbers, { source: from || (kind === 'apple' ? `Apple Health ${path.basename(input)}` : `${s.name} ${path.basename(input)}`.replace(/^(CSV|Health app) /, '')) });
+    return writeBack(into, w.text, `${into}: ${w.filled} blanks filled, ${w.added} numbers added, ${w.kept} already there${w.skipped ? `, ${w.skipped} blanks left empty (a different unit)` : ''} (${[...new Set(numbers.map((n) => n.metric))].join(', ') || 'no numbers in that range'})`, dry);
   }
   const file = args.shift(); if (!file) fail(`${cmd}: which journal?`);
   const d = date(opt('--date'));

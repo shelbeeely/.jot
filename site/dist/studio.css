@@ -22,3 +22,12 @@ nav{display:flex;align-items:center;gap:24px}nav a,nav button{text-decoration:no
 @media print{#musicDialog{display:none!important}}
 
 #musicDialog [hidden]{display:none!important}
+
+#healthDialog{width:min(660px,calc(100vw - 24px));padding:22px;max-height:90vh;overflow:auto}#healthDialog [hidden]{display:none!important}
+#healthDialog fieldset{margin:14px 0;padding:10px 12px;border:1px solid var(--jot-edge);border-radius:6px;min-width:0}
+#healthMetrics{display:grid;gap:4px}#healthMetrics label{display:flex;gap:10px;align-items:center;min-height:44px;cursor:pointer}#healthMetrics input{width:22px;height:22px;flex:none}
+.health-count{margin-left:auto;color:var(--jot-muted);white-space:nowrap}.health-range{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.health-range input{min-height:44px;padding:6px 8px;border:1px solid var(--jot-edge);font:inherit;background:inherit;color:inherit}
+#healthPreview{max-height:40vh;overflow:auto;padding:10px;border:1px solid var(--jot-edge);border-radius:6px;white-space:pre-wrap;word-break:break-word}
+#healthStatus.error{font-weight:700}#healthDayFirstRow label{display:flex;gap:10px;align-items:center;min-height:44px}#healthDayFirst{width:22px;height:22px}.health-review-title{margin:12px 0 4px;font-size:1.1em}
+@media print{#healthDialog{display:none!important}}

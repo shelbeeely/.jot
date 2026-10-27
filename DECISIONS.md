@@ -140,6 +140,28 @@ only native representation.
   PNG pictures with their summaries as alternative text, attachments and the hand in use as data: URLs, no scripts, nothing fetched.
   PDF is the browser's print, with `@page` margins and page numbers.
 
+## Health data import (27 October 2026)
+
+- **From the app's own export, on this device.** `parser/health.mjs` reads Apple Health's `export.xml` and daily CSVs from Health
+  Connect, Google Fit, Fitbit, Garmin and Oura; the workspace's **Import health data**, `jot import-health` and the tests share it.
+  No service APIs, accounts or network. `export.zip` is not opened: Apple's archives hold directories and members far beyond the
+  `.jotz` reader's limits, so people unzip it and choose `export.xml`, which is scanned as a stream (a regular expression over `<Record>`
+  tags, never a DOM), keeping only daily totals of the chosen kinds, up to 2 GB.
+- **The author chooses, and sees it first.** Metrics and dates are chosen (the last 30 days to begin with), and every record to be
+  added or filled is shown before **Add to journal**. Writing goes through `addNumbers`, so imports fill blanks, never repeat a day and
+  carry `source:`; each record also says its `aggregation`. `addNumbers` now parses twice per call instead of twice per number.
+- **How a day is counted.** Totals (steps, distance, energy, flights, exercise) take the larger source per day, so phone and watch are
+  not added together; heart rate, HRV, SpO2 and respiratory rate are means (lowest/highest offered, off by default); body mass and fat
+  are the last reading; sleep is time asleep with every source's spans merged, dated on the morning it ends; mindful minutes are merged
+  spans. Dates are the export's own local dates.
+- **Units as exported.** No conversion; a metric seen in two units becomes two metrics (`body-mass-kg`, `body-mass-lb`), CSV sleep in
+  minutes or seconds is `sleep-minutes`/`sleep-seconds`, and `addNumbers` leaves a blank with a different `unit:` empty (`skipped`).
+  HealthKit's percent is a fraction in `export.xml`, so 0.97 % is written as the 97 % it means.
+- **Left out on purpose.** Medications, lab and clinical records (`export_cda.xml` is refused), reproductive and sexual health, and
+  location (routes, latitude/longitude columns) are never read, even by the generic CSV fallback: they are the most sensitive parts of an export and a journal is often
+  shared, synced or printed. Vendor scores (readiness, sleep score, body battery, stress) are calculations, not measurements. Nothing
+  infers a health state from the numbers.
+
 ## Automation and connections (26 October 2026)
 
 - **The file stays the source.** Automation reads what a journal holds (`parser/automation.mjs`: tasks, events, numbers) and writes back

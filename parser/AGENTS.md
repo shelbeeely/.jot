@@ -11,7 +11,7 @@ Rules for `parser/`, on top of the repository's root `AGENTS.md`. This is the ca
 
 ## After changing a module
 
-1. Copy each changed module to `site/dist/jot/` (CI compares `jot`, `container`, `proofread`, `charts`, `preview`, `handwriting`, `styles`, `export`, `automation`, `connect`, `vendor/chart`, `vendor/marked` and `fonts/`). `converter/convert.mjs` is copied there the same way.
+1. Copy each changed module to `site/dist/jot/` (CI compares `jot`, `container`, `proofread`, `charts`, `preview`, `handwriting`, `styles`, `export`, `automation`, `connect`, `health`, `vendor/chart`, `vendor/marked` and `fonts/`). `converter/convert.mjs` is copied there the same way.
 2. Run `node vscode/sync.mjs` for the extension's copy.
 3. After changing `handwriting.mjs`, run `node tools/build-handwriting-css.mjs`; never edit `handwriting.css` by hand.
 4. Run `python3 tools/build-parser-zip.py` for the site's parser download, then `node tools/manifest.cjs` last.

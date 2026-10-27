@@ -66,6 +66,55 @@ Date,Steps,Sleep (h)
 
 The numbers then chart like any others: see [Numbers and charts](template-editor.md#numbers-and-charts).
 
+## Health data
+
+**Import health data** in the Tools row reads a health app's own export and writes one number per day for each kind you choose. It
+works on this device: nothing is uploaded, no account is needed, and nothing changes until you press **Add to journal** (Ctrl+Z takes
+it out again).
+
+- **Apple Health**: in the Health app, tap your picture, then **Export All Health Data**. Unzip `export.zip` and choose
+  `apple_health_export/export.xml`. The file can be very large; it is read in pieces, up to 2 GB.
+- **Health Connect, Google Fit, Fitbit, Garmin, Oura**: choose the daily CSV the app (or an export app) writes. Known columns are
+  read with their units; others are listed as left out. A CSV Jot doesn't recognise is read like any other numbers CSV, still without
+  the columns listed under "Never read" below.
+
+You then tick the numbers you want and choose the dates (the last 30 days to begin with); the dialog shows how many days each has and
+every record it will add or fill. How a day's readings become one number:
+
+| Number | Metric | A day's number |
+| --- | --- | --- |
+| Steps, distance, active energy, flights, exercise minutes | `steps`, `distance`, `active-energy`, `flights`, `exercise` | the day's total. When two devices count the same day (a phone and a watch), the larger total is used, not both added |
+| Heart rate, resting heart rate, heart rate variability, blood oxygen, respiratory rate | `heart-rate`, `resting-heart-rate`, `hrv`, `spo2`, `respiratory-rate` | the day's average. The lowest and highest (`heart-rate-min`, `heart-rate-max` …) are there to tick if you want them |
+| Sleep | `sleep` (h) | hours asleep (not in bed, not awake), every source merged so overlapping apps count once, given to the date you woke up. A nap counts on the day it ends |
+| Body mass, body fat | `body-mass`, `body-fat` | the last reading of the day |
+| Mindful minutes | `mindful` (min) | the day's total, overlapping sessions counted once |
+
+A reading belongs to the day written in the export, in the time zone it was recorded in. Units stay as the app wrote them (kg or lb,
+km or mi); a metric recorded in two units becomes two metrics (`body-mass-kg`, `body-mass-lb`) rather than being converted, and sleep a
+CSV counts in minutes or seconds is `sleep-minutes` or `sleep-seconds`, so it never shares an axis with hours. A template blank whose
+`unit:` differs from the number's is left empty and counted. The one change is blood oxygen and body fat, which Apple writes as fractions (0.97) and Jot as the percent they mean
+(97 %). Each record says how its day was counted and where it came from:
+
+```jot
+### 2026-10-26 | Monday
+
+:::record measurement #sleep-2026-10-26
+metric: sleep
+value: 7.25
+unit: h
+aggregation: sum
+source: Apple Health export.xml
+:::
+```
+
+Never read, whatever the file holds: medications, lab results and clinical records (including `export_cda.xml`), reproductive and
+sexual health, and location (workout routes, latitude and longitude columns). They stay in the export, out of a journal you may share,
+sync or print. Readiness, sleep and stress scores are an app's calculations rather than measurements, so they are left out too, and
+Jot never turns any number into a statement about your health.
+
+On the command line, `jot import-health export.xml --list` shows what a file holds; then, for example,
+`jot import-health export.xml --into journal.jot --metric steps --metric sleep --since 2026-10-01 --dry-run`.
+
 ## The jot command line
 
 `cli/jot.mjs` in the Jot project (Node 20 or later) does the same things from a terminal, so scripts, scheduled jobs and Apple
@@ -77,6 +126,7 @@ jot events journal.jot --since 2026-10-01
 jot numbers journal.jot                      # CSV
 jot ics journal.jot -o ~/Calendars/jot.ics   # a calendar file
 jot import fit.csv --into journal.jot        # numbers in, into their days
+jot import-health export.xml --into journal.jot --metric steps --since 2026-10-01
 jot today journal.jot                        # today's entry
 jot rollover journal.jot                     # carry open tasks to today
 jot review journal.jot                       # this week's review

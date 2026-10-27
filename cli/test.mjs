@@ -57,3 +57,19 @@ test('mistakes are said plainly, with a non-zero exit', async () => {
   }
   assert.match((await run(['help'])).stdout, /jot import <numbers\.csv> --into <journal\.jot>/);
 });
+
+test('import-health: Apple Health export.xml, chosen metrics and dates, --list, --dry-run; ZIP refused; a Fitbit CSV', async () => {
+  const d = tmp(), f = path.join(d, 'j.jot'), xml = path.join(d, 'export.xml'), zip = path.join(d, 'export.zip'); fs.writeFileSync(f, J);
+  const r = (type, day, value, unit = 'count') => `<Record type="HKQuantityTypeIdentifier${type}" sourceName="Phone" unit="${unit}" startDate="${day} 08:00:00 +0000" endDate="${day} 09:00:00 +0000" value="${value}"/>\n`;
+  fs.writeFileSync(xml, `<?xml version="1.0"?>\n<HealthData>\n${r('StepCount', '2026-10-25', 4000)}${r('StepCount', '2026-10-25', 1000)}${r('StepCount', '2026-10-26', 300)}${r('HeartRate', '2026-10-25', 64, 'count/min')}${r('BloodGlucose', '2026-10-25', 90, 'mg/dL')}</HealthData>\n`);
+  const list = await run(['import-health', xml, '--list']); assert.match(list.stdout, /Apple Health: 2026-10-25 to 2026-10-26\n {2}heart-rate\s+1 days/); assert.match(list.stdout, /never read: medications/); assert.doesNotMatch(list.stdout, /glucose/i);
+  const dry = await run(['import-health', xml, '--into', f, '--metric', 'steps', '--until', '2026-10-25', '--dry-run']);
+  assert.match(dry.stdout, /#steps-2026-10-25\nmetric: steps\nvalue: 5000\naggregation: sum\nsource: Apple Health export\.xml\n:::/); assert.doesNotMatch(dry.stdout, /heart-rate|2026-10-26/); assert.equal(fs.readFileSync(f, 'utf8'), J);
+  assert.match((await run(['import-health', xml, '--into', f])).stderr, /0 blanks filled, 3 numbers added, 0 already there \(heart-rate, steps\)/);
+  assert.match((await run(['import-health', xml, '--into', f])).stderr, /3 already there/);
+  assert.match((await run(['import-health', xml, '--into', f, '--metric', 'glucose'])).stderr, /not in this file: glucose/);
+  fs.writeFileSync(zip, 'PK\u0003\u0004rest'); assert.match((await run(['import-health', zip, '--into', f])).stderr, /Unzip export\.zip first/);
+  const csv = path.join(d, 'fitbit.csv'); fs.writeFileSync(csv, 'Date,Steps,Minutes Asleep,Minutes Sedentary\n2026-10-27,"9,000",420,600\n');
+  assert.match((await run(['import-health', csv, '--into', f, '--metric', 'Sleep Minutes', '--metric', 'steps'])).stderr, /2 numbers added.*\(sleep-minutes, steps\)/);
+  assert.match(fs.readFileSync(f, 'utf8'), /#sleep-minutes-2026-10-27\nmetric: sleep-minutes\nvalue: 420\nunit: min\naggregation: sum\nsource: Fitbit fitbit\.csv/);
+});
