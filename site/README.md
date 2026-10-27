@@ -129,3 +129,10 @@ The homepage has no editor or form. Its color and formatting gallery uses actual
 Browser regression: `node site/test-paper-ui.cjs` (Chromium, Playwright and axe-core).
 
 Mildliner reference colors live in `dist/jot/palettes.mjs`, shared by the writing palette and homepage swatches. All five groups and 25 hex codes are checked against the reference chart.
+
+## Listening capture
+
+`dist/jot/music.mjs` builds plain-text listening notes and provides optional Spotify PKCE capture. `dist/write/spotify-callback.html`
+returns the authorization result to the originating writer window. Set a public Client ID in `dist/jot/spotify-config.json`, or enter
+one in the writer. Never put a client secret or account token in the repository. See the automation guide for provider setup and limits.
+Tests: `node --test site/test-music.mjs` and `node site/test-music-ui.cjs` (Spotify HTTP responses are stubbed).

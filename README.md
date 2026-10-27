@@ -124,12 +124,19 @@ too. Guide: [Handwritten pages on a dot grid](docs/guide/writing-jot.md#handwrit
 
 `parser/automation.mjs` reads a journal's tasks, events and numbers and writes back to it: calendar (`.ics`) and CSV out, numbers from a
 fitness app's CSV in (into their days, blanks filled first, never twice), today's entry, carrying open tasks forward, a week review.
-`parser/connect.mjs` is the only code that reaches the internet, and only when asked: webhooks (Zapier, Make, n8n), Todoist and the
+`parser/connect.mjs` handles optional service calls for webhooks (Zapier, Make, n8n), Todoist and the
 weather (Open-Meteo). The workspace's **Tools** row, the `jot` command line (`cli/jot.mjs`, [cli/README.md](cli/README.md)) and
 VS Code all use the same code. Guide: [Automation and connections](docs/guide/automation.md).
 
     node cli/jot.mjs help
     node --test parser/automation-test.mjs cli/test.mjs
+
+## Music with an entry
+
+In **Write → Listening ♫**, add a song title, artist, Spotify or YouTube Music link, and a note about the setting. Spotify's optional
+**Fetch currently playing** fills the fields for review before insertion. The saved note is ordinary Jot/Markdown and stays useful
+in any text editor. Live Spotify capture requires a registered app's public Client ID; [setup instructions](docs/guide/automation.md#spotify-setup)
+cover configuration and Spotify's access limits. Tokens stay in page memory; the journal is never uploaded.
 
 ## Jot for VS Code
 
@@ -203,7 +210,7 @@ The publishing privacy check also needs `pdftotext` (provided by Poppler).
 node --test parser/*test.mjs cli/test.mjs
 
 # Site, converter, file handling and extension tests
-node --test site/test-editor.mjs site/test-guides.mjs converter/test.mjs tools/test-files.mjs tools/test-privacy.mjs vscode/test-extension.mjs
+node --test site/test-editor.mjs site/test-guides.mjs site/test-music.mjs converter/test.mjs tools/test-files.mjs tools/test-privacy.mjs vscode/test-extension.mjs
 node site/test-core.cjs
 
 # Verify the published site and tracked file manifest
@@ -217,6 +224,7 @@ Browser regression checks require Playwright, Chromium and the root `axe-core` d
 Run `node site/test-layout-ui.cjs` for grid sizing, page starts, save/reopen, overflow and HTML export checks.
 Run `node site/test-paper-ui.cjs` to check shared styling, paper modes, homepage examples and accessibility across the site.
 Run `node site/test-highlight-blend-ui.cjs` for pixel checks of highlights over ink, including HTML export, print and PDF.
+Run `node site/test-music-ui.cjs` for manual listening notes and Spotify connection/capture checks with stubbed service responses.
 These browser checks are separate from the Node.js tests above.
 
 Before changing behavior, read [DECISIONS.md](DECISIONS.md) and the relevant component README. Parser code is copied into the site and
@@ -234,7 +242,8 @@ once in **Settings → Pages → Source: GitHub Actions**. Details: [site/README
 
 ## Privacy
 
-The browser writing tools process journals locally. Webhooks, Todoist and weather requests are explicit CLI or VS Code actions;
+The browser writing tools process journals locally. Spotify sign-in and playback fetches are explicit actions in Write; journal text stays local.
+Webhooks, Todoist and weather requests are explicit CLI or VS Code actions;
 see [Automation and connections](docs/guide/automation.md) for what they send.
 
 Repository journals are public-domain diaries or fictional examples. Keep personal journals, attachments and service credentials out

@@ -4,8 +4,8 @@
   "files": [
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 2595,
-      "sha256": "9f070d68d998cb4bed269ac662629894acbd2bab2a969e414f20133e50fd0e44"
+      "byteLength": 2615,
+      "sha256": "024634569237d25201ff323c7395557e34a2b578ea213f25f434b751de19f517"
     },
     {
       "path": ".gitignore",
@@ -14,13 +14,13 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 14080,
-      "sha256": "d179a15d65373cf40c335fd0f5d5f9c0e90e86c831c02ac4eeea47ae7a2f5629"
+      "byteLength": 15543,
+      "sha256": "8a6ad3d24914f95fd2e3329b2137b5d901ae07ccd455e68d361ac15ed5971409"
     },
     {
       "path": "README.md",
-      "byteLength": 16269,
-      "sha256": "5260ca35015ca230fe2e9123ca755fda7300fdf156dc96ab61f42f58247c0578"
+      "byteLength": 17034,
+      "sha256": "72313a7bc12c03ea391e7c892d53987d6d7cd32a19e6399dfd85d2ef4e5127be"
     },
     {
       "path": "cli/README.md",
@@ -94,8 +94,8 @@
     },
     {
       "path": "docs/guide/automation.md",
-      "byteLength": 7510,
-      "sha256": "fe8a0265cf7871b7bd45a9fb2875684801530f019288d543b3764d95bdd351f5"
+      "byteLength": 10872,
+      "sha256": "66c26d0e78f9c739a7e68ba02fcf4f3ebe5bad139a19faf5b780aa1029fda0c7"
     },
     {
       "path": "docs/guide/converting.md",
@@ -524,13 +524,13 @@
     },
     {
       "path": "parser/handwriting.css",
-      "byteLength": 18829,
-      "sha256": "627c156b0df21ca882109b424af37659904a7a33f5f4b019f16add1b33be84ed"
+      "byteLength": 19125,
+      "sha256": "f918cf74f06f8ff42afa90acdf639a64da25cf6030e177d4f68f32c3f7f5f14f"
     },
     {
       "path": "parser/handwriting.mjs",
-      "byteLength": 38616,
-      "sha256": "265666ccb591ba2393f3d90afdd5d32ec1178c27f6ef75e0d189e60c70e51c7a"
+      "byteLength": 38912,
+      "sha256": "a4b8ee3888c1370e3f8127cc74149d4434afcec9b5d42c501d60d7650d9c6f7b"
     },
     {
       "path": "parser/jot.mjs",
@@ -619,8 +619,8 @@
     },
     {
       "path": "site/README.md",
-      "byteLength": 11211,
-      "sha256": "365b80b66b1b253e492729085d91a32d3e67a05ac62d789cea8b479d7a3fad19"
+      "byteLength": 11752,
+      "sha256": "a4d8e966faed755278fbdf16d8cbf3de5bff699b05194bf8e12572a8dd2914e4"
     },
     {
       "path": "site/build-guides.mjs",
@@ -669,8 +669,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 876443,
-      "sha256": "ad89976aa1237866791bc4391100c4d9438e4dc3ef16c7caff110d26cb363e60"
+      "byteLength": 876539,
+      "sha256": "c0e00478a5af8df2e3e82d83c05067a600fdc698ad4a3e97bd5107ba77f92942"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -974,8 +974,8 @@
     },
     {
       "path": "site/dist/guide/automation.html",
-      "byteLength": 11207,
-      "sha256": "d0e6ec60f174e3e54df419a12fb158e147a68fbcf4d317178f68042bf13b61b5"
+      "byteLength": 15066,
+      "sha256": "52442ca25a917dbbde103a98f9c2f1909570981417ed6fcbac83403e24b3b32e"
     },
     {
       "path": "site/dist/guide/converting.html",
@@ -1124,18 +1124,23 @@
     },
     {
       "path": "site/dist/jot/handwriting.css",
-      "byteLength": 18829,
-      "sha256": "627c156b0df21ca882109b424af37659904a7a33f5f4b019f16add1b33be84ed"
+      "byteLength": 19125,
+      "sha256": "f918cf74f06f8ff42afa90acdf639a64da25cf6030e177d4f68f32c3f7f5f14f"
     },
     {
       "path": "site/dist/jot/handwriting.mjs",
-      "byteLength": 38616,
-      "sha256": "265666ccb591ba2393f3d90afdd5d32ec1178c27f6ef75e0d189e60c70e51c7a"
+      "byteLength": 38912,
+      "sha256": "a4b8ee3888c1370e3f8127cc74149d4434afcec9b5d42c501d60d7650d9c6f7b"
     },
     {
       "path": "site/dist/jot/jot.mjs",
       "byteLength": 13382,
       "sha256": "29f23fcac6af112caaf422e0d1d9e6cf0bee3537c7195e7a8902dffa88021acc"
+    },
+    {
+      "path": "site/dist/jot/music.mjs",
+      "byteLength": 14013,
+      "sha256": "c7e6d8c6f44084f5fd7f85edeb9884f3fd393bb8cf88354636b84d38c65e709c"
     },
     {
       "path": "site/dist/jot/palettes.mjs",
@@ -1161,6 +1166,16 @@
       "path": "site/dist/jot/proofread.mjs",
       "byteLength": 1944,
       "sha256": "77af6888043b1f3216d03c629f73dd1563cbc2a73bdc60ef18973577a48e5271"
+    },
+    {
+      "path": "site/dist/jot/spotify-callback.mjs",
+      "byteLength": 998,
+      "sha256": "5ad435f8554164c7aa9172c2b7ae8a1ede1cbd8489b12e875331fa3d0a03031d"
+    },
+    {
+      "path": "site/dist/jot/spotify-config.json",
+      "byteLength": 16,
+      "sha256": "1e7e2cc4f23c475907f40685444952f06c93052250849c420a24486962a1e899"
     },
     {
       "path": "site/dist/jot/storage.mjs",
@@ -1239,18 +1254,23 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 10950,
-      "sha256": "01fb6afd51a59df062e2cfa71f2f1a5bb3d76c95ea60a5b636527354f7613f0c"
+      "byteLength": 11603,
+      "sha256": "160821d5b6a720cc090b9d06076e5997208eef355f8263c1ce016d3ccc806347"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 29462,
-      "sha256": "a89007a125d2e77d279d9120f53fa7730272d9600a7b3ffa0a6dab05f8bf2749"
+      "byteLength": 29581,
+      "sha256": "c49c698267dced93ce18999398778c1bbc596d79f46578312fabc4e7dffe7873"
     },
     {
       "path": "site/dist/write/index.html",
-      "byteLength": 11337,
-      "sha256": "9c2d752c9adac98326a8fc36f0307853e89c61ef6d060a0b2eccfd3849e11ab7"
+      "byteLength": 14001,
+      "sha256": "58a9af9caaae0921e64fadcfae029ddcfa394d68ec81fabc841bb6b4566ec894"
+    },
+    {
+      "path": "site/dist/write/spotify-callback.html",
+      "byteLength": 604,
+      "sha256": "85e905506d8b9bcc307537db95b7f6cba1e2011876f1b234783176d184b3af76"
     },
     {
       "path": "site/test-colors-ui.cjs",
@@ -1296,6 +1316,16 @@
       "path": "site/test-layout-ui.cjs",
       "byteLength": 14280,
       "sha256": "a19415363c923ed1bf1cc1b74790c2ece1a5ca9aabdab3e0a8f3cbabfc0999fe"
+    },
+    {
+      "path": "site/test-music-ui.cjs",
+      "byteLength": 9104,
+      "sha256": "78bcb3ea1171c09c4f57298f23c38b8b83cb7130ced390b0bba555748aa2a2d3"
+    },
+    {
+      "path": "site/test-music.mjs",
+      "byteLength": 5264,
+      "sha256": "4a2268c717d9cabcc8c489efa7823664f872aab5608a64dbd89f4d7ef9494b57"
     },
     {
       "path": "site/test-paper-ui.cjs",
@@ -1534,13 +1564,13 @@
     },
     {
       "path": "vscode/media/jot/handwriting.css",
-      "byteLength": 18829,
-      "sha256": "627c156b0df21ca882109b424af37659904a7a33f5f4b019f16add1b33be84ed"
+      "byteLength": 19125,
+      "sha256": "f918cf74f06f8ff42afa90acdf639a64da25cf6030e177d4f68f32c3f7f5f14f"
     },
     {
       "path": "vscode/media/jot/handwriting.mjs",
-      "byteLength": 38616,
-      "sha256": "265666ccb591ba2393f3d90afdd5d32ec1178c27f6ef75e0d189e60c70e51c7a"
+      "byteLength": 38912,
+      "sha256": "a4b8ee3888c1370e3f8127cc74149d4434afcec9b5d42c501d60d7650d9c6f7b"
     },
     {
       "path": "vscode/media/jot/jot.mjs",

@@ -17,13 +17,14 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="automation-and-connections">Automation and connections</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-workspace-the-tools-row">In the workspace: the Tools row</a></li><li><a href="#events-and-tasks-on-your-calendar">Events and tasks on your calendar</a></li><li><a href="#numbers-from-a-fitness-or-health-app">Numbers from a fitness or health app</a></li><li><a href="#the-jot-command-line">The jot command line</a></li><li><a href="#in-vs-code">In VS Code</a></li><li><a href="#connecting-to-other-services">Connecting to other services</a></li><li><a href="#ideas">Ideas</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-workspace-the-tools-row">In the workspace: the Tools row</a></li><li><a href="#events-and-tasks-on-your-calendar">Events and tasks on your calendar</a></li><li><a href="#numbers-from-a-fitness-or-health-app">Numbers from a fitness or health app</a></li><li><a href="#the-jot-command-line">The jot command line</a></li><li><a href="#in-vs-code">In VS Code</a></li><li><a href="#connecting-to-other-services">Connecting to other services</a></li><li><a href="#ideas">Ideas</a></li><li><a href="#listening-notes">Listening notes</a></li></ul></nav><article class="guide">
 <p>A <code>.jot</code> is plain text, but the tasks, events and numbers in it can be read by a program. This guide covers what you can do with
 them: put your events on your calendar, bring in numbers from a fitness app, carry unfinished tasks forward, and connect to other
 services.</p>
 <p><strong>What gets sent, and when.</strong> Nothing in Jot reaches the internet unless you run something that says it will, or turn on a setting
-that says it will. The workspace&#39;s tools work entirely in your browser. Whatever comes back from a service is written into your journal
-as an ordinary record, marked with <code>source:</code>, so the <code>.jot</code> file stays the master copy.</p>
+that says it will. Calendar, CSV and journal-writing tools work locally. Spotify sign-in and playback fetches contact Spotify only
+when chosen. Service results become ordinary Jot: structured import records or a readable listening note. Your journal text is not
+sent to Spotify, and the <code>.jot</code> file stays the master copy.</p>
 <h2 id="in-the-workspace-the-tools-row">In the workspace: the Tools row</h2>
 <p>Above the writing, in <strong>Write</strong>:</p>
 <table tabindex="0">
@@ -34,6 +35,10 @@ as an ordinary record, marked with <code>source:</code>, so the <code>.jot</code
 </tr>
 </thead>
 <tbody><tr>
+<td><strong>Listening ♫</strong></td>
+<td>adds a plain-text music note, optionally filled from Spotify after sign-in and review</td>
+</tr>
+<tr>
 <td><strong>Today ＋</strong></td>
 <td>adds today&#39;s dated entry, if there is none, and puts the cursor in it</td>
 </tr>
@@ -167,6 +172,45 @@ starts with yesterday&#39;s open tasks waiting.</li>
 <li>A webhook to a Zapier zap that adds a spreadsheet row with each day&#39;s numbers.</li>
 <li>Export on save to a calendar file your partner subscribes to, for shared plans.</li>
 </ul>
+<h2 id="listening-notes">Listening notes</h2>
+<p>In <strong>Write</strong>, choose <strong>Listening ♫</strong>. Enter a song or episode title, artist, optional album and a share link from Spotify, YouTube
+Music or another service. Add a few words about the setting, then choose <strong>Add to this entry</strong>. The note is inserted at your writing
+cursor. It is ordinary Jot/Markdown that you can type or edit in any text editor:</p>
+<pre tabindex="0"><code class="language-jot">#### Listening
+
+“A small song” — An artist
+
+[Open in Spotify](https://open.spotify.com/track/example)
+
+Captured: 2026-10-26T18:00:00.000Z
+
+On the bus home. Rain against the windows.
+</code></pre>
+<p><strong>Connect Spotify</strong> can fill in the title, artists, album and link for your account&#39;s currently playing track or episode. Press
+<strong>Fetch currently playing</strong> when you want a snapshot, review the fields, add your setting notes, and insert it. Fetching does not
+change the journal. Paused playback is labelled as paused. Playback is not polled in the background.</p>
+<p>The manual option works without a connection. YouTube Music links can be entered manually; this website does not read another
+browser tab or Android&#39;s system media sessions. No microphone or media-file capture is part of this tool.</p>
+<h3 id="spotify-setup">Spotify setup</h3>
+<p>Spotify requires a registered developer app. The site has no Client ID configured by default, so the connection needs this one-time
+setup before live Spotify capture can work:</p>
+<ol>
+<li>Open the <a href="https://developer.spotify.com/dashboard">Spotify developer dashboard</a> and create or select a Web API app.</li>
+<li>In Jot&#39;s <strong>Listening → Spotify connection settings</strong>, copy the displayed redirect URL. Register that <strong>exact URL</strong> in the app.
+It ends in <code>/write/spotify-callback.html</code>. Production must use HTTPS. For local testing, open the site using <code>127.0.0.1</code> rather
+than <code>localhost</code>, and register its callback URL too.</li>
+<li>Copy the app&#39;s <strong>public Client ID</strong> into Jot. Do not enter a client secret. The public ID is remembered in this browser.</li>
+<li>Choose <strong>Connect Spotify</strong>, allow the sign-in window, and grant access to your currently playing information. Then fetch a song.</li>
+</ol>
+<p>A site owner may set the public <code>clientId</code> in <code>site/dist/jot/spotify-config.json</code> instead, so visitors do not have to enter it.
+Spotify&#39;s current development-mode rules require a Premium app owner, allowlisted users, and a limit of five authenticated users.
+A public site deployment does not remove Spotify&#39;s app-access restrictions. See Spotify&#39;s
+<a href="https://developer.spotify.com/documentation/web-api/concepts/quota-modes">quota modes</a> for current requirements.</p>
+<p>The connection uses Spotify&#39;s <a href="https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow">Authorization Code with PKCE</a>
+and only the <a href="https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track">currently-playing permission</a>.
+Access and refresh tokens stay in page memory and are never added to a journal, local storage or an export. Reloading the page ends
+the connection; <strong>Disconnect</strong> also clears it. You can revoke the app separately in your Spotify account settings. Existing notes
+stay readable and editable after disconnection. Your journal text is not sent to Spotify.</p>
 </article></div>
 </main>
 </body>

@@ -1,5 +1,21 @@
 # Latest Jot v1 decisions
 
+## Optional music capture, plain-text listening notes (26 October 2026)
+
+The writer's Listening tool can capture title, artist, album, link, capture time and setting notes. Its output is an ordinary
+`#### Listening` section with prose and a Markdown link, not a service-dependent document type. Any text editor can create or edit it.
+Manual capture accepts Spotify, YouTube Music and other HTTPS song links. This tool does not import media or access the microphone.
+
+Spotify capture uses a registered public Client ID, a static same-origin callback and Authorization Code with PKCE. The only scope
+is `user-read-currently-playing`. Sign-in validates the popup/origin or a same-origin return channel, plus random state; the verifier and tokens stay in page memory.
+The public ID alone may be remembered locally or configured by a host. No secret is needed in the static site.
+
+Playback is fetched only on request, fills review fields, and changes the journal only when the user chooses Add to this entry.
+Empty playback, paused playback, access denial, rate limits, cancellation and disconnect are handled without removing existing
+writing. Manual entry remains available without Spotify. This extends the earlier offline browser-tool boundary with explicit playback metadata capture.
+Live sign-in requires app registration and Spotify's allowed-user rules;
+service HTTP responses are stubbed in automated UI tests, not a claim of testing a real Spotify account.
+
 ## Highlighter strokes above ink (26 October 2026)
 
 A highlight now composites a translucent marker, brush or pencil stroke **above** the text with multiply blending, so the visible

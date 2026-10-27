@@ -13,3 +13,10 @@ nav{display:flex;align-items:center;gap:24px}nav a,nav button{text-decoration:no
 .palette-picker{flex-basis:100%}.palette-picker summary{cursor:pointer;padding:8px 0}.palette-picker fieldset{border:0;margin:8px 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}.palette-picker legend{font-size:11px;padding:6px 0}.color-swatch{width:44px;height:44px;min-width:44px;border:1px solid #777;border-radius:8px;cursor:pointer}.color-swatch:focus-visible{outline:3px solid #222;outline-offset:3px}.format-tools select{max-width:100%}.format-tools label{max-width:100%}
 
 @media print{.paper-preview.jot-hand{padding:0!important}}
+
+#musicDialog{width:min(660px,calc(100vw - 24px));padding:22px;max-height:90vh;overflow:auto}
+.music-actions{display:flex;flex-wrap:wrap;gap:10px}.music-fields{display:grid;gap:6px;margin:16px 0}
+.music-fields :is(input,textarea),#spotifyClient,#spotifyRedirect{width:100%;min-width:0;min-height:44px;padding:8px 10px;border:1px solid var(--jot-edge);font-size:21px}
+#spotifySetup{margin:18px 0;padding:12px;border:1px solid var(--jot-edge);border-radius:6px}#spotifySetup summary{min-height:44px;cursor:pointer}
+#spotifySetup label{display:block;margin:10px 0 4px}#musicStatus{color:var(--jot-muted)}
+@media print{#musicDialog{display:none!important}}

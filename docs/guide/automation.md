@@ -5,8 +5,9 @@ them: put your events on your calendar, bring in numbers from a fitness app, car
 services.
 
 **What gets sent, and when.** Nothing in Jot reaches the internet unless you run something that says it will, or turn on a setting
-that says it will. The workspace's tools work entirely in your browser. Whatever comes back from a service is written into your journal
-as an ordinary record, marked with `source:`, so the `.jot` file stays the master copy.
+that says it will. Calendar, CSV and journal-writing tools work locally. Spotify sign-in and playback fetches contact Spotify only
+when chosen. Service results become ordinary Jot: structured import records or a readable listening note. Your journal text is not
+sent to Spotify, and the `.jot` file stays the master copy.
 
 ## In the workspace: the Tools row
 
@@ -14,6 +15,7 @@ Above the writing, in **Write**:
 
 | Tool | What it does |
 | --- | --- |
+| **Listening ♫** | adds a plain-text music note, optionally filled from Spotify after sign-in and review |
 | **Today ＋** | adds today's dated entry, if there is none, and puts the cursor in it |
 | **Carry tasks forward →** | open tasks from earlier days are marked `[>]` (moved) where they were, and written again under today |
 | **Week review** | adds a review of this week: how many tasks were done, which are still open, each number's average, a chart and two questions |
@@ -137,3 +139,51 @@ source: open-meteo.com
 - `jot tasks journal.jot --status open --json` in a Shortcut that shows your list on your phone's home screen.
 - A webhook to a Zapier zap that adds a spreadsheet row with each day's numbers.
 - Export on save to a calendar file your partner subscribes to, for shared plans.
+
+## Listening notes
+
+In **Write**, choose **Listening ♫**. Enter a song or episode title, artist, optional album and a share link from Spotify, YouTube
+Music or another service. Add a few words about the setting, then choose **Add to this entry**. The note is inserted at your writing
+cursor. It is ordinary Jot/Markdown that you can type or edit in any text editor:
+
+```jot
+#### Listening
+
+“A small song” — An artist
+
+[Open in Spotify](https://open.spotify.com/track/example)
+
+Captured: 2026-10-26T18:00:00.000Z
+
+On the bus home. Rain against the windows.
+```
+
+**Connect Spotify** can fill in the title, artists, album and link for your account's currently playing track or episode. Press
+**Fetch currently playing** when you want a snapshot, review the fields, add your setting notes, and insert it. Fetching does not
+change the journal. Paused playback is labelled as paused. Playback is not polled in the background.
+
+The manual option works without a connection. YouTube Music links can be entered manually; this website does not read another
+browser tab or Android's system media sessions. No microphone or media-file capture is part of this tool.
+
+### Spotify setup
+
+Spotify requires a registered developer app. The site has no Client ID configured by default, so the connection needs this one-time
+setup before live Spotify capture can work:
+
+1. Open the [Spotify developer dashboard](https://developer.spotify.com/dashboard) and create or select a Web API app.
+2. In Jot's **Listening → Spotify connection settings**, copy the displayed redirect URL. Register that **exact URL** in the app.
+   It ends in `/write/spotify-callback.html`. Production must use HTTPS. For local testing, open the site using `127.0.0.1` rather
+   than `localhost`, and register its callback URL too.
+3. Copy the app's **public Client ID** into Jot. Do not enter a client secret. The public ID is remembered in this browser.
+4. Choose **Connect Spotify**, allow the sign-in window, and grant access to your currently playing information. Then fetch a song.
+
+A site owner may set the public `clientId` in `site/dist/jot/spotify-config.json` instead, so visitors do not have to enter it.
+Spotify's current development-mode rules require a Premium app owner, allowlisted users, and a limit of five authenticated users.
+A public site deployment does not remove Spotify's app-access restrictions. See Spotify's
+[quota modes](https://developer.spotify.com/documentation/web-api/concepts/quota-modes) for current requirements.
+
+The connection uses Spotify's [Authorization Code with PKCE](https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow)
+and only the [currently-playing permission](https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track).
+Access and refresh tokens stay in page memory and are never added to a journal, local storage or an export. Reloading the page ends
+the connection; **Disconnect** also clears it. You can revoke the app separately in your Spotify account settings. Existing notes
+stay readable and editable after disconnection. Your journal text is not sent to Spotify.

@@ -1,0 +1,54 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { listeningNote, spotifyTrack, pkcePair, spotifyAuthorization, createSpotifyClient, musicURL } from './dist/jot/music.mjs';
+import { parse } from '../parser/jot.mjs';
+const id = 'a'.repeat(32), redirectUri = 'https://example.com/jot/write/spotify-callback.html';
+const song = { item: { type: 'track', name: 'A small song', artists: [{name:'An artist'}], album:{name:'A small album'}, external_urls:{spotify:'https://open.spotify.com/track/example'} }, is_playing:true };
+const json = (value, status = 200) => new Response(JSON.stringify(value), {status,headers:{'Content-Type':'application/json'}});
+
+test('listening capture is readable plain Jot, not an integration-dependent record', () => {
+  const text = listeningNote({ title:'A small song',artist:'An artist',url:'https://music.youtube.com/watch?v=example',notes:'On the bus home.\nRain against the windows.',capturedAt:'2026-10-26T18:00:00Z' });
+  assert.match(text,/#### Listening/); assert.match(text,/“A small song” — An artist/); assert.match(text,/Open in YouTube Music/); assert.match(text,/On the bus home/);
+  assert.deepEqual(parse(text).diagnostics, []); assert.ok(!text.includes(':::record'));
+});
+test('metadata and notes cannot inject Jot structure, unsafe links are rejected', () => {
+  const text = listeningNote({ title:'x\n### 2030-01-01\n:::record evil',artist:'[click](javascript:bad)',notes:':::record surprise\n# heading\n<script>text</script>',capturedAt:'2026-10-26' });
+  const ast = parse(text); assert.equal(ast.entries.length,0); assert.equal(ast.nodes.filter(n=>n.type==='record').length,0); assert.deepEqual(ast.diagnostics,[]);
+  for (const url of ['javascript:alert(1)','http://example.com','https://name:password@example.com']) assert.throws(()=>musicURL(url));
+  assert.equal(musicURL('https://example.com/a)b(c[d]'), 'https://example.com/a%29b%28c%5Bd%5D');
+  assert.throws(()=>listeningNote({title:''}));
+});
+test('Spotify handles songs, episodes, paused playback and absent metadata', () => {
+  const result=spotifyTrack(song,'2026-10-26T18:00:00Z'); assert.equal(result.artist,'An artist'); assert.equal(result.paused,false);
+  const paused=spotifyTrack({...song,is_playing:false}); assert.equal(paused.paused,true); assert.match(listeningNote(paused),/playback paused/);
+  assert.equal(spotifyTrack({item:null}),null); assert.equal(spotifyTrack({item:{type:'ad',name:'Ad'}}),null);
+  assert.equal(spotifyTrack({item:{type:'episode',name:'Episode',show:{name:'Show',publisher:'Creator'}}}).artist,'Creator');
+});
+test('PKCE uses a fresh verifier/state, a valid S256 challenge and the smallest read-only scope', async () => {
+  const a=await pkcePair(),b=await pkcePair(); assert.notEqual(a.verifier,b.verifier); assert.notEqual(a.state,b.state); assert.equal(a.challenge.length,43);
+  const url=new URL(spotifyAuthorization({clientId:id,redirectUri,state:a.state,challenge:a.challenge}));
+  assert.equal(url.origin,'https://accounts.spotify.com'); assert.equal(url.searchParams.get('scope'),'user-read-currently-playing'); assert.equal(url.searchParams.get('code_challenge_method'),'S256');
+  assert.throws(()=>spotifyAuthorization({clientId:id,redirectUri:'http://localhost:8000/callback',state:a.state,challenge:a.challenge}));
+});
+test('tokens remain internal; only explicit calls fetch playback; expired tokens refresh', async () => {
+  const requests=[];let time=0;
+  const client=createSpotifyClient({now:()=>time,fetchImpl:async(url,options)=>{requests.push([url,options]);return url.includes('/api/token')?json({access_token:'test-token',refresh_token:'test-refresh',expires_in:60}):json(song);}});
+  assert.equal(requests.length,0); await client.connect({code:'test-code',verifier:'test-verifier',redirectUri,id});
+  assert.equal(requests.length,1); assert.ok(!requests[0][1].body.has('client_secret'));
+  const result=await client.current(); assert.equal(result.title,'A small song'); assert.equal(requests[1][1].headers.Authorization,'Bearer test-token');
+  assert.ok(!JSON.stringify(result).includes('test-token'));
+  time=61000;await client.current();assert.equal(requests[2][1].body.get('grant_type'),'refresh_token');
+  client.disconnect();assert.equal(client.connected(),false);await assert.rejects(()=>client.current(),/Connect Spotify/);
+});
+test('no playback, API denial and rate limits leave capture decisions to the user', async () => {
+  for(const [status,pattern] of [[204,null],[403,/denied/],[429,/limiting/]]){
+    const c=createSpotifyClient({fetchImpl:async(url)=>url.includes('/api/token')?json({access_token:'test',expires_in:3600}):new Response(null,{status})});
+    await c.connect({code:'code',verifier:'v',redirectUri,id});
+    if(pattern)await assert.rejects(()=>c.current(),pattern);else assert.equal(await c.current(),null);
+  }
+});
+test('disconnect while authentication is pending prevents a late token from reconnecting', async () => {
+  let finish;const c=createSpotifyClient({fetchImpl:()=>new Promise(r=>{finish=r;})});
+  const connecting=c.connect({code:'code',verifier:'v',redirectUri,id});c.disconnect();finish(json({access_token:'late-token'}));
+  await assert.rejects(()=>connecting,/cancelled/);assert.equal(c.connected(),false);
+});

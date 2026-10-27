@@ -31,6 +31,9 @@ body.jot-site{--hw-family:'Jot Caveat';--hw-pitch:18.890625px;--sans:var(--hw-fa
 .jot-site :is(.btn,.button,.icon-btn,select,textarea){background-color:var(--jot-paper);border-color:var(--jot-edge);border-radius:5px 9px 6px 8px}
 .jot-site input:not([type=checkbox]):not([type=radio]):not([type=color]){background-color:var(--jot-paper);border-color:var(--jot-edge)}
 .jot-site :is(.btn.primary,.button.primary){background:var(--jot-accent);color:var(--jot-accent-ink);border-color:var(--jot-accent)}
+.jot-site .quiet:hover:not(:disabled){color:var(--jot-accent)}
+.jot-site :is(.btn,.button):hover:not(:disabled){background-color:var(--jot-soft);color:var(--jot-ink)}
+.jot-site :is(.btn.primary,.button.primary):hover:not(:disabled){background-color:var(--jot-accent);color:var(--jot-accent-ink)}
 .jot-site :is(.studio-workspace,.preview-pane,.settings,.zone,.preview,.diary,dialog,.sample-file,.written-page,.dash-chart,.card,.toc,.asset-shelf){background-color:var(--jot-paper);border-color:var(--jot-edge);box-shadow:1px 2px 0 color-mix(in srgb,var(--jot-edge) 40%,transparent)}
 .jot-site :is(.eyebrow,.tab,.pane-title,.pane-tabs button,.paper-tools,.tool-row,.format-tools,.format-tools select,.format-tools button,.writing-footer,.studio-bar,.studio-bar input,.check,.hint,.note,.small,.f-meta,.foot,footer,.resource-links a){font-family:var(--hw-family),cursive;font-size:19px;letter-spacing:normal;color:var(--jot-muted)}
 .jot-site :is(.paper-tools select,.paper-tools input,.format-tools input,.format-tools select,.format-tools button){font-size:19px}
