@@ -503,6 +503,11 @@
       "sha256": "ba0c867890bea6c153d14d32a7ac2a25a885bbdd6f701578897794a99fa06481"
     },
     {
+      "path": "docs/proposals/editor.md",
+      "byteLength": 37501,
+      "sha256": "7b7e1cb404171cdcdc6dbbd1dcb32e5458ce59c0b974beefd790f072ee033421"
+    },
+    {
       "path": "docs/proposals/jot-books.md",
       "byteLength": 4364,
       "sha256": "a0427e8f8ce2ca183ec1572515783a626831143c38f7f898df0f8f9f55dc2714"
@@ -569,8 +574,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 25668,
-      "sha256": "f49192f082e45af733ab45de40afdcd6dbc8b51ba5a647c0bb7a6fcceb668da7"
+      "byteLength": 28149,
+      "sha256": "65036f7f01aaca8c07348ce4abd537864a5aef7a0ca4fd51c61410227a477b04"
     },
     {
       "path": "parser/automation-test.mjs",
@@ -864,8 +869,8 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 25668,
-      "sha256": "f49192f082e45af733ab45de40afdcd6dbc8b51ba5a647c0bb7a6fcceb668da7"
+      "byteLength": 28149,
+      "sha256": "65036f7f01aaca8c07348ce4abd537864a5aef7a0ca4fd51c61410227a477b04"
     },
     {
       "path": "site/dist/convert/app.mjs",
@@ -904,8 +909,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 918431,
-      "sha256": "87d876c9e843b34e013fb14b6e4cad02bb50edfcc91a4ed7072fe4f138083916"
+      "byteLength": 919373,
+      "sha256": "07cafd911fafdb861211f224fa05fcc6ff25255f54d1a974a0153f2ea2d5ca59"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -1669,8 +1674,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 25668,
-      "sha256": "f49192f082e45af733ab45de40afdcd6dbc8b51ba5a647c0bb7a6fcceb668da7"
+      "byteLength": 28149,
+      "sha256": "65036f7f01aaca8c07348ce4abd537864a5aef7a0ca4fd51c61410227a477b04"
     },
     {
       "path": "specification/conformance.json",

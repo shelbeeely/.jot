@@ -38,6 +38,7 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Accessibility | Labels, focus styles and corner keyboard controls implemented; writer reduced-motion (setting and system) and higher-contrast preferences browser-tested | Mobile/screen-reader and stylus accessibility audit |
 | Round-trip editing | Original parser input preserved; textarea uses browser line endings | AST edits with lossless serialization and file conflict recovery |
 | Neurodivergent-friendly personalization | Partial: the writer's Preferences panel sets text size, line spacing, line length, density, higher contrast and reduced motion, and hides the preview, parser tabs, counts and decoration independently; a focus mode leaves with Escape or its button; choices stay in this browser; browser-tested | Ruling choices, deferred checking, the template editor and other surfaces, and testing with people who have different needs; no diagnosis-based preset forced on users |
+| One editor for every method | Planned (proposal: `docs/proposals/editor.md`); the writer and template editor are separate; three template starters go against a method guide | E0: fix those starters and add a "Day starts at" preference; then a fill view with Skip |
 | Low-effort capture and re-entry | Partial: Quick note adds one line under today's entry as one undo step without moving the cursor; caret and scroll come back after a reload; an optional note for next time is offered on return with Back, Start at the end and Dismiss; browser-tested | Sketch or photo quick capture, multiple documents and prior-draft recovery |
 | Multilingual writing and interface | Planned; Unicode text already preserved | Separate interface/document/checking locales, RTL/mixed scripts, IME, translated prompts and script-aware tests |
 | Stable format | Draft specification | Reconcile grammar/Markdown precedences; independent reader; versioned conformance release |
@@ -76,6 +77,24 @@ Delivered so far (partial, browser-tested in `site/test-prefs-ui.cjs`, not yet v
 Existing baseline: plain-text capture without a required method; 62 mixable invitations; a handwriting canvas; local text autosave; optional writing hints; a dot-grid toggle; reduced-motion CSS and keyboard-accessible scanner corners. The new track is not marked implemented merely because these related features exist.
 
 Suggested first delivery: a small writing-preferences panel, then quick capture and return-to-position, then recovery and saved blended templates. Validate each feature with its intended users before making it a default. Do not claim that any font, color, timer length or journal routine universally works for neurodivergent people.
+
+## One editor for every method track
+
+The proposal `docs/proposals/editor.md` reads all 52 method guides in `docs/methods/` for what an editor must do and avoid, and plans one editor that fits every method: the writer and the template editor become two modes of it, sharing one block kit, and every guide gets a layout built from that kit. The text stays the only document; the editor adds a fill view of it. No therapeutic or productivity effect is claimed for any of it.
+
+| Phase | Planned improvement | Acceptance criteria |
+| --- | --- | --- |
+| E0 | Starter fixes and day start | Morning pages starter without prompts; Day planner hours asked or full day; one gratitude line; a "Day starts at" preference used by Today and Quick note |
+| E1 | Fill view with Skip | Form controls for the records at the cursor; Skip writes the format's `skipped`; only touched lines change; keyboard and screen-reader checks pass; nothing required |
+| E2 | One block kit | One registry for writer and template editor; three-state dots, ordered tasks, prompt pass line and weights, time grid options, sketch slot, plan pointer, silent timer, time stamp |
+| E3 | A layout for every guide | Each guide's layout builds from the kit or names its missing piece; layouts for methods with a health note are opt-in; a quiet note above seven blocks or five trackers |
+| E4 | Privacy in the editor | Per-block privacy defaults, discreet labels; private blocks absent from default exports; no network requests while editing |
+| E5 | Time and rereading | Shift-relative wording, re-plans kept visible, a week strip drawn from the week's source, an opt-in Look back panel that never opens by itself |
+| E6 | Useful friction | Carry, schedule or drop per task; a transfer-later list; nothing moves without the writer's action |
+| E7 | Groups | Side-by-side groups from the composable blocks track, collapsing to source order |
+| E8 | Testing with people | Each track tried with the people it is for; defaults change only on recorded findings |
+
+Never in any view: streaks, scores, missed-day counts, catch-up prompts, reminders or sounds, generated prompts or analysis of writing, risk ratings, automatic sending, colour as the only signal.
 
 ## Multilingual and internationalization track
 
