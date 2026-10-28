@@ -38,7 +38,7 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Accessibility | Labels, focus styles and corner keyboard controls implemented; writer reduced-motion (setting and system) and higher-contrast preferences browser-tested | Mobile/screen-reader and stylus accessibility audit |
 | Round-trip editing | Original parser input preserved; textarea uses browser line endings | AST edits with lossless serialization and file conflict recovery |
 | Neurodivergent-friendly personalization | Partial: the writer's Preferences panel sets text size, line spacing, line length, density, higher contrast and reduced motion, and hides the preview, parser tabs, counts and decoration independently; a focus mode leaves with Escape or its button; choices stay in this browser; browser-tested | Ruling choices, deferred checking, the template editor and other surfaces, and testing with people who have different needs; no diagnosis-based preset forced on users |
-| One editor for every method | Planned (proposal: `docs/proposals/editor.md`); the writer and template editor are separate; three template starters go against a method guide | E0: fix those starters and add a "Day starts at" preference; then a fill view with Skip |
+| One editor for every method | Partial (proposal: `docs/proposals/editor.md`): E0 done: a "My day starts at" preference used by Today, Quick note, Carry tasks forward and Week review; Morning pages, Day planner and Gratitude starters follow their guides, plus Gratitude, weekly; unit- and browser-tested. The writer and template editor are still separate | E1: a fill view with Skip |
 | Low-effort capture and re-entry | Partial: Quick note adds one line under today's entry as one undo step without moving the cursor; caret and scroll come back after a reload; an optional note for next time is offered on return with Back, Start at the end and Dismiss; browser-tested | Sketch or photo quick capture, multiple documents and prior-draft recovery |
 | Multilingual writing and interface | Planned; Unicode text already preserved | Separate interface/document/checking locales, RTL/mixed scripts, IME, translated prompts and script-aware tests |
 | Stable format | Draft specification | Reconcile grammar/Markdown precedences; independent reader; versioned conformance release |
@@ -84,7 +84,7 @@ The proposal `docs/proposals/editor.md` reads all 52 method guides in `docs/meth
 
 | Phase | Planned improvement | Acceptance criteria |
 | --- | --- | --- |
-| E0 | Starter fixes and day start | Morning pages starter without prompts; Day planner hours asked or full day; one gratitude line; a "Day starts at" preference used by Today and Quick note |
+| E0 (done) | Starter fixes and day start | Morning pages starter without prompts; Day planner hours asked or full day; one gratitude line; a "Day starts at" preference used by Today and Quick note |
 | E1 | Fill view with Skip | Form controls for the records at the cursor; Skip writes the format's `skipped`; only touched lines change; keyboard and screen-reader checks pass; nothing required |
 | E2 | One block kit | One registry for writer and template editor; three-state dots, ordered tasks, prompt pass line and weights, time grid options, sketch slot, plan pointer, silent timer, time stamp |
 | E3 | A layout for every guide | Each guide's layout builds from the kit or names its missing piece; layouts for methods with a health note are opt-in; a quiet note above seven blocks or five trackers |

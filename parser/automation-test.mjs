@@ -96,6 +96,16 @@ test('today, rollover and the week review', () => {
   assert.equal(parse(v.text).diagnostics.length, 0);
 });
 
+test('today begins when the writer\'s day does', () => {
+  const at = (d, h) => new Date(2026, 9, d, h, 30);
+  assert.equal(A.localToday(at(28, 3)), '2026-10-28', 'midnight by default');
+  assert.equal(A.localToday(at(28, 3), 5), '2026-10-27', 'before the day starts it is still yesterday');
+  assert.equal(A.localToday(at(28, 5), 5), '2026-10-28');
+  assert.equal(A.localToday(new Date(2026, 10, 1, 2), 6), '2026-10-31', 'across a month');
+  assert.equal(A.localToday(new Date(2027, 0, 1, 2), 6), '2026-12-31', 'across a year');
+  for (const odd of [-1, 24, 2.5, '5', NaN]) assert.equal(A.localToday(at(28, 3), odd), '2026-10-28', `ignores ${odd}`);
+});
+
 test('sync: which open tasks a service has had, remembered in the journal', () => {
   const p0 = A.pendingSync(parse(J), 'todoist'); assert.deepEqual(p0.map((t) => t.text), ['Call Sam back', 'Pay rent', 'Post the letter']);
   const s1 = A.markSynced(J, 'todoist', p0.slice(0, 2), { at: '2026-10-26T10:00' });

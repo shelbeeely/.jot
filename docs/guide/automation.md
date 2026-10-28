@@ -16,7 +16,7 @@ Above the writing, in **Write**:
 | Tool | What it does |
 | --- | --- |
 | **Listening ♫** | adds a plain-text music note, optionally filled from Spotify after sign-in and review |
-| **Today ＋** | adds today's dated entry, if there is none, and puts the cursor in it |
+| **Today ＋** | adds today's dated entry, if there is none, and puts the cursor in it. "Today" follows **My day starts at** in Preferences (midnight unless you change it), as Carry tasks forward and Week review do |
 | **Carry tasks forward →** | open tasks from earlier days are marked `[>]` (moved) where they were, and written again under today |
 | **Week review** | adds a review of this week: how many tasks were done, which are still open, each number's average, a chart and two questions |
 | **Calendar .ics ↓** | your events and dated tasks as a calendar file: import it into Google Calendar, Apple Calendar, Outlook … |

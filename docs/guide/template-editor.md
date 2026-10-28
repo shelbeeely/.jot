@@ -33,9 +33,11 @@ A zone you leave empty adds nothing. If nothing happens weekly, the file has no 
 
 - **Daily check-in:** energy, a few care boxes, a line for the day, a weekly look back
 - **Rapid log:** tasks, events and notes as they come, with a monthly plan
-- **Morning pages:** a prompt and room to write, every day
-- **Gratitude:** three small good things a day
-- **Day planner:** top three, time blocks and a done list
+- **Morning pages:** room to write every day, with no prompt (prompts work against the method); a few starters after the days,
+  for stuck mornings
+- **Gratitude:** one okay thing a day, and the best of the week
+- **Gratitude, weekly:** a few good things once a week, with nothing to fill in on the days
+- **Day planner:** top three, time blocks for the whole day (narrow the hours in Plan) and a done list
 - **Weekly dashboard:** the week at a glance in six widgets (top priorities, tasks, a schedule, a habit table, a chart of your
   numbers and a scratchpad), with sleep, work hours, steps and mood to write in each day. See [Numbers and charts](#numbers-and-charts)
 - **Start empty:** just the dates and a place to write

@@ -1,6 +1,6 @@
 # Proposal: one editor for every method
 
-Status: design draft and roadmap; nothing in this proposal is implemented. It covers the writer, Jot Writer
+Status: design draft and roadmap. Phase E0 is implemented (`DECISIONS.md`, 28 October 2026); the rest is not. It covers the writer, Jot Writer
 (`site/dist/write/`), and the template editor (`site/dist/editor/`), and builds on the composable blocks track in
 `specification/ROADMAP.md` and on [notes-sharing-collaboration.md](notes-sharing-collaboration.md).
 

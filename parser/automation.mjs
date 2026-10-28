@@ -26,8 +26,13 @@ const validDate = (s) => DATE.test(s) && new Date(`${s}T00:00:00Z`).toISOString(
 const addDays = (d, n) => new Date(Date.parse(`${d}T00:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
 const weekday = (d) => WEEKDAYS[new Date(`${d}T00:00:00Z`).getUTCDay()];
 export const mondayOf = (d) => addDays(d, -((new Date(`${d}T00:00:00Z`).getUTCDay() + 6) % 7));
-/** Today in the journal's terms: the local calendar date (not UTC). */
-export const localToday = (now = new Date()) => `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+/** Today in the journal's terms: the local calendar date (not UTC). With dayStart (an hour, 0–23), the writer's day begins then
+ * instead of at midnight, so 03:00 with dayStart 5 is still yesterday and a night shift stays one entry. */
+export const localToday = (now = new Date(), dayStart = 0) => {
+  const h = Number.isInteger(dayStart) && dayStart > 0 && dayStart < 24 ? dayStart : 0;
+  const d = now.getHours() < h ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1) : now;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 const fieldOf = (n, k) => { const f = n.fields && n.fields.find((x) => x.name === k); return f ? String(f.value).trim() : ''; };
 function hash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619); return (h >>> 0).toString(36); }
 /** A node's start and end as string indexes (the AST counts UTF-8 bytes). */

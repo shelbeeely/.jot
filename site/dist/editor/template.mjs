@@ -74,15 +74,20 @@ export const STARTERS = [
     front: [b('page', { title: 'Month plan' }), b('tasks', { title: 'Goals', n: 5 })], weekStart: [],
     day: [b('text', { title: '', body: 'Log: [ ] task, o event, - note, ! idea. Mark [x] done, [>] moved.' }), b('list', { title: 'Log', n: 6 })],
     weekEnd: [b('writing', { title: 'Carry forward' })], back: [b('page', { title: 'Looking back' }), b('writing', { title: 'What moved forward' })] } },
-  { id: 'pages', name: 'Morning pages', blurb: 'A prompt and room to write, every day.', zones: {
+  // Morning Pages have no prompts by design (docs/methods/morning-pages.md, line 663): starters wait after the days, for stuck mornings only.
+  { id: 'pages', name: 'Morning pages', blurb: 'Room to write, every day, with no prompt. A few starters after the days, for stuck mornings.', zones: {
     front: [], weekStart: [],
-    day: [b('prompt', { questions: ['What is on my mind?', 'What would make today feel good?', 'What am I avoiding?', 'What do I need to let go of?'] }), b('writing', { title: 'Pages' })],
-    weekEnd: [], back: [] } },
-  { id: 'gratitude', name: 'Gratitude', blurb: 'Three small good things a day.', zones: {
-    front: [], weekStart: [], day: [b('list', { title: 'Small good things', n: 3 })], weekEnd: [b('writing', { title: 'The best of the week' })], back: [] } },
-  { id: 'planner', name: 'Day planner', blurb: 'Top three, time blocks and a done list.', zones: {
+    day: [b('writing', { title: 'Pages' })],
+    weekEnd: [], back: [b('page', { title: 'For stuck mornings' }), b('text', { title: '', body: 'Only if you need a way in: "Right now my body feels…" · "The loudest thing in my head is…" · "I\'d like to…" · "I can\'t think of anything to write so…"' })] } },
+  // One line a day, or once a week: more lines aren't better (docs/methods/gratitude-journaling.md, lines 589–599).
+  { id: 'gratitude', name: 'Gratitude', blurb: 'One okay thing a day, and the best of the week.', zones: {
+    front: [], weekStart: [], day: [b('list', { title: 'One okay thing', n: 1 })], weekEnd: [b('writing', { title: 'The best of the week' })], back: [] } },
+  { id: 'gratitude-week', name: 'Gratitude, weekly', blurb: 'A few good things once a week; nothing to fill in on the days.', zones: {
+    front: [], weekStart: [], day: [], weekEnd: [b('list', { title: 'Good things this week', n: 3 })], back: [] } },
+  // The whole day, so a night shift fits (docs/methods/travelers-notebook.md, line 663); Plan's hours can be narrowed.
+  { id: 'planner', name: 'Day planner', blurb: 'Top three, time blocks for the whole day and a done list.', zones: {
     front: [], weekStart: [b('tasks', { title: 'Priorities', n: 3 })],
-    day: [b('tasks', { title: 'Top 3', n: 3 }), b('times', { title: 'Plan', from: 8, to: 20, every: 2 }), b('list', { title: 'Done', n: 3 })],
+    day: [b('tasks', { title: 'Top 3', n: 3 }), b('times', { title: 'Plan', from: 0, to: 24, every: 2 }), b('list', { title: 'Done', n: 3 })],
     weekEnd: [b('writing', { title: 'Review' })], back: [] } },
   { id: 'dashboard', name: 'Weekly dashboard', blurb: 'The week at a glance in six widgets: priorities, tasks, schedule, habits, a chart of your numbers, a scratchpad.', zones: {
     front: [], weekStart: [b('list', { title: 'Top priorities', n: 3, style: 'numbers' }), b('tasks', { title: 'This week', n: 5 }),

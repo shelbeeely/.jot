@@ -100,9 +100,9 @@ if(exampleParam!==null)(async()=>{history.replaceState(null,'',location.pathname
 // Tools: the same chores as the jot command line and VS Code (jot/automation.mjs). They change the writing as one step (Ctrl+Z takes
 // it back) or download a file locally. Optional Spotify capture is handled separately in music.mjs.
 function rewrite(text,said){if(text===editor.value){status(said||'Nothing to change.');return;}editor.focus();editor.select();if(!document.execCommand||!document.execCommand('insertText',false,text))editor.value=text;dirty=true;update();save();status(said);}
-$('todayBtn').onclick=()=>{const d=A.localToday(),r=A.todayEntry(editor.value,d);if(!r.added){status(d+' is already here.');}else rewrite(r.text,'Added '+d+'.');const at=editor.value.indexOf('### '+d);if(at>=0){const p=editor.value.indexOf('\n',at)+1;editor.focus();editor.setSelectionRange(p,p);}};
-$('rolloverBtn').onclick=()=>{const r=A.rollover(editor.value,A.localToday());if(!r.moved){status('No open tasks from earlier days.');return;}rewrite(r.text,'Carried '+r.moved+' open '+(r.moved===1?'task':'tasks')+' to today; they are marked [>] where they were.');};
-$('reviewBtn').onclick=()=>{const r=A.weekReview(editor.value,A.localToday());rewrite(r.text,'Added a review of '+r.week.start+' to '+r.week.end+': '+r.week.done+' done, '+r.week.open+' open.');};
+$('todayBtn').onclick=()=>{const d=today(),r=A.todayEntry(editor.value,d);if(!r.added){status(d+' is already here.');}else rewrite(r.text,'Added '+d+'.');const at=editor.value.indexOf('### '+d);if(at>=0){const p=editor.value.indexOf('\n',at)+1;editor.focus();editor.setSelectionRange(p,p);}};
+$('rolloverBtn').onclick=()=>{const r=A.rollover(editor.value,today());if(!r.moved){status('No open tasks from earlier days.');return;}rewrite(r.text,'Carried '+r.moved+' open '+(r.moved===1?'task':'tasks')+' to today; they are marked [>] where they were.');};
+$('reviewBtn').onclick=()=>{const r=A.weekReview(editor.value,today());rewrite(r.text,'Added a review of '+r.week.start+' to '+r.week.end+': '+r.week.done+' done, '+r.week.open+' open.');};
 $('icsBtn').onclick=()=>{clearTimeout(timer);update();download(A.toICS(ast,{name:$('documentName').value||'Jot journal',stamp:new Date().toISOString().replace(/[-:]|\.\d+/g,'')}),fileName()+'.ics','text/calendar;charset=utf-8');const {tasks,events}=A.extract(ast);status('Downloaded '+fileName()+'.ics: '+events.filter(e=>e.date).length+' events and '+tasks.filter(t=>t.date&&t.status==='open').length+' open tasks. Import it into your calendar app.');};
 $('numbersCsvBtn').onclick=()=>{clearTimeout(timer);update();download(A.numbersCSV(ast),fileName()+'-numbers.csv','text/csv;charset=utf-8');status('Downloaded the numbers as CSV.');};
 $('tasksCsvBtn').onclick=()=>{clearTimeout(timer);update();download(A.tasksCSV(ast),fileName()+'-tasks.csv','text/csv;charset=utf-8');status('Downloaded the tasks as CSV.');};
@@ -222,8 +222,8 @@ setupMusicCapture({ insert });
 // Writing preferences, focus mode, quick notes and return to your place. Per-viewer conveniences: kept in this browser only (never in
 // the journal), and the page works the same when storage is unavailable. No timers, sounds, streaks or diagnosis-based presets.
 const root = document.documentElement, PREFS_KEY = 'jot-prefs-v1';
-const prefDefaults = { size: 'm', spacing: 'normal', measure: 'full', density: 'normal', contrast: false, motion: false, preview: true, parser: true, counters: true, decoration: true, note: '', showReturn: true };
-const prefSelects = { size: 'prefSize', spacing: 'prefSpacing', measure: 'prefMeasure', density: 'prefDensity' };
+const prefDefaults = { size: 'm', spacing: 'normal', measure: 'full', density: 'normal', contrast: false, motion: false, preview: true, parser: true, counters: true, decoration: true, note: '', showReturn: true, dayStart: '0' };
+const prefSelects = { size: 'prefSize', spacing: 'prefSpacing', measure: 'prefMeasure', density: 'prefDensity', dayStart: 'prefDayStart' };
 const prefChecks = { contrast: 'prefContrast', motion: 'prefMotion', preview: 'prefPreview', parser: 'prefParser', counters: 'prefCounters', decoration: 'prefDecoration', showReturn: 'prefShowReturn' };
 const prefs = { ...prefDefaults };
 try {
@@ -232,6 +232,8 @@ try {
 } catch { /* no stored preferences: the standard page */ }
 for (const [k, id] of Object.entries(prefSelects)) if (![...$(id).options].some(o => o.value === prefs[k])) prefs[k] = prefDefaults[k];
 prefs.note = prefs.note.slice(0, 500);
+// Today, Quick note, Carry tasks forward and Week review use the writer's own day: before the chosen hour it is still yesterday.
+function today() { return A.localToday(new Date(), Number(prefs.dayStart)); }
 function applyPrefs() {
   for (const k of Object.keys(prefSelects)) root.setAttribute('data-pref-' + k, prefs[k]);
   root.toggleAttribute('data-pref-contrast', prefs.contrast);
@@ -256,7 +258,7 @@ for (const [k, id] of Object.entries(prefChecks)) $(id).onchange = () => { prefs
 let noteTimer;
 $('prefNote').oninput = () => { prefs.note = $('prefNote').value.slice(0, 500); clearTimeout(noteTimer); noteTimer = setTimeout(savePrefs, 500); };
 $('prefNote').onchange = () => { clearTimeout(noteTimer); savePrefs(); };
-$('prefsReset').onclick = () => { Object.assign(prefs, prefDefaults, { note: prefs.note, showReturn: prefs.showReturn }); showPrefControls(); applyPrefs(); savePrefs(); $('prefsStatus').textContent += ' Standard look restored; your note is kept.'; };
+$('prefsReset').onclick = () => { Object.assign(prefs, prefDefaults, { note: prefs.note, showReturn: prefs.showReturn, dayStart: prefs.dayStart }); showPrefControls(); applyPrefs(); savePrefs(); $('prefsStatus').textContent += ' Standard look restored; your note and your day are kept.'; };
 $('prefsBtn').onclick = () => { showPrefControls(); $('prefsStatus').textContent = ''; $('prefsDialog').showModal(); };
 for (const id of ['prefsClose', 'prefsDone']) $(id).onclick = () => $('prefsDialog').close();
 showPrefControls(); applyPrefs();
@@ -279,7 +281,7 @@ document.addEventListener('keydown', e => {
 // Quick note: one line at the end of today's entry (made, as Today ＋ does, if there is none). The edit is one undo step, and the
 // cursor, selection and scroll stay where they were unless the person asks to move to the note.
 function quickNote(line, go) {
-  const old = editor.value, date = A.localToday(), next = A.addToDay(old, date, line);
+  const old = editor.value, date = today(), next = A.addToDay(old, date, line);
   let a = 0, z = 0;
   while (a < old.length && a < next.length && old[a] === next[a]) a++;
   while (z < old.length - a && z < next.length - a && old[old.length - 1 - z] === next[next.length - 1 - z]) z++;

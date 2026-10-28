@@ -1,5 +1,23 @@
 # Latest Jot v1 decisions
 
+## The writer's own day, and starters that follow their method (28 October 2026)
+
+First phase (E0) of `docs/proposals/editor.md`.
+
+- **My day starts at** (Writing preferences: midnight, 1 a.m. to noon; default midnight). Before that hour it is still yesterday
+  for Today ＋, Quick note ＋, Carry tasks forward and Week review, so a night shift stays one entry. It is a preference in this
+  browser, not a document field: dates in the file stay ordinary ISO dates and the format is unchanged. `localToday(now, dayStart)`
+  in `parser/automation.mjs` does the arithmetic. Back to standard settings keeps it, as it keeps the note. Guides: "define the
+  'day' by sleep, not midnight" (docs/methods/digital-daily-notes.md, line 518); "Date each Daily Log by **your** day, not
+  midnight" (docs/methods/bullet-journal.md, line 627). Whether it should also be a document field for shared journals is open.
+- **Template starters:** Morning pages has no prompt on the days, since "Prompts defeat the method"
+  (docs/methods/morning-pages.md, line 663); a few starters wait after the days for stuck mornings, phrased after the guide's
+  own (lines 205–212, 497–503). Day planner's time blocks cover the whole day (narrowed in Plan), since "8:00–22:00 timelines ...
+  drop night shifts" (docs/methods/travelers-notebook.md, line 663). Gratitude asks for one okay thing a day plus the best of the
+  week, and a new Gratitude, weekly starter asks only once a week: more daily lines are not supported by the evidence and weekly
+  gratitude lives on the weekly review (docs/methods/gratitude-journaling.md, lines 589, 593, 599). These are design readings
+  of the guides; none of them tested a template editor.
+
 ## Links between days and records (27 October 2026)
 
 - **Targets:** a record's `#id`, and a dated heading's date (`#2026-10-25`). The first heading with a date is the target; a record ID

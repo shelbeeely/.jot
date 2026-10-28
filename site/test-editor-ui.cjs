@@ -73,7 +73,7 @@ const srv = http.createServer((q, r) => {
   await p.reload(); await p.waitForSelector('#jot:not(:empty)', { state: 'attached' });
   ok((await p.inputValue('#t-title')) === 'Field notes' && (await p.inputValue('#t-per')) === 'week', 'a reload keeps the template (this browser)');
   await p.click('#starter'); await p.click('#starter-list [data-starter="gratitude"]');
-  ok(/#### Small good things\n\n- \n- \n- /.test(await jot()) && (await p.inputValue('#t-title')) === 'Field notes', 'Start from… replaces the blocks and keeps the name');
+  ok(/#### One okay thing\n\n- \n\n/.test(await jot()) && (await p.inputValue('#t-title')) === 'Field notes', 'Start from… replaces the blocks and keeps the name');
   const tf = path.join(SHOTS, 'tpl.json'); fs.writeFileSync(tf, saved);
   await p.setInputFiles('#open-file', tf); await p.waitForFunction(() => /Opened Field notes/.test(document.querySelector('#toast').textContent));
   ok(/Body care/.test(await jot()) || (await order()).includes('Body care'), 'Open a template brings it back');

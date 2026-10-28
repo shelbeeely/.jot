@@ -451,6 +451,9 @@ go into your journal: they are remembered in this browser only, and the page wor
 - **Coming back:** your cursor and scroll position return when you reopen the page. If you like, write a short note for next time
   in Preferences, such as "Next: the paragraph about the walk". It is shown when you come back, with **Back to where I was**,
   **Start at the end** and **Dismiss**. Nothing counts days, keeps streaks or asks you to catch up.
+- **Your day:** if your day doesn't end at midnight (a night shift, a late bedtime), set **My day starts at** in Preferences.
+  Before that hour it is still yesterday for **Today ＋**, **Quick note ＋**, **Carry tasks forward** and **Week review**, so a
+  night stays in one entry. **Back to standard settings** keeps it, like your note.
 
 ## Colours in your text editor
 

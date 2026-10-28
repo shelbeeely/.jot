@@ -88,6 +88,19 @@ const today=()=>{const n=new Date();return `${n.getFullYear()}-${String(n.getMon
   assert.notEqual(await style('#writing','transitionDuration'),'1e-05s');await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await style('#writing','transitionDuration'),'1e-05s');
   assert.deepEqual(errors,[]);assert.deepEqual(remote,[]);
 
+  // My day starts at: at 03:30 with the day starting at 05:00 it is still yesterday for Today ＋ and Quick note; reset keeps it.
+  const night=await browser.newContext({viewport:{width:1100,height:900}}),np=await night.newPage(),nerrors=[];np.on('pageerror',e=>nerrors.push(e.message));
+  await np.clock.setFixedTime(new Date(2026,9,28,3,30));await np.goto(base+'/write/');await np.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));
+  await np.fill('#writing','A night shift.');await np.click('#todayBtn');assert.match(await np.inputValue('#writing'),/### 2026-10-28 \| Wednesday/,'midnight by default');
+  await np.click('#prefsBtn');await np.selectOption('#prefDayStart','5');await np.click('#prefsDone');
+  await np.fill('#writing','A night shift.');await np.click('#todayBtn');let nw=await np.inputValue('#writing');
+  assert.match(nw,/### 2026-10-27 \| Tuesday/,'before 05:00 it is still the 27th');assert.doesNotMatch(nw,/2026-10-28/);
+  await np.click('#quickBtn');await np.fill('#captureText','Break at three.');await np.keyboard.press('Enter');
+  assert.match(await np.inputValue('#writing'),/### 2026-10-27 \| Tuesday\n\nBreak at three\.\n$/,'Quick note goes to the same day');
+  await np.click('#prefsBtn');await np.click('#prefsReset');assert.equal(await np.inputValue('#prefDayStart'),'5','Back to standard settings keeps the day');await np.click('#prefsDone');
+  await np.reload();await np.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));await np.click('#prefsBtn');assert.equal(await np.inputValue('#prefDayStart'),'5','remembered');
+  assert.deepEqual(nerrors,[]);await night.close();
+
   // Storage that throws: the page still loads, preferences still apply for the visit, and saving says so.
   const broken=await browser.newContext({viewport:{width:390,height:844}}),bp=await broken.newPage(),berrors=[];bp.on('pageerror',e=>berrors.push(e.message));
   await bp.addInitScript(()=>{Storage.prototype.setItem=()=>{throw new Error('quota');};Storage.prototype.getItem=()=>{throw new Error('denied');};});
@@ -97,6 +110,6 @@ const today=()=>{const n=new Date();return `${n.getFullYear()}-${String(n.getMon
   assert.equal(await bp.getAttribute('html','data-pref-size'),'l');await bp.keyboard.press('Escape');
   await bp.click('#quickBtn');await bp.fill('#captureText','Still works.');await bp.keyboard.press('Enter');assert.match(await bp.inputValue('#writing'),/Still works\./);
   assert.deepEqual(berrors,[]);await broken.close();
-  console.log('PASS: text size, spacing, line length, density, contrast, reduced motion (setting and system) and hidden preview/parser/counts/decoration persist; print unaffected; focus mode by keyboard with Escape and announcements; quick note under today with caret kept and one undo step; caret/scroll and optional note restored; throwing storage; 390px light/dark accessibility.');
+  console.log('PASS: text size, spacing, line length, density, contrast, reduced motion (setting and system) and hidden preview/parser/counts/decoration persist; print unaffected; focus mode by keyboard with Escape and announcements; quick note under today with caret kept and one undo step; my day starts at (Today and Quick note before the hour, kept on reset); caret/scroll and optional note restored; throwing storage; 390px light/dark accessibility.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});
