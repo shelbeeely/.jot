@@ -18,7 +18,7 @@ Use Node.js 22 (CI), Python 3 and, for privacy checks, `pdftotext` from Poppler.
 
 ## Research and decisions
 
-The guides in `docs/methods/` are evidence for decisions, not background reading. Read `docs/methods/README.md` (index and recurring principles), then open and search the full guides relevant to the change before deciding anything about method profiles, templates, prompts, privacy, sharing, health or mood data, safety, reminders and motivation, accessibility or tone. Cite the guides that shaped a decision in `DECISIONS.md` entries and `docs/proposals/` as `docs/methods/<file>.md, line N`. Keep each guide's own evidence wording; when the research is thin, conflicting or silent, say so instead of presenting a design choice as a finding. A change that goes against a guide's advice names the guide and says why.
+The guides in `docs/methods/` are evidence for decisions, not background reading. Load them as needed, not all at once: the `methods-research` skill (`.agents/skills/methods-research/`) gives the steps. Read `docs/methods/README.md` (index and recurring principles), then open and search the full guides relevant to the change before deciding anything about method profiles, templates, prompts, privacy, sharing, health or mood data, safety, reminders and motivation, accessibility or tone. Cite the guides that shaped a decision in `DECISIONS.md` entries and `docs/proposals/` as `docs/methods/<file>.md, line N`. Keep each guide's own evidence wording; when the research is thin, conflicting or silent, say so instead of presenting a design choice as a finding. A change that goes against a guide's advice names the guide and says why.
 
 ## Product and code conventions
 

@@ -3,6 +3,11 @@
   "formatVersion": "1.0",
   "files": [
     {
+      "path": ".agents/skills/methods-research/SKILL.md",
+      "byteLength": 2401,
+      "sha256": "23af40c66ee6288bff8f23cb62124c5005dc2bbbf97c6bcffa3f81e0fd9df4cb"
+    },
+    {
       "path": ".agents/skills/to-jot/SKILL.md",
       "byteLength": 15143,
       "sha256": "49831e3ef3f9e20be15092fae786494f438af481f9502acc574bba503910afda"
@@ -68,9 +73,19 @@
       "sha256": "189a667f21b1e27138f128087cc04b74c5235e2a13e92161f1b640c9a01e86f7"
     },
     {
+      "path": ".claude/rules/methods-research.md",
+      "byteLength": 1373,
+      "sha256": "5e2f0b44c2af5fe6656d88009d3c5fdcd9e171cbd08f76b4cd0f9e78ab708617"
+    },
+    {
       "path": ".claude/settings.json",
       "byteLength": 691,
       "sha256": "96c951e8d9daf4091d47f7aa776bb7786661222006a165ddbf6066b04eaf6cdd"
+    },
+    {
+      "path": ".claude/skills/methods-research",
+      "byteLength": 37,
+      "sha256": "a875c51a4e48ff9ba5b662140b00c43d3c3697e12acc09f868a5ae6f8555ec4b"
     },
     {
       "path": ".claude/skills/to-jot",
@@ -89,13 +104,13 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 5587,
-      "sha256": "a3b6b7a929471b0e9db9f6141e4b63f71bdda1f55cda925e923bbf3cf2ff9c1d"
+      "byteLength": 5708,
+      "sha256": "62fc4f4882a072801d9fb49902fb569be5e497676d1477ad430193ca41877279"
     },
     {
       "path": "CLAUDE.md",
-      "byteLength": 1526,
-      "sha256": "6fefbf3c95af69d94b068c5ad6f06320ec588f2dbcf228173d6b2e863ade9553"
+      "byteLength": 2106,
+      "sha256": "903b72158a1e88eb8f38b03310a901594b2254c3ad30175dd55d90fa8c2d9f76"
     },
     {
       "path": "DECISIONS.md",
