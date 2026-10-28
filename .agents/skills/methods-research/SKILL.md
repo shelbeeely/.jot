@@ -1,6 +1,7 @@
 ---
 name: methods-research
 description: Consult and cite Jot's journaling methods research (docs/methods/, 52 guides) before deciding. Use when designing or changing a method profile, template, prompt or tracker, or anything about privacy, sharing, collaboration, health, mood or symptom data, safety and crisis wording, therapy-adjacent methods (CBT, DBT, safety plans, expressive writing), reminders, streaks and motivation, accessibility, neurodivergent needs or tone; and when writing DECISIONS.md entries or docs/proposals/.
+when_to_use: Also whenever a request names a journaling or planning method, by name or nickname, such as Bullet Journal (BuJo, rapid logging, migration), Alastair method, Dutch door, Theme System journal, Hobonichi, Jibun Techo, Traveler's Notebook, Passion Planner, Full Focus Planner, Time-Block Planner, Emergent Task Planner, GTD, Ivy Lee, Eisenhower matrix, Pomodoro, interstitial journaling, time logging, habit tracker, Year in Pixels, mood tracker, spoon theory, energy accounting, stim log, sensory journal, morning pages, five-minute journal, five-year diary, gratitude, Stoic, Progoff, prompts, commonplace book, Cornell notes, dream journal, shadow work, expressive writing, CBT thought record, DBT diary card, safety plan, symptom tracker, HRT log, voice practice, art or junk journal, moodboard, planner stickers, e-ink templates, Rocketbook, dot grid, ADHD or AuDHD planning, low-demand check-in, task initiation, drawing practice, design critique log, digital daily notes.
 ---
 
 # Methods research
