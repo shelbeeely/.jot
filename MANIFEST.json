@@ -4,8 +4,8 @@
   "files": [
     {
       "path": ".agents/skills/to-jot/SKILL.md",
-      "byteLength": 14794,
-      "sha256": "4986836f9fd92104c6726f99ab6f1c189beecbf74e533898dcc6bfd36300058e"
+      "byteLength": 15143,
+      "sha256": "49831e3ef3f9e20be15092fae786494f438af481f9502acc574bba503910afda"
     },
     {
       "path": ".agents/skills/to-jot/reference/brain-dump.jot",
@@ -79,8 +79,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 2859,
-      "sha256": "8f0aec7d0050f4dd20dcacc852a67ec23905427a2918b2dab3b516d6a6aa1d38"
+      "byteLength": 2912,
+      "sha256": "67b4bdf49e6aac34fab21f5a8f8297a9ac42cb31a39c9dc791867fe5eeec7b27"
     },
     {
       "path": ".gitignore",
@@ -89,13 +89,13 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 4607,
-      "sha256": "0bab939b6fa65e977deac1451adf91f80cd874e2f1ce5e03ced28dbc5486bd15"
+      "byteLength": 5587,
+      "sha256": "a3b6b7a929471b0e9db9f6141e4b63f71bdda1f55cda925e923bbf3cf2ff9c1d"
     },
     {
       "path": "CLAUDE.md",
-      "byteLength": 1217,
-      "sha256": "6e7219d8de46e990c7f537788f1bccf8176c3343625ff25d8d2c80fdeb0335e6"
+      "byteLength": 1526,
+      "sha256": "6fefbf3c95af69d94b068c5ad6f06320ec588f2dbcf228173d6b2e863ade9553"
     },
     {
       "path": "DECISIONS.md",
@@ -216,6 +216,11 @@
       "path": "docs/methods/LICENSE",
       "byteLength": 7048,
       "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "docs/methods/README.md",
+      "byteLength": 16940,
+      "sha256": "a13e3c7183f3573ddc6f12e4a3e64709f0d3204163319027d3bc011ad40fbc20"
     },
     {
       "path": "docs/methods/TEMPLATE.md",
@@ -1713,6 +1718,11 @@
       "sha256": "9eae47ea5acb923246c73a953f8f1793211a593ee9981a9cc5c706927c367a83"
     },
     {
+      "path": "tools/build-methods-index.mjs",
+      "byteLength": 4070,
+      "sha256": "a18ff180db8a92fb6d1b8bd23ac6d554672c7a9576ca7556e431117493cf8411"
+    },
+    {
       "path": "tools/build-parser-zip.py",
       "byteLength": 1380,
       "sha256": "a691dfee46ce4cf235ce1979eaaf9938d56ac6d56aeb79ca03499dc73a05e07a"
@@ -1724,8 +1734,8 @@
     },
     {
       "path": "tools/check-generated.mjs",
-      "byteLength": 1090,
-      "sha256": "6f77b80f3cd9ceb5b92237be8db5652cc2d2077003762c141c2f034c457aef0c"
+      "byteLength": 1138,
+      "sha256": "3be00b03c46d717912ef1698832fc49cda374359b729b2186106b335161a4044"
     },
     {
       "path": "tools/manifest.cjs",

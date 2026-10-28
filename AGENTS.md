@@ -9,11 +9,16 @@ Jot is a plain-text journal format with a JavaScript parser, CLI, static website
 - `docs/guide/`: guide sources; `site/build-guides.mjs` generates `site/dist/guide/`.
 - `converter/`, `cli/`, `vscode/`: converter, command-line tools and extension (rules: `vscode/AGENTS.md`).
 - `.github/workflows/pages.yml`: required checks and publication from `main`.
+- `docs/methods/`: the journaling methods research behind profiles and design decisions; start from its `README.md` (rules: "Research and decisions" below).
 - `.agents/skills/to-jot/`: the agent skill for generating, converting and validating journals and templates (Codex reads it here; `.claude/skills/to-jot` is a symlink to it). Use it whenever you are asked to make a `.jot` from other material, and validate with `node cli/jot.mjs check --strict`.
 
 ## Local development
 
 Use Node.js 22 (CI), Python 3 and, for privacy checks, `pdftotext` from Poppler. No build or dependency installation is required to use the site or CLI. The linter and browser tests need `npm ci` (dev dependencies only; the browser tests also need Playwright with Chromium); never use real account credentials in tests.
+
+## Research and decisions
+
+The guides in `docs/methods/` are evidence for decisions, not background reading. Read `docs/methods/README.md` (index and recurring principles), then open and search the full guides relevant to the change before deciding anything about method profiles, templates, prompts, privacy, sharing, health or mood data, safety, reminders and motivation, accessibility or tone. Cite the guides that shaped a decision in `DECISIONS.md` entries and `docs/proposals/` as `docs/methods/<file>.md, line N`. Keep each guide's own evidence wording; when the research is thin, conflicting or silent, say so instead of presenting a design choice as a finding. A change that goes against a guide's advice names the guide and says why.
 
 ## Product and code conventions
 
@@ -30,6 +35,7 @@ Never hand-edit a generated file or copy; change its source and regenerate. Afte
 node tools/build-handwriting-css.mjs
 node site/build-guides.mjs
 node tools/sync-roadmap.mjs
+node tools/build-methods-index.mjs
 python3 tools/build-parser-zip.py
 node tools/manifest.cjs
 ```
@@ -47,6 +53,7 @@ node site/test-core.cjs
 node tools/privacy-check.mjs site/dist
 node tools/build-handwriting-css.mjs --check
 node tools/sync-roadmap.mjs --check
+node tools/build-methods-index.mjs --check
 node site/build-guides.mjs --check
 node tools/build-examples.mjs --check
 node vscode/sync.mjs --check

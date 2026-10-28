@@ -40,6 +40,9 @@ When the user asks for a new journal, planner, template or tracker rather than a
    and add chart or query records only when requested and supported by the reference. Prefer simple prose to invented syntax.
 4. For a method record, read its actual version, record type and required fields in `specification/profiles.json` (or the bundled
    `reference/profiles.json`). Check these manually: parser success does **not** prove full profile compliance.
+   When designing a template or tracker for a method, and inside this repository, skim that method's guide in `docs/methods/`
+   (index: `docs/methods/README.md`), especially any health or safety note: it says what to include, what to avoid (streaks,
+   missed-day counts, colour-only meaning) and when the method is meant for use with a clinician.
 5. Save the file, validate the actual saved bytes, repair diagnostics and rerun. Validate again after every subsequent edit or
    packaging step. Never claim validation from inspecting text, or from a successful run on an earlier draft.
 
