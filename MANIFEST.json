@@ -484,8 +484,13 @@
     },
     {
       "path": "docs/proposals/jot-books.md",
-      "byteLength": 4229,
-      "sha256": "5854b2a06e17fbe9a7dee1a1ead27fea2664167017154d894f47f40310042ecb"
+      "byteLength": 4364,
+      "sha256": "a0427e8f8ce2ca183ec1572515783a626831143c38f7f898df0f8f9f55dc2714"
+    },
+    {
+      "path": "docs/proposals/notes-sharing-collaboration.md",
+      "byteLength": 17260,
+      "sha256": "61c7d0ea7d525e95e20df3bdb15fdd4d4ce49db89b08f5b7f23b13cef150a50b"
     },
     {
       "path": "eslint.config.mjs",
@@ -1689,8 +1694,8 @@
     },
     {
       "path": "specification/source-register.md",
-      "byteLength": 4935,
-      "sha256": "b4693250e3b8101a9a65440aeb827abb127b65dabb937da25236be191adfc6c0"
+      "byteLength": 5448,
+      "sha256": "a1ecc40f1f09ecbad2330e35f18a218f116a30d16b9e67e2d27cd594f122df81"
     },
     {
       "path": "tools/build-agent-skill.py",

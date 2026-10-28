@@ -36,6 +36,7 @@ Optional parts/sections group chapter IDs without changing their identities. Cov
 listed assets array. Reading position, search indexes and thumbnails are optional viewer data; rebuilding them must not change
 chapter writing. Page size, binding margins and numbering belong to optional presentation metadata, not the chapter source.
 Rendered PDF/EPUB export is a separate capability and is not implied by the book container.
+Per-person chapters and notes files for shared books are designed in [notes-sharing-collaboration.md](notes-sharing-collaboration.md).
 
 ## Links and editing
 
