@@ -15,6 +15,10 @@ clinical.
 
 **Promise.** Jot things down; get beautiful pages back, and they stay yours.
 
+**The big idea: iota.** "Jot" comes from the Greek iota (ι), the smallest letter. A jotting is a quickly written, brief note,
+and jottings (snippets, scraps, a scratchpad) are a collection of them: exactly what a `.jot` file holds. The logo starts from
+the iota: the smallest mark, written quickly by hand, and many of them kept together.
+
 **Competitive landscape.** Journal and notes apps lean on a few signs: the book or notebook (Day One's bookmark ribbon,
 Moleskine), the creature (Evernote's elephant, Bear's bear), the geometric tech glyph (Notion's N, Obsidian's crystal), and the
 writing tool (quill, fountain-pen nib, pencil). Developer tools add the hash and the Markdown M↓. Clichés to stay away from
@@ -52,16 +56,18 @@ favicon and web icons, the desktop and mobile app icons (`desktop/src-tauri/icon
 
 ## Word map
 
-- **jot** → iota, the smallest letter; a dot; a tick; a quick note; "jot it down".
+- **jot** → iota (ι), the smallest letter; a dot; a tick; a quick note; "jot it down".
+- **jottings** → a brief note written quickly; snippets, scraps, a scratchpad; a collection kept together.
 - **writing** → ink, a line, a loop, one pen stroke, pen pressure.
 - **journal** → a page, a day, coming back, keeping.
 - **warm, handmade** → ink pooling at the end of a stroke, a circle that is not quite perfect, a stamp.
 - **calm, quiet** → one line, a wide margin, room on the page.
 
-Where the branches meet, to draw as concepts:
+Where the branches meet, to draw as concepts (the owner chose iota and jottings as the lead):
 
-1. **The jot.** A single pen-made dot, with the slight weight of ink where the pen landed: the smallest mark, owned through its
-   exact shape.
-2. **One stroke.** A lowercase j written in one continuous pen line, its dot that same ink dot.
-3. **The first mark on a page.** A page with one ink dot where you start writing: what Jot is for.
-4. **Iota.** The Greek ι, the letter "jot" comes from, written by hand with its dot added: an old sign made new.
+1. **Iota, dotted afterwards.** The Greek ι in one quick pen stroke, with the dot added afterwards and landing a little ahead, as
+   a hand dots an i at the end of a word. Risk: a plain dotted i reads as "information"; the hooked tail and the dot's place keep
+   it from that.
+2. **A scrap.** A small scrap of paper (a jotting) carrying the iota: the app icon is the scrap itself.
+3. **Jottings make a j.** A j built from a few short pen strokes stacked like notes on a scratchpad, with its dot: many small
+   notes that together become Jot.
