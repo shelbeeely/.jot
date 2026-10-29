@@ -6,6 +6,7 @@ import { referencePalettes } from './jot/palettes.mjs';
 import {parse} from './jot/jot.mjs';
 import {proofread} from './jot/proofread.mjs';
 import {pack,readDocument} from './jot/container.mjs';
+import * as Lock from './jot/lock.mjs';
 import * as storage from './jot/storage.mjs';
 import {renderPreview,addChartStyles} from './jot/preview.mjs';
 import {pageGeometry,pageLayoutFromAst} from './jot/handwriting.mjs';
@@ -16,6 +17,9 @@ import {queryDiagnostics} from './jot/query.mjs';
 import {isPaletteRecord,paletteOf,moodboardOf,paletteCSS,paletteJSON,contrast} from './jot/palette.mjs';
 addChartStyles(document);
 let assets=[],assetUrls=new Map(),assetKey='legacy-active',packageMetadata={},assetsReady=Promise.resolve();
+// A locked journal (Jot Lock, ./jot/lock.mjs): lockKey is this visit's non-extractable key (the passphrase is not kept); lockWaiting holds
+// the stored, still-locked copy until it is unlocked. While either is set, nothing about the journal is stored unencrypted.
+let lockKey=null,lockWaiting=null,sealing=Promise.resolve();
 const rasterTypes=new Set(['image/png','image/jpeg','image/webp','image/gif','image/avif']);
 const freshKey=()=>globalThis.crypto?.randomUUID?.()||('journal-'+Date.now()+'-'+Math.random().toString(36).slice(2));
 const $=id=>document.getElementById(id),editor=$('writing');let ast,hints=[],dictionary=null,profiles=[],timer,dirty=false,resume=null;
@@ -68,11 +72,11 @@ function adoptDocumentLayout(){
  $('printSettings').textContent=geometry.css;$('handTools').hidden=false;$('styleWrap').hidden=true;
 }
 function update(){try{ast=parse(editor.value);adoptDocumentLayout();hints=$('checkToggle').checked?proofread(ast,{dictionary}):[];preview();checks();$('wordCount').textContent=`${editor.value.trim()?editor.value.trim().split(/\s+/).length:0} words`;const summary=el('p',`${ast.entries.length} dated sections · ${ast.nodes.length} blocks · ${ast.nodes.filter(n=>n.diagram).length} diagrams · ${ast.diagnostics.length} syntax diagnostics`);$('structureSummary').replaceChildren(summary);const json=JSON.stringify(ast,null,2);$('structureOutput').textContent=json.length>18000?json.slice(0,18000)+'\n… Preview shortened. Download AST for all data.':json;}catch(e){status('Unable to parse this document: '+e.message,true);}}
-function save(){try{localStorage.setItem('jot-workspace-v1',JSON.stringify({text:editor.value,name:$('documentName').value,assetKey,cursor:editor.selectionStart,scroll:Math.round(editor.scrollTop),metadata:packageMetadata}));$('saveState').textContent='Saved in this browser';}catch{$('saveState').textContent='Autosave unavailable';status('Browser storage is unavailable or full. Download .jot to keep your writing.',true);}}
+function save(){if(lockWaiting)return;const state={text:editor.value,name:$('documentName').value,assetKey,cursor:editor.selectionStart,scroll:Math.round(editor.scrollTop),metadata:packageMetadata};if(lockKey){sealState(state);return;}try{localStorage.setItem('jot-workspace-v1',JSON.stringify(state));$('saveState').textContent='Saved in this browser';}catch{$('saveState').textContent='Autosave unavailable';status('Browser storage is unavailable or full. Download .jot to keep your writing.',true);}}
 editor.addEventListener('input',()=>{dirty=true;$('saveState').textContent='Saving…';clearTimeout(timer);timer=setTimeout(()=>{update();save();},300);});$('documentName').oninput=save;
-try{const stored=JSON.parse(localStorage.getItem('jot-workspace-v1'));if(stored&&typeof stored.text==='string'){editor.value=stored.text;$('documentName').value=stored.name||'my-journal';assetKey=stored.assetKey||'legacy-active';packageMetadata=stored.metadata||{};const cursor=Number.isInteger(stored.cursor)?Math.min(editor.value.length,stored.cursor):editor.value.length;editor.setSelectionRange(cursor,cursor);resume={cursor,scroll:Number.isFinite(stored.scroll)?Math.max(0,stored.scroll):0};$('saveState').textContent='Restored from this browser';}else editor.value=starter;}catch{editor.value=starter;status('Browser autosave is unavailable. Download your writing before closing.',true);}update();if(resume)editor.scrollTop=resume.scroll;
+try{const stored=JSON.parse(localStorage.getItem('jot-workspace-v1'));if(stored&&stored.locked===1&&typeof stored.sealed==='string'){lockWaiting=stored;assetKey=typeof stored.assetKey==='string'?stored.assetKey:'legacy-active';editor.value='';}else if(stored&&typeof stored.text==='string'){editor.value=stored.text;$('documentName').value=stored.name||'my-journal';assetKey=stored.assetKey||'legacy-active';packageMetadata=stored.metadata||{};const cursor=Number.isInteger(stored.cursor)?Math.min(editor.value.length,stored.cursor):editor.value.length;editor.setSelectionRange(cursor,cursor);resume={cursor,scroll:Number.isFinite(stored.scroll)?Math.max(0,stored.scroll):0};$('saveState').textContent='Restored from this browser';}else editor.value=starter;}catch{editor.value=starter;status('Browser autosave is unavailable. Download your writing before closing.',true);}update();if(resume)editor.scrollTop=resume.scroll;
 function setTab(id){for(const name of ['preview','structure','checks']){$(name+'View').hidden=name!==id;$(name+'Tab').classList.toggle('active',name===id);$(name+'Tab').setAttribute('aria-selected',name===id);}}for(const name of ['preview','structure','checks'])$(name+'Tab').onclick=()=>{clearTimeout(timer);update();if(dirty)save();setTab(name);};
-$('downloadJot').onclick=async()=>{try{await assetsReady;clearTimeout(timer);update();save();$('downloadJot').disabled=true;if(!assets.length){download(editor.value,fileName()+'.jot','text/plain;charset=utf-8');status('Downloaded a plain .jot: your writing, readable in any text editor.');return;}/* draft 3: plain writing is .jot; with attachments it is one .jotz package */const data=await pack({source:editor.value,assets,metadata:{...packageMetadata,title:$('documentName').value}});download(data,fileName()+'.jotz','application/zip');status('Downloaded one .jotz document containing the writing and all '+assets.length+' attached files.');}catch(e){status('Document export failed: '+e.message,true);}finally{$('downloadJot').disabled=false;}};$('markdownBtn').onclick=()=>{download(editor.value,fileName()+'.md','text/markdown');status('Exported the writing only. Download .jot keeps attachments too (as a .jotz).');};$('downloadAST').onclick=()=>{update();download(JSON.stringify(ast,null,2),fileName()+'.ast.json','application/json');};$('openBtn').onclick=()=>$('openFile').click();$('openFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;if(file.size>64*1024*1024){status('This editor accepts Jot documents up to 64 MiB.',true);return;}if(dirty&&!confirm('Replace the current journal? Download it first if you want a separate copy.'))return;try{await assetsReady;const doc=await readDocument(file);setAssets(doc.assets);assetKey=freshKey();packageMetadata=doc.manifest?.metadata||{};appliedLayoutKey='';resume=null;$('returnNote').hidden=true;editor.value=doc.source;$('documentName').value=file.name.replace(/\.(jot|md|txt)$/i,'');editor.setSelectionRange(editor.value.length,editor.value.length);dirty=true;update();save();await persistAssets();status(doc.packaged?'Opened the .jotz document, including all its assets.':'Opened plain text. Download .jot saves it as plain .jot (or one .jotz if you attach files).');}catch(e){status('Could not open this document: '+e.message,true);}};$('newBtn').onclick=async()=>{if((editor.value||assets.length)&&!confirm('Start a new journal? Download the current .jot first to keep it.'))return;await assetsReady;assetKey=freshKey();packageMetadata={};setAssets([]);resume=null;$('returnNote').hidden=true;editor.value='';$('documentName').value='my-journal';dirty=true;update();save();await persistAssets();};$('checkToggle').onchange=update;
+$('downloadJot').onclick=async()=>{try{await assetsReady;clearTimeout(timer);update();save();$('downloadJot').disabled=true;if(lockKey){const plain=assets.length?await pack({source:editor.value,assets,metadata:{...packageMetadata,title:$('documentName').value}}):editor.value;download(await Lock.lock(plain,lockKey),fileName()+Lock.LOCK_EXTENSION,'application/octet-stream');status('Downloaded a locked .jotlock'+(assets.length?' with the writing and all '+assets.length+' attached files':'')+'. It opens only with your passphrase.');return;}if(!assets.length){download(editor.value,fileName()+'.jot','text/plain;charset=utf-8');status('Downloaded a plain .jot: your writing, readable in any text editor.');return;}/* draft 3: plain writing is .jot; with attachments it is one .jotz package */const data=await pack({source:editor.value,assets,metadata:{...packageMetadata,title:$('documentName').value}});download(data,fileName()+'.jotz','application/zip');status('Downloaded one .jotz document containing the writing and all '+assets.length+' attached files.');}catch(e){status('Document export failed: '+e.message,true);}finally{$('downloadJot').disabled=false;}};$('markdownBtn').onclick=()=>{download(editor.value,fileName()+'.md','text/markdown');status('Exported the writing only. Download .jot keeps attachments too (as a .jotz).');};$('downloadAST').onclick=()=>{update();download(JSON.stringify(ast,null,2),fileName()+'.ast.json','application/json');};$('openBtn').onclick=()=>$('openFile').click();$('openFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;if(file.size>64*1024*1024){status('This editor accepts Jot documents up to 64 MiB.',true);return;}if((dirty||lockWaiting||lockKey)&&!confirm(lockWaiting?'Replace the locked journal kept in this browser? It stays in any .jotlock you downloaded.':'Replace the current journal? Download it first if you want a separate copy.'))return;try{await assetsReady;let bytes=new Uint8Array(await file.arrayBuffer()),key=null;if(Lock.isLocked(bytes)){const opened=await askUnlock('Type the passphrase '+file.name+' was locked with.',pass=>Lock.unlockWithKey(bytes,pass));if(!opened)return;bytes=opened.bytes;key=opened.key;}const doc=await readDocument(bytes);leaveLockWaiting();lockKey=key;showLock();setAssets(doc.assets);assetKey=freshKey();packageMetadata=doc.manifest?.metadata||{};appliedLayoutKey='';resume=null;$('returnNote').hidden=true;editor.value=doc.source;$('documentName').value=file.name.replace(/\.(jot|jotz|jotlock|md|txt)$/i,'');editor.setSelectionRange(editor.value.length,editor.value.length);dirty=true;update();save();await persistAssets();status(key?'Opened and unlocked '+file.name+'. It stays locked in this browser; Download locked saves a .jotlock.':doc.packaged?'Opened the .jotz document, including all its assets.':'Opened plain text. Download .jot saves it as plain .jot (or one .jotz if you attach files).');}catch(e){status('Could not open this document: '+e.message,true);}};$('newBtn').onclick=async()=>{if((editor.value||assets.length)&&!confirm('Start a new journal? Download the current .jot first to keep it.'))return;await assetsReady;leaveLockWaiting();lockKey=null;showLock();assetKey=freshKey();packageMetadata={};setAssets([]);resume=null;$('returnNote').hidden=true;editor.value='';$('documentName').value='my-journal';dirty=true;update();save();await persistAssets();};$('checkToggle').onchange=update;
 $('wordListBtn').onclick=()=>$('wordList').click();$('wordList').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>5*1024*1024){status('Choose a word list smaller than 5 MB.',true);return;}dictionary=new Set((await f.text()).toLowerCase().split(/\s+/).filter(Boolean));update();status(`Loaded ${dictionary.size} words for this session. Dictionary misses are suggestions, not errors.`);};
 function pageSettings(){const v=$('journalPaper').value;$('customPaper').hidden=v!=='custom';let w,h;[w,h]=({A5:[148,210],A4:[210,297],Letter:[215.9,279.4],Pocket:[88.9,139.7]})[v]||[Number($('paperW').value),Number($('paperH').value)];if(!Number.isFinite(w)||!Number.isFinite(h)||w<10||h<10||w>5000||h>5000){status('Enter positive dimensions between 10 and 5,000 mm.',true);return false;}geometry=handOn()?pageGeometry([w,h],Number($('pitch').value),pageLayoutFromAst(ast)?.marginMm ?? 8):null;$('printSettings').textContent=geometry?geometry.css:pageCSS($('pageStyle').value,[w,h]);$('handTools').hidden=!handOn();$('styleWrap').hidden=handOn();$('paperPreview').classList.toggle('styled',!handOn()&&$('pageStyle').value!=='plain');try{localStorage.setItem('jot-hand-v1',JSON.stringify({style:$('pageStyle').value,look:$('look').value,hand:$('hand').value,ink:$('ink').value,pitch:$('pitch').value,seed:handSeed}));}catch{}preview();return true;}for(const id of ['journalPaper','paperW','paperH','dotGrid','look','hand','ink','pitch','pageStyle'])$(id).onchange=pageSettings;$('exportPage').onclick=async()=>{clearTimeout(timer);update();if(dirty)save();if(!pageSettings())return;setTab('preview');$('exportPage').disabled=true;try{const paper=$('paperPreview');await paper.jotReady;const html=await exportHTML(paper,{title:$('documentName').value||'Journal',lang:document.documentElement.lang||'en',pageCss:$('printSettings').textContent});download(html,fileName()+'.html','text/html;charset=utf-8');status('Downloaded '+fileName()+'.html: the formatted pages in one file. Open it in any browser, or print it for a PDF.');}catch(e){status('Could not make the page: '+e.message,true);}finally{$('exportPage').disabled=false;}};$('reshuffle').onclick=()=>{handSeed=(handSeed%9973)+1;pageSettings();status('Written again, with different letter shapes and highlight strokes.');};for(const [id,v] of [['pageStyle',handPrefs.style],['look',handPrefs.look],['hand',handPrefs.hand],['ink',handPrefs.ink],['pitch',handPrefs.pitch]])if(v&&[...$(id).options].some(o=>o.value===v))$(id).value=v;$('printBtn').onclick=async()=>{clearTimeout(timer);update();if(dirty)save();if(pageSettings()){setTab('preview');await $('paperPreview').jotReady;window.print();}};if(pageLayoutFromAst(ast)){appliedLayoutKey='';adoptDocumentLayout();}pageSettings();
 function insert(text){const p=editor.selectionEnd,lead=p&&editor.value[p-1]!=='\n'?'\n\n':'';editor.setRangeText(lead+text+'\n\n',p,p,'end');dirty=true;update();save();editor.focus();}
@@ -85,17 +89,19 @@ for(const [title,state,description] of roadmap){const row=el('article',undefined
 window.addEventListener('pagehide',()=>{if(dirty)save();});
 
 function setAssets(next){for(const u of assetUrls.values())URL.revokeObjectURL(u);assetUrls.clear();assets=next;for(const a of assets)assetUrls.set(a.path,URL.createObjectURL(new Blob([a.data],{type:a.mediaType})));renderAssets();}
-function renderAssets(){const list=$('assetList');list.replaceChildren();$('docExt').textContent=assets.length?'.jotz':'.jot';$('assetCount').textContent=assets.length+' assets';if(!assets.length)list.append(el('li','No assets attached yet. Writing-only journals still download as one .jot document.'));for(const a of assets){const li=el('li'),label=el('span',a.path+' · '+Math.ceil(a.data.length/1024)+' KB'),get=el('a','Download','quiet');get.href=assetUrls.get(a.path);get.download=a.path.split('/').pop();const remove=el('button','Remove','quiet');remove.onclick=async()=>{if(!confirm('Remove this file from the document? Existing text references will be left visible.'))return;setAssets(assets.filter(x=>x.path!==a.path));dirty=true;update();save();await persistAssets();};li.append(label,get,remove);list.append(li);}}
-async function persistAssets(){try{await storage.put('assets',assetKey,assets.map(a=>({path:a.path,mediaType:a.mediaType,data:a.data})));$('assetSaveState').textContent='Attached files saved in this browser. Download .jot for a portable copy.';}catch(e){$('assetSaveState').textContent='Attachments could not be autosaved. Download .jot before closing.';status('Local asset storage failed. The files are still in memory; download .jot to keep them.',true);}}
+function renderAssets(){const list=$('assetList');list.replaceChildren();$('docExt').textContent=lockKey?Lock.LOCK_EXTENSION:assets.length?'.jotz':'.jot';$('assetCount').textContent=assets.length+' assets';if(!assets.length)list.append(el('li','No assets attached yet. Writing-only journals still download as one .jot document.'));for(const a of assets){const li=el('li'),label=el('span',a.path+' · '+Math.ceil(a.data.length/1024)+' KB'),get=el('a','Download','quiet');get.href=assetUrls.get(a.path);get.download=a.path.split('/').pop();const remove=el('button','Remove','quiet');remove.onclick=async()=>{if(!confirm('Remove this file from the document? Existing text references will be left visible.'))return;setAssets(assets.filter(x=>x.path!==a.path));dirty=true;update();save();await persistAssets();};li.append(label,get,remove);list.append(li);}}
+async function persistAssets(){if(lockWaiting)return;try{if(lockKey){const key=lockKey,k=assetKey,sealed=await Lock.lock(bundleAssets(assets),key);if(key!==lockKey||k!==assetKey)return;await storage.put('assets',k,{sealed});$('assetSaveState').textContent='Attached files saved in this browser, locked. Download locked keeps a portable copy.';return;}await storage.put('assets',assetKey,assets.map(a=>({path:a.path,mediaType:a.mediaType,data:a.data})));$('assetSaveState').textContent='Attached files saved in this browser. Download .jot for a portable copy.';}catch(e){$('assetSaveState').textContent='Attachments could not be autosaved. Download .jot before closing.';status('Local asset storage failed. The files are still in memory; download .jot to keep them.',true);}}
 function assetPath(file){let name=file.name.replace(/[^\p{L}\p{N}._-]+/gu,'-').replace(/^\.+/,'')||'attachment';name=name.slice(0,100);let path='assets/'+name,i=2;while(assets.some(a=>a.path===path))path='assets/'+(i++)+'-'+name;return path;}
 $('attachBtn').onclick=()=>$('attachFile').click();$('attachFile').onchange=async e=>{const files=[...e.target.files];e.target.value='';try{await attachFiles(files,true);}catch{/* reported */}};
 /* Adds files to the document's attachments; link=true also writes a link at the cursor (the voice tool links its recording only on Add). */
 async function attachFiles(files,link){await assetsReady;try{const added=[];let total=assets.reduce((sum,a)=>sum+a.data.length,0);for(const file of files){if(file.size>32*1024*1024||total+file.size>62*1024*1024||assets.length>=254)throw Error('Attachments exceed the document limits. Use files under 32 MiB and keep the document under 64 MiB.');const path=assetPath(file),a={path,mediaType:file.type||'application/octet-stream',data:new Uint8Array(await file.arrayBuffer())};assets.push(a);total+=a.data.length;added.push(a);}setAssets([...assets]);let text='';for(const a of added){const label=a.path.split('/').pop();text+=((rasterTypes.has(a.mediaType)||/\.jot$/i.test(a.path))?'!':'')+'['+label+']('+a.path+')\n\n';}if(text&&link)insert(text);await persistAssets();status('Attached '+added.length+' files. They will travel inside the .jotz document when you download.');return added.map(a=>a.path);}catch(e){setAssets([...assets]);await persistAssets();status(e.message,true);throw e;}}
-assetsReady=(async()=>{try{const restored=await storage.get('assets',assetKey);if(Array.isArray(restored)){setAssets(restored);update();}else renderAssets();const capture=await storage.get('handoff','pending');if(capture&&Array.isArray(capture.assets)&&typeof capture.text==='string'){for(const a of capture.assets){if(!assets.some(x=>x.path===a.path))assets.push(a);}setAssets([...assets]);insert(capture.text);await persistAssets();await storage.remove('handoff','pending');status('Inserted your handwritten page or scan. It will be included inside this .jot.');}}catch(e){renderAssets();$('assetSaveState').textContent='Local asset recovery unavailable. Download .jot to keep attachments.';}})();
-window.addEventListener('pagehide',save);
+assetsReady=(async()=>{if(lockWaiting){renderAssets();return;}try{const restored=await storage.get('assets',assetKey);if(Array.isArray(restored)){setAssets(restored);update();}else renderAssets();await takeHandoff();}catch(e){renderAssets();$('assetSaveState').textContent='Local asset recovery unavailable. Download .jot to keep attachments.';}})();
+/* A handwritten page or scan waiting from the paper tools goes into the journal once it is open (and, if locked, unlocked). */
+async function takeHandoff(){const capture=await storage.get('handoff','pending');if(capture&&Array.isArray(capture.assets)&&typeof capture.text==='string'){for(const a of capture.assets){if(!assets.some(x=>x.path===a.path))assets.push(a);}setAssets([...assets]);insert(capture.text);await persistAssets();await storage.remove('handoff','pending');status('Inserted your handwritten page or scan. It will be included inside this .jot.');}}
+window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')save();});
 /* ?open=examples/… (the Read links on the examples page): opens an example from this site, after asking before it replaces writing */
 const exampleParam=new URLSearchParams(location.search).get('open');
-if(exampleParam!==null)(async()=>{history.replaceState(null,'',location.pathname+location.hash);if(!/^examples\/[\w-]+(\/[\w-]+)*\.jotz?$/.test(exampleParam)){status('That link does not name an example on this site.',true);return;}const name=exampleParam.split('/').pop();if(editor.value.trim()&&editor.value!==starter&&!confirm('Open the example '+name+'? It replaces the writing kept in this browser. Choose Cancel, then Download .jot, to keep a copy of yours first.'))return;try{await assetsReady;const res=await fetch(new URL(exampleParam,new URL('./',import.meta.url)));if(!res.ok)throw Error('not found ('+res.status+')');const doc=await readDocument(new Uint8Array(await res.arrayBuffer()));setAssets(doc.assets);assetKey=freshKey();packageMetadata=doc.manifest?.metadata||{};appliedLayoutKey='';resume=null;$('returnNote').hidden=true;editor.value=doc.source;$('documentName').value=name.replace(/\.jotz?$/i,'');editor.setSelectionRange(0,0);editor.scrollTop=0;dirty=true;update();save();await persistAssets();status('Opened the example '+name+'. Changes stay in this browser; Download .jot keeps a copy.');}catch(e){status('Could not open the example: '+e.message,true);}})();
+if(exampleParam!==null)(async()=>{history.replaceState(null,'',location.pathname+location.hash);if(!/^examples\/[\w-]+(\/[\w-]+)*\.jotz?$/.test(exampleParam)){status('That link does not name an example on this site.',true);return;}const name=exampleParam.split('/').pop();if(((editor.value.trim()&&editor.value!==starter)||lockWaiting)&&!confirm('Open the example '+name+'? It replaces the writing kept in this browser. Choose Cancel, then Download .jot, to keep a copy of yours first.'))return;try{await assetsReady;const res=await fetch(new URL(exampleParam,new URL('./',import.meta.url)));if(!res.ok)throw Error('not found ('+res.status+')');const doc=await readDocument(new Uint8Array(await res.arrayBuffer()));leaveLockWaiting();lockKey=null;showLock();setAssets(doc.assets);assetKey=freshKey();packageMetadata=doc.manifest?.metadata||{};appliedLayoutKey='';resume=null;$('returnNote').hidden=true;editor.value=doc.source;$('documentName').value=name.replace(/\.jotz?$/i,'');editor.setSelectionRange(0,0);editor.scrollTop=0;dirty=true;update();save();await persistAssets();status('Opened the example '+name+'. Changes stay in this browser; Download .jot keeps a copy.');}catch(e){status('Could not open the example: '+e.message,true);}})();
 
 // Tools: the same chores as the jot command line and VS Code (jot/automation.mjs). They change the writing as one step (Ctrl+Z takes
 // it back) or download a file locally. Optional Spotify capture is handled separately in music.mjs.
@@ -262,6 +268,117 @@ $('prefsReset').onclick = () => { Object.assign(prefs, prefDefaults, { note: pre
 $('prefsBtn').onclick = () => { showPrefControls(); $('prefsStatus').textContent = ''; $('prefsDialog').showModal(); };
 for (const id of ['prefsClose', 'prefsDone']) $(id).onclick = () => $('prefsDialog').close();
 showPrefControls(); applyPrefs();
+
+// Locking (Jot Lock: ./jot/lock.mjs, specification/Jot-Lock-v1.md), with the browser's built-in Web Crypto. The passphrase makes this
+// visit's key and is then dropped; the key cannot be exported. While locked, autosave and attachments are stored only encrypted, and
+// a reload asks for the passphrase again. Download saves a .jotlock; the lock note says which other exports are not encrypted.
+const toB64 = (b) => { let t = ''; for (let i = 0; i < b.length; i += 0x8000) t += String.fromCharCode(...b.subarray(i, i + 0x8000)); return btoa(t); };
+const fromB64 = (t) => Uint8Array.from(atob(t), (c) => c.charCodeAt(0));
+function sealState(state) {
+  const key = lockKey;
+  sealing = sealing.then(async () => {
+    const sealed = await Lock.lock(JSON.stringify(state), key);
+    if (key !== lockKey) return;
+    localStorage.setItem('jot-workspace-v1', JSON.stringify({ locked: 1, assetKey: state.assetKey, sealed: toB64(sealed) }));
+    $('saveState').textContent = 'Saved in this browser, locked';
+  }).catch(() => { $('saveState').textContent = 'Autosave unavailable'; status('The locked copy could not be saved in this browser. Download locked to keep your writing.', true); });
+  return sealing;
+}
+// Attachments as one sealed value: a 4-byte length, a JSON list of {path, mediaType, length}, then the files' bytes in order.
+function bundleAssets(list) {
+  const head = new TextEncoder().encode(JSON.stringify(list.map((a) => ({ path: a.path, mediaType: a.mediaType, length: a.data.length }))));
+  const out = new Uint8Array(4 + head.length + list.reduce((n, a) => n + a.data.length, 0));
+  new DataView(out.buffer).setUint32(0, head.length); out.set(head, 4);
+  let at = 4 + head.length; for (const a of list) { out.set(a.data, at); at += a.data.length; }
+  return out;
+}
+function unbundleAssets(b) {
+  const n = new DataView(b.buffer, b.byteOffset, b.byteLength).getUint32(0), list = JSON.parse(new TextDecoder().decode(b.subarray(4, 4 + n)));
+  let at = 4 + n;
+  return list.map((d) => { const data = b.slice(at, at + d.length); at += d.length; return { path: d.path, mediaType: d.mediaType, data }; });
+}
+function showLock() {
+  const waiting = !!lockWaiting, locked = !!lockKey;
+  $('lockGate').hidden = !waiting; $('lockNote').hidden = !locked;
+  editor.readOnly = waiting; document.querySelector('.studio-workspace').inert = waiting;
+  for (const id of ['downloadJot', 'attachBtn', 'markdownBtn']) $(id).disabled = waiting;
+  $('lockBtn').hidden = waiting; $('lockBtn').textContent = locked ? 'Remove the lock' : 'Lock with a passphrase';
+  $('downloadJot').textContent = locked ? 'Download locked ↓' : 'Download .jot ↓';
+  $('docExt').textContent = locked ? Lock.LOCK_EXTENSION : assets.length ? '.jotz' : '.jot';
+  if (waiting) $('saveState').textContent = 'Locked';
+}
+function leaveLockWaiting() { lockWaiting = null; showLock(); }
+/* Asks for a passphrase until attempt(passphrase) succeeds or the person cancels (null). Wrong passphrases just ask again. */
+function askUnlock(message, attempt) {
+  return new Promise((resolve) => {
+    const d = $('unlockDialog'); let busy = false;
+    $('unlockWhat').textContent = message; $('unlockPass').value = ''; $('unlockStatus').textContent = '';
+    const finish = (v) => { $('unlockForm').onsubmit = null; d.onclose = null; if (d.open) d.close(); $('unlockPass').value = ''; resolve(v); };
+    $('unlockForm').onsubmit = async (e) => {
+      e.preventDefault(); if (busy) return; busy = true; $('unlockGo').disabled = true; $('unlockStatus').textContent = 'Unlocking…';
+      try { finish(await attempt($('unlockPass').value)); }
+      catch (err) { $('unlockStatus').textContent = err instanceof Lock.LockError && err.code === 'cannot-unlock' ? 'That passphrase does not unlock it (or the file was changed). Try again.' : 'Could not unlock: ' + err.message; $('unlockPass').select(); }
+      finally { busy = false; $('unlockGo').disabled = false; }
+    };
+    d.onclose = () => finish(null); d.showModal(); $('unlockPass').focus();
+  });
+}
+for (const id of ['unlockCancel', 'unlockClose']) $(id).onclick = () => $('unlockDialog').close();
+async function unlockStored() {
+  const stored = lockWaiting; if (!stored) return;
+  const opened = await askUnlock('Type the passphrase this journal was locked with.', async (pass) => {
+    const r = await Lock.unlockWithKey(fromB64(stored.sealed), pass);
+    return { state: JSON.parse(new TextDecoder().decode(r.bytes)), key: r.key };
+  });
+  if (!opened || lockWaiting !== stored) return;
+  const { state, key } = opened; let kept = [];
+  try { const v = await storage.get('assets', stored.assetKey); if (v && v.sealed) kept = unbundleAssets(await Lock.unlock(v.sealed, key)); }
+  catch { status('The locked attachments in this browser could not be read. The writing is unlocked.', true); }
+  lockWaiting = null; lockKey = key;
+  editor.value = typeof state.text === 'string' ? state.text : ''; $('documentName').value = state.name || 'my-journal';
+  assetKey = typeof state.assetKey === 'string' ? state.assetKey : stored.assetKey; packageMetadata = state.metadata || {};
+  setAssets(kept); showLock();
+  const cursor = Number.isInteger(state.cursor) ? Math.min(editor.value.length, state.cursor) : editor.value.length;
+  editor.setSelectionRange(cursor, cursor); update(); editor.scrollTop = Number.isFinite(state.scroll) ? Math.max(0, state.scroll) : 0;
+  $('saveState').textContent = 'Unlocked · kept locked in this browser'; editor.focus();
+  status('Unlocked. It stays locked in this browser; reloading the page asks for the passphrase again.');
+  await takeHandoff();
+}
+$('lockGateUnlock').onclick = unlockStored;
+$('lockGateForget').onclick = async () => {
+  if (!lockWaiting || !confirm('Remove the locked journal from this browser? Only a .jotlock you downloaded will still have it.')) return;
+  const k = lockWaiting.assetKey; lockWaiting = null;
+  try { localStorage.removeItem('jot-workspace-v1'); await storage.remove('assets', k); } catch { /* nothing more to remove */ }
+  editor.value = ''; showLock(); update(); status('Removed the locked journal from this browser.');
+};
+let shortOk = false;
+$('lockBtn').onclick = async () => {
+  if (lockKey) {
+    if (!confirm('Remove the lock? This browser will keep the journal unencrypted again, and Download saves a plain .jot. Locked copies you downloaded stay locked.')) return;
+    lockKey = null; showLock(); save(); await persistAssets(); status('The lock is removed: this browser keeps this journal unencrypted again.'); return;
+  }
+  $('lockPass').value = $('lockPass2').value = ''; $('lockStatus').textContent = ''; shortOk = false; $('lockDialog').showModal(); $('lockPass').focus();
+};
+for (const id of ['lockCancel', 'lockClose']) $(id).onclick = () => $('lockDialog').close();
+$('lockDialog').addEventListener('close', () => { $('lockPass').value = $('lockPass2').value = ''; });
+$('lockForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const a = $('lockPass').value, b = $('lockPass2').value;
+  if (a !== b) { $('lockStatus').textContent = 'The two passphrases differ. Nothing was locked.'; return; }
+  if ([...a].length < 8 && !shortOk) { shortOk = true; $('lockStatus').textContent = 'That passphrase is short, so it is easier to guess. Choose Lock this journal again to use it anyway.'; return; }
+  $('lockGo').disabled = true; $('lockStatus').textContent = 'Locking…';
+  try {
+    await assetsReady;
+    const key = await Lock.makeKey(a);
+    lockKey = key; save(); await sealing; await persistAssets();
+    const kept = JSON.parse(localStorage.getItem('jot-workspace-v1') || 'null');
+    if (!kept || kept.locked !== 1) throw Error('the encrypted copy could not be saved in this browser');
+    showLock(); $('lockDialog').close();
+    status('Locked. This browser now keeps only an encrypted copy, and Download locked saves a .jotlock. Copies you downloaded before are not locked.');
+  } catch (err) { lockKey = null; showLock(); save(); $('lockStatus').textContent = 'Could not lock: ' + err.message; }
+  finally { $('lockGo').disabled = false; }
+};
+showLock(); if (lockWaiting) unlockStored();
 // The saved scroll was measured with these preferences and the handwriting font, so apply it again once both are in place.
 if (resume) { editor.scrollTop = resume.scroll; const set = editor.scrollTop; document.fonts?.ready.then(() => { if (editor.scrollTop === set) editor.scrollTop = resume?.scroll ?? set; }); }
 

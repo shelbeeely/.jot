@@ -38,7 +38,7 @@ jobs:
           node tools/build-examples.mjs --check
           node tools/manifest.cjs --check
           cmp converter/convert.mjs site/dist/jot/convert.mjs
-          for f in jot container proofread charts preview handwriting styles palette export automation connect include query health vendor/chart vendor/marked; do cmp parser/$f.mjs site/dist/jot/$f.mjs; done
+          for f in jot container lock proofread charts preview handwriting styles palette export automation connect include query health vendor/chart vendor/marked; do cmp parser/$f.mjs site/dist/jot/$f.mjs; done
           diff -r parser/fonts site/dist/jot/fonts
           node vscode/sync.mjs --check
           python3 tools/build-parser-zip.py --check

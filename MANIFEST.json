@@ -94,8 +94,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 2933,
-      "sha256": "9d7d108daa861e6627e05202c7ad395598e0eebb772a6a5a05bb2db0f6086f89"
+      "byteLength": 2938,
+      "sha256": "be2d1266fcf97e0b4ae8a6ed70c6e8522c96225ab6905f381208399b355e4d19"
     },
     {
       "path": ".gitignore",
@@ -114,8 +114,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 34824,
-      "sha256": "03f5e0203bf48f23233489c3bf6cdbc541e120a2643f1bdd8047169b8ad84d83"
+      "byteLength": 35511,
+      "sha256": "f585ce946d4e15041de3b6ab86c1ac278d7a7b815925d1e45a3d04253775f4fa"
     },
     {
       "path": "README.md",
@@ -194,8 +194,8 @@
     },
     {
       "path": "docs/guide/automation.md",
-      "byteLength": 18509,
-      "sha256": "70b8f270d30a3b909102e2fc5ca6af5f2bef54f637c93160fb3311b308539603"
+      "byteLength": 18570,
+      "sha256": "88b6aee672af5b9b31740676c1ec04c1cb28ececf830e67c5a94ceb96f18f9aa"
     },
     {
       "path": "docs/guide/converting.md",
@@ -224,8 +224,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 25942,
-      "sha256": "4aee20728fd66cbd77787edc446f092af78fcf1a5a2542d91c5213453b1e9efa"
+      "byteLength": 27230,
+      "sha256": "3e5a95db2a99b4f8e576ca6a4070d425aaf78c35b24f7e2935afe2fcd591b792"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -569,8 +569,8 @@
     },
     {
       "path": "parser/LOCK.md",
-      "byteLength": 6776,
-      "sha256": "7ea510bfd843c7fd0fc00e69f63f05d61de27606b4ed0e2c72ce11664b21b014"
+      "byteLength": 7023,
+      "sha256": "4ea8f92ed071ad01464956ce235323247494c50a068bbca5abbd1d01acc85ff0"
     },
     {
       "path": "parser/README.md",
@@ -579,8 +579,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 28508,
-      "sha256": "1c23ee05e3db581721d71fea68c8133f1cc12b95a2881d3848316a0e1127b8a6"
+      "byteLength": 28586,
+      "sha256": "6670240a7af6cfab75c02de92f6c5194e243a44b6163ac2400ead2cc5d9e65d6"
     },
     {
       "path": "parser/automation-test.mjs",
@@ -754,13 +754,13 @@
     },
     {
       "path": "parser/lock-test.mjs",
-      "byteLength": 5573,
-      "sha256": "eaf97ed2072717262e7e216081cd33b18d10cdedf9d26e120f13695b462e70f5"
+      "byteLength": 6508,
+      "sha256": "58dd466c2be0fbfbf23417322541eb0456034f2567dd5977c84cbf29e7ccb861"
     },
     {
       "path": "parser/lock.mjs",
-      "byteLength": 7226,
-      "sha256": "2b871fe83d8467fe7aaf98ced05eca1bcbe57be1e43d87f7db1cfa98bf54367d"
+      "byteLength": 8857,
+      "sha256": "ae0d400f8970632c8bc2d892620b0d55cf39d628fdcf98066ff9f0599f01e072"
     },
     {
       "path": "parser/package.json",
@@ -864,8 +864,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 3021,
-      "sha256": "84a1c0bcc069e9f5a3c73d8e0d9b07926a20dcef1b591ca29f99bc260e8c04b6"
+      "byteLength": 3136,
+      "sha256": "0d37682e82f217a5fb33c658c97338bd19f34a05f0b3459b139b5ecb59d212ae"
     },
     {
       "path": "site/CLAUDE.md",
@@ -884,8 +884,8 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 28508,
-      "sha256": "1c23ee05e3db581721d71fea68c8133f1cc12b95a2881d3848316a0e1127b8a6"
+      "byteLength": 28586,
+      "sha256": "6670240a7af6cfab75c02de92f6c5194e243a44b6163ac2400ead2cc5d9e65d6"
     },
     {
       "path": "site/dist/convert/app.mjs",
@@ -919,8 +919,8 @@
     },
     {
       "path": "site/dist/docs/Jot-Lock-v1.md",
-      "byteLength": 6776,
-      "sha256": "7ea510bfd843c7fd0fc00e69f63f05d61de27606b4ed0e2c72ce11664b21b014"
+      "byteLength": 7023,
+      "sha256": "4ea8f92ed071ad01464956ce235323247494c50a068bbca5abbd1d01acc85ff0"
     },
     {
       "path": "site/dist/docs/example.jotz",
@@ -929,8 +929,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 928200,
-      "sha256": "8ade323d9fa74218a1aa4dcec4faf867391a380de65c22a2b2e4ddc33cea51a8"
+      "byteLength": 929098,
+      "sha256": "84f6cf6ddc032f33e330e2dc293cf00c38bb3573637719078a7bb5baed6eb9ce"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -1239,8 +1239,8 @@
     },
     {
       "path": "site/dist/guide/automation.html",
-      "byteLength": 23937,
-      "sha256": "31ccb299f6dc946fc02dcbc87d49e3a800451b67c810e59b54fbbee05456e6b9"
+      "byteLength": 24011,
+      "sha256": "60c9b4c2714603f367346ce1c8cb384bd91d846362cc1f2e012cdd8295754aa5"
     },
     {
       "path": "site/dist/guide/converting.html",
@@ -1279,8 +1279,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 35489,
-      "sha256": "3e8fb2c1e716dc2cd3d9166e27211a96bc8630c3de45c7bbc0f4d0d00b06d876"
+      "byteLength": 37048,
+      "sha256": "1282d43e1fa23418565fae99c036144c8f805ef75cc4969f16121d04f365cb62"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -1433,6 +1433,11 @@
       "sha256": "d80f36ff21040a2f9237b0dc99c7aad4bd7473cff43fda831cfee3225a12ba7d"
     },
     {
+      "path": "site/dist/jot/lock.mjs",
+      "byteLength": 8857,
+      "sha256": "ae0d400f8970632c8bc2d892620b0d55cf39d628fdcf98066ff9f0599f01e072"
+    },
+    {
       "path": "site/dist/jot/music.mjs",
       "byteLength": 22074,
       "sha256": "4f53e2c62cbe3db713b957a75cbc341ef5a9384cbf4f0ca3021f101b2686a7f2"
@@ -1564,18 +1569,18 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 19444,
-      "sha256": "57a341c2a64ec8dba114a0941d5ad4259b0542193981fab67b29ea85c01cbc21"
+      "byteLength": 19928,
+      "sha256": "54b9fb372324a107dd3d4199585b4b3fa15c07ba63ead6bd60020cbbe33a7aec"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 43266,
-      "sha256": "0db3a7b87f57cec0b17c888ab0ac1e61afa2105a851fbfc891f41125e60a27fc"
+      "byteLength": 53719,
+      "sha256": "7d55e8d247cdb7d21eb956f4358729d0d6106897a23bf1a0ee5750580d0cd53c"
     },
     {
       "path": "site/dist/write/index.html",
-      "byteLength": 27951,
-      "sha256": "ef2e1d2acaaca4a562d67e073962fa93f8a2ee04704859019baf34cddd603f3b"
+      "byteLength": 31173,
+      "sha256": "1ec83ff545bbfeef6016351b2e18dfa585230d2a4546729c4347efc854b8e881"
     },
     {
       "path": "site/dist/write/spotify-callback.html",
@@ -1638,6 +1643,11 @@
       "sha256": "a19415363c923ed1bf1cc1b74790c2ece1a5ca9aabdab3e0a8f3cbabfc0999fe"
     },
     {
+      "path": "site/test-lock-ui.cjs",
+      "byteLength": 10810,
+      "sha256": "04ecd6cf815093b4218f816f1b2897dc1a19336a50411030824ab5959104e071"
+    },
+    {
       "path": "site/test-music-ui.cjs",
       "byteLength": 13455,
       "sha256": "e909e2732715da6f6d6ab0651ce9ba709486bd1afe88c8487a868b39a66f21f1"
@@ -1689,8 +1699,8 @@
     },
     {
       "path": "specification/Jot-Lock-v1.md",
-      "byteLength": 6776,
-      "sha256": "7ea510bfd843c7fd0fc00e69f63f05d61de27606b4ed0e2c72ce11664b21b014"
+      "byteLength": 7023,
+      "sha256": "4ea8f92ed071ad01464956ce235323247494c50a068bbca5abbd1d01acc85ff0"
     },
     {
       "path": "specification/README.md",
@@ -1699,8 +1709,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 28508,
-      "sha256": "1c23ee05e3db581721d71fea68c8133f1cc12b95a2881d3848316a0e1127b8a6"
+      "byteLength": 28586,
+      "sha256": "6670240a7af6cfab75c02de92f6c5194e243a44b6163ac2400ead2cc5d9e65d6"
     },
     {
       "path": "specification/conformance.json",

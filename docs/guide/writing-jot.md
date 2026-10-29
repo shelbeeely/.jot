@@ -424,6 +424,28 @@ The Jot workspace opens both and saves whichever fits: plain `.jot` when there a
 editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open it in the workspace (or unzip it and open
 `journal.txt`).
 
+- **`.jotlock`** is a locked journal: a `.jot` or `.jotz` encrypted with a passphrase. Only the passphrase opens it.
+
+### Locking a journal
+
+In the workspace, **Lock with a passphrase** encrypts the journal with the browser's own built-in cryptography (AES-256-GCM, with
+the key made from your passphrase by PBKDF2). Nothing is sent anywhere. From then on:
+
+- this browser keeps only an encrypted copy of the writing and its attachments;
+- **Download locked** saves a `.jotlock`, which opens in the workspace (Open a journal) or with the command line (`jot unlock`);
+- reloading the page asks for the passphrase before showing anything. **Remove it from this browser** deletes the locked copy
+  here if you no longer need it;
+- **Remove the lock** goes back to an ordinary journal.
+
+Things to know first:
+
+- **There is no recovery.** Jot never keeps or sends your passphrase. If you forget it, nobody can open the journal, you
+  included. A password manager is a good place for it.
+- **Other exports are not encrypted:** Markdown, calendar and CSV files, a downloaded page and printing. Copies you downloaded
+  before locking are not locked either.
+- A locked file's name, size and dates still show, and a lock does not help if someone uses your browser while the journal is
+  unlocked.
+
 ## Where to write
 
 - **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending. (For colours, see

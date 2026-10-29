@@ -57,8 +57,10 @@ JOTLOCK 1\n
   MUST refuse more than 64 MiB of plaintext. Unknown versions, ciphers or key functions are refused, not guessed.
 - A wrong passphrase and a changed file fail the same way, with no partial output; GCM cannot tell them apart and readers MUST NOT
   try.
-- Writers MUST use fresh random salt and nonce for every lock, and SHOULD unlock the result and compare it with the original
-  before writing it (as `jot lock` and `parser/lock.mjs` do).
+- Writers MUST use a fresh random nonce for every lock, and a fresh random salt for every new passphrase. An application MAY keep
+  one key (and so one salt) for later saves of the same journal under the same passphrase, so the slow derivation runs once per
+  session; the nonce is still fresh every time. Writers SHOULD unlock the result and compare it with the original before writing
+  it (as `jot lock` and `parser/lock.mjs` do).
 - Writers MUST NOT lock an already locked document, store the passphrase, or put the original file name, title, dates or other
   metadata in the header.
 - Applications that keep working copies (autosave, history, previews) of a locked journal MUST keep them encrypted or say plainly

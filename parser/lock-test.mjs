@@ -68,3 +68,14 @@ test('an independent reader, written from LOCK.md with node:crypto, opens a lock
   d.setAAD(header); d.setAuthTag(body.subarray(body.length - 16));
   assert.equal(Buffer.concat([d.update(body.subarray(0, body.length - 16)), d.final()]).toString('utf8'), J);
 });
+
+test('a session key: derived once, a fresh nonce for every save, usable only for its own lock', async () => {
+  const k = await L.makeKey('pw', FAST), a = await lock(J, k), b = await lock(J, k);
+  assert.deepEqual(readHeader(a).salt, readHeader(b).salt); assert.notDeepEqual(readHeader(a).iv, readHeader(b).iv, 'never the same nonce');
+  assert.equal(new TextDecoder().decode(await unlock(b, 'pw')), J, 'the passphrase still unlocks it');
+  const { bytes, key } = await L.unlockWithKey(a, 'pw'); assert.equal(new TextDecoder().decode(bytes), J);
+  assert.equal(new TextDecoder().decode(await unlock(await lock('later', key), 'pw')), 'later', 'the kept key locks the next save the same way');
+  await assert.rejects(unlock(await lock(J, 'pw', FAST), k), code('other-key'));
+  await assert.rejects(L.unlockWithKey(a, 'wrong'), code('cannot-unlock'));
+  await assert.rejects(L.makeKey('pw', { iterations: 5 }), code('bad-options'));
+});

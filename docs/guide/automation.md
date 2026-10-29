@@ -156,7 +156,7 @@ what is built into Node and browsers. Anyone with the passphrase can open it, wi
   someone uses your unlocked computer, or makes you give up the passphrase.
 - For scripts, the passphrase can come from `JOT_PASSPHRASE`; it is never taken as an argument, where other programs could see it.
 
-The workspace does not open locked journals yet.
+The workspace opens and saves locked journals too: see [Locking a journal](writing-jot.md#locking-a-journal).
 
 ## In VS Code
 

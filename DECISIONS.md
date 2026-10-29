@@ -20,9 +20,15 @@ wrapper, and the one exception to "readable in any text editor".
   found (docs/methods/gender-euphoria-and-hrt-log.md, lines 606 and 690–694), which a lock answers only for the file itself.
 - **Passphrases** are NFC-normalized UTF-8, never taken as a command-line argument (a hidden prompt, or `JOT_PASSPHRASE` for
   scripts), and never stored.
-- **Not yet:** the workspace cannot open or save locked journals. When it does, its autosave and any history must be encrypted
-  too (the spec requires saying so otherwise), since the browser keeps working copies. Encrypting only the private parts of a
-  journal was set aside: dates, headings and structure would still show.
+- **In the workspace** (added the same day): Lock with a passphrase, Download locked, opening `.jotlock`, Remove the lock. The
+  passphrase makes one non-extractable key per visit (the salt stays the journal's; every save gets a fresh nonce, so autosave
+  does not re-derive); the passphrase is not kept. While locked, the autosaved writing and the attachments are stored only
+  encrypted, and a reload asks for the passphrase before showing anything; the page can also remove the locked copy. A note
+  under the actions says which exports are not encrypted. A passphrase under eight characters needs a second confirmation, not
+  a refusal. Tested in `site/test-lock-ui.cjs`, including a search of every stored value for the writing.
+- **Not yet:** history snapshots (none exist yet) and the paper tools' hand-off of a scan, which waits in browser storage
+  unencrypted until the journal is unlocked. Encrypting only the private parts of a journal was set aside: dates, headings and
+  structure would still show.
 
 ## The writer's own day, and starters that follow their method (28 October 2026)
 

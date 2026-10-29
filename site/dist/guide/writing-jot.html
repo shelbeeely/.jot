@@ -444,6 +444,28 @@ handwritten page with its hand inside the file.</p>
 <p>The Jot workspace opens both and saves whichever fits: plain <code>.jot</code> when there are no attachments, <code>.jotz</code> when there are. A text
 editor or InkDeck works with <code>.jot</code>; to get the writing out of a <code>.jotz</code>, open it in the workspace (or unzip it and open
 <code>journal.txt</code>).</p>
+<ul>
+<li><strong><code>.jotlock</code></strong> is a locked journal: a <code>.jot</code> or <code>.jotz</code> encrypted with a passphrase. Only the passphrase opens it.</li>
+</ul>
+<h3 id="locking-a-journal">Locking a journal</h3>
+<p>In the workspace, <strong>Lock with a passphrase</strong> encrypts the journal with the browser&#39;s own built-in cryptography (AES-256-GCM, with
+the key made from your passphrase by PBKDF2). Nothing is sent anywhere. From then on:</p>
+<ul>
+<li>this browser keeps only an encrypted copy of the writing and its attachments;</li>
+<li><strong>Download locked</strong> saves a <code>.jotlock</code>, which opens in the workspace (Open a journal) or with the command line (<code>jot unlock</code>);</li>
+<li>reloading the page asks for the passphrase before showing anything. <strong>Remove it from this browser</strong> deletes the locked copy
+here if you no longer need it;</li>
+<li><strong>Remove the lock</strong> goes back to an ordinary journal.</li>
+</ul>
+<p>Things to know first:</p>
+<ul>
+<li><strong>There is no recovery.</strong> Jot never keeps or sends your passphrase. If you forget it, nobody can open the journal, you
+included. A password manager is a good place for it.</li>
+<li><strong>Other exports are not encrypted:</strong> Markdown, calendar and CSV files, a downloaded page and printing. Copies you downloaded
+before locking are not locked either.</li>
+<li>A locked file&#39;s name, size and dates still show, and a lock does not help if someone uses your browser while the journal is
+unlocked.</li>
+</ul>
 <h2 id="where-to-write">Where to write</h2>
 <ul>
 <li><strong>Any text editor</strong>, on a computer or a phone. Save the file with a <code>.jot</code> ending. (For colours, see
