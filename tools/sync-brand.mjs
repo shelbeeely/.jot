@@ -1,5 +1,5 @@
-// The Jot logo on the site, from its masters in docs/brand/ (made by docs/brand/source/build.sh): the iota and the "jot"
-// wordmark inline in every page header (so they take the page's ink, light or dark), and the favicons beside the pages.
+// The Jot logo on the site, from its masters in docs/brand/ (made by docs/brand/source/build.sh): the "ιot" wordmark
+// inline in every page header (so they take the page's ink, light or dark), and the favicons beside the pages.
 //   node tools/sync-brand.mjs          rewrite the headers and icon links of the hand-written pages, copy the icons
 //   node tools/sync-brand.mjs --check  exit 1 and name what differs
 // The guides and examples are generated: site/build-guides.mjs and tools/build-examples.mjs use brandLink and iconLinks.
@@ -10,10 +10,10 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..'), BRAND = path.join(ROOT, 'docs/brand'), DIST = path.join(ROOT, 'site/dist');
 const pathOf = (file) => /<path[^>]* d="([^"]+)"/.exec(fs.readFileSync(path.join(BRAND, file), 'utf8'))[1];
 const svg = (cls, box, d) => `<svg class="${cls}" viewBox="${box}" aria-hidden="true" focusable="false"><path d="${d}"/></svg>`;
-// The symbol master keeps a margin round the ink (36 of 256 each side); the header shows the ink alone, beside the wordmark.
-const MARK = svg('brand-icon', '30 30 196 196', pathOf('jot-symbol.svg')) + svg('brand-word', '0 0 336 256', pathOf('jot-wordmark.svg'));
+// The wordmark "ιot" begins with the symbol, the iota, so the header shows the wordmark alone.
+const MARK = svg('brand-word', '0 0 400 256', pathOf('jot-wordmark.svg'));
 
-/** The header's home link: the iota and the wordmark, named for screen readers. */
+/** The header's home link: the wordmark, named "Jot home" for screen readers (it is spelled with an iota). */
 export const brandLink = (home, { current = false, sub = '' } = {}) =>
   `<a class="brand" href="${home}" aria-label="Jot home"${current ? ' aria-current="page"' : ''}>${MARK}${sub ? `<span class="brand-sub">${sub}</span>` : ''}</a>`;
 /** Favicon and touch-icon links; `root` is the path from the page to the site's root ("./" or "../"). */

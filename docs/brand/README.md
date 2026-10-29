@@ -3,18 +3,20 @@
 **The idea.** A Greek iota (ι), written quickly with a good pen: it lands to a point, swells, and lifts off into a flick; the
 dot comes afterwards and lands a little ahead, as a hand dots an i at the end of a word. "Jot" comes from iota, the smallest
 letter, and a jotting is a quick, brief note. The stroke and the dot are also a 1 and a 0: ten, iota's value in Greek numerals,
-which is two in binary. Nobody needs to see that to read the mark; it is there for whoever looks. The brief behind it:
+which is two in binary. Nobody needs to see that to read the mark; it is there for whoever looks.
+
+**The wordmark** spells the name with that same iota: "ιot", the logo's own stroke and dot as its first letter, then "ot" in
+the same hand. The symbol and the name are one mark, so there is no separate symbol-and-wordmark lockup. The name is still
+Jot, in text, in speech and for screen readers: wherever the wordmark is shown, its accessible name is "Jot". The brief behind it:
 [`docs/proposals/logo.md`](../proposals/logo.md).
 
 ## Versions
 
 | File | Use |
 | --- | --- |
-| `jot-lockup.svg` | The iota and the "jot" wordmark side by side: the primary logo |
-| `jot-lockup-stacked.svg` | The iota above the wordmark, for square spaces |
+| `jot-wordmark.svg` | "ιot": the primary logo |
 | `jot-symbol.svg` | The iota alone: app icons, avatars, a stamp |
 | `jot-symbol-small.svg` | A heavier cut of the iota for 32 px and smaller (favicons) |
-| `jot-wordmark.svg` | "jot" alone, where the symbol already shows nearby |
 | `*-ink.svg` | The same, in ink blue, for placing as images |
 | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` | The site's icons (copied into `site/dist/` by `tools/sync-brand.mjs`) |
 | `app-icon.svg`, `app-icon.png` | The app icon: cream paper, ink-blue iota (`desktop/` makes every platform's sizes from it) |
@@ -28,7 +30,7 @@ Keep clear, on every side, at least the width of the iota's dot. The zone grows 
 
 | Version | Screen | Print |
 | --- | --- | --- |
-| Lockup | 72 px wide | 20 mm wide |
+| Wordmark | 40 px wide | 12 mm wide |
 | Symbol | 16 px (use `jot-symbol-small.svg` at 32 px and under) | 5 mm |
 
 ## Colour
@@ -50,16 +52,16 @@ blue or charcoal. On a photo, use the black or white version over a calm area, o
 ## Don'ts
 
 Don't redraw the iota or type "jot" in a font in its place; don't stretch, rotate or outline it; don't add shadows, gradients
-or effects; don't change the space between the iota and the wordmark; don't put a hash sign (⌗) beside it, the old mark it
-replaces; don't spell the name "ιot" (it reads as "IoT" or "lot").
+or effects; don't put the iota beside the wordmark (it already begins with it); don't put a hash sign (⌗) beside it, the old
+mark it replaces; don't write "ιot" in running text: there the name is Jot.
 
 ## Remaking the marks
 
 The marks are drawn by `source/pen.py`, a simulated pen: a round nib stamped along each stroke's centre line, with pressure (a
 width profile) and a slight tremor, seeded so it draws the same every time. The strokes are in `source/iota.json`,
-`source/iota-small.json` and `source/jot.json`. `source/build.sh` draws them, traces them into smooth curves (potrace),
-flattens each into one plain path (`source/flatten.py`), and makes the lockups, colour versions and icons
-(`source/lockups.py`). It needs Python 3, librsvg's `rsvg-convert`, ImageMagick and potrace.
+`source/iota-small.json` and `source/wordmark.json`. `source/build.sh` draws them, traces them into smooth curves (potrace),
+flattens each into one plain path (`source/flatten.py`), and makes the colour versions and icons
+(`source/variants.py`). It needs Python 3, librsvg's `rsvg-convert`, ImageMagick and potrace.
 
     sh docs/brand/source/build.sh                 # the masters and icons in docs/brand/
     node tools/sync-brand.mjs                     # the site's headers and icons; then the guides and examples:

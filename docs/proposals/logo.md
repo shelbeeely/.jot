@@ -1,7 +1,8 @@
 # Design brief: the Jot logo
 
 Status: done. The owner chose the iota written with a fine pen; the logo, its files and its usage guide are in
-[`docs/brand/`](../brand/README.md). It replaces the hash mark (⌗) in the site header and the app icon.
+[`docs/brand/`](../brand/README.md). It replaces the hash mark (⌗) in the site header and the app icon. The owner then chose to spell the wordmark
+"ιot", with the iota as its first letter, in place of the lowercase "jot" the brief assumed.
 
 **Summary.** Jot is a plain-text journal format with free tools (the website, a desktop app, a command line and a VS Code
 extension) that turns things you jot down into beautiful pages, while the writing stays in a file you own.

@@ -14,7 +14,9 @@ warm, handmade, calm and quiet, for journal keepers first, drawable from memory 
   headers carry the marks inline, so they follow the page's theme.
 - **One source.** `tools/sync-brand.mjs` puts the masters in every header and the favicons beside the pages, with a `--check` in
   CI; the desktop app's icons for every platform are made from `docs/brand/app-icon.png`.
-- **Not spelled "ιot".** Tested and dropped: with its dot it reads as "IoT", without it as "lot". The name stays "jot".
+- **The wordmark is "ιot".** The owner chose to spell the wordmark with the logo's iota, so the symbol and the name are one
+  mark. Tested risk, accepted: in the wordmark it can read as "iot" (or "IoT"). The name stays Jot everywhere else: in text,
+  file names, commands, and the wordmark's accessible name.
 - **Limits.** Trademark clearance has not been searched; other products use the name. CMYK values are converted, not proofed.
 
 ## A desktop app with Tauri v2 (29 October 2026)

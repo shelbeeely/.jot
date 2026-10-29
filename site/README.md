@@ -138,7 +138,7 @@ Template layout browser regression: `node site/test-layout-ui.cjs` from the proj
 
 ## The logo and icons
 
-Every page header shows the Jot iota and the "jot" wordmark inline (they take the page's ink, light or dark), and every page
+Every page header shows the "ιot" wordmark inline (it takes the page's ink, light or dark; its accessible name is "Jot home"), and every page
 links `favicon.svg`, `favicon.ico` and `apple-touch-icon.png` at the site's root. All come from the masters in
 `docs/brand/` through `node tools/sync-brand.mjs` (the guides and examples through their generators); `--check` runs in CI.
 

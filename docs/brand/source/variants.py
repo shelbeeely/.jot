@@ -1,20 +1,13 @@
-"""lockups.py <brand dir> [tight small symbol]: lockups, colour versions, the favicon and the app icon from the masters."""
+"""variants.py <brand dir> [tight small symbol]: the ink-blue versions, the favicon and the app icon from the masters.
+The wordmark "ιot" already begins with the symbol, so there is no separate symbol-and-wordmark lockup."""
 import re, sys
 out = sys.argv[1]
 def part(name):
-    s = open(f'{out}/{name}').read(); w, h = (float(v) for v in re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', s).group(1, 2))
-    return w, h, re.search(r'<path[^>]*/>', s).group(0)
-sw, sh, sym = part('jot-symbol.svg'); ww, wh, word = part('jot-wordmark.svg')
-# Horizontal: the symbol, then the wordmark at 68 % of its height, its baseline on the symbol's
-k = .68; W = 236 + ww * k
-open(f'{out}/jot-lockup.svg', 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W:.0f} 256"><title>Jot</title>{sym}<g transform="translate(214 {256 * (1 - k) / 2 + 26:.0f}) scale({k})">{word}</g></svg>\n')
-# Stacked: symbol above, wordmark below, centred
-k2 = .62; W2 = max(256, ww * k2)
-open(f'{out}/jot-lockup-stacked.svg', 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W2:.0f} 420"><title>Jot</title><g transform="translate({(W2 - 256) / 2:.0f} 0)">{sym}</g><g transform="translate({(W2 - ww * k2) / 2:.0f} 250) scale({k2})">{word}</g></svg>\n')
-print('lockups written')
+    return re.search(r'<path[^>]*/>', open(f'{out}/{name}').read()).group(0)
+sym = part('jot-symbol.svg')
 
 INK, INK_DARK, PAPER = '#1f3a8a', '#cbd5eb', '#fffdf6'
-for name in ('jot-symbol', 'jot-wordmark', 'jot-lockup', 'jot-lockup-stacked'):
+for name in ('jot-symbol', 'jot-wordmark'):
     src = open(f'{out}/{name}.svg').read()
     open(f'{out}/{name}-ink.svg', 'w').write(src.replace('fill="currentColor"', f'fill="{INK}"'))
 # Favicon: the small cut, tight in its square; ink blue, or the light ink in a dark browser
