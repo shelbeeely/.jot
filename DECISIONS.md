@@ -326,3 +326,132 @@ renderer stylesheet, the handwriting grid and print are unchanged; a hidden prev
 pages are still measured for print and export. Quick note uses `automation.addToDay` (the entry logic behind Today ＋ and rollover,
 now exported), escapes a leading heading/fence/record marker so the note stays one plain line, and inserts only the difference, so
 it is one undo step and the cursor stays put. The ROADMAP rows are marked partial: not yet validated with intended users.
+
+## Persistent writing music (27 October 2026)
+
+The workspace offers a Spotify embed as a writing companion, loaded only after a user supplies a Spotify share link and presses
+Load. The iframe stays outside journal rendering and survives text edits, preview switches and focus mode. Closing it removes the
+iframe. It uses no capture tokens or SDK, stores no player preference, and does not reload automatically. The embed may contact
+Spotify and use its own cookies/sign-in; availability is controlled by Spotify. The journal is never included in the embed URL,
+and exports and print exclude the companion. Listening capture remains a separate reviewed action.
+
+## Spotify short references (27 October 2026)
+
+Entries can link tracks, albums, playlists, artists, episodes and shows with Spotify's `spotify:type:id` URI, optionally spaced
+after the first colon. Bare references get a provider/type label; Markdown links supply a name. The parser preserves source,
+the shared preview and HTML export expand to fixed-host HTTPS links, and no metadata/player request happens on render. The
+persistent player also accepts these references, and still requires its Load action. Unknown or malformed forms remain text.
+
+The entry's music dialog also accepts a multiline collection: one Spotify short reference or HTTPS link per line, with an optional
+`Name | reference` label. Add inserts all references together as Markdown links; a title or now-playing fetch is not required.
+Spotify share URLs with recognized types/IDs are shortened on this explicit insertion, while existing source is never rewritten.
+
+## IMDb and YouTube references (27 October 2026)
+
+The media list now mixes music, films, TV, episodes and videos, without requiring a now-playing capture. `imdb:tt…`,
+`youtube:VIDEO_ID` (or `youtube:video:VIDEO_ID`) and `youtube:playlist:PLAYLIST_ID` expand into fixed-host HTTPS links in
+previews and HTML exports. IMDb is identification only. No render-time metadata or video embed request is introduced.
+Full title/simple video/playlist URLs can shorten on explicit Add; timestamped video URLs retain their full form. The writing
+player remains a separate opt-in Spotify embed. Parser source round-trips and unknown forms remain unchanged.
+
+## Opt-in MusicBrainz suggestions (27 October 2026)
+
+The background-media dialog has a dedicated lookup field, explicitly enabled for online suggestions. After three characters and
+at least a 1.1-second pause/request interval, it searches MusicBrainz recording, release group, release, work or artist entities.
+Only the search text/type go to the service, never journal writing, reference lists, cookies or capture tokens. Choosing a match
+appends a labelled MusicBrainz ID to the review list; only Add changes the journal. Results display available artist/date/version
+and duration information, never auto-select, and use DOM text. Closing disables search, aborts pending requests and prevents late
+results. Per-page caching, timeouts and busy-service backoff keep failure recoverable with manual references. MusicBrainz shortcodes
+are database identities and expand offline in the shared renderer; they do not imply a playback-provider match.
+
+## Local autocomplete in the writer (27 October 2026)
+
+The workspace suggests existing tags/contexts, internal date/record links and measurement names/units/scales from the current
+journal only. It uses a page-memory index of parsed writing, excludes code/metadata/comments and URL destinations as tag sources,
+and offers no ambiguous duplicate link targets. Units are filtered by the current metric; distinct units remain distinct, and
+no numeric values, conversions or other fields are inserted implicitly. A chosen suggestion replaces only its active range,
+using native editing for undo where available. Typing or Enter alone never silently accepts the first match: arrow/pointer
+selection is required. Escape dismisses, Control/Command+Space invokes, IME composition suspends, and a local-only preference
+turns suggestions off. No network, cross-journal indexing, new syntax or persisted vocabulary is introduced.
+
+## Reusable People and Places books (27 October 2026)
+
+The workspace reads explicitly opened plain `.jot` reference books and creates/edits generic `person` and `place` records with
+stable IDs and labels. People support repeatable aliases/contact methods; places add postal addresses, WGS84 coordinates,
+elevation/accuracy, descriptive IANA timezone and access/directions notes. Coordinate pairs/ranges, finite numeric fields,
+country-code syntax, HTTPS websites and timezone identifiers are checked by the reference-book tool. Generic Core parsing does
+not claim full address/contact validation. No geolocation, geocoding or map tile service is called automatically.
+
+Autocomplete may combine the current document with these explicitly chosen books, qualifying references with the book filename.
+It indexes identity names/aliases and place city/region/country, not contact methods or precise coordinates. Loaded books are
+in memory unless the user opts into IndexedDB remembering; storage failures leave downloads available. Downloads preserve
+unrelated source and unknown record fields when editing. Duplicate filenames/IDs and malformed imports are rejected rather than
+silently replacing data. In-document references retain stable IDs when display names change.
+
+The shared preview has an optional host callback for simple relative `.jot#id` links. The workspace opens a reference record
+locally or asks for a missing book, never fetches a filename. Exports keep only the authored relative link and name, with no
+library records or contacts injected. Books are not auto-attached to `.jotz`; the user keeps or shares them separately. A place's
+timezone is descriptive and never changes a document or entry timezone. Charts exclude person/place records from measurements.
+
+## Entry timezone overrides and explicit capture (28 October 2026)
+
+`@timezone: IANA/Name` uses existing directive syntax and overrides the entire current dated entry, resetting at the next dated
+heading. Document Timezone metadata is the default; invalid/blank and duplicate declarations warn, orphan directives warn, and
+no device zone silently resolves existing writing. Derived AST context and preview labels expose the effective zone. The entry
+editor button adds/removes directives with undo and preserves written dates/times. Place zones remain descriptive only.
+
+Calendar export converts uniquely resolvable local events to UTC and retains explicit-offset instants. DST folds/gaps, invalid
+zones and malformed timestamps stop export rather than guessing. All-day dates stay dates; multi-file CLI export preserves each
+file's default and entry scope. Complete timestamps win over inherited local-time context. Runtime Intl provides timezone data.
+
+Chromium-targeted buttons capture actual current timestamps with offsets and request geolocation only on an explicit action.
+Time uses a declared entry/document zone, or the device zone explicitly for a new captured timestamp when undeclared. Location
+is one-shot, reviewable, never watched, and never geocoded or assigned an inferred timezone. It can be inserted as a place record
+or reviewed/saved in a separate book. Browser permissions and location services apply; no real-device geolocation verification
+is implied by mocked browser tests. No automatic created/modified or inline timestamps are added on save/typing.
+
+## Writing tools and mobile workspace (28 October 2026)
+
+The browser writer adds source-formatting controls and shortcuts, structural list continuation, literal find/replace, parsed
+heading navigation, a searchable command menu and editable entry templates. These use existing Jot/Markdown syntax; no format
+extension or writing upload is introduced. Native Chromium edits retain undo, with input-event fallbacks. Autocomplete's explicit
+selection wins over list continuation, IME is left alone, and software-keyboard line breaks are handled through cancelable
+beforeinput. List continuation is locally optional, resets new task states and stops on an empty item; ordinary prose Tab remains
+keyboard navigation. Current-time, location and history timestamps retain the previous manual-only decision.
+
+Commands expose writing actions and existing journal workflows together. Search, commands and outline do not mutate source until
+an edit action is chosen. Find/replace uses literal text and Unicode-aware word boundaries, with explicit replace-all and a stale
+source check. Templates offer blank daily/weekly/monthly/meeting/freewriting prompts, reviewable and validated before insertion
+after the saved selection; they infer no experiences or dates. Existing writing invitations remain available separately.
+
+View controls keep the preview measurable for handwriting print/export, and focus/preferences still apply. Browser tests cover
+320/390px light/dark Chromium touch emulation, keyboard/native undo, composition/software-input paths, autocomplete precedence,
+source-change guards and new-dialog accessibility. Physical mobile keyboards/devices are not verified.
+
+## Autocomplete expansion and WriteFreely research (28 October 2026)
+
+The roadmap now includes all ten proposed sources: Jot schema/templates, explicitly opened journal archives, reviewed vCard
+contacts and calendar files, Open Library, TMDB, YouTube Data API, Wikidata, Photon/Pelias place search, and bibliographic imports
+with Crossref lookup. These are planned additions, not implemented integrations. Local sources come first; public providers need
+explicit lookup, source/identity review, credential/terms evaluation and undoable insertion without sending surrounding writing.
+
+WriteFreely is an exploration of enhancing the writer and adding optional publication. The comparison and pinned upstream
+evidence live in `docs/proposals/writefreely-integration.md`. The first recommended prototype preserves Jot's writer and adds a
+reviewed selected-entry/selection publishing adapter to a separately deployed WriteFreely instance. Its optional ProseMirror
+editor and a combined application remain alternatives to evaluate, with Jot syntax/source preservation and license review.
+ActivityPub publication is not private journal synchronization; autosave remains local and publication must be explicit. No
+WriteFreely code, server, credentials or federation behavior is added by this roadmap change.
+
+## Minimal writer default (28 October 2026)
+
+The writer opens as a single writing pane at every screen width, with filename, save status, Open, Download, Preview and Tools
+in the top bar. A first visit starts blank; existing browser autosaves are restored. Header navigation, introductory copy,
+formatting rows and secondary controls stay out of the default writing surface.
+
+Tools is the searchable command menu (Control/Command+K). It retains journal workflows, file actions, navigation and view changes.
+Journal tools, Formatting controls and Writing options explicitly reveal their controls; Attached files reveals the attachment
+list and appears automatically when files are present. Preview opens beside writing on desktop or on its own on mobile, with
+Write returning to the editor. Focus mode, manual capture, local autosave and undo remain available.
+
+The editor shell and source use system fonts. Rendered paper typography, handwriting, printing and exported pages keep their
+existing styles. This changes the default presentation without adding format syntax, publication or further editor features.

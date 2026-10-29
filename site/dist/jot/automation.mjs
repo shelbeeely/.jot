@@ -1,3 +1,4 @@
+import { resolveLocalTime, explicitInstant } from './timezone.mjs';
 /** Jot automation, draft 0.1: what a journal holds, read out and written back, for exports, imports and small chores. Pure (strings in,
  * strings out; no DOM, no network), so the workspace, the `jot` command line and the VS Code extension all do exactly the same thing.
  * Nothing here sends anything anywhere: connections (connect.mjs) are separate, and only run when someone asks for them.
@@ -52,15 +53,17 @@ export function timeOf(text) {
 }
 /** Every task, event and number in the journal, with its date (and, for tasks and events, where it is in the file). */
 export function extract(ast) {
-  const dates = dateOfNode(ast), tasks = [], events = [];
+  const dates = dateOfNode(ast), tasks = [], events = [], entryZones = new Map();
+  for (const entry of ast.entries) for (let i = entry.startNode; i < entry.endNode; i++) entryZones.set(i, entry);
+  const zoneAt = (i) => { const entry = entryZones.get(i); return entry ? entry.timezoneSource && entry.timezoneSource !== 'none' ? { timezone: entry.timezone, timezoneDeclared: true } : {} : ast.timezoneDeclared ? { timezone: ast.timezone, timezoneDeclared: true } : {}; };
   ast.nodes.forEach((n, i) => {
     const date = dates[i];
-    if (n.type === 'task') tasks.push({ text: n.text.split('\n')[0].trim(), status: n.status, priority: n.priority, date, start: n.start, end: n.end });
-    else if (n.type === 'event') events.push({ text: n.text.split('\n')[0].trim(), date, time: timeOf(n.text), start: n.start });
+    if (n.type === 'task') tasks.push({ text: n.text.split('\n')[0].trim(), status: n.status, priority: n.priority, date, start: n.start, end: n.end, ...zoneAt(i) });
+    else if (n.type === 'event') events.push({ text: n.text.split('\n')[0].trim(), date, time: timeOf(n.text), start: n.start, ...zoneAt(i) });
     else if (n.type === 'record' && n.recordType === 'event') {
       const s = fieldOf(n, 'start') || fieldOf(n, 'at') || fieldOf(n, 'date'), e = fieldOf(n, 'end'), d = /^(\d{4}-\d{2}-\d{2})(?:T(\d{2}:\d{2}))?/.exec(s);
       const de = /^(\d{4}-\d{2}-\d{2})(?:T(\d{2}:\d{2}))?/.exec(e);
-      events.push({ text: fieldOf(n, 'label') || fieldOf(n, 'title') || fieldOf(n, 'body') || 'Event', date: d ? d[1] : date, time: d && d[2] ? d[2] : null, endDate: de ? de[1] : null, endTime: de && de[2] ? de[2] : null, start: n.start, id: n.id || null });
+      events.push({ text: fieldOf(n, 'label') || fieldOf(n, 'title') || fieldOf(n, 'body') || 'Event', date: d ? d[1] : date, time: d && d[2] ? d[2] : null, endDate: de ? de[1] : null, endTime: de && de[2] ? de[2] : null, start: n.start, id: n.id || null, startRaw: s, endRaw: e, ...zoneAt(i) });
     }
   });
   const numbers = [];
@@ -87,8 +90,30 @@ export function toICS(ast, { name = 'Jot journal', includeDone = false, tasksAsE
     if (!e.date) continue;
     L.push('BEGIN:VEVENT', `UID:${uid('event', e.date, e.text)}`, `DTSTAMP:${stamp}`);
     if (e.time) {
+      const startInstant = explicitInstant(e.startRaw), endInstant = explicitInstant(e.endRaw);
+      const utc = (instant) => new Date(instant).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+      const zoned = (date, time) => {
+        const resolved = resolveLocalTime(date, time, e.timezone);
+        if (resolved.status !== 'unique') throw new Error(`${date} ${time} is ${resolved.status} in ${e.timezone || 'the declared timezone'}. Use an event record with a complete RFC 3339 start/at timestamp and explicit offset.`);
+        return resolved.instants[0];
+      };
+      for (const raw of [e.startRaw, e.endRaw]) if (raw && /T.*(?:Z|[+-]\d{2}:?\d{2})$/.test(raw) && explicitInstant(raw) === null) throw new Error('Use complete RFC 3339 event timestamps with seconds and a valid explicit offset.');
+      const localClock = (raw, fallback) => {
+        if (!raw || !raw.includes('T') || explicitInstant(raw) !== null) return fallback;
+        const local = /^\d{4}-\d{2}-\d{2}T((?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?)$/.exec(raw);
+        if (!local) throw new Error('Use a valid local event timestamp, or complete RFC 3339 with an explicit offset.');
+        return local[1];
+      };
+      const startClock = localClock(e.startRaw, e.time), endClock = localClock(e.endRaw, e.endTime);
+      if (startInstant !== null || e.timezoneDeclared) {
+        const start = startInstant !== null ? startInstant : zoned(e.date, startClock);
+        const end = endInstant !== null ? endInstant : e.endTime ? zoned(e.endDate || e.date, endClock) : start + 3600000;
+        if (end <= start) throw new Error('The event end must be after its start.');
+        L.push(`DTSTART:${utc(start)}`, `DTEND:${utc(end)}`);
+      } else {
       const [h, m] = e.time.split(':').map(Number), endD = e.endDate || e.date, end = e.endTime || `${String(Math.min(23, h + 1)).padStart(2, '0')}:${String(h + 1 > 23 ? 59 : m).padStart(2, '0')}`;
       L.push(`DTSTART:${ymd(e.date)}T${e.time.replace(':', '')}00`, `DTEND:${ymd(endD)}T${end.replace(':', '')}00`);
+      }
     } else L.push(`DTSTART;VALUE=DATE:${ymd(e.date)}`, `DTEND;VALUE=DATE:${ymd(addDays(e.endDate || e.date, 1))}`);
     L.push(`SUMMARY:${icsText(e.text)}`, 'END:VEVENT');
   }

@@ -16,6 +16,37 @@ The rain made the room feel quieter. I wanted to remember that.
 
 Everything else in this guide is optional. Add it when it helps, skip it when it doesn't.
 
+## Writing in the browser workspace
+
+The **Write** workspace opens with a blank editor on desktop and mobile Chromium browsers. If you have written here before,
+your saved writing returns. The top bar keeps the filename, save status, **Open**, **Download**, **Preview** and **Tools** nearby.
+
+**Preview** shows the formatted page beside your writing on desktop, or on its own on mobile. Return to **Write** to keep writing.
+The **Tools** menu also offers **Write only**, **Page preview** and **Side by side** views.
+
+Extra controls stay closed until you need them. In **Tools**, choose **Journal tools** for the journal button row,
+**Formatting controls** for formatting buttons and **Colors**, or **Writing options** for suggestions and writing hints.
+**Attached files** opens the attachment list; it also appears when the journal contains files.
+
+- **Bold**, **Italic**, **Code** and **Link** edit the selected source. **Heading**, **Task**, **Bullets**, **Numbers** and **Quote**
+  format the selected lines. **Indent** and **Outdent** move those lines by two spaces. The text remains ordinary Jot/Markdown.
+- **Ctrl+B / Cmd+B** and **Ctrl+I / Cmd+I** format words. Tab and Shift+Tab indent lists or multiple selected lines;
+  Tab in ordinary prose continues keyboard navigation.
+- **Continue lists on Enter** continues bullets, numbering, quotes and tasks. New tasks start unchecked. Enter on an empty item
+  leaves the list; Shift+Enter inserts an ordinary newline. Turn the option off for manual line breaks. It is remembered locally.
+- **Find & replace** (**Ctrl+F / Cmd+F** while writing) searches literal text in this journal, with match-case and whole-word
+  options. Next and Previous wrap around. Replace and Replace all are explicit; replacement text is literal, including `$`.
+- **Outline** jumps to a dated entry or heading. Headings inside code and comments stay out of the outline.
+- **Tools** (**Ctrl+K / Cmd+K**) searches writing tools and journal workflows. Type a command, then choose it or press Enter.
+  Arrow keys move through results and Escape closes the menu. Searching alone does not edit the journal.
+- **Entry templates**, available in Tools, offers daily reflections, weekly and monthly recaps, meetings and freewriting.
+  Choose a template, edit its blank prompts in the review field, then Insert. It inserts after your selection without replacing
+  selected words. These are starting points for your own writing; no experiences, dates, locations or measurements are filled in.
+
+Formatting, replacements and template insertion support the browser's Undo command (**Ctrl+Z / Cmd+Z**). Your writing still
+autosaves in this browser, and **Download** keeps a separate `.jot` file (or `.jotz` with attachments). Current-time and location
+capture remain manual actions.
+
 ## Dates organise your writing
 
 A heading that starts with a date makes an **entry** for that day. Anything after the date, after a `|`, is up to you (a weekday, a
@@ -323,7 +354,7 @@ color: #234 deep slate
   that color. Color is never the only clue. Three digits (`#234`) are short for six (`#223344`); transparency is not part of a swatch.
 - **A color Jot can't read** (`color: brick`) stays exactly as you wrote it, and the page shows a note in its place, with a warning
   under **Checks**.
-- **Copy palette CSS ⧉** and **Copy palette JSON ⧉** in the workspace's Tools row copy the palette your cursor is in (or the nearest
+- **Copy palette CSS** and **Copy palette JSON** in **Tools** copy the palette your cursor is in (or the nearest
   one before it) as CSS custom properties (`:root { --brick-red: #c0392b; }`) or as JSON. **Add to palette ＋**, beside the color
   menu, writes the chosen color into that palette, or starts one.
 
@@ -372,7 +403,7 @@ Write quickly; the workspace (**Write**) turns your jottings into formatted page
 ("Monday, 26 October 2026"), tasks show whether they are done, moved, scheduled or cancelled, events, questions and ideas get their
 signs, `#tags` and `@places` are marked, `[[margin notes]]` sit beside the text and `.0830 - KITCHEN` reads "08:30 · KITCHEN".
 
-Under the page preview, **Style** chooses the look:
+Open **Preview**. Set **Look** to **Typed**, then **Style** chooses the look:
 
 | Style | What it looks like |
 | --- | --- |
@@ -395,7 +426,7 @@ and **Jot: Export as HTML** saves the same page.
 
 The workspace (**Write**) can show your journal as if you had written it by hand in a dot-grid notebook, and print it that way:
 
-1. Under the page preview, set **Look** to **Handwritten**.
+1. Open **Preview**, then set **Look** to **Handwritten**.
 2. Choose a **Hand**: **Pen** (a natural pen hand; each letter comes in three shapes, so two `e`s side by side are never quite the
    same), **Neat print** or **Marker**. Choose an **Ink** colour, and how far apart the dots are (**Dots every** 4 to 7 mm; 5 mm is
    the usual notebook).
@@ -429,7 +460,7 @@ editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open i
 - **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending. (For colours, see
   [Colours in your text editor](#colours-in-your-text-editor).)
 - **InkDeck**, the e-ink writing firmware for the Xteink X3/X4: it creates `.jot` files for you.
-- **The Jot workspace** (**Write**, on this site): a preview beside your writing, with charts, method ideas and attachments.
+- **The Jot workspace** (**Write**, on this site): a plain editor with optional preview, charts, method ideas and attachments.
 - **VS Code**, with the Jot extension: colours for Jot's marks and a live page preview with charts. See
   [Colours in your text editor](#colours-in-your-text-editor).
 - **The template editor:** design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
@@ -440,7 +471,7 @@ editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open i
 Everyone writes differently, so the workspace (**Write**) lets you change how it looks, one thing at a time. None of these choices
 go into your journal: they are remembered in this browser only, and the page works the same without them.
 
-- **Preferences** (in the tools row): text size, line spacing, line length and how dense the controls are; higher contrast;
+- **Writing preferences** (in **Tools**): text size, line spacing, line length and how dense the controls are; higher contrast;
   reduced motion (your system's reduce-motion setting is always followed too); and, separately, whether to show the page preview,
   the parser and writing-check tabs, the word and check counts, and decoration like small headings and taglines. **Back to
   standard settings** undoes them. Printing and Download page are not affected.
@@ -490,9 +521,14 @@ The full rules are in the [Jot specification](../../site/dist/docs/Jot-Complete-
 
 ## Color in handwritten pages
 
-The workspace opens in **Handwritten** for new users; an existing **Look** preference is kept. The same colors appear in handwritten preview, **Print / PDF**, and **Download page** (standalone HTML).
+New previews use **Handwritten**; an existing **Look** preference is kept. The same colors appear in handwritten preview,
+**Print / PDF**, and **Download page** (standalone HTML).
 
-Select words on one line in **The writing**, choose a palette color or a custom color, choose **Text ink**, **Highlight**, **Strikethrough** or **Underline**, then press **Apply color**. Keep the selection and apply another effect to combine them. To change an effect again, select the same formatted words and apply the new color; the new color replaces that effect in the selected spans. **Clear colors** removes color spans fully included in the selection; select their brackets and attributes too. Ordinary bold, italic, links and writing remain intact. Undo works in the writing field.
+Choose **Tools → Formatting controls**, then **Colors**. Select words on one line, choose a palette color or a custom color,
+choose **Text ink**, **Highlight**, **Strikethrough** or **Underline**, then press **Apply color**. Keep the selection and apply
+another effect to combine them. To change an effect again, select the same formatted words and apply the new color; the new color
+replaces that effect in the selected spans. **Clear colors** removes color spans fully included in the selection; select their
+brackets and attributes too. Ordinary bold, italic, links and writing remain intact. Undo works in the writing field.
 
 Colors are part of the saved journal, rather than browser-only preferences:
 
@@ -525,3 +561,213 @@ The color menu and **Show color swatches** offer 71 colors from the supplied Mil
 Highlighter strokes sit on top of the writing and blend with the ink underneath, like a translucent marker on paper. Changing the
 text ink changes the visible result under the same highlight. The source keeps both colors separately; the effect carries through
 to Typed and Handwritten preview, print, PDF and standalone HTML. Marker, brush and pencil use the same blending rule.
+
+## Albums, playlists and Spotify short links
+
+An entry can hold any number of music references:
+
+```jot
+#### Music for this week
+
+- Album: [An album to return to](spotify:album:4aawyAB9vmqN3uQ7FjRGTy)
+- Playlist: [My writing mix](spotify:playlist:37i9dQZF1DXcBWIGoYBM5M)
+- spotify: track:11dFghVXANMlKmJXsNCbNl
+```
+
+Copy a Spotify URI, or keep the type and ID from a share URL: `https://open.spotify.com/album/ID` becomes `spotify:album:ID`.
+The types are `track`, `album`, `playlist`, `artist`, `episode` and `show`. A space after `spotify:` is optional.
+Named Markdown links show your label; bare short references show “Spotify album”, “Spotify playlist”, and so on. Each becomes
+an ordinary link in the page preview and HTML export. Reading an entry does not contact Spotify or load music automatically.
+Paste the same short reference into **Music player ♫** to load it for listening while you write. These are links to collections;
+the music itself is not copied into your journal or its `.jotz` package. You can always use a normal HTTPS link for other services.
+
+## IMDb and YouTube background media
+
+An entry can collect films, TV, episodes, videos and playlists alongside music:
+
+```jot
+#### Background media
+
+- [Background film](imdb:tt0133093)
+- [TV series](imdb:tt0386676)
+- [Video](youtube:dQw4w9WgXcQ)
+- [Video playlist](youtube:playlist:PL1234567890abcdef)
+```
+
+Use an actual provider ID from the link you want to save. IMDb uses `imdb:tt…` for title IDs (films, series and individual
+episodes). YouTube uses `youtube:VIDEO_ID`, optionally `youtube:video:VIDEO_ID`, or `youtube:playlist:PLAYLIST_ID`.
+A space after the first colon is optional. Bare shortcodes show a provider/type label; Markdown links give them a name.
+IMDb identifies the title and does not provide playback. These references do not fetch titles, ratings or thumbnails or embed
+videos automatically. The shared preview and HTML export expand them into ordinary HTTPS links.
+
+In **Music & background media**, paste one reference per line, optionally `Name | reference`, and add the mixed list to the entry.
+Full IMDb title URLs and simple YouTube video/playlist URLs are shortened on insertion. Video links with timestamps or both a
+video and a playlist remain full URLs so their context is preserved. Existing journal writing is never automatically rewritten.
+The persistent writing player remains Spotify-only; YouTube references open YouTube when you follow them.
+
+## Find music IDs while typing
+
+Open **Music & background media → Find a song or album ID** and enable **Search MusicBrainz as I type**. Choose song recording,
+album (release group), album edition, composition or artist, then type at least three characters in the dedicated search box.
+After a short pause, suggestions show names, artists and available dates, versions or durations. Choose a result with the mouse
+or Tab and Enter. It goes into the reference review list; **Add to this entry** is still needed to change the journal.
+
+Only the search box text and chosen entity type are sent to MusicBrainz, with no account cookies or journal content. Search is off
+by default and turns off when the dialog closes. Requests are debounced/rate-limited, old searches are cancelled, and recent results
+are cached only for this page session. Busy/offline services show an error and leave manual entry available. Result names are not
+verified matches: check the recording/version or album edition before selecting one.
+
+Database links use `musicbrainz:recording:UUID`, `musicbrainz:release-group:UUID`, `musicbrainz:release:UUID`,
+`musicbrainz:work:UUID` or `musicbrainz:artist:UUID`. They identify the music independently of Spotify or YouTube. Existing service
+links remain useful for playback; the lookup does not guess a corresponding playback URL. IMDb and YouTube remain manual links
+or shortcodes; their online search is not part of this MusicBrainz lookup.
+
+## Local writing suggestions
+
+The workspace can reuse names already in the open journal. It does not search other journals or contact a service.
+
+- Type `#` or `@` followed by part of a tag/context to find existing names.
+- Start a Markdown link such as `[See](#river` to find an existing entry or record by its date, ID or label. Choose a result to
+  finish the link. With an empty label (`[](#river`), the result supplies the entry/record name. Ambiguous duplicate targets are
+  not offered. Ordinary headings without dates or record IDs do not become link targets.
+- Inside a `measurement` record, type `metric:`, `unit:` or `scale:` and part of a value. Metrics come from existing measurement
+  records; units come from records for the same metric, and scales come from existing scale records. Different units stay
+  separate choices. Selecting a metric does not fill or overwrite units, scales or values.
+
+Suggestions appear after a short pause. Down/Up chooses a suggestion; Enter or Tab inserts the chosen one. Enter without choosing
+still adds a newline. Escape dismisses suggestions, and Control/Command+Space shows them again. Pointer selection works too.
+Insertion is undoable and replaces only the current tag, link or field value. Suggestions stay off while composing IME text or
+writing in code, metadata or hidden comments. Unrecognised writing is left as it is.
+
+Choose **Tools → Writing options**, then uncheck **Local suggestions** to turn them off. Only that preference is remembered;
+the suggestion index stays in page memory and is rebuilt from the current journal. Opening another journal does not reuse the
+previous document's names.
+
+## People, places and reference books
+
+**People & Places** opens a local reference-book manager. Create a book such as `people.jot` or `places.jot`, or open existing
+plain-text `.jot` files. Books stay separate from the current journal. Add a person or place, save the record to the book, then
+**Download book** to keep a file. “Remember these books in this browser” is optional; when off, loaded books last only for this
+page. Browser copies are not a substitute for downloaded files. Unloading removes a book from suggestions, not from your disk.
+
+People can store display and alternative names, given/family names, pronouns, organization, several emails/phones/websites, a
+postal address, a reference to a place, and notes. Places can store alternative names, kind, two address lines, city/locality,
+region, postal code, country and two-letter country code, WGS84 latitude/longitude in decimal degrees, optional elevation and
+coordinate accuracy in metres, IANA timezone, phone/websites, directions, accessibility notes and general notes. No address,
+coordinates or timezone are detected, inferred, geocoded or fetched. Coordinates must be supplied as a valid pair; timezone is
+checked against the browser's IANA support. Accuracy is supplied by you, not inferred from the number of decimal places.
+
+Example reference-book content (fictional):
+
+```jot
+:::record person #person-robin
+label: Robin
+alias: Bird
+notes: A friend from the writing group.
+:::
+
+:::record place #place-river
+label: Riverside café
+address-line1: Example Street
+locality: London
+country-code: GB
+latitude: 51.5
+longitude: -0.12
+timezone: Europe/London
+accessibility: Step-free entrance
+:::
+```
+
+With the relevant book open, start `[Meet](#Robin` or `[](#Riverside` in the journal and choose a suggestion. The result is a
+normal link such as `[Robin](people.jot#person-robin)` or `[Riverside café](places.jot#place-river)`. Alternative names and a
+place's city/region/country can help find it. Existing explicit destinations, for example `[](places.jot#River`, restrict the
+search to that book. IDs remain stable when you rename someone or a place, and the book filename is part of the reference.
+
+Clicking such a link in the workspace opens the record in People & Places. A missing book prompts you to open it; no file or
+website is fetched. Reference-book contents are not copied into journal downloads, `.jotz` files or HTML exports. Keep/share
+referenced files separately when needed; exported HTML retains a relative link, without the book's private details or interactive
+manager. Outside the workspace, cross-file navigation depends on the reader. Sharing a reference book shares its data: it is
+plain text, not encrypted. An OpenStreetMap link appears for valid coordinates, but contacts the map provider only if clicked.
+
+A place's `timezone` describes that place. It does not change entry times or override the document's `Timezone` metadata.
+Person/place numeric fields, such as coordinates or postal codes, are not treated as measurement/chart data.
+
+## Entry timezone overrides
+
+Declare a document default in the optional top metadata, then override a particular dated entry with `@timezone:`:
+
+```jot
+---
+Jot: 1.0
+Timezone: America/Los_Angeles
+---
+
+### 2026-10-28 | In London
+@timezone: Europe/London
+
+o Call at 09:00
+
+### 2026-10-29 | Back to the default
+
+o Another call at 09:00
+```
+
+The override applies to the whole entry, ending at the next dated heading, even if that heading has the same date. It does not
+carry forward, rewrite a date/time, or use a linked place's timezone. Put the directive below the entry heading. Invalid or blank
+zones are warnings and leave that entry unresolved, rather than falling back to the device or document. Duplicate directives
+warn; the last applies. A directive in the undated preamble warns; use metadata for a document default. Code and comments stay literal.
+
+In **Write**, place the cursor in an entry and choose **Entry timezone**. Choose an IANA timezone or UTC, or **Use document default**
+to remove the override. The page and HTML export show the effective zone beside the dated heading. Edits can be undone.
+
+Calendar export resolves local timed events using their entry/document zone and writes unambiguous UTC instants. Explicit RFC 3339
+event timestamps with offsets retain their own instant. Missing timezone information stays floating; an invalid declared zone,
+a nonexistent spring-forward time or a repeated fall-back time stops timed export with an explanation. For an ambiguous hour,
+use an event record with a complete offset-bearing timestamp, such as `start: 2026-11-01T01:30:00-05:00`. All-day dates and
+ordinary date-based queries keep their written calendar dates.
+
+## Current time and location in Chromium
+
+**Insert current time** inserts the actual current date/time as a complete timestamp with an explicit offset. It uses the entry
+zone when declared, otherwise the document zone. If neither is declared, this explicit capture action uses the browser's zone
+and records the offset in the inserted timestamp; it does not resolve or reinterpret older writing. An invalid declared zone
+must be fixed first. The timestamp always uses the actual current date, even when the entry is backdated. One Undo removes it.
+No timestamps are automatically inserted while typing or on save.
+
+**Capture location** opens a review dialog. **Get current location** makes one Chromium geolocation request, which requires HTTPS
+or localhost and may show the browser's permission prompt. The browser's location service may use network providers according to
+its settings. “Prefer a more precise position” is optional; the result's supplied accuracy is shown rather than promising GPS precision.
+There is no background watching or geocoding, and no address or physical timezone is inferred from the browser's device timezone.
+
+After reviewing latitude, longitude, available accuracy/elevation and the capture instant, choose **Insert location in entry**
+(to insert a plain place record, including its coordinates), or **Save as a place…** (to review/name it in a separate reference
+book). Nothing is added on permission grant alone. Denial, unavailable positions, timeouts and results arriving after the dialog
+closes leave the journal unchanged. The one-time browser request itself has no cancellation API; closing discards its result.
+Location inserted in the journal travels with that file when shared. Buttons are keyboard accessible and tested in Chromium.
+
+## Daily entries and longer recaps
+
+Jot prescribes no word count or duration for an entry, although applications and packages have file-size limits. A dated heading
+starts an entry; it can describe a day, an ongoing topic or a longer recap. Daily entries and weekly/monthly recaps can coexist.
+The recap's heading date identifies the entry, while a period record explicitly describes what it covers:
+
+```jot
+### 2026-11-01 | Sunday
+
+Today's writing.
+
+### 2026-11-01 | Weekly recap
+
+:::record period #week-2026-10-26
+label: Week of 26 October
+start: 2026-10-26
+end: 2026-11-02
+:::
+
+What mattered this week?
+```
+
+Period ends are exclusive, so this covers 26 October through 1 November. A monthly recap can use `start: 2026-10-01` and
+`end: 2026-11-01`. A plain “Weekly recap” heading without a date stays inside the preceding dated entry. These are ordinary
+entries with explicit coverage, not new typed week/month navigation modes. A recap timezone describes that recap only; it never
+changes the original entries it references. Link to its period record ID when repeated dates would make a date-only link ambiguous.

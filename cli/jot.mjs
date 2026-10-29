@@ -84,9 +84,9 @@ async function main() {
       return out(t.map((x) => `${x.date || '          '}  ${x.priority === 'high' ? '[!]' : sign[x.status]} ${x.text}${files.length > 1 ? `  (${path.basename(x.file)})` : ''}`).join('\n') || '(no tasks)');
     }
     if (cmd === 'events') {
-      const e = all('events').filter((x) => keep(x.date)).map(({ text, date: d, time, file }) => ({ date: d, time, text, file }));
+      const e = all('events').filter((x) => keep(x.date)).map(({ text, date: d, time, file, timezone, timezoneDeclared }) => ({ date: d, time, text, file, ...(timezoneDeclared ? { timezone } : {}) }));
       if (json) return out(JSON.stringify(e, null, 2));
-      return out(e.map((x) => `${x.date || '          '} ${x.time || '     '}  ${x.text}`).join('\n') || '(no events)');
+      return out(e.map((x) => `${x.date || '          '} ${x.time || '     '}${Object.hasOwn(x, 'timezone') ? ' [' + (x.timezone || 'timezone unresolved') + ']' : ''}  ${x.text}`).join('\n') || '(no events)');
     }
     if (cmd === 'numbers') {
       const n = all('numbers').filter((x) => !metric || x.metric === metric).map(({ date: d, metric: m, value, unit }) => ({ date: d, metric: m, value, unit }));
@@ -94,7 +94,14 @@ async function main() {
       return out(`date,metric,value,unit\n${n.map((x) => [x.date, x.metric, x.value, x.unit].join(',')).join('\n')}`);
     }
     if (cmd === 'ics') {
-      const ast = parse(docs.map((d) => read(d.file)).join('\n\n'));
+      // Keep each file's resolved entry/default context; concatenating raw front matter would leak zones between files.
+      const ast = { nodes: [], entries: [] };
+      for (const doc of docs) {
+        const offset = ast.nodes.length, preambleEnd = doc.ast.entries[0]?.startNode ?? doc.ast.nodes.length;
+        ast.nodes.push(...doc.ast.nodes);
+        if (preambleEnd) ast.entries.push({ date: null, startNode: offset, endNode: offset + preambleEnd, timezone: doc.ast.timezone, timezoneSource: doc.ast.timezoneDeclared ? 'document' : 'none' });
+        ast.entries.push(...doc.ast.entries.map((entry) => ({ ...entry, startNode: entry.startNode + offset, endNode: entry.endNode + offset })));
+      }
       const ics = A.toICS(ast, { name: name || (files.length === 1 ? path.basename(files[0], '.jot') : 'Jot journal'), includeDone: done, tasksAsEvents: asEvents, stamp: new Date().toISOString().replace(/[-:]|\.\d+/g, '') });
       if (o) { fs.writeFileSync(o, ics); process.stderr.write(`wrote ${o}\n`); } else process.stdout.write(ics);
       return;

@@ -14,7 +14,7 @@
  *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …',
  *                                style: 'journal' | 'notes' | 'plain' | null (styles.mjs; a typed page only),
  *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 },
- *                                include(path) -> text | null, from: '' })
+ *                                include(path) -> text | null, from: '', reference(href) -> void })
  *     `![label](other.jot#id)` on a line of its own shows that part of another journal in place, framed and labelled with where it
  *     came from (include.mjs). The host reads the file and lends its text through opts.include (the path is already checked to stay
  *     inside the root; `from` is this document's own path there); a missing, unsafe, looping or too-deep include says so on the page.
@@ -31,7 +31,7 @@ import { charts, chartConfig, summaryText, fmt, CHART_CSS, metricLabel } from '.
 import { Chart } from './vendor/chart.mjs';
 import { queries, TAGGED } from './query.mjs';
 import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFromComment, paintHighlights } from './handwriting.mjs';
-import { parse } from './jot.mjs';
+import { parse, mediaURL } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
 import { includeLines, excerpt, notice, MAX_DEPTH } from './include.mjs';
 import { isPaletteRecord, paletteOf, moodboardOf } from './palette.mjs';
@@ -108,13 +108,18 @@ export function renderPreview(ast, target, opts = {}) {
         case 'codespan': n = el('code', decode(t.text)); break;
         case 'br': n = el('br'); break;
         case 'link': {
-          const href = t.href || '', a = asset(href);
+          const href = mediaURL(t.href || '') || t.href || '', a = asset(href);
           if (a && a.url) { n = el('a'); n.href = a.url; n.download = href.split('/').pop(); inline(t.tokens, n); break; }
           if (href.startsWith('#')) { // a link within this journal (spec 4.2.2): to its date heading or record, by this page's prefixed id
             const id = decode(href.slice(1));
             if (anchors.has(id)) { n = el('a'); n.href = `#${anchors.prefix}${id}`; }
             else if (resolved.has(id)) n = el('span'); // a target that is not drawn (a scale's definition)
             else { n = el('span', undefined, 'jot-link-unresolved'); n.title = `Nothing here is called ${id}`; }
+            inline(t.tokens, n); break;
+          }
+          if (/^[A-Za-z0-9][A-Za-z0-9._-]*\.jot#[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(href) && typeof opts.reference === 'function') {
+            n = el('a'); n.href = href; n.dataset.jotReference = href;
+            n.onclick = (event) => { event.preventDefault(); opts.reference(href); };
             inline(t.tokens, n); break;
           }
           if (/^(https?:|mailto:)/i.test(href)) { n = el('a'); n.href = href; n.rel = 'noopener noreferrer'; n.target = '_blank'; inline(t.tokens, n); } else { n = el('span'); inline(t.tokens, n); }
@@ -347,7 +352,7 @@ export function renderPreview(ast, target, opts = {}) {
         box.append(el('p', CALLOUTS[n.callout], 'jot-callout-title')); for (const c of n.markdown.tokens || []) block(c, box);
         frag.append(box); return;
       }
-      if (n.markdown) { if (n.diagram) frag.append(el('p', n.diagram.engine + ' source · rendering adapter not installed', 'diagram-note')); block(n.markdown, frag); return; }
+      if (n.markdown) { if (n.diagram) frag.append(el('p', n.diagram.engine + ' source · rendering adapter not installed', 'diagram-note')); block(n.markdown, frag); if (n.date && n.timezoneSource) { const badge = el('span', n.timezone || 'Timezone unresolved', 'jot-timezone'); badge.setAttribute('aria-label', (n.timezoneSource === 'entry' ? 'Entry timezone: ' : 'Document timezone: ') + (n.timezone || 'unresolved')); frag.lastElementChild?.append(' ', badge); } return; }
       if (n.type === 'task') {
         const [sym, said] = TASK[n.status] || TASK.open, row = el('div', undefined, `jot-task jot-task-${n.status}${n.priority === 'high' ? ' jot-task-high' : ''}`);
         const box = el('span', sym, 'jot-box'); box.setAttribute('role', 'img'); box.setAttribute('aria-label', said); box.dataset.status = n.status;
@@ -452,7 +457,7 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-task{display:flex;gap:.45em;align-items:baseline;margin:.15em 0}.jot-box{flex:none;width:1.1em;text-align:center}.jot-task-completed .jot-task-text,.jot-task-cancelled .jot-task-text{opacity:.72}.jot-task-cancelled .jot-task-text{text-decoration:line-through}.jot-priority{font-weight:700;color:#cf222e}
 .jot-sign{display:flex;gap:.45em;align-items:baseline}.jot-sym{flex:none;width:1.1em;text-align:center;font-weight:700;opacity:.7}
 .jot-margin{font-size:.88em;font-style:italic;opacity:.8;border-left:2px solid color-mix(in srgb,currentColor 25%,transparent);padding-left:.7em;margin:.4em 0}
-.jot-tag,.jot-context{white-space:nowrap}.jot-tag{color:var(--jot-tag-ink,#8250df)}.jot-context{color:var(--jot-context-ink,#1a7f37)}
+.jot-timezone{font-size:.6em;line-height:1.3;font-weight:400;letter-spacing:0;white-space:normal;font-variant:normal}.jot-tag,.jot-context{white-space:nowrap}.jot-tag{color:var(--jot-tag-ink,#8250df)}.jot-context{color:var(--jot-context-ink,#1a7f37)}
 .jot-include{border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:6px;padding:.1em .9em .4em;margin:.8em 0}.jot-include-source{font-size:.82em;opacity:.75;margin:.4em 0;overflow-wrap:anywhere}.jot-include-path{font-style:italic}
 .jot-include-missing{display:flex;gap:.45em;align-items:baseline;font-size:.9em;font-style:italic;opacity:.85;padding:.3em .9em;overflow-wrap:anywhere}.jot-include-inline{opacity:.8;font-style:italic}
 .jot-query-sum{margin:.25em 0 .4em}.jot-query-scroll{max-width:100%;overflow-x:auto}.jot-query table{border-collapse:collapse;font-variant-numeric:tabular-nums}.jot-query :is(th,td){padding:2px .9em 2px 0;text-align:left;vertical-align:top;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}.jot-query th{font-weight:600}.jot-query td:first-child{white-space:nowrap}

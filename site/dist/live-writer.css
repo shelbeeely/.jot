@@ -1,0 +1,29 @@
+@media screen{
+ html[data-editor-mode=live] #writing{display:none}
+ html[data-editor-mode=source] #liveWriting{display:none}
+ .jot-site.jot-writer .live-writing{box-sizing:border-box;width:100%;max-width:76ch;align-self:center;margin:0 auto;min-height:calc(100vh - 155px);min-height:calc(100dvh - 155px);padding:36px 28px;outline:none;color:var(--writer-ink);background:var(--writer-bg);font:18px/1.8 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-wrap:anywhere;white-space:pre-wrap;tab-size:2}
+ .live-writing[data-empty]::before{content:attr(data-placeholder);color:var(--writer-muted);pointer-events:none;position:absolute}
+ .jot-site.jot-writer .live-writing:focus-visible{outline:2px solid var(--writer-border);outline-offset:2px}
+ .jot-site.jot-writer .live-writing .live-block{font-family:inherit;min-height:1.8em;margin:0 0 .8em;white-space:pre-wrap}
+ .jot-site.jot-writer .live-writing h1{font-size:1.9em;line-height:1.35;letter-spacing:-.02em;margin:0 0 .65em;font-weight:700}
+ .jot-site.jot-writer .live-writing h2{font-size:1.55em;line-height:1.4;letter-spacing:-.015em;font-weight:650}
+ .jot-site.jot-writer .live-writing :is(h3,h4,h5,h6){font-size:1.2em;line-height:1.5;font-weight:650;letter-spacing:normal}
+ .jot-site.jot-writer .live-writing :is(ul,ol){padding-inline-start:1.5em;margin:.3em 0 1em;white-space:normal}
+ .jot-site.jot-writer .live-writing li{margin:0;min-height:1.8em}
+ .jot-site.jot-writer .live-writing blockquote{padding-inline-start:1em;border-inline-start:3px solid var(--writer-border);margin-inline:0;color:var(--writer-muted)}
+ .live-task{padding-inline-start:1.6em;position:relative}.live-task::before{content:attr(data-marker);position:absolute;inset-inline-start:0}
+ .live-writing code{font: .9em/1.6 ui-monospace,Consolas,monospace;background:color-mix(in srgb,var(--writer-ink) 7%,var(--writer-bg));border-radius:3px;padding:.1em .25em}
+ .live-writing .live-link{color:var(--jot-accent);text-decoration:underline;text-underline-offset:.15em}
+ .live-writing mark{background:color-mix(in srgb,#ffe680 65%,var(--writer-bg));color:var(--writer-ink)}
+ .live-opaque{border:1px solid var(--writer-border);border-radius:6px;padding:12px;margin:1em 0;white-space:normal;overflow-wrap:anywhere}
+ .live-block-preview{font-size:16px;max-width:100%;overflow:auto}.live-block-preview pre{white-space:pre-wrap}.live-block-preview table{border-collapse:collapse;max-width:100%}.live-block-preview :is(td,th){border:1px solid var(--writer-border);padding:6px}
+ .jot-site.jot-writer .live-source-button{font:13px/1.5 ui-sans-serif,system-ui,sans-serif;min-height:44px;padding:8px 12px;border:1px solid var(--writer-border);border-radius:4px;background:var(--writer-bg);color:var(--writer-ink);cursor:pointer}
+ .jot-site.jot-writer #deviceFileState{display:block;font-size:12px;color:var(--writer-muted)}
+ .jot-site.jot-writer .writer-file-actions #saveDevice{background:var(--writer-ink);color:var(--writer-bg)}
+ .jot-site.jot-writer #writerPreviewToggle{display:none}
+ html[data-pref-size=s] .jot-site.jot-writer .live-writing{font-size:16px}html[data-pref-size=l] .jot-site.jot-writer .live-writing{font-size:22px}html[data-pref-size=xl] .jot-site.jot-writer .live-writing{font-size:26px}
+ html[data-pref-spacing=tight] .jot-site.jot-writer .live-writing{line-height:1.4}html[data-pref-spacing=roomy] .jot-site.jot-writer .live-writing{line-height:2}html[data-pref-spacing=roomier] .jot-site.jot-writer .live-writing{line-height:2.3}
+ html[data-pref-measure=medium] .jot-site.jot-writer .live-writing{max-width:calc(65ch + 56px)}html[data-pref-measure=short] .jot-site.jot-writer .live-writing{max-width:calc(45ch + 56px)}
+}
+@media screen and (max-width:700px){.jot-site.jot-writer .live-writing{padding:24px 8px;max-width:100%}}
+@media print{#liveWriting,#liveSuggestions{display:none!important}}

@@ -3,7 +3,7 @@
 import js from '@eslint/js';
 import globals from 'globals';
 
-const COPIES = 'jot,container,proofread,charts,preview,handwriting,styles,palette,export,automation,connect,convert,include,query';
+const COPIES = 'jot,timezone,container,proofread,charts,preview,handwriting,styles,palette,export,automation,connect,convert,include,query';
 
 export default [
   // Third-party code and generated copies: lint the source in parser/ and converter/ instead.

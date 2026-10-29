@@ -144,3 +144,17 @@ test('skill validator runs outside the repository, rejects warnings and errors, 
   assert.equal((await validate([packed])).code, 0);
   assert.equal(fs.readFileSync(good, 'utf8'), J);
 });
+
+test('calendar export keeps each file and entry timezone independent', async () => {
+  const dir = tmp(), london = path.join(dir, 'london.jot'), tokyo = path.join(dir, 'tokyo.jot');
+  fs.writeFileSync(london, '---\nTimezone: Europe/London\n---\n### 2026-10-28\no Call at 09:00\n');
+  fs.writeFileSync(tokyo, '---\nTimezone: Asia/Tokyo\n---\n### 2026-10-28\no Call at 09:00\n');
+  let result = await run(['ics', london, tokyo]); assert.equal(result.code, 0, result.stderr);
+  assert.match(result.stdout, /DTSTART:20261028T090000Z/); assert.match(result.stdout, /DTSTART:20261028T000000Z/);
+  assert.equal((result.stdout.match(/BEGIN:VCALENDAR/g) || []).length, 1);
+  result = await run(['events', london, '--json']); assert.equal(JSON.parse(result.stdout)[0].timezone, 'Europe/London');
+  fs.writeFileSync(london, '### 2026-11-01\n@timezone: America/New_York\no Call at 01:30\n');
+  result = await run(['ics', london]); assert.equal(result.code, 1); assert.match(result.stderr, /ambiguous/);
+  fs.writeFileSync(london, '### 2026-10-28\n@timezone: Invalid/Zone\n');
+  assert.equal((await run(['check', '--strict', london])).code, 1);
+});

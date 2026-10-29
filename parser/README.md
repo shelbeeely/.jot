@@ -138,3 +138,45 @@ These are non-destructive prose-only English pattern hints, separate from syntax
 
 
 See CONTAINER.md for the single-file document contract and pack/unpack/readDocument APIs. Plain Markdown export contains only writing; it does not contain attached binary files. Container support uses vendored JSZip and a hash.js SHA-256 fallback with included license notices.
+
+## Spotify short links
+
+Write `spotify:album:4aawyAB9vmqN3uQ7FjRGTy` or `spotify: playlist:37i9dQZF1DXcBWIGoYBM5M` in prose or lists.
+The preview makes an ordinary HTTPS link, without fetching metadata or loading a player. For a descriptive label, use
+`[My writing mix](spotify:playlist:37i9dQZF1DXcBWIGoYBM5M)`. Tracks, albums, playlists, artists, episodes and shows are supported;
+IDs are 22 case-sensitive ASCII letters/digits. Code and escaped references stay literal. `spotifyURL(value)` expands a complete
+valid reference, otherwise returns null. Source round-trips unchanged. These links are references, not bundled audio.
+
+## Background media links
+
+`mediaURL(value)` expands Spotify, IMDb and YouTube shortcodes to fixed-host HTTPS URLs, or returns null. IMDb title IDs use
+`imdb:tt` plus 7–10 digits. YouTube videos use `youtube:` (or `youtube:video:`) plus an 11-character letters/digits/underscore/hyphen
+ID; playlists use `youtube:playlist:` plus 10–100 such characters. Optional horizontal space follows the provider colon.
+Bare references become link tokens; named Markdown links are expanded by the shared renderer. Source, code, escaping and
+unknown/malformed references remain preserved. Nothing fetches metadata or starts playback.
+
+MusicBrainz short references use `musicbrainz:<entity>:<UUID>` with entity `recording`, `release-group`, `release`, `work` or
+`artist`. UUIDs are canonical 8-4-4-4-12 hexadecimal groups. `mediaURL` expands these to the corresponding musicbrainz.org page;
+bare references and named Markdown links are supported with no parser/renderer lookup. The optional workspace search is separate.
+
+## People and place records
+
+`person` and `place` are generic source-preserving records with stable IDs. The workspace's separate reference-book tool supplies
+field editing/validation; the core parser still preserves arbitrary fields rather than asserting postal-address or contact
+validity. `charts.mjs` excludes these record types from numeric measurements. An optional `renderPreview` host callback,
+`reference(href)`, handles simple `book.jot#id` links on explicit clicks; without a callback they remain readable text. No reference
+files are fetched by the renderer. Library data never needs to be included in a standalone page export.
+
+## Entry timezone context
+
+The optional document metadata `Timezone: America/Los_Angeles` supplies the default. A standalone `@timezone: Europe/London`
+directive overrides the entire dated entry up to the next dated heading. Invalid/blank zones are unresolved with warnings;
+duplicates warn and use the last value, and preamble overrides warn. No device zone is substituted. Parsing adds derived document
+`timezone`, `timezoneRaw`, `timezoneDeclared`, and per-entry `timezone`, `timezoneRaw`, `timezoneSource` values; original bytes
+round-trip unchanged. Place record fields are unrelated to this context. `timezone.mjs` provides validation, context editing,
+local-time resolution and explicit-offset formatting from a known instant, using the runtime's Intl/IANA data without fetching.
+
+Automation extraction carries declared event timezone context. Calendar export writes UTC for uniquely resolved local times,
+respects complete RFC 3339 offsets, keeps all-day dates, and rejects DST gaps/folds or invalid declared zones. Undeclared zones
+remain floating. Queries continue to use written dates. `node --test timezone-test.mjs` covers these rules. The browser offers
+explicit current-time insertion and reviewed one-shot location capture; neither is automatic editing-history metadata.

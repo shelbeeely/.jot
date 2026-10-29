@@ -1,6 +1,6 @@
 # Jot roadmap
 
-Updated 26 October 2026. The format remains **Jot v1** (draft 3); the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` packages the writing (`journal.txt`) together with its assets. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
+Updated 28 October 2026. The format remains **Jot v1** (draft 3); the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` packages the writing (`journal.txt`) together with its assets. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
 
 The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadmap.mjs` after editing it; CI checks that the parser and published-site copies match. Status below is based on source and automated checks, not just the specification.
 
@@ -13,6 +13,9 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Area | Current state | Next acceptance milestone |
 | --- | --- | --- |
 | Plain-text writing and date sections | Implemented; parser tested | Broader malformed-input and large-file fixtures |
+| Desktop and mobile writing tools | Implemented: formatting/shortcuts, list continuation, literal find/replace, parsed outline, Commands and reviewed entry templates; Chromium desktop and 320/390px mobile emulation tested | Physical mobile keyboard/device testing, richer personal templates and recovery |
+| Autocomplete and reference sources | Partial: current-journal suggestions, explicitly opened People/Places books and opt-in MusicBrainz lookup implemented | Ten additional source tracks below; no background archive scan or journal upload |
+| WriteFreely editor and ActivityPub exploration | Planned; source-based integration assessment in `docs/proposals/writefreely-integration.md` | Evaluate editor enhancements and a reviewed publication adapter; isolated instance, license review and federation interoperability before release |
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
 | JavaScript parser | ES module for Node/browser; parser, formatting, proofreading and container suites pass | Stabilize API; complete semantic/profile validation |
 | Composable content blocks and layouts | Partial: full-width template blocks reserve handwritten grid rows, gaps and page starts; visual sizing, persistence and shared rendering are browser-tested | Responsive columns, richer mixed-media blocks and physical printer proofs |
@@ -49,6 +52,60 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 3. Reconcile the Jot draft with the JavaScript implementation and expand the conformance suite, including multilingual and input-composition fixtures.
 4. Add composable content blocks with stable identity and source order, then strengthen existing attachment bundles and recovery before users rely on mixed-media journals.
 5. Add local diagram rendering and optional recognition/proofreading adapters without silent network uploads.
+6. Expand autocomplete in stages: schema/templates and explicitly selected local sources first, then opt-in public catalogs. Explore WriteFreely publishing separately from private drafting; neither requires replacing the Jot format.
+
+## Autocomplete and reference-source expansion
+
+All ten additions below are **planned**, not available integrations. Existing current-journal suggestions, explicitly opened
+People/Places books and the optional MusicBrainz search remain the baseline. Imported sources supply suggestions; they do not
+establish that an event happened, add observations or change existing writing without selection.
+
+| Priority | Source | Suggestions and next acceptance milestone |
+| --- | --- | --- |
+| P1 | Jot schema and templates | Suggest applicable record types, canonical field names, allowed values, units and prompt snippets. Scope by record/profile; preserve unknown fields; never invent measurement values or answers. Validate accepted source and retain undo. |
+| P1 | Explicitly opened journal archives | Reuse tags, people/place/project references and entry links from selected `.jot` files or a future opened `.jotbook`. Qualify links by file/stable ID, exclude ambiguous targets, and unload/refresh indexes explicitly; never scan other files or silently persist vocabulary. |
+| P1 | Contacts imports (`.vcf`) | Preview names, nicknames, organizations and contact fields before importing into a separate People book. Handle encodings, repeated fields, stable IDs and duplicate people without overwriting records. Autocomplete identity references rather than exposing private contact details as generic suggestions. |
+| P1 | Calendar imports (`.ics`) | Suggest event titles, venues and source-event links from a chosen calendar file. Preserve UID/recurrence identity, timezone, all-day and cancellation distinctions. Bound recurrence expansion and let the writer choose whether an event is a plan or a journal reference; never infer attendance. |
+| P2 | Open Library | Look up books, authors, works, editions and ISBNs. Show edition distinctions, verify identity, and insert a named stable reference only after selection. Assess API terms, rate limits, attribution, caching and offline fallback. |
+| P2 | TMDB | Look up films, shows and episodes with year/type context. Retain verified IMDb IDs where supplied; otherwise keep the TMDB reference rather than inventing an IMDb mapping. Resolve credentials, attribution, quota and cross-origin behavior before shipping. |
+| P2 | YouTube Data API | Search video, channel and playlist titles, then review a chosen result. Preserve the selected entity type and stable ID; do not auto-load playback. Establish API credential/quota handling and recoverable unavailable/private/deleted-result behavior. |
+| P2 | Wikidata | Suggest public people, organizations, landmarks, artworks and other entities, with QID, type and multilingual labels for disambiguation. Keep public identity data separate from private People/Places records; names alone must not merge identities. |
+| P2 | Place search through Photon or Pelias | Search named places and addresses through an appropriate hosted or self-hosted service. Show provider, address context and coordinates for review before saving to a Places book. No automatic geolocation query, inferred location history or timezone change; verify provider usage terms and availability. |
+| P2 | Zotero/BibTeX imports and Crossref | Preview local bibliographic imports (including CSL JSON where supported) and optional DOI/title lookup. Preserve citation keys, DOI, title/authors and provenance; distinguish editions/versions and duplicates. Never turn imported article text into unsupported journal claims. |
+
+Shared acceptance: work locally for local sources; make every online provider independently opt-in with a dedicated lookup field
+and clear source labels. Send only the requested lookup/type, never surrounding writing or an entire archive. Debounce and bound
+requests, cancel stale searches, review attribution/retention requirements, and handle provider failures without blocking writing.
+Selecting a match inserts a readable name and stable reference as an undoable edit. Do not fetch remote images or load players
+merely to display a suggestion. Test keyboard, touch, IME, ambiguity, Unicode, malicious imported text and blocked browser storage.
+
+Use ordinary named links initially where existing syntax can express an identity. Evaluate new short-reference namespaces
+separately; adding a provider does not by itself change Jot v1. Remembering imported libraries stays optional and explicit.
+
+## WriteFreely and ActivityPub exploration
+
+Status: **planned research and prototypes**, not an implemented editor replacement, publishing connection or federation service.
+The source-based comparison, pinned upstream revision, license notes and evidence are in
+`docs/proposals/writefreely-integration.md`. Upstream: https://github.com/writefreely/writefreely.
+
+1. Compare the main textarea writer and optional ProseMirror editor with Jot's source editing, records, attachments, autocomplete,
+   undo, IME, mobile layout and print/export. Independently implement useful workflow ideas; evaluate direct code reuse only after
+   license compatibility and source-preservation review. A richer view must preserve unsupported Jot syntax and original assets.
+2. Prototype an optional **Publish selected entry/selection to WriteFreely** adapter with a title, destination and exact output
+   review. Define Jot-to-Markdown/HTML fallbacks for custom records, media references and assets. Keep drafts local until an explicit
+   publication action; autosave must not publish. Private reference books and unselected entries are outside the publication payload.
+3. Use a separately deployed WriteFreely instance for accounts, posts and ActivityPub delivery. The current static Jot site cannot
+   host an ActivityPub inbox or hold actor signing keys. Verify authentication, browser CORS/session constraints and server/proxy
+   deployment before choosing an integration topology; do not place durable secrets in journal files or browser autosave.
+4. Test publication, updates and deletion with stable remote post IDs, retries and conflict handling. Review the actual instance's
+   federation and visibility settings: unlisted is not a private-draft guarantee, and remote deletion cannot guarantee recall of copies.
+   ActivityPub publishing is distinct from private journal backup, collaboration or document synchronization.
+5. Run interoperability checks on an isolated instance and a second ActivityPub implementation before offering live federation.
+   Evaluate actor identity, content representation, discovery, Follow/Undo, update/delete delivery, moderation, outbound-request
+   validation and operational maintenance. Do not assume WriteFreely provides a full reader, private messaging or all protocol features.
+
+First candidate: retain and enhance Jot's writer, then connect it to WriteFreely as an optional publishing service. A ProseMirror
+mode or combined Go application remains a separately evaluated option, with explicit Jot schema/round-trip and AGPL obligations.
 
 ## Scope boundaries
 

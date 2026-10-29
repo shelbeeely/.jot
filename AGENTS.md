@@ -42,7 +42,7 @@ Run relevant tests and all checks required by `pages.yml` before publishing. Cor
 
 ```sh
 npm ci && npm run lint
-node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/*test.mjs cli/test.mjs site/test-editor.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
+node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/*test.mjs cli/test.mjs site/test-editor.mjs site/test-writing-tools.mjs site/test-writer-search.mjs site/test-writer-workspace.mjs site/test-writer-templates.mjs site/test-editor-capture.mjs site/test-autocomplete.mjs site/test-reference-books.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
 node site/test-core.cjs
 node tools/privacy-check.mjs site/dist
 node tools/build-handwriting-css.mjs --check

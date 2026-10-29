@@ -10,12 +10,13 @@ const today=()=>{const n=new Date();return `${n.getFullYear()}-${String(n.getMon
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith(base))remote.push(r.url());});
   await page.goto(base+'/write/');await page.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));
   const style=(sel,prop)=>page.$eval(sel,(e,p)=>getComputedStyle(e)[p],prop),shown=sel=>page.isVisible(sel);
-  const before={font:await style('#writing','fontSize'),line:await style('#writing','lineHeight'),width:await page.$eval('#writing',e=>e.getBoundingClientRect().width),muted:await style('#saveState','color'),pad:await style('.tool-row','paddingTop')};
-  assert.ok(await shown('#previewView')&&await shown('#structureTab')&&await shown('#wordCount')&&await shown('.jot-foundation'));
+  const command=async(query,target=page)=>{await target.click('#writerCommandsBtn');await target.fill('#writerCommandsSearch',query);await target.locator('#writerCommandsList button').filter({has:target.locator('strong').filter({hasText:new RegExp('^'+query+'$','i')})}).click();};
+  const before={font:await style('#writing','fontSize'),line:await style('#writing','lineHeight'),width:await page.$eval('#writing',e=>e.getBoundingClientRect().width),muted:await style('#saveState','color'),pad:await style('.studio-bar','paddingTop')};
+  assert.equal(await page.inputValue('#writing'),'','first visit starts blank');assert.equal(await page.getAttribute('html','data-writer-view'),'write');assert.ok(await shown('#writing'));assert.equal(await shown('.jot-foundation'),false);
   assert.equal(await shown('#returnNote'),false,'nothing is shown on return without a note');
 
   // Each preference changes the page on its own and is remembered.
-  await page.click('#prefsBtn');assert.equal(await page.$eval('#prefsDialog',d=>d.open),true);
+  await command('Writing preferences');assert.equal(await page.$eval('#prefsDialog',d=>d.open),true);
   await page.selectOption('#prefSize','xl');await page.selectOption('#prefSpacing','roomier');await page.selectOption('#prefMeasure','short');await page.selectOption('#prefDensity','spacious');
   await page.check('#prefContrast');await page.check('#prefMotion');
   await page.uncheck('#prefPreview');await page.uncheck('#prefParser');await page.uncheck('#prefCounters');await page.uncheck('#prefDecoration');
@@ -25,12 +26,12 @@ const today=()=>{const n=new Date();return `${n.getFullYear()}-${String(n.getMon
    assert.ok(parseFloat(await style('#writing','fontSize'))>parseFloat(before.font),'larger text');
    assert.ok(parseFloat(await style('#writing','lineHeight'))/parseFloat(await style('#writing','fontSize'))>2.2,'roomier lines');
    assert.ok(await page.$eval('#writing',e=>e.getBoundingClientRect().width<e.parentElement.getBoundingClientRect().width-20||innerWidth<500),'shorter line length');
-   assert.ok(parseFloat(await style('.tool-row','paddingTop'))>parseFloat(before.pad),'spacious density');
+   assert.ok(parseFloat(await style('.studio-bar','paddingTop'))>parseFloat(before.pad),'spacious density');
    assert.notEqual(await style('#saveState','color'),before.muted,'higher contrast replaces muted text');
    assert.equal(await style('#writing','transitionDuration'),'1e-05s','reduced motion');
    assert.equal(await shown('.preview-pane'),false);assert.equal(await shown('#structureTab'),false);assert.equal(await shown('#checksTab'),false);
    assert.equal(await shown('#wordCount'),false);assert.equal(await shown('.jot-foundation'),false);assert.equal(await shown('.studio-intro .subtitle'),false);
-   assert.ok(await shown('#writing')&&await shown('h1'),'the writing and page heading stay');
+   assert.ok(await shown('#writing')&&await shown('#documentName'),'the writing and filename stay');
    assert.ok(await page.$eval('#paperPreview',e=>e.getBoundingClientRect().height>100),'a hidden preview is still laid out for print and export');
   };
   await after();
@@ -56,18 +57,18 @@ const today=()=>{const n=new Date();return `${n.getFullYear()}-${String(n.getMon
   await page.click('#returnGo');assert.equal(await shown('#returnNote'),false);assert.equal(await page.evaluate(()=>document.activeElement.id),'writing');assert.equal(await page.$eval('#writing',e=>e.selectionStart),caret);
 
   // Focus mode: entered with the keyboard, Escape leaves it, focus stays in the writing, and both changes are announced.
-  await page.focus('#focusBtn');await page.keyboard.press('Enter');
+  await page.click('#writerCommandsBtn');await page.fill('#writerCommandsSearch','Focus mode');await page.keyboard.press('Enter');
   assert.equal(await page.evaluate(()=>document.documentElement.hasAttribute('data-focus')),true);assert.equal(await page.evaluate(()=>document.activeElement.id),'writing');
   assert.equal(await shown('body>header'),false);assert.equal(await shown('#todayBtn'),false);assert.equal(await shown('.format-tools'),false);assert.ok(await shown('#focusBtn')&&await shown('#saveState'));
   assert.match(await page.textContent('#journalNotice'),/Focus mode/);if(shots)await page.screenshot({path:path.join(shots,'focus-mode.png')});
   await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.documentElement.hasAttribute('data-focus')),false);
-  assert.equal(await page.evaluate(()=>document.activeElement.id),'writing');assert.match(await page.textContent('#journalNotice'),/Left focus mode/);assert.ok(await shown('#todayBtn'));
-  await page.click('#focusBtn');await page.click('#focusBtn');assert.equal(await page.evaluate(()=>document.documentElement.hasAttribute('data-focus')),false,'the visible button leaves too');
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'writing');assert.match(await page.textContent('#journalNotice'),/Left focus mode/);assert.ok(await shown('#writerCommandsBtn'));
+  await command('Focus mode');await page.click('#focusBtn');assert.equal(await page.evaluate(()=>document.documentElement.hasAttribute('data-focus')),false,'the visible button leaves too');
 
   // Quick note: one line under today's entry, the rest of the writing and the caret untouched; Ctrl+Z takes it back.
   const d=today(),text=`### ${d} | Today\n\nMorning words.\n\n### 2999-01-01 | Friday\n\nA far future day.`;
   await page.fill('#writing',text);const mid=text.indexOf('Morning')+4;await page.$eval('#writing',(e,p)=>{e.focus();e.setSelectionRange(p,p);},mid);
-  await page.click('#quickBtn');assert.equal(await page.evaluate(()=>document.activeElement.id),'captureText');
+  await command('Quick note');assert.equal(await page.evaluate(()=>document.activeElement.id),'captureText');
   await page.keyboard.press('Enter');assert.match(await page.textContent('#captureStatus'),/few words/);
   await page.fill('#captureText','Bought the good bread.');await page.keyboard.press('Enter');
   let w=await page.inputValue('#writing');
@@ -76,15 +77,15 @@ const today=()=>{const n=new Date();return `${n.getFullYear()}-${String(n.getMon
   await page.keyboard.press('Control+z');await page.waitForTimeout(350);assert.equal(await page.inputValue('#writing'),text,'one undo step');
   // With no entry for today, one is made (as Today ＋ does); the cursor can move there on request.
   await page.fill('#writing','Just a thought.');await page.$eval('#writing',e=>e.setSelectionRange(0,0));
-  await page.click('#quickBtn');await page.fill('#captureText','A fragment');await page.check('#captureGo');await page.click('#captureForm button[type=submit]');
+  await command('Quick note');await page.fill('#captureText','A fragment');await page.check('#captureGo');await page.click('#captureForm button[type=submit]');
   w=await page.inputValue('#writing');assert.match(w,new RegExp(`^Just a thought\\.\\n\\n### ${d} \\| \\w+\\n\\nA fragment\\n$`));assert.equal(await page.$eval('#writing',e=>e.selectionStart),w.indexOf('A fragment')+10);
 
   // A note that looks like a heading, fence or record stays one plain line under today.
-  await page.fill('#writing',`### ${d} | Today\n\nHi.\n\n### 2999-01-01 | Friday\n`);await page.click('#quickBtn');await page.fill('#captureText','### 2030-01-01 dentist');await page.keyboard.press('Enter');
+  await page.fill('#writing',`### ${d} | Today\n\nHi.\n\n### 2999-01-01 | Friday\n`);await command('Quick note');await page.fill('#captureText','### 2030-01-01 dentist');await page.keyboard.press('Enter');
   w=await page.inputValue('#writing');assert.ok(w.includes('Hi.\n\n\\### 2030-01-01 dentist\n\n### 2999-01-01'),w);
   // Back to standard settings keeps the note; reduced motion follows the system setting too.
-  await page.click('#prefsBtn');await page.click('#prefsReset');assert.equal(await page.inputValue('#prefNote'),'Next: the paragraph about the walk.');await page.click('#prefsDone');
-  assert.equal(await style('#writing','fontSize'),before.font);assert.ok(await shown('.preview-pane')&&await shown('#wordCount'));
+  await command('Writing preferences');await page.click('#prefsReset');assert.equal(await page.inputValue('#prefNote'),'Next: the paragraph about the walk.');await page.click('#prefsDone');
+  assert.equal(await style('#writing','fontSize'),before.font);assert.ok(await shown('#writing'));assert.equal(await page.getAttribute('html','data-writer-view'),'write');assert.equal(await page.$eval('html',e=>e.hasAttribute('data-hide-counters')),false);
   assert.notEqual(await style('#writing','transitionDuration'),'1e-05s');await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await style('#writing','transitionDuration'),'1e-05s');
   assert.deepEqual(errors,[]);assert.deepEqual(remote,[]);
 
@@ -92,10 +93,10 @@ const today=()=>{const n=new Date();return `${n.getFullYear()}-${String(n.getMon
   const broken=await browser.newContext({viewport:{width:390,height:844}}),bp=await broken.newPage(),berrors=[];bp.on('pageerror',e=>berrors.push(e.message));
   await bp.addInitScript(()=>{Storage.prototype.setItem=()=>{throw new Error('quota');};Storage.prototype.getItem=()=>{throw new Error('denied');};});
   await bp.goto(base+'/write/');await bp.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));
-  assert.ok((await bp.inputValue('#writing')).includes('October notebook'),'starter text');
-  await bp.click('#prefsBtn');await bp.selectOption('#prefSize','l');assert.match(await bp.textContent('#prefsStatus'),/could not be remembered/);
+  assert.equal(await bp.inputValue('#writing'),'','storage failure still opens a blank editor');assert.match(await bp.textContent('#journalNotice'),/unavailable|Download/i);
+  await command('Writing preferences',bp);await bp.selectOption('#prefSize','l');assert.match(await bp.textContent('#prefsStatus'),/could not be remembered/);
   assert.equal(await bp.getAttribute('html','data-pref-size'),'l');await bp.keyboard.press('Escape');
-  await bp.click('#quickBtn');await bp.fill('#captureText','Still works.');await bp.keyboard.press('Enter');assert.match(await bp.inputValue('#writing'),/Still works\./);
+  await command('Quick note',bp);await bp.fill('#captureText','Still works.');await bp.keyboard.press('Enter');assert.match(await bp.inputValue('#writing'),/Still works\./);
   assert.deepEqual(berrors,[]);await broken.close();
   console.log('PASS: text size, spacing, line length, density, contrast, reduced motion (setting and system) and hidden preview/parser/counts/decoration persist; print unaffected; focus mode by keyboard with Escape and announcements; quick note under today with caret kept and one undo step; caret/scroll and optional note restored; throwing storage; 390px light/dark accessibility.');
  }finally{await browser.close();server.close();}

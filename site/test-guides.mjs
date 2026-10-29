@@ -68,7 +68,7 @@ test('every site page and its previews share the renderer stylesheet; the homepa
   for (const route of ['index.html', 'write/index.html', 'editor/index.html', 'convert/index.html', 'scan/index.html', 'examples/index.html', ...fs.readdirSync(path.join(DIST, 'guide')).filter((f) => f.endsWith('.html')).map((f) => 'guide/' + f)]) {
     const html = fs.readFileSync(path.join(DIST, route), 'utf8');
     assert.match(html, /<link id="jot-hand-css" rel="stylesheet" href="(?:\.\.\/)?jot\/handwriting\.css">/, route);
-    assert.match(html, /<body class="jot-site">/, route);
+    assert.ok(html.match(/<body class="([^"]*)"/)?.[1].split(/\s+/).includes('jot-site'), route);
   }
   const home = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
   assert.ok(!/<(?:textarea|input|select|form)\b|contenteditable=/i.test(home), 'the homepage stays informational');

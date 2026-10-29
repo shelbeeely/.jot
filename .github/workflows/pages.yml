@@ -37,7 +37,7 @@ jobs:
           node tools/build-examples.mjs --check
           node tools/manifest.cjs --check
           cmp converter/convert.mjs site/dist/jot/convert.mjs
-          for f in jot container proofread charts preview handwriting styles palette export automation connect include query health vendor/chart vendor/marked; do cmp parser/$f.mjs site/dist/jot/$f.mjs; done
+          for f in jot timezone container proofread charts preview handwriting styles palette export automation connect include query health vendor/chart vendor/marked; do cmp parser/$f.mjs site/dist/jot/$f.mjs; done
           diff -r parser/fonts site/dist/jot/fonts
           node vscode/sync.mjs --check
           python3 tools/build-parser-zip.py --check
@@ -47,7 +47,7 @@ jobs:
 
       - name: Tests
         run: |
-          node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/palette-test.mjs parser/automation-test.mjs parser/include-test.mjs parser/links-test.mjs parser/query-test.mjs parser/health-test.mjs cli/test.mjs site/test-editor.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
+          node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/test.mjs parser/timezone-test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/palette-test.mjs parser/automation-test.mjs parser/include-test.mjs parser/links-test.mjs parser/query-test.mjs parser/health-test.mjs cli/test.mjs site/test-editor.mjs site/test-writing-tools.mjs site/test-writer-search.mjs site/test-writer-workspace.mjs site/test-writer-templates.mjs site/test-editor-capture.mjs site/test-autocomplete.mjs site/test-reference-books.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
           node site/test-core.cjs
 
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

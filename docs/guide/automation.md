@@ -13,9 +13,13 @@ sent to Spotify, and the `.jot` file stays the master copy.
 
 Above the writing, in **Write**:
 
+**Commands** (Ctrl+K / Cmd+K) searches these tools together with formatting, find/replace, the outline and editable entry templates.
+On mobile, use **All tools** to expand the secondary buttons. Each template is reviewed before insertion; its prompts stay blank
+until you fill them in. Writing tools, templates, suggestions and search run locally.
+
 | Tool | What it does |
 | --- | --- |
-| **Listening ♫** | adds a plain-text music note, optionally filled from Spotify after sign-in and review |
+| **Music & background media** | adds a plain-text music note, optionally filled from Spotify after sign-in and review |
 | **Today ＋** | adds today's dated entry, if there is none, and puts the cursor in it |
 | **Carry tasks forward →** | open tasks from earlier days are marked `[>]` (moved) where they were, and written again under today |
 | **Week review** | adds a review of this week: how many tasks were done, which are still open, each number's average, a chart and two questions |
@@ -194,7 +198,7 @@ source: open-meteo.com
 
 ## Listening notes
 
-In **Write**, choose **Listening ♫**. Enter a song or episode title, artist, optional album and a share link from Spotify, YouTube
+In **Write**, choose **Music & background media**. Enter a song or episode title, artist, optional album and a share link from Spotify, YouTube
 Music or another service. Add a few words about the setting, then choose **Add to this entry**. The note is inserted at your writing
 cursor. It is ordinary Jot/Markdown that you can type or edit in any text editor:
 
@@ -217,13 +221,26 @@ change the journal. Paused playback is labelled as paused. Playback is not polle
 The manual option works without a connection. YouTube Music links can be entered manually; this website does not read another
 browser tab or Android's system media sessions. No microphone or media-file capture is part of this tool.
 
+### Music while you write
+
+In **Write → Music player ♫**, paste a Spotify share link and choose **Load Spotify player**. Tracks, albums, playlists,
+artists, episodes and shows are supported. The player stays above the writing as you scroll and keeps the same music while you
+edit, switch preview tabs or enter focus mode. **Choose music** lets you replace it. **Close player** removes the embed and ends
+its playback; opening or closing the player never changes your journal.
+
+Spotify is contacted only when you load a player. It may use cookies or ask you to sign in inside its player; playback and
+availability depend on Spotify, your account, browser and region. No Spotify developer app is needed for this embed, and Jot
+never receives the embed's account credentials. This is separate from the optional currently-playing capture connection below.
+If playback is unavailable, use **Open in Spotify**. Reloading the workspace does not reload music automatically. The player is
+excluded from journal downloads, page exports and print.
+
 ### Spotify setup
 
 Spotify requires a registered developer app. The site has no Client ID configured by default, so the connection needs this one-time
 setup before live Spotify capture can work:
 
 1. Open the [Spotify developer dashboard](https://developer.spotify.com/dashboard) and create or select a Web API app.
-2. In Jot's **Listening → Spotify connection settings**, copy the displayed redirect URL. Register that **exact URL** in the app.
+2. In Jot's **Music & background media → Spotify connection settings**, copy the displayed redirect URL. Register that **exact URL** in the app.
    It ends in `/write/spotify-callback.html`. Production must use HTTPS. For local testing, open the site using `127.0.0.1` rather
    than `localhost`, and register its callback URL too.
 3. Copy the app's **public Client ID** into Jot. Do not enter a client secret. The public ID is remembered in this browser.
@@ -265,3 +282,81 @@ Editing the song fields clears the fetched provenance so it is not attached to a
 Only the requested username and, for Last.fm, application API key are sent to the selected service. The browser remembers a username
 after a successful fetch; no journal text is sent. There is no background polling, account write access or scrobble submission.
 Service errors leave existing writing and review fields unchanged. Requests are spaced and rate limits respected.
+
+## Albums, playlists and Spotify short links
+
+An entry can hold any number of music references:
+
+```jot
+#### Music for this week
+
+- Album: [An album to return to](spotify:album:4aawyAB9vmqN3uQ7FjRGTy)
+- Playlist: [My writing mix](spotify:playlist:37i9dQZF1DXcBWIGoYBM5M)
+- spotify: track:11dFghVXANMlKmJXsNCbNl
+```
+
+Copy a Spotify URI, or keep the type and ID from a share URL: `https://open.spotify.com/album/ID` becomes `spotify:album:ID`.
+The types are `track`, `album`, `playlist`, `artist`, `episode` and `show`. A space after `spotify:` is optional.
+Named Markdown links show your label; bare short references show “Spotify album”, “Spotify playlist”, and so on. Each becomes
+an ordinary link in the page preview and HTML export. Reading an entry does not contact Spotify or load music automatically.
+Paste the same short reference into **Music player ♫** to load it for listening while you write. These are links to collections;
+the music itself is not copied into your journal or its `.jotz` package. You can always use a normal HTTPS link for other services.
+
+In **Music & background media → Songs, albums, playlists and more**, paste one reference per line. An optional name goes before ` | `,
+for example `Writing mix | spotify:playlist:37i9dQZF1DXcBWIGoYBM5M`. **Add to this entry** inserts the whole list at once;
+no title, account connection or now-playing fetch is required. You can mix Spotify references and HTTPS music links from other
+services. Review the list before adding; an invalid line is reported without inserting a partial note.
+
+## IMDb and YouTube background media
+
+An entry can collect films, TV, episodes, videos and playlists alongside music:
+
+```jot
+#### Background media
+
+- [Background film](imdb:tt0133093)
+- [TV series](imdb:tt0386676)
+- [Video](youtube:dQw4w9WgXcQ)
+- [Video playlist](youtube:playlist:PL1234567890abcdef)
+```
+
+Use an actual provider ID from the link you want to save. IMDb uses `imdb:tt…` for title IDs (films, series and individual
+episodes). YouTube uses `youtube:VIDEO_ID`, optionally `youtube:video:VIDEO_ID`, or `youtube:playlist:PLAYLIST_ID`.
+A space after the first colon is optional. Bare shortcodes show a provider/type label; Markdown links give them a name.
+IMDb identifies the title and does not provide playback. These references do not fetch titles, ratings or thumbnails or embed
+videos automatically. The shared preview and HTML export expand them into ordinary HTTPS links.
+
+In **Music & background media**, paste one reference per line, optionally `Name | reference`, and add the mixed list to the entry.
+Full IMDb title URLs and simple YouTube video/playlist URLs are shortened on insertion. Video links with timestamps or both a
+video and a playlist remain full URLs so their context is preserved. Existing journal writing is never automatically rewritten.
+The persistent writing player remains Spotify-only; YouTube references open YouTube when you follow them.
+
+## Find music IDs while typing
+
+Open **Music & background media → Find a song or album ID** and enable **Search MusicBrainz as I type**. Choose song recording,
+album (release group), album edition, composition or artist, then type at least three characters in the dedicated search box.
+After a short pause, suggestions show names, artists and available dates, versions or durations. Choose a result with the mouse
+or Tab and Enter. It goes into the reference review list; **Add to this entry** is still needed to change the journal.
+
+Only the search box text and chosen entity type are sent to MusicBrainz, with no account cookies or journal content. Search is off
+by default and turns off when the dialog closes. Requests are debounced/rate-limited, old searches are cancelled, and recent results
+are cached only for this page session. Busy/offline services show an error and leave manual entry available. Result names are not
+verified matches: check the recording/version or album edition before selecting one.
+
+Database links use `musicbrainz:recording:UUID`, `musicbrainz:release-group:UUID`, `musicbrainz:release:UUID`,
+`musicbrainz:work:UUID` or `musicbrainz:artist:UUID`. They identify the music independently of Spotify or YouTube. Existing service
+links remain useful for playback; the lookup does not guess a corresponding playback URL. IMDb and YouTube remain manual links
+or shortcodes; their online search is not part of this MusicBrainz lookup.
+
+## Entry timezones and calendar export
+
+Document `Timezone:` metadata supplies a default; `@timezone: Europe/London` inside a dated entry overrides it for that entry only.
+The next dated entry resets to the document default. **Entry timezone** in Write can add or remove an override. Entry dates and
+written clock times are preserved. Calendar export converts uniquely resolved timed events to UTC. Invalid declared zones,
+nonexistent times and repeated daylight-saving hours stop timed export instead of guessing. Use a complete RFC 3339 event
+`start`/`at` and, when supplied, `end` with explicit offsets to disambiguate. All-day dates stay dates. Multi-file CLI export keeps
+each file's timezone context independent. No declared zone means floating calendar times, not a device-zone assumption.
+
+**Insert current time** is a separate explicit capture action, producing a full timestamp with its offset. **Capture location**
+uses Chromium's one-time geolocation permission and a review step; it neither tracks in the background nor infers timezone or
+address. See the writing guide for the source format and failure behavior.
