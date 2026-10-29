@@ -1,3 +1,4 @@
+import { applyTimezones } from './timezone.mjs';
 /** Jot JavaScript parser, draft 0.1. Source-preserving block parser + Marked 17.0.5. */
 import { Marked } from './vendor/marked.mjs';
 import { COLOR, isPaletteRecord } from './palette.mjs';
@@ -47,7 +48,59 @@ const colorSpan = { name: 'colorSpan', level: 'inline', start: (src) => {
   const text = src.slice(1, end);
   return { type: 'colorSpan', raw: src.slice(0, end + 1 + attrs[0].length), text, colors, tokens: this.lexer.inlineTokens(text) };
 } };
+// Spotify's own URI form, with optional horizontal space after the provider prefix. Never fetch metadata.
+export function spotifyURL(value) {
+  const m = /^spotify:[ \t]*(track|album|playlist|artist|episode|show):([A-Za-z0-9]{22})$/.exec(String(value).trim());
+  return m ? `https://open.spotify.com/${m[1]}/${m[2]}` : null;
+}
+// Supported shortcodes resolve only to fixed provider hosts. No metadata requests.
+export function mediaURL(value) {
+  const text = String(value).trim(), spotify = spotifyURL(text);
+  if (spotify) return spotify;
+  const mb = /^musicbrainz:[ \t]*(recording|release|release-group|work|artist):([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/.exec(text);
+  if (mb) return `https://musicbrainz.org/${mb[1]}/${mb[2].toLowerCase()}`;
+  let m = /^imdb:[ \t]*(tt[0-9]{7,10})$/.exec(text);
+  if (m) return `https://www.imdb.com/title/${m[1]}/`;
+  m = /^youtube:[ \t]*(?:video:)?([A-Za-z0-9_-]{11})$/.exec(text);
+  if (m) return `https://www.youtube.com/watch?v=${m[1]}`;
+  m = /^youtube:[ \t]*playlist:([A-Za-z0-9_-]{10,100})$/.exec(text);
+  return m ? `https://www.youtube.com/playlist?list=${m[1]}` : null;
+}
+const musicBrainzLink = { name: 'musicBrainzLink', level: 'inline',
+  start(src) { const m = /\bmusicbrainz:/.exec(src); return m ? m.index : undefined; },
+  tokenizer(src) {
+    if (this.lexer.state.inLink) return;
+    const m = /^musicbrainz:[ \t]*(recording|release|release-group|work|artist):[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(?![A-Za-z0-9_-])/.exec(src);
+    if (!m) return;
+    const text = `MusicBrainz ${m[1]}`;
+    return { type: 'link', raw: m[0], href: mediaURL(m[0]), text, tokens: [{ type: 'text', raw: text, text }] };
+  }
+};
+const backgroundMediaLink = { name: 'backgroundMediaLink', level: 'inline',
+  start(src) { const m = /\b(?:imdb|youtube):/.exec(src); return m ? m.index : undefined; },
+  tokenizer(src) {
+    if (this.lexer.state.inLink) return;
+    const m = /^(?:imdb:[ \t]*tt[0-9]{7,10}|youtube:[ \t]*(?:playlist:[A-Za-z0-9_-]{10,100}|(?:video:)?[A-Za-z0-9_-]{11}))(?![A-Za-z0-9_-])/.exec(src);
+    if (!m) return;
+    const href = mediaURL(m[0]); if (!href) return;
+    const text = m[0].startsWith('imdb:') ? 'IMDb title' : m[0].includes('playlist:') ? 'YouTube playlist' : 'YouTube video';
+    return { type: 'link', raw: m[0], href, text, tokens: [{ type: 'text', raw: text, text }] };
+  }
+};
+const spotifyLink = { name: 'spotifyLink', level: 'inline',
+  start(src) { const m = /\bspotify:[ \t]*(?:track|album|playlist|artist|episode|show):/.exec(src); return m ? m.index : undefined; },
+  tokenizer(src) {
+    if (this.lexer.state.inLink) return;
+    const m = /^spotify:[ \t]*(track|album|playlist|artist|episode|show):([A-Za-z0-9]{22})(?![A-Za-z0-9_-])/.exec(src);
+    if (!m) return;
+    const text = `Spotify ${m[1]}`;
+    return { type: 'link', raw: m[0], href: spotifyURL(m[0]), text, tokens: [{ type: 'text', raw: text, text }] };
+  }
+};
 const EXTENSIONS = [
+  musicBrainzLink,
+  backgroundMediaLink,
+  spotifyLink,
   colorSpan,
   inlineMark('mark', '='),
   inlineMark('ins', '+'),
@@ -157,7 +210,7 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
  flush();
  const ids=new Map(),dupIds=new Set();for(const n of ast.nodes)if(n.id){if(ids.has(n.id)){dupIds.add(n.id);ast.diagnostics.push({severity:'error',code:'duplicate-id',message:'Record ID occurs more than once: '+n.id,start:n.start,end:n.end});}else ids.set(n.id,n);}
  let entry=null;for(let j=0;j<ast.nodes.length;j++){const n=ast.nodes[j];if(n.date){if(entry)entry.endNode=j;entry={date:n.date,heading:n.text,startNode:j,endNode:ast.nodes.length};ast.entries.push(entry);}}
- if(journal)links(ast,ids,dupIds);
+ if(journal){applyTimezones(ast);links(ast,ids,dupIds); }
  return ast;
 }
 // Links (spec 4.2.2). Targets: a record's unique #id, and a dated heading's date (its first heading; a record ID of the same name wins).
@@ -189,5 +242,5 @@ function links(ast,ids,dupIds){
 }
 /** Exact round trip. This does not serialize mutations to derived nodes. */
 export function stringify(ast){if(!ast||typeof ast.source!=='string')throw new TypeError('Expected a Jot AST with original source');return ast.source;}
-export const markdownEngine={name:'Marked',version:'17.0.5',dialect:'GFM',extensions:['colorSpan','mark','ins','sup','footnote','footnoteRef','center','callout']};
+export const markdownEngine={name:'Marked',version:'17.0.5',dialect:'GFM',extensions:['musicBrainzLink','backgroundMediaLink','spotifyLink','colorSpan','mark','ins','sup','footnote','footnoteRef','center','callout']};
 export default {parse,stringify,markdownEngine};

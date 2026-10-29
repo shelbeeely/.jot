@@ -4,6 +4,17 @@ const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
 const http = require('node:http'), fs = require('node:fs'), path = require('node:path'), os = require('node:os');
 const root = path.join(__dirname, 'dist'), output = fs.mkdtempSync(path.join(os.tmpdir(), 'jot-colors-'));
+async function command(page, label) {
+  await page.click('#writerCommandsBtn'); await page.fill('#writerCommandsSearch', label);
+  await page.locator('#writerCommandsList strong').filter({ hasText: new RegExp('^' + label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$') }).locator('..').click();
+}
+async function openColorTools(page) {
+  if (!await page.locator('.writer-format').isVisible()) await command(page, 'Formatting controls');
+  if (!await page.locator('#writerColorTools').isVisible()) await page.click('#writerColorsToggle');
+}
+async function openPreview(page) {
+  if (await page.locator('html').getAttribute('data-writer-view') === 'write') await command(page, 'Side by side');
+}
 const server = http.createServer((req, res) => {
   let file = path.resolve(root, '.' + decodeURIComponent(req.url.split('?')[0]));
   if (!file.startsWith(root + path.sep) && file !== root) { res.writeHead(403); return res.end(); }
@@ -22,7 +33,9 @@ const server = http.createServer((req, res) => {
     const page = await browser.newPage({viewport:{width:1440,height:1100}}), errors = [];
     page.on('pageerror', e => errors.push(e.message));
     const url = `http://127.0.0.1:${server.address().port}/write/`;
-    await page.goto(url);
+    await page.goto(url); await require('./test-source-workspace.cjs')(page);
+    assert.equal(await page.inputValue('#writing'), '');
+    await openPreview(page); await openColorTools(page);
     assert.equal(await page.inputValue('#look'), 'hand');
     assert.equal(await page.inputValue('#formatColor'), '#fddd13');
     assert.equal(await page.locator('#formatPreset optgroup option').count(), 71);
@@ -70,14 +83,16 @@ const server = http.createServer((req, res) => {
     const html = fs.readFileSync(await exported.path(),'utf8');
     assert.ok(html.includes('data:font/woff2;base64,') && html.includes('--jot-strike') && html.includes('--jot-underline'));
     assert.ok(!/<script\b/i.test(html));
-    await page.reload();
+    await page.reload(); await require('./test-source-workspace.cjs')(page);
+    await openPreview(page); await openColorTools(page);
     assert.equal(await page.inputValue('#writing'), source);
     assert.equal(await page.inputValue('#look'), 'hand');
     await selectAllWords(); await page.click('#clearColor');
     assert.equal(await page.inputValue('#writing'), '### 2026-10-26\n\nColorful handwriting');
     await page.locator('#writing').press('Control+z');
     assert.equal(await page.inputValue('#writing'), source);
-    await page.selectOption('#look','typed'); await page.reload();
+    await page.selectOption('#look','typed'); await page.reload(); await require('./test-source-workspace.cjs')(page);
+    await openPreview(page);
     assert.equal(await page.inputValue('#look'), 'typed', 'preserve an existing explicit Typed preference');
     assert.equal(await page.locator('#paperPreview .jot-colors del').first().evaluate(e=>getComputedStyle(e).textDecorationColor),'rgb(192, 57, 43)');
     assert.equal(await page.locator('#paperPreview .jot-colors ins').first().evaluate(e=>getComputedStyle(e).textDecorationColor),'rgb(36, 90, 194)');
@@ -93,7 +108,7 @@ const server = http.createServer((req, res) => {
     const rewritten = await strokes();
     assert.notDeepEqual(rewritten,firstStrokes);
     assert.equal(await page.inputValue('#writing'), gallery, 'Rewrite does not alter the source');
-    await page.reload(); await page.evaluate(()=>document.querySelector('#paperPreview').jotReady);
+    await page.reload(); await require('./test-source-workspace.cjs')(page); await openPreview(page); await page.evaluate(()=>document.querySelector('#paperPreview').jotReady);
     assert.deepEqual(await strokes(),rewritten, 'saved seed restores the same strokes');
     await page.emulateMedia({media:'print'});
     assert.deepEqual(await strokes(),rewritten, 'print uses the exact same highlight paths');

@@ -10,7 +10,7 @@ a day, a month or an ongoing journal in one file, then read it as formatted page
 Your writing stays in files you can open in a text editor. The browser workspace, command-line tools and VS Code extension share
 one parser and page renderer.
 
-- **Write your way:** freeform entries, reusable templates, tasks, prompts and measurements.
+- **Write your way:** mobile and desktop writing, formatting shortcuts, find/replace, an outline, reusable templates, tasks and measurements.
 - **Make it yours:** handwritten fonts, dot grids, inline colors and Journal, Notes or Plain page styles.
 - **Keep and share:** plain-text journals, packaged attachments, printable pages and standalone HTML exports.
 - **Keep it private:** lock a journal with a passphrase, recovery code or passkey; bring in years of posts from your social media exports.

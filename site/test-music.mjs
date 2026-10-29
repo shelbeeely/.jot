@@ -86,3 +86,49 @@ test('scrobble errors, empty data and rate-limit backoff are recoverable', async
   await assert.rejects(()=>c.read({provider:'listenbrainz',username:'example'}),/limiting/);time=2000;await assert.rejects(()=>c.read({provider:'listenbrainz',username:'example'}),/wait/);assert.equal(calls,1);
   assert.deepEqual(await createScrobbleClient({fetchImpl:async()=>json({payload:{listens:[]}})}).read({provider:'listenbrainz',username:'example'}),[]);
 });
+
+test('an entry can collect several named albums, playlists and other links without a now-playing title', () => {
+  const refs = 'Album | spotify: album:4aawyAB9vmqN3uQ7FjRGTy\nMix | https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M?si=ignored\nBand | https://example.com/music';
+  const note = listeningNote({ references: refs, capturedAt: '2026-10-27T12:00:00Z' });
+  assert.match(note, /#### Background media/); assert.match(note, /\[Album\]\(spotify:album:/); assert.match(note, /\[Mix\]\(spotify:playlist:/);
+  assert.match(note, /\[Band\]\(https:\/\/example.com\/music\)/); assert.ok(!note.includes('?si=')); assert.ok(!note.includes('playing now'));
+  assert.deepEqual(parse(note).diagnostics, []);
+  assert.throws(() => listeningNote({ references: 'javascript:alert(1)' }), /reference 1/);
+  assert.throws(() => listeningNote({ references: 'https://user:secret@example.com' }));
+  assert.throws(() => listeningNote({ references: 'https://example.com\nnot-a-link' }), /reference 2/);
+  const injected = listeningNote({ references: '[x] <script> | spotify:album:4aawyAB9vmqN3uQ7FjRGTy' });
+  assert.equal(parse(injected).nodes.filter((n) => n.type === 'task').length, 0);
+});
+
+
+test('background media mixes IMDb, YouTube videos/playlists and music without fetching metadata', () => {
+  const note = listeningNote({ references: 'Film | imdb: tt0133093\nTV | https://www.imdb.com/title/tt0386676/?ref_=x\nEssay | https://youtu.be/dQw4w9WgXcQ?si=tracking\nPlaylist | youtube:playlist:PL1234567890abcdef\nTimed clip | https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=30' });
+  assert.match(note, /\[Film\]\(imdb:tt0133093\)/); assert.match(note, /\[TV\]\(imdb:tt0386676\)/);
+  assert.match(note, /\[Essay\]\(youtube:dQw4w9WgXcQ\)/); assert.match(note, /\[Playlist\]\(youtube:playlist:PL1234567890abcdef\)/);
+  assert.match(note, /v=dQw4w9WgXcQ&t=30/); assert.deepEqual(parse(note).diagnostics, []);
+  for (const ref of ['imdb:tt123', 'youtube:bad', 'youtube:javascript:alert(1)', 'https://name:secret@www.imdb.com/title/tt0133093/']) assert.throws(() => listeningNote({ references: ref }));
+});
+
+
+test('MusicBrainz lookup identifies recordings and editions, caches results and respects backoff', async () => {
+  const { createMusicLookup, lookupResults } = await import('./dist/media-lookup.mjs');
+  const uuid = '12345678-1234-4234-8234-123456789abc';
+  const data = { recordings: [null, { id: 'bad', title: 'Skip' }, { id: uuid, title: '<script>Song</script>', length: 123000, 'artist-credit': [{ name: 'An artist' }], 'first-release-date': '2000', disambiguation: 'live' }] };
+  const items = lookupResults(data, 'recording'); assert.equal(items.length, 1);
+  assert.match(items[0].label, /An artist.*2000.*live.*2:03/);
+  assert.equal(items[0].reference, 'musicbrainz:recording:' + uuid);
+  assert.deepEqual(parse(listeningNote({ references: items[0].label + ' | ' + items[0].reference })).diagnostics, []);
+  let clock = 1000, count = 0, busy = false;
+  const client = createMusicLookup({ now: () => clock, fetchImpl: async (url, options) => {
+    count++; assert.equal(options.credentials, 'omit'); assert.equal(options.referrerPolicy, 'no-referrer');
+    assert.equal(new URL(url).hostname, 'musicbrainz.org'); assert.equal(new URL(url).searchParams.get('limit'), '8');
+    return busy ? new Response('{}', { status: 503, headers: { 'retry-after': '12' } }) : json(data);
+  } });
+  assert.equal((await client.search({ query: 'Song', type: 'recording' })).length, 1);
+  await client.search({ query: 'Song', type: 'recording' }); assert.equal(count, 1);
+  await assert.rejects(client.search({ query: 'Other', type: 'recording' }), /wait/);
+  clock += 1100; busy = true;
+  await assert.rejects(client.search({ query: 'Other', type: 'recording' }), /busy/);
+  assert.equal(client.wait(), 12000);
+  assert.deepEqual(await client.search({ query: 'x', type: 'recording' }), []);
+});

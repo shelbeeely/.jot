@@ -17,7 +17,7 @@ const profiles = canonical.profiles;
 
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 // §5.1 record types; applications may add x-organization- types.
-const TYPES = new Set(['task', 'event', 'reflection', 'prompt', 'response', 'measurement', 'scale', 'habit', 'observation', 'session', 'period', 'collection', 'quotation', 'attachment', 'layout', 'review', 'consent', 'medication', 'correction', 'relation', 'chart', 'query', 'sync', 'palette', 'moodboard']);
+const TYPES = new Set(['task', 'event', 'reflection', 'prompt', 'response', 'measurement', 'scale', 'habit', 'observation', 'session', 'period', 'collection', 'quotation', 'attachment', 'layout', 'review', 'consent', 'medication', 'correction', 'relation', 'person', 'place', 'chart', 'query', 'sync', 'palette', 'moodboard']);
 // §5.1: available to every profile, so an example may use them without the profile listing them.
 const COMMON = new Set(['body', 'source', 'relation', 'label', 'author', 'privacy', 'created', 'modified']);
 

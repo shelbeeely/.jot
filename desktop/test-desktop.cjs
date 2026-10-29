@@ -46,7 +46,7 @@ async function wd(method, url, body) {
     // Parity: every page loads and renders in the app's web view, with the bridge present
     await until(`return document.readyState === 'complete' && !!document.querySelector('#writing')`, 'the writer');
     assert.equal(await run('return typeof window.jotDesktop === "object" && window.jotDesktop.app'), 'tauri');
-    await until(`return document.querySelector('#paperPreview') && document.querySelector('#paperPreview').textContent.includes('October notebook')`, 'the writer previews its starter journal');
+    await until(`return !!document.querySelector('[contenteditable="true"]') && document.querySelector('#paperPreview') && document.querySelector('#paperPreview').textContent.trim().length > 0`, 'the writer, its live editor and its page preview');
     checks.push('writer renders');
     // What this web view offers the pages: locking needs Web Crypto; passkeys need WebAuthn; voice practice needs a microphone API
     const caps = await run(`return { secure: isSecureContext, subtle: !!(crypto && crypto.subtle), webauthn: typeof PublicKeyCredential !== 'undefined', mic: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia), compression: typeof DecompressionStream !== 'undefined' }`);

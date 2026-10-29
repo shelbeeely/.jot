@@ -1,4 +1,4 @@
-// One stylesheet for site chrome and previews, paper in both color schemes, and an informational homepage.
+// Shared rendered paper, a plain writer shell, both color schemes, and an informational homepage.
 // Run: node site/test-paper-ui.cjs (Playwright, Chromium, axe-core).
 const { chromium } = require('playwright');
 const http = require('node:http'), fs = require('node:fs'), path = require('node:path'), assert = require('node:assert/strict');
@@ -24,12 +24,24 @@ const srv = http.createServer((q, r) => {
       assert.equal(await p.$eval('#jot-hand-css', (s) => new URL(s.href).pathname), '/jot/handwriting.css');
       const style = await p.evaluate(() => ({ font: getComputedStyle(document.body).fontFamily, texture: getComputedStyle(document.body).backgroundImage,
         ink: getComputedStyle(document.body).color, paper: getComputedStyle(document.documentElement).getPropertyValue('--jot-paper').trim(), wide: document.documentElement.scrollWidth - innerWidth }));
-      assert.match(style.font, /Jot Caveat/); assert.match(style.texture, /svg/);
+      if (route === '/write/') {
+        assert.doesNotMatch(style.font, /Caveat|cursive/i, 'the writing workspace uses a standard reading font');
+        assert.equal(style.texture, 'none', 'the writing workspace has a plain background');
+      } else { assert.match(style.font, /Jot Caveat/); assert.match(style.texture, /svg/); }
       assert.equal(style.paper, mode === 'light' ? '#fffdf6' : '#242622'); assert.equal(style.wide, 0, `${mode} ${route}: mobile width`);
       if (route === '/write/') {
+        assert.equal(await p.inputValue('#writing'), '', 'a first visit opens blank writing');
+        assert.equal(await p.locator('html').getAttribute('data-writer-view'), 'write');
+        assert.equal(await p.locator('.preview-pane').isVisible(), false);
         const picker = await p.locator('#formatPreset optgroup').evaluateAll((groups) => groups.filter((group) => group.label.startsWith('Mildliner')).flatMap((group) => [...group.children].map((option) => option.value)));
         const reference = await p.evaluate(async () => Object.values((await import('/jot/palettes.mjs')).mildlinerPalettes).flat().map(([, hex]) => '#' + hex.toLowerCase()));
         assert.deepEqual(picker, reference);
+        await p.fill('#writing', '### 2026-10-26\n\nA page of writing.');
+        await p.click('#writerPreviewToggle');
+        await p.$eval('#paperPreview', async (paper) => { await paper.jotReady; });
+        assert.match(await p.$eval('#paperPreview', (paper) => getComputedStyle(paper).fontFamily), /Jot Caveat/, 'rendered journal paper retains handwriting');
+        assert.equal(await p.$eval('#paperPreview', (paper) => getComputedStyle(paper).backgroundColor), mode === 'light' ? 'rgb(255, 253, 246)' : 'rgb(36, 38, 34)');
+        await p.click('#writerPreviewToggle');
       }
       if (route === '/') {
         await p.waitForFunction(() => [...document.querySelectorAll('.jot-page')].every((page) => page.jotGrid));
@@ -78,6 +90,6 @@ const srv = http.createServer((q, r) => {
       await p.close();
     }
     assert.deepEqual(errors, []);
-    console.log('PASS: one shared stylesheet, cream/charcoal paper, handwriting, homepage color and feature examples without an editor, print, mobile width and accessibility across six routes in both modes.');
+    console.log('PASS: shared cream/charcoal handwritten paper, plain writer shell, homepage color and feature examples without an editor, print, mobile width and accessibility across six routes in both modes.');
   } finally { await browser.close(); srv.close(); }
 })().catch((e) => { console.error(e); srv.close(); process.exitCode = 1; });

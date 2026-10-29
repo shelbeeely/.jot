@@ -77,11 +77,13 @@ const srv = http.createServer((q, r) => {
     // One-day file into Write: the geometry and hints are read from the document itself.
     const w = await browser.newPage({ acceptDownloads: true }); w.on('pageerror', (e) => errors.push(e.message));
     await w.goto(base + '/write/');
+    await w.click('#writerPreviewToggle');
     await w.setInputFiles('#openFile', { name: 'grid.jot', mimeType: 'text/plain', buffer: Buffer.from(jot) });
     await w.waitForFunction(() => document.querySelector('#paperPreview [data-block-id="notes"]')?.dataset.usedRows);
     assert.equal(await w.inputValue('#journalPaper'), 'Letter'); assert.equal(await w.inputValue('#pitch'), '5');
     assert.equal(await w.$eval('#paperPreview [data-block-id="notes"]', (e) => +e.dataset.usedRows), 8);
     await w.selectOption('#look', 'typed'); await w.reload();
+    await w.click('#writerPreviewToggle');
     await w.waitForFunction(() => document.querySelector('#paperPreview [data-block-id="notes"]')?.dataset.usedRows);
     assert.equal(await w.inputValue('#look'), 'hand', 'saved layout is restored after unrelated typed preferences');
     // Every hand and pitch keeps a checkbox in the first grid cell and visible text between the dot rows.
