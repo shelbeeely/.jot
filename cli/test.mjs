@@ -158,7 +158,13 @@ test('lock and unlock: an encrypted copy, the same bytes back, nothing overwritt
   const u = await run(['unlock', locked, '-o', path.join(d, 'back.jot')], env);
   assert.equal(u.code, 0, u.stderr); assert.equal(fs.readFileSync(path.join(d, 'back.jot'), 'utf8'), J); assert.match(u.stderr, /not encrypted/);
   assert.equal((await run(['unlock', locked, '-o', '-'], env)).stdout, J);
-  const wrong = await run(['unlock', locked, '-o', '-'], { JOT_PASSPHRASE: 'nope' }); assert.equal(wrong.code, 1); assert.match(wrong.stderr, /passphrase is wrong, or the file was changed/);
+  const wrong = await run(['unlock', locked, '-o', '-'], { JOT_PASSPHRASE: 'nope' }); assert.equal(wrong.code, 1); assert.match(wrong.stderr, /does not open this journal, or the file was changed/);
   const none = await run(['unlock', locked, '-o', '-'], { JOT_PASSPHRASE: '' }); assert.equal(none.code, 1); assert.match(none.stderr, /passphrase is needed/);
   assert.match((await run(['unlock', f, '-o', '-'], env)).stderr, /is not locked/);
+  // A recovery code: shown once when locking, then it opens the journal like the passphrase.
+  const r = await run(['lock', f, '-o', path.join(d, 'r.jotlock'), '--iterations', '100000', '--recovery-code'], env);
+  const rc = (r.stderr.match(/Recovery code, shown this once: (\S+)/) || [])[1]; assert.match(rc, /^(\w{5}-){4}\w{5}$/, r.stderr);
+  assert.equal((await run(['lock-info', path.join(d, 'r.jotlock')])).stdout, 'passphrase\nrecovery code\n');
+  assert.equal((await run(['unlock', path.join(d, 'r.jotlock'), '-o', '-', '--recovery'], { JOT_RECOVERY_CODE: rc.toLowerCase() })).stdout, J);
+  assert.match((await run(['unlock', path.join(d, 'r.jotlock'), '-o', '-', '--recovery'], { JOT_RECOVERY_CODE: 'AAAAA-AAAAA-AAAAA-AAAAA-AAAAA' })).stderr, /does not open this journal/);
 });

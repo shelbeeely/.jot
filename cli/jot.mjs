@@ -12,7 +12,7 @@ import Q from '../parser/query.mjs';
 import H from '../parser/health.mjs';
 import { sendWebhook, todoistAdd, weather } from '../parser/connect.mjs';
 import { flatten, notice } from '../parser/include.mjs';
-import { lock, unlock, isLocked, kindOf, LOCK_EXTENSION, DEFAULT_ITERATIONS } from '../parser/lock.mjs';
+import { createLock, lock, unlock, isLocked, kindOf, waysIn, LOCK_EXTENSION, DEFAULT_ITERATIONS } from '../parser/lock.mjs';
 
 const HELP = `jot: tasks, events and numbers from .jot journals
 
@@ -47,10 +47,15 @@ Writing (one journal; --dry-run prints the new text instead):
   jot review <journal.jot> [--date DATE]                 a review of the week: done, open, the numbers, a chart
 
 Locking (a passphrase, from a hidden prompt or JOT_PASSPHRASE; never on the command line):
-  jot lock <journal.jot|.jotz> [-o out.jotlock] [--iterations N]
+  jot lock <journal.jot|.jotz> [-o out.jotlock] [--iterations N] [--recovery-code]
                                                          an encrypted copy that unlocks to the same bytes; the journal itself is
-                                                         left as it is. Without the passphrase nobody can unlock it, you included
-  jot unlock <journal.jotlock> [-o out | -o -]           the journal back (.jot or .jotz, by content); never over an existing file
+                                                         left as it is. --recovery-code also makes a code that opens it, shown
+                                                         once. Without one of them nobody can unlock it, you included
+  jot unlock <journal.jotlock> [-o out | -o -] [--recovery]
+                                                         the journal back (.jot or .jotz, by content); never over an existing file.
+                                                         --recovery: with the recovery code (hidden prompt or JOT_RECOVERY_CODE)
+  jot lock-info <journal.jotlock>                        its ways in: passphrase, recovery code, passkeys (which open it only on
+                                                         the site they were added on)
 
 Connections (only when you run them):
   jot post <url> <files…> [--open] [--since DATE]        POST the tasks, events and numbers as JSON to a webhook (Zapier, Make, n8n …)
@@ -74,7 +79,7 @@ async function main() {
   if (cmd === 'query') return query();
 
   if (cmd === 'check') return check();
-  if (cmd === 'lock' || cmd === 'unlock') return lockCmd();
+  if (cmd === 'lock' || cmd === 'unlock' || cmd === 'lock-info') return lockCmd();
   if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'import-health', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
   if (['tasks', 'events', 'numbers', 'ics', 'json', 'post'].includes(cmd)) {
     const url = cmd === 'post' ? args.shift() : null;
@@ -256,32 +261,41 @@ function hidden(prompt) {
     input.on('data', onData);
   });
 }
-async function passphrase(twice) {
-  if (process.env.JOT_PASSPHRASE) return process.env.JOT_PASSPHRASE;
-  if (!process.stdin.isTTY) fail('a passphrase is needed: run this at a terminal, or set JOT_PASSPHRASE');
-  const first = await hidden('Passphrase: ');
+async function passphrase(twice, what = 'Passphrase', env = 'JOT_PASSPHRASE') {
+  if (process.env[env]) return process.env[env];
+  if (!process.stdin.isTTY) fail(`a ${what.toLowerCase()} is needed: run this at a terminal, or set ${env}`);
+  const first = await hidden(`${what}: `);
   if (!first) fail('no passphrase given; nothing was changed');
   if (twice && first !== await hidden('Same passphrase again: ')) fail('the two passphrases differ; nothing was changed');
   return first;
 }
 
 async function lockCmd() {
-  const o = opt('-o'), iterations = Number(opt('--iterations', DEFAULT_ITERATIONS)), unknown = args.find((a) => a.startsWith('--')); if (unknown) fail(`${cmd}: unknown option ${unknown}`);
+  const o = opt('-o'), iterations = Number(opt('--iterations', DEFAULT_ITERATIONS)), withCode = flag('--recovery-code'), byCode = flag('--recovery');
+  const unknown = args.find((a) => a.startsWith('--')); if (unknown) fail(`${cmd}: unknown option ${unknown}`);
   const file = args.shift(); if (!file || args.length) fail(`${cmd}: one journal, please`);
   if (!fs.existsSync(file)) fail(`no such file: ${file}`);
   const raw = new Uint8Array(fs.readFileSync(file)), base = path.join(path.dirname(file), path.basename(file).replace(/\.[^.]*$/, ''));
+  if (cmd === 'lock-info') {
+    if (!isLocked(raw)) fail(`${file} is not locked`);
+    const names = { passphrase: 'passphrase', 'recovery-code': 'recovery code', 'webauthn-prf': 'passkey or security key' };
+    out(waysIn(raw).map((w) => `${names[w.type]}${w.label ? ` (${w.label})` : ''}${w.rp ? `, on ${w.rp} only (not from here)` : ''}`).join('\n'));
+    return;
+  }
   if (cmd === 'lock') {
     if (isLocked(raw)) fail(`${file} is already locked`);
     const target = o || base + LOCK_EXTENSION; if (fs.existsSync(target)) fail(`${target} exists; choose another name with -o`);
-    const locked = await lock(raw, await passphrase(true), { iterations });
+    const { session, recoveryCode } = await createLock(await passphrase(true), { iterations, recoveryCode: withCode });
+    const locked = await lock(raw, session);
     fs.writeFileSync(target, locked, { flag: 'wx' });
+    if (recoveryCode) process.stderr.write(`Recovery code, shown this once: ${recoveryCode}\nIt opens the journal like the passphrase. Keep it apart from the journal (a password manager, or on paper somewhere safe).\n`);
     process.stderr.write(`${file}: locked to ${target} (checked: it unlocks to the same bytes).\n` +
       `The unlocked ${path.basename(file)} is still there; delete it if you want only the locked copy (a deleted file can stay on a disk).\n` +
-      'Without the passphrase nobody can unlock it, you included: keep it in a password manager.\n');
+      (recoveryCode ? 'Without the passphrase or the recovery code' : 'Without the passphrase') + ' nobody can unlock it, you included: keep it in a password manager.\n');
     return;
   }
   if (!isLocked(raw)) fail(`${file} is not locked`);
-  const plain = await unlock(raw, await passphrase(false));
+  const plain = await unlock(raw, byCode ? { recoveryCode: await passphrase(false, 'Recovery code', 'JOT_RECOVERY_CODE') } : await passphrase(false));
   if (o === '-') { process.stdout.write(plain); return; }
   const target = o || base + '.' + kindOf(plain); if (fs.existsSync(target)) fail(`${target} exists; choose another name with -o`);
   fs.writeFileSync(target, plain, { flag: 'wx' });

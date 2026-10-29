@@ -33,16 +33,37 @@
 <p id="prefsStatus" class="small" role="status" aria-live="polite"></p><div class="prefs-actions"><button id="prefsReset" class="quiet" type="button">Back to standard settings</button><button id="prefsDone" class="button primary" type="button">Done</button></div></dialog>
 <dialog id="lockDialog" aria-labelledby="lockHeading"><div class="dialog-header"><h2 id="lockHeading">Lock this journal</h2><button id="lockClose" class="icon-button" type="button" aria-label="Close lock">✕</button></div>
 <form id="lockForm"><p class="small">Your journal is encrypted with a passphrase, in this browser, with its built-in cryptography. From then on this browser keeps only the encrypted copy, and <strong>Download locked</strong> saves a <code>.jotlock</code> that unlocks with Jot or a few lines of Python or Node.</p>
-<ul class="small lock-facts"><li><strong>There is no recovery.</strong> Jot never keeps or sends your passphrase. If you forget it, nobody can open this journal, you included. A password manager is a good place for it.</li><li>Copies you downloaded before are not locked. A locked file's name, size and dates still show.</li><li>It does not help if someone uses this browser while the journal is unlocked.</li></ul>
+<ul class="small lock-facts"><li><strong>Nobody can reset it.</strong> Jot never keeps or sends your passphrase. If you forget it and have no recovery code or passkey, nobody can open this journal, you included. A password manager is a good place for it.</li><li>Copies you downloaded before are not locked. A locked file's name, size and dates still show.</li><li>It does not help if someone uses this browser while the journal is unlocked.</li></ul>
 <input id="lockUser" class="pm-name" type="text" name="username" autocomplete="username" value="Jot journal" aria-hidden="true" tabindex="-1" readonly>
 <label for="lockPass">Passphrase</label><input id="lockPass" type="password" autocomplete="new-password" required>
 <label for="lockPass2">The same passphrase again</label><input id="lockPass2" type="password" autocomplete="new-password" required>
+<label class="lock-check"><input type="checkbox" id="lockRecovery" checked> Also make a recovery code: a second way in if the passphrase is forgotten, shown once</label>
+<p class="small">Passkeys and security keys (a phone, a YubiKey) can be added afterwards, under <strong>Ways in</strong>.</p>
 <p id="lockStatus" class="small" role="alert"></p><div class="prefs-actions"><button id="lockCancel" class="quiet" type="button">Cancel</button><button id="lockGo" class="button primary" type="submit">Lock this journal</button></div></form></dialog>
 <dialog id="unlockDialog" aria-labelledby="unlockHeading"><div class="dialog-header"><h2 id="unlockHeading">Unlock</h2><button id="unlockClose" class="icon-button" type="button" aria-label="Close unlock">✕</button></div>
 <form id="unlockForm"><p id="unlockWhat" class="small">Type the passphrase this journal was locked with.</p>
+<button id="unlockPasskey" class="button" type="button" hidden>Use a passkey or security key</button>
 <input id="unlockUser" class="pm-name" type="text" name="username" autocomplete="username" value="Jot journal" aria-hidden="true" tabindex="-1" readonly>
-<label for="unlockPass">Passphrase</label><input id="unlockPass" type="password" autocomplete="current-password" required>
+<label for="unlockPass" id="unlockPassLabel">Passphrase</label><input id="unlockPass" type="password" autocomplete="current-password" required>
+<button id="unlockUseCode" class="quiet lock-switch" type="button" aria-controls="unlockPass">Use a recovery code instead</button>
 <p id="unlockStatus" class="small" role="alert"></p><div class="prefs-actions"><button id="unlockCancel" class="quiet" type="button">Cancel</button><button id="unlockGo" class="button primary" type="submit">Unlock</button></div></form></dialog>
+<dialog id="codeDialog" aria-labelledby="codeHeading"><div class="dialog-header"><h2 id="codeHeading">Your recovery code</h2></div>
+<p class="small">It opens this journal like the passphrase does. It is shown <strong>only now</strong>, and Jot keeps no copy. Save it in a password manager or write it down, and keep it apart from the journal.</p>
+<p><code id="codeText" class="recovery-code"></code></p><p id="codeStatus" class="small" role="status"></p>
+<div class="prefs-actions"><button id="codeCopy" class="quiet" type="button">Copy</button><button id="codeDone" class="button primary" type="button">I have kept it</button></div></dialog>
+<dialog id="waysDialog" aria-labelledby="waysHeading"><div class="dialog-header"><h2 id="waysHeading">Ways in</h2><button id="waysClose" class="icon-button" type="button" aria-label="Close ways in">✕</button></div>
+<p class="small">Each of these opens this journal. A passphrase or a recovery code always stays, so it can be opened anywhere, with or without this site. Changes ask for one current way in first. Copies you downloaded before keep the ways in they had.</p>
+<ul id="waysList" class="ways-list"></ul>
+<fieldset class="ways-group"><legend>Add a passkey or security key</legend><p class="small">A passkey on this phone or computer, or a security key such as a YubiKey, unlocks with a touch, a fingerprint, your face or a PIN. It works only on this site (<span id="waysSite"></span>), and only with browsers and keys that support it. A synced passkey is as safe as the account it syncs with; and someone can make you unlock with your face or finger more easily than make you tell a passphrase.</p>
+<label for="passkeyLabel">A name for it (optional; anyone with the file can read it)</label><input id="passkeyLabel" maxlength="64" autocomplete="off" placeholder="Phone, YubiKey…">
+<button id="addPasskey" class="button" type="button">Add a passkey or security key</button></fieldset>
+<fieldset class="ways-group"><legend>Recovery code</legend><button id="newCode" class="button" type="button">Make a new recovery code</button><p class="small">A new code replaces the old one.</p></fieldset>
+<fieldset class="ways-group"><legend>Change the passphrase</legend>
+<input class="pm-name" type="text" name="username" autocomplete="username" id="changeUser" value="Jot journal" aria-hidden="true" tabindex="-1" readonly>
+<label for="newPass">New passphrase</label><input id="newPass" type="password" autocomplete="new-password"><label for="newPass2">The same again</label><input id="newPass2" type="password" autocomplete="new-password">
+<button id="changePass" class="button" type="button">Change the passphrase</button></fieldset>
+<p id="waysStatus" class="small" role="status" aria-live="polite"></p>
+<div class="prefs-actions"><button id="removeLock" class="quiet" type="button">Remove the lock</button><button id="waysDone" class="button primary" type="button">Done</button></div></dialog>
 <dialog id="captureDialog" aria-labelledby="captureHeading"><div class="dialog-header"><h2 id="captureHeading">Quick note for today</h2><button id="captureClose" class="icon-button" type="button" aria-label="Close quick note">✕</button></div>
 <form id="captureForm"><label for="captureText">One line, a fragment, anything</label><input id="captureText" maxlength="2000" autocomplete="off"><label class="capture-go"><input type="checkbox" id="captureGo"> Move my cursor to the note afterwards</label><p class="small">It goes at the end of today’s dated entry, which is made if there is none. Otherwise your cursor stays where it was. Undo (Ctrl+Z) takes it back.</p><p id="captureStatus" class="small" role="status" aria-live="polite"></p><button class="button primary" type="submit">Add to today</button></form></dialog>
 

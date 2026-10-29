@@ -141,16 +141,20 @@ saving it. `jot help` lists every option.
 ### Locking a journal with a passphrase
 
 ```
-jot lock journal.jot                         # makes journal.jotlock; asks for the passphrase twice
+jot lock journal.jot --recovery-code         # makes journal.jotlock; asks for the passphrase twice, shows a recovery code once
 jot unlock journal.jotlock -o copy.jot       # the journal back, exactly as it was
+jot unlock journal.jotlock --recovery        # ...with the recovery code instead
+jot lock-info journal.jotlock                # its ways in
 ```
 
 A locked journal is encrypted with your passphrase (AES-256-GCM, with the key made from the passphrase by PBKDF2), using only
 what is built into Node and browsers. Anyone with the passphrase can open it, with Jot or with a few lines of Python or Node
 (the [Jot Lock](../../site/dist/docs/Jot-Lock-v1.md) recipes); nobody else can.
 
-- **There is no recovery.** Jot never keeps or sends your passphrase. If it is forgotten, the journal cannot be opened by anyone,
-  you included. Keep it in a password manager.
+- **Nobody can reset it.** Jot never keeps or sends your passphrase or recovery code. Without one of them, the journal cannot be
+  opened by anyone, you included. Keep them in a password manager.
+- Passkeys and security keys added in the workspace work only there, on the site they were added on; from the command line, use
+  the passphrase or the recovery code.
 - **Locking makes a copy.** The unlocked journal is still there until you delete it, and a deleted file can stay on a disk.
 - **It hides the writing, not the file:** its name, size and dates still show, so give it a neutral name. It does not help if
   someone uses your unlocked computer, or makes you give up the passphrase.

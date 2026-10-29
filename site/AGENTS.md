@@ -12,7 +12,7 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - Include changes (`parser/include.mjs`, the workspace's `.jotz` includes): `node site/test-include-ui.cjs`.
 
 - Writer preferences, focus mode, quick notes and return to position: `node site/test-prefs-ui.cjs`.
-- Locking (`jot/lock.mjs`, the writer's lock, unlock, autosave and Download locked): `node site/test-lock-ui.cjs`.
+- Locking (`jot/lock.mjs`, `jot/passkey.mjs`, the writer's lock, unlock, ways in, autosave and Download locked): `node site/test-lock-ui.cjs` (passkeys on Chromium's virtual authenticator).
 
 - Voice practice changes: `node site/test-voice-ui.cjs` (Chromium's fake microphone plays a generated tone).
 

@@ -7,6 +7,7 @@ import {parse} from './jot/jot.mjs';
 import {proofread} from './jot/proofread.mjs';
 import {pack,readDocument} from './jot/container.mjs';
 import * as Lock from './jot/lock.mjs';
+import * as Passkey from './jot/passkey.mjs';
 import * as storage from './jot/storage.mjs';
 import {renderPreview,addChartStyles} from './jot/preview.mjs';
 import {pageGeometry,pageLayoutFromAst} from './jot/handwriting.mjs';
@@ -17,7 +18,8 @@ import {queryDiagnostics} from './jot/query.mjs';
 import {isPaletteRecord,paletteOf,moodboardOf,paletteCSS,paletteJSON,contrast} from './jot/palette.mjs';
 addChartStyles(document);
 let assets=[],assetUrls=new Map(),assetKey='legacy-active',packageMetadata={},assetsReady=Promise.resolve();
-// A locked journal (Jot Lock, ./jot/lock.mjs): lockKey is this visit's non-extractable key (the passphrase is not kept); lockWaiting holds
+// A locked journal (Jot Lock, ./jot/lock.mjs): lockKey is this visit's session (a content key that cannot be exported, and the ways in;
+// no passphrase is kept); lockWaiting holds
 // the stored, still-locked copy until it is unlocked. While either is set, nothing about the journal is stored unencrypted.
 let lockKey=null,lockWaiting=null,sealing=Promise.resolve();
 const rasterTypes=new Set(['image/png','image/jpeg','image/webp','image/gif','image/avif']);
@@ -76,7 +78,7 @@ function save(){if(lockWaiting)return;const state={text:editor.value,name:$('doc
 editor.addEventListener('input',()=>{dirty=true;$('saveState').textContent='Saving…';clearTimeout(timer);timer=setTimeout(()=>{update();save();},300);});$('documentName').oninput=save;
 try{const stored=JSON.parse(localStorage.getItem('jot-workspace-v1'));if(stored&&stored.locked===1&&typeof stored.sealed==='string'){lockWaiting=stored;assetKey=typeof stored.assetKey==='string'?stored.assetKey:'legacy-active';editor.value='';}else if(stored&&typeof stored.text==='string'){editor.value=stored.text;$('documentName').value=stored.name||'my-journal';assetKey=stored.assetKey||'legacy-active';packageMetadata=stored.metadata||{};const cursor=Number.isInteger(stored.cursor)?Math.min(editor.value.length,stored.cursor):editor.value.length;editor.setSelectionRange(cursor,cursor);resume={cursor,scroll:Number.isFinite(stored.scroll)?Math.max(0,stored.scroll):0};$('saveState').textContent='Restored from this browser';}else editor.value=starter;}catch{editor.value=starter;status('Browser autosave is unavailable. Download your writing before closing.',true);}update();if(resume)editor.scrollTop=resume.scroll;
 function setTab(id){for(const name of ['preview','structure','checks']){$(name+'View').hidden=name!==id;$(name+'Tab').classList.toggle('active',name===id);$(name+'Tab').setAttribute('aria-selected',name===id);}}for(const name of ['preview','structure','checks'])$(name+'Tab').onclick=()=>{clearTimeout(timer);update();if(dirty)save();setTab(name);};
-$('downloadJot').onclick=async()=>{try{await assetsReady;clearTimeout(timer);update();save();$('downloadJot').disabled=true;if(lockKey){const plain=assets.length?await pack({source:editor.value,assets,metadata:{...packageMetadata,title:$('documentName').value}}):editor.value;download(await Lock.lock(plain,lockKey),fileName()+Lock.LOCK_EXTENSION,'application/octet-stream');status('Downloaded a locked .jotlock'+(assets.length?' with the writing and all '+assets.length+' attached files':'')+'. It opens only with your passphrase.');return;}if(!assets.length){download(editor.value,fileName()+'.jot','text/plain;charset=utf-8');status('Downloaded a plain .jot: your writing, readable in any text editor.');return;}/* draft 3: plain writing is .jot; with attachments it is one .jotz package */const data=await pack({source:editor.value,assets,metadata:{...packageMetadata,title:$('documentName').value}});download(data,fileName()+'.jotz','application/zip');status('Downloaded one .jotz document containing the writing and all '+assets.length+' attached files.');}catch(e){status('Document export failed: '+e.message,true);}finally{$('downloadJot').disabled=false;}};$('markdownBtn').onclick=()=>{download(editor.value,fileName()+'.md','text/markdown');status('Exported the writing only. Download .jot keeps attachments too (as a .jotz).');};$('downloadAST').onclick=()=>{update();download(JSON.stringify(ast,null,2),fileName()+'.ast.json','application/json');};$('openBtn').onclick=()=>$('openFile').click();$('openFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;if(file.size>64*1024*1024){status('This editor accepts Jot documents up to 64 MiB.',true);return;}if((dirty||lockWaiting||lockKey)&&!confirm(lockWaiting?'Replace the locked journal kept in this browser? It stays in any .jotlock you downloaded.':'Replace the current journal? Download it first if you want a separate copy.'))return;try{await assetsReady;let bytes=new Uint8Array(await file.arrayBuffer()),key=null;if(Lock.isLocked(bytes)){const opened=await askUnlock('Type the passphrase '+file.name+' was locked with.',pass=>Lock.unlockWithKey(bytes,pass),file.name.replace(/\.jotlock$/i,''));if(!opened)return;bytes=opened.bytes;key=opened.key;}const doc=await readDocument(bytes);leaveLockWaiting();lockKey=key;showLock();setAssets(doc.assets);assetKey=freshKey();packageMetadata=doc.manifest?.metadata||{};appliedLayoutKey='';resume=null;$('returnNote').hidden=true;editor.value=doc.source;$('documentName').value=file.name.replace(/\.(jot|jotz|jotlock|md|txt)$/i,'');editor.setSelectionRange(editor.value.length,editor.value.length);dirty=true;update();save();await persistAssets();status(key?'Opened and unlocked '+file.name+'. It stays locked in this browser; Download locked saves a .jotlock.':doc.packaged?'Opened the .jotz document, including all its assets.':'Opened plain text. Download .jot saves it as plain .jot (or one .jotz if you attach files).');}catch(e){status('Could not open this document: '+e.message,true);}};$('newBtn').onclick=async()=>{if((editor.value||assets.length)&&!confirm('Start a new journal? Download the current .jot first to keep it.'))return;await assetsReady;leaveLockWaiting();lockKey=null;showLock();assetKey=freshKey();packageMetadata={};setAssets([]);resume=null;$('returnNote').hidden=true;editor.value='';$('documentName').value='my-journal';dirty=true;update();save();await persistAssets();};$('checkToggle').onchange=update;
+$('downloadJot').onclick=async()=>{try{await assetsReady;clearTimeout(timer);update();save();$('downloadJot').disabled=true;if(lockKey){const plain=assets.length?await pack({source:editor.value,assets,metadata:{...packageMetadata,title:$('documentName').value}}):editor.value;download(await Lock.lock(plain,lockKey),fileName()+Lock.LOCK_EXTENSION,'application/octet-stream');status('Downloaded a locked .jotlock'+(assets.length?' with the writing and all '+assets.length+' attached files':'')+'. It opens only with your passphrase.');return;}if(!assets.length){download(editor.value,fileName()+'.jot','text/plain;charset=utf-8');status('Downloaded a plain .jot: your writing, readable in any text editor.');return;}/* draft 3: plain writing is .jot; with attachments it is one .jotz package */const data=await pack({source:editor.value,assets,metadata:{...packageMetadata,title:$('documentName').value}});download(data,fileName()+'.jotz','application/zip');status('Downloaded one .jotz document containing the writing and all '+assets.length+' attached files.');}catch(e){status('Document export failed: '+e.message,true);}finally{$('downloadJot').disabled=false;}};$('markdownBtn').onclick=()=>{download(editor.value,fileName()+'.md','text/markdown');status('Exported the writing only. Download .jot keeps attachments too (as a .jotz).');};$('downloadAST').onclick=()=>{update();download(JSON.stringify(ast,null,2),fileName()+'.ast.json','application/json');};$('openBtn').onclick=()=>$('openFile').click();$('openFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;if(file.size>64*1024*1024){status('This editor accepts Jot documents up to 64 MiB.',true);return;}if((dirty||lockWaiting||lockKey)&&!confirm(lockWaiting?'Replace the locked journal kept in this browser? It stays in any .jotlock you downloaded.':'Replace the current journal? Download it first if you want a separate copy.'))return;try{await assetsReady;let bytes=new Uint8Array(await file.arrayBuffer()),key=null;if(Lock.isLocked(bytes)){const opened=await askUnlock('Unlock '+file.name+' with one of its ways in.',secret=>Lock.unlockSession(bytes,secret),{name:file.name.replace(/\.jotlock$/i,''),ways:Lock.waysIn(bytes)});if(!opened)return;bytes=opened.bytes;key=opened.session;}const doc=await readDocument(bytes);leaveLockWaiting();lockKey=key;showLock();setAssets(doc.assets);assetKey=freshKey();packageMetadata=doc.manifest?.metadata||{};appliedLayoutKey='';resume=null;$('returnNote').hidden=true;editor.value=doc.source;$('documentName').value=file.name.replace(/\.(jot|jotz|jotlock|md|txt)$/i,'');editor.setSelectionRange(editor.value.length,editor.value.length);dirty=true;update();save();await persistAssets();status(key?'Opened and unlocked '+file.name+'. It stays locked in this browser; Download locked saves a .jotlock.':doc.packaged?'Opened the .jotz document, including all its assets.':'Opened plain text. Download .jot saves it as plain .jot (or one .jotz if you attach files).');}catch(e){status('Could not open this document: '+e.message,true);}};$('newBtn').onclick=async()=>{if((editor.value||assets.length)&&!confirm('Start a new journal? Download the current .jot first to keep it.'))return;await assetsReady;leaveLockWaiting();lockKey=null;showLock();assetKey=freshKey();packageMetadata={};setAssets([]);resume=null;$('returnNote').hidden=true;editor.value='';$('documentName').value='my-journal';dirty=true;update();save();await persistAssets();};$('checkToggle').onchange=update;
 $('wordListBtn').onclick=()=>$('wordList').click();$('wordList').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>5*1024*1024){status('Choose a word list smaller than 5 MB.',true);return;}dictionary=new Set((await f.text()).toLowerCase().split(/\s+/).filter(Boolean));update();status(`Loaded ${dictionary.size} words for this session. Dictionary misses are suggestions, not errors.`);};
 function pageSettings(){const v=$('journalPaper').value;$('customPaper').hidden=v!=='custom';let w,h;[w,h]=({A5:[148,210],A4:[210,297],Letter:[215.9,279.4],Pocket:[88.9,139.7]})[v]||[Number($('paperW').value),Number($('paperH').value)];if(!Number.isFinite(w)||!Number.isFinite(h)||w<10||h<10||w>5000||h>5000){status('Enter positive dimensions between 10 and 5,000 mm.',true);return false;}geometry=handOn()?pageGeometry([w,h],Number($('pitch').value),pageLayoutFromAst(ast)?.marginMm ?? 8):null;$('printSettings').textContent=geometry?geometry.css:pageCSS($('pageStyle').value,[w,h]);$('handTools').hidden=!handOn();$('styleWrap').hidden=handOn();$('paperPreview').classList.toggle('styled',!handOn()&&$('pageStyle').value!=='plain');try{localStorage.setItem('jot-hand-v1',JSON.stringify({style:$('pageStyle').value,look:$('look').value,hand:$('hand').value,ink:$('ink').value,pitch:$('pitch').value,seed:handSeed}));}catch{}preview();return true;}for(const id of ['journalPaper','paperW','paperH','dotGrid','look','hand','ink','pitch','pageStyle'])$(id).onchange=pageSettings;$('exportPage').onclick=async()=>{clearTimeout(timer);update();if(dirty)save();if(!pageSettings())return;setTab('preview');$('exportPage').disabled=true;try{const paper=$('paperPreview');await paper.jotReady;const html=await exportHTML(paper,{title:$('documentName').value||'Journal',lang:document.documentElement.lang||'en',pageCss:$('printSettings').textContent});download(html,fileName()+'.html','text/html;charset=utf-8');status('Downloaded '+fileName()+'.html: the formatted pages in one file. Open it in any browser, or print it for a PDF.');}catch(e){status('Could not make the page: '+e.message,true);}finally{$('exportPage').disabled=false;}};$('reshuffle').onclick=()=>{handSeed=(handSeed%9973)+1;pageSettings();status('Written again, with different letter shapes and highlight strokes.');};for(const [id,v] of [['pageStyle',handPrefs.style],['look',handPrefs.look],['hand',handPrefs.hand],['ink',handPrefs.ink],['pitch',handPrefs.pitch]])if(v&&[...$(id).options].some(o=>o.value===v))$(id).value=v;$('printBtn').onclick=async()=>{clearTimeout(timer);update();if(dirty)save();if(pageSettings()){setTab('preview');await $('paperPreview').jotReady;window.print();}};if(pageLayoutFromAst(ast)){appliedLayoutKey='';adoptDocumentLayout();}pageSettings();
 function insert(text){const p=editor.selectionEnd,lead=p&&editor.value[p-1]!=='\n'?'\n\n':'';editor.setRangeText(lead+text+'\n\n',p,p,'end');dirty=true;update();save();editor.focus();}
@@ -269,11 +271,14 @@ $('prefsBtn').onclick = () => { showPrefControls(); $('prefsStatus').textContent
 for (const id of ['prefsClose', 'prefsDone']) $(id).onclick = () => $('prefsDialog').close();
 showPrefControls(); applyPrefs();
 
-// Locking (Jot Lock: ./jot/lock.mjs, specification/Jot-Lock-v1.md), with the browser's built-in Web Crypto. The passphrase makes this
-// visit's key and is then dropped; the key cannot be exported. While locked, autosave and attachments are stored only encrypted, and
-// a reload asks for the passphrase again. Download saves a .jotlock; the lock note says which other exports are not encrypted.
+// Locking (Jot Lock: ./jot/lock.mjs, specification/Jot-Lock-v1.md), with the browser's built-in Web Crypto. One random content key
+// encrypts the journal; each way in (a passphrase, a recovery code, a passkey or security key through ./jot/passkey.mjs) opens it.
+// lockKey is this visit's session: the content key, which cannot be exported, and the header's ways in. Passphrases and codes are
+// not kept. While locked, autosave and attachments are stored only encrypted, and a reload asks again before showing anything.
 const toB64 = (b) => { let t = ''; for (let i = 0; i < b.length; i += 0x8000) t += String.fromCharCode(...b.subarray(i, i + 0x8000)); return btoa(t); };
 const fromB64 = (t) => Uint8Array.from(atob(t), (c) => c.charCodeAt(0));
+const WAY_NAMES = { passphrase: 'Passphrase', 'recovery-code': 'Recovery code', 'webauthn-prf': 'Passkey or security key' };
+const journalName = () => $('documentName').value.trim() || 'Jot journal';
 function sealState(state) {
   const key = lockKey;
   sealing = sealing.then(async () => {
@@ -302,46 +307,79 @@ function showLock() {
   $('lockGate').hidden = !waiting; $('lockNote').hidden = !locked;
   editor.readOnly = waiting; document.querySelector('.studio-workspace').inert = waiting;
   for (const id of ['downloadJot', 'attachBtn', 'markdownBtn']) $(id).disabled = waiting;
-  $('lockBtn').hidden = waiting; $('lockBtn').textContent = locked ? 'Remove the lock' : 'Lock with a passphrase';
+  $('lockBtn').hidden = waiting; $('lockBtn').textContent = locked ? 'Ways in' : 'Lock with a passphrase';
   $('downloadJot').textContent = locked ? 'Download locked ↓' : 'Download .jot ↓';
   $('docExt').textContent = locked ? Lock.LOCK_EXTENSION : assets.length ? '.jotz' : '.jot';
   if (waiting) $('saveState').textContent = 'Locked';
 }
 function leaveLockWaiting() { lockWaiting = null; showLock(); }
-/* Asks for a passphrase until attempt(passphrase) succeeds or the person cancels (null). Wrong passphrases just ask again. */
-function askUnlock(message, attempt, name = 'Jot journal') {
+const sitePasskeys = (ways) => ways.filter((w) => w.type === 'webauthn-prf' && w.rp === Passkey.site());
+
+/* Asks for one way in (a passphrase, a recovery code or a passkey) until attempt(secret) succeeds, or the person cancels (null).
+ * Something that does not open the journal just asks again. */
+function askUnlock(message, attempt, { name = 'Jot journal', ways = [] } = {}) {
   return new Promise((resolve) => {
-    const d = $('unlockDialog'); let busy = false; $('unlockUser').value = name;
-    $('unlockWhat').textContent = message; $('unlockPass').value = ''; $('unlockStatus').textContent = '';
-    const finish = (v) => { $('unlockForm').onsubmit = null; d.onclose = null; if (d.open) d.close(); $('unlockPass').value = ''; resolve(v); };
-    $('unlockForm').onsubmit = async (e) => {
-      e.preventDefault(); if (busy) return; busy = true; $('unlockGo').disabled = true; $('unlockStatus').textContent = 'Unlocking…';
-      try { finish(await attempt($('unlockPass').value)); }
-      catch (err) { $('unlockStatus').textContent = err instanceof Lock.LockError && err.code === 'cannot-unlock' ? 'That passphrase does not unlock it (or the file was changed). Try again.' : 'Could not unlock: ' + err.message; $('unlockPass').select(); }
-      finally { busy = false; $('unlockGo').disabled = false; }
+    const d = $('unlockDialog'), keys = sitePasskeys(ways); let busy = false, byCode = false;
+    $('unlockUser').value = name; $('unlockWhat').textContent = message;
+    $('unlockPasskey').hidden = !keys.length || !Passkey.passkeysPossible();
+    $('unlockUseCode').hidden = !ways.some((w) => w.type === 'recovery-code');
+    const mode = (code) => {
+      byCode = code; $('unlockPassLabel').textContent = code ? 'Recovery code' : 'Passphrase';
+      $('unlockPass').type = code ? 'text' : 'password'; $('unlockPass').autocomplete = code ? 'off' : 'current-password'; $('unlockPass').value = '';
+      $('unlockUseCode').textContent = code ? 'Use the passphrase instead' : 'Use a recovery code instead'; $('unlockStatus').textContent = '';
     };
-    d.onclose = () => finish(null); d.showModal(); $('unlockPass').focus();
+    mode(false);
+    const finish = (v) => { $('unlockForm').onsubmit = null; $('unlockPasskey').onclick = $('unlockUseCode').onclick = null; d.onclose = null; if (d.open) d.close(); mode(false); resolve(v); };
+    const tryWith = async (kind, secret) => {
+      if (busy) return; busy = true; $('unlockGo').disabled = $('unlockPasskey').disabled = true; $('unlockStatus').textContent = 'Unlocking…';
+      try { finish(await attempt(await secret())); }
+      catch (err) {
+        const nope = { passphrase: 'That passphrase does not open it (or the file was changed). Try again.', code: 'That recovery code does not open it. Check it and try again.', passkey: 'That passkey or key does not open this journal.' }[kind];
+        $('unlockStatus').textContent = err instanceof Lock.LockError && err.code === 'cannot-unlock' ? nope : err instanceof Passkey.PasskeyError ? err.message : 'Could not unlock: ' + err.message;
+        if (kind !== 'passkey') $('unlockPass').select();
+      } finally { busy = false; $('unlockGo').disabled = $('unlockPasskey').disabled = false; }
+    };
+    $('unlockForm').onsubmit = (e) => { e.preventDefault(); const v = $('unlockPass').value; tryWith(byCode ? 'code' : 'passphrase', async () => (byCode ? { recoveryCode: v } : v)); };
+    $('unlockPasskey').onclick = () => tryWith('passkey', () => Passkey.passkeyAnswer(keys));
+    $('unlockUseCode').onclick = () => { mode(!byCode); $('unlockPass').focus(); };
+    d.onclose = () => finish(null); d.showModal(); (keys.length && !$('unlockPasskey').hidden ? $('unlockPasskey') : $('unlockPass')).focus();
   });
 }
 for (const id of ['unlockCancel', 'unlockClose']) $(id).onclick = () => $('unlockDialog').close();
+
+/* A recovery code, shown once: nothing keeps it after the dialog closes. */
+function showCode(code) {
+  $('codeText').textContent = code; $('codeStatus').textContent = ''; $('codeDialog').showModal(); $('codeDone').focus();
+}
+$('codeCopy').onclick = async () => {
+  try { await navigator.clipboard.writeText($('codeText').textContent); $('codeStatus').textContent = 'Copied. Paste it into your password manager now; the clipboard may keep it until you copy something else.'; }
+  catch { $('codeStatus').textContent = 'Copying is not available here; select the code and copy it, or write it down.'; }
+};
+$('codeDone').onclick = () => { $('codeText').textContent = ''; $('codeDialog').close(); };
+$('codeDialog').addEventListener('cancel', (e) => e.preventDefault()); // closes only with "I have kept it"
+$('codeDialog').addEventListener('close', () => { $('codeText').textContent = ''; });
+
 async function unlockStored() {
   const stored = lockWaiting; if (!stored) return;
-  const opened = await askUnlock('Type the passphrase this journal was locked with.', async (pass) => {
-    const r = await Lock.unlockWithKey(fromB64(stored.sealed), pass);
-    return { state: JSON.parse(new TextDecoder().decode(r.bytes)), key: r.key };
-  });
+  const sealed = fromB64(stored.sealed);
+  let ways = []; try { ways = Lock.waysIn(sealed); } catch { /* an unreadable header: the passphrase field still shows */ }
+  const opened = await askUnlock('Unlock this journal with one of its ways in.', async (secret) => {
+    const r = await Lock.unlockSession(sealed, secret);
+    return { state: JSON.parse(new TextDecoder().decode(r.bytes)), session: r.session };
+  }, { ways });
   if (!opened || lockWaiting !== stored) return;
-  const { state, key } = opened; let kept = [];
-  try { const v = await storage.get('assets', stored.assetKey); if (v && v.sealed) kept = unbundleAssets(await Lock.unlock(v.sealed, key)); }
+  const { state, session } = opened; let kept = [];
+  try { const v = await storage.get('assets', stored.assetKey); if (v && v.sealed) kept = unbundleAssets(await Lock.unlock(v.sealed, session)); }
   catch { status('The locked attachments in this browser could not be read. The writing is unlocked.', true); }
-  lockWaiting = null; lockKey = key;
+  lockWaiting = null; lockKey = session;
   editor.value = typeof state.text === 'string' ? state.text : ''; $('documentName').value = state.name || 'my-journal';
   assetKey = typeof state.assetKey === 'string' ? state.assetKey : stored.assetKey; packageMetadata = state.metadata || {};
   setAssets(kept); showLock();
   const cursor = Number.isInteger(state.cursor) ? Math.min(editor.value.length, state.cursor) : editor.value.length;
   editor.setSelectionRange(cursor, cursor); update(); editor.scrollTop = Number.isFinite(state.scroll) ? Math.max(0, state.scroll) : 0;
   $('saveState').textContent = 'Unlocked · kept locked in this browser'; editor.focus();
-  status('Unlocked. It stays locked in this browser; reloading the page asks for the passphrase again.');
+  status('Unlocked. It stays locked in this browser; reloading the page asks again.');
+  if (Lock.readHeader(sealed).form === 'single') save(); // a file from the first draft: write it in the current form
   await takeHandoff();
 }
 $('lockGateUnlock').onclick = unlockStored;
@@ -351,34 +389,93 @@ $('lockGateForget').onclick = async () => {
   try { localStorage.removeItem('jot-workspace-v1'); await storage.remove('assets', k); } catch { /* nothing more to remove */ }
   editor.value = ''; showLock(); update(); status('Removed the locked journal from this browser.');
 };
+
+// Locking for the first time: a passphrase (twice) and, unless unticked, a recovery code shown once.
 let shortOk = false;
-$('lockBtn').onclick = async () => {
-  if (lockKey) {
-    if (!confirm('Remove the lock? This browser will keep the journal unencrypted again, and Download saves a plain .jot. Locked copies you downloaded stay locked.')) return;
-    lockKey = null; showLock(); save(); await persistAssets(); status('The lock is removed: this browser keeps this journal unencrypted again.'); return;
-  }
-  $('lockUser').value = $('documentName').value.trim() || 'Jot journal'; // the name a password manager saves the passphrase under
+$('lockBtn').onclick = () => {
+  if (lockKey) { renderWays(); $('waysStatus').textContent = ''; $('waysDialog').showModal(); return; }
+  $('lockUser').value = journalName(); // the name a password manager saves the passphrase under
   $('lockPass').value = $('lockPass2').value = ''; $('lockStatus').textContent = ''; shortOk = false; $('lockDialog').showModal(); $('lockPass').focus();
 };
 for (const id of ['lockCancel', 'lockClose']) $(id).onclick = () => $('lockDialog').close();
 $('lockDialog').addEventListener('close', () => { $('lockPass').value = $('lockPass2').value = ''; });
+const tooShort = (a, statusId) => {
+  if ([...a].length >= 8 || shortOk) return false;
+  shortOk = true; $(statusId).textContent = 'That passphrase is short, so it is easier to guess. Choose the button again to use it anyway.'; return true;
+};
 $('lockForm').onsubmit = async (e) => {
   e.preventDefault();
   const a = $('lockPass').value, b = $('lockPass2').value;
   if (a !== b) { $('lockStatus').textContent = 'The two passphrases differ. Nothing was locked.'; return; }
-  if ([...a].length < 8 && !shortOk) { shortOk = true; $('lockStatus').textContent = 'That passphrase is short, so it is easier to guess. Choose Lock this journal again to use it anyway.'; return; }
+  if (tooShort(a, 'lockStatus')) return;
   $('lockGo').disabled = true; $('lockStatus').textContent = 'Locking…';
   try {
     await assetsReady;
-    const key = await Lock.makeKey(a);
-    lockKey = key; save(); await sealing; await persistAssets();
+    const { session, recoveryCode } = await Lock.createLock(a, { recoveryCode: $('lockRecovery').checked });
+    lockKey = session; save(); await sealing; await persistAssets();
     const kept = JSON.parse(localStorage.getItem('jot-workspace-v1') || 'null');
     if (!kept || kept.locked !== 1) throw Error('the encrypted copy could not be saved in this browser');
     showLock(); $('lockDialog').close();
     status('Locked. This browser now keeps only an encrypted copy, and Download locked saves a .jotlock. Copies you downloaded before are not locked.');
+    if (recoveryCode) showCode(recoveryCode);
   } catch (err) { lockKey = null; showLock(); save(); $('lockStatus').textContent = 'Could not lock: ' + err.message; }
   finally { $('lockGo').disabled = false; }
 };
+
+// Ways in: add a passkey or security key, a new recovery code or passphrase, remove one, or remove the lock. Each change asks for a
+// current way in, then saves the journal (and its attachments) under the new list, so an old way in no longer opens this browser's copy.
+function renderWays() {
+  const list = $('waysList'), ways = Lock.waysIn(lockKey.keys), anchors = ways.filter((w) => w.type !== 'webauthn-prf').length;
+  list.replaceChildren();
+  for (const w of ways) {
+    const li = el('li'), what = WAY_NAMES[w.type] + (w.label ? ' · ' + w.label : '') + (w.rp && w.rp !== Passkey.site() ? ' (made on ' + w.rp + '; not usable here)' : '');
+    const rm = el('button', 'Remove', 'quiet'); rm.type = 'button'; rm.setAttribute('aria-label', 'Remove: ' + what);
+    rm.disabled = w.type !== 'webauthn-prf' && anchors <= 1;
+    if (rm.disabled) rm.title = 'A passphrase or recovery code has to stay';
+    rm.onclick = () => changeWays('To remove ' + what.toLowerCase() + ', unlock once more.', async (secret) => { await Lock.verifyWay(lockKey, secret); return Lock.removeWay(lockKey, w.index); }, 'Removed. It no longer opens the copy in this browser.');
+    li.append(el('span', what), rm); list.append(li);
+  }
+  $('waysSite').textContent = Passkey.site(); $('addPasskey').disabled = !Passkey.passkeysPossible();
+}
+async function changeWays(message, change, done) {
+  const result = await askUnlock(message, change, { name: journalName(), ways: Lock.waysIn(lockKey.keys) });
+  if (!result) return null;
+  const next = result.keys ? { session: result } : result;
+  lockKey = next.session; save(); await sealing; await persistAssets(); renderWays();
+  $('waysStatus').textContent = done + ' Download locked again for a portable copy with this change.';
+  if (next.recoveryCode) showCode(next.recoveryCode);
+  return next;
+}
+$('addPasskey').onclick = async () => {
+  $('waysStatus').textContent = 'Follow your browser: choose a passkey on this device, a phone, or a security key…';
+  let made;
+  try { made = await Passkey.registerPasskey({ name: journalName(), exclude: sitePasskeys(Lock.waysIn(lockKey.keys)).map((w) => w.credential) }); }
+  catch (err) { $('waysStatus').textContent = err.message; return; }
+  const label = $('passkeyLabel').value.trim();
+  const ok = await changeWays('To add it, unlock once more with a way in you already have.', (secret) => Lock.addWay(lockKey, secret, { type: 'webauthn-prf', rp: Passkey.site(), ...made, label }), 'Added. It now opens this journal on this site.');
+  if (ok) $('passkeyLabel').value = ''; else $('waysStatus').textContent = 'Not added. (Your device may still list the passkey; it opens nothing.)';
+};
+$('newCode').onclick = () => changeWays('To make a new recovery code, unlock once more.', (secret) => Lock.addWay(lockKey, secret, { type: 'recovery-code' }), 'A new recovery code replaces the old one.');
+$('changePass').onclick = async () => {
+  const a = $('newPass').value, b = $('newPass2').value;
+  if (!a) { $('waysStatus').textContent = 'Type the new passphrase twice.'; return; }
+  if (a !== b) { $('waysStatus').textContent = 'The two passphrases differ. Nothing was changed.'; return; }
+  if (tooShort(a, 'waysStatus')) return;
+  $('changeUser').value = journalName();
+  if (await changeWays('To change the passphrase, unlock once more (the current passphrase, or another way in).', async (secret) => ({ session: await Lock.changePassphrase(lockKey, secret, a) }), 'The passphrase is changed; the old one no longer opens it.')) {
+    $('newPass').value = $('newPass2').value = ''; shortOk = false;
+  }
+};
+$('removeLock').onclick = async () => {
+  if (!confirm('Remove the lock? This browser will keep the journal unencrypted again, and Download saves a plain .jot. Locked copies you downloaded stay locked.')) return;
+  const ok = await askUnlock('To remove the lock, unlock once more.', (secret) => Lock.verifyWay(lockKey, secret), { name: journalName(), ways: Lock.waysIn(lockKey.keys) });
+  if (!ok) return;
+  $('waysDialog').close(); lockKey = null; showLock(); save(); await persistAssets();
+  status('The lock is removed: this browser keeps this journal unencrypted again.');
+};
+for (const id of ['waysClose', 'waysDone']) $(id).onclick = () => $('waysDialog').close();
+$('waysDialog').addEventListener('close', () => { $('newPass').value = $('newPass2').value = ''; });
+
 // Lock again after time away (Writing preferences): with no typing, clicking or scrolling here for that long, the writing is saved
 // (encrypted), the key is dropped and the page shows the locked panel. Timers slow down in a hidden tab, so coming back checks too.
 let lastActive = Date.now();
@@ -389,7 +486,7 @@ async function relockIfAway() {
   save(); await sealing; if (key !== lockKey) return;
   let stored = null; try { stored = JSON.parse(localStorage.getItem('jot-workspace-v1')); } catch { /* checked below */ }
   if (!stored || stored.locked !== 1) { status('Could not lock again: the encrypted copy is not saved in this browser. Download locked to keep your writing.', true); return; }
-  for (const id of ['lockDialog', 'unlockDialog']) if ($(id).open) $(id).close();
+  for (const id of ['lockDialog', 'unlockDialog', 'waysDialog', 'codeDialog']) if ($(id).open) $(id).close();
   lockKey = null; lockWaiting = stored; resume = null;
   editor.value = ''; setAssets([]); update(); showLock();
   status(`Locked again after ${minutes === 60 ? 'an hour' : minutes + ' minutes'} away. Your writing was saved first; unlock to carry on.`);

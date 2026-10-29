@@ -1,6 +1,8 @@
-// Locking a journal in /write/ with the browser's built-in Web Crypto (studio.mjs, jot/lock.mjs): only encrypted copies in browser
-// storage, a .jotlock download that Node unlocks, the passphrase asked again after a reload, opening a .jotlock, removing the lock,
-// and removing a locked journal from the browser. Everything is local; no requests leave the page. Run: node site/test-lock-ui.cjs
+// Locking a journal in /write/ with the browser's built-in Web Crypto (studio.mjs, jot/lock.mjs, jot/passkey.mjs): only encrypted
+// copies in browser storage, a .jotlock download that Node unlocks, asked again after a reload (passphrase, recovery code, passkey),
+// opening a .jotlock, ways in (a passkey on Chromium's virtual authenticator with PRF, a new recovery code, a new passphrase, removing
+// them), removing the lock, removing a locked journal from the browser, and locking again after time away. Everything is local; no
+// requests leave the page. WebAuthn needs a domain, so the server is localhost. Run: node site/test-lock-ui.cjs
 const {chromium}=require('playwright'),http=require('node:http'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const root=path.join(__dirname,'dist'),shots=process.env.JOT_SHOTS||'';
 const server=http.createServer((req,res)=>{let f=path.resolve(root,'.'+decodeURIComponent(req.url.split('?')[0]));if(!f.startsWith(root+path.sep)&&f!==root){res.writeHead(403);return res.end();}if(fs.existsSync(f)&&fs.statSync(f).isDirectory())f=path.join(f,'index.html');fs.readFile(f,(e,b)=>{if(e){res.writeHead(404);return res.end();}res.setHeader('Content-Type',({'.html':'text/html','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.woff2':'font/woff2'})[path.extname(f)]||'application/octet-stream');res.end(b);});});
@@ -12,7 +14,7 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   for(const s of ['assets','handoff'])parts.push(await new Promise(ok=>{const r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(flat(r.result));}));db.close();return parts.join('\n');});
 (async()=>{
  const {unlock,kindOf}=await import('../parser/lock.mjs'),{readDocument}=await import('../parser/container.mjs');
- await new Promise(r=>server.listen(0,'127.0.0.1',r));const base=`http://127.0.0.1:${server.address().port}`,browser=await chromium.launch();
+ await new Promise(r=>server.listen(0,'localhost',r));const base=`http://localhost:${server.address().port}`,browser=await chromium.launch();
  const axe=path.join(__dirname,'../node_modules/axe-core/axe.min.js');
  const audit=async(page,sel)=>{if(!fs.existsSync(axe))return;if(!await page.evaluate(()=>!!window.axe))await page.addScriptTag({path:axe});const v=await page.evaluate(async s=>(await axe.run(document.querySelector(s))).violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),sel);assert.deepEqual(v,[],sel);};
  const watch=page=>{const errors=[],remote=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith(base))remote.push(r.url());});page.on('dialog',d=>d.accept());return ()=>{assert.deepEqual(errors,[]);assert.deepEqual(remote,[]);};};
@@ -33,6 +35,11 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   await page.fill('#lockPass',PASS);await page.fill('#lockPass2',PASS);await page.click('#lockGo');
   await page.waitForFunction(()=>!document.querySelector('#lockDialog').open);
   assert.equal(await page.inputValue('#lockPass'),'','the passphrase is cleared from the form');
+  // The recovery code, shown once: Escape does not dismiss it; "I have kept it" does, and the page keeps no copy.
+  await page.waitForFunction(()=>document.querySelector('#codeDialog').open);const CODE=(await page.textContent('#codeText')).trim();
+  assert.match(CODE,/^([0-9A-HJKMNP-TV-Z]{5}-){4}[0-9A-HJKMNP-TV-Z]{5}$/);await audit(page,'#codeDialog');
+  await page.keyboard.press('Escape');assert.ok(await page.$eval('#codeDialog',d=>d.open),'only "I have kept it" closes it');
+  await page.click('#codeDone');assert.equal(await page.textContent('#codeText'),'');
   assert.ok(await page.isVisible('#lockNote'));assert.equal((await page.textContent('#downloadJot')).trim(),'Download locked ↓');assert.equal(await page.textContent('#docExt'),'.jotlock');
   let all=await stored(page);assert.ok(!all.includes(SECRET)&&!all.includes(MARK)&&!all.includes('Sunday'),'nothing in the clear: '+all.slice(0,300));
   assert.equal(JSON.parse(await page.evaluate(()=>localStorage.getItem('jot-workspace-v1'))).locked,1);
@@ -51,10 +58,12 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   await page.reload();await page.waitForFunction(()=>document.querySelector('#unlockDialog').open);
   assert.equal(await page.inputValue('#writing'),'');assert.ok(await page.isVisible('#lockGate'));assert.ok(await page.$eval('.studio-workspace',e=>e.inert));
   for(const mode of ['light','dark']){await page.emulateMedia({colorScheme:mode});await page.waitForTimeout(300);await audit(page,'#unlockDialog');}await page.emulateMedia({colorScheme:'light'});
-  await page.fill('#unlockPass','wrong passphrase');await page.click('#unlockGo');await page.waitForFunction(()=>/does not unlock it/.test(document.querySelector('#unlockStatus').textContent));
+  await page.fill('#unlockPass','wrong passphrase');await page.click('#unlockGo');await page.waitForFunction(()=>/does not open it/.test(document.querySelector('#unlockStatus').textContent));
   assert.equal(await page.inputValue('#writing'),'');
   await page.keyboard.press('Escape');assert.ok(await page.isVisible('#lockGate'),'cancel leaves it locked');await audit(page,'#lockGate');
-  await page.click('#lockGateUnlock');await page.fill('#unlockPass',PASS);await page.click('#unlockGo');
+  await page.click('#lockGateUnlock');assert.ok(!(await page.isVisible('#unlockPasskey')),'no passkey yet');
+  await page.click('#unlockUseCode');assert.equal(await page.textContent('#unlockPassLabel'),'Recovery code');
+  await page.fill('#unlockPass',CODE.toLowerCase().replace(/-/g,' '));await page.click('#unlockGo');
   await page.waitForFunction(()=>/More rain\./.test(document.querySelector('#writing').value));
   assert.ok(!(await page.isVisible('#lockGate'))&&await page.isVisible('#lockNote'));assert.match(await page.textContent('#assetList'),/note\.txt/);
   assert.equal(await page.$eval('.studio-workspace',e=>e.inert),false);
@@ -74,8 +83,36 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   assert.equal(await p2.inputValue('#documentName'),'kept');assert.match(await p2.textContent('#assetList'),/note\.txt/);assert.ok(await p2.isVisible('#lockNote'));
   await p2.waitForFunction(()=>{try{return JSON.parse(localStorage.getItem('jot-workspace-v1')).locked===1;}catch{return false;}});
   assert.ok(!(await stored(p2)).includes(SECRET),'an opened .jotlock stays encrypted in this browser');
-  // Remove the lock: back to plain storage and a plain download.
-  await p2.click('#lockBtn');await p2.waitForFunction(()=>/lock is removed/.test(document.querySelector('#journalNotice').textContent));
+  // Ways in, with a passkey on Chromium's virtual authenticator (PRF supported, user verified).
+  const cdp=await ctx2.newCDPSession(p2);await cdp.send('WebAuthn.enable');
+  await cdp.send('WebAuthn.addVirtualAuthenticator',{options:{protocol:'ctap2',ctap2Version:'ctap2_1',transport:'internal',hasResidentKey:true,hasUserVerification:true,isUserVerified:true,hasPrf:true,automaticPresenceSimulation:true}});
+  await p2.click('#lockBtn');assert.ok(await p2.$eval('#waysDialog',d=>d.open));assert.equal((await p2.$$('#waysList li')).length,2);
+  for(const mode of ['light','dark']){await p2.emulateMedia({colorScheme:mode});await p2.waitForTimeout(300);await audit(p2,'#waysDialog');}await p2.emulateMedia({colorScheme:'light'});
+  await p2.fill('#passkeyLabel','Test key');await p2.click('#addPasskey');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
+  await p2.fill('#unlockPass',PASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/^Added\./.test(document.querySelector('#waysStatus').textContent));
+  assert.match(await p2.textContent('#waysList'),/Passkey or security key · Test key/);
+  await p2.click('#waysDone');await p2.reload();await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
+  assert.ok(await p2.isVisible('#unlockPasskey'));assert.equal(await p2.evaluate(()=>document.activeElement.id),'unlockPasskey','the passkey is offered first');
+  await p2.click('#unlockPasskey');await p2.waitForFunction(()=>/More rain\./.test(document.querySelector('#writing').value));
+  assert.ok(!(await stored(p2)).includes(SECRET),'still encrypted after unlocking with a passkey');
+  // A new recovery code (confirmed with the passkey), then a new passphrase (confirmed with the old one): the old one stops working.
+  await p2.click('#lockBtn');await p2.click('#newCode');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
+  await p2.click('#unlockPasskey');await p2.waitForFunction(()=>document.querySelector('#codeDialog').open);await p2.click('#codeDone');
+  const NEWPASS='a brand new passphrase';await p2.fill('#newPass',NEWPASS);await p2.fill('#newPass2',NEWPASS);await p2.click('#changePass');
+  await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);await p2.fill('#unlockPass',PASS);await p2.click('#unlockGo');
+  await p2.waitForFunction(()=>/passphrase is changed/.test(document.querySelector('#waysStatus').textContent));
+  await p2.click('#waysDone');await p2.reload();await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
+  await p2.fill('#unlockPass',PASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/does not open it/.test(document.querySelector('#unlockStatus').textContent));
+  await p2.fill('#unlockPass',NEWPASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/More rain\./.test(document.querySelector('#writing').value));
+  // Remove the passkey; the last passphrase or code cannot be removed.
+  await p2.click('#lockBtn');const rows=await p2.$$eval('#waysList li',ls=>ls.map(l=>[l.textContent,l.querySelector('button').disabled]));
+  assert.deepEqual(rows.map(r=>r[0].replace(/Remove$/,'')),['Passkey or security key · Test key','Recovery code','Passphrase']);
+  await p2.click('#waysList li:first-child button');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
+  await p2.fill('#unlockPass',NEWPASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/^Removed\./.test(document.querySelector('#waysStatus').textContent));
+  assert.equal((await p2.$$('#waysList li')).length,2);
+  // Remove the lock (confirmed with the passphrase): back to plain storage and a plain download.
+  await p2.click('#removeLock');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);await p2.fill('#unlockPass',NEWPASS);await p2.click('#unlockGo');
+  await p2.waitForFunction(()=>/lock is removed/.test(document.querySelector('#journalNotice').textContent));
   assert.ok((await stored(p2)).includes(SECRET));assert.equal((await p2.textContent('#downloadJot')).trim(),'Download .jot ↓');assert.ok(!(await p2.isVisible('#lockNote')));
   done2();await ctx2.close();
   // Lock again after time away (default 15 minutes): saved encrypted first, then the locked panel; Never keeps it open.
@@ -83,7 +120,8 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   await p3.clock.install();await p3.goto(base+'/write/');await p3.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));
   await p3.fill('#documentName','field-notes');await p3.fill('#writing',`### 2026-10-25 | Sunday\n\n${SECRET}\n`);
   await p3.click('#lockBtn');assert.equal(await p3.inputValue('#lockUser'),'field-notes','a password manager saves it under the journal\'s name');
-  await p3.fill('#lockPass',PASS);await p3.fill('#lockPass2',PASS);await p3.click('#lockGo');await p3.waitForFunction(()=>!document.querySelector('#lockDialog').open);
+  await p3.uncheck('#lockRecovery');await p3.fill('#lockPass',PASS);await p3.fill('#lockPass2',PASS);await p3.click('#lockGo');await p3.waitForFunction(()=>!document.querySelector('#lockDialog').open);
+  await p3.waitForTimeout(100);assert.ok(!(await p3.$eval('#codeDialog',d=>d.open)),'no recovery code when unticked');
   await p3.click('#prefsBtn');assert.equal(await p3.inputValue('#prefRelock'),'15');await p3.click('#prefsDone');
   await p3.$eval('#writing',e=>{e.focus();e.setSelectionRange(e.value.length,e.value.length);});await p3.keyboard.type('Last words.');
   await p3.clock.runFor(10*60000);assert.match(await p3.inputValue('#writing'),/Last words\./,'still open after 10 minutes');
@@ -95,6 +133,6 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   await p3.click('#prefsBtn');await p3.selectOption('#prefRelock','0');await p3.click('#prefsDone');
   await p3.clock.runFor(3*60*60000);assert.match(await p3.inputValue('#writing'),/Last words\./,'Never: it stays open');assert.ok(!(await p3.isVisible('#lockGate')));
   done3();await ctx3.close();
-  console.log('PASS: lock (mismatch and short passphrase checks), nothing stored in the clear (writing, later saves, attachments), .jotlock download unlocked by the parser, reload asks again (wrong passphrase, cancel, unlock), remove from this browser, open a .jotlock (kept locked), remove the lock, lock again after 15 minutes away (and Never), the journal name for password managers; 390px light/dark accessibility; no requests leave the page.');
+  console.log('PASS: lock (mismatch and short passphrase checks, a recovery code shown once), nothing stored in the clear (writing, later saves, attachments), .jotlock download unlocked by the parser, reload asks again (wrong passphrase, cancel, recovery code), ways in (passkey with PRF added and used, new recovery code, new passphrase, passkey removed, last passphrase kept), remove from this browser, open a .jotlock (kept locked), remove the lock, lock again after 15 minutes away (and Never), the journal name for password managers; 390px light/dark accessibility; no requests leave the page.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

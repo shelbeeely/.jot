@@ -19,8 +19,9 @@ installing beyond this repository (it uses `../parser`).
 | `jot review <journal> [--date D]` | a review of the week |
 | `jot post <url> <files…> [--open] [--since D]` | the tasks, events and numbers as JSON to a webhook (https) |
 | `jot todoist <journal>` | open tasks not sent before, to Todoist (`TODOIST_TOKEN`) |
-| `jot lock <journal> [-o FILE] [--iterations N]` | an encrypted `.jotlock` copy (`parser/lock.mjs`, [Jot Lock](../specification/Jot-Lock-v1.md)); the passphrase comes from a hidden prompt, twice, or `JOT_PASSPHRASE`; the journal is left as it is |
-| `jot unlock <journal.jotlock> [-o FILE \| -o -]` | the journal back, `.jot` or `.jotz` by content; never over an existing file |
+| `jot lock <journal> [-o FILE] [--iterations N] [--recovery-code]` | an encrypted `.jotlock` copy (`parser/lock.mjs`, [Jot Lock](../specification/Jot-Lock-v1.md)); the passphrase comes from a hidden prompt, twice, or `JOT_PASSPHRASE`; `--recovery-code` also shows a recovery code once; the journal is left as it is |
+| `jot unlock <journal.jotlock> [-o FILE \| -o -] [--recovery]` | the journal back, `.jot` or `.jotz` by content; never over an existing file; `--recovery` takes the recovery code (prompt or `JOT_RECOVERY_CODE`) |
+| `jot lock-info <journal.jotlock>` | its ways in (passphrase, recovery code, passkeys and the site they belong to) |
 | `jot flatten <journal> [-o FILE] [--root DIR]` | a copy with every `![label](other.jot#id)` include written out (`parser/include.mjs`); never over the journal |
 
 Reading commands never change a file; writing commands say what they changed, and `--dry-run` prints the result instead. Only `post`,

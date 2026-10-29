@@ -428,14 +428,21 @@ editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open i
 
 ### Locking a journal
 
-In the workspace, **Lock with a passphrase** encrypts the journal with the browser's own built-in cryptography (AES-256-GCM, with
-the key made from your passphrase by PBKDF2). Nothing is sent anywhere. From then on:
+In the workspace, **Lock with a passphrase** encrypts the journal with the browser's own built-in cryptography (AES-256-GCM).
+Nothing is sent anywhere. Unless you untick it, you also get a **recovery code**: a second way in for when the passphrase is
+forgotten, shown once. Save it in a password manager or write it down, away from the journal. From then on:
 
 - this browser keeps only an encrypted copy of the writing and its attachments;
 - **Download locked** saves a `.jotlock`, which opens in the workspace (Open a journal) or with the command line (`jot unlock`);
 - reloading the page asks for the passphrase before showing anything. **Remove it from this browser** deletes the locked copy
   here if you no longer need it;
-- **Remove the lock** goes back to an ordinary journal.
+- **Ways in** lists what opens the journal, and lets you add a **passkey or security key**, make a new recovery code, change the
+  passphrase, remove one, or **Remove the lock** to go back to an ordinary journal. Each change asks for a way in you already
+  have. A passphrase or recovery code always stays.
+- **Passkeys and security keys:** a passkey on your phone or computer, or a key such as a YubiKey, unlocks with a touch, a
+  fingerprint, your face or a PIN. It works only on this site, and only where the browser and the key support it (if not, you are
+  told). A synced passkey is as safe as the account it syncs with, and someone can make you unlock with your face or finger more
+  easily than make you tell a passphrase: if that worries you, keep to the passphrase.
 - **Lock again**, in Preferences, clears the journal from the page after 5, 15 (the standard) or 60 minutes with no typing or
   clicking, saving it (locked) first, so a journal left open on a shared computer doesn't stay open. **Never** keeps it open
   until you close the page.
@@ -443,8 +450,9 @@ the key made from your passphrase by PBKDF2). Nothing is sent anywhere. From the
 
 Things to know first:
 
-- **There is no recovery.** Jot never keeps or sends your passphrase. If you forget it, nobody can open the journal, you
-  included. A password manager is a good place for it.
+- **Nobody can reset it.** Jot never keeps or sends your passphrase, recovery code or passkey. Without one of them, nobody can
+  open the journal, you included.
+- Copies you downloaded keep the ways in they had then: removing a passphrase or passkey does not reach them.
 - **Other exports are not encrypted:** Markdown, calendar and CSV files, a downloaded page and printing. Copies you downloaded
   before locking are not locked either.
 - A locked file's name, size and dates still show, and a lock does not help if someone uses your browser while the journal is

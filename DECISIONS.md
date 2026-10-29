@@ -20,19 +20,26 @@ wrapper, and the one exception to "readable in any text editor".
   found (docs/methods/gender-euphoria-and-hrt-log.md, lines 606 and 690–694), which a lock answers only for the file itself.
 - **Passphrases** are NFC-normalized UTF-8, never taken as a command-line argument (a hidden prompt, or `JOT_PASSPHRASE` for
   scripts), and never stored.
-- **In the workspace** (added the same day): Lock with a passphrase, Download locked, opening `.jotlock`, Remove the lock. The
-  passphrase makes one non-extractable key per visit (the salt stays the journal's; every save gets a fresh nonce, so autosave
-  does not re-derive); the passphrase is not kept. While locked, the autosaved writing and the attachments are stored only
+- **In the workspace** (added the same day): Lock with a passphrase, Download locked, opening `.jotlock`, and Ways in (below). The
+  content key is kept for the visit as a key the page cannot export (every save gets a fresh nonce, so autosave does not
+  re-derive); no passphrase is kept. While locked, the autosaved writing and the attachments are stored only
   encrypted, and a reload asks for the passphrase before showing anything; the page can also remove the locked copy. A note
   under the actions says which exports are not encrypted. A passphrase under eight characters needs a second confirmation, not
   a refusal. Tested in `site/test-lock-ui.cjs`, including a search of every stored value for the writing.
-- **Jot Lock stays at v1: one passphrase per journal** (decided 29 October 2026). Passkeys (on a phone or computer), security
-  keys such as YubiKeys (both through WebAuthn's PRF extension), several ways in per journal and recovery codes were considered
-  and left out: they need a new format with key slots, they tie a key to the site's address, browser support is uneven, and
-  biometrics can be easier to force than a passphrase. Instead the writer helps people keep a passphrase: password managers can
-  save it (the dialogs name it after the journal), and **Lock again** (Writing preferences: never, 5, 15 or 60 minutes; 15 by
-  default) saves the journal encrypted, drops the key and shows the locked panel after that long with no typing or clicking.
-  "Remember on this device" was left out too: it would let anyone using the browser open the journal.
+- **Ways in: passphrase, recovery code, passkey or security key, all within Jot Lock v1** (draft 2, the same day; asked for after
+  first deciding against them). One random content key encrypts the journal; each way in wraps it: a passphrase, a recovery code
+  (25 Crockford base32 characters, 125 bits, shown once), or a passkey or security key through WebAuthn's PRF extension (HKDF over
+  the PRF answer). The format keeps the name v1 because it is still a draft; draft-1 files open and are rewritten on the next
+  save. Rules that answer the risks raised: a passphrase or recovery code always stays (a passkey is tied to the site's address,
+  and support for PRF varies by browser and key); changes ask for a current way in; the writer offers a recovery code by default,
+  because a lost passphrase otherwise loses the journal (docs/methods/digital-daily-notes.md, lines 438 and 492); and the ways-in
+  dialog says plainly that a synced passkey is as safe as its account and that a face or finger can be easier to force than a
+  passphrase (docs/methods/gender-euphoria-and-hrt-log.md, lines 690–694). Passkey labels and the site show in the header; the
+  label is optional. Password managers can save the passphrase under the journal's name, and **Lock again** (Writing
+  preferences: never, 5, 15 or 60 minutes; 15 by default) saves the journal encrypted, drops the key and shows the locked panel
+  after that long with no typing or clicking. "Remember on this device" is still left out: it would let anyone using the browser
+  open the journal. `jot lock --recovery-code`, `jot unlock --recovery` and `jot lock-info` cover the command line; passkeys work
+  only in the browser, on their own site. Tested with Chromium's virtual authenticator (PRF on), not with real phones or keys.
 - **Not yet:** history snapshots (none exist yet) and the paper tools' hand-off of a scan, which waits in browser storage
   unencrypted until the journal is unlocked. Encrypting only the private parts of a journal was set aside: dates, headings and
   structure would still show.
