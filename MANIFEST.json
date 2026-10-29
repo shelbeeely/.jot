@@ -1529,8 +1529,8 @@
     },
     {
       "path": "site/dist/live-writer.css",
-      "byteLength": 3867,
-      "sha256": "12361fafd36fd13c0d211d838703076fde686952ab15917b3581b781c939f7e7"
+      "byteLength": 4258,
+      "sha256": "fe931202f0a73c125149addfec37e206f16bec92f8c0fc8cf0941c71291e9856"
     },
     {
       "path": "site/dist/live-writer.mjs",
