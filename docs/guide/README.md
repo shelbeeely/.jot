@@ -14,7 +14,8 @@
 - [Voice practice](voice-practice.md): an optional pitch meter that runs on your device (nothing recorded or sent), a
   session timer and a practice note whose numbers chart over time.
 - [Converting an old diary](converting.md): turn a diary kept as plain text (your own, or one from Project Gutenberg) into dated
-  Jot entries.
+  Jot entries; its [Your life online](converting.md#your-life-online) section turns social and blog data exports (X/Twitter,
+  Mastodon, Facebook, Instagram, Tumblr, Reddit, Google Keep and Blogger) into one dated journal.
 - [Turning anything into Jot](turning-anything-into-jot.md): chats, notes, meeting minutes, spreadsheets and photographed pages,
   with an AI agent's help (the to-jot skill), and `jot check` to see that a file is valid.
 

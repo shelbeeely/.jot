@@ -424,7 +424,8 @@ The Jot workspace opens both and saves whichever fits: plain `.jot` when there a
 editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open it in the workspace (or unzip it and open
 `journal.txt`).
 
-- **`.jotlock`** is a locked journal: a `.jot` or `.jotz` encrypted with a passphrase. Only the passphrase opens it.
+- **`.jotlock`** is a locked journal: a `.jot` or `.jotz` encrypted with a passphrase. Only its ways in open it: the passphrase,
+  a recovery code or a passkey you added (below).
 
 ### Locking a journal
 

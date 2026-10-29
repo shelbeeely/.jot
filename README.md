@@ -11,6 +11,7 @@ one parser and page renderer.
 - **Write your way:** freeform entries, reusable templates, tasks, prompts and measurements.
 - **Make it yours:** handwritten fonts, dot grids, inline colors and Journal, Notes or Plain page styles.
 - **Keep and share:** plain-text journals, packaged attachments, printable pages and standalone HTML exports.
+- **Keep it private:** lock a journal with a passphrase, recovery code or passkey; bring in years of posts from your social media exports.
 - **Use your numbers:** charts, CSV imports, calendar exports and weekly reviews.
 
 [Writing guide](docs/guide/writing-jot.md) · [Template guide](docs/guide/template-editor.md) · [Automation guide](docs/guide/automation.md) · [Specification](specification/) · [Latest decisions](DECISIONS.md)
@@ -54,6 +55,7 @@ The static site needs Python 3 to serve it locally; no build or npm install is r
 | [Write](http://localhost:8000/write/) | Open a journal, write and preview pages, then download your file |
 | [Template editor](http://localhost:8000/editor/) | Design daily, weekly and monthly prompts and download a `.jot` template |
 | [Converter](http://localhost:8000/convert/) | Convert a plain-text diary into dated Jot entries |
+| [Your life online](http://localhost:8000/import/) | Turn social and blog data exports into one dated journal |
 | [Guides](http://localhost:8000/guide/) | Learn the writing format and tools |
 | [Examples](http://localhost:8000/examples/) | Read or download converted public-domain diaries |
 
@@ -79,11 +81,12 @@ For an editor with a live preview, see [Jot for VS Code](#jot-for-vs-code).
 | --- | --- | --- |
 | `.jot` | Plain UTF-8 text | Writing in any text editor, templates and e-ink devices |
 | `.jotz` | A ZIP-based package with writing and assets | Keeping images, scans and editable ink with a journal |
+| `.jotlock` | A `.jot` or `.jotz`, encrypted ([Jot Lock v1](specification/Jot-Lock-v1.md)) | Keeping a journal private on a shared computer or in a backup |
 | Exported `.html` | A standalone formatted page with its assets included | Sharing or reading without the workspace |
 | Printed PDF | Pages produced through the browser's **Print / PDF** action | Printing and fixed-layout copies |
 
-The workspace opens `.jot`, `.jotz`, `.md` and `.txt`. It downloads plain `.jot` when there are no attachments and `.jotz` when there
-are. A repository ZIP contains the project itself; it is a different download from a journal package. Packaging does not encrypt a file.
+The workspace opens `.jot`, `.jotz`, `.jotlock`, `.md` and `.txt`. It downloads plain `.jot` when there are no attachments and `.jotz` when there
+are. A repository ZIP contains the project itself; it is a different download from a journal package. Packaging does not encrypt a file; locking does (below).
 
 ## Features
 
@@ -130,6 +133,22 @@ VS Code all use the same code. Guide: [Automation and connections](docs/guide/au
 
     node cli/jot.mjs help
     node --test parser/automation-test.mjs cli/test.mjs
+
+### Locked journals
+
+**Write → Lock with a passphrase** encrypts the journal with the browser's built-in Web Crypto (AES-256-GCM, keys from PBKDF2-SHA-256);
+the browser then keeps only an encrypted copy, **Download locked** saves a `.jotlock`, and the page locks again after time away.
+**Ways in** adds a recovery code or a passkey or security key (WebAuthn PRF), and changes or removes them. Nobody can reset a
+forgotten passphrase. The command line has `jot lock`, `jot unlock` and `jot lock-info`. Format: [Jot Lock v1](specification/Jot-Lock-v1.md);
+guide: [Locking a journal](docs/guide/writing-jot.md#locking-a-journal).
+
+## Your life online: data exports into a journal
+
+The **Your life online** page (`/import/`) and `converter/jot-archive.mjs` read the data exports of X/Twitter, Mastodon, Facebook,
+Instagram, Tumblr, Reddit and Google Takeout (Keep, Blogger), several at once, and write one dated journal, a `.jot` (or a `.jotz`
+with photos) a year. Your own words by default, every file private, no like counts, nothing invented: a post without a readable
+time is left out. Tested on made-up samples, not yet on many real exports. Guide:
+[Your life online](docs/guide/converting.md#your-life-online).
 
 ## Music with an entry
 
@@ -180,6 +199,13 @@ Details: [converter/README.md](converter/README.md).
     curl -sL https://www.gutenberg.org/cache/epub/1026/pg1026.txt | node converter/jot-convert.mjs - --year 1888 > nobody.jot
     node --test converter/test.mjs && node site/test-convert-ui.cjs
 
+## Desktop app (Tauri v2)
+
+`desktop/` runs the site's own pages as an app (Linux, macOS, Windows; set up for Android and iOS) and adds what a web page cannot
+have: exports of any size read a file at a time from disk with guards against hostile ZIPs, native Save dialogs with atomic
+writes, a network limited to the listening services, and web links opened in your own browser. Built from source for now; tested on
+Linux. Details and differences from the site (no passkeys in Linux's web view): [desktop/README.md](desktop/README.md).
+
 ## InkDeck
 
 [InkDeck](https://github.com/shelbeeely/inkdeck), the Bluetooth-keyboard writing firmware for the Xteink X3/X4, saves `.jot` files:
@@ -192,13 +218,15 @@ new files start with the Jot metadata block, and ZIP-packaged `.jot` files are r
 | --- | --- |
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
-| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), proofreading hints, tests |
-| [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`); the scanner (`/scan/`) is unfinished and not linked |
+| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), locked documents (`lock.mjs`: `.jotlock`), automation (`automation.mjs`, `connect.mjs`), proofreading hints, tests |
+| [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`), Your life online (`/import/`); the scanner (`/scan/`) is unfinished and not linked |
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colours and a live page preview with charts, from the same renderer as the site |
-| [`docs/guide/`](docs/guide/) | **User guides**: [Writing in Jot](docs/guide/writing-jot.md), [Using the template editor](docs/guide/template-editor.md) and [Converting an old diary](docs/guide/converting.md) (also pages on the site, `/guide/`) |
-| [`cli/`](cli/) | `jot`, the command line: tasks, events, numbers, calendar and CSV out, numbers in, today, rollover, review, webhooks, Todoist |
-| [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries |
-| [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (49 guides, CC0) |
+| [`desktop/`](desktop/) | **The desktop app** (Tauri v2): the site's pages plus large exports, Save dialogs and a locked-down network; its own Rust and npm dependencies |
+| [`docs/guide/`](docs/guide/) | **User guides** ([index](docs/guide/README.md)): writing, the template editor, automation, your own manual, voice practice, converting diaries and data exports, turning anything into Jot (also pages on the site, `/guide/`) |
+| [`docs/proposals/`](docs/proposals/) | Design proposals: one editor for every method, Jot books, sharing and collaboration |
+| [`cli/`](cli/) | `jot`, the command line: tasks, events, numbers, calendar and CSV out, numbers in, today, rollover, review, lock and unlock, check, webhooks, Todoist |
+| [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries; `jot-archive`: social and blog data exports to a journal |
+| [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (52 guides, CC0) |
 | [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz`. Whole diaries as Jot (Pepys, *The Diary of a Nobody*, Blunt) are on the site's Examples page, [`site/dist/examples/`](site/dist/examples/) |
 | [`references/`](references/) | The historical DotJot document (background only) |
 | `tools/` | `privacy-check.mjs` (the gate before the site is published; `test-privacy.mjs` tests it), `build-examples.mjs` (the site's example diaries, converted from Project Gutenberg; `--check` verifies them), `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file), `build-spec-pdf.cjs` (the spec PDF from its Markdown), `build-parser-zip.py` (the site's parser download), `test-files.mjs` (plain `.jot` vs packaged `.jotz`, by content) and `test-profiles.mjs` (the method catalogue and its site copy match, and every profile example parses as a complete record) |
@@ -213,7 +241,7 @@ The publishing privacy check also needs `pdftotext` (provided by Poppler).
 node --test parser/*test.mjs cli/test.mjs
 
 # Site, converter, file handling and extension tests
-node --test site/test-editor.mjs site/test-guides.mjs site/test-music.mjs converter/test.mjs tools/test-files.mjs tools/test-profiles.mjs tools/test-privacy.mjs vscode/test-extension.mjs
+node --test site/test-editor.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs tools/test-privacy.mjs vscode/test-extension.mjs
 node site/test-core.cjs
 
 # Verify the published site and tracked file manifest
@@ -228,7 +256,8 @@ Run `node site/test-layout-ui.cjs` for grid sizing, page starts, save/reopen, ov
 Run `node site/test-paper-ui.cjs` to check shared styling, paper modes, homepage examples and accessibility across the site.
 Run `node site/test-highlight-blend-ui.cjs` for pixel checks of highlights over ink, including HTML export, print and PDF.
 Run `node site/test-music-ui.cjs` for manual listening notes and Spotify connection/capture checks with stubbed service responses.
-These browser checks are separate from the Node.js tests above.
+Run `node site/test-lock-ui.cjs` for locking and ways in, and `node site/test-import-ui.cjs` for Your life online; `site/AGENTS.md` lists every suite.
+These browser checks are separate from the Node.js tests above. The desktop app has its own tests ([desktop/README.md](desktop/README.md#tests)).
 
 Contributors and coding agents: [AGENTS.md](AGENTS.md) holds the working rules (with more in `parser/`, `site/` and `vscode/`).
 Before changing behavior, read [DECISIONS.md](DECISIONS.md) and the relevant component README. Parser code is copied into the site and
@@ -247,7 +276,7 @@ once in **Settings → Pages → Source: GitHub Actions**. Details: [site/README
 ## Privacy
 
 The browser writing tools process journals locally. Spotify sign-in and playback fetches are explicit actions in Write; journal text stays local.
-Webhooks, Todoist and weather requests are explicit CLI or VS Code actions;
+Locking and Your life online run entirely on your device. Webhooks, Todoist and weather requests are explicit CLI or VS Code actions;
 see [Automation and connections](docs/guide/automation.md) for what they send.
 
 Repository journals are public-domain diaries or fictional examples. Keep personal journals, attachments and service credentials out

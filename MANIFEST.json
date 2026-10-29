@@ -119,8 +119,8 @@
     },
     {
       "path": "README.md",
-      "byteLength": 17651,
-      "sha256": "0ffa42f4bfaee9b23eb717145f4a933efc1838f7952786e613bc14e2cf0ad183"
+      "byteLength": 20695,
+      "sha256": "91420470ee84c1c128aa9089fc86653c642a6c2890b54d42d2eb45b183abfc14"
     },
     {
       "path": "cli/README.md",
@@ -654,8 +654,8 @@
     },
     {
       "path": "docs/guide/README.md",
-      "byteLength": 1775,
-      "sha256": "e870514970d72fef0c5dee4c60623aa50343fd5adba2b5705afa6dca11e2a646"
+      "byteLength": 1983,
+      "sha256": "3fcfb00ac7fca5b49e9f990687cb81795c4eef6bc958955c25daf6aafebe1edd"
     },
     {
       "path": "docs/guide/automation.md",
@@ -664,8 +664,8 @@
     },
     {
       "path": "docs/guide/converting.md",
-      "byteLength": 10828,
-      "sha256": "e59c1c34d1322bf093cddf980ebdf55164e8576aa6923ff858ec25b64b0e32dc"
+      "byteLength": 11106,
+      "sha256": "0be97643c08cdf30f0ecb7f178ff22bc6ebcdc9ad068f5ca88010d04f88d8a74"
     },
     {
       "path": "docs/guide/manual.md",
@@ -689,8 +689,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 28591,
-      "sha256": "5dfd0c07e8d15c6a917097c84940e290d83e171d45594a09b9e9143f3a102f40"
+      "byteLength": 28653,
+      "sha256": "b5e45aac7ae511c2d590eef7f99baed149d7910afbdd0035466608686930c95f"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -1329,8 +1329,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 3323,
-      "sha256": "10c73dbcd29de5ba36d3cd9d0fe0f9094533908198ce115ee66417ee8b53b7cf"
+      "byteLength": 3600,
+      "sha256": "eea4736e962061d5a533664b2d04af14d469e676a137a904d3983eb848f550cc"
     },
     {
       "path": "site/CLAUDE.md",
@@ -1339,8 +1339,8 @@
     },
     {
       "path": "site/README.md",
-      "byteLength": 12197,
-      "sha256": "79e542866d7e0921366c212e85dcf48c216d6fdaee23af73128bada3842e39aa"
+      "byteLength": 13547,
+      "sha256": "45828ec83c96b4c4996fffe7c20abe269059e9326bf85fa57979f1c4e542701d"
     },
     {
       "path": "site/build-guides.mjs",
@@ -1709,8 +1709,8 @@
     },
     {
       "path": "site/dist/guide/converting.html",
-      "byteLength": 15866,
-      "sha256": "ff180054756f976651c6ba3aa384885d9e18a7d6d6f3eb0f470b0fe230d73874"
+      "byteLength": 16172,
+      "sha256": "c2e1c641c3c30a29ec42b15075c8cdde1e1c150b5e8dc6e8477d294f2bebd20a"
     },
     {
       "path": "site/dist/guide/guide.css",
@@ -1719,8 +1719,8 @@
     },
     {
       "path": "site/dist/guide/index.html",
-      "byteLength": 2993,
-      "sha256": "81bb719a9255cccf7cb788e2829c3095caf9de486c2e55566622e0eb92a96d3b"
+      "byteLength": 3212,
+      "sha256": "b8ece733c5fbf0de991ca7ee7359143baf968dd42229e555b0c42da3e3cad52a"
     },
     {
       "path": "site/dist/guide/manual.html",
@@ -1744,8 +1744,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 38505,
-      "sha256": "b4666e8cffda4ef19c6af69d97c0ba384225325532c87765e297a658ab6f3995"
+      "byteLength": 38565,
+      "sha256": "3ef8beeb45fe8073da2cc26854691256bde9a1377316b43109b2eadf25a31efb"
     },
     {
       "path": "site/dist/health-import.mjs",

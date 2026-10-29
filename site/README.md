@@ -1,7 +1,7 @@
 # Jot site
 
-The site: the home page, the writing workspace (`/write/`), the template editor (`/editor/`), the converter (`/convert/`), the guides
-and the examples. Details of each are below.
+The site: the home page, the writing workspace (`/write/`), the template editor (`/editor/`), the converter (`/convert/`), Your life
+online (`/import/`), the guides and the examples. The desktop app (`../desktop/`) loads these same pages. Details of each are below.
 
 ## The scanner (`dist/scan/`): unfinished and hidden
 
@@ -46,8 +46,8 @@ a phone or InkDeck). Optional handwritten page layout reserves grid rows per blo
 - **Five zones:** before the days, each week begins, each day, each week ends, after the days.
 - **Blocks:** writing space, prompt (several questions take turns, one a day), checkboxes, task lines, scale, ratings, fill-in blanks,
   numbers (measurements with units), week chart (a chart record for the week or the month), choose words, list, time blocks, table,
-  words to keep, record, page title, my manual (why I keep this, what I do, my marks, after a gap). Seven starters (daily check-in, rapid log, morning pages, gratitude, day planner, weekly
-  dashboard, empty). Past seven blocks in **Each week begins** the zone says so (the "rule of 7"; a note, never a refusal).
+  words to keep, record, page title, my manual (why I keep this, what I do, my marks, after a gap). Eight starters (daily check-in, rapid log, morning pages, gratitude, gratitude weekly, day planner,
+  weekly dashboard, empty). Past seven blocks in **Each week begins** the zone says so (the "rule of 7"; a note, never a refusal).
 - **Text or Page:** the right-hand side shows the file as text, or as a page with its charts drawn (`../jot/preview.mjs`). **Sample
   numbers** fills empty days with stand-in numbers in the Page view only; they never reach the file.
 - **Files:** one for the month, or a file a week or a day (InkDeck opens 16 KB a file). The page checks its own output with the Jot
@@ -91,6 +91,24 @@ with the Jot parser. Nothing is uploaded or stored.
 
     node test-convert-ui.cjs         # the page in Chromium: the same files as the command line for every option, the zip, refusals,
                                      # fetch (allowed and not), 390 px, 44 px targets, axe (light and dark)
+
+## Your life online (`dist/import/`)
+
+Social and blog data exports (X/Twitter, Mastodon, Facebook, Instagram, Tumblr, Reddit, Google Keep and Blogger) into one dated
+journal, in the browser: `dist/jot/archive.mjs` is an exact copy of `converter/archive.mjs`. `engine.mjs` reads the exports and makes
+the journal; in the browser it runs in a module Web Worker (`worker.mjs`), in the desktop app on the page, reading through
+`window.jotDesktop` (any size, from disk). ZIPs, ZIPs inside them and unzipped folders; nothing is uploaded or stored. Linked from the
+converter page.
+
+    node test-import-ui.cjs          # the page in Chromium: four services at once, choices, a .jot a year, packed photos, 390 px, axe
+
+## Locked journals (`dist/jot/lock.mjs`, `dist/jot/passkey.mjs`)
+
+The writer's **Lock with a passphrase** and **Ways in** use `lock.mjs` (a copy of `parser/lock.mjs`, [Jot Lock
+v1](dist/docs/Jot-Lock-v1.md)) with the browser's built-in Web Crypto, and `passkey.mjs` for passkeys and security keys (WebAuthn
+PRF). Once locked, local storage keeps only encrypted copies; the page locks again after time away.
+
+    node test-lock-ui.cjs            # lock, unlock, ways in, autosave, Download locked; passkeys on a virtual authenticator
 
 ## Examples (`dist/examples/`)
 

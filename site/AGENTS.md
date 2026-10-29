@@ -12,7 +12,7 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - Include changes (`parser/include.mjs`, the workspace's `.jotz` includes): `node site/test-include-ui.cjs`.
 
 - Writer preferences, focus mode, quick notes and return to position: `node site/test-prefs-ui.cjs`.
-- Your life online (`import/`, `jot/archive.mjs` from `converter/archive.mjs`): `node site/test-import-ui.cjs`.
+- Your life online (`import/`, `jot/archive.mjs` from `converter/archive.mjs`): `node site/test-import-ui.cjs`; changes to `import/engine.mjs` or `import/app.mjs` also run the desktop suite (`desktop/README.md`) when it can be built.
 - Locking (`jot/lock.mjs`, `jot/passkey.mjs`, the writer's lock, unlock, ways in, autosave and Download locked): `node site/test-lock-ui.cjs` (passkeys on Chromium's virtual authenticator).
 
 - Voice practice changes: `node site/test-voice-ui.cjs` (Chromium's fake microphone plays a generated tone).
@@ -26,6 +26,7 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - Keep the homepage informational, with renderer-backed examples. Do not restore an editor or input form there.
 - Preserve the reference Mildliner palette in `site/dist/jot/palettes.mjs`. Highlights are translucent strokes above ink, using multiply blending.
 - Preserve relative URLs for GitHub Pages subpaths, keyboard access, mobile layouts and accessible labels/status messages.
+- The desktop app (`desktop/`) loads these pages unchanged and adds `window.jotDesktop`. Pages must work fully without it; check for it, never require it.
 - `site/dist/jot/` holds copies of `parser/` and `converter/` modules: change the canonical module, then copy it. `site/dist/guide/` is generated from `docs/guide/` by `site/build-guides.mjs`.
 
 ## Listening capture (`site/dist/jot/music.mjs`)

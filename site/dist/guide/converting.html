@@ -288,6 +288,9 @@ node converter/jot-archive.mjs twitter.zip facebook.zip takeout/ --out-dir my-li
 </code></pre>
 <p><code>--reposts</code>, <code>--comments</code>, <code>--stories</code>, <code>--places</code>, <code>--from</code>, <code>--to</code>, <code>--per year|month|none</code> and <code>--media note|attach|none</code> match the
 page&#39;s choices; <code>--help</code> lists them all. Exports over 2 GB: unzip them and give the folder.</p>
+<p>The Jot desktop app (<code>desktop/</code> in the project) runs the same page and reads exports of any size straight from the ZIP, a file
+at a time, refusing files that would unpack to more than 1 GiB or point outside the export. It is built from source for now: see
+<code>desktop/README.md</code>.</p>
 <h3 id="before-you-start">Before you start</h3>
 <p>Old posts can bring back things you weren&#39;t expecting. You choose the dates and what comes in, and nothing is shown to you on its
 own: the journal waits until you open it.</p>
