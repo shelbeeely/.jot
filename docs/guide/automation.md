@@ -138,6 +138,26 @@ jot query journal.jot --show tasks --tag health --period week   # or ask one her
 The reading commands never change a file. The writing commands say what they changed, and `--dry-run` prints the result instead of
 saving it. `jot help` lists every option.
 
+### Locking a journal with a passphrase
+
+```
+jot lock journal.jot                         # makes journal.jotlock; asks for the passphrase twice
+jot unlock journal.jotlock -o copy.jot       # the journal back, exactly as it was
+```
+
+A locked journal is encrypted with your passphrase (AES-256-GCM, with the key made from the passphrase by PBKDF2), using only
+what is built into Node and browsers. Anyone with the passphrase can open it, with Jot or with a few lines of Python or Node
+(the [Jot Lock](../../site/dist/docs/Jot-Lock-v1.md) recipes); nobody else can.
+
+- **There is no recovery.** Jot never keeps or sends your passphrase. If it is forgotten, the journal cannot be opened by anyone,
+  you included. Keep it in a password manager.
+- **Locking makes a copy.** The unlocked journal is still there until you delete it, and a deleted file can stay on a disk.
+- **It hides the writing, not the file:** its name, size and dates still show, so give it a neutral name. It does not help if
+  someone uses your unlocked computer, or makes you give up the passphrase.
+- For scripts, the passphrase can come from `JOT_PASSPHRASE`; it is never taken as an argument, where other programs could see it.
+
+The workspace does not open locked journals yet.
+
 ## In VS Code
 
 The Jot extension has the same commands (press **Ctrl+Shift+P** and type "Jot"): **Today's Entry** (**Ctrl+Alt+T**), **Carry Open

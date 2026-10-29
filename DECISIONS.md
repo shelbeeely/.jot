@@ -1,5 +1,29 @@
 # Latest Jot v1 decisions
 
+## Locked documents with built-in crypto (29 October 2026)
+
+A `.jot` or `.jotz` can be locked with a passphrase as `.jotlock` (`specification/Jot-Lock-v1.md`, `parser/lock.mjs`,
+`jot lock` and `jot unlock`). Unlocking gives back the original bytes exactly, so the journal format is unchanged; a lock is a
+wrapper, and the one exception to "readable in any text editor".
+
+- **Built-in crypto only:** PBKDF2-SHA-256 (600,000 iterations by default, carried in the header) and AES-256-GCM from Web
+  Crypto, with both header lines as authenticated data. No vendored code. The `age` format (scrypt, ChaCha20-Poly1305) was
+  considered, for its memory-hard key function and existing tools, and set aside because browsers would need vendored code for
+  it. The format is published with short Python and Node recipes, so a locked journal opens without Jot; the tests open Jot's
+  output with the Node recipe, and the Python recipe was checked by hand.
+- **No recovery, said plainly.** Lost keys make encrypted journals "encrypted and unusable forever"
+  (docs/methods/digital-daily-notes.md, line 438); the guide's answer is a hint kept safe and a password manager (line 492).
+  Jot never stores or sends a passphrase; `jot lock` asks twice and unlocks the result before writing it.
+- **Honest limits.** Exports are usually unencrypted and encryption still exposes metadata (docs/methods/digital-daily-notes.md,
+  lines 445–446): a locked file's name, size and dates show, and locking leaves the unlocked original in place. The spec lists
+  what a lock does not protect against, including being made to give up the passphrase; the guides' threat is a journal that is
+  found (docs/methods/gender-euphoria-and-hrt-log.md, lines 606 and 690–694), which a lock answers only for the file itself.
+- **Passphrases** are NFC-normalized UTF-8, never taken as a command-line argument (a hidden prompt, or `JOT_PASSPHRASE` for
+  scripts), and never stored.
+- **Not yet:** the workspace cannot open or save locked journals. When it does, its autosave and any history must be encrypted
+  too (the spec requires saying so otherwise), since the browser keeps working copies. Encrypting only the private parts of a
+  journal was set aside: dates, headings and structure would still show.
+
 ## The writer's own day, and starters that follow their method (28 October 2026)
 
 First phase (E0) of `docs/proposals/editor.md`.

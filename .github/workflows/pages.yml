@@ -48,7 +48,7 @@ jobs:
 
       - name: Tests
         run: |
-          node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/palette-test.mjs parser/automation-test.mjs parser/include-test.mjs parser/links-test.mjs parser/query-test.mjs parser/health-test.mjs cli/test.mjs site/test-editor.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
+          node --test tools/test-privacy.mjs converter/test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/lock-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/palette-test.mjs parser/automation-test.mjs parser/include-test.mjs parser/links-test.mjs parser/query-test.mjs parser/health-test.mjs cli/test.mjs site/test-editor.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
           node site/test-core.cjs
 
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

@@ -144,3 +144,21 @@ test('skill validator runs outside the repository, rejects warnings and errors, 
   assert.equal((await validate([packed])).code, 0);
   assert.equal(fs.readFileSync(good, 'utf8'), J);
 });
+
+test('lock and unlock: an encrypted copy, the same bytes back, nothing overwritten, other commands refuse a locked file', async () => {
+  const d = tmp(), f = path.join(d, 'j.jot'), env = { JOT_PASSPHRASE: 'correct horse battery staple' }; fs.writeFileSync(f, J);
+  const l = await run(['lock', f, '--iterations', '100000'], env);
+  assert.equal(l.code, 0, l.stderr); assert.match(l.stderr, /locked to .*j\.jotlock[\s\S]*still there[\s\S]*nobody can unlock it/);
+  const locked = path.join(d, 'j.jotlock'); assert.match(fs.readFileSync(locked, 'latin1'), /^JOTLOCK 1\n/); assert.doesNotMatch(fs.readFileSync(locked, 'latin1'), /Call Sam/);
+  assert.equal(fs.readFileSync(f, 'utf8'), J, 'the journal itself is left alone');
+  assert.match((await run(['lock', f], env)).stderr, /exists; choose another name/);
+  assert.match((await run(['tasks', locked])).stderr, /is locked; unlock it first/);
+  const c = await run(['check', locked]); assert.equal(c.code, 1); assert.match(c.stdout, /error locked/);
+  assert.match((await run(['unlock', locked], env)).stderr, /j\.jot exists/, 'never over the original');
+  const u = await run(['unlock', locked, '-o', path.join(d, 'back.jot')], env);
+  assert.equal(u.code, 0, u.stderr); assert.equal(fs.readFileSync(path.join(d, 'back.jot'), 'utf8'), J); assert.match(u.stderr, /not encrypted/);
+  assert.equal((await run(['unlock', locked, '-o', '-'], env)).stdout, J);
+  const wrong = await run(['unlock', locked, '-o', '-'], { JOT_PASSPHRASE: 'nope' }); assert.equal(wrong.code, 1); assert.match(wrong.stderr, /passphrase is wrong, or the file was changed/);
+  const none = await run(['unlock', locked, '-o', '-'], { JOT_PASSPHRASE: '' }); assert.equal(none.code, 1); assert.match(none.stderr, /passphrase is needed/);
+  assert.match((await run(['unlock', f, '-o', '-'], env)).stderr, /is not locked/);
+});

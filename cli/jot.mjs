@@ -12,6 +12,7 @@ import Q from '../parser/query.mjs';
 import H from '../parser/health.mjs';
 import { sendWebhook, todoistAdd, weather } from '../parser/connect.mjs';
 import { flatten, notice } from '../parser/include.mjs';
+import { lock, unlock, isLocked, kindOf, LOCK_EXTENSION, DEFAULT_ITERATIONS } from '../parser/lock.mjs';
 
 const HELP = `jot: tasks, events and numbers from .jot journals
 
@@ -45,6 +46,12 @@ Writing (one journal; --dry-run prints the new text instead):
   jot rollover <journal.jot> [--date DATE]               open tasks from earlier days carried to today ([>] where they were)
   jot review <journal.jot> [--date DATE]                 a review of the week: done, open, the numbers, a chart
 
+Locking (a passphrase, from a hidden prompt or JOT_PASSPHRASE; never on the command line):
+  jot lock <journal.jot|.jotz> [-o out.jotlock] [--iterations N]
+                                                         an encrypted copy that unlocks to the same bytes; the journal itself is
+                                                         left as it is. Without the passphrase nobody can unlock it, you included
+  jot unlock <journal.jotlock> [-o out | -o -]           the journal back (.jot or .jotz, by content); never over an existing file
+
 Connections (only when you run them):
   jot post <url> <files…> [--open] [--since DATE]        POST the tasks, events and numbers as JSON to a webhook (Zapier, Make, n8n …)
   jot todoist <journal.jot>                              open tasks not sent before, to Todoist (token in TODOIST_TOKEN);
@@ -56,7 +63,7 @@ const args = process.argv.slice(2), cmd = ((c) => (c === '--flatten' ? 'flatten'
 const opt = (name, def = null) => { const i = args.indexOf(name); if (i < 0) return def; const v = args[i + 1]; args.splice(i, 2); return v; };
 const flag = (name) => { const i = args.indexOf(name); if (i < 0) return false; args.splice(i, 1); return true; };
 const fail = (msg) => { process.stderr.write(`jot: ${msg}\n`); process.exit(1); };
-const read = (f) => { if (!fs.existsSync(f)) fail(`no such file: ${f}`); const b = fs.readFileSync(f); if (b[0] === 0x50 && b[1] === 0x4b) fail(`${f} is a packaged .jotz; open it in the workspace, or use its journal.txt`); return b.toString('utf8'); };
+const read = (f) => { if (!fs.existsSync(f)) fail(`no such file: ${f}`); const b = fs.readFileSync(f); if (isLocked(b)) fail(`${f} is locked; unlock it first (jot unlock)`); if (b[0] === 0x50 && b[1] === 0x4b) fail(`${f} is a packaged .jotz; open it in the workspace, or use its journal.txt`); return b.toString('utf8'); };
 const writeBack = (file, text, said, dry) => { if (dry) { process.stdout.write(text); return; } fs.writeFileSync(file, text); process.stderr.write(`${said}\n`); };
 const date = (v, what = '--date') => { const d = v || A.localToday(); if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) fail(`${what} must look like 2026-10-26`); return d; };
 const out = (s) => process.stdout.write(s.endsWith('\n') ? s : `${s}\n`);
@@ -67,6 +74,7 @@ async function main() {
   if (cmd === 'query') return query();
 
   if (cmd === 'check') return check();
+  if (cmd === 'lock' || cmd === 'unlock') return lockCmd();
   if (!['tasks', 'events', 'numbers', 'ics', 'json', 'post', 'import', 'import-health', 'today', 'rollover', 'review', 'todoist'].includes(cmd)) fail(`unknown command "${cmd}" (jot help lists them)`);
   if (['tasks', 'events', 'numbers', 'ics', 'json', 'post'].includes(cmd)) {
     const url = cmd === 'post' ? args.shift() : null;
@@ -216,6 +224,7 @@ async function check() {
   for (const file of files) {
     if (!fs.existsSync(file)) { problem(file, 'missing', 'No such file.'); continue; }
     const raw = fs.readFileSync(file); let source = raw.toString('utf8');
+    if (isLocked(raw)) { problem(file, 'locked', 'Locked: unlock it first (jot unlock), then check the copy.'); continue; }
     if (raw[0] === 0x50 && raw[1] === 0x4b) try { ({ source } = await readDocument(new Uint8Array(raw))); } catch (e) { problem(file, 'unreadable', e.message); continue; }
     source = source.replace(/^\uFEFF/, '');
     const bytes = Buffer.from(source, 'utf8'), starts = [0];
@@ -230,4 +239,53 @@ async function check() {
   process.stderr.write(`${files.length} ${files.length === 1 ? 'file' : 'files'}: ${errors} ${errors === 1 ? 'error' : 'errors'}, ${warnings} ${warnings === 1 ? 'warning' : 'warnings'}\n`);
   if (errors || (strict && warnings)) process.exitCode = 1;
 }
+// A passphrase from JOT_PASSPHRASE (scripts, tests), else typed at a terminal without echo; twice when locking, so a typo can't
+// lock a journal for good.
+function hidden(prompt) {
+  return new Promise((resolve, reject) => {
+    const input = process.stdin; let typed = '';
+    process.stderr.write(prompt); input.setRawMode(true); input.resume(); input.setEncoding('utf8');
+    const done = (err) => { input.setRawMode(false); input.pause(); input.removeListener('data', onData); process.stderr.write('\n'); err ? reject(err) : resolve(typed); };
+    const onData = (chunk) => {
+      for (const ch of chunk) {
+        if (ch === '\r' || ch === '\n') return done();
+        if (ch === '\u0003' || ch === '\u0004') return done(new Error('cancelled'));
+        if (ch === '\u007f' || ch === '\b') typed = [...typed].slice(0, -1).join(''); else if (ch >= ' ') typed += ch;
+      }
+    };
+    input.on('data', onData);
+  });
+}
+async function passphrase(twice) {
+  if (process.env.JOT_PASSPHRASE) return process.env.JOT_PASSPHRASE;
+  if (!process.stdin.isTTY) fail('a passphrase is needed: run this at a terminal, or set JOT_PASSPHRASE');
+  const first = await hidden('Passphrase: ');
+  if (!first) fail('no passphrase given; nothing was changed');
+  if (twice && first !== await hidden('Same passphrase again: ')) fail('the two passphrases differ; nothing was changed');
+  return first;
+}
+
+async function lockCmd() {
+  const o = opt('-o'), iterations = Number(opt('--iterations', DEFAULT_ITERATIONS)), unknown = args.find((a) => a.startsWith('--')); if (unknown) fail(`${cmd}: unknown option ${unknown}`);
+  const file = args.shift(); if (!file || args.length) fail(`${cmd}: one journal, please`);
+  if (!fs.existsSync(file)) fail(`no such file: ${file}`);
+  const raw = new Uint8Array(fs.readFileSync(file)), base = path.join(path.dirname(file), path.basename(file).replace(/\.[^.]*$/, ''));
+  if (cmd === 'lock') {
+    if (isLocked(raw)) fail(`${file} is already locked`);
+    const target = o || base + LOCK_EXTENSION; if (fs.existsSync(target)) fail(`${target} exists; choose another name with -o`);
+    const locked = await lock(raw, await passphrase(true), { iterations });
+    fs.writeFileSync(target, locked, { flag: 'wx' });
+    process.stderr.write(`${file}: locked to ${target} (checked: it unlocks to the same bytes).\n` +
+      `The unlocked ${path.basename(file)} is still there; delete it if you want only the locked copy (a deleted file can stay on a disk).\n` +
+      'Without the passphrase nobody can unlock it, you included: keep it in a password manager.\n');
+    return;
+  }
+  if (!isLocked(raw)) fail(`${file} is not locked`);
+  const plain = await unlock(raw, await passphrase(false));
+  if (o === '-') { process.stdout.write(plain); return; }
+  const target = o || base + '.' + kindOf(plain); if (fs.existsSync(target)) fail(`${target} exists; choose another name with -o`);
+  fs.writeFileSync(target, plain, { flag: 'wx' });
+  process.stderr.write(`${file}: unlocked to ${target}. That copy is not encrypted.\n`);
+}
+
 main().catch((e) => fail(e.message));

@@ -19,4 +19,4 @@ Status: 1.0.0-draft.3, 26 October 2026. This package specifies a proposed format
 
 Additional deliverables: the separate JavaScript parser prototype (with Markdown and diagram recognition), proofread module and maintained ROADMAP.md. See the workspace roadmap for implemented versus planned features.
 
-Draft 3: plain writing is `.jot`; the self-contained document with assets is `.jotz` (see Jot-Container-v1.md and example.jotz). The .txt examples are readable source.
+Draft 3: plain writing is `.jot`; the self-contained document with assets is `.jotz` (see Jot-Container-v1.md and example.jotz). Either can be locked with a passphrase as `.jotlock` (see Jot-Lock-v1.md). The .txt examples are readable source.
