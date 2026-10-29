@@ -11,7 +11,7 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..'), BRAN
 const pathOf = (file) => /<path[^>]* d="([^"]+)"/.exec(fs.readFileSync(path.join(BRAND, file), 'utf8'))[1];
 const svg = (cls, box, d) => `<svg class="${cls}" viewBox="${box}" aria-hidden="true" focusable="false"><path d="${d}"/></svg>`;
 // The wordmark "ιot" begins with the symbol, the iota, so the header shows the wordmark alone.
-const MARK = svg('brand-word', '0 0 372 256', pathOf('jot-wordmark.svg'));
+const MARK = svg('brand-word', '0 0 352 256', pathOf('jot-wordmark.svg'));
 
 /** The header's home link: the wordmark, named "Jot home" for screen readers (it is spelled with an iota). */
 export const brandLink = (home, { current = false, sub = '' } = {}) =>
