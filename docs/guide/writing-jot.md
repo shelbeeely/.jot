@@ -436,6 +436,10 @@ the key made from your passphrase by PBKDF2). Nothing is sent anywhere. From the
 - reloading the page asks for the passphrase before showing anything. **Remove it from this browser** deletes the locked copy
   here if you no longer need it;
 - **Remove the lock** goes back to an ordinary journal.
+- **Lock again**, in Preferences, clears the journal from the page after 5, 15 (the standard) or 60 minutes with no typing or
+  clicking, saving it (locked) first, so a journal left open on a shared computer doesn't stay open. **Never** keeps it open
+  until you close the page.
+- Your password manager can save the passphrase: Jot names it after the journal, so separate journals get separate entries.
 
 Things to know first:
 

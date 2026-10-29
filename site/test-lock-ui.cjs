@@ -78,6 +78,23 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   await p2.click('#lockBtn');await p2.waitForFunction(()=>/lock is removed/.test(document.querySelector('#journalNotice').textContent));
   assert.ok((await stored(p2)).includes(SECRET));assert.equal((await p2.textContent('#downloadJot')).trim(),'Download .jot ↓');assert.ok(!(await p2.isVisible('#lockNote')));
   done2();await ctx2.close();
-  console.log('PASS: lock (mismatch and short passphrase checks), nothing stored in the clear (writing, later saves, attachments), .jotlock download unlocked by the parser, reload asks again (wrong passphrase, cancel, unlock), remove from this browser, open a .jotlock (kept locked), remove the lock; 390px light/dark accessibility; no requests leave the page.');
+  // Lock again after time away (default 15 minutes): saved encrypted first, then the locked panel; Never keeps it open.
+  const ctx3=await browser.newContext({viewport:{width:1100,height:900}}),p3=await ctx3.newPage(),done3=watch(p3);
+  await p3.clock.install();await p3.goto(base+'/write/');await p3.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));
+  await p3.fill('#documentName','field-notes');await p3.fill('#writing',`### 2026-10-25 | Sunday\n\n${SECRET}\n`);
+  await p3.click('#lockBtn');assert.equal(await p3.inputValue('#lockUser'),'field-notes','a password manager saves it under the journal\'s name');
+  await p3.fill('#lockPass',PASS);await p3.fill('#lockPass2',PASS);await p3.click('#lockGo');await p3.waitForFunction(()=>!document.querySelector('#lockDialog').open);
+  await p3.click('#prefsBtn');assert.equal(await p3.inputValue('#prefRelock'),'15');await p3.click('#prefsDone');
+  await p3.$eval('#writing',e=>{e.focus();e.setSelectionRange(e.value.length,e.value.length);});await p3.keyboard.type('Last words.');
+  await p3.clock.runFor(10*60000);assert.match(await p3.inputValue('#writing'),/Last words\./,'still open after 10 minutes');
+  await p3.clock.runFor(6*60000);await p3.waitForFunction(()=>/Locked again after 15 minutes away/.test(document.querySelector('#journalNotice').textContent));
+  assert.equal(await p3.inputValue('#writing'),'');assert.ok(await p3.isVisible('#lockGate'));assert.ok(!(await p3.isVisible('#lockNote')));
+  assert.ok(!(await stored(p3)).includes('Last words'),'still nothing in the clear');
+  await p3.click('#lockGateUnlock');await p3.fill('#unlockPass',PASS);await p3.click('#unlockGo');
+  await p3.waitForFunction(()=>/Last words\./.test(document.querySelector('#writing').value));
+  await p3.click('#prefsBtn');await p3.selectOption('#prefRelock','0');await p3.click('#prefsDone');
+  await p3.clock.runFor(3*60*60000);assert.match(await p3.inputValue('#writing'),/Last words\./,'Never: it stays open');assert.ok(!(await p3.isVisible('#lockGate')));
+  done3();await ctx3.close();
+  console.log('PASS: lock (mismatch and short passphrase checks), nothing stored in the clear (writing, later saves, attachments), .jotlock download unlocked by the parser, reload asks again (wrong passphrase, cancel, unlock), remove from this browser, open a .jotlock (kept locked), remove the lock, lock again after 15 minutes away (and Never), the journal name for password managers; 390px light/dark accessibility; no requests leave the page.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

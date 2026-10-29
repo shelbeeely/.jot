@@ -26,6 +26,13 @@ wrapper, and the one exception to "readable in any text editor".
   encrypted, and a reload asks for the passphrase before showing anything; the page can also remove the locked copy. A note
   under the actions says which exports are not encrypted. A passphrase under eight characters needs a second confirmation, not
   a refusal. Tested in `site/test-lock-ui.cjs`, including a search of every stored value for the writing.
+- **Jot Lock stays at v1: one passphrase per journal** (decided 29 October 2026). Passkeys (on a phone or computer), security
+  keys such as YubiKeys (both through WebAuthn's PRF extension), several ways in per journal and recovery codes were considered
+  and left out: they need a new format with key slots, they tie a key to the site's address, browser support is uneven, and
+  biometrics can be easier to force than a passphrase. Instead the writer helps people keep a passphrase: password managers can
+  save it (the dialogs name it after the journal), and **Lock again** (Writing preferences: never, 5, 15 or 60 minutes; 15 by
+  default) saves the journal encrypted, drops the key and shows the locked panel after that long with no typing or clicking.
+  "Remember on this device" was left out too: it would let anyone using the browser open the journal.
 - **Not yet:** history snapshots (none exist yet) and the paper tools' hand-off of a scan, which waits in browser storage
   unencrypted until the journal is unlocked. Encrypting only the private parts of a journal was set aside: dates, headings and
   structure would still show.

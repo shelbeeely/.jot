@@ -114,8 +114,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 35511,
-      "sha256": "f585ce946d4e15041de3b6ab86c1ac278d7a7b815925d1e45a3d04253775f4fa"
+      "byteLength": 36370,
+      "sha256": "be119979c727481e1cd39d007b559644fbd29ba3d46ffd6ae7946480e067e46e"
     },
     {
       "path": "README.md",
@@ -224,8 +224,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 27230,
-      "sha256": "3e5a95db2a99b4f8e576ca6a4070d425aaf78c35b24f7e2935afe2fcd591b792"
+      "byteLength": 27633,
+      "sha256": "b05831ce2cee4c351562aeefa651e82668908d122c418d6f3ccad00cdb0afa44"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -579,8 +579,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 28586,
-      "sha256": "6670240a7af6cfab75c02de92f6c5194e243a44b6163ac2400ead2cc5d9e65d6"
+      "byteLength": 28711,
+      "sha256": "41fb2f59fccc3ef9df9b256e212edcc9a5d146c602e28554bf8d0de178c872b3"
     },
     {
       "path": "parser/automation-test.mjs",
@@ -884,8 +884,8 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 28586,
-      "sha256": "6670240a7af6cfab75c02de92f6c5194e243a44b6163ac2400ead2cc5d9e65d6"
+      "byteLength": 28711,
+      "sha256": "41fb2f59fccc3ef9df9b256e212edcc9a5d146c602e28554bf8d0de178c872b3"
     },
     {
       "path": "site/dist/convert/app.mjs",
@@ -929,8 +929,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 929098,
-      "sha256": "84f6cf6ddc032f33e330e2dc293cf00c38bb3573637719078a7bb5baed6eb9ce"
+      "byteLength": 929154,
+      "sha256": "b4104353ff318899041f82f0fafda2bc82d92de86d480cb644a5555d4c4b3e4f"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -1279,8 +1279,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 37048,
-      "sha256": "1282d43e1fa23418565fae99c036144c8f805ef75cc4969f16121d04f365cb62"
+      "byteLength": 37491,
+      "sha256": "4368e0a1458edd2bc52ccb80adf416a9bbb0e9903b952cf18b82c322499bb65b"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -1569,18 +1569,18 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 19928,
-      "sha256": "54b9fb372324a107dd3d4199585b4b3fa15c07ba63ead6bd60020cbbe33a7aec"
+      "byteLength": 20061,
+      "sha256": "279890ad206f17958642775581094bbb050f78514df9049a3fd919c0088c5af3"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 53719,
-      "sha256": "7d55e8d247cdb7d21eb956f4358729d0d6106897a23bf1a0ee5750580d0cd53c"
+      "byteLength": 55499,
+      "sha256": "79229ff0e6ec67c38972aee851c9e71d4699eacb5e5c1787e7a1fd23abd3f812"
     },
     {
       "path": "site/dist/write/index.html",
-      "byteLength": 31173,
-      "sha256": "1ec83ff545bbfeef6016351b2e18dfa585230d2a4546729c4347efc854b8e881"
+      "byteLength": 31856,
+      "sha256": "29ee7c57d09dbda8772b3b9b2333602fd620cacfd6c824cf1e852669e6ea936e"
     },
     {
       "path": "site/dist/write/spotify-callback.html",
@@ -1644,8 +1644,8 @@
     },
     {
       "path": "site/test-lock-ui.cjs",
-      "byteLength": 10810,
-      "sha256": "04ecd6cf815093b4218f816f1b2897dc1a19336a50411030824ab5959104e071"
+      "byteLength": 12960,
+      "sha256": "0e043fb294683f13ab46f86ac15fc5f125b9b891d43c25a9a2d08654f12e9c33"
     },
     {
       "path": "site/test-music-ui.cjs",
@@ -1709,8 +1709,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 28586,
-      "sha256": "6670240a7af6cfab75c02de92f6c5194e243a44b6163ac2400ead2cc5d9e65d6"
+      "byteLength": 28711,
+      "sha256": "41fb2f59fccc3ef9df9b256e212edcc9a5d146c602e28554bf8d0de178c872b3"
     },
     {
       "path": "specification/conformance.json",
