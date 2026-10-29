@@ -37,11 +37,12 @@ node tools/build-handwriting-css.mjs
 node site/build-guides.mjs
 node tools/sync-roadmap.mjs
 node tools/build-methods-index.mjs
+node tools/sync-brand.mjs
 python3 tools/build-parser-zip.py
 node tools/manifest.cjs
 ```
 
-Run the manifest command last, including new files. `node tools/check-generated.mjs` runs the fast generated-file checks in about a second; run it before every commit. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. Avoid unrelated generated changes.
+Run the manifest command last, including new files. `node tools/check-generated.mjs` runs the fast generated-file checks in about a second; run it before every commit. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. The logo's masters in `docs/brand/` come from `docs/brand/source/build.sh` (see `docs/brand/README.md`); `tools/sync-brand.mjs` puts them in the site's headers and icons. Avoid unrelated generated changes.
 
 ## Verification
 
@@ -55,6 +56,7 @@ node tools/privacy-check.mjs site/dist
 node tools/build-handwriting-css.mjs --check
 node tools/sync-roadmap.mjs --check
 node tools/build-methods-index.mjs --check
+node tools/sync-brand.mjs --check
 node site/build-guides.mjs --check
 node tools/build-examples.mjs --check
 node vscode/sync.mjs --check

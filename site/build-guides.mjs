@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Marked } from './dist/jot/vendor/marked.mjs';
+import { brandLink, iconLinks } from '../tools/sync-brand.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url)), SRC = path.join(HERE, '../docs/guide'), OUT = path.join(HERE, 'dist/guide');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -37,7 +38,7 @@ export function buildPage(file, md) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>${esc(title)} · Jot</title>
+<title>${esc(title)} · Jot</title>${iconLinks('../')}
 <link rel="stylesheet" href="../editor/editor.css">
 <link rel="stylesheet" href="guide.css">
 <link id="jot-hand-css" rel="stylesheet" href="../jot/handwriting.css">
@@ -45,7 +46,7 @@ export function buildPage(file, md) {
 <body class="jot-site">
 <a class="skip" href="#guide">Skip to the guide</a>
 <header class="top">
-  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  ${brandLink('../')}
   <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./"${file === 'README.md' ? ' aria-current="page"' : ''}>Guides</a><a href="../examples/">Examples</a></nav>
 </header>
 <main>

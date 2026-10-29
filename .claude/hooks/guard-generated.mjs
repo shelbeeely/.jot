@@ -15,6 +15,8 @@ const GENERATED = [
   [/^site\/dist\/guide\/[^/]+\.html$/, 'the guide in docs/guide/, then run node site/build-guides.mjs'],
   [/^site\/dist\/examples\/(diaries\/|index\.(json|html)$)/, 'converter/ or tools/build-examples.mjs, then run node tools/build-examples.mjs'],
   [/^site\/dist\/docs\/jot-parser\.zip$/, 'parser/, then run python3 tools/build-parser-zip.py'],
+  [/^site\/dist\/(favicon\.(svg|ico)|apple-touch-icon\.png)$/, 'docs/brand/ (docs/brand/source/build.sh), then run node tools/sync-brand.mjs'],
+  [/^desktop\/(app-icon\.png|src-tauri\/icons\/)/, 'docs/brand/ (docs/brand/source/build.sh), then copy app-icon.png to desktop/ and run npx tauri icon (desktop/README.md)'],
   [/^MANIFEST\.json$/, 'nothing by hand: run node tools/manifest.cjs'],
 ];
 let input = {};

@@ -9,6 +9,7 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { convert, MAX_FILE_BYTES } from '../converter/convert.mjs';
 import { parse } from '../parser/jot.mjs';
+import { brandLink, iconLinks } from './sync-brand.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'site/dist/examples');
@@ -86,7 +87,7 @@ export function page(index) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Jot examples</title>
+<title>Jot examples</title>${iconLinks('../')}
 <meta name="description" content="Real diaries as Jot: public-domain diaries converted to dated .jot entries, to read, download and learn from.">
 <link rel="stylesheet" href="../editor/editor.css">
 <link rel="stylesheet" href="examples.css">
@@ -95,7 +96,7 @@ export function page(index) {
 <body class="jot-site">
 <a class="skip" href="#diaries">Skip to the diaries</a>
 <header class="top">
-  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  ${brandLink('../')}
   <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="../guide/">Guides</a><a href="./" aria-current="page">Examples</a></nav>
 </header>
 <main>

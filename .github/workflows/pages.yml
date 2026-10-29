@@ -34,6 +34,7 @@ jobs:
           node tools/build-handwriting-css.mjs --check
           node tools/sync-roadmap.mjs --check
           node tools/build-methods-index.mjs --check
+          node tools/sync-brand.mjs --check
           node site/build-guides.mjs --check
           node tools/build-examples.mjs --check
           node tools/manifest.cjs --check

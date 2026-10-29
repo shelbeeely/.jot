@@ -223,6 +223,7 @@ new files start with the Jot metadata block, and ZIP-packaged `.jot` files are r
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colours and a live page preview with charts, from the same renderer as the site |
 | [`desktop/`](desktop/) | **The desktop app** (Tauri v2): the site's pages plus large exports, Save dialogs and a locked-down network; its own Rust and npm dependencies |
 | [`docs/guide/`](docs/guide/) | **User guides** ([index](docs/guide/README.md)): writing, the template editor, automation, your own manual, voice practice, converting diaries and data exports, turning anything into Jot (also pages on the site, `/guide/`) |
+| [`docs/brand/`](docs/brand/) | **The logo**: the iota and the "jot" wordmark, its colours, icons, usage guide and the pen that draws it |
 | [`docs/proposals/`](docs/proposals/) | Design proposals: one editor for every method, Jot books, sharing and collaboration |
 | [`cli/`](cli/) | `jot`, the command line: tasks, events, numbers, calendar and CSV out, numbers in, today, rollover, review, lock and unlock, check, webhooks, Todoist |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries; `jot-archive`: social and blog data exports to a journal |

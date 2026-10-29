@@ -136,6 +136,12 @@ To turn it on once: the repository's **Settings → Pages → Source: GitHub Act
 
 Template layout browser regression: `node site/test-layout-ui.cjs` from the project root (Playwright with Chromium).
 
+## The logo and icons
+
+Every page header shows the Jot iota and the "jot" wordmark inline (they take the page's ink, light or dark), and every page
+links `favicon.svg`, `favicon.ico` and `apple-touch-icon.png` at the site's root. All come from the masters in
+`docs/brand/` through `node tools/sync-brand.mjs` (the guides and examples through their generators); `--check` runs in CI.
+
 ## Shared paper and handwriting styles
 
 All site pages and journal previews load `dist/jot/handwriting.css`. Generate it from the renderer with

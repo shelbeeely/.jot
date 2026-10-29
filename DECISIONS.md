@@ -1,5 +1,22 @@
 # Latest Jot v1 decisions
 
+## The Jot logo: a hand-written iota (29 October 2026)
+
+The hash mark (⌗) is replaced. It said little about journaling and sits close to Slack's mark. The new logo is a Greek iota
+written with a fine pen: the stroke lands to a point, swells and lifts into a flick, and the dot comes afterwards, a little
+ahead. "Jot" comes from iota, the smallest letter, and a jotting is a quick note; the stroke and the dot are also a 1 and a 0,
+ten (iota's value), two in binary. The owner chose it from concepts made against a written brief (`docs/proposals/logo.md`):
+warm, handmade, calm and quiet, for journal keepers first, drawable from memory in five seconds.
+
+- **Hand-drawn, reproducibly.** The marks come from a simulated pen (`docs/brand/source/`), seeded, so they can be redrawn
+  exactly. They are traced into plain paths with no fonts, filters or images.
+- **The site's own colours.** Ink blue `#1f3a8a` on cream, the light ink on charcoal in dark mode: 10.2:1 and 10.4:1. The
+  headers carry the marks inline, so they follow the page's theme.
+- **One source.** `tools/sync-brand.mjs` puts the masters in every header and the favicons beside the pages, with a `--check` in
+  CI; the desktop app's icons for every platform are made from `docs/brand/app-icon.png`.
+- **Not spelled "ιot".** Tested and dropped: with its dot it reads as "IoT", without it as "lot". The name stays "jot".
+- **Limits.** Trademark clearance has not been searched; other products use the name. CMYK values are converted, not proofed.
+
 ## A desktop app with Tauri v2 (29 October 2026)
 
 `desktop/` wraps the website's own pages (`site/dist/`, unchanged) in a Tauri v2 app, chosen over Electron so the same code can

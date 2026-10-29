@@ -71,4 +71,4 @@ and archive reading are written to work there, but need checking on devices.
 - `src-tauri/src/files.rs`: native Save dialogs and atomic writes.
 - `src-tauri/src/bridge.js`: `window.jotDesktop` and downloads as saved files.
 - `src-tauri/tauri.conf.json`: identity, the content security policy, bundling. `capabilities/default.json`: what pages may call.
-- `app-icon.png`: the icon source (`npx tauri icon app-icon.png -o src-tauri/icons` makes every size).
+- `app-icon.png`: the icon source, copied from `docs/brand/` (the Jot iota on cream paper); `npx tauri icon app-icon.png -o src-tauri/icons --ios-color '#fffdf6'` makes every size.
