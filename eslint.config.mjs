@@ -8,7 +8,7 @@ const COPIES = 'jot,container,proofread,charts,preview,handwriting,styles,palett
 export default [
   // Third-party code and generated copies: lint the source in parser/ and converter/ instead.
   // The scanner (/scan/) is an unfinished, unlinked prototype whose classic scripts share globals.
-  { ignores: ['**/node_modules/', '**/vendor/', 'vscode/media/jot/', `site/dist/jot/{${COPIES}}.mjs`, 'site/dist/scan/', 'converter/fixtures/'] },
+  { ignores: ['**/node_modules/', '**/vendor/', 'vscode/media/jot/', `site/dist/jot/{${COPIES}}.mjs`, 'site/dist/scan/', 'converter/fixtures/', 'desktop/src-tauri/target/', 'desktop/src-tauri/gen/'] },
   js.configs.recommended,
   {
     linterOptions: { reportUnusedDisableDirectives: 'error' },
@@ -21,8 +21,8 @@ export default [
       'no-useless-escape': 'off',
     },
   },
-  // The parser runs in browsers and in Node; the site and the extension's webview run in browsers.
-  { files: ['parser/**', 'site/dist/**', 'vscode/media/**'], languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+  // The parser runs in browsers and in Node; the site, the extension's webview and the desktop bridge run in browsers.
+  { files: ['parser/**', 'site/dist/**', 'vscode/media/**', 'desktop/src-tauri/src/*.js'], languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   { files: ['cli/**', 'converter/**', 'tools/**', 'site/*.mjs', 'vscode/*.mjs', '.claude/**', '.agents/**', 'eslint.config.mjs'], languageOptions: { globals: globals.node } },
   // CommonJS scripts; the browser suites pass functions into the page, so they see browser globals too.
   { files: ['**/*.cjs', 'vscode/extension.js'], languageOptions: { sourceType: 'commonjs', globals: { ...globals.node, ...globals.browser, axe: 'readonly' } } },

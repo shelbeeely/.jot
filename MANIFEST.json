@@ -99,13 +99,13 @@
     },
     {
       "path": ".gitignore",
-      "byteLength": 175,
-      "sha256": "42b3979908dfea7785f539e5ecccf2f54d7f881fd32f037f45492384739f8028"
+      "byteLength": 314,
+      "sha256": "d5d3ed48ac3f18331d586b4ebb8ee81b552bf1a88b36372fcec3d6cfac901be2"
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 5735,
-      "sha256": "372813b32ca035850ad52f2e6087fddf86216d2de5bcc931c2bbbf39522df247"
+      "byteLength": 5970,
+      "sha256": "f3ff043843a76783ee540895bdd325b99ce754b72f17fe18575a2be7ff23f4d6"
     },
     {
       "path": "CLAUDE.md",
@@ -114,8 +114,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 39779,
-      "sha256": "9c2ecca746c5ffc7c9baf31f5b673563eea771d47f165cc64b180c630361b96c"
+      "byteLength": 41468,
+      "sha256": "10f9e6bac10782dafb3e5d9f3a258b12bb71552f2332a4f0c762b36b56156d1c"
     },
     {
       "path": "README.md",
@@ -316,6 +316,341 @@
       "path": "converter/test.mjs",
       "byteLength": 10217,
       "sha256": "955d5b1f882465c2455856f33bd763f0ab8f5a1c8ca4b2bf96d551427796d5bd"
+    },
+    {
+      "path": "desktop/README.md",
+      "byteLength": 4846,
+      "sha256": "394129240364cffeeb15def137be6d1e1847afd912692eeaa49721ad5657f1b6"
+    },
+    {
+      "path": "desktop/app-icon.png",
+      "byteLength": 11975,
+      "sha256": "1cc618f718728f8eed2810fd499b442912206b26c706588926e9e87d9b07ab70"
+    },
+    {
+      "path": "desktop/package-lock.json",
+      "byteLength": 7230,
+      "sha256": "67ac20689912bef3d9bbfed5438ffac238bfc37439373e0e2a732b38bee51a0f"
+    },
+    {
+      "path": "desktop/package.json",
+      "byteLength": 377,
+      "sha256": "62b6bcad2dcb5f4d8d1215e06f6fcd680c4db6f9fb0f8a4e3afd958274e833f2"
+    },
+    {
+      "path": "desktop/src-tauri/Cargo.lock",
+      "byteLength": 118033,
+      "sha256": "1cee8035eb5d6fe231170b291e94e6b438ebff121ec11f924bc598cfc3ca4309"
+    },
+    {
+      "path": "desktop/src-tauri/Cargo.toml",
+      "byteLength": 644,
+      "sha256": "b65da2dfc4e2f26f60417804830d93bfdde835cf9388e1f5ffd1e03f1496f4f9"
+    },
+    {
+      "path": "desktop/src-tauri/build.rs",
+      "byteLength": 39,
+      "sha256": "487059eaf8a947b80f20a9aacac038a5047b2ad69d2401b827376c67d6fe847f"
+    },
+    {
+      "path": "desktop/src-tauri/capabilities/default.json",
+      "byteLength": 376,
+      "sha256": "e59931bb8a4cf431c5003d3991c8db4fefabb9dacb18161acc7ed2d30a969402"
+    },
+    {
+      "path": "desktop/src-tauri/icons/128x128.png",
+      "byteLength": 6375,
+      "sha256": "13d0cdedb916cc370d67063f3641d1c77781be3ec7642552ddb84521543a7725"
+    },
+    {
+      "path": "desktop/src-tauri/icons/128x128@2x.png",
+      "byteLength": 11825,
+      "sha256": "24a8298797079d1b6771f490c2246534a3f1cc26bccba841846d37f630c0dd89"
+    },
+    {
+      "path": "desktop/src-tauri/icons/32x32.png",
+      "byteLength": 1581,
+      "sha256": "29b2883cf726fb4b4c298c3539b6ea5b9cb1b5d66d6c2f70504784d020dd9147"
+    },
+    {
+      "path": "desktop/src-tauri/icons/64x64.png",
+      "byteLength": 3513,
+      "sha256": "114bee50d4ae2c230d6f659ae2bb6a18570a8da96a3a9f8cf4b8bbfa912414f7"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square107x107Logo.png",
+      "byteLength": 9065,
+      "sha256": "7ebe7fd8bb701e0139bf00310ea78eea781b238e63f70212ade3176bceeca58b"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square142x142Logo.png",
+      "byteLength": 10781,
+      "sha256": "ad51f9095425ead96f4348ec171d69998e818c917d59ffd8d7a2ee20385c1290"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square150x150Logo.png",
+      "byteLength": 11520,
+      "sha256": "b104d5ce0de366b2fe714b66e026e728dbe2e802b9d64c3159468ab9a6314f0a"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square284x284Logo.png",
+      "byteLength": 18966,
+      "sha256": "9ae2553c38cd362e7997e7ba49cff6a98f47b15c7cd8eab9039fa0e8766fb45a"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square30x30Logo.png",
+      "byteLength": 1660,
+      "sha256": "ab4d70ce27849d47b9beeb636639c8f2e1bb0195748b475b659b97a650dfdd9a"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square310x310Logo.png",
+      "byteLength": 24367,
+      "sha256": "1db3295b56da3f39ff19d312d0bc6c49d3c7ce8edd95b9477b6cf4dd21d2276e"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square44x44Logo.png",
+      "byteLength": 2675,
+      "sha256": "9b65da849541f896b1836607de7e2293063bfbee1437ced08249090b6f56ac75"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square71x71Logo.png",
+      "byteLength": 5398,
+      "sha256": "6a7235c799e13c2034810e0b0961160c76644e1c4d611026a4d9b8305fb8b7be"
+    },
+    {
+      "path": "desktop/src-tauri/icons/Square89x89Logo.png",
+      "byteLength": 7117,
+      "sha256": "9f7f5a81a3a2857aa29d59aa90b80f3ee11ceebbac26f6c3319fd11cdd7911f5"
+    },
+    {
+      "path": "desktop/src-tauri/icons/StoreLogo.png",
+      "byteLength": 3554,
+      "sha256": "6eb5605a149b59a1d5045fdcdc7777ba740d1eeac47c721b17b8f697a82a3195"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-anydpi-v26/ic_launcher.xml",
+      "byteLength": 261,
+      "sha256": "760d4b8a06bf7163dd010c33ad2cac9e4a75fa0177afaba042f83e311eef0c3e"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-hdpi/ic_launcher.png",
+      "byteLength": 4610,
+      "sha256": "6fbf852cd60ed4e197288a3310f6812c827ca6ecc3fb70cd542779c4475cb11d"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-hdpi/ic_launcher_foreground.png",
+      "byteLength": 12343,
+      "sha256": "937f81849dd3df4f93c78f4aee72137f8bd5e10790d27f5ff98091fe041fa571"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-hdpi/ic_launcher_round.png",
+      "byteLength": 5294,
+      "sha256": "3ae406678910f77b3e6dae8a3d61587f56727f8a39f8cbe0a629ec40bdace345"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-mdpi/ic_launcher.png",
+      "byteLength": 2671,
+      "sha256": "5f7cee4d36a67978b7e1aaa67bc990759abd1a7d8356798d35648bcab4f205d7"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-mdpi/ic_launcher_foreground.png",
+      "byteLength": 6975,
+      "sha256": "bf1f1896012e8a7e04bc750182fc88da6701078a2fbfb24141abd92e61cede5b"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-mdpi/ic_launcher_round.png",
+      "byteLength": 2842,
+      "sha256": "a8a536062545415a08b2d1a88aee90cca357c0ddca9d6dff196b11a6b316deeb"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xhdpi/ic_launcher.png",
+      "byteLength": 5636,
+      "sha256": "87f795c44238baa2e88735bcd1387f304a59d51b8826e604d2dd14783287041f"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xhdpi/ic_launcher_foreground.png",
+      "byteLength": 12066,
+      "sha256": "b89f4139569f079af52e984de23b5e241babe1362e80bbe15511327e05264069"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xhdpi/ic_launcher_round.png",
+      "byteLength": 6058,
+      "sha256": "dca00945fcbcee974153b9e913204ac70854c1f2b595912300b2c8ccf5407d21"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher.png",
+      "byteLength": 8696,
+      "sha256": "581741c672cfcb03c819e6b9ef606420ca58870990e2f48735da95038b2894e4"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "byteLength": 21867,
+      "sha256": "af1d324290462fa41ed78b1de7563acb9857a7e6e59083a17ab722977646409e"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher_round.png",
+      "byteLength": 8804,
+      "sha256": "b78805946a4e52ab20ec0c043be2926a72e9daa46ee1940fde45c721bc568ca7"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher.png",
+      "byteLength": 10693,
+      "sha256": "88ad116e87402dc8aeec9e4aeee74fafc1031836709ea0de63e9ba1f43bdb630"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "byteLength": 24854,
+      "sha256": "4890ff1f3ec8610bffb71a4c5116e1b4f81c5fff295204b8eb3744bea724b44e"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher_round.png",
+      "byteLength": 9682,
+      "sha256": "a3e1a44ca66f5fe08b97a8dc544e1d1954fe166d6de6316272462b759cc1edf9"
+    },
+    {
+      "path": "desktop/src-tauri/icons/android/values/ic_launcher_background.xml",
+      "byteLength": 118,
+      "sha256": "b1c42868a1777ed1cf61108b506ffc91d0a826318d8516e36cf8f76fab8c4ced"
+    },
+    {
+      "path": "desktop/src-tauri/icons/icon.icns",
+      "byteLength": 98102,
+      "sha256": "9a944548d8ee5d6f59bb8c34a22768cd33834e1795a51dcb57fb316dbe39a1c8"
+    },
+    {
+      "path": "desktop/src-tauri/icons/icon.ico",
+      "byteLength": 25074,
+      "sha256": "7889fc8a1cdffd1e4cb1fab58c065dc1154322706d2968002b31dc5f14ec635c"
+    },
+    {
+      "path": "desktop/src-tauri/icons/icon.png",
+      "byteLength": 24078,
+      "sha256": "ccf960558c64436302bbe12fccca21ade76b05007eb4e7147aa2230bc68cde92"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-20x20@1x.png",
+      "byteLength": 850,
+      "sha256": "109eff4a60ff7528b91824b7b08017b695edb773609a1a9b2be30ebece98f0b5"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-20x20@2x-1.png",
+      "byteLength": 2262,
+      "sha256": "34a5ce3454e93ef4c9ca43a5a37238b5b899a705f9f2ab2d28605bc07fbeec6c"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-20x20@2x.png",
+      "byteLength": 2262,
+      "sha256": "34a5ce3454e93ef4c9ca43a5a37238b5b899a705f9f2ab2d28605bc07fbeec6c"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-20x20@3x.png",
+      "byteLength": 3710,
+      "sha256": "0da8d79e51a4837939c398d469ebd414dab7a9230ecefdb6a18d4c7a0678b5e5"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-29x29@1x.png",
+      "byteLength": 1559,
+      "sha256": "2c7148dc6561758c8c15764e881c6b8e5eca936546fbabec6550c4d23e907e04"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-29x29@2x-1.png",
+      "byteLength": 3865,
+      "sha256": "31d9eb79679aeaaa959e0bfe52c9a6bb3d2f53804b25088c8a9c0a7bf95bf711"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-29x29@2x.png",
+      "byteLength": 3865,
+      "sha256": "31d9eb79679aeaaa959e0bfe52c9a6bb3d2f53804b25088c8a9c0a7bf95bf711"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-29x29@3x.png",
+      "byteLength": 6876,
+      "sha256": "11e1b2f6ef65071b8c338cad716fb3e3fc6fc925c0b56b16f34af5852d531b1f"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-40x40@1x.png",
+      "byteLength": 2262,
+      "sha256": "34a5ce3454e93ef4c9ca43a5a37238b5b899a705f9f2ab2d28605bc07fbeec6c"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-40x40@2x-1.png",
+      "byteLength": 4125,
+      "sha256": "b6f00f7de2ce298113023c49e8b1feb55be4373f750a1fac3db6301f0180cab3"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-40x40@2x.png",
+      "byteLength": 4125,
+      "sha256": "b6f00f7de2ce298113023c49e8b1feb55be4373f750a1fac3db6301f0180cab3"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-40x40@3x.png",
+      "byteLength": 6662,
+      "sha256": "863ab21edabba5635d77fda662231a9d0a03ce58f60ddb19eaeaba687ec2ef8f"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-512@2x.png",
+      "byteLength": 10568,
+      "sha256": "64d686555b7008c4262f296a5642d0ede94958686d99c3d74a20f41a6ca77989"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-60x60@2x.png",
+      "byteLength": 6662,
+      "sha256": "863ab21edabba5635d77fda662231a9d0a03ce58f60ddb19eaeaba687ec2ef8f"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-60x60@3x.png",
+      "byteLength": 10399,
+      "sha256": "50a2a17a0f329cf58e53962622b75aea018dd850596de1d3b8f83273af80382b"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-76x76@1x.png",
+      "byteLength": 4750,
+      "sha256": "f0c8a99aba27671d832001aa65ac3459c04d5c1947ad508ac9caaa61ee9cc498"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-76x76@2x.png",
+      "byteLength": 8051,
+      "sha256": "8282ad06ac599f7d9e40fb86827df74e9ebe133a50c209e0686fda6e93c6697e"
+    },
+    {
+      "path": "desktop/src-tauri/icons/ios/AppIcon-83.5x83.5@2x.png",
+      "byteLength": 13179,
+      "sha256": "8df72dad376f1800f2802d0d700146bf3988f37ae32288c292ba637495d5c7ee"
+    },
+    {
+      "path": "desktop/src-tauri/src/archive.rs",
+      "byteLength": 12103,
+      "sha256": "ae4ec149547c1eceb33b74d9d74d9cdf44726161b8d35bafed10f903b8162ee5"
+    },
+    {
+      "path": "desktop/src-tauri/src/bridge.js",
+      "byteLength": 2184,
+      "sha256": "1d9be362cbd7556c98a1a9995725ade8db1e6c015f8cbdd176f03a5a9f4478f8"
+    },
+    {
+      "path": "desktop/src-tauri/src/files.rs",
+      "byteLength": 3950,
+      "sha256": "88bc6b7c3a98dc90edfcfc4b7cca1d88e4d20c20b8cbfd62f5d860d3de0aadb0"
+    },
+    {
+      "path": "desktop/src-tauri/src/lib.rs",
+      "byteLength": 2861,
+      "sha256": "2188e46e436a63ad7741323c765be3a8bf571ed9d39aa081d6bc4bf888cbc06b"
+    },
+    {
+      "path": "desktop/src-tauri/src/main.rs",
+      "byteLength": 160,
+      "sha256": "5e69f5193a7642ef77ca2b9059f78df51e560c278a1af5c97d82641012a46a5e"
+    },
+    {
+      "path": "desktop/src-tauri/tauri.conf.json",
+      "byteLength": 1281,
+      "sha256": "4f08c93fe18908fe892b14fe8460181b37e29f681801be076dce5ba6d36573e3"
+    },
+    {
+      "path": "desktop/test-desktop.cjs",
+      "byteLength": 10463,
+      "sha256": "15e092d2825d0b2b765013646524ad673e72eff3b26df5d8a2c0be46b4eee0e0"
     },
     {
       "path": "docs/guide/README.md",
@@ -649,8 +984,8 @@
     },
     {
       "path": "eslint.config.mjs",
-      "byteLength": 1996,
-      "sha256": "44a8b271e7982efb01ac30c60cba9e587aa699c9f53b32d8a9c8b6a69a44eab1"
+      "byteLength": 2101,
+      "sha256": "7d8c0219b43eaca9ee528528f449d039bb2e63aca80423dea257e00b47b8b681"
     },
     {
       "path": "examples/README.md",
@@ -709,8 +1044,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 29201,
-      "sha256": "c5b25d319505d5c6ceca61147ece047c1dc987e882ec6873ee7e307c1fa78d66"
+      "byteLength": 29805,
+      "sha256": "84bb3e807385b4e992d79526767b7edea869f7f75116c65201e2021800ce96b4"
     },
     {
       "path": "parser/automation-test.mjs",
@@ -1014,8 +1349,8 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 29201,
-      "sha256": "c5b25d319505d5c6ceca61147ece047c1dc987e882ec6873ee7e307c1fa78d66"
+      "byteLength": 29805,
+      "sha256": "84bb3e807385b4e992d79526767b7edea869f7f75116c65201e2021800ce96b4"
     },
     {
       "path": "site/dist/convert/app.mjs",
@@ -1059,8 +1394,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 935931,
-      "sha256": "c2ae3068218725f71d321a768c4ad44c319277d580a342a189b97efbd96815ed"
+      "byteLength": 936198,
+      "sha256": "8efbfc49f1629329beadf88f18f3d1f61980d5d27049dc069822bb0aa9df98cd"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -1429,8 +1764,13 @@
     },
     {
       "path": "site/dist/import/app.mjs",
-      "byteLength": 6035,
-      "sha256": "44baa044a6dca7e7938932015cb75026f86a125357dddbb4cab3fc84a7dd8b0d"
+      "byteLength": 6985,
+      "sha256": "32f4b8cd3dc9b04ae4f2e2162e2a75f16f8c964a95e949d86a4d16a1c3340379"
+    },
+    {
+      "path": "site/dist/import/engine.mjs",
+      "byteLength": 2903,
+      "sha256": "ca259cea4c4d6a0736ff58338c197384afde73eb5a78cfaca97b1f0e08f597d3"
     },
     {
       "path": "site/dist/import/import.css",
@@ -1439,13 +1779,13 @@
     },
     {
       "path": "site/dist/import/index.html",
-      "byteLength": 5655,
-      "sha256": "2d5939eb13a1e8c87cc7b5e4dcb678f8e25abdfe28470fa7e34557bcdbb4063e"
+      "byteLength": 5683,
+      "sha256": "cda8452d3764ed3c2e9378537d86a8a19efb623ebe09567b50a597059daf601e"
     },
     {
       "path": "site/dist/import/worker.mjs",
-      "byteLength": 2783,
-      "sha256": "0dffadd23148d0baf6f4a66055c540851eb471fb7865bbf49eb7e8b75997f0f6"
+      "byteLength": 431,
+      "sha256": "edaa74e9a088e51bb9240ae48df6cb61376e2378a803964444070a9f60357f35"
     },
     {
       "path": "site/dist/index.html",
@@ -1874,8 +2214,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 29201,
-      "sha256": "c5b25d319505d5c6ceca61147ece047c1dc987e882ec6873ee7e307c1fa78d66"
+      "byteLength": 29805,
+      "sha256": "84bb3e807385b4e992d79526767b7edea869f7f75116c65201e2021800ce96b4"
     },
     {
       "path": "specification/conformance.json",

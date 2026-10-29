@@ -1,0 +1,15 @@
+{
+  "name": "jot-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Jot as a desktop (and later mobile) app: the same pages as the website, with Tauri v2 underneath.",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "test": "node test-desktop.cjs"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.12.4"
+  }
+}

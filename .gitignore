@@ -7,3 +7,7 @@ node_modules/
 # personal Claude Code notes and settings
 CLAUDE.local.md
 .claude/settings.local.json
+
+# The desktop app: Rust build output and generated platform projects (desktop/README.md)
+desktop/src-tauri/target/
+desktop/src-tauri/gen/

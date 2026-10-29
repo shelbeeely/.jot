@@ -1,5 +1,23 @@
 # Latest Jot v1 decisions
 
+## A desktop app with Tauri v2 (29 October 2026)
+
+`desktop/` wraps the website's own pages (`site/dist/`, unchanged) in a Tauri v2 app, chosen over Electron so the same code can
+later build for Android and iOS. Pages learn they are in the app from one injected object, `window.jotDesktop`; without it they
+behave as on the web, so there is one product, not two.
+
+- **Only what a web page cannot do.** Exports of any size (ZIP64 included) are read a file at a time from disk in Rust, refusing
+  entries over 1 GiB unpacked, ratios over 200 to 1 above 64 MiB, names that leave the archive and symbolic links in folders; every
+  download goes through a native Save dialog and is written to a temporary file and renamed. The importer's reading and journal
+  making moved into `site/dist/import/engine.mjs`, shared by the web worker and the app.
+- **Nothing more than asked.** Files are read only after the person picks them and written only where they choose: no file-system,
+  shell or HTTP plugin is exposed to pages (`capabilities/default.json`). The content security policy allows only the listening
+  tool's services; other links open in the person's own browser. Opening a journal still needs no account or network request.
+- **Honest about parity.** WebKitGTK offers no WebAuthn, so on Linux passkeys stay hidden and passphrases and recovery codes work as
+  usual; Spotify's pop-up sign-in is not available in the app. Only Linux is built and tested (`cargo test`, `test-desktop.cjs`
+  through `tauri-driver`); macOS, Windows, Android and iOS are configured, not checked. Its Rust and Tauri command-line
+  dependencies stay inside `desktop/`; the site, parser and CLI still need none.
+
 ## Your life online: data exports to a journal (29 October 2026)
 
 `converter/archive.mjs` (pure), `converter/jot-archive.mjs` (command line) and the **Your life online** page (`site/dist/import/`) read

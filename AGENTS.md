@@ -8,6 +8,7 @@ Jot is a plain-text journal format with a JavaScript parser, CLI, static website
 - `site/dist/`: committed, buildless website (rules: `site/AGENTS.md`). Writer: `studio.mjs`, `studio.css`, `write/`; template editor: `editor/`. Site-only listening capture: `jot/music.mjs`; voice practice: `jot/voice.mjs`.
 - `docs/guide/`: guide sources; `site/build-guides.mjs` generates `site/dist/guide/`.
 - `converter/`, `cli/`, `vscode/`: converter, command-line tools and extension (rules: `vscode/AGENTS.md`).
+- `desktop/`: the Tauri v2 app around `site/dist/` (Rust in `src-tauri/`, its own `npm install` and Cargo dependencies; see `desktop/README.md`). Its tests: `cargo test` in `desktop/src-tauri` and `xvfb-run -a npm test` in `desktop/`.
 - `.github/workflows/pages.yml`: required checks and publication from `main`.
 - `docs/methods/`: the journaling methods research behind profiles and design decisions; start from its `README.md` (rules: "Research and decisions" below).
 - `.agents/skills/to-jot/`: the agent skill for generating, converting and validating journals and templates (Codex reads it here; `.claude/skills/to-jot` is a symlink to it). Use it whenever you are asked to make a `.jot` from other material, and validate with `node cli/jot.mjs check --strict`.
