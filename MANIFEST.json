@@ -119,8 +119,8 @@
     },
     {
       "path": "README.md",
-      "byteLength": 20695,
-      "sha256": "91420470ee84c1c128aa9089fc86653c642a6c2890b54d42d2eb45b183abfc14"
+      "byteLength": 20763,
+      "sha256": "de048347bb3f63ea895c92a5ba9f6313b1f0f328c7c99d766c99a1d28125ee79"
     },
     {
       "path": "cli/README.md",
@@ -2209,8 +2209,8 @@
     },
     {
       "path": "specification/README.md",
-      "byteLength": 1713,
-      "sha256": "35a30562df6da62ab075ee1c9d4e0418ea0f5d16ea3e174dad31d75f0f7da1dd"
+      "byteLength": 1855,
+      "sha256": "dc16c206f74f2ab60d5c594dc0298a839f6b5ae912f2a500b6e2b6d7583ca651"
     },
     {
       "path": "specification/ROADMAP.md",
