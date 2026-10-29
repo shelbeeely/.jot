@@ -1,5 +1,6 @@
 // The Jot logo on the site, from its masters in docs/brand/ (made by docs/brand/source/build.sh): the "ιot" wordmark
-// inline in every page header (so they take the page's ink, light or dark), and the favicons beside the pages.
+// inline in every page header (so they take the page's ink, light or dark), the favicons beside the pages, and the VS Code
+// extension's icon and .jot file icons.
 //   node tools/sync-brand.mjs          rewrite the headers and icon links of the hand-written pages, copy the icons
 //   node tools/sync-brand.mjs --check  exit 1 and name what differs
 // The guides and examples are generated: site/build-guides.mjs and tools/build-examples.mjs use brandLink and iconLinks.
@@ -20,7 +21,11 @@ export const brandLink = (home, { current = false, sub = '' } = {}) =>
 export const iconLinks = (root) =>
   `<link rel="icon" href="${root}favicon.svg" type="image/svg+xml"><link rel="icon" href="${root}favicon.ico" sizes="16x16 32x32 48x48"><link rel="apple-touch-icon" href="${root}apple-touch-icon.png">`;
 
-const ICONS = ['favicon.svg', 'favicon.ico', 'apple-touch-icon.png'];
+// Copies of masters, by where they go: the site's icons, and the extension's icon and file icons.
+const COPIES = {
+  'site/dist/favicon.svg': 'favicon.svg', 'site/dist/favicon.ico': 'favicon.ico', 'site/dist/apple-touch-icon.png': 'apple-touch-icon.png',
+  'vscode/media/icon.png': 'vscode-icon.png', 'vscode/media/jot-file-light.svg': 'jot-file-light.svg', 'vscode/media/jot-file-dark.svg': 'jot-file-dark.svg',
+};
 const PAGES = { 'index.html': {}, 'write/index.html': {}, 'editor/index.html': {}, 'convert/index.html': {}, 'import/index.html': {}, 'scan/index.html': { sub: '/ SCAN' } };
 
 function page(rel, opts) {
@@ -39,10 +44,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const want = page(rel, opts), file = path.join(DIST, rel);
     if (fs.readFileSync(file, 'utf8') !== want) { if (check) stale.push(rel); else fs.writeFileSync(file, want); }
   }
-  for (const f of ICONS) {
-    const want = fs.readFileSync(path.join(BRAND, f)), file = path.join(DIST, f);
-    if (!fs.existsSync(file) || !fs.readFileSync(file).equals(want)) { if (check) stale.push(f); else fs.writeFileSync(file, want); }
+  for (const [to, from] of Object.entries(COPIES)) {
+    const want = fs.readFileSync(path.join(BRAND, from)), file = path.join(ROOT, to);
+    if (!fs.existsSync(file) || !fs.readFileSync(file).equals(want)) { if (check) stale.push(to); else fs.writeFileSync(file, want); }
   }
-  if (stale.length) { console.error(`brand: out of date in site/dist: ${stale.join(', ')}\nRun: node tools/sync-brand.mjs`); process.exit(1); }
-  console.log(check ? 'brand: site headers and icons current' : 'brand: site headers and icons written');
+  if (stale.length) { console.error(`brand: out of date: ${stale.join(', ')}\nRun: node tools/sync-brand.mjs`); process.exit(1); }
+  console.log(check ? 'brand: site headers and icons, extension icons current' : 'brand: site headers and icons, extension icons written');
 }

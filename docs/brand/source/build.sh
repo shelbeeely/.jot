@@ -22,3 +22,5 @@ convert "$tmp/f16.png" "$tmp/f32.png" "$tmp/f48.png" "$out/favicon.ico"
 sed 's|<rect x="100" y="100" width="824" height="824" rx="185"|<rect width="1024" height="1024"|; s|translate(166 160) scale(2.7)|translate(102 92) scale(3.2)|' "$out/app-icon.svg" > "$tmp/touch.svg"
 rsvg-convert -w 180 -h 180 "$tmp/touch.svg" -o "$out/apple-touch-icon.png"
 rsvg-convert -w 1024 -h 1024 "$out/app-icon.svg" -o "$out/app-icon.png"
+rsvg-convert -w 256 -h 256 "$out/app-icon.svg" -o "$out/vscode-icon.png"     # the extension's icon in VS Code and its marketplace
+rsvg-convert -w 1280 -h 640 "$out/social-preview.svg" -o "$out/social-preview.png"

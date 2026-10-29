@@ -20,9 +20,30 @@ Jot, in text, in speech and for screen readers: wherever the wordmark is shown, 
 | `*-ink.svg` | The same, in ink blue, for placing as images |
 | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` | The site's icons (copied into `site/dist/` by `tools/sync-brand.mjs`) |
 | `app-icon.svg`, `app-icon.png` | The app icon: cream paper, ink-blue iota (`desktop/` makes every platform's sizes from it) |
+| `jot-wordmark-light.svg` | The wordmark in the light ink, for dark backgrounds (the README shows it in GitHub's dark mode) |
+| `vscode-icon.png`, `jot-file-light.svg`, `jot-file-dark.svg` | The VS Code extension's icon, and the iota as the icon of `.jot` files in light and dark themes (copied into `vscode/media/` by `tools/sync-brand.mjs`) |
+| `social-preview.svg`, `social-preview.png` | 1280 × 640: the wordmark on dot-grid paper, for link previews and the repository's social preview |
 
 The plain masters are filled with `currentColor`, so inline in a page they take the text colour: ink blue on cream, the light
 ink on charcoal. The site's headers use them that way.
+
+## The system around it
+
+Everything grows from the page and the pen, so the system is mostly what Jot already is:
+
+- **Paper and ink.** Cream paper with a dot grid, ink blue writing; charcoal paper and the light ink in dark mode. The logo
+  never sits on anything else (photos aside, below).
+- **The ink dot.** The jot itself, the iota's dot, is the one graphic device: a single dot where a bullet, a marker or a pause
+  is needed. Draw it as an ink dot (slightly oval, a little tilted, as in the logo), never as a perfect circle or a second logo.
+- **The handwriting.** Pages, navigation and headings use the site's handwriting fonts (Caveat, Playpen Sans, Shantell Sans);
+  the logo is drawn, not set in them, and nothing else is drawn to look like it.
+- **Tools under one name.** Jot is one brand: the tools are named in words beside the wordmark, never with their own marks:
+  "ιot / SCAN" in the scanner's header, "Write", "Template editor", "Converter", "Your life online" in the navigation. The app
+  icon, the extension icon, the file icon and the favicon are all the same iota.
+- **Where it appears.** The site's headers and favicons, the desktop and mobile app icons, the VS Code extension and its
+  `.jot` file icon, the top of the README, and the social preview. For GitHub's repository card, upload `social-preview.png`
+  in the repository's Settings → General → Social preview (it cannot be set from the repository's files).
+- **Not yet.** Motion (the iota being written, then dotted) and a printed stamp are natural next pieces; neither is made.
 
 ## Clear space and minimum size
 

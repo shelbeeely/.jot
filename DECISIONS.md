@@ -17,6 +17,9 @@ warm, handmade, calm and quiet, for journal keepers first, drawable from memory 
 - **The wordmark is "ιot".** The owner chose to spell the wordmark with the logo's iota, so the symbol and the name are one
   mark. Tested risk, accepted: in the wordmark it can read as "iot" (or "IoT"). The name stays Jot everywhere else: in text,
   file names, commands, and the wordmark's accessible name.
+- **Built around it.** One brand with its tools named beside it; the ink dot as the only graphic device; the iota as every
+  icon (site, apps, VS Code extension and `.jot` file icon); the wordmark at the top of the README and in a social preview.
+  All copies come from `docs/brand/` through `tools/sync-brand.mjs`.
 - **Limits.** Trademark clearance has not been searched; other products use the name. CMYK values are converted, not proofed.
 
 ## A desktop app with Tauri v2 (29 October 2026)

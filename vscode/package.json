@@ -4,6 +4,7 @@
   "description": "Write .jot journals in VS Code: syntax colours, a live page preview in journal, notes or plain style with charts, handwritten on a dot grid if you like, and export to one standalone HTML page.",
   "version": "0.1.0",
   "publisher": "jot-format",
+  "icon": "media/icon.png",
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -35,7 +36,11 @@
         "extensions": [
           ".jot"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./media/jot-file-light.svg",
+          "dark": "./media/jot-file-dark.svg"
+        }
       }
     ],
     "grammars": [

@@ -1,3 +1,5 @@
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/brand/jot-wordmark-light.svg"><img src="docs/brand/jot-wordmark-ink.svg" alt="Jot" width="150"></picture></p>
+
 # .jot
 
 **Jot things down. Get beautiful pages back.**
