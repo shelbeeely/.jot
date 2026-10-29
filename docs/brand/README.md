@@ -36,6 +36,10 @@ Everything grows from the page and the pen, so the system is mostly what Jot alr
   never sits on anything else (photos aside, below).
 - **The ink dot.** The jot itself, the iota's dot, is the one graphic device: a single dot where a bullet, a marker or a pause
   is needed. Draw it as an ink dot (slightly oval, a little tilted, as in the logo), never as a perfect circle or a second logo.
+- **Colour roles.** Ink blue is the brand: the logo, the writing, the links. The site's purple accent (`#65508f`, light
+  `#c3afe7` in dark mode) is for actions and focus only (primary buttons, focus rings, the current tab), never for the logo.
+- **The name beside the wordmark.** "ιot" is the logo; the name is Jot. Where people first meet the wordmark, "Jot" is also
+  written in words nearby (the homepage's first line, the README's title, page titles "Tool · Jot").
 - **The handwriting.** Pages, navigation and headings use the site's handwriting fonts (Caveat, Playpen Sans, Shantell Sans);
   the logo is drawn, not set in them, and nothing else is drawn to look like it.
 - **Tools under one name.** Jot is one brand: the tools are named in words beside the wordmark, never with their own marks:

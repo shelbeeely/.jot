@@ -38,7 +38,7 @@ export function buildPage(file, md) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>${esc(title)} · Jot</title>${iconLinks('../')}
+<title>${title === 'Jot guides' ? 'Guides' : esc(title)} · Jot</title>${iconLinks('../')}
 <link rel="stylesheet" href="../editor/editor.css">
 <link rel="stylesheet" href="guide.css">
 <link id="jot-hand-css" rel="stylesheet" href="../jot/handwriting.css">

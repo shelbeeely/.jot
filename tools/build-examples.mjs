@@ -87,7 +87,7 @@ export function page(index) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Jot examples</title>${iconLinks('../')}
+<title>Examples · Jot</title>${iconLinks('../')}
 <meta name="description" content="Real diaries as Jot: public-domain diaries converted to dated .jot entries, to read, download and learn from.">
 <link rel="stylesheet" href="../editor/editor.css">
 <link rel="stylesheet" href="examples.css">

@@ -114,13 +114,13 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 43486,
-      "sha256": "11f064fa409aa9fc8414437bd222e504617ee4c80085668cf37bc393bdfda00c"
+      "byteLength": 43794,
+      "sha256": "1bff7d6a9169dd727d27acd695f417ab648b276d334316580b5a7649ddb0b887"
     },
     {
       "path": "README.md",
-      "byteLength": 21100,
-      "sha256": "d7daf6bdf7f5e744ffa3cea33b26413b5fabfc0de533bd52171599b6b7c7f55a"
+      "byteLength": 21099,
+      "sha256": "581b558f2fec556530fd17fcc60a9c4003c0b55b900a589a8936cf94186bf467"
     },
     {
       "path": "cli/README.md",
@@ -679,8 +679,8 @@
     },
     {
       "path": "docs/brand/README.md",
-      "byteLength": 6746,
-      "sha256": "8c36e935ecb29c443dbd6eda808ccddaa09409a8b36c7333fdcf7144088c86f9"
+      "byteLength": 7218,
+      "sha256": "a897b5d6892f960d8b20b10bbdc5313d6d978866dca1743175ccc327b5d6bbba"
     },
     {
       "path": "docs/brand/app-icon.png",
@@ -1499,8 +1499,8 @@
     },
     {
       "path": "site/build-guides.mjs",
-      "byteLength": 4603,
-      "sha256": "dc29664b68e98a3d6581b5336ee887ac001a723d2a27b9a5b8260d558df5387f"
+      "byteLength": 4639,
+      "sha256": "daca6bfc9b7c6c4be874f524e6ca5d2db0c2b7293c9ec88e53be6cab6a7b8f1e"
     },
     {
       "path": "site/dist/ROADMAP.md",
@@ -1524,8 +1524,8 @@
     },
     {
       "path": "site/dist/convert/index.html",
-      "byteLength": 8923,
-      "sha256": "4c8f8bb869c78fbbda33ed4e864014d8d2edc1ac99156d1b75ffd8e6b9415b33"
+      "byteLength": 8926,
+      "sha256": "1eb9f7c455576944c0428304449704c4bbf471e2855c8baaf87a833a1794b624"
     },
     {
       "path": "site/dist/convert/worker.mjs",
@@ -1569,8 +1569,8 @@
     },
     {
       "path": "site/dist/editor/index.html",
-      "byteLength": 10332,
-      "sha256": "569c420e557ddb677c751a1c373654f8a8a3e5395792c3e38cda51422fa97077"
+      "byteLength": 10335,
+      "sha256": "964acb5a671e5625aa4630d278be0250dc5ef0263efc6b8dec8952fda882b52c"
     },
     {
       "path": "site/dist/editor/template.mjs",
@@ -1839,8 +1839,8 @@
     },
     {
       "path": "site/dist/examples/index.html",
-      "byteLength": 24477,
-      "sha256": "ce8739b808c63ff6774462f8e03f1cb5bed26786bfcca30b0f1028758918a729"
+      "byteLength": 24480,
+      "sha256": "35f06f7da7f2c458fd4e1f7798213e96d9e1dc5c00f9a250054e64b10b75b4a5"
     },
     {
       "path": "site/dist/examples/index.json",
@@ -1889,8 +1889,8 @@
     },
     {
       "path": "site/dist/guide/index.html",
-      "byteLength": 5786,
-      "sha256": "de47ff9ad31cc8140e07a970abf9e127c9fed0f3b9075ca749abd012eb32e492"
+      "byteLength": 5782,
+      "sha256": "97f29420eca8bface70e353a3cdd33f7f4587c44d62e94bf055a660ea939d202"
     },
     {
       "path": "site/dist/guide/manual.html",
@@ -1949,8 +1949,8 @@
     },
     {
       "path": "site/dist/import/index.html",
-      "byteLength": 8257,
-      "sha256": "da3b64277c3ec5b5e54dfb0bd5ad85cae2ab4c87fefee6a806d0bf9a61dda277"
+      "byteLength": 8259,
+      "sha256": "3300b15a31c16e19ea434c616515febb16ae1c024d1b4c950c856ee47fa7ab1b"
     },
     {
       "path": "site/dist/import/worker.mjs",
@@ -1959,8 +1959,8 @@
     },
     {
       "path": "site/dist/index.html",
-      "byteLength": 13765,
-      "sha256": "8aa421a326e55ea89e4444bfe4fe4f37469bfe7bcbed207a9769c9986d76c816"
+      "byteLength": 13781,
+      "sha256": "f7eccdbe105c5b26317bc9ee8524edd0e25e5967e3cc18708ee53c7857c632c5"
     },
     {
       "path": "site/dist/jot/archive.mjs",
@@ -2224,8 +2224,8 @@
     },
     {
       "path": "site/dist/scan/index.html",
-      "byteLength": 12256,
-      "sha256": "a9ad43f921a0953e70e5247a99fa4476ceec95a28e90489020fa596f44d15e16"
+      "byteLength": 12236,
+      "sha256": "59f207f623122dce7899d19e4f45f28456a3ec1839004b851600ca653271a2c1"
     },
     {
       "path": "site/dist/scan/scanner-core.js",
@@ -2439,8 +2439,8 @@
     },
     {
       "path": "tools/build-examples.mjs",
-      "byteLength": 11054,
-      "sha256": "217b6d68851ad08c21de6c577eae53de10c19d93b27028dfc32ba987a0717ed2"
+      "byteLength": 11057,
+      "sha256": "c22a48a68b68d4beecbff5bb9add5de1cdf1c0d91f737fb997963b6bd3331116"
     },
     {
       "path": "tools/build-handwriting-css.mjs",

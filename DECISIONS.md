@@ -20,6 +20,9 @@ warm, handmade, calm and quiet, for journal keepers first, drawable from memory 
 - **Built around it.** One brand with its tools named beside it; the ink dot as the only graphic device; the iota as every
   icon (site, apps, VS Code extension and `.jot` file icon); the wordmark at the top of the README and in a social preview.
   All copies come from `docs/brand/` through `tools/sync-brand.mjs`.
+- **The name in words, and colour roles.** A brand audit found the wordmark alone can hide the name, so "Jot" is written near
+  it where people first meet it (the homepage's first line, the README's title, page titles "Tool · Jot"). Ink blue is the
+  brand; the purple accent is for actions and focus only.
 - **Limits.** Trademark clearance has not been searched; other products use the name. CMYK values are converted, not proofed.
 
 ## A desktop app with Tauri v2 (29 October 2026)
