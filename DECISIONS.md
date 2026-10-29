@@ -1,5 +1,31 @@
 # Latest Jot v1 decisions
 
+## Your life online: data exports to a journal (29 October 2026)
+
+`converter/archive.mjs` (pure), `converter/jot-archive.mjs` (command line) and the **Your life online** page (`site/dist/import/`) read
+the data exports of X/Twitter, Mastodon, Facebook and Instagram (JSON), Tumblr (posts.xml or HTML pages), Reddit (CSV) and Google
+Takeout (Keep, Blogger), any number at once, and write one dated journal: a `.jot` a year by default, each post as
+`#### HH:MM · Service` under its day, with its original link; photos as margin notes saying where they are in the export, or packed
+into a `.jotz` a year (60 MB budget). Exports leave services' formats for plain text, as the research recommends for data trapped in
+an app (docs/methods/digital-daily-notes.md, line 495), and rereading ordinary records has value (docs/methods/five-year-diary.md,
+line 50).
+
+- **Your own words by default.** Reposts, comments, stories and place names are opt-in; other people's words in a personal journal
+  can be shared later (docs/methods/design-iteration-and-critique.md, line 178). Messages, contacts, friends lists, logins, IP
+  addresses, ads data and coordinates are never read.
+- **Private and quiet.** Every file says `Privacy: private` (docs/methods/expressive-writing.md, line 443). Like and share counts are
+  never written (docs/methods/e-ink-templates.md, line 742). Nothing resurfaces by itself: old posts can hurt
+  (docs/methods/digital-daily-notes.md, line 493); people choose dates and categories before converting.
+- **Nothing invented.** A post without a readable time is left out and counted, never given a guessed date (as for missing data:
+  docs/methods/symptom-tracking.md, line 596). Dates use one chosen IANA time zone, stated in `Timezone:`; Tumblr's wall-clock
+  times are read in that zone. Meta's double-encoded text is repaired only when it decodes cleanly.
+- **Honest about formats.** The readers follow the services' documented formats as this project knows them and are tested on
+  made-up samples (`converter/fixtures/archives/`), not yet on many real exports; an unknown layout shows as "nothing this can read
+  yet" rather than a guess. Not yet: Bluesky, LinkedIn, chat exports, Google Photos, YouTube and location history. MySpace offers no
+  export.
+- **Everything local.** ZIPs (and ZIPs inside them) are read with the vendored JSZip; exports over 2 GB are read as unzipped
+  folders, file by file. Tested in `converter/archive-test.mjs` and `site/test-import-ui.cjs`.
+
 ## Locked documents with built-in crypto (29 October 2026)
 
 A `.jot` or `.jotz` can be locked with a passphrase as `.jotlock` (`specification/Jot-Lock-v1.md`, `parser/lock.mjs`,

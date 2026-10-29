@@ -113,6 +113,10 @@ canonical CLI in the downloadable skill, or finds the repository above the insta
    - A plain-text diary (dated paragraphs, Project Gutenberg, an old text export):
      `node converter/jot-convert.mjs diary.txt -o diary.jot` (`--year YYYY` only when the user gives the starting year;
      `--calendar julian` for Old Style dates; see `converter/README.md`).
+   - Data exports from social and writing services (X/Twitter archive, Mastodon, Facebook or Instagram JSON, Tumblr, Reddit,
+     Google Takeout Keep/Blogger), as ZIPs or folders: `node converter/jot-archive.mjs <exports…> --list`, then
+     `--out-dir DIR --time-zone ZONE`. It keeps the person's own words, leaves out messages and other people's posts unless asked,
+     and marks files private; don't hand-copy posts it can read.
    - A CSV of numbers by date (sleep, steps, weight, a fitness or health app export):
      `node cli/jot.mjs import data.csv --into journal.jot --dry-run`, then without `--dry-run`. It fills days, keeps units from
      headers like `Sleep (h)`, and never overwrites a value. Add `--day-first` only when that is known.
@@ -195,6 +199,7 @@ canonical CLI in the downloadable skill, or finds the repository above the insta
 | Meeting notes, transcript | Date heading; decisions as prose; action items as `[ ]`; next meeting as `o` only if dated |
 | Calendar export (CSV, or .ics where your permissions allow reading it) | `o HH:MM Title` under each date; tasks as `[ ]` with the date they are due. This repository's Claude Code settings deny reading `.ics` (personal data): ask the user for a CSV export or pasted events rather than working around it |
 | CSV / health / fitness export | `jot import` (or `import-health` if present); otherwise measurement records |
+| Social or blog data export (X/Twitter, Mastodon, Facebook, Instagram, Tumblr, Reddit, Google Keep/Blogger) | `converter/jot-archive.mjs`; one `#### HH:MM · Service` section per post under its day, own words by default |
 | Markdown, Obsidian, Notion, Day One | Keep Markdown; daily-note file names or `date:` front matter give the date; `- [ ]` may stay or become `[ ]` |
 | Photos, scans, PDFs of pages | Transcribe what is legible; attachment record with alt text; package as `.jotz` |
 | Brain dump, undated notes | No date heading; tasks, questions and ideas marked; the rest as written |

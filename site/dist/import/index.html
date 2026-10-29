@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Jot: your life online</title>
+<meta name="description" content="Turn your data exports from X/Twitter, Mastodon, Facebook, Instagram, Tumblr, Reddit and Google into a dated Jot journal, in your browser.">
+<link rel="stylesheet" href="../editor/editor.css">
+<link rel="stylesheet" href="../convert/convert.css">
+<link rel="stylesheet" href="import.css">
+<link id="jot-hand-css" rel="stylesheet" href="../jot/handwriting.css">
+</head>
+<body class="jot-site">
+<a class="skip" href="#source-h">Skip to the importer</a>
+<header class="top">
+  <a class="brand" href="../"><span class="brand-icon" aria-hidden="true">⌗</span> JOT</a>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/" aria-current="page">Converter</a><a href="../guide/">Guides</a><a href="../examples/">Examples</a></nav>
+</header>
+<main>
+  <section class="intro">
+    <p class="eyebrow">YOUR LIFE ONLINE</p>
+    <h1>Years of posts, <em>one journal.</em></h1>
+    <p class="lead">Add the data exports you have downloaded (X/Twitter, Mastodon, Facebook, Instagram, Tumblr, Reddit, Google Takeout's Keep and Blogger) and get a dated <code>.jot</code> journal: your own words, a file a year, nothing retyped. It all happens in this browser: nothing is uploaded.</p>
+  </section>
+
+  <section class="settings source" aria-labelledby="source-h">
+    <h2 id="source-h">Your exports</h2>
+    <div class="actions">
+      <button class="btn primary" id="add-zip" type="button"><span aria-hidden="true">＋</span> Add ZIP files</button>
+      <button class="btn" id="add-dir" type="button"><span aria-hidden="true">＋</span> Add an unzipped folder</button>
+      <button class="btn" id="clear" type="button" disabled>Clear</button>
+      <input type="file" id="zips" accept=".zip,application/zip" multiple hidden>
+      <input type="file" id="dir" webkitdirectory multiple hidden>
+    </div>
+    <p class="hint">Each export as the service gives it (a <code>.zip</code>), or unzipped (a folder: better for exports over a gigabyte). Add as many as you like; they become one timeline. <a href="../guide/converting.html#your-life-online">How to download each one</a>.</p>
+    <ul class="found" id="found" aria-live="polite"></ul>
+  </section>
+
+  <section class="settings opts" aria-labelledby="opts-h">
+    <h2 id="opts-h">What to bring in</h2>
+    <fieldset class="wide checks"><legend>Besides your own posts and notes</legend>
+      <label><input type="checkbox" id="o-reposts"> Reposts, retweets, boosts and reblogs (other people's words)</label>
+      <label><input type="checkbox" id="o-comments"> Your comments (Facebook, Reddit)</label>
+      <label><input type="checkbox" id="o-stories"> Instagram stories</label>
+      <label><input type="checkbox" id="o-places"> Names of places you checked in at (never coordinates)</label>
+    </fieldset>
+    <div class="field"><label for="o-from">From</label><input id="o-from" type="date"></div>
+    <div class="field"><label for="o-to">To</label><input id="o-to" type="date"></div>
+    <div class="field"><label for="o-timeZone">Time zone for dates</label><input id="o-timeZone" autocomplete="off" spellcheck="false" aria-describedby="tz-note"><span class="note" id="tz-note">Where you mostly lived, e.g. Europe/London. Posts are dated by it.</span></div>
+    <div class="field"><label for="o-per">Files</label><select id="o-per"><option value="year">A file a year</option><option value="month">A file a month</option><option value="none">One file</option></select></div>
+    <div class="field"><label for="o-media">Photos and videos</label><select id="o-media"><option value="note">A note saying where each is in the export</option><option value="attach">Inside the journal (a .jotz a year, up to 60 MB each)</option><option value="none">Leave them out</option></select></div>
+    <div class="field"><label for="o-title">Title</label><input id="o-title" maxlength="120" autocomplete="off" value="My life online"></div>
+    <p class="note wide">Never read: messages, contacts, friends lists, logins, IP addresses, ads data, location coordinates. Like and share counts are never written. Every file is marked private.</p>
+    <div class="actions wide"><button class="btn primary" id="go" type="button" disabled>Make the journal</button></div>
+  </section>
+
+  <section class="preview result" aria-labelledby="result-h">
+    <div class="preview-head">
+      <h2 id="result-h">The journal</h2>
+      <label class="file-pick" id="file-pick" hidden><span class="sr-only">Show file</span><select id="file-sel"></select></label>
+    </div>
+    <div class="check" id="check" role="status" aria-live="polite">Add an export to begin.</div>
+    <ul class="problems" id="warnings" hidden></ul>
+    <div class="actions" id="out-actions" hidden>
+      <button class="btn primary" id="dl-one" type="button"><span aria-hidden="true">↓</span> Download this file</button>
+      <button class="btn" id="dl-zip" type="button"><span aria-hidden="true">↓</span> Download all (.zip)</button>
+    </div>
+    <pre class="jot" id="jot" tabindex="0" aria-label="The journal text" hidden></pre>
+  </section>
+  <p class="foot">Open the files in <a href="../write/">Write</a>, any text editor or VS Code. A diary kept as plain text? Use the <a href="../convert/">diary converter</a>.</p>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>

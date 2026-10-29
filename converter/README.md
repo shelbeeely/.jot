@@ -77,11 +77,28 @@ Option checks, UTF-8 decoding and the summary are shared (`checkOptions`, `decod
 `site/test-convert-ui.cjs` converts each case in the page and with `jot-convert.mjs` and checks the files are byte for byte the same,
 and that every command-line option has its place on the page.
 
+## Your life online: data exports to Jot
+
+`jot-archive.mjs` reads the data exports people download from X/Twitter, Mastodon, Facebook and Instagram (JSON), Tumblr, Reddit and
+Google Takeout (Keep, Blogger), any number at once, ZIPs or unzipped folders, and writes one dated journal (a `.jot` a year by default,
+or `.jotz` files with the photos packed in). `archive.mjs` is the importer, pure like `convert.mjs`: `readArchives(sources, options)`
+gives every post as an item, oldest first; `toJot` and `makeJournal` write them. The browser page is `../site/dist/import/`.
+
+    node converter/jot-archive.mjs twitter.zip facebook/ --list
+    node converter/jot-archive.mjs twitter.zip facebook/ --out-dir my-life/ --time-zone Europe/London --media attach
+
+Your own words by default; reposts, comments, stories and place names only when asked; messages, contacts, logins, IP addresses,
+ads data and coordinates never; no like or share counts; every file `Privacy: private`. Formats are as this project knows them from
+the services' documentation and made-up samples (`fixtures/archives/`, made by hand, nothing real), not yet from many real exports:
+a service that changes its format shows as "nothing this can read yet". `node --test converter/archive-test.mjs`;
+`node site/test-import-ui.cjs` for the page.
+
 ## Files
 
 - `convert.mjs`: the converter, pure (no file system), so the web tools can use it later: `convert(text, options)` returns the
   files, statistics and warnings.
 - `jot-convert.mjs`: the command line.
+- `archive.mjs`, `jot-archive.mjs`: data exports to Jot (above); `archive-test.mjs` and `fixtures/archives/` test them.
 - `../site/dist/convert/`: the browser page (`app.mjs`, `worker.mjs`).
 - `test.mjs`: `node --test converter/test.mjs`, on the excerpts in `fixtures/` (public domain; see `fixtures/README.md`).
 

@@ -17,7 +17,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="converting-an-old-diary">Converting an old diary</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-browser">In the browser</a></li><li><a href="#on-the-command-line-in-three-steps">On the command line, in three steps</a></li><li><a href="#what-you-get">What you get</a></li><li><a href="#dates-it-understands">Dates it understands</a></li><li><a href="#when-the-diary-doesn39t-say-the-year">When the diary doesn&#39;t say the year</a></li><li><a href="#old-style-dates-before-1752">Old Style dates (before 1752)</a></li><li><a href="#big-diaries">Big diaries</a></li><li><a href="#straight-from-the-web">Straight from the web</a></li><li><a href="#other-options">Other options</a></li><li><a href="#diaries-to-try">Diaries to try</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-browser">In the browser</a></li><li><a href="#on-the-command-line-in-three-steps">On the command line, in three steps</a></li><li><a href="#what-you-get">What you get</a></li><li><a href="#dates-it-understands">Dates it understands</a></li><li><a href="#when-the-diary-doesn39t-say-the-year">When the diary doesn&#39;t say the year</a></li><li><a href="#old-style-dates-before-1752">Old Style dates (before 1752)</a></li><li><a href="#big-diaries">Big diaries</a></li><li><a href="#straight-from-the-web">Straight from the web</a></li><li><a href="#other-options">Other options</a></li><li><a href="#diaries-to-try">Diaries to try</a></li><li><a href="#if-something-goes-wrong">If something goes wrong</a></li><li><a href="#your-life-online">Your life online</a></li></ul></nav><article class="guide">
 <p>Have a diary as plain text: an export from another app, notes you kept in a text file, or a published diary from Project Gutenberg?
 The converter turns it into Jot: one dated entry for each day, ready to read in the workspace, print, or keep writing in.</p>
 <p>There are two ways to use it, and they give exactly the same files:</p>
@@ -209,6 +209,92 @@ the chapter titles.</li>
 <td>The diary jumped back in time without saying so. Fix the <code>###</code> line by hand: it is just text</td>
 </tr>
 </tbody></table>
+<h2 id="your-life-online">Your life online</h2>
+<p>Years of posts are a diary too. <strong>Your life online</strong> (on the <strong>Converter</strong> page, or <code>converter/jot-archive.mjs</code> on the command line)
+reads the data exports that services let you download and writes one dated journal from all of them: each post under its day, with
+its time and where it came from, and nothing retyped. Like the diary converter, it all happens on your device.</p>
+<h3 id="getting-your-exports">Getting your exports</h3>
+<p>Each service has its own &quot;download your data&quot; page. Menus move, so look for these words if a step has changed:</p>
+<table tabindex="0">
+<thead>
+<tr>
+<th>Service</th>
+<th>Where</th>
+<th>Choose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>X / Twitter</strong></td>
+<td>Settings → Your account → Download an archive of your data</td>
+<td>the whole archive (a .zip; it can take a day to arrive)</td>
+</tr>
+<tr>
+<td><strong>Mastodon</strong></td>
+<td>Preferences → Import and export → Data export → Request your archive</td>
+<td>the archive (.zip)</td>
+</tr>
+<tr>
+<td><strong>Facebook</strong></td>
+<td>Settings → Accounts Centre → Your information and permissions → Download your information</td>
+<td><strong>JSON</strong> format (not HTML), all time; posts are enough</td>
+</tr>
+<tr>
+<td><strong>Instagram</strong></td>
+<td>the same, in Accounts Centre</td>
+<td><strong>JSON</strong> format, all time</td>
+</tr>
+<tr>
+<td><strong>Tumblr</strong></td>
+<td>your blog&#39;s settings → Export</td>
+<td>the .zip it emails or offers</td>
+</tr>
+<tr>
+<td><strong>Reddit</strong></td>
+<td>reddit.com/settings/data-request</td>
+<td>the data request (.zip of CSV files)</td>
+</tr>
+<tr>
+<td><strong>Google</strong> (Keep, Blogger)</td>
+<td>takeout.google.com</td>
+<td>Keep and Blogger (the rest is skipped)</td>
+</tr>
+</tbody></table>
+<h3 id="what-comes-in-and-what-stays-out">What comes in, and what stays out</h3>
+<p>Your own posts, replies, notes and blog posts come in. Other people&#39;s words don&#39;t, unless you ask: reposts, retweets, boosts and
+reblogs are an option, as are your comments (Facebook, Reddit), Instagram stories and the names of places you checked in at.</p>
+<p><strong>Never read:</strong> messages, contacts, friends lists, logins, IP addresses, ads data and location coordinates. <strong>Never written:</strong> like
+and share counts. Every file is marked <code>Privacy: private</code>. A post without a readable time is left out and counted, never given a
+guessed date.</p>
+<h3 id="what-you-get">What you get</h3>
+<p>One <code>.jot</code> a year (or a month, or one in all), dated in the time zone you choose (where you mostly lived; the files say which in
+<code>Timezone:</code>). Each post looks like this:</p>
+<pre tabindex="0"><code class="language-jot">### 2018-10-10 | Wednesday
+
+#### 21:19 · X / Twitter
+
+First frost on the allotment &amp; the kale survived. https://example.org/frost
+
+[[photo in the X / Twitter archive: data/tweets_media/1050000000000000001-photo.jpg]]
+
+#garden
+
+[Original](https://x.com/sample_writer/status/1050000000000000001)
+</code></pre>
+<p>Photos stay in your export, with a margin note saying where; or choose <strong>Inside the journal</strong> and each year becomes a <code>.jotz</code>
+carrying its photos (up to 60 MB a year; the rest stay notes). Google Keep lists become tasks you can tick.</p>
+<h3 id="on-the-command-line">On the command line</h3>
+<pre tabindex="0"><code>node converter/jot-archive.mjs twitter.zip facebook.zip takeout/ --list
+node converter/jot-archive.mjs twitter.zip facebook.zip takeout/ --out-dir my-life/ --time-zone Europe/London
+</code></pre>
+<p><code>--reposts</code>, <code>--comments</code>, <code>--stories</code>, <code>--places</code>, <code>--from</code>, <code>--to</code>, <code>--per year|month|none</code> and <code>--media note|attach|none</code> match the
+page&#39;s choices; <code>--help</code> lists them all. Exports over 2 GB: unzip them and give the folder.</p>
+<h3 id="before-you-start">Before you start</h3>
+<p>Old posts can bring back things you weren&#39;t expecting. You choose the dates and what comes in, and nothing is shown to you on its
+own: the journal waits until you open it.</p>
+<p>Not yet: Bluesky, LinkedIn, WhatsApp and other chat exports, Google Photos, YouTube history and location history. MySpace lost most
+of what people posted before 2016 in a server migration and offers no export; public profile pages may survive in the Internet
+Archive&#39;s Wayback Machine, as web pages rather than an export this can read. If your export looks different from what the importer
+expects (services change their formats), it says it found nothing; please tell us what the files are called, never send the export.</p>
 </article></div>
 </main>
 </body>

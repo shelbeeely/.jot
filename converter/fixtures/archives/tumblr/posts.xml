@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tumblr version="1.0"><posts>
+<post id="111" url="https://sample.tumblr.example/post/111" url-with-slug="https://sample.tumblr.example/post/111/a-long-night" type="regular" date-gmt="2012-07-14 23:15:00 GMT" unix-timestamp="1342307700"><regular-title>A long night</regular-title><regular-body>&lt;p&gt;Couldn't sleep, so I wrote this.&lt;/p&gt;&lt;p&gt;Then I made toast.&lt;/p&gt;</regular-body><tag>insomnia</tag><tag>toast</tag></post>
+<post id="112" url="https://sample.tumblr.example/post/112" type="quote" date-gmt="2012-07-15 10:00:00 GMT" unix-timestamp="1342346400"><quote-text>&lt;p&gt;Begin anywhere.&lt;/p&gt;</quote-text><quote-source>John Cage</quote-source></post>
+<post id="113" url="https://sample.tumblr.example/post/113" type="photo" reblogged-from-url="https://other.tumblr.example/post/5" date-gmt="2012-07-16 10:00:00 GMT" unix-timestamp="1342432800"><photo-caption>&lt;p&gt;Someone else's photo&lt;/p&gt;</photo-caption></post>
+</posts></tumblr>

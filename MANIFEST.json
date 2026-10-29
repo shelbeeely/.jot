@@ -9,8 +9,8 @@
     },
     {
       "path": ".agents/skills/to-jot/SKILL.md",
-      "byteLength": 15143,
-      "sha256": "49831e3ef3f9e20be15092fae786494f438af481f9502acc574bba503910afda"
+      "byteLength": 15801,
+      "sha256": "5cd178a5a9589e38b517baa23ce2f926073d77c72e282f30037c6b75614e94f1"
     },
     {
       "path": ".agents/skills/to-jot/reference/brain-dump.jot",
@@ -94,8 +94,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 2938,
-      "sha256": "be2d1266fcf97e0b4ae8a6ed70c6e8522c96225ab6905f381208399b355e4d19"
+      "byteLength": 3027,
+      "sha256": "c4ed379a359d234c1a192a249fa70f2146fafaf630a78694ff72da038b3c576c"
     },
     {
       "path": ".gitignore",
@@ -104,8 +104,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 5708,
-      "sha256": "62fc4f4882a072801d9fb49902fb569be5e497676d1477ad430193ca41877279"
+      "byteLength": 5735,
+      "sha256": "372813b32ca035850ad52f2e6087fddf86216d2de5bcc931c2bbbf39522df247"
     },
     {
       "path": "CLAUDE.md",
@@ -114,8 +114,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 37286,
-      "sha256": "8e91814fa40686c4bc478996f18aac8366bfb692919043764eb8d99a0e73a582"
+      "byteLength": 39779,
+      "sha256": "9c2ecca746c5ffc7c9baf31f5b673563eea771d47f165cc64b180c630361b96c"
     },
     {
       "path": "README.md",
@@ -139,18 +139,143 @@
     },
     {
       "path": "converter/README.md",
-      "byteLength": 6057,
-      "sha256": "3fc9e3e79e0366be30c21ece6fa1ee0ba05276509ba560f3d389fa52b7539259"
+      "byteLength": 7483,
+      "sha256": "837fce932a8e3e6e7e22246ed531a43d82a5764bf59d72b282a80bbf4c93d348"
+    },
+    {
+      "path": "converter/archive-test.mjs",
+      "byteLength": 9366,
+      "sha256": "17dc63e6b2ef59998b06b987446c4c6ce3e5de090b4d367af2baa10bdae3b261"
+    },
+    {
+      "path": "converter/archive.mjs",
+      "byteLength": 33046,
+      "sha256": "659d48c643418cee4206d68a5e47125b2a6edeaabcdd7efe39feb5c1111649fa"
     },
     {
       "path": "converter/convert.mjs",
-      "byteLength": 18222,
-      "sha256": "57895452dd6c4be576f80f2ff6bd62e1d6730a7ddc5096c15e4fc044cd0c4f77"
+      "byteLength": 18350,
+      "sha256": "b9c2a6e31d18c5f69fd9ec355977f29d1669f9f19a70176a4db9d5ae8c004baa"
     },
     {
       "path": "converter/fixtures/README.md",
       "byteLength": 797,
       "sha256": "5be241bb6586f7929778b6649495b3e6b452c7ccacbda444af7ea280d88f3b7f"
+    },
+    {
+      "path": "converter/fixtures/archives/README.md",
+      "byteLength": 405,
+      "sha256": "ef7e3c8a199ac8d89fc518c2be592fff3dae0c580e27bcb554f1b767ec276bce"
+    },
+    {
+      "path": "converter/fixtures/archives/facebook/your_activity_across_facebook/comments_and_reactions/comments.json",
+      "byteLength": 291,
+      "sha256": "a0d149b26b4761f62ebd4cbf273b1a2b943c982f1ab2b6d36be528e2de55a136"
+    },
+    {
+      "path": "converter/fixtures/archives/facebook/your_activity_across_facebook/messages/inbox/afriend_1/message_1.json",
+      "byteLength": 115,
+      "sha256": "b2169ae2e2016d6726eaa7d126ce6dd9eb21e235858943fbf47d39c190369674"
+    },
+    {
+      "path": "converter/fixtures/archives/facebook/your_activity_across_facebook/posts/media/NewYear_1/snow.jpg",
+      "byteLength": 29,
+      "sha256": "71fde3856a298a052c6edb5155638d8422114e55bf0e28374d90dea8be99ef6c"
+    },
+    {
+      "path": "converter/fixtures/archives/facebook/your_activity_across_facebook/posts/your_posts__check_ins__photos_and_videos_1.json",
+      "byteLength": 1131,
+      "sha256": "106d14d8fa9af7d2b2b8e3801bd8ce9bcdaee61f8f6f793b17113c424b326b59"
+    },
+    {
+      "path": "converter/fixtures/archives/instagram/media/posts/202006/a.jpg",
+      "byteLength": 29,
+      "sha256": "71fde3856a298a052c6edb5155638d8422114e55bf0e28374d90dea8be99ef6c"
+    },
+    {
+      "path": "converter/fixtures/archives/instagram/media/posts/202006/b.jpg",
+      "byteLength": 29,
+      "sha256": "71fde3856a298a052c6edb5155638d8422114e55bf0e28374d90dea8be99ef6c"
+    },
+    {
+      "path": "converter/fixtures/archives/instagram/media/posts/202006/beach.jpg",
+      "byteLength": 29,
+      "sha256": "71fde3856a298a052c6edb5155638d8422114e55bf0e28374d90dea8be99ef6c"
+    },
+    {
+      "path": "converter/fixtures/archives/instagram/your_instagram_activity/content/posts_1.json",
+      "byteLength": 531,
+      "sha256": "0cff5b09ca9c168b0c6267557c3cdc10d923052d2ad7741a8c399622dbf9bf61"
+    },
+    {
+      "path": "converter/fixtures/archives/instagram/your_instagram_activity/content/stories.json",
+      "byteLength": 114,
+      "sha256": "259f05acc223e614398c281cbae4f023450076c24088d4e979b9229a5fe0747a"
+    },
+    {
+      "path": "converter/fixtures/archives/mastodon/media_attachments/files/000/001/original/sofa.png",
+      "byteLength": 29,
+      "sha256": "71fde3856a298a052c6edb5155638d8422114e55bf0e28374d90dea8be99ef6c"
+    },
+    {
+      "path": "converter/fixtures/archives/mastodon/outbox.json",
+      "byteLength": 2056,
+      "sha256": "b129dfc1d80c1e974d515150e4c4aa3fcddc2593da3fc900f22007e7f01cc6f6"
+    },
+    {
+      "path": "converter/fixtures/archives/reddit/comments.csv",
+      "byteLength": 157,
+      "sha256": "5cc7e288c48c65be2a1ddfb2112e7bad96c8c41f439a58f9c6239335191b98df"
+    },
+    {
+      "path": "converter/fixtures/archives/reddit/posts.csv",
+      "byteLength": 292,
+      "sha256": "6af5d47513b1b35e40dc5b72c13ec8cfaae8c73a27d30d2a30f3a3ade3b4fb0c"
+    },
+    {
+      "path": "converter/fixtures/archives/takeout/Takeout/Blogger/Blogs/Sample blog/feed.atom",
+      "byteLength": 714,
+      "sha256": "e403b6f079ecba88a2b43f0b56ae0509ae6158f9dbaea85cfefa3b7c90640de3"
+    },
+    {
+      "path": "converter/fixtures/archives/takeout/Takeout/Keep/Gone.json",
+      "byteLength": 108,
+      "sha256": "6b7d2cb9c3521030c3f757d6afa4e9f5f47a7c60554ee40f570e37bc4eb58fa0"
+    },
+    {
+      "path": "converter/fixtures/archives/takeout/Takeout/Keep/Groceries.json",
+      "byteLength": 253,
+      "sha256": "69063ffecc32b2b70865449072d28b384648908f687d3751b7bf92a79446e3d6"
+    },
+    {
+      "path": "converter/fixtures/archives/takeout/Takeout/Keep/Idea.json",
+      "byteLength": 136,
+      "sha256": "4c88eaeed28da8b25d671b8648ff4370d9c8b711703e5311178628ca9a8b04b8"
+    },
+    {
+      "path": "converter/fixtures/archives/tumblr-html/posts/html/120.html",
+      "byteLength": 223,
+      "sha256": "cd3585dfc7be6671dbbbe09384e5aac1dd7bb696f00acbdcad19218d57c1dc4d"
+    },
+    {
+      "path": "converter/fixtures/archives/tumblr/posts.xml",
+      "byteLength": 1008,
+      "sha256": "57e227d1607265a0dc881713d44642a9bf7988d63ee065ec244a63ee5cc8f0a0"
+    },
+    {
+      "path": "converter/fixtures/archives/twitter/data/account.js",
+      "byteLength": 140,
+      "sha256": "3b69c7453742756d682ccf7ee82e96d14ca805888556c779c8707af7e44d97b0"
+    },
+    {
+      "path": "converter/fixtures/archives/twitter/data/tweets.js",
+      "byteLength": 1708,
+      "sha256": "11320115c1b8838678c6d3bb79bf26ddaaa3300ff2045cc46f1573466d5ff5c3"
+    },
+    {
+      "path": "converter/fixtures/archives/twitter/data/tweets_media/1050000000000000001-photo.jpg",
+      "byteLength": 29,
+      "sha256": "71fde3856a298a052c6edb5155638d8422114e55bf0e28374d90dea8be99ef6c"
     },
     {
       "path": "converter/fixtures/blunt-1901.txt",
@@ -178,6 +303,11 @@
       "sha256": "10d3891cca0d367d6361493eac7743efc7818d5b8c6240c3b9179c037ad89149"
     },
     {
+      "path": "converter/jot-archive.mjs",
+      "byteLength": 7144,
+      "sha256": "44811b4eb6399fa89fb1930aa65fd43ce3eacba9a96d3511e4915cb0c22189f1"
+    },
+    {
       "path": "converter/jot-convert.mjs",
       "byteLength": 4979,
       "sha256": "dfe223286cc3b6d2ab4eafaf0ebf08383f0334ab06107eec0030539b009e73f5"
@@ -199,8 +329,8 @@
     },
     {
       "path": "docs/guide/converting.md",
-      "byteLength": 7011,
-      "sha256": "08b71a3a7e781aa74f333782c09ecebe6b1bc30c4760b84a4154b822314bd73c"
+      "byteLength": 10828,
+      "sha256": "e59c1c34d1322bf093cddf980ebdf55164e8576aa6923ff858ec25b64b0e32dc"
     },
     {
       "path": "docs/guide/manual.md",
@@ -519,8 +649,8 @@
     },
     {
       "path": "eslint.config.mjs",
-      "byteLength": 1960,
-      "sha256": "eb394f4d44d79952ada8c2100d3abbfe9be92181d320f59a678cc3a9f8ffa070"
+      "byteLength": 1996,
+      "sha256": "44a8b271e7982efb01ac30c60cba9e587aa699c9f53b32d8a9c8b6a69a44eab1"
     },
     {
       "path": "examples/README.md",
@@ -579,8 +709,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 28785,
-      "sha256": "4942971e72024a2a10c3a07514fd902f1d49c140365be2877db658dc97a99d55"
+      "byteLength": 29201,
+      "sha256": "c5b25d319505d5c6ceca61147ece047c1dc987e882ec6873ee7e307c1fa78d66"
     },
     {
       "path": "parser/automation-test.mjs",
@@ -864,8 +994,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 3211,
-      "sha256": "d5acb44ed1ca4323e5a3c452208a8c265cc0ade67ff4341c54a12ce611e87f63"
+      "byteLength": 3323,
+      "sha256": "10c73dbcd29de5ba36d3cd9d0fe0f9094533908198ce115ee66417ee8b53b7cf"
     },
     {
       "path": "site/CLAUDE.md",
@@ -884,8 +1014,8 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 28785,
-      "sha256": "4942971e72024a2a10c3a07514fd902f1d49c140365be2877db658dc97a99d55"
+      "byteLength": 29201,
+      "sha256": "c5b25d319505d5c6ceca61147ece047c1dc987e882ec6873ee7e307c1fa78d66"
     },
     {
       "path": "site/dist/convert/app.mjs",
@@ -899,8 +1029,8 @@
     },
     {
       "path": "site/dist/convert/index.html",
-      "byteLength": 6175,
-      "sha256": "fa2980a307ce411948aaa48f3a8bb57e3d8389c42b41b74fa5fb334b8664aca2"
+      "byteLength": 6349,
+      "sha256": "544d13c1e2429d1c0966315e60487ffd5967fb389dc02304413be372fc31ac89"
     },
     {
       "path": "site/dist/convert/worker.mjs",
@@ -929,8 +1059,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 935726,
-      "sha256": "f4635c2effa8ba35250b8c545d9242a2d1bc3e112245bdba8bd02cf20b903f33"
+      "byteLength": 935931,
+      "sha256": "c2ae3068218725f71d321a768c4ad44c319277d580a342a189b97efbd96815ed"
     },
     {
       "path": "site/dist/editor/app.mjs",
@@ -1244,8 +1374,8 @@
     },
     {
       "path": "site/dist/guide/converting.html",
-      "byteLength": 11031,
-      "sha256": "d01ea6c99c4449678dec252b7807e8bf15501fe1dfa1d0f4c7fe206ead1f47b0"
+      "byteLength": 15866,
+      "sha256": "ff180054756f976651c6ba3aa384885d9e18a7d6d6f3eb0f470b0fe230d73874"
     },
     {
       "path": "site/dist/guide/guide.css",
@@ -1298,9 +1428,34 @@
       "sha256": "4d4051697422b77a30845bc43e0922b8eb33975f6c1a08a766dde418489e2353"
     },
     {
+      "path": "site/dist/import/app.mjs",
+      "byteLength": 6035,
+      "sha256": "44baa044a6dca7e7938932015cb75026f86a125357dddbb4cab3fc84a7dd8b0d"
+    },
+    {
+      "path": "site/dist/import/import.css",
+      "byteLength": 752,
+      "sha256": "bcf5a2b14f66f72d5d1b53ffb615c9d49bbefc81ccddd55f6a8e7ed4103ea874"
+    },
+    {
+      "path": "site/dist/import/index.html",
+      "byteLength": 5655,
+      "sha256": "2d5939eb13a1e8c87cc7b5e4dcb678f8e25abdfe28470fa7e34557bcdbb4063e"
+    },
+    {
+      "path": "site/dist/import/worker.mjs",
+      "byteLength": 2783,
+      "sha256": "0dffadd23148d0baf6f4a66055c540851eb471fb7865bbf49eb7e8b75997f0f6"
+    },
+    {
       "path": "site/dist/index.html",
       "byteLength": 11194,
       "sha256": "6072e974686e955b242a9fb98e606aba7f58e09e5658fa882fd7f87dce30e4e2"
+    },
+    {
+      "path": "site/dist/jot/archive.mjs",
+      "byteLength": 33046,
+      "sha256": "659d48c643418cee4206d68a5e47125b2a6edeaabcdd7efe39feb5c1111649fa"
     },
     {
       "path": "site/dist/jot/automation.mjs",
@@ -1324,8 +1479,8 @@
     },
     {
       "path": "site/dist/jot/convert.mjs",
-      "byteLength": 18222,
-      "sha256": "57895452dd6c4be576f80f2ff6bd62e1d6730a7ddc5096c15e4fc044cd0c4f77"
+      "byteLength": 18350,
+      "sha256": "b9c2a6e31d18c5f69fd9ec355977f29d1669f9f19a70176a4db9d5ae8c004baa"
     },
     {
       "path": "site/dist/jot/export.mjs",
@@ -1638,6 +1793,11 @@
       "sha256": "67ae78750426440f386a3779bccaf57fcb9361c83c3a59c689ae8f08fad42e4e"
     },
     {
+      "path": "site/test-import-ui.cjs",
+      "byteLength": 6776,
+      "sha256": "97bc6562d6dfa9fbb7db8d184594d32af62874577a4757d5ef36bd2bf7eb4b19"
+    },
+    {
       "path": "site/test-include-ui.cjs",
       "byteLength": 5871,
       "sha256": "2fb712426d6899cb79f71b897360b806f5318f1bbdde8aa5b887cd449918ec70"
@@ -1714,8 +1874,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 28785,
-      "sha256": "4942971e72024a2a10c3a07514fd902f1d49c140365be2877db658dc97a99d55"
+      "byteLength": 29201,
+      "sha256": "c5b25d319505d5c6ceca61147ece047c1dc987e882ec6873ee7e307c1fa78d66"
     },
     {
       "path": "specification/conformance.json",

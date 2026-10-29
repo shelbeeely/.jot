@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:blogger="http://schemas.google.com/blogger/2018">
+<entry><id>tag:blogger.com,1999:blog-1.post-1</id><blogger:type>POST</blogger:type><blogger:status>LIVE</blogger:status><title>Moving house</title><content type="html">&lt;p&gt;Boxes everywhere.&lt;br&gt;The cat is unimpressed.&lt;/p&gt;</content><published>2009-04-02T19:00:00Z</published><link rel="alternate" type="text/html" href="https://sampleblog.example/2009/04/moving-house.html"/></entry>
+<entry><id>c1</id><blogger:type>COMMENT</blogger:type><title>A comment</title><content type="html">Not mine.</content><published>2009-04-03T19:00:00Z</published></entry>
+</feed>

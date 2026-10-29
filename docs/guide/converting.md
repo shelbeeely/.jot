@@ -156,3 +156,74 @@ Text UTF-8**. Three that convert well:
 | "already there" | Choose another folder or `--name`, or add `--force` to replace the files |
 | "more than the 1 MiB" | Use `--out-dir` so it can split the diary |
 | A day is in the wrong year | The diary jumped back in time without saying so. Fix the `###` line by hand: it is just text |
+
+## Your life online
+
+Years of posts are a diary too. **Your life online** (on the **Converter** page, or `converter/jot-archive.mjs` on the command line)
+reads the data exports that services let you download and writes one dated journal from all of them: each post under its day, with
+its time and where it came from, and nothing retyped. Like the diary converter, it all happens on your device.
+
+### Getting your exports
+
+Each service has its own "download your data" page. Menus move, so look for these words if a step has changed:
+
+| Service | Where | Choose |
+| --- | --- | --- |
+| **X / Twitter** | Settings → Your account → Download an archive of your data | the whole archive (a .zip; it can take a day to arrive) |
+| **Mastodon** | Preferences → Import and export → Data export → Request your archive | the archive (.zip) |
+| **Facebook** | Settings → Accounts Centre → Your information and permissions → Download your information | **JSON** format (not HTML), all time; posts are enough |
+| **Instagram** | the same, in Accounts Centre | **JSON** format, all time |
+| **Tumblr** | your blog's settings → Export | the .zip it emails or offers |
+| **Reddit** | reddit.com/settings/data-request | the data request (.zip of CSV files) |
+| **Google** (Keep, Blogger) | takeout.google.com | Keep and Blogger (the rest is skipped) |
+
+### What comes in, and what stays out
+
+Your own posts, replies, notes and blog posts come in. Other people's words don't, unless you ask: reposts, retweets, boosts and
+reblogs are an option, as are your comments (Facebook, Reddit), Instagram stories and the names of places you checked in at.
+
+**Never read:** messages, contacts, friends lists, logins, IP addresses, ads data and location coordinates. **Never written:** like
+and share counts. Every file is marked `Privacy: private`. A post without a readable time is left out and counted, never given a
+guessed date.
+
+### What you get
+
+One `.jot` a year (or a month, or one in all), dated in the time zone you choose (where you mostly lived; the files say which in
+`Timezone:`). Each post looks like this:
+
+```jot
+### 2018-10-10 | Wednesday
+
+#### 21:19 · X / Twitter
+
+First frost on the allotment & the kale survived. https://example.org/frost
+
+[[photo in the X / Twitter archive: data/tweets_media/1050000000000000001-photo.jpg]]
+
+#garden
+
+[Original](https://x.com/sample_writer/status/1050000000000000001)
+```
+
+Photos stay in your export, with a margin note saying where; or choose **Inside the journal** and each year becomes a `.jotz`
+carrying its photos (up to 60 MB a year; the rest stay notes). Google Keep lists become tasks you can tick.
+
+### On the command line
+
+```
+node converter/jot-archive.mjs twitter.zip facebook.zip takeout/ --list
+node converter/jot-archive.mjs twitter.zip facebook.zip takeout/ --out-dir my-life/ --time-zone Europe/London
+```
+
+`--reposts`, `--comments`, `--stories`, `--places`, `--from`, `--to`, `--per year|month|none` and `--media note|attach|none` match the
+page's choices; `--help` lists them all. Exports over 2 GB: unzip them and give the folder.
+
+### Before you start
+
+Old posts can bring back things you weren't expecting. You choose the dates and what comes in, and nothing is shown to you on its
+own: the journal waits until you open it.
+
+Not yet: Bluesky, LinkedIn, WhatsApp and other chat exports, Google Photos, YouTube history and location history. MySpace lost most
+of what people posted before 2016 in a server migration and offers no export; public profile pages may survive in the Internet
+Archive's Wayback Machine, as web pages rather than an export this can read. If your export looks different from what the importer
+expects (services change their formats), it says it found nothing; please tell us what the files are called, never send the export.

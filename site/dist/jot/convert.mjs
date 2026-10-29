@@ -78,7 +78,8 @@ export function stripGutenberg(text) {
 
 // ---- escaping: a line of the diary must stay a line of writing ----
 const one = (s) => String(s).replace(/\s+/g, ' ').trim();
-function escapeLine(line) {
+/** A line of someone's writing, made safe to stand as a line of Jot writing (not a heading, task, list, record …). */
+export function escapeLine(line) {
   const t = line.replace(/^[ \t]+/, '');
   if (/^\d+[.)](\s|$)/.test(t)) return t.replace(/^(\d+)([.)])/, '$1\\$2'); // "1660. The year" is not a numbered list
   if (/^(\[[ x><!\-]\]\s|[o?!=] |#|>|:::|===|\/\*|\*\/|\.\S|[-*+](\s|$)|\[\[|@[a-z][a-z0-9-]*:|::voice|\||-{3,}\s*$|_{3,}\s*$|```|~~~|<)/.test(t)) return `\\${t}`;

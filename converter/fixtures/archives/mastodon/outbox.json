@@ -1,0 +1,65 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "OrderedCollection",
+  "orderedItems": [
+    {
+      "type": "Create",
+      "published": "2023-03-05T18:40:00Z",
+      "object": {
+        "id": "https://social.example/users/sample/statuses/1",
+        "url": "https://social.example/@sample/1",
+        "to": [
+          "https://www.w3.org/ns/activitystreams#Public"
+        ],
+        "cc": [],
+        "content": "<p>Rain all day. Read on the sofa.</p><p>Second paragraph with a <a href=\"https://example.org/book\" rel=\"nofollow\"><span class=\"invisible\">https://</span><span class=\"\">example.org/book</span><span class=\"invisible\"></span></a> and <a href=\"https://social.example/tags/reading\" class=\"mention hashtag\">#<span>reading</span></a></p>",
+        "tag": [
+          {
+            "type": "Hashtag",
+            "name": "#reading"
+          }
+        ],
+        "attachment": [
+          {
+            "type": "Document",
+            "mediaType": "image/png",
+            "url": "/media_attachments/files/000/001/original/sofa.png",
+            "name": "A sofa by a rainy window"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Create",
+      "published": "2023-03-06T08:00:00Z",
+      "object": {
+        "id": "https://social.example/users/sample/statuses/2",
+        "url": "https://social.example/@sample/2",
+        "to": [
+          "https://social.example/users/sample/followers"
+        ],
+        "cc": [],
+        "summary": "tiredness",
+        "content": "<p>Slept badly again.</p>",
+        "inReplyTo": null
+      }
+    },
+    {
+      "type": "Create",
+      "published": "2023-03-06T09:00:00Z",
+      "object": {
+        "id": "https://social.example/users/sample/statuses/3",
+        "to": [
+          "https://social.example/users/a_friend"
+        ],
+        "cc": [],
+        "content": "<p>A direct message: never imported.</p>"
+      }
+    },
+    {
+      "type": "Announce",
+      "published": "2023-03-07T10:00:00Z",
+      "object": "https://elsewhere.example/@them/9"
+    }
+  ]
+}

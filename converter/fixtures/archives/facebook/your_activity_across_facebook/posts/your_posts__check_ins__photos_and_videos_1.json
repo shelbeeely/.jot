@@ -1,0 +1,56 @@
+[
+  {
+    "timestamp": 1262347200,
+    "data": [
+      {
+        "post": "New year. Itâs snowing â cafÃ© closed, so tea at home â"
+      }
+    ],
+    "attachments": [
+      {
+        "data": [
+          {
+            "media": {
+              "uri": "your_activity_across_facebook/posts/media/NewYear_1/snow.jpg",
+              "creation_timestamp": 1262347200,
+              "title": "Snow"
+            }
+          },
+          {
+            "place": {
+              "name": "Riverside Park",
+              "coordinate": {
+                "latitude": 51.5,
+                "longitude": -0.1
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "title": "Sample Writer updated their status."
+  },
+  {
+    "timestamp": 1262433600,
+    "title": "Sample Writer updated their profile picture."
+  },
+  {
+    "timestamp": 1262520000,
+    "data": [
+      {
+        "post": "Worth reading."
+      }
+    ],
+    "attachments": [
+      {
+        "data": [
+          {
+            "external_context": {
+              "url": "https://example.org/article"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -3,12 +3,12 @@
 import js from '@eslint/js';
 import globals from 'globals';
 
-const COPIES = 'jot,container,proofread,charts,preview,handwriting,styles,palette,export,automation,connect,convert,include,query';
+const COPIES = 'jot,container,proofread,charts,preview,handwriting,styles,palette,export,automation,connect,convert,archive,lock,include,query';
 
 export default [
   // Third-party code and generated copies: lint the source in parser/ and converter/ instead.
   // The scanner (/scan/) is an unfinished, unlinked prototype whose classic scripts share globals.
-  { ignores: ['**/node_modules/', '**/vendor/', 'vscode/media/jot/', `site/dist/jot/{${COPIES}}.mjs`, 'site/dist/scan/'] },
+  { ignores: ['**/node_modules/', '**/vendor/', 'vscode/media/jot/', `site/dist/jot/{${COPIES}}.mjs`, 'site/dist/scan/', 'converter/fixtures/'] },
   js.configs.recommended,
   {
     linterOptions: { reportUnusedDisableDirectives: 'error' },
