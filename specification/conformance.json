@@ -133,6 +133,31 @@
       "fileFrom": "examples/plain-text.jot",
       "saveAs": "mislabelled.jotz",
       "expected": "Read by content: plain source despite the .jotz extension."
+    },
+    {
+      "id": "spotify-short-links",
+      "input": "### 2026-10-27\n\n- spotify: album:4aawyAB9vmqN3uQ7FjRGTy\n- [Writing mix](spotify:playlist:37i9dQZF1DXcBWIGoYBM5M)\n",
+      "expected": "Two external Spotify references in a list, no diagnostics, exact source round-trip; rendering does not fetch or play music."
+    },
+    {
+      "id": "background-media-short-links",
+      "input": "- [Film](imdb:tt0133093)\n- youtube: dQw4w9WgXcQ\n- youtube:playlist:PL1234567890abcdef\n",
+      "expected": "IMDb title, YouTube video and playlist links; no diagnostics, exact source round-trip, no remote requests or automatic playback."
+    },
+    {
+      "id": "musicbrainz-identity-link",
+      "input": "[A recording](musicbrainz:recording:12345678-1234-4234-8234-123456789abc)\n",
+      "expected": "Database identity link with writer label, exact source round-trip, no diagnostics, no metadata or playback request."
+    },
+    {
+      "id": "person-place-reference-records",
+      "input": ":::record place #river\nlabel: Riverside café\nlatitude: 51.5\nlongitude: -0.12\ntimezone: Europe/London\n:::\n\nMeet [Robin](people.jot#person-robin) here.\n",
+      "expected": "Generic place record and external person reference, no lookup, exact source round-trip; place coordinates are not measurements."
+    },
+    {
+      "id": "entry-timezone-scope",
+      "input": "---\nTimezone: America/Los_Angeles\n---\n### 2026-10-28\n@timezone: Europe/London\no Call at 09:00\n### 2026-10-29\no Call at 09:00\n",
+      "expected": "First entry uses Europe/London; second resets to document America/Los_Angeles. Preserve source and local dates/times; calendar instants resolve independently."
     }
   ]
 }

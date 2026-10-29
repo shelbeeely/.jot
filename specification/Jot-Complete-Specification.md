@@ -138,6 +138,22 @@ Year, month, week, season and collection headings are descriptive. Structured pe
 
 `= ` begins a synopsis line. Multiple synopses are retained in order. `===` on its own is a page-break block, never an entry boundary. Heading text, dates and dates embedded in prose are never interpreted as scheduling commands.
 
+#### 2.3.1 Entry timezone override
+
+A standalone `@timezone: Europe/London` directive inside a dated entry supplies its timezone, taking precedence over the document's
+`Timezone` metadata. It applies to the whole entry, regardless of where in it the directive occurs, and ends at the next dated
+heading, including a repeated date. Without an override, the document default applies. An undated-preamble override is a warning;
+use metadata for a document default. Zones use IANA names containing a region/path, or UTC/GMT; ambiguous bare abbreviations are
+not accepted. Invalid/blank declared zones remain unresolved and MUST NOT fall back to the device or to a previous valid value.
+Duplicates warn and use the last declaration. Source and written dates/times remain unchanged. Place timezone fields do not supply
+entry context. Code, comments and record content do not become timezone directives.
+
+An exact RFC 3339 instant with offset retains its meaning. Calendar export may resolve a local dated event only when its effective
+zone yields exactly one instant; DST gaps and repeated hours require an explicit offset rather than a guessed occurrence. Date-only
+entries, filters and all-day events retain their calendar dates. Separate entries can cover a day or a recap period; a `period`
+record describes coverage without changing entry-boundary or timezone scope.
+
+
 ## 3. Deterministic parsing and grammar
 
 ### 3.1 Block precedence
@@ -223,6 +239,39 @@ A `#target` naming nothing in the document, or naming a duplicated record ID (§
 
 A renderer gives each target an element ID unique to that rendering (for example `jotln-<page>-2026-10-25`, so two previews in one page never clash) and points resolved links at it. It MAY list beside a target where it is linked from: the dated entry, or the record, that holds each link. Unresolved links render as text, not as a dangling anchor.
 
+#### 4.2.3 Spotify short references
+
+`spotify:<type>:<id>` is an inline reference to Spotify, optionally with spaces or tabs after `spotify:`. Types are lowercase
+`track`, `album`, `playlist`, `artist`, `episode` and `show`; IDs are exactly 22 case-sensitive ASCII letters/digits.
+For example, `spotify: album:4aawyAB9vmqN3uQ7FjRGTy` expands in a capable reader to
+`https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy`, labelled “Spotify album”. A Markdown link may supply a name:
+`[My writing mix](spotify:playlist:37i9dQZF1DXcBWIGoYBM5M)`. Several references can appear in an entry, including in lists.
+Readers MUST preserve source and MUST NOT fetch metadata, embed a player or start playback merely because a reference exists.
+Code spans, code blocks and escaped references stay literal. Unknown types or malformed bare references stay ordinary text;
+unsupported URI targets are displayed as text rather than opened. These references do not package audio or confer playback rights.
+
+#### 4.2.4 IMDb and YouTube short references
+
+`imdb:tt0133093` identifies an IMDb title (film, series or episode); the ID is `tt` plus 7–10 decimal digits. It expands to
+`https://www.imdb.com/title/tt0133093/`. `youtube:dQw4w9WgXcQ`, optionally `youtube:video:dQw4w9WgXcQ`, identifies an
+11-character video ID and expands to `https://www.youtube.com/watch?v=dQw4w9WgXcQ`. `youtube:playlist:<id>` expands to
+`https://www.youtube.com/playlist?list=<id>`; playlist IDs here contain 10–100 characters. YouTube IDs use case-sensitive ASCII
+letters/digits, underscore and hyphen. Horizontal space after the provider colon is optional. Provider names are lowercase.
+
+Bare references have “IMDb title”, “YouTube video” or “YouTube playlist” labels; named Markdown links supply a writer's label,
+for example `[Background film](imdb:tt0133093)`. As in §4.2.3, preserve source, code and escapes, retain malformed/unknown bare
+forms as text, and perform no metadata, thumbnail or playback request during parsing/rendering. IMDb links identify works,
+not a streaming source. A shortened video reference does not encode timestamps; keep a full URL when timestamps matter.
+
+#### 4.2.5 MusicBrainz identity references
+
+`musicbrainz:<entity>:<UUID>` identifies music independently of a playback provider. Entity types are `recording`, `release-group`,
+`release`, `work` and `artist`; the UUID has 8-4-4-4-12 hexadecimal groups, case-insensitive. Expand it to
+`https://musicbrainz.org/<entity>/<lowercase-UUID>`. Horizontal space after the provider colon is optional. Bare references show a
+“MusicBrainz <entity>” label; Markdown links may supply a name. Preserve source and perform no lookup when parsing or rendering.
+A recording is not a composition, and an album release group is not an edition; readers must not silently substitute these or
+infer a matching Spotify/YouTube recording. Optional search must disclose the provider and let the writer select a match.
+
 ### 4.3 Generic structured record
 
 ```jot
@@ -248,9 +297,31 @@ Reserved common fields are `method`, `privacy`, `author`, `created`, `modified`,
 
 ### 5.1 Common record types
 
-The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation`, `chart` (§5.2.1), `query` (§5.2.2), `sync` (§5.3.1), and `palette` and `moodboard` (§8.1.5). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
+The Core Reader recognizes a generic record regardless of its name. A Profile Processor interprets `task`, `event`, `reflection`, `prompt`, `response`, `measurement`, `scale`, `habit`, `observation`, `session`, `period`, `collection`, `quotation`, `attachment`, `layout`, `review`, `consent`, `medication`, `correction`, `relation`, `person`, `place`, `chart` (§5.2.1), `query` (§5.2.2), `sync` (§5.3.1), and `palette` and `moodboard` (§8.1.5). Applications MAY add namespaced types using an `x-organization-` prefix. A type name alone does not enforce a profile.
 
 To make the profile contracts usable, every profile has an ID and integer version. A `method: id@1` field selects it. Every catalogue subsection lists its intended record type, required fields for a **complete** record, optional fields and validation notes. Core always accepts partial capture. Missing required profile fields produce a `profile-incomplete` warning, never rejection of the note. Unless explicitly repeatable, fields in a complete profile are singleton; duplicates warn and their last value supplies the effective value. `body`, `source`, `relation`, `label`, `author`, `privacy`, `created` and `modified` are available to every profile. Common record IDs are separate from profile fields.
+
+#### 5.1.1 People and places in reusable reference books
+
+A `person` or `place` record is an ordinary generic record with a stable ID and a display `label`. The workspace's reference-book
+editor uses plain `.jot` files with conservative filenames (ASCII letters/digits, dots, underscores and dashes), and references
+records with ordinary relative links such as `[Robin](people.jot#person-robin)`. A record ID must stay stable when the label changes.
+
+Recommended person fields: `label`, repeatable `alias`, `given-name`, `family-name`, `pronouns`, `organization`, repeatable `email`,
+`phone` and `website`, plus `address`, `place` and `notes`. Recommended place fields: `label`, repeatable `alias`, `kind`,
+`address-line1`, `address-line2`, `locality`, `region`, `postal-code`, `country`, `country-code`, `latitude`, `longitude`, `altitude-m`,
+`accuracy-m`, `timezone`, repeatable `phone` and `website`, and `directions`, `accessibility`, `notes`.
+
+Coordinates are supplied WGS84 decimal degrees, latitude −90…90 and longitude −180…180, always paired. Elevation is optional
+metres (no vertical datum inferred); accuracy is a supplied nonnegative estimate in metres. Country codes are two letters;
+timezone names are IANA identifiers. A place timezone is descriptive only and MUST NOT implicitly change entry/document time.
+The editor checks these supplied fields, but Core does not infer coordinates, timezone, address deliverability or contact validity.
+Person/place numeric values MUST NOT become implicit measurements merely because they are numeric.
+
+Loading a library is explicit. Reference selection must not copy contact details into journal text or exports. A reader may
+resolve a qualified link against opened files, but MUST NOT scan disks, fetch missing files or contact a map service automatically.
+The current workspace optionally remembers selected books in browser storage; portable journal packages do not implicitly include
+those books. Unknown fields and unrelated source must survive book editing. Plain reference books are not encrypted.
 
 ### 5.2 Measurements and scales
 
@@ -330,7 +401,7 @@ A reader MUST NOT show a query it cannot fully read as an empty or unfiltered re
 
 ### 5.3 Dates, times and duration
 
-Dates use valid Gregorian `YYYY-MM-DD`. A complete instant uses an RFC 3339 timestamp with seconds and explicit offset or `Z`. Local timestamps lacking an offset MAY be stored as capture text but remain unresolved. A timezone field never resolves a repeated daylight-saving hour without an offset. An offset inconsistent with a declared IANA zone produces a warning; the written instant is preserved. A plain `HH:MM` is display-only unless a profile also supplies date and timezone and ambiguity is resolved explicitly.
+Dates use valid Gregorian `YYYY-MM-DD`. A complete instant uses an RFC 3339 timestamp with seconds and explicit offset or `Z`. Local timestamps lacking an offset MAY be stored as capture text; they remain unresolved unless an explicit date and validated timezone yield exactly one instant. A timezone field never resolves a repeated daylight-saving hour without an offset. An offset inconsistent with a declared IANA zone produces a warning; the written instant is preserved. A plain `HH:MM` is display-only unless a profile also supplies date and timezone and ambiguity is resolved explicitly.
 
 Intervals use `start` and `end`; `end` is exclusive and MUST be later than start for a completed timed interval. Overnight intervals use full dates. Ongoing intervals omit `end` with `status: ongoing`. Durations use numeric `duration` and `duration-unit: min` or `s`; an inconsistent duration and interval is flagged, not silently corrected. Future dates do not imply reminders. Jot records schedules; actual notifications belong to an application feature with explicit user configuration.
 

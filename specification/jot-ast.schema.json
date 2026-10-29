@@ -75,6 +75,70 @@
       "items": {
         "$ref": "#/$defs/link"
       }
+    },
+    "timezone": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Validated document timezone, or null; never a device-zone fallback."
+    },
+    "timezoneRaw": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "timezoneDeclared": {
+      "type": "boolean"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "date",
+          "heading",
+          "startNode",
+          "endNode"
+        ],
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "heading": {
+            "type": "string"
+          },
+          "startNode": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "endNode": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "timezone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "timezoneRaw": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "timezoneSource": {
+            "enum": [
+              "entry",
+              "document",
+              "none"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
     }
   },
   "$defs": {

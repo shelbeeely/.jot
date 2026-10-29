@@ -1,25 +1,61 @@
+import { spotifyURL, mediaURL } from './jot.mjs';
 // Optional capture tools; the result is ordinary Jot/Markdown, with no service dependency in the document.
 export const SPOTIFY_SCOPE = 'user-read-currently-playing';
 const one = (s, max = 300) => String(s ?? '').replace(/[\u0000-\u001f\u007f]+/g, ' ').trim().slice(0, max);
 const prose = (s) => String(s).replace(/[\\`*_{}\[\]()#>!|~+^=<>:.\-]/g, '\\$&');
 export function musicURL(value) {
   if (!String(value || '').trim()) return '';
-  let url; try { url = new URL(String(value).trim()); } catch { throw new Error('Enter a full HTTPS song link.'); }
-  if (url.protocol !== 'https:' || url.username || url.password) throw new Error('Use an HTTPS song link without login details.');
+  const short = spotifyURL(value); if (short) return 'spotify:' + short.split('/').slice(-2).join(':');
+  const media = mediaURL(value); if (media) return String(value).trim().replace(/:[ \t]+/, ':');
+  let url; try { url = new URL(String(value).trim()); } catch { throw new Error('Enter an HTTPS media link or a MusicBrainz, Spotify, IMDb or YouTube short reference.'); }
+  if (url.protocol !== 'https:' || url.username || url.password) throw new Error('Use an HTTPS media link without login details.');
   return url.href.replace(/[()<>\\\[\]]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase());
 }
 export function serviceName(url) {
-  if (!url) return 'track'; const host = new URL(url).hostname;
-  return host === 'open.spotify.com' ? 'Spotify' : ['music.youtube.com', 'youtube.com', 'www.youtube.com', 'youtu.be'].includes(host) ? 'YouTube Music' : 'track';
+  if (!url) return 'track';
+  if (spotifyURL(url)) return 'Spotify';
+  if (url.startsWith('musicbrainz:')) return 'MusicBrainz';
+  if (url.startsWith('imdb:')) return 'IMDb';
+  if (url.startsWith('youtube:')) return 'YouTube';
+  const host = new URL(url).hostname;
+  return ['imdb.com', 'www.imdb.com'].includes(host) ? 'IMDb' : host === 'open.spotify.com' ? 'Spotify' : ['music.youtube.com', 'youtube.com', 'www.youtube.com', 'youtu.be'].includes(host) ? 'YouTube Music' : 'track';
 }
-export function listeningNote({ title, artist = '', album = '', url = '', notes = '', capturedAt = new Date().toISOString(), paused = false, source = '', playbackState = '', listenedAt = '' }) {
-  title = one(title); if (!title) throw new Error('Add a song or episode title first.');
+// One reference per line: optional human label | HTTPS link or Spotify URI. No service request.
+export function musicReferences(value = '') {
+  if (String(value).length > 12000) throw new Error('Keep media references under 12,000 characters.');
+  const rows = String(value).split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+  if (rows.length > 100) throw new Error('Add up to 100 media references at a time.');
+  return rows.map((row, index) => {
+    const split = row.indexOf(' | '), label = split < 0 ? '' : row.slice(0, split).trim(), ref = split < 0 ? row : row.slice(split + 3).trim();
+    let url;
+    try { url = musicURL(ref); if (!url) throw Error(); } catch { throw new Error(`Media reference ${index + 1}: use an HTTPS link or a MusicBrainz, Spotify, IMDb or YouTube shortcode, optionally after a name and |.`); }
+    const parsed = new URL(mediaURL(url) || url);
+    const match = parsed.hostname === 'open.spotify.com' && /^\/(?:intl-[a-z]{2}\/)?(track|album|playlist|artist|episode|show)\/([A-Za-z0-9]{22})\/?$/.exec(parsed.pathname);
+    if (match) url = `spotify:${match[1]}:${match[2]}`;
+    const imdb = ['imdb.com', 'www.imdb.com'].includes(parsed.hostname) && /^\/title\/(tt[0-9]{7,10})\/?$/.exec(parsed.pathname);
+    if (imdb) url = `imdb:${imdb[1]}`;
+    const youtube = ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'].includes(parsed.hostname);
+    if (youtube) {
+      const keys = [...parsed.searchParams.keys()];
+      const video = parsed.hostname === 'youtu.be' ? parsed.pathname.slice(1) : parsed.pathname === '/watch' ? parsed.searchParams.get('v') : /^\/(?:shorts|embed)\/([A-Za-z0-9_-]{11})$/.exec(parsed.pathname)?.[1];
+      // Preserve timestamps, video+playlist combinations and other meaningful URL options.
+      if (video && /^[A-Za-z0-9_-]{11}$/.test(video) && keys.every((k) => ['v', 'si', 'feature'].includes(k))) url = `youtube:${video}`;
+      else if (parsed.pathname === '/playlist' && /^[A-Za-z0-9_-]{10,100}$/.test(parsed.searchParams.get('list') || '') && keys.every((k) => ['list', 'si', 'feature'].includes(k))) url = `youtube:playlist:${parsed.searchParams.get('list')}`;
+    }
+    return `- [${prose(one(label) || (match ? 'Spotify ' + match[1] : serviceName(url) === 'track' ? parsed.hostname : serviceName(url)))}](${url})`;
+  }).join('\n');
+}
+export function listeningNote({ title, artist = '', album = '', url = '', notes = '', capturedAt = new Date().toISOString(), paused = false, source = '', playbackState = '', listenedAt = '', references = '' }) {
+  title = one(title); const collection = musicReferences(references);
+  if (!title && !collection) throw new Error('Add a title or at least one music reference first.');
   const link = musicURL(url), at = new Date(capturedAt);
   if (!Number.isFinite(at.getTime())) throw new Error('The capture time is invalid.');
-  const lines = ['#### Listening', '', `“${prose(title)}”${one(artist) ? ' — ' + prose(one(artist)) : ''}`, ''];
+  const lines = [title ? '#### Listening' : '#### Background media', ''];
+  if (title) lines.push(`“${prose(title)}”${one(artist) ? ' — ' + prose(one(artist)) : ''}`, '');
   if (one(album)) lines.push(`Album / show: ${prose(one(album))}`, '');
   if (link) { const service = serviceName(link); lines.push(`[${service === 'track' ? 'Open track' : 'Open in ' + service}](${link})`, ''); }
-  lines.push(`Captured: ${at.toISOString()}${paused ? ' (playback paused)' : ''}`, '');
+  if (collection) lines.push(collection, '');
+  lines.push(`${title ? 'Captured' : 'Added'}: ${at.toISOString()}${paused ? ' (playback paused)' : ''}`, '');
   if (['Last.fm', 'ListenBrainz'].includes(source)) {
     lines.push(`Source: ${source}${playbackState === 'now' ? ' (reported playing now)' : ' (recently played)'}`, '');
     if (listenedAt && Number.isFinite(new Date(listenedAt).getTime())) lines.push(`Listened: ${new Date(listenedAt).toISOString()}`, '');
@@ -249,9 +285,9 @@ export function setupMusicCapture({ insert }) {
   for (const id of ['musicTitle', 'musicArtist', 'musicAlbum', 'musicURL']) $(id).addEventListener('input', () => { resetScrobbleResults(); paused = false; provenance = {}; capturedAt = new Date().toISOString(); });
   $('musicAdd').onclick = () => {
     try {
-      const note = listeningNote({ title: $('musicTitle').value, artist: $('musicArtist').value, album: $('musicAlbum').value, url: $('musicURL').value, notes: $('musicNotes').value, capturedAt: capturedAt || new Date().toISOString(), paused, ...provenance });
+      const note = listeningNote({ title: $('musicTitle').value, artist: $('musicArtist').value, album: $('musicAlbum').value, url: $('musicURL').value, notes: $('musicNotes').value, references: $('musicReferences').value, capturedAt: capturedAt || new Date().toISOString(), paused, ...provenance });
       dialog.close(); insert(note);
-      for (const id of ['musicTitle', 'musicArtist', 'musicAlbum', 'musicURL', 'musicNotes']) $(id).value = '';
+      for (const id of ['musicTitle', 'musicArtist', 'musicAlbum', 'musicURL', 'musicNotes', 'musicReferences']) $(id).value = '';
       capturedAt = ''; paused = false; provenance = {}; $('scrobbleResults').hidden = true; say('Enter a song yourself, or connect Spotify to fetch currently playing information.');
     } catch (e) { say(e.message); }
   };

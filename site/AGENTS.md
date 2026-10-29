@@ -8,7 +8,7 @@ Serve the site with `python3 -m http.server 8000 --directory site/dist`; open `/
 
 Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for axe-core and provide Playwright with Chromium; each suite starts its own local server. Select the suites relevant to the change:
 
-- Music changes: `node site/test-music-ui.cjs`.
+- Music changes: `node site/test-music-ui.cjs`; persistent player: `node site/test-music-player-ui.cjs`.
 - Include changes (`parser/include.mjs`, the workspace's `.jotz` includes): `node site/test-include-ui.cjs`.
 
 - Writer preferences, focus mode, quick notes and return to position: `node site/test-prefs-ui.cjs`.
@@ -41,3 +41,60 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - Only an optional, user-chosen target range may persist (local storage, wrapped in try/catch). No gendered defaults, scores or judgement words.
 - Measuring fills the dialog; the journal changes only on Add, with plain-text records. Recordings are files the person made elsewhere and attached.
 - Announce readings through a throttled live region, never every frame.
+
+## Persistent music player (`site/dist/music-player.mjs`)
+
+- Load Spotify's embed only after the user's Load action; never send writing, capture tokens or journal metadata to it.
+- Keep the iframe outside journal rendering, preserve it through edits, and remove it when the user closes the player.
+- The embed handles its own account/session; do not share the listening capture's tokens or add background polling.
+
+## Music database lookup (`site/dist/media-lookup.mjs`)
+
+- Search is off until explicitly enabled. Send only the dedicated search text and entity type; never journal writing or tokens.
+- Debounce and rate-limit requests, cancel stale/closed-dialog searches, treat provider results as untrusted text, and require
+  selection into the review list. Search or selection alone must never edit journal writing.
+- Run `node site/test-media-lookup-ui.cjs` for lookup changes. Responses are mocked; report live-service checks separately.
+
+## Local autocomplete (`site/dist/local-autocomplete.mjs`)
+
+- Build suggestions from the current journal plus explicitly opened People/Places reference books only. Keep indexes in memory; never contact a service or scan other files.
+- Preserve normal typing, IME, code and escapes. Only explicit selection inserts text; retain undo and keyboard dismissal.
+- Measurements reuse names/units/scales, never values or implicit conversions. Do not suggest ambiguous link targets.
+- Run `node --test site/test-autocomplete.mjs` and `node site/test-autocomplete-ui.cjs` for changes.
+
+## Reference books (`site/dist/reference-books*.mjs`)
+
+- Read only files explicitly opened by the user or library copies they explicitly chose to remember. Remembering is opt-in.
+- Keep book data separate from journals/exports; only chosen names and qualified IDs become entry links. No auto-attachment.
+- Preserve stable IDs, unrelated source, repeatable contact methods and unknown fields on edit. Validate coordinates and supplied
+  timezone identifiers without geolocation/geocoding. Clicking a map link is the only map action.
+- Run `node --test site/test-reference-books.mjs` and `node site/test-reference-books-ui.cjs` for changes.
+
+## Entry timezone and time/location capture
+
+- `entry-timezone.mjs` edits only the chosen dated entry, with undo; source times/dates must not be converted implicitly.
+- `editor-capture.mjs` uses actual current timestamps. Device zone is allowed only as an explicit new capture source when no zone
+  is declared, never as a fallback for old entries or an invalid declaration.
+- Request Chromium geolocation only on Get current location, once per click, with a review step before inserting or saving a place.
+  No background watches, geocoding or inferred place timezone. Ignore late results after closing; handle denial/offline/timeouts.
+- Run `node --test site/test-editor-capture.mjs parser/timezone-test.mjs`, `node site/test-entry-timezone-ui.cjs` and
+  `node site/test-editor-capture-ui.cjs`. Location browser responses are mocked, not live-device verification.
+
+## Writing tools and responsive workspace
+
+- `writing-tools.mjs`, `writer-search.mjs`, `writer-templates.mjs` and `writer-workspace.mjs` keep edits in plain source, with native
+  Chromium undo and an input-event fallback. Register structural keyboard handlers after local autocomplete; respect composition
+  and prevented events. Software keyboards may use beforeinput without an Enter keydown.
+- Search is literal and local. Command/outline search alone never changes source. Template source must be reviewable and validated
+  before explicit insertion; templates must not invent prose, measurements, dates, timestamps or location.
+- Keep the preview measurable when hidden so handwritten print/export still works; view switching and collapsed controls are
+  screen-only. Keep new controls out of print/export, retain focus-mode exit, and preserve manual capture preferences.
+- Run the `site/test-writing-tools.mjs`, `site/test-writer-search.mjs`, `site/test-writer-workspace.mjs` and
+  `site/test-writer-templates.mjs` Node tests, `node site/test-writer-ui.cjs`, and relevant preferences, color and autocomplete suites.
+  Mobile browser emulation and synthetic software-keyboard events are not physical-device verification.
+
+## Live editing and device files
+
+- `live-model.mjs` projects exact source offsets; `live-writer.mjs` edits source, never serializes rendered HTML. Preserve opaque blocks, composition, selection, undo and plain-text paste. Context-dependent blocks use source cards; full document preview computes their results. Relocking must clear the live DOM and undo history.
+- `device-files.mjs` uses explicit user-selected session handles only. Save is explicit and separate from browser autosave; detect changed files, cancel quietly, preserve newer edits and choose a new package destination when attachments are added. Locked journals must never enter its plain serialization path.
+- Run `node --test site/test-live-model.mjs site/test-device-files.mjs` and both corresponding `*-ui.cjs` suites. Browser file handles and composition are mocked/synthetic; report native-device limits. Source regression suites explicitly choose Source editing with `test-source-workspace.cjs`.

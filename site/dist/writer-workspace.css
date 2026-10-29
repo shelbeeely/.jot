@@ -1,0 +1,91 @@
+/* Writing controls use the shared page colors and stay outside printed/exported journal pages. */
+.writer-format,.writer-view{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid var(--jot-edge);color:var(--jot-ink)}
+.writer-format button,.writer-view button{min-height:44px;min-width:44px;padding:8px 12px;font:inherit;font-size:15px;cursor:pointer;transition:none;border:1px solid var(--jot-edge);border-radius:5px;background:var(--jot-paper);color:var(--jot-ink)}
+.writer-format label{display:flex;gap:8px;align-items:center;min-height:44px;font-size:14px}.writer-format input[type=checkbox]{width:20px;height:20px}
+.writer-format button[aria-expanded=true],.writer-view button[aria-pressed=true]{border-color:var(--jot-ink);box-shadow:inset 0 -2px var(--jot-ink)}
+.writer-view{justify-content:space-between}.writer-view>div{display:flex;gap:6px;flex-wrap:wrap}.writer-view>span{font-size:14px}
+.writer-dialog{width:min(680px,calc(100vw - 24px));max-height:85vh;max-height:85dvh;overflow:auto;padding:20px;color:var(--jot-ink);background:var(--jot-paper)}
+.writer-dialog .dialog-header{gap:12px;align-items:center}.writer-dialog h2{font-size:26px}.writer-dialog label{display:block;margin-top:12px}
+.writer-dialog :is(input:not([type=checkbox]),textarea,select){width:100%;min-width:0;min-height:44px;padding:10px;font:inherit;font-size:18px;border:1px solid var(--jot-edge);border-radius:5px;background:var(--jot-paper);color:var(--jot-ink)}
+.writer-templates-dialog textarea{min-height:180px;max-height:38vh;max-height:38dvh;resize:vertical}
+.writer-dialog button{min-height:44px;padding:8px 12px;font:inherit;transition:none;border:1px solid var(--jot-edge);border-radius:5px;background:var(--jot-paper);color:var(--jot-ink);cursor:pointer}
+.writer-dialog button:disabled{opacity:.6;cursor:default}.writer-dialog input[type=checkbox]{width:20px;height:20px;vertical-align:middle;margin-right:8px}
+.writer-choice-list{max-height:44vh;max-height:44dvh;overflow:auto;display:grid;gap:6px;margin-top:12px}
+.writer-choice-list button{display:grid;gap:4px;text-align:left;overflow-wrap:anywhere;padding-left:calc(10px + (var(--outline-level,1) - 1)*10px)}
+.writer-choice-list span{font-size:14px}.writer-dialog .small{color:var(--jot-ink);line-height:1.6}
+.writer-search-actions,.writer-dialog-actions,.writer-search-options{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.writer-search-options label{display:flex;align-items:center;min-height:44px;margin:0}
+.format-tools[hidden]{display:none!important}
+@media screen{
+ html[data-writer-view=write] .jot-site .writing-grid,html[data-writer-view=preview] .jot-site .writing-grid{grid-template-columns:1fr}
+ /* Keep hidden previews measurable for handwriting layout, printing and export. */
+ html[data-writer-view=write] .jot-site .preview-pane{position:fixed;top:0;left:-300vw;width:600px;height:100vh;overflow:hidden;visibility:hidden}
+ html[data-writer-view=preview]:not([data-focus]) .jot-site .writing-pane{display:none}
+ html[data-hide-preview] .jot-site .writing-pane,html[data-focus] .jot-site .writing-pane{display:flex}
+ .tool-row[data-collapsed]>:not(#writerCommandsBtn):not(#todayBtn):not(#focusBtn):not(#writerToolsToggle){display:none}
+ html[data-focus] .jot-site :is(.writer-format,.writer-view){display:none}
+}
+@media(max-width:850px){
+ #writerViewSplit{display:none}.writer-view>span{display:none}.writer-view{padding:8px 12px}
+ .writer-format{padding:8px;gap:5px;flex-wrap:nowrap;overflow-x:auto}.writer-format button{padding:8px 10px;flex:none}.writer-format label{flex:none;white-space:nowrap}
+ .writing-footer{flex-wrap:wrap;font-size:12px}.writing-footer label{min-height:44px}
+ .jot-site .studio-intro{padding-top:18px;padding-bottom:18px}.jot-site .studio-intro h1{font-size:34px;margin:8px 0}
+ .studio-intro .subtitle,.studio-intro .eyebrow{display:none}.studio-intro .studio-actions{gap:6px}
+ .studio-actions .button:not(#downloadJot):not(#openBtn){display:none}.studio-actions .button{min-height:44px;font-size:14px;padding:10px}
+ .tool-row .quiet{min-height:44px;font-size:14px}.studio-bar{flex-wrap:wrap;height:auto;min-height:56px;padding-top:8px;padding-bottom:8px}
+ #writing{min-height:55vh;min-height:55dvh}.writer-dialog{padding:14px}
+}
+@media print{.writer-format,.writer-view,.writer-dialog{display:none!important}}
+
+/* The writer opens as a quiet document. Optional tools keep their existing behavior. */
+body.jot-site.jot-writer{--writer-bg:#fff;--writer-ink:#24272b;--writer-muted:#656b73;--writer-border:#e1e4e8;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--writer-bg);color:var(--writer-ink)}
+@media(prefers-color-scheme:dark){body.jot-site.jot-writer{--writer-bg:#191b1e;--writer-ink:#e8e9eb;--writer-muted:#afb5be;--writer-border:#3c4149}}
+.jot-site.jot-writer :is(dialog,.studio-bar,.writer-format,.format-tools,.tool-row,.writing-footer,.pane-tabs,.paper-tools,.return-note,.asset-shelf,.notice,.local-suggestions,.pane-title,.music-player){font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.jot-site.jot-writer :is(dialog,.studio-bar,.writer-format,.format-tools,.tool-row,.writing-footer,.pane-tabs,.paper-tools,.return-note,.asset-shelf,.notice,.local-suggestions,.pane-title,.music-player) :is(button,input,select,textarea,label,p,h2,h3,span,strong,a){font-family:inherit}
+.jot-site.jot-writer :is(dialog,.studio-bar,.writer-format,.format-tools,.tool-row,.writing-footer,.writing-pane,.return-note,.asset-shelf,.notice,.local-suggestions){--jot-paper:var(--writer-bg);--jot-ink:var(--writer-ink);--jot-muted:var(--writer-muted);--jot-edge:var(--writer-border);color:var(--writer-ink)}
+.jot-site.jot-writer dialog{box-shadow:0 18px 80px #0003}.jot-site.jot-writer dialog h2{font-size:24px;letter-spacing:normal}
+.jot-site.jot-writer :is(.studio-bar,.tool-row,.writer-format,.format-tools,.writing-footer,.return-note,.asset-shelf) button{font-size:14px;min-height:44px}
+.jot-site.jot-writer .writer-dialog .small{font-size:14px}.jot-site.jot-writer .writer-dialog button{font-size:15px}
+.jot-site.jot-writer .writer-dialog input,.jot-site.jot-writer .writer-dialog textarea{font-size:16px}
+.jot-site.jot-writer .notice{font-size:13px;line-height:1.6;margin:12px auto;max-width:960px;min-height:0;color:var(--writer-muted)}
+.jot-site.jot-writer .notice:empty{margin:0}.jot-site.jot-writer .notice.error{color:#b42318}
+@media(prefers-color-scheme:dark){.jot-site.jot-writer .notice.error{color:#ffaaa4}}
+@media screen{
+ body.jot-writer>header,.jot-writer :is(.studio-intro,.jot-foundation,.resource-links,main>footer,.writer-view){display:none}
+ .jot-site.jot-writer main{max-width:1320px;margin:0 auto;padding:0 28px}
+ .jot-site.jot-writer .studio-workspace{border:0;border-radius:0;overflow:visible;background:var(--writer-bg);box-shadow:none}
+ .jot-site.jot-writer .studio-bar{height:auto;min-height:76px;padding:12px 0;gap:16px;flex-wrap:nowrap;border-bottom:1px solid var(--writer-border);color:var(--writer-ink)}
+ .jot-site.jot-writer .writer-brand{font-size:16px;font-weight:650;letter-spacing:-.5px;color:var(--writer-ink);text-decoration:none;min-height:44px;display:flex;align-items:center}
+ .jot-site.jot-writer .writer-document{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:0}
+ .jot-site.jot-writer .writer-document>div{display:flex;align-items:center;max-width:100%;gap:2px}
+ .jot-site.jot-writer #documentName{width:200px;max-width:100%;min-width:0;height:44px;font-size:15px;color:var(--writer-ink);padding:0;border-radius:0}
+ .jot-site.jot-writer #docExt{font-size:13px;color:var(--writer-muted)}
+ .jot-site.jot-writer #saveState{font-size:12px;color:var(--writer-muted)}
+ .jot-site.jot-writer .writer-file-actions{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+ .jot-site.jot-writer .writer-file-actions button{border:0;background:transparent;color:var(--writer-ink);border-radius:5px;padding:8px 12px;font-size:14px;font-weight:500;transition:none;white-space:nowrap}
+ .jot-site.jot-writer .writer-file-actions button:hover{background:color-mix(in srgb,var(--writer-ink) 7%,var(--writer-bg))}
+ .jot-site.jot-writer .writer-file-actions #downloadJot{background:var(--writer-ink);color:var(--writer-bg)}
+ .jot-site.jot-writer .writer-file-actions #focusBtn{display:none}
+ .jot-site.jot-writer .writing-grid{min-height:0}.jot-site.jot-writer .writing-pane{background:var(--writer-bg)}
+ .jot-site.jot-writer .pane-title{display:none}.jot-site.jot-writer .writing-footer{font-size:13px}
+ html[data-writer-options] .jot-site.jot-writer .pane-title{display:flex;padding:12px 20px}.jot-site.jot-writer .pane-title :is(span,.eyebrow){font-size:12px}
+ .jot-site.jot-writer #writing{font:18px/1.8 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:76ch;align-self:center;margin:0 auto;min-height:calc(100vh - 150px);min-height:calc(100dvh - 150px);padding:36px 28px;resize:vertical;color:var(--writer-ink);background:var(--writer-bg);border-radius:0;box-shadow:none}
+ .jot-site.jot-writer #writing::placeholder{color:var(--writer-muted);opacity:1}
+ .jot-site.jot-writer :focus-visible{outline:2px solid var(--writer-ink);outline-offset:2px}
+ html[data-pref-size=s] body.jot-site.jot-writer #writing{font-size:16px}html[data-pref-size=l] body.jot-site.jot-writer #writing{font-size:22px}html[data-pref-size=xl] body.jot-site.jot-writer #writing{font-size:26px}
+ html[data-pref-spacing=tight] body.jot-site.jot-writer #writing{line-height:1.4}html[data-pref-spacing=roomy] body.jot-site.jot-writer #writing{line-height:2}html[data-pref-spacing=roomier] body.jot-site.jot-writer #writing{line-height:2.3}
+ html[data-pref-measure=medium] body.jot-site.jot-writer #writing{max-width:calc(65ch + 56px)}html[data-pref-measure=short] body.jot-site.jot-writer #writing{max-width:calc(45ch + 56px)}
+ html[data-pref-density=compact] .jot-site.jot-writer .studio-bar{padding-top:6px;padding-bottom:6px;gap:8px}
+ html[data-pref-density=spacious] .jot-site.jot-writer .studio-bar{padding-top:20px;padding-bottom:20px;gap:20px}
+ html[data-pref-contrast] .jot-site.jot-writer :is(.studio-bar,.writing-footer,.notice){--writer-muted:var(--writer-ink);--writer-border:var(--writer-ink)}
+ html[data-focus] .jot-site.jot-writer :is(.tool-row,.writer-format,.format-tools,.writing-footer,.pane-title){display:none}
+ html[data-focus] .jot-site.jot-writer .writer-file-actions>button:not(#focusBtn){display:none}
+ html[data-focus] .jot-site.jot-writer .writer-file-actions #focusBtn{display:block}
+}
+@media screen and (max-width:700px){
+ .jot-site.jot-writer main{padding:0 16px}.jot-site.jot-writer .studio-bar{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 16px;padding:10px 0 8px;min-height:0}
+ .jot-site.jot-writer .writer-file-actions{grid-column:1/-1;justify-content:flex-end;width:100%;gap:2px;min-width:0}
+ .jot-site.jot-writer .writer-file-actions button{padding:8px 11px;font-size:13px}
+ .jot-site.jot-writer #documentName{width:180px}.jot-site.jot-writer #writing{padding:24px 8px;max-width:100%;min-height:calc(100vh - 155px);min-height:calc(100dvh - 155px)}
+ .jot-site.jot-writer .writer-format{flex-wrap:wrap;overflow-x:visible}.jot-site.jot-writer .writer-format label{white-space:normal;flex-basis:100%}
+ html[data-focus] .jot-site.jot-writer .writer-file-actions{grid-column:2;grid-row:1/3;width:auto}
+}

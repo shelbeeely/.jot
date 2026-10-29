@@ -80,3 +80,24 @@ Drop leading indentation from prose: four spaces makes a code block.
 - `.jot`: plain UTF-8 text. Never binary, never base64.
 - `.jotz`: a ZIP with `manifest.json`, `journal.txt` and `assets/…`, for attachments. Make it with the workspace (`/write/`) or
   `pack({ source, assets })` from `parser/container.mjs`; `node cli/jot.mjs check` reads both.
+
+## Music references
+
+An entry may list multiple songs, albums or playlists. Use `spotify:album:ID` or `spotify: playlist:ID` with a real 22-character
+Spotify ID, or `[My mix](spotify:playlist:ID)` for a label. Types: track, album, playlist, artist, episode, show. Replace ID with
+the actual ID supplied by the user; do not invent one. These render as links and never automatically fetch/play or attach audio.
+
+For background films/TV/episodes, use `imdb:tt0133093`; for videos, `youtube:dQw4w9WgXcQ` or `youtube:playlist:PLAYLIST_ID`.
+Use IDs actually supplied by the user, with optional names such as `[Film](imdb:tt0133093)`. IMDb title IDs have 7–10 digits after
+tt; YouTube video IDs have 11 letters/digits/underscore/hyphen, playlist IDs 10–100. Reading these links never loads media.
+
+Music identities can use `musicbrainz:recording:UUID`, `musicbrainz:release-group:UUID`, `musicbrainz:release:UUID`,
+`musicbrainz:work:UUID` or `musicbrainz:artist:UUID`. Use a supplied/verified canonical UUID; never invent one or substitute a
+composition, recording and album edition. The workspace offers opt-in MusicBrainz search, with explicit choice of result.
+
+## Timezone and period scope
+
+Document metadata `Timezone: America/Los_Angeles` is the default. `@timezone: Europe/London` inside an entry overrides it until
+the next dated heading. Use a real IANA name or UTC; never invent a zone or infer it from a place mention. Explicit-offset RFC 3339
+instants retain their meaning. DST repeated/nonexistent hours require an explicit offset for timed calendar export. Weekly/monthly
+recaps may be dated entries with a `period` record (`start` inclusive, `end` exclusive); this does not change original daily entries.

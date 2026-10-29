@@ -1,3 +1,6 @@
+const toolCommand = async (page, label) => { await page.click('#writerCommandsBtn'); await page.fill('#writerCommandsSearch',label); await page.locator('#writerCommandsList button').filter({has:page.locator('strong').filter({hasText:new RegExp('^'+label+'$','i')})}).click(); };
+const lockCommand = page => toolCommand(page,'Journal lock and ways in');
+const downloadCommand = page => toolCommand(page,'Download journal');
 // Locking a journal in /write/ with the browser's built-in Web Crypto (studio.mjs, jot/lock.mjs, jot/passkey.mjs): only encrypted
 // copies in browser storage, a .jotlock download that Node unlocks, asked again after a reload (passphrase, recovery code, passkey),
 // opening a .jotlock, ways in (a passkey on Chromium's virtual authenticator with PRF, a new recovery code, a new passphrase, removing
@@ -9,7 +12,7 @@ const server=http.createServer((req,res)=>{let f=path.resolve(root,'.'+decodeURI
 const PASS='correct horse battery',SECRET='Secret rain on the window.',MARK='ATTACHED-PLAINTEXT-MARKER';
 // Everything this site keeps for the page: localStorage and every IndexedDB value, as one string to search for plain text.
 const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);parts.push(k+'='+localStorage.getItem(k));}
-  const db=await new Promise((ok,no)=>{const r=indexedDB.open('jot-documents-v1',1);r.onupgradeneeded=()=>{for(const s of ['assets','handoff'])if(!r.result.objectStoreNames.contains(s))r.result.createObjectStore(s);};r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error);});
+  const db=await new Promise((ok,no)=>{const r=indexedDB.open('jot-documents-v1');r.onupgradeneeded=()=>{for(const s of ['assets','handoff'])if(!r.result.objectStoreNames.contains(s))r.result.createObjectStore(s);};r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error);});
   const flat=v=>v instanceof Uint8Array?Array.from(v,c=>String.fromCharCode(c)).join(''):Array.isArray(v)?v.map(flat).join('|'):v&&typeof v==='object'?Object.values(v).map(flat).join('|'):String(v);
   for(const s of ['assets','handoff'])parts.push(await new Promise(ok=>{const r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(flat(r.result));}));db.close();return parts.join('\n');});
 (async()=>{
@@ -21,12 +24,12 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
  try{
   const ctx=await browser.newContext({viewport:{width:1100,height:900},acceptDownloads:true}),page=await ctx.newPage(),done=watch(page);
   await page.goto(base+'/write/');await page.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));
-  await page.fill('#writing',`### 2026-10-25 | Sunday\n\n${SECRET}\n`);
+  await require('./test-source-workspace.cjs')(page);await page.fill('#writing',`### 2026-10-25 | Sunday\n\n${SECRET}\n`);
   await page.setInputFiles('#attachFile',{name:'note.txt',mimeType:'text/plain',buffer:Buffer.from(MARK)});await page.waitForFunction(()=>/Attached 1 files/.test(document.querySelector('#journalNotice').textContent));
   assert.ok((await stored(page)).includes(SECRET),'unlocked: plain text in this browser, as before');
 
   // Lock: two different passphrases lock nothing; a short one asks once more; then everything stored is encrypted.
-  await page.click('#lockBtn');assert.ok(await page.$eval('#lockDialog',d=>d.open));
+  await lockCommand(page);assert.ok(await page.$eval('#lockDialog',d=>d.open));
   for(const mode of ['light','dark']){await page.emulateMedia({colorScheme:mode});await page.waitForTimeout(300);/* buttons fade their background for 0.15 s */await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth),0,'no sideways scroll at 390px');await audit(page,'#lockDialog');if(shots)await page.screenshot({path:path.join(shots,`lock-${mode}.png`)});}
   await page.setViewportSize({width:1100,height:900});await page.emulateMedia({colorScheme:'light'});
   await page.fill('#lockPass',PASS);await page.fill('#lockPass2','something else');await page.click('#lockGo');
@@ -48,7 +51,7 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   all=await stored(page);assert.ok(!all.includes('More rain'),'later saves are encrypted too');
 
   // Download locked: a .jotlock that the parser's own unlock opens, with the writing and the attachment.
-  const dl=page.waitForEvent('download');await page.click('#downloadJot');const d=await dl;assert.match(d.suggestedFilename(),/\.jotlock$/);
+  const dl=page.waitForEvent('download');await downloadCommand(page);const d=await dl;assert.match(d.suggestedFilename(),/\.jotlock$/);
   const bytes=new Uint8Array(fs.readFileSync(await d.path()));assert.equal(Buffer.from(bytes.subarray(0,10)).toString(),'JOTLOCK 1\n');
   const plain=await unlock(bytes,PASS);assert.equal(kindOf(plain),'jotz');const doc=await readDocument(plain);
   assert.match(doc.source,/Secret rain on the window\.\n\[note\.txt\]\(assets\/note\.txt\)[\s\S]*More rain\./);assert.equal(Buffer.from(doc.assets[0].data).toString(),MARK);
@@ -86,7 +89,7 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   // Ways in, with a passkey on Chromium's virtual authenticator (PRF supported, user verified).
   const cdp=await ctx2.newCDPSession(p2);await cdp.send('WebAuthn.enable');
   await cdp.send('WebAuthn.addVirtualAuthenticator',{options:{protocol:'ctap2',ctap2Version:'ctap2_1',transport:'internal',hasResidentKey:true,hasUserVerification:true,isUserVerified:true,hasPrf:true,automaticPresenceSimulation:true}});
-  await p2.click('#lockBtn');assert.ok(await p2.$eval('#waysDialog',d=>d.open));assert.equal((await p2.$$('#waysList li')).length,2);
+  await lockCommand(p2);assert.ok(await p2.$eval('#waysDialog',d=>d.open));assert.equal((await p2.$$('#waysList li')).length,2);
   for(const mode of ['light','dark']){await p2.emulateMedia({colorScheme:mode});await p2.waitForTimeout(300);await audit(p2,'#waysDialog');}await p2.emulateMedia({colorScheme:'light'});
   await p2.fill('#passkeyLabel','Test key');await p2.click('#addPasskey');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
   await p2.fill('#unlockPass',PASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/^Added\./.test(document.querySelector('#waysStatus').textContent));
@@ -96,7 +99,7 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   await p2.click('#unlockPasskey');await p2.waitForFunction(()=>/More rain\./.test(document.querySelector('#writing').value));
   assert.ok(!(await stored(p2)).includes(SECRET),'still encrypted after unlocking with a passkey');
   // A new recovery code (confirmed with the passkey), then a new passphrase (confirmed with the old one): the old one stops working.
-  await p2.click('#lockBtn');await p2.click('#newCode');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
+  await lockCommand(p2);await p2.click('#newCode');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
   await p2.click('#unlockPasskey');await p2.waitForFunction(()=>document.querySelector('#codeDialog').open);await p2.click('#codeDone');
   const NEWPASS='a brand new passphrase';await p2.fill('#newPass',NEWPASS);await p2.fill('#newPass2',NEWPASS);await p2.click('#changePass');
   await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);await p2.fill('#unlockPass',PASS);await p2.click('#unlockGo');
@@ -105,7 +108,7 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   await p2.fill('#unlockPass',PASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/does not open it/.test(document.querySelector('#unlockStatus').textContent));
   await p2.fill('#unlockPass',NEWPASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/More rain\./.test(document.querySelector('#writing').value));
   // Remove the passkey; the last passphrase or code cannot be removed.
-  await p2.click('#lockBtn');const rows=await p2.$$eval('#waysList li',ls=>ls.map(l=>[l.textContent,l.querySelector('button').disabled]));
+  await lockCommand(p2);const rows=await p2.$$eval('#waysList li',ls=>ls.map(l=>[l.textContent,l.querySelector('button').disabled]));
   assert.deepEqual(rows.map(r=>r[0].replace(/Remove$/,'')),['Passkey or security key · Test key','Recovery code','Passphrase']);
   await p2.click('#waysList li:first-child button');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
   await p2.fill('#unlockPass',NEWPASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/^Removed\./.test(document.querySelector('#waysStatus').textContent));
@@ -118,8 +121,8 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   // Lock again after time away (default 15 minutes): saved encrypted first, then the locked panel; Never keeps it open.
   const ctx3=await browser.newContext({viewport:{width:1100,height:900}}),p3=await ctx3.newPage(),done3=watch(p3);
   await p3.clock.install();await p3.goto(base+'/write/');await p3.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));
-  await p3.fill('#documentName','field-notes');await p3.fill('#writing',`### 2026-10-25 | Sunday\n\n${SECRET}\n`);
-  await p3.click('#lockBtn');assert.equal(await p3.inputValue('#lockUser'),'field-notes','a password manager saves it under the journal\'s name');
+  await p3.fill('#documentName','field-notes');await require('./test-source-workspace.cjs')(p3);await p3.fill('#writing',`### 2026-10-25 | Sunday\n\n${SECRET}\n`);
+  await lockCommand(p3);assert.equal(await p3.inputValue('#lockUser'),'field-notes','a password manager saves it under the journal\'s name');
   await p3.uncheck('#lockRecovery');await p3.fill('#lockPass',PASS);await p3.fill('#lockPass2',PASS);await p3.click('#lockGo');await p3.waitForFunction(()=>!document.querySelector('#lockDialog').open);
   await p3.waitForTimeout(100);assert.ok(!(await p3.$eval('#codeDialog',d=>d.open)),'no recovery code when unticked');
   await p3.click('#prefsBtn');assert.equal(await p3.inputValue('#prefRelock'),'15');await p3.click('#prefsDone');

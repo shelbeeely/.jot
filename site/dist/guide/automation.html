@@ -17,7 +17,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="automation-and-connections">Automation and connections</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-workspace-the-tools-row">In the workspace: the Tools row</a></li><li><a href="#events-and-tasks-on-your-calendar">Events and tasks on your calendar</a></li><li><a href="#numbers-from-a-fitness-or-health-app">Numbers from a fitness or health app</a></li><li><a href="#health-data">Health data</a></li><li><a href="#the-jot-command-line">The jot command line</a></li><li><a href="#in-vs-code">In VS Code</a></li><li><a href="#connecting-to-other-services">Connecting to other services</a></li><li><a href="#ideas">Ideas</a></li><li><a href="#listening-notes">Listening notes</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#in-the-workspace-the-tools-row">In the workspace: the Tools row</a></li><li><a href="#events-and-tasks-on-your-calendar">Events and tasks on your calendar</a></li><li><a href="#numbers-from-a-fitness-or-health-app">Numbers from a fitness or health app</a></li><li><a href="#health-data">Health data</a></li><li><a href="#the-jot-command-line">The jot command line</a></li><li><a href="#in-vs-code">In VS Code</a></li><li><a href="#connecting-to-other-services">Connecting to other services</a></li><li><a href="#ideas">Ideas</a></li><li><a href="#listening-notes">Listening notes</a></li><li><a href="#albums-playlists-and-spotify-short-links">Albums, playlists and Spotify short links</a></li><li><a href="#imdb-and-youtube-background-media">IMDb and YouTube background media</a></li><li><a href="#find-music-ids-while-typing">Find music IDs while typing</a></li><li><a href="#entry-timezones-and-calendar-export">Entry timezones and calendar export</a></li></ul></nav><article class="guide">
 <p>A <code>.jot</code> is plain text, but the tasks, events and numbers in it can be read by a program. This guide covers what you can do with
 them: put your events on your calendar, bring in numbers from a fitness app, carry unfinished tasks forward, and connect to other
 services.</p>
@@ -27,6 +27,9 @@ when chosen. Service results become ordinary Jot: structured import records or a
 sent to Spotify, and the <code>.jot</code> file stays the master copy.</p>
 <h2 id="in-the-workspace-the-tools-row">In the workspace: the Tools row</h2>
 <p>Above the writing, in <strong>Write</strong>:</p>
+<p><strong>Commands</strong> (Ctrl+K / Cmd+K) searches these tools together with formatting, find/replace, the outline and editable entry templates.
+On mobile, use <strong>All tools</strong> to expand the secondary buttons. Each template is reviewed before insertion; its prompts stay blank
+until you fill them in. Writing tools, templates, suggestions and search run locally.</p>
 <table tabindex="0">
 <thead>
 <tr>
@@ -35,7 +38,7 @@ sent to Spotify, and the <code>.jot</code> file stays the master copy.</p>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Listening ♫</strong></td>
+<td><strong>Music &amp; background media</strong></td>
 <td>adds a plain-text music note, optionally filled from Spotify after sign-in and review</td>
 </tr>
 <tr>
@@ -264,7 +267,7 @@ starts with yesterday&#39;s open tasks waiting.</li>
 <li>Export on save to a calendar file your partner subscribes to, for shared plans.</li>
 </ul>
 <h2 id="listening-notes">Listening notes</h2>
-<p>In <strong>Write</strong>, choose <strong>Listening ♫</strong>. Enter a song or episode title, artist, optional album and a share link from Spotify, YouTube
+<p>In <strong>Write</strong>, choose <strong>Music &amp; background media</strong>. Enter a song or episode title, artist, optional album and a share link from Spotify, YouTube
 Music or another service. Add a few words about the setting, then choose <strong>Add to this entry</strong>. The note is inserted at your writing
 cursor. It is ordinary Jot/Markdown that you can type or edit in any text editor:</p>
 <pre tabindex="0"><code class="language-jot">#### Listening
@@ -282,12 +285,22 @@ On the bus home. Rain against the windows.
 change the journal. Paused playback is labelled as paused. Playback is not polled in the background.</p>
 <p>The manual option works without a connection. YouTube Music links can be entered manually; this website does not read another
 browser tab or Android&#39;s system media sessions. No microphone or media-file capture is part of this tool.</p>
+<h3 id="music-while-you-write">Music while you write</h3>
+<p>In <strong>Write → Music player ♫</strong>, paste a Spotify share link and choose <strong>Load Spotify player</strong>. Tracks, albums, playlists,
+artists, episodes and shows are supported. The player stays above the writing as you scroll and keeps the same music while you
+edit, switch preview tabs or enter focus mode. <strong>Choose music</strong> lets you replace it. <strong>Close player</strong> removes the embed and ends
+its playback; opening or closing the player never changes your journal.</p>
+<p>Spotify is contacted only when you load a player. It may use cookies or ask you to sign in inside its player; playback and
+availability depend on Spotify, your account, browser and region. No Spotify developer app is needed for this embed, and Jot
+never receives the embed&#39;s account credentials. This is separate from the optional currently-playing capture connection below.
+If playback is unavailable, use <strong>Open in Spotify</strong>. Reloading the workspace does not reload music automatically. The player is
+excluded from journal downloads, page exports and print.</p>
 <h3 id="spotify-setup">Spotify setup</h3>
 <p>Spotify requires a registered developer app. The site has no Client ID configured by default, so the connection needs this one-time
 setup before live Spotify capture can work:</p>
 <ol>
 <li>Open the <a href="https://developer.spotify.com/dashboard">Spotify developer dashboard</a> and create or select a Web API app.</li>
-<li>In Jot&#39;s <strong>Listening → Spotify connection settings</strong>, copy the displayed redirect URL. Register that <strong>exact URL</strong> in the app.
+<li>In Jot&#39;s <strong>Music &amp; background media → Spotify connection settings</strong>, copy the displayed redirect URL. Register that <strong>exact URL</strong> in the app.
 It ends in <code>/write/spotify-callback.html</code>. Production must use HTTPS. For local testing, open the site using <code>127.0.0.1</code> rather
 than <code>localhost</code>, and register its callback URL too.</li>
 <li>Copy the app&#39;s <strong>public Client ID</strong> into Jot. Do not enter a client secret. The public ID is remembered in this browser.</li>
@@ -325,6 +338,65 @@ Editing the song fields clears the fetched provenance so it is not attached to a
 <p>Only the requested username and, for Last.fm, application API key are sent to the selected service. The browser remembers a username
 after a successful fetch; no journal text is sent. There is no background polling, account write access or scrobble submission.
 Service errors leave existing writing and review fields unchanged. Requests are spaced and rate limits respected.</p>
+<h2 id="albums-playlists-and-spotify-short-links">Albums, playlists and Spotify short links</h2>
+<p>An entry can hold any number of music references:</p>
+<pre tabindex="0"><code class="language-jot">#### Music for this week
+
+- Album: [An album to return to](spotify:album:4aawyAB9vmqN3uQ7FjRGTy)
+- Playlist: [My writing mix](spotify:playlist:37i9dQZF1DXcBWIGoYBM5M)
+- spotify: track:11dFghVXANMlKmJXsNCbNl
+</code></pre>
+<p>Copy a Spotify URI, or keep the type and ID from a share URL: <code>https://open.spotify.com/album/ID</code> becomes <code>spotify:album:ID</code>.
+The types are <code>track</code>, <code>album</code>, <code>playlist</code>, <code>artist</code>, <code>episode</code> and <code>show</code>. A space after <code>spotify:</code> is optional.
+Named Markdown links show your label; bare short references show “Spotify album”, “Spotify playlist”, and so on. Each becomes
+an ordinary link in the page preview and HTML export. Reading an entry does not contact Spotify or load music automatically.
+Paste the same short reference into <strong>Music player ♫</strong> to load it for listening while you write. These are links to collections;
+the music itself is not copied into your journal or its <code>.jotz</code> package. You can always use a normal HTTPS link for other services.</p>
+<p>In <strong>Music &amp; background media → Songs, albums, playlists and more</strong>, paste one reference per line. An optional name goes before <code>|</code>,
+for example <code>Writing mix | spotify:playlist:37i9dQZF1DXcBWIGoYBM5M</code>. <strong>Add to this entry</strong> inserts the whole list at once;
+no title, account connection or now-playing fetch is required. You can mix Spotify references and HTTPS music links from other
+services. Review the list before adding; an invalid line is reported without inserting a partial note.</p>
+<h2 id="imdb-and-youtube-background-media">IMDb and YouTube background media</h2>
+<p>An entry can collect films, TV, episodes, videos and playlists alongside music:</p>
+<pre tabindex="0"><code class="language-jot">#### Background media
+
+- [Background film](imdb:tt0133093)
+- [TV series](imdb:tt0386676)
+- [Video](youtube:dQw4w9WgXcQ)
+- [Video playlist](youtube:playlist:PL1234567890abcdef)
+</code></pre>
+<p>Use an actual provider ID from the link you want to save. IMDb uses <code>imdb:tt…</code> for title IDs (films, series and individual
+episodes). YouTube uses <code>youtube:VIDEO_ID</code>, optionally <code>youtube:video:VIDEO_ID</code>, or <code>youtube:playlist:PLAYLIST_ID</code>.
+A space after the first colon is optional. Bare shortcodes show a provider/type label; Markdown links give them a name.
+IMDb identifies the title and does not provide playback. These references do not fetch titles, ratings or thumbnails or embed
+videos automatically. The shared preview and HTML export expand them into ordinary HTTPS links.</p>
+<p>In <strong>Music &amp; background media</strong>, paste one reference per line, optionally <code>Name | reference</code>, and add the mixed list to the entry.
+Full IMDb title URLs and simple YouTube video/playlist URLs are shortened on insertion. Video links with timestamps or both a
+video and a playlist remain full URLs so their context is preserved. Existing journal writing is never automatically rewritten.
+The persistent writing player remains Spotify-only; YouTube references open YouTube when you follow them.</p>
+<h2 id="find-music-ids-while-typing">Find music IDs while typing</h2>
+<p>Open <strong>Music &amp; background media → Find a song or album ID</strong> and enable <strong>Search MusicBrainz as I type</strong>. Choose song recording,
+album (release group), album edition, composition or artist, then type at least three characters in the dedicated search box.
+After a short pause, suggestions show names, artists and available dates, versions or durations. Choose a result with the mouse
+or Tab and Enter. It goes into the reference review list; <strong>Add to this entry</strong> is still needed to change the journal.</p>
+<p>Only the search box text and chosen entity type are sent to MusicBrainz, with no account cookies or journal content. Search is off
+by default and turns off when the dialog closes. Requests are debounced/rate-limited, old searches are cancelled, and recent results
+are cached only for this page session. Busy/offline services show an error and leave manual entry available. Result names are not
+verified matches: check the recording/version or album edition before selecting one.</p>
+<p>Database links use <code>musicbrainz:recording:UUID</code>, <code>musicbrainz:release-group:UUID</code>, <code>musicbrainz:release:UUID</code>,
+<code>musicbrainz:work:UUID</code> or <code>musicbrainz:artist:UUID</code>. They identify the music independently of Spotify or YouTube. Existing service
+links remain useful for playback; the lookup does not guess a corresponding playback URL. IMDb and YouTube remain manual links
+or shortcodes; their online search is not part of this MusicBrainz lookup.</p>
+<h2 id="entry-timezones-and-calendar-export">Entry timezones and calendar export</h2>
+<p>Document <code>Timezone:</code> metadata supplies a default; <code>@timezone: Europe/London</code> inside a dated entry overrides it for that entry only.
+The next dated entry resets to the document default. <strong>Entry timezone</strong> in Write can add or remove an override. Entry dates and
+written clock times are preserved. Calendar export converts uniquely resolved timed events to UTC. Invalid declared zones,
+nonexistent times and repeated daylight-saving hours stop timed export instead of guessing. Use a complete RFC 3339 event
+<code>start</code>/<code>at</code> and, when supplied, <code>end</code> with explicit offsets to disambiguate. All-day dates stay dates. Multi-file CLI export keeps
+each file&#39;s timezone context independent. No declared zone means floating calendar times, not a device-zone assumption.</p>
+<p><strong>Insert current time</strong> is a separate explicit capture action, producing a full timestamp with its offset. <strong>Capture location</strong>
+uses Chromium&#39;s one-time geolocation permission and a review step; it neither tracks in the background nor infers timezone or
+address. See the writing guide for the source format and failure behavior.</p>
 </article></div>
 </main>
 </body>
