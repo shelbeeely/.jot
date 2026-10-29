@@ -32,3 +32,11 @@ open(f'{out}/social-preview.svg', 'w').write(
     f'<rect width="1280" height="640" fill="{PAPER}"/><rect width="1280" height="640" fill="url(#dots)"/>'
     f'<g transform="translate(396 140) scale(1.4)">{word.replace('fill="currentColor"', f'fill="{INK}"')}</g></svg>\n')
 print('wordmark in light ink, file icons and social preview written')
+
+# The document icon: a cream page carrying the iota, for .jot, .jotz and .jotlock files in Linux file managers (the desktop
+# package installs it as their MIME types' icon; Windows and macOS draw documents from the app icon).
+open(f'{out}/jot-document.svg', 'w').write(
+    f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><title>Jot document</title>'
+    f'<rect x="46" y="18" width="164" height="220" rx="16" fill="{PAPER}" stroke="{EDGE}" stroke-width="6"/>'
+    f'<g transform="translate(23 25) scale(.82)">{sym.replace('fill="currentColor"', f'fill="{INK}"')}</g></svg>\n')
+print('document icon written')

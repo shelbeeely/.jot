@@ -32,6 +32,73 @@
     "category": "Productivity",
     "shortDescription": "A plain-text journal",
     "longDescription": "Jot: write in plain text, on paper-like pages, with methods, charts and handwriting. Everything stays on your device.",
-    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"]
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "fileAssociations": [
+      {
+        "ext": [
+          "jot"
+        ],
+        "name": "Jot journal",
+        "description": "Jot journal",
+        "role": "Editor",
+        "rank": "Owner",
+        "mimeType": "text/x-jot",
+        "exportedType": {
+          "identifier": "io.github.shelbeeely.jot.journal",
+          "conformsTo": [
+            "public.plain-text"
+          ]
+        }
+      },
+      {
+        "ext": [
+          "jotz"
+        ],
+        "name": "Jot journal with attachments",
+        "description": "Jot journal with attachments",
+        "role": "Editor",
+        "rank": "Owner",
+        "mimeType": "application/x-jotz",
+        "exportedType": {
+          "identifier": "io.github.shelbeeely.jot.package",
+          "conformsTo": [
+            "public.zip-archive"
+          ]
+        }
+      },
+      {
+        "ext": [
+          "jotlock"
+        ],
+        "name": "Locked Jot journal",
+        "description": "Locked Jot journal",
+        "role": "Editor",
+        "rank": "Owner",
+        "mimeType": "application/x-jotlock",
+        "exportedType": {
+          "identifier": "io.github.shelbeeely.jot.locked",
+          "conformsTo": [
+            "public.data"
+          ]
+        }
+      }
+    ],
+    "linux": {
+      "deb": {
+        "files": {
+          "/usr/share/mime/packages/io.github.shelbeeely.jot.xml": "linux/jot-mime.xml",
+          "/usr/share/icons/hicolor/scalable/mimetypes/io.github.shelbeeely.jot-document.svg": "linux/jot-document.svg"
+        },
+        "postInstallScript": "linux/refresh.sh",
+        "postRemoveScript": "linux/refresh.sh",
+        "desktopTemplate": "linux/jot.desktop"
+      }
+    }
   }
 }

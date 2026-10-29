@@ -64,8 +64,8 @@
     },
     {
       "path": ".claude/hooks/guard-generated.mjs",
-      "byteLength": 2345,
-      "sha256": "8bfa935a778e6accf4dc77e845656bed2654d61d2eee6938b35595f77fb24790"
+      "byteLength": 2390,
+      "sha256": "43ba66bb0fb77840d46e5ef32006be8ab3ca326fc0f76d5aaeb1c8b258e96bb6"
     },
     {
       "path": ".claude/hooks/session-start.sh",
@@ -319,8 +319,8 @@
     },
     {
       "path": "desktop/README.md",
-      "byteLength": 4924,
-      "sha256": "fc254fd743065d3e50a5113f4e503aae22ef38a2c4e8b23f22a0a01518f34552"
+      "byteLength": 6214,
+      "sha256": "1e03b5a122cd6e15db17f545ad4bcd8d4078ecc34aa87f60f4bf68cb32d67c24"
     },
     {
       "path": "desktop/app-icon.png",
@@ -618,14 +618,34 @@
       "sha256": "182938a46be1c153508cd8b3e13fb4791a728fd639c908480c2341a9f30339a7"
     },
     {
+      "path": "desktop/src-tauri/linux/jot-document.svg",
+      "byteLength": 1266,
+      "sha256": "476c1b78033739bddcc332e7b53b38793d4026a7b1c149e6da8cb082676feafd"
+    },
+    {
+      "path": "desktop/src-tauri/linux/jot-mime.xml",
+      "byteLength": 871,
+      "sha256": "be00441b172ed8a1e93ca6b92e503c81988a4fd3f4005e0d5b440bfb1dfec2fa"
+    },
+    {
+      "path": "desktop/src-tauri/linux/jot.desktop",
+      "byteLength": 236,
+      "sha256": "971682b68d4df5c5f06f9820c994ff70b0f4a9ad5b1d0f53a478c83f9325aec1"
+    },
+    {
+      "path": "desktop/src-tauri/linux/refresh.sh",
+      "byteLength": 342,
+      "sha256": "938354763ea70f96ee32f5b03cd958d7734255e07863fb3b53fea73099750759"
+    },
+    {
       "path": "desktop/src-tauri/src/archive.rs",
       "byteLength": 12103,
       "sha256": "ae4ec149547c1eceb33b74d9d74d9cdf44726161b8d35bafed10f903b8162ee5"
     },
     {
       "path": "desktop/src-tauri/src/bridge.js",
-      "byteLength": 2184,
-      "sha256": "1d9be362cbd7556c98a1a9995725ade8db1e6c015f8cbdd176f03a5a9f4478f8"
+      "byteLength": 3147,
+      "sha256": "6260e85a6581da20a4a8394d850e661547d3aa27591e0db0c3d38491bec408fd"
     },
     {
       "path": "desktop/src-tauri/src/files.rs",
@@ -634,8 +654,8 @@
     },
     {
       "path": "desktop/src-tauri/src/lib.rs",
-      "byteLength": 2861,
-      "sha256": "2188e46e436a63ad7741323c765be3a8bf571ed9d39aa081d6bc4bf888cbc06b"
+      "byteLength": 3939,
+      "sha256": "53fa712871391bc3dd5de1e704d98da56a8760800f0695fbc94696dc6cbcbde9"
     },
     {
       "path": "desktop/src-tauri/src/main.rs",
@@ -643,19 +663,24 @@
       "sha256": "5e69f5193a7642ef77ca2b9059f78df51e560c278a1af5c97d82641012a46a5e"
     },
     {
+      "path": "desktop/src-tauri/src/opened.rs",
+      "byteLength": 3429,
+      "sha256": "f4944676ad1d8145c34cbbe5e184779ed390b4f345a8cd346ff3a304f4f04883"
+    },
+    {
       "path": "desktop/src-tauri/tauri.conf.json",
-      "byteLength": 1281,
-      "sha256": "4f08c93fe18908fe892b14fe8460181b37e29f681801be076dce5ba6d36573e3"
+      "byteLength": 2986,
+      "sha256": "53f309a600eca28dbec650cc5bd94d20e7fa2c86f80f88fa695cfd35d4b918cf"
     },
     {
       "path": "desktop/test-desktop.cjs",
-      "byteLength": 10463,
-      "sha256": "15e092d2825d0b2b765013646524ad673e72eff3b26df5d8a2c0be46b4eee0e0"
+      "byteLength": 11285,
+      "sha256": "f78582400bcf1de394d796a1cc52809bf4a61f0bc970a14cb9d5e45c78ae8e6e"
     },
     {
       "path": "docs/brand/README.md",
-      "byteLength": 6541,
-      "sha256": "acbe701678871c86565f4512289d6e7d71c7caf302e4eaa79641ddab9a34ba0c"
+      "byteLength": 6746,
+      "sha256": "8c36e935ecb29c443dbd6eda808ccddaa09409a8b36c7333fdcf7144088c86f9"
     },
     {
       "path": "docs/brand/app-icon.png",
@@ -681,6 +706,11 @@
       "path": "docs/brand/favicon.svg",
       "byteLength": 1162,
       "sha256": "b3df1eb62729e7ee0ab90554740be8b8b6ea3d656795494d13bc6f79fc6e5b68"
+    },
+    {
+      "path": "docs/brand/jot-document.svg",
+      "byteLength": 1266,
+      "sha256": "476c1b78033739bddcc332e7b53b38793d4026a7b1c149e6da8cb082676feafd"
     },
     {
       "path": "docs/brand/jot-file-dark.svg",
@@ -759,8 +789,8 @@
     },
     {
       "path": "docs/brand/source/variants.py",
-      "byteLength": 2888,
-      "sha256": "ded7414837bdf0c223fe5128b6575baf815b7a717f3a677f9e5d9293032af308"
+      "byteLength": 3514,
+      "sha256": "9e0861ffdb246b3fb4a41e3fbe90cf0022941f93d81cea0ba48196767461a38e"
     },
     {
       "path": "docs/brand/source/wordmark.json",
@@ -2449,8 +2479,8 @@
     },
     {
       "path": "tools/sync-brand.mjs",
-      "byteLength": 3994,
-      "sha256": "3558b9a5fa95c3b2b4c25487ecf3be2162341b622a3ec807af97c5cda797525d"
+      "byteLength": 4104,
+      "sha256": "24d04bf55221f880bbc370d747da363b64d0dbbcc3d14b82bb92427db138774d"
     },
     {
       "path": "tools/sync-roadmap.mjs",

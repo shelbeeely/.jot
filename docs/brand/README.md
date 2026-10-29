@@ -22,6 +22,7 @@ Jot, in text, in speech and for screen readers: wherever the wordmark is shown, 
 | `app-icon.svg`, `app-icon.png` | The app icon: cream paper, ink-blue iota (`desktop/` makes every platform's sizes from it) |
 | `jot-wordmark-light.svg` | The wordmark in the light ink, for dark backgrounds (the README shows it in GitHub's dark mode) |
 | `vscode-icon.png`, `jot-file-light.svg`, `jot-file-dark.svg` | The VS Code extension's icon, and the iota as the icon of `.jot` files in light and dark themes (copied into `vscode/media/` by `tools/sync-brand.mjs`) |
+| `jot-document.svg` | The document icon: a cream page with the iota, for `.jot`, `.jotz` and `.jotlock` in Linux file managers (copied into `desktop/src-tauri/linux/`) |
 | `social-preview.svg`, `social-preview.png` | 1280 × 640: the wordmark on dot-grid paper, for link previews and the repository's social preview |
 
 The plain masters are filled with `currentColor`, so inline in a page they take the text colour: ink blue on cream, the light
@@ -40,8 +41,8 @@ Everything grows from the page and the pen, so the system is mostly what Jot alr
 - **Tools under one name.** Jot is one brand: the tools are named in words beside the wordmark, never with their own marks:
   "ιot / SCAN" in the scanner's header, "Write", "Template editor", "Converter", "Your life online" in the navigation. The app
   icon, the extension icon, the file icon and the favicon are all the same iota.
-- **Where it appears.** The site's headers and favicons, the desktop and mobile app icons, the VS Code extension and its
-  `.jot` file icon, the top of the README, and the social preview. For GitHub's repository card, upload `social-preview.png`
+- **Where it appears.** The site's headers and favicons, the desktop and mobile app icons, `.jot` files in the file manager,
+  the VS Code extension and its `.jot` file icon, the top of the README, and the social preview. For GitHub's repository card, upload `social-preview.png`
   in the repository's Settings → General → Social preview (it cannot be set from the repository's files).
 - **Not yet.** Motion (the iota being written, then dotted) and a printed stamp are natural next pieces; neither is made.
 

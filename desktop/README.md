@@ -13,13 +13,23 @@ the pages behave as they always have.
 | Hostile archives | Names are never used as paths | Also refused: files over 1 GiB unpacked, ZIP bombs (over 200 times their packed size), names that escape the archive |
 | Downloads | The browser's download folder | A native Save dialog for every download on every page, written atomically (`files.rs`) |
 | Network | Whatever the browser allows | Locked by the content security policy (`tauri.conf.json`): only the listening tool's services (Spotify, Last.fm, ListenBrainz). Links to the web open in your own browser, never inside the app |
+| Your journal files | Opened through the page's Open button | `.jot`, `.jotz` and `.jotlock` are Jot's file types: they show the iota in the file manager and a double-click opens them in the writer (`opened.rs`) |
 | Code | Served from the website each visit | Inside the app, the same every time, and it works with no network |
 
-Files are read only after you pick them in a dialog, and written only where you choose: the pages cannot call a file-system,
-shell or HTTP plugin, because there is none (`capabilities/default.json`).
+Files are read only after you pick them in a dialog or open them from the file manager, and written only where you choose: the
+pages cannot call a file-system, shell or HTTP plugin, because there is none (`capabilities/default.json`), and they can read an
+opened journal only once, by the number the app gave it.
 
-Planned next: opening and saving `.jot`, `.jotz` and `.jotlock` files in place (with file associations, so a double-click opens
-them), and keeping a lock's passphrase in the operating system's keychain on request.
+**Jot's file types.** The installers register `.jot` (plain text), `.jotz` (a ZIP package) and `.jotlock` (locked) with the app.
+Windows shows them with the app's icon; macOS draws a document with the app icon on it; the Linux package installs their MIME
+types (`linux/jot-mime.xml`) with a document icon, a cream page with the iota (`linux/jot-document.svg`, from `docs/brand/`), and
+its desktop entry passes the files on (`linux/jot.desktop`). A double-click starts the app with the file (an argument on Windows and
+Linux, an event on macOS); the writer opens it through its own Open path, so a locked one asks for a way in. Tested on Linux
+(the `.deb` installed: `.jot` is `text/x-jot`, with the iota icon and Jot as its default app). Each double-click on Windows and
+Linux starts another window for now.
+
+Planned next: saving back to the file you opened (in place), one window for many files, and keeping a lock's passphrase in the
+operating system's keychain on request.
 
 ## Where the app differs from the website
 
@@ -69,6 +79,8 @@ and archive reading are written to work there, but need checking on devices.
 - `src-tauri/src/lib.rs`: the app: window, bridge, navigation kept inside the app.
 - `src-tauri/src/archive.rs`: opening exports (ZIPs or folders) and reading their files, with the guards.
 - `src-tauri/src/files.rs`: native Save dialogs and atomic writes.
+- `src-tauri/src/opened.rs`: journals opened from the file manager, waiting for the writer, readable once each.
+- `src-tauri/linux/`: the Linux package's file types, their icon and its desktop entry.
 - `src-tauri/src/bridge.js`: `window.jotDesktop` and downloads as saved files.
 - `src-tauri/tauri.conf.json`: identity, the content security policy, bundling. `capabilities/default.json`: what pages may call.
 - `app-icon.png`: the icon source, copied from `docs/brand/` (the Jot iota on cream paper); `npx tauri icon app-icon.png -o src-tauri/icons --ios-color '#fffdf6'` makes every size.

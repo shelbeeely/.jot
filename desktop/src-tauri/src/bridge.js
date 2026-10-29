@@ -28,6 +28,22 @@
     save,
   });
 
+  // A journal opened from the file manager (opened.rs) goes to the writer through its own Open path, as if picked there: a locked
+  // one asks for a way in, and replacing unsaved writing asks first. On any other page, the writer opens and takes it.
+  async function openWaiting() {
+    const input = document.getElementById('openFile');
+    if (!input) { location.href = new URL('../write/index.html', location.href).href; return; }
+    const [first] = await invoke('take_opened');
+    if (!first) return;
+    const bytes = new Uint8Array(await invoke('read_opened', { id: first.id }));
+    const files = new DataTransfer(); files.items.add(new File([bytes], first.name));
+    input.files = files.files; input.dispatchEvent(new Event('change'));
+  }
+  window.addEventListener('load', () => {
+    if (document.getElementById('openFile')) openWaiting().catch(() => {});
+    window.__TAURI__.event.listen('jot-opened', () => openWaiting().catch(() => {}));
+  });
+
   // Every download on every page (<a download> clicked, by a person or by a script) goes to a Save dialog instead.
   window.addEventListener('click', async (e) => {
     const a = e.target && e.target.closest && e.target.closest('a[download]');

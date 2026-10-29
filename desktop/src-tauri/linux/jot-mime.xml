@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Jot's file types for Linux file managers, installed by the .deb with their icon (jot-document.svg, from docs/brand/). -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="text/x-jot">
+    <comment>Jot journal</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.jot"/>
+    <icon name="io.github.shelbeeely.jot-document"/>
+  </mime-type>
+  <mime-type type="application/x-jotz">
+    <comment>Jot journal with attachments</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.jotz"/>
+    <icon name="io.github.shelbeeely.jot-document"/>
+  </mime-type>
+  <mime-type type="application/x-jotlock">
+    <comment>Locked Jot journal</comment>
+    <glob pattern="*.jotlock"/>
+    <icon name="io.github.shelbeeely.jot-document"/>
+  </mime-type>
+</mime-info>

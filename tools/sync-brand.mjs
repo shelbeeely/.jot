@@ -21,9 +21,11 @@ export const brandLink = (home, { current = false, sub = '' } = {}) =>
 export const iconLinks = (root) =>
   `<link rel="icon" href="${root}favicon.svg" type="image/svg+xml"><link rel="icon" href="${root}favicon.ico" sizes="16x16 32x32 48x48"><link rel="apple-touch-icon" href="${root}apple-touch-icon.png">`;
 
-// Copies of masters, by where they go: the site's icons, and the extension's icon and file icons.
+// Copies of masters, by where they go: the site's icons, the desktop app's document icon (Linux), and the extension's icon
+// and file icons.
 const COPIES = {
   'site/dist/favicon.svg': 'favicon.svg', 'site/dist/favicon.ico': 'favicon.ico', 'site/dist/apple-touch-icon.png': 'apple-touch-icon.png',
+  'desktop/src-tauri/linux/jot-document.svg': 'jot-document.svg',
   'vscode/media/icon.png': 'vscode-icon.png', 'vscode/media/jot-file-light.svg': 'jot-file-light.svg', 'vscode/media/jot-file-dark.svg': 'jot-file-dark.svg',
 };
 const PAGES = { 'index.html': {}, 'write/index.html': {}, 'editor/index.html': {}, 'convert/index.html': {}, 'import/index.html': {}, 'scan/index.html': { sub: '/ SCAN' } };

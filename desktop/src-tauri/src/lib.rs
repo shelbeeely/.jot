@@ -3,6 +3,7 @@
 //!
 //! - archives of any size, read a file at a time from disk (archive.rs), with guards against hostile ZIPs;
 //! - native Save dialogs for every download (files.rs), written atomically;
+//! - .jot, .jotz and .jotlock files opened from the file manager straight into the writer (opened.rs);
 //! - a network locked down by the content security policy in tauri.conf.json (only the listening tool's services), and
 //!   navigation kept inside the app: a link to the web opens in the person's own browser.
 //!
@@ -11,6 +12,7 @@
 
 mod archive;
 mod files;
+mod opened;
 
 use tauri::{WebviewUrl, WebviewWindowBuilder};
 
@@ -35,13 +37,20 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .manage(archive::Archives::default())
+        .manage(opened::Opened::default())
         .invoke_handler(tauri::generate_handler![
             archive::pick_archives,
             archive::archive_read,
             archive::archive_close,
             files::save_file,
+            opened::take_opened,
+            opened::read_opened,
         ])
         .setup(|app| {
+            // Windows and Linux pass a double-clicked journal as an argument; anything else there is ignored
+            use tauri::Manager;
+            app.state::<opened::Opened>()
+                .add(std::env::args_os().skip(1).map(std::path::PathBuf::from));
             let handle = app.handle().clone();
             let builder =
                 WebviewWindowBuilder::new(app, "main", WebviewUrl::App("write/index.html".into()))
@@ -64,6 +73,17 @@ pub fn run() {
             builder.build()?;
             Ok(())
         })
-        .run(tauri::generate_context!())
-        .expect("Jot could not start");
+        .build(tauri::generate_context!())
+        .expect("Jot could not start")
+        .run(|_app, _event| {
+            // macOS, iOS and Android send journals opened from the file manager as an event, at launch or later
+            #[cfg(any(target_os = "macos", target_os = "ios", target_os = "android"))]
+            if let tauri::RunEvent::Opened { urls } = _event {
+                use tauri::{Emitter, Manager};
+                let paths = urls.iter().filter_map(|u| u.to_file_path().ok());
+                if _app.state::<opened::Opened>().add(paths) > 0 {
+                    let _ = _app.emit("jot-opened", ());
+                }
+            }
+        });
 }

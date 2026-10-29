@@ -34,8 +34,9 @@ async function wd(method, url, body) {
   const done = () => { try { driver.kill(); } catch { /* gone */ } fs.rmSync(tmp, { recursive: true, force: true }); };
   try {
     for (let i = 0; i < 50; i++) { try { await wd('GET', '/status'); break; } catch { await sleep(200); } }
-    session = (await wd('POST', '/session', { capabilities: { alwaysMatch: { 'tauri:options': { application: APP } } } })).sessionId;
-    const S = `/session/${session}`;
+    const start = async (args = []) => { session = (await wd('POST', '/session', { capabilities: { alwaysMatch: { 'tauri:options': { application: APP, args } } } })).sessionId; };
+    await start();
+    const S = { toString: () => `/session/${session}` };
     const run = (script, ...args) => wd('POST', `${S}/execute/sync`, { script, args });
     const runAsync = (body, ...args) => wd('POST', `${S}/execute/async`, { script: `const done = arguments[arguments.length - 1]; (async () => { ${body} })().then(done, (e) => done({ error: String(e && e.message || e) }));`, args });
     const until = async (script, what, ms = 20000) => { for (let t = 0; t < ms; t += 200) { if (await run(script)) return; await sleep(200); } throw new Error('timed out: ' + what); };
@@ -92,6 +93,15 @@ async function wd(method, url, body) {
     assert.equal(fs.readFileSync(path.join(saved, 'my-journal.jot'), 'utf8'), '### 2026-10-29 | Thursday\n\nWritten in the desktop app.\n');
     assert.ok(!fs.readdirSync(saved).some((f) => f.endsWith('.jot-saving')), 'written atomically: no temporary file left');
     checks.push('downloads saved (writer and importer), atomically');
+
+    // A journal double-clicked in the file manager: the app starts with its path (Windows, Linux) and the writer opens it
+    await wd('DELETE', `${S}`); session = null;
+    const journal = path.join(tmp, 'From the file manager.jot');
+    fs.writeFileSync(journal, '### 2026-10-30 | Friday\n\nOpened from the file manager.\n');
+    await start([journal]);
+    await until(`return document.querySelector('#writing') && document.querySelector('#writing').value.includes('Opened from the file manager.')`, 'the journal opened from the file manager');
+    assert.equal(await run(`return document.querySelector('#documentName').value`), 'From the file manager');
+    checks.push('a journal passed by the file manager opens in the writer');
     console.log('PASS: ' + checks.join('; ') + '.');
   } finally {
     if (session) await wd('DELETE', `/session/${session}`).catch(() => {});
