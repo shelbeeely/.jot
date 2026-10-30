@@ -16,6 +16,7 @@ python3 "$here/flatten.py" "$tmp/iota-small.svg" "$out/jot-symbol-small.svg" --b
 python3 "$here/flatten.py" "$tmp/wordmark.svg" "$out/jot-wordmark.svg" --box 352 256 --pad 8 --title Jot
 python3 "$here/flatten.py" "$tmp/iota-small.svg" "$tmp/tight.svg" --box 256 256 --pad 6 --title Jot
 python3 "$here/variants.py" "$out" "$tmp/tight.svg"
+python3 "$here/motion.py" "$out" "$tmp/iota-raw.svg"
 # Raster icons: favicon.ico (16, 32, 48), the Apple touch icon (cream, full bleed) and the 1024 px app icon source
 for n in 16 32 48; do rsvg-convert -w $n -h $n "$out/favicon.svg" -o "$tmp/f$n.png"; done
 convert "$tmp/f16.png" "$tmp/f32.png" "$tmp/f48.png" "$out/favicon.ico"

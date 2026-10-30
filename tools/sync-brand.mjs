@@ -21,10 +21,19 @@ export const brandLink = (home, { current = false, sub = '' } = {}) =>
 export const iconLinks = (root) =>
   `<link rel="icon" href="${root}favicon.svg" type="image/svg+xml"><link rel="icon" href="${root}favicon.ico" sizes="16x16 32x32 48x48"><link rel="apple-touch-icon" href="${root}apple-touch-icon.png">`;
 
+// The homepage's link preview (Open Graph): the social preview image and the canonical words (docs/brand/messaging.md). The
+// image path is relative: the site's public address carries the owner's name, which the privacy check keeps off every page.
+// Most previewers resolve it against the page; set an absolute address here once the site has one without a name in it.
+export const socialLinks = (description) => ['<meta property="og:type" content="website">', '<meta property="og:site_name" content="Jot">',
+  '<meta property="og:title" content="Jot · Jot things down. Get beautiful pages back.">', `<meta property="og:description" content="${description}">`,
+  '<meta property="og:image" content="social-preview.png">',
+  '<meta property="og:image:width" content="1280">', '<meta property="og:image:height" content="640">',
+  '<meta property="og:image:alt" content="The Jot wordmark, written in ink blue on dot-grid paper">', '<meta name="twitter:card" content="summary_large_image">'].join('');
+
 // Copies of masters, by where they go: the site's icons, the desktop app's document icon (Linux), and the extension's icon
 // and file icons.
 const COPIES = {
-  'site/dist/favicon.svg': 'favicon.svg', 'site/dist/favicon.ico': 'favicon.ico', 'site/dist/apple-touch-icon.png': 'apple-touch-icon.png',
+  'site/dist/favicon.svg': 'favicon.svg', 'site/dist/social-preview.png': 'social-preview.png', 'site/dist/favicon.ico': 'favicon.ico', 'site/dist/apple-touch-icon.png': 'apple-touch-icon.png',
   'desktop/src-tauri/linux/jot-document.svg': 'jot-document.svg',
   'vscode/media/icon.png': 'vscode-icon.png', 'vscode/media/jot-file-light.svg': 'jot-file-light.svg', 'vscode/media/jot-file-dark.svg': 'jot-file-dark.svg',
 };
@@ -37,7 +46,9 @@ function page(rel, opts) {
   const home = /href="([^"]*)"/.exec(link)[1], current = /aria-current="page"/.test(link);
   return text.replace(link, brandLink(home, { current, ...opts }))
     .replace(/<link rel="(?:icon|apple-touch-icon)"[^>]*>/g, '')
-    .replace(/<\/title>/, `</title>${iconLinks(root)}`);
+    .replace(/<\/title>/, `</title>${iconLinks(root)}`)
+    .replace(/<meta (?:property="og:|name="twitter:)[^>]*>/g, '')
+    .replace(/(<meta name="description" content="([^"]*)">)/, (m, tag, d) => rel === 'index.html' ? tag + socialLinks(d) : tag);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

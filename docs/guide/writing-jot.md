@@ -417,7 +417,7 @@ Open **Preview**. Set **Look** to **Typed**, then **Style** chooses the look:
 | Style | What it looks like |
 | --- | --- |
 | **Journal** | a book page: a classic serif, dates in small capitals, a drop cap opening each day, margin notes in the margin |
-| **Notes** | clean and modern: a sans serif, each date as a bar, tags as coloured chips, checkboxes, tidy tables |
+| **Notes** | clean and modern: a sans serif, each date as a bar, tags as colored chips, checkboxes, tidy tables |
 | **Plain** | simple and quiet |
 
 To keep or share the pages:
@@ -437,7 +437,7 @@ The workspace (**Write**) can show your journal as if you had written it by hand
 
 1. Open **Preview**, then set **Look** to **Handwritten**.
 2. Choose a **Hand**: **Pen** (a natural pen hand; each letter comes in three shapes, so two `e`s side by side are never quite the
-   same), **Neat print** or **Marker**. Choose an **Ink** colour, and how far apart the dots are (**Dots every** 4 to 7 mm; 5 mm is
+   same), **Neat print** or **Marker**. Choose an **Ink** color, and how far apart the dots are (**Dots every** 4 to 7 mm; 5 mm is
    the usual notebook).
 3. Pick the **Paper** (A5, A4, Letter, pocket or your own size), then **Print / PDF**. In the print dialog keep the margins at
    **Default** and the scale at **100%**.
@@ -501,12 +501,12 @@ Things to know first:
 
 ## Where to write
 
-- **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending. (For colours, see
-  [Colours in your text editor](#colours-in-your-text-editor).)
+- **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending. (For colors, see
+  [Colors in your text editor](#colors-in-your-text-editor).)
 - **InkDeck**, the e-ink writing firmware for the Xteink X3/X4: it creates `.jot` files for you.
 - **The Jot workspace** (**Write**, on this site): a plain editor with optional preview, charts, method ideas and attachments.
-- **VS Code**, with the Jot extension: colours for Jot's marks and a live page preview with charts. See
-  [Colours in your text editor](#colours-in-your-text-editor).
+- **VS Code**, with the Jot extension: colors for Jot's marks and a live page preview with charts. See
+  [Colors in your text editor](#colors-in-your-text-editor).
 - **The template editor:** design the structure once and get a ready-made file for the month, a dated entry a day, to fill in.
   See [Using the template editor](template-editor.md).
 
@@ -530,15 +530,15 @@ go into your journal: they are remembered in this browser only, and the page wor
   Before that hour it is still yesterday for **Today ＋**, **Quick note ＋**, **Carry tasks forward** and **Week review**, so a
   night stays in one entry. **Back to standard settings** keeps it, like your note.
 
-## Colours in your text editor
+## Colors in your text editor
 
 **VS Code** has a Jot extension (in the `vscode/` folder of the Jot project): dates, tasks, events, records and their numbers in
-colour, and **Jot: Open Preview to the Side** (`Ctrl+K V`, `Cmd+K V` on a Mac) for a live page preview that draws your charts.
+color, and **Jot: Open Preview to the Side** (`Ctrl+K V`, `Cmd+K V` on a Mac) for a live page preview that draws your charts.
 **Jot: Insert a Week Chart** writes a chart record for this week. Until it is in the Marketplace, install it from the folder: run
 `npx @vscode/vsce package` there, then **Extensions → … → Install from VSIX**.
 
 Other editors don't know `.jot` yet, but Jot is Markdown underneath. Tell your editor to treat `.jot` as Markdown and you get
-headings, lists, bold and tables in colour. (Jot's own marks, like `o` events and records, show as plain text.)
+headings, lists, bold and tables in color. (Jot's own marks, like `o` events and records, show as plain text.)
 
 | Editor | How |
 | --- | --- |
@@ -549,7 +549,7 @@ headings, lists, bold and tables in colour. (Jot's own marks, like `o` events an
 | **Vim** | Add `autocmd BufRead,BufNewFile *.jot setfiletype markdown` to your `.vimrc` |
 | **Emacs** (with markdown-mode) | Add `(add-to-list 'auto-mode-alist '("\\.jot\\'" . markdown-mode))` to your init file |
 
-On a phone, any app that edits plain text files works; colour is a bonus, not a need.
+On a phone, any app that edits plain text files works; color is a bonus, not a need.
 
 ## Real diaries to look at
 

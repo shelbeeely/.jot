@@ -26,6 +26,7 @@ The guides in `docs/methods/` are evidence for decisions, not background reading
 - Keep `.jot` readable and editable in ordinary text editors. Optional integrations insert plain text; opening a document must not require an account or network request.
 - Use the shared renderer stylesheet for site and preview. Maintain paper appearance in light/dark modes, dot-grid alignment and light-paper printing. Change `parser/handwriting.mjs`, then generate CSS; do not patch generated sheets individually.
 - Follow nearby vanilla JavaScript/ES module conventions. ESLint (`eslint.config.mjs`) checks correctness only, not formatting; fix findings rather than disabling rules inline. Avoid new runtime dependencies or externally hosted fonts/scripts. Treat imported documents and service metadata as untrusted; use DOM text APIs and validate URLs.
+- Write reader-facing copy (pages, guides, status messages, descriptions) in the voice of `docs/brand/voice.md`, and use the canonical descriptions in `docs/brand/messaging.md`; the brand book is `docs/brand/README.md`.
 - External service requests must be explicit. Keep secrets and account tokens out of Git, journals, local storage and exports.
 
 ## Generated files

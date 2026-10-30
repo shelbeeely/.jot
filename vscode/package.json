@@ -1,7 +1,7 @@
 {
   "name": "jot-journal",
   "displayName": "Jot journal",
-  "description": "Write .jot journals in VS Code: syntax colours, a live page preview in journal, notes or plain style with charts, handwritten on a dot grid if you like, and export to one standalone HTML page.",
+  "description": "Write .jot journals in VS Code: syntax colors, a live page preview in journal, notes or plain style with charts, handwritten on a dot grid if you like, and export to one standalone HTML page.",
   "version": "0.1.0",
   "publisher": "jot-format",
   "icon": "media/icon.png",

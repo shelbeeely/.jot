@@ -30,8 +30,8 @@
     "active": true,
     "targets": "all",
     "category": "Productivity",
-    "shortDescription": "A plain-text journal",
-    "longDescription": "Jot: write in plain text, on paper-like pages, with methods, charts and handwriting. Everything stays on your device.",
+    "shortDescription": "Jot things down. Get beautiful pages back.",
+    "longDescription": "Jot is a journal you write in plain text and read as beautiful pages, one thought at a time. Your journals stay ordinary files on your device: no account, nothing uploaded.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

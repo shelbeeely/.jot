@@ -41,6 +41,11 @@ A `.jot` file can also be nothing but sentences. Dates, marks and formatting are
 
 ## Quick start
 
+### Use it online
+
+Jot runs in your browser at **https://shelbeeely.github.io/.jot/**: open **Write** and start. Nothing is uploaded: your writing
+stays on your device.
+
 ### Run the browser workspace
 
 Clone this repository, or download its ZIP from GitHub's **Code → Download ZIP** menu and extract it. From the project root, run:
@@ -224,10 +229,10 @@ new files start with the Jot metadata block, and ZIP-packaged `.jot` files are r
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
 | [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), locked documents (`lock.mjs`: `.jotlock`), automation (`automation.mjs`, `connect.mjs`), proofreading hints, tests |
 | [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`), Your life online (`/import/`); the scanner (`/scan/`) is unfinished and not linked |
-| [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colours and a live page preview with charts, from the same renderer as the site |
+| [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colors and a live page preview with charts, from the same renderer as the site |
 | [`desktop/`](desktop/) | **The desktop app** (Tauri v2): the site's pages plus large exports, Save dialogs and a locked-down network; its own Rust and npm dependencies |
 | [`docs/guide/`](docs/guide/) | **User guides** ([index](docs/guide/README.md)): writing, the template editor, automation, your own manual, voice practice, converting diaries and data exports, turning anything into Jot (also pages on the site, `/guide/`) |
-| [`docs/brand/`](docs/brand/) | **The logo**: the iota and the "ιot" wordmark, its colours, icons, usage guide and the pen that draws it |
+| [`docs/brand/`](docs/brand/) | **The brand book**: the iota and the "ιot" wordmark, colors, type, [voice](docs/brand/voice.md), [messaging](docs/brand/messaging.md), icons and the pen that draws the logo |
 | [`docs/proposals/`](docs/proposals/) | Design proposals: one editor for every method, Jot books, sharing and collaboration |
 | [`cli/`](cli/) | `jot`, the command line: tasks, events, numbers, calendar and CSV out, numbers in, today, rollover, review, lock and unlock, check, webhooks, Todoist |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries; `jot-archive`: social and blog data exports to a journal |

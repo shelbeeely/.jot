@@ -3,6 +3,11 @@
   "formatVersion": "1.0",
   "files": [
     {
+      "path": ".agents/brand-context.md",
+      "byteLength": 4453,
+      "sha256": "d29388401e6d1750af7921374f8ff038b625bbcb8d465ed911caafbfe2d4b0db"
+    },
+    {
       "path": ".agents/skills/methods-research/SKILL.md",
       "byteLength": 3390,
       "sha256": "c5e531ec3d5b12409560751b71485d5417bdfe1840e8049d75a399e60c386263"
@@ -104,8 +109,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 6457,
-      "sha256": "bdcafd2343dac0985f761350f83e3b721a00af279239e4c5ec3e1ef796127ec7"
+      "byteLength": 6677,
+      "sha256": "3571c682ac60b4dcbb34d3662632cd5177c8199b59589a7d91b8bb313fc14de3"
     },
     {
       "path": "CLAUDE.md",
@@ -114,13 +119,13 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 57221,
-      "sha256": "330d58c95a5bd3b8853d18fad662d3739c3adae4300bbba3ddbcad2b11cef277"
+      "byteLength": 58699,
+      "sha256": "07b0296fcc11e2b48a70beedc7b2483f36329f002b43668bac0bafd0a21dbda4"
     },
     {
       "path": "README.md",
-      "byteLength": 21278,
-      "sha256": "71a372fbbba3eda853ee06174e108aa7c419b2b340602a3fa56412eea37701d3"
+      "byteLength": 21515,
+      "sha256": "be27b0176ce085e55ac5b9c10b59ea339ceff69f27164d08aa1c377049495dc2"
     },
     {
       "path": "cli/README.md",
@@ -669,8 +674,8 @@
     },
     {
       "path": "desktop/src-tauri/tauri.conf.json",
-      "byteLength": 2986,
-      "sha256": "53f309a600eca28dbec650cc5bd94d20e7fa2c86f80f88fa695cfd35d4b918cf"
+      "byteLength": 3063,
+      "sha256": "2c67b4c70748301ff6fe1c2ccd4b532084d9c882047080f9ee5c6d84493a9144"
     },
     {
       "path": "desktop/test-desktop.cjs",
@@ -679,8 +684,8 @@
     },
     {
       "path": "docs/brand/README.md",
-      "byteLength": 7775,
-      "sha256": "173a8181c3f6f3ff3b60d254a671d95f56d2a422931aef9e76594b57c8d9c761"
+      "byteLength": 16967,
+      "sha256": "00e76a09d902d461750449176b086266034a4671d20622167b46b09bf4dd5091"
     },
     {
       "path": "docs/brand/app-icon.png",
@@ -733,6 +738,11 @@
       "sha256": "4a36e49c94f574df3778f5dabb036e37b16c2080bf0cbfc8ef2f819d077d72aa"
     },
     {
+      "path": "docs/brand/jot-symbol-written.svg",
+      "byteLength": 3348,
+      "sha256": "e3a647b9b891d96acc63e366148d0a79becaf0b52932855f9be142244e43643a"
+    },
+    {
       "path": "docs/brand/jot-symbol.svg",
       "byteLength": 1112,
       "sha256": "7c0d5c723cde7dc533c3799d153666a3b1f644f9d223514679bf5fbf78d4b5da"
@@ -753,6 +763,11 @@
       "sha256": "227d8b2ba18405b2087254e573667a3daa4edb398acdcd107fd42080ea6d69f7"
     },
     {
+      "path": "docs/brand/messaging.md",
+      "byteLength": 8712,
+      "sha256": "e1df9b1aad18a6119ae834bc56882376545019ce9b2f4f53a69fa4f31a36091d"
+    },
+    {
       "path": "docs/brand/social-preview.png",
       "byteLength": 25509,
       "sha256": "614a6662332324dbebdaae5a2daf305e11bb750d050fa1d3a55af6043d60b5b6"
@@ -764,8 +779,8 @@
     },
     {
       "path": "docs/brand/source/build.sh",
-      "byteLength": 2076,
-      "sha256": "b1c749de8040c1a70493450788ede029f3bdf53b3a0e60536c2b01fc70110ee3"
+      "byteLength": 2129,
+      "sha256": "2ad8e79be0a597d984c77333165ac6764609be23bf64ee1313cc5bcb5a0d6f84"
     },
     {
       "path": "docs/brand/source/flatten.py",
@@ -783,6 +798,11 @@
       "sha256": "b5228cac36fc11c599a1eccf42258af5171cbce573ee869e84893756d35bbdc4"
     },
     {
+      "path": "docs/brand/source/motion.py",
+      "byteLength": 3241,
+      "sha256": "9fea1041245c384a14992398803346b5e9b4665d1aec990e8a8617053b90cb20"
+    },
+    {
       "path": "docs/brand/source/pen.py",
       "byteLength": 3336,
       "sha256": "3cf0a94e1c212cbd68bb4cef3b1661565e8ee99bdd266896233740f7a6c1d547"
@@ -796,6 +816,11 @@
       "path": "docs/brand/source/wordmark.json",
       "byteLength": 1734,
       "sha256": "a47a7df15b2850b3b0c033b243353a1ffddb3d37bd824547c5c4ce2161510819"
+    },
+    {
+      "path": "docs/brand/voice.md",
+      "byteLength": 9262,
+      "sha256": "d355c59b14c9100d1b591ea70dda7fc64ffc94349f4d4d168df4544b1aef684a"
     },
     {
       "path": "docs/brand/vscode-icon.png",
@@ -834,13 +859,13 @@
     },
     {
       "path": "docs/guide/voice-practice.md",
-      "byteLength": 4399,
-      "sha256": "ffaa4f672cf2d3923d3faa09551bb865a847a4aea0ec199972d0c6cc9c80f024"
+      "byteLength": 4398,
+      "sha256": "79a6e2cf23c1c5feabe13546c228d9bffcded924eaa323b265d55d50b611784f"
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 45679,
-      "sha256": "7f17f9f4c250fd26833e17a80ef03fb5a7e5c9e66989a26e3bc9bea90c206780"
+      "byteLength": 45667,
+      "sha256": "f9bfd25bd4de909dcaec42ac0889c39a567e7a54396d8be858ab99416ddcb45e"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -1939,13 +1964,13 @@
     },
     {
       "path": "site/dist/guide/voice-practice.html",
-      "byteLength": 9041,
-      "sha256": "eeaa615f931398efe0d103a10f17de5b19f9fb85eb12cb2aeec742ff34404c37"
+      "byteLength": 9040,
+      "sha256": "fc949ea88a7991cee371fd115024d7c6c3f04b438f5f1055a841a84063bcb0ef"
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 61316,
-      "sha256": "69bf33ea65c45cfee199cb7361af6fdfbc0ac953839db0d1a1b825baf4ed727b"
+      "byteLength": 61301,
+      "sha256": "33559d8d4ff59590940b52c6ccbcc86b1ae4d272497c937037db6740ca62af7d"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -1989,8 +2014,8 @@
     },
     {
       "path": "site/dist/index.html",
-      "byteLength": 13910,
-      "sha256": "aadc4cd2b9779fe157de4c859a0237cc34027882ab011da0bec3a95b2d1c52f3"
+      "byteLength": 14613,
+      "sha256": "48d08e3ca602027454afd27c30851720e6d1d67eaa1908fd5c2c9db7d0623964"
     },
     {
       "path": "site/dist/jot/archive.mjs",
@@ -2311,6 +2336,11 @@
       "path": "site/dist/scan/style.css",
       "byteLength": 13992,
       "sha256": "58bcaa925f400f68d2d65604b664d98f24f1afbc12645fce76b3cc007a614562"
+    },
+    {
+      "path": "site/dist/social-preview.png",
+      "byteLength": 25509,
+      "sha256": "614a6662332324dbebdaae5a2daf305e11bb750d050fa1d3a55af6043d60b5b6"
     },
     {
       "path": "site/dist/studio.css",
@@ -2674,8 +2704,8 @@
     },
     {
       "path": "tools/sync-brand.mjs",
-      "byteLength": 4104,
-      "sha256": "24d04bf55221f880bbc370d747da363b64d0dbbcc3d14b82bb92427db138774d"
+      "byteLength": 5354,
+      "sha256": "2acb14038a06988b83aa4aae231569426d3f7a43e5c4f9b2e5b4afc80e7ccdc4"
     },
     {
       "path": "tools/sync-roadmap.mjs",
@@ -2714,8 +2744,8 @@
     },
     {
       "path": "vscode/README.md",
-      "byteLength": 3781,
-      "sha256": "28b6f7a4e789e548a4dee51c1dee6ac7a8a0e8b37b93babf9cac05d07ebf582c"
+      "byteLength": 3778,
+      "sha256": "eb30ac4774b543eea7f63acd587b4f210b0db35a3318009485103b6aea6ca4b7"
     },
     {
       "path": "vscode/extension.js",
@@ -2914,8 +2944,8 @@
     },
     {
       "path": "vscode/package.json",
-      "byteLength": 9624,
-      "sha256": "fb7fd901885fc8b157050942a3c5dcaf43926a2dbc58a64a4aac9242dcc4f625"
+      "byteLength": 9623,
+      "sha256": "d71680aeecea53b663a56588ae3ee3fe394f5b67d013d1e723b90089d5cc5f12"
     },
     {
       "path": "vscode/sync.mjs",

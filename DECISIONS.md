@@ -1,5 +1,22 @@
 # Latest Jot v1 decisions
 
+## The brand book (30 October 2026)
+
+The brand is written down as a whole: `docs/brand/README.md` (the brand book: foundation, logo, color, type, imagery, the system,
+voice, messaging, use, ownership), with `docs/brand/voice.md` (how Jot sounds) and `docs/brand/messaging.md` (what Jot says, with
+the canonical descriptions), from the facts in `.agents/brand-context.md`. Made with the brand-context, brand-voice,
+brand-messaging and brand-guidelines skills, from what the project already decided, not new research.
+
+- **One tagline.** "Jot things down. Get beautiful pages back.", with "Just one thought at a time." as the second line. The
+  homepage, page titles, README, VS Code extension and desktop app use the canonical words.
+- **The voice keeps the research's rules.** No streaks, catch-up prompts or shame wording; record, don't diagnose; a real pointer
+  to help on crisis-adjacent pages (docs/methods/README.md, "Recurring principles"). American spelling in reader-facing copy;
+  the specification, records and code are unchanged.
+- **Link previews without the owner's name.** The homepage has Open Graph tags with a relative image path: the site's public
+  address contains the owner's name, which the privacy check keeps off every page. Previewers that need an absolute address will
+  show no image until the site has an address without a name.
+- **Motion.** The iota is written, then dotted, once (`jot-symbol-written.svg`), and simply shown with reduced motion.
+
 ## Jot as "just one thought" (29 October 2026)
 
 The owner asked for the name to also mean *just one thought*: you write what is on your mind one thought at a time, and one

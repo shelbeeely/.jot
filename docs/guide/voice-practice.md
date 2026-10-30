@@ -22,7 +22,7 @@ automatic volume are turned off for the meter so they do not bend the sound. A s
 rather than every change.
 
 **Target range (optional).** If you want one, enter a range in Hz; it is shown as a band behind the strip, and the current reading
-is coloured while it is inside. There is no default and no score: the range is yours to choose, change or leave empty. It is the
+is colored while it is inside. There is no default and no score: the range is yours to choose, change or leave empty. It is the
 only thing the tool remembers, in this browser only.
 
 **Session timer.** Start and pause it whenever you like; it counts up, never down. The minutes come from it (or from how long the

@@ -1,6 +1,6 @@
 # Jot for VS Code
 
-Write [Jot](../README.md) journals in VS Code: `.jot` files get syntax colours, and a live **page preview** shows them the way the Jot
+Write [Jot](../README.md) journals in VS Code: `.jot` files get syntax colors, and a live **page preview** shows them the way the Jot
 workspace does, with your tracked numbers drawn as charts.
 
 - **Open Preview to the Side**: the preview button in the editor's title bar, or `Ctrl+K V` (`Cmd+K V` on a Mac). **Open Preview**
@@ -8,7 +8,7 @@ workspace does, with your tracked numbers drawn as charts.
 - **Charts**: a `:::record chart` draws the numbers your journal holds (`measurement` records, and any record field that is a plain
   number) as one small chart per metric, a column per day. **Jot: Insert a Week Chart** writes one for this week.
 - **Styles**: `jot.preview.style` formats the typed preview as `journal` (a book page), `notes` (clean and modern) or `plain` (the
-  editor's own colours). Dates read in words, tasks show their state, tags and places are marked.
+  editor's own colors). Dates read in words, tasks show their state, tags and places are marked.
 - **Export as HTML** (the export button in the title bar, or **Jot: Export as HTML**): one standalone `.html` page in the chosen style,
   charts as pictures, ready to open anywhere or print to PDF.
 - **Automation**: **Today's Entry** (`Ctrl+Alt+T`), **Carry Open Tasks to Today**, **Add a Week Review**, **Export Calendar (.ics)**,
@@ -20,7 +20,7 @@ workspace does, with your tracked numbers drawn as charts.
 - **Handwritten**: **Jot: Toggle Handwritten Preview** (or the `jot.preview.look` setting) shows the journal written by hand on a dot
   grid. `jot.preview.hand` (`pen`, `print`, `marker`), `jot.preview.ink` and `jot.preview.dotSpacing` (4 to 7 mm) choose the hand, the
   ink and the grid. The fonts ship inside the extension (SIL OFL); nothing is downloaded.
-- **Colours**: dates, tasks (`[ ]`, `[x]`, `[>]`), events and marks, records and their numbers, highlights (`==…==`), underlines
+- **Colors**: dates, tasks (`[ ]`, `[x]`, `[>]`), events and marks, records and their numbers, highlights (`==…==`), underlines
   (`++…++`), footnotes, callouts and centred lines, hidden comments, metadata.
 
 ```jot
