@@ -114,13 +114,13 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 57543,
-      "sha256": "0afb6958d9a963672f352018e1ef0abee9466160f7363058dd9500bff63b27de"
+      "byteLength": 57221,
+      "sha256": "330d58c95a5bd3b8853d18fad662d3739c3adae4300bbba3ddbcad2b11cef277"
     },
     {
       "path": "README.md",
-      "byteLength": 21252,
-      "sha256": "fefff9c4a52cb81f04dcf47758c315dfb3f7c652e107a9c0d6ff3bb6238af772"
+      "byteLength": 21278,
+      "sha256": "71a372fbbba3eda853ee06174e108aa7c419b2b340602a3fa56412eea37701d3"
     },
     {
       "path": "cli/README.md",
@@ -679,8 +679,8 @@
     },
     {
       "path": "docs/brand/README.md",
-      "byteLength": 7651,
-      "sha256": "b16476f9a349c12b90bd42eee13f339f1a1ac02c8c757dc844387396df249b35"
+      "byteLength": 7775,
+      "sha256": "173a8181c3f6f3ff3b60d254a671d95f56d2a422931aef9e76594b57c8d9c761"
     },
     {
       "path": "docs/brand/app-icon.png",
@@ -1989,8 +1989,8 @@
     },
     {
       "path": "site/dist/index.html",
-      "byteLength": 13884,
-      "sha256": "acbfd2ba34bd1dd59958dec20ed5ed0ed3d291c7f1904f8fd9e6c67079639c9a"
+      "byteLength": 13910,
+      "sha256": "aadc4cd2b9779fe157de4c859a0237cc34027882ab011da0bec3a95b2d1c52f3"
     },
     {
       "path": "site/dist/jot/archive.mjs",

@@ -5,9 +5,10 @@ dot comes afterwards and lands a little ahead, as a hand dots an i at the end of
 letter, and a jotting is a quick, brief note. The stroke and the dot are also a 1 and a 0: ten, iota's value in Greek numerals,
 which is two in binary. Nobody needs to see that to read the mark; it is there for whoever looks.
 
-**Just one thought.** The letters also read as a backronym, *just one thought*: the promise that one line is a whole entry. It
-is a reading we give the name, not where the word comes from (that is iota). Say it as permission, "one thought is enough",
-never as a demand: not "one thought a day", no streaks, no counts.
+**Just one thought.** The letters also read as a backronym, *just one thought*: you take what is on your mind one thought at a
+time, and each one can be a line or pages. It is about focus, not size, and it is a reading we give the name, not where the word
+comes from (that is iota). Say it as an invitation to start and to keep going thought by thought; never as a limit ("keep it
+short", "only one") or a target ("one a day", streaks).
 
 **The wordmark** spells the name with that same iota: "ιot", the logo's own stroke and dot as its first letter, then "ot" in
 the same hand. The symbol and the name are one mark, so there is no separate symbol-and-wordmark lockup. The name is still
@@ -83,8 +84,8 @@ blue or charcoal. On a photo, use the black or white version over a calm area, o
 
 Don't redraw the iota or type "jot" in a font in its place; don't stretch, rotate or outline it; don't add shadows, gradients
 or effects; don't put the iota beside the wordmark (it already begins with it); don't put a hash sign (⌗) beside it, the old
-mark it replaces; don't write "ιot" in running text: there the name is Jot; don't turn "just one thought" into a target ("a day",
-"every day", a streak), or present it as the word's origin.
+mark it replaces; don't write "ιot" in running text: there the name is Jot; don't turn "just one thought" into a length limit or a
+target ("a day", a streak), or present it as the word's origin.
 
 ## Remaking the marks
 

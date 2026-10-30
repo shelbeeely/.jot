@@ -4,7 +4,7 @@
 
 **Jot things down. Get beautiful pages back.**
 
-Read the name as *just one thought*: a single line is a whole entry, and there are no streaks to keep.
+Read the name as *just one thought*: whatever is on your mind, one thought at a time, as brief or as detailed as it needs to be.
 
 Jot is a plain-text journal format that combines Markdown with simple marks for tasks, events, questions and ideas. Keep a moment,
 a day, a month or an ongoing journal in one file, then read it as formatted pages, handwritten notes or a dashboard of your numbers.

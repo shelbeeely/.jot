@@ -2,17 +2,14 @@
 
 ## Jot as "just one thought" (29 October 2026)
 
-The owner asked for the name to also mean *just one thought*. It is used as a backronym beside the real origin (iota, the
-smallest letter) and the logo's 1 and 0: on the homepage's fifth reason, under the README's tagline and in the brand guide.
+The owner asked for the name to also mean *just one thought*: you write what is on your mind one thought at a time, and one
+thought can be a single line or a detailed entry. It is a backronym beside the real origin (iota, the smallest letter) and the
+logo's 1 and 0, used on the homepage's fifth reason, under the README's tagline and in the brand guide.
 
-- **Permission, not a target.** It says one line is a whole entry, as the writer's own placeholder does ("A sentence is
-  enough."). Small entries have long been a journaling format in their own right: the five-year diary gives each day a few
-  lines (docs/methods/five-year-diary.md, line 15), and the low-demand check-in takes one word, or "skipped", as a complete
-  answer, with no streaks (docs/methods/low-demand-check-in.md, line 15). So it is never "one thought a day": no streaks or
-  counts, which those guides avoid.
-- **Honest about evidence.** The research supports small entries as a format people keep; it does not show that a slogan like
-  this helps anyone write more. The low-demand approach rests on practitioner accounts, with no trial of a low-demand journal
-  (docs/methods/low-demand-check-in.md, line 177).
+- **Focus, not size.** It never limits length ("keep it short") or sets a target ("one a day", streaks): Jot entries run from a
+  word to pages, and the method guides that track entries avoid streaks and missed-day counts
+  (docs/methods/low-demand-check-in.md, line 15).
+- **Honest about evidence.** The methods research does not test a framing like this; it is a choice about tone, not a finding.
 
 ## The Jot logo: a hand-written iota (29 October 2026)
 
