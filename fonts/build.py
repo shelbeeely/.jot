@@ -11,6 +11,7 @@ import copy
 import hashlib
 import io
 import json
+import math
 import pathlib
 import unicodedata
 
@@ -34,7 +35,7 @@ OUT = ROOT / 'generated'
 UPM = 1000
 ASCENT, DESCENT = 1050, -320
 EPOCH = 2082844800 + 1767225600  # 2026-01-01, seconds since OpenType's 1904 epoch.
-VERSION = '1.002'
+VERSION = '1.003'
 EXTRA = '\u0152\u0153\u0178\u0131\u20ac\u2010\u2011\u2013\u2014\u2018\u2019\u201a\u201c\u201d\u201e\u2022\u2026\u2039\u203a\u2212'
 MARKS = '\u0300\u0301\u0302\u0303\u0304\u0306\u0307\u0308\u030a\u030b\u030c\u0327\u0328'
 CHARSET = ''.join(dict.fromkeys(''.join(chr(c) for c in range(32, 127)) + ''.join(chr(c) for c in range(160, 256)) + EXTRA + MARKS))
@@ -92,7 +93,7 @@ def stroke(d, width, gel=False, joins=()):
     result = pathops.Path()
     parse_path(d, result.getPen())
     result.stroke(width, pathops.LineCap.ROUND_CAP, pathops.LineJoin.ROUND_JOIN, 4)
-    result.convertConicsToQuads(.25)
+    result.convertConicsToQuads(.05)
     result.simplify(clockwise=False)
     if gel:
         movements = RecordingPen()
@@ -122,6 +123,20 @@ def circle(x, y, r):
     p = pathops.Path()
     parse_path(ellipse(x, y, r, r), p.getPen())
     return p
+
+
+def script_entry(design, width):
+    """Continue the first pen movement's tangent instead of introducing a corner."""
+    vx, vy = 50, 25
+    if design.get('paths'):
+        movement = RecordingPen()
+        parse_path(design['paths'][0], movement)
+        if len(movement.value) > 1 and movement.value[1][1]:
+            x, y = movement.value[1][1][0]
+            vx, vy = x, y - 90
+    length = math.hypot(vx, vy) or 1
+    cx, cy = -18 * vx / length, 90 - 18 * vy / length
+    return stroke(f'M-28 60 Q{cx:.3f} {cy:.3f} 0 90', width * .93)
 
 
 def punctuation():
@@ -343,7 +358,7 @@ def make_font(id_, profile, family, pen_width, weight):
     def add(name, path, advance, unicode=None, **meta):
         # Font and inspector share the same quantized TrueType geometry.
         p = TTGlyphPen(None)
-        path.draw(Cu2QuPen(p, max_err=.65, reverse_direction=True))
+        path.draw(Cu2QuPen(p, max_err=.15, reverse_direction=True))
         glyph = p.glyph()
         glyph.recalcBounds(None)
         svg = SVGPathPen(None)
@@ -366,7 +381,7 @@ def make_font(id_, profile, family, pen_width, weight):
         # Isolated forms have a modest entry lift and terminal, never brush tapers.
         if joining:
             a = s['advance']
-            path = union([p, stroke('M-28 60 Q-10 82 0 90', width * .93), stroke(f'M{a} 90 Q{a + 24} 103 {a + 35} 145', width * .9)])
+            path = union([p, script_entry(s, width), stroke(f'M{a} 90 Q{a + 24} 103 {a + 35} 145', width * .9)])
         add(name_of(ch), path, s['advance'], ord(ch), mark=s.get('mark'), uppercase=ch.isupper(), joining=joining, form='base', **({'entry': None, 'exit': None} if joining else {}))
     if script:
         # All matching accented forms reuse their corresponding base plus accent.
@@ -376,7 +391,7 @@ def make_font(id_, profile, family, pen_width, weight):
             for suffix in ['init', 'medi', 'fina']:
                 parts = [p]
                 if suffix == 'init':
-                    parts.append(stroke('M-28 60 Q-10 82 0 90', width * .93))
+                    parts.append(script_entry(s, width))
                 if suffix == 'fina':
                     parts.append(stroke(f'M{a} 90 Q{a + 24} 103 {a + 35} 145', width * .9))
                 add(name_of(ch) + '.' + suffix, union(parts), a, joining=True, form=suffix, entry=[0, 90] if suffix != 'init' else None, exit=[a, 90] if suffix != 'fina' else None)

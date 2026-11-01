@@ -768,3 +768,18 @@ single-storey a, a less circular O and a barred I distinguishable from l and 1.
 Centerlines are width-fit before round-nib expansion, keeping stroke thickness
 and open lowercase counters suitable for interface text. Script faces and ink
 palettes retain their existing designs.
+
+## Sans and handwriting fusion (1 November 2026)
+
+The owner confirmed a fusion of clear Sans lettering and the supplied longer
+G2 handwriting sample. Lowercase e/o/n/m are rounder and more freely drawn;
+capitals remain upright with a little more room. Small deterministic differences
+in lean, height, baseline and spacing are built into the centerlines before
+nib expansion. The font remains native selectable text with stable print and
+export, preserving distinctions between I/l/1 and the chosen gel stroke.
+
+The reported clipped/jittery Script bowls also exposed an entry stroke ending
+inside the a/d/g/q counters. Those entries now merge at the outside of closed
+bowls; initial connectors follow the first pen movement tangent. Higher precision
+curve conversion avoids visible coarse fitting at inspector magnification.
+Counter probes across pen profiles and weights guard against the reported nub.

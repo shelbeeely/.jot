@@ -5,7 +5,7 @@ outlines are not traced, modified, or renamed versions of the bundled legacy
 fonts. The font sources and generated font software in this directory use the
 [SIL Open Font License 1.1](OFL.txt); this does not assign a project-wide license.
 
-Jot Sans is an upright handprinted family with narrow capitals, open lowercase letters, softly bowed pen movements and a barred capital I.
+Jot Sans fuses clear printed skeletons with round, open handwriting. It combines gently narrow capitals, roomier lowercase letters, softly bowed pen movements, and a barred capital I. Small fixed differences in slant, height, baseline and spacing give the letters a human rhythm while remaining stable across renders.
 Both families use the same almost even circular gel-pen nib, rounded terminals,
 small deterministic stroke variation and gentle terminal pooling. Sans retains
 geometric spacing and optically heavier UI strokes without baseline wobble.
@@ -52,7 +52,7 @@ converts conic/cubic segments into TrueType quadratic outlines, and serializes
 WOFF2 through FontTools/Brotli. Outlines remain closed SVG paths, never embedded
 rasters or SVG text. Both families have restrained per-stroke width variation of at
 most 1.5%, and exposed terminal pooling of 5% at every open pen movement; joining anchors are excluded.
-There are no sharp brush tapers, flat nibs, texture masks, or transparent ink.
+Curve conversion uses a 0.15-unit tolerance, and oval entry strokes merge into the bowl instead of leaving a capped stub inside the counter. There are no sharp brush tapers, flat nibs, texture masks, or transparent ink.
 
 The repertoire includes printable ASCII, Latin-1 Supplement, Œ/œ/Ÿ, dotless i,
 the euro sign, smart quotes, dashes, ellipsis, bullets, and common combining

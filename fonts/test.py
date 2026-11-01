@@ -8,6 +8,7 @@ import unittest
 
 import uharfbuzz as hb
 from fontTools.pens.recordingPen import RecordingPen
+from fontTools.pens.pointInsidePen import PointInsidePen
 from fontTools.svgLib.path import parse_path
 from fontTools.ttLib import TTFont
 
@@ -152,7 +153,7 @@ class OriginalFontTests(unittest.TestCase):
             plain = build.outline(design, width, lambda _: None, gel=False)
             def vector(path):
                 pen = build.TTGlyphPen(None)
-                path.draw(build.Cu2QuPen(pen, max_err=.65, reverse_direction=True))
+                path.draw(build.Cu2QuPen(pen, max_err=.15, reverse_direction=True))
                 glyph = pen.glyph()
                 result = build.SVGPathPen(None); glyph.draw(result, {})
                 return result.getCommands()
@@ -183,7 +184,10 @@ class OriginalFontTests(unittest.TestCase):
                 continue
             glyph = next(g for g in record['glyphs'] if g['unicode'] == ord('Œ'))
             width = 72 * (1.4 if record['weight'] == 700 else 1)
-            expected_left = (70 * .86 + 55 * .14) * .75 - width / 2
+            centerline = build.pathops.Path()
+            for d in build.repertoire(False)['O']['paths']:
+                parse_path(d, centerline.getPen())
+            expected_left = centerline.bounds[0] * .75 - width / 2
             self.assertLess(abs(glyph['bounds'][0] - expected_left), 2)
 
     def test_handprinted_sans_proportions_and_distinct_stems(self):
@@ -191,7 +195,7 @@ class OriginalFontTests(unittest.TestCase):
             if record['id'] != 'sans':
                 continue
             glyphs = {g['name']: g for g in record['glyphs']}
-            self.assertLess(glyphs['O']['advanceWidth'], 650, 'Capitals have upright, narrow printed proportions.')
+            self.assertLess(glyphs['O']['advanceWidth'], 675, 'Capitals have upright, narrow printed proportions.')
             self.assertGreater(glyphs['I']['bounds'][2] - glyphs['I']['bounds'][0], 200,
                                'The printed capital I has visible end bars to distinguish it from l.')
             self.assertEqual(len({glyphs[n]['path'] for n in ['I', 'l', 'one']}), 3)
@@ -204,6 +208,18 @@ class OriginalFontTests(unittest.TestCase):
         self.assertIn('SIL OPEN FONT LICENSE Version 1.1', license_text)
         self.assertIn('The Jot Font Authors', license_text)
         self.assertNotIn('The Caveat Project Authors', license_text)
+
+    def test_script_oval_entries_do_not_spike_into_counters(self):
+        for record, font, _ in self.faces:
+            if record['id'] == 'sans':
+                continue
+            nominal = {'0.5': 40, '0.7': 52, '1.0': 78}[record['profile']]
+            width = nominal * (1.4 if record['weight'] == 700 else 1)
+            glyphs = font.getGlyphSet()
+            for name in ['a', 'd']:
+                probe = PointInsidePen(glyphs, (125 + width * .35, 270))
+                glyphs[name].draw(probe)
+                self.assertFalse(probe.getResult(), f'{record["file"]} {name}: entry stroke intrudes into the open bowl')
 
     def test_deterministic_regeneration(self):
         first = build.generated_files()

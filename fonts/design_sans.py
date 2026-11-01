@@ -54,7 +54,7 @@ def glyphs():
     g('b', 570, 'M85 0 L85 730', 'M85 360 C195 600 500 535 500 250 C500 -35 195 -100 85 140')
     g('c', 510, 'M445 420 C210 645 20 400 75 180 C110 20 300 -80 445 70')
     g('d', 570, 'M485 0 L485 730', 'M485 360 C375 600 70 535 70 250 C70 -35 375 -100 485 140')
-    g('e', 550, 'M75 260 L480 260 C495 575 75 605 70 260 C65 -35 355 -65 465 60')
+    g('e', 565, 'M80 245 Q275 253 480 270 C490 560 80 580 75 255 C65 -28 353 -55 470 75')
     g('f', 370, 'M135 0 L135 550 C135 755 280 765 325 690', 'M55 480 L315 480')
     g('g', 570, 'M485 480 L485 -55 C485 -260 195 -275 105 -155', 'M485 360 C375 600 70 535 70 255 C70 -25 375 -90 485 140')
     g('h', 565, 'M85 0 L85 730', 'M85 345 C165 570 480 565 480 315 L480 0')
@@ -62,9 +62,9 @@ def glyphs():
     g('j', 270, 'M185 500 L185 -75 C185 -245 60 -270 10 -205', dots=((185, 660, 42),))
     g('k', 530, 'M85 0 L85 730', 'M455 500 L85 150', 'M240 300 L475 0')
     g('l', 260, 'M115 730 L115 70 C115 5 140 -5 190 0')
-    g('m', 835, 'M85 0 L85 500', 'M85 345 C145 565 420 555 420 305 L420 0', 'M420 345 C480 565 750 555 750 305 L750 0')
-    g('n', 565, 'M85 0 L85 500', 'M85 345 C165 570 480 565 480 315 L480 0')
-    g('o', 570, ellipse(285, 250, 215, 250))
+    g('m', 850, 'M85 0 Q79 260 85 500', 'M85 330 C151 555 414 541 420 300 Q423 140 420 0', 'M420 332 C491 551 755 558 762 305 Q766 145 760 0')
+    g('n', 580, 'M85 0 Q79 255 85 500', 'M85 335 C171 558 477 547 487 310 Q493 145 485 0')
+    g('o', 595, 'M510 251 C514 410 421 506 286 500 C150 494 67 397 75 243 C83 89 164 -6 299 0 C435 6 507 101 510 251 Z')
     g('p', 570, 'M85 -240 L85 500', 'M85 360 C195 600 500 535 500 250 C500 -35 195 -100 85 140')
     g('q', 570, 'M485 -240 L485 500', 'M485 360 C375 600 70 535 70 250 C70 -35 375 -100 485 140')
     g('r', 380, 'M85 0 L85 500', 'M85 340 C135 505 245 545 325 490')
@@ -87,11 +87,16 @@ def glyphs():
     g('7', 540, 'M65 700 L480 700 L165 0')
     g('8', 585, ellipse(292, 530, 180, 170), ellipse(292, 180, 215, 180))
     g('9', 580, 'M120 15 C425 -30 555 385 480 580 C405 800 75 730 75 490 C75 245 400 205 490 445')
-    # Fit the pen movements, not their expanded outlines: the circular nib stays
-    # circular. Capitals echo narrow upright handprinting; lowercase stays open.
+    # A restrained fusion: printed skeletons, rounder writing proportions and
+    # stable, small differences in lean, height, baseline and letter spacing.
+    # Transform movements before nib expansion so ink thickness remains even.
     for ch, drawing in data.items():
-        scale = .86 if ch.isupper() else .96
-        matrix = (scale, 0, 0, 1, 55 * (1 - scale), 0)
+        seed = ord(ch) * 37
+        scale = .90 if ch.isupper() else 1.015
+        lean = ((seed % 9) - 4) * .005
+        rise = (((seed // 3) % 9) - 4) * 2.5
+        height = 1 + (((seed // 5) % 5) - 2) * .004
+        matrix = (scale, 0, lean, height, 55 * (1 - scale) - lean * 250, rise)
         fitted = []
         for d in drawing['paths']:
             pen = SVGPathPen(None)
@@ -100,5 +105,5 @@ def glyphs():
         drawing['paths'] = fitted
         transform = Transform(*matrix)
         drawing['dots'] = [(*transform.transformPoint((x, y)), r) for x, y, r in drawing['dots']]
-        drawing['advance'] = round((drawing['advance'] - 110) * scale + 110)
+        drawing['advance'] = round((drawing['advance'] - 110) * scale + 110 + ((seed // 7) % 11) - 5)
     return data

@@ -82,6 +82,12 @@ const server = http.createServer((request, response) => {
         const glyph = font.glyphs.find((item) => item.unicode === 97);
         await actual.fill('#glyphSearch', 'U+0061'); await actual.getByRole('button', { name: new RegExp(`^${glyph.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}, U\\+0061$`) }).click();
         assert.equal(await actual.locator('#glyphDiagram .glyph-outline').getAttribute('d'), glyph.path, 'the inspector uses the generated source outline');
+        const viewport = await actual.locator('#glyphDiagram svg').evaluate((svg) => {
+          const box = svg.viewBox.baseVal; return [box.x, box.y, box.x + box.width, box.y + box.height];
+        });
+        assert.ok(glyph.bounds[0] > viewport[0] && glyph.bounds[2] < viewport[2]
+          && -glyph.bounds[3] > viewport[1] && -glyph.bounds[1] < viewport[3],
+        `${font.family} ${font.weight}: overhanging ink fits completely inside the SVG viewport`);
         assert.match(await actual.textContent('#glyphMetrics'), new RegExp(`${glyph.advanceWidth} units`));
       }
       await actual.emulateMedia({ media: 'print' });
