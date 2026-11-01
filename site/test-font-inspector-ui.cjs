@@ -53,7 +53,10 @@ const server = http.createServer((request, response) => {
       assert.equal(await page.textContent('#fontSpecimen'), 'office café <img onerror=alert(1)>'); assert.equal(await page.locator('#fontSpecimen img').count(), 0);
       const features = await page.locator('#fontSpecimen').evaluate((element) => getComputedStyle(element).fontFeatureSettings);
       assert.match(features, /"liga" 0/); assert.match(features, /"calt" 0/);
-      await page.selectOption('#fontFamily', 'sans'); assert.equal(await page.locator('#fontProfileWrap').isVisible(), false);
+      await page.selectOption('#fontFamily', 'sans');
+      await page.check('#fontAlternates');
+      assert.match(await page.locator('#fontSpecimen').evaluate((element) => getComputedStyle(element).fontFeatureSettings), /"ss01"(?: 1)?(?:,|$)/);
+      assert.equal(await page.locator('#fontProfileWrap').isVisible(), false);
       assert.match(await page.locator('#fontSpecimen').evaluate((element) => getComputedStyle(element).fontFamily), /Jot Sans/);
       await page.fill('#glyphSearch', 'there-is-no-such-glyph'); assert.match(await page.textContent('#glyphCount'), /No glyphs match/); assert.equal(await page.locator('#glyphGrid button').count(), 0);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0, `${mode} ${width}: viewport width`);

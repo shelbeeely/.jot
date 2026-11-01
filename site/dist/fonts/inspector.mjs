@@ -104,6 +104,7 @@ function selectGlyph(glyph) {
   const metrics = $('glyphMetrics'); metrics.replaceChildren();
   metric(metrics, 'Unicode', codepoint(glyph) || 'Alternate (unencoded)'); metric(metrics, 'Advance', `${format(glyph.advanceWidth)} units`);
   metric(metrics, 'Left bearing', `${format(glyph.lsb)} units`); metric(metrics, 'Right bearing', `${format(glyph.rsb)} units`);
+  if (Number.isFinite(glyph.variation)) metric(metrics, 'Outline variation', `${(glyph.variation * 100).toFixed(1)}%`);
   metric(metrics, 'Bounds', glyph.bounds.map(format).join(', ')); metric(metrics, 'Units per em', String(numeric(activeFont.unitsPerEm, 1000)));
   for (const [key, label] of [['entry', 'Entry anchor'], ['exit', 'Exit anchor']]) if (Array.isArray(glyph[key])) metric(metrics, label, glyph[key].map(format).join(', '));
   outline(glyph);
@@ -113,11 +114,12 @@ function specimen() {
   const sample = $('fontSpecimen'); sample.textContent = $('fontSample').value;
   if (!activeFont) return;
   sample.style.fontFamily = `'${activeFont.family.replace(/['\\]/g, '')}', ${activeFont.id === 'mono' ? 'monospace' : activeFont.id === 'sans' ? 'sans-serif' : 'cursive'}`;
-  sample.style.fontWeight = String(activeFont.weight); sample.style.fontFeatureSettings = `"liga" ${$('fontLiga').checked ? 1 : 0}, "calt" ${$('fontCalt').checked ? 1 : 0}, "kern" 1, "curs" 1, "mark" 1`;
+  sample.style.fontWeight = String(activeFont.weight); sample.style.fontFeatureSettings = `"liga" ${$('fontLiga').checked ? 1 : 0}, "calt" ${$('fontCalt').checked ? 1 : 0}, "kern" 1, "curs" 1, "mark" 1, "ss01" ${$('fontAlternates').checked ? 1 : 0}`;
 }
 
 function chooseFont() {
   const family = $('fontFamily').value;
+  $('fontAlternates').closest('label').hidden = family === 'script';
   $('fontProfileWrap').hidden = family !== 'script';
   if (family === 'script') {
     const profiles = [...new Set(fonts.filter((font) => font.id.startsWith('script')).map((font) => String(font.profile)))].sort((a, b) => Number(a) - Number(b));
@@ -135,7 +137,7 @@ function chooseFont() {
 }
 
 for (const id of ['fontFamily', 'fontProfile', 'fontWeight']) $(id).addEventListener('change', chooseFont);
-for (const id of ['fontLiga', 'fontCalt', 'fontSample']) $(id).addEventListener('input', specimen);
+for (const id of ['fontLiga', 'fontCalt', 'fontAlternates', 'fontSample']) $(id).addEventListener('input', specimen);
 for (const id of ['glyphSearch', 'glyphKind']) $(id).addEventListener(id === 'glyphSearch' ? 'input' : 'change', () => { page = 0; drawGrid(); });
 $('glyphPrevious').addEventListener('click', () => { page--; drawGrid(); });
 $('glyphNext').addEventListener('click', () => { page++; drawGrid(); });

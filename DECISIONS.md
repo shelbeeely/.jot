@@ -792,3 +792,19 @@ family. Mono regular/bold reuses handprinted centerlines fitted before circular
 nib expansion. Visible characters and spaces advance 650 units; combining marks
 advance zero; kerning is off and ligatures retain the full source column width.
 Mono is available in the inspector and used for source editing and code.
+
+
+## Sans and Mono alternates and junctions (1 November 2026)
+
+The owner requested G2-style alternate characters with a minimum visible variation.
+Sans and Mono provide alternate vectors for all ASCII letters and digits through
+ss01, with calt alternating repeated characters. Each alternate preserves its base
+advance and round nib. Smooth local centerline changes must produce 8-25% symmetric
+ink-outline difference over union area after TrueType conversion; the compiler
+targets 9.5-23% for quantization margin. This is a design constraint, not a physical
+measurement of G2 handwriting. The inspector exposes alternate forms and their ratio.
+
+Closed bowl movements remove capped internal stubs, and stroke intersections
+suppress terminal pooling while exposed endpoints retain the gel-ink treatment.
+Mono retains fixed columns with shaping enabled. Regression tests check every
+alternate, shaping, junction behavior and deterministic generation.

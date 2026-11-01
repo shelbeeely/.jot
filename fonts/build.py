@@ -35,7 +35,7 @@ OUT = ROOT / 'generated'
 UPM = 1000
 ASCENT, DESCENT = 1050, -320
 EPOCH = 2082844800 + 1767225600  # 2026-01-01, seconds since OpenType's 1904 epoch.
-VERSION = '1.004'
+VERSION = '1.007'
 EXTRA = '\u0152\u0153\u0178\u0131\u20ac\u2010\u2011\u2013\u2014\u2018\u2019\u201a\u201c\u201d\u201e\u2022\u2026\u2039\u203a\u2212'
 MARKS = '\u0300\u0301\u0302\u0303\u0304\u0306\u0307\u0308\u030a\u030b\u030c\u0327\u0328'
 CHARSET = ''.join(dict.fromkeys(''.join(chr(c) for c in range(32, 127)) + ''.join(chr(c) for c in range(160, 256)) + EXTRA + MARKS))
@@ -72,6 +72,31 @@ def transformed_design(design, matrix):
     for key in ['entry', 'exit']:
         if design.get(key):
             result[key] = transform.transformPoint(design[key])
+    return result
+
+
+def alternate_design(design, character, amplitude):
+    """Bend local pen movements coherently; never merely translate the glyph."""
+    result = copy.deepcopy(design)
+    phase = (ord(character) % 17) * .37
+
+    def point(x, y):
+        def field(a, b):
+            return (.7 * math.sin(b / 180 + phase) + .3 * math.sin(a / 135 + phase),
+                    .45 * math.sin(a / 150 + phase) * math.sin(b / 240))
+        dx, dy = field(x, y)
+        ox, oy = field(design['advance'] / 2, 250)
+        return (x + amplitude * (dx - ox), y + amplitude * (dy - oy))
+
+    paths = []
+    for d in design.get('paths', []):
+        recording, pen = RecordingPen(), SVGPathPen(None)
+        parse_path(d, recording)
+        for operation, points in recording.value:
+            getattr(pen, operation)(*[point(*p) if p is not None else None for p in points])
+        paths.append(pen.getCommands())
+    result['paths'] = paths
+    result['dots'] = [(*point(x, y), r) for x, y, r in design.get('dots', [])]
     return result
 
 
@@ -274,8 +299,29 @@ def repertoire(script):
 
 def outline(specification, width, resolve, gel=False):
     parts = []
-    for d in specification.get('paths', []):
-        joins = tuple(p for p in [specification.get('entry'), specification.get('exit')] if p)
+    paths = specification.get('paths', [])
+    stroke_width = width * specification.get('strokeScale', 1)
+    # Pool only exposed ends. End caps inside another movement are junctions,
+    # not places where the pen lifts; swelling them creates visible join bumps.
+    coverage = [stroke(d, stroke_width) for d in paths] if gel and len(paths) > 1 else []
+    for index, d in enumerate(paths):
+        joins = [p for p in [specification.get('entry'), specification.get('exit')] if p]
+        if coverage:
+            movements = RecordingPen()
+            parse_path(d, movements)
+            start = current = None
+            for operation, points in movements.value:
+                if operation == 'moveTo':
+                    start = current = points[0]
+                elif operation == 'endPath':
+                    for point in [start, current]:
+                        if point and any(other.contains(point) for n, other in enumerate(coverage) if n != index):
+                            joins.append(point)
+                    start = current = None
+                elif operation == 'closePath':
+                    start = current = None
+                elif points:
+                    current = points[-1]
         parts.append(stroke(d, width * specification.get('strokeScale', 1), gel=gel and not specification.get('mark'), joins=joins))
     for x, y, r in specification.get('dots', []):
         parts.append(circle(x, y, r * width / 52))
@@ -310,7 +356,12 @@ def font_features(glyph_info, script, mono=False):
             lines.append(f"pos cursive {g['name']} {entry} {exit_};")
         lines.append('} curs;')
     else:
-        lines += ['feature calt {', "sub f' [parenright bracketright braceright quoteright quotedblright] by f.short;", '} calt;']
+        alternates = [g for g in glyph_info if g.get('alternateOf')]
+        lines += ['feature ss01 {']
+        lines += [f"sub {g['alternateOf']} by {g['name']};" for g in alternates]
+        lines += ['} ss01;', 'feature calt {', 'lookupflag IgnoreMarks;', "sub f' [parenright bracketright braceright quoteright quotedblright] by f.short;"]
+        lines += [f"sub {g['alternateOf']} {g['alternateOf']}' by {g['name']};" for g in alternates]
+        lines += ['} calt;']
     top_marks = [g for g in marks if g['mark'] == 'top']
     bottom_marks = [g for g in marks if g['mark'] == 'bottom']
     for g in top_marks:
@@ -419,6 +470,25 @@ def make_font(id_, profile, family, pen_width, weight):
             scale, shift = fit_mono(short_path)
             short_path = outline(transformed_design(short_f, (scale, 0, 0, 1, shift, 0)), width, resolve, gel=True)
         add('f.short', short_path, 650 if mono else specs['f']['advance'])
+        # A real second drawing for letters/digits, selected by ss01 or when a
+        # character repeats. No text-node splitting or random rendering jitter.
+        for ch in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789':
+            source = specs[ch]
+            base = mono_paths[ch] if mono else resolve(ch)
+            for amplitude in [0, 1, 2, 3, 4, 6, 9, 12, 16, 20, 26, 34, 42, 52, 65, 80]:
+                variant = alternate_design(source, ch, amplitude)
+                p = outline(variant, width, resolve, gel=True)
+                if mono:
+                    scale, shift = fit_mono(p)
+                    p = outline(transformed_design(variant, (scale, 0, 0, 1, shift, 0)), width, resolve, gel=True)
+                combined = abs(pathops.op(base, p, pathops.PathOp.UNION).area)
+                intersection = abs(pathops.op(base, p, pathops.PathOp.INTERSECTION).area)
+                difference = (combined - intersection) / combined
+                if .095 <= difference <= .23:
+                    break
+            else:
+                raise ValueError(f'Alternate variation outside limits: {family} {weight} {ch}: {difference:.3f}')
+            add(name_of(ch) + '.alt', p, 650 if mono else source['advance'], alternateOf=name_of(ch), variation=difference, uppercase=ch.isupper())
     # Genuine combined outlines, with compact common f joins rather than text encoding tricks.
     for lig in LIGATURES:
         paths, x = [], 0

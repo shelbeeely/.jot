@@ -210,7 +210,7 @@ class OriginalFontTests(unittest.TestCase):
                 continue
             self.assertEqual(font['post'].isFixedPitch, 1)
             for glyph in record['glyphs']:
-                if glyph['unicode'] is not None and not glyph.get('mark') and glyph['unicode'] != 0xad:
+                if (glyph['unicode'] is not None or glyph.get('alternateOf')) and not glyph.get('mark') and glyph['unicode'] != 0xad:
                     self.assertEqual(glyph['advanceWidth'], 650)
                     self.assertGreaterEqual(glyph['bounds'][0], 0)
                     self.assertLessEqual(glyph['bounds'][2], 650)
@@ -227,6 +227,39 @@ class OriginalFontTests(unittest.TestCase):
         self.assertIn('SIL OPEN FONT LICENSE Version 1.1', license_text)
         self.assertIn('The Jot Font Authors', license_text)
         self.assertNotIn('The Caveat Project Authors', license_text)
+
+    def test_printed_alternates_are_real_stable_shapes(self):
+        for face in self.faces:
+            record, font, _ = face
+            if record['id'] not in ('sans', 'mono'):
+                continue
+            glyphs = {g['name']: g for g in record['glyphs']}
+            for alternate in (g for g in record['glyphs'] if g.get('alternateOf')):
+                base = build.pathops.Path()
+                other = build.pathops.Path()
+                parse_path(glyphs[alternate['alternateOf']]['path'], base.getPen())
+                parse_path(alternate['path'], other.getPen())
+                union = abs(build.pathops.op(base, other, build.pathops.PathOp.UNION).area)
+                intersection = abs(build.pathops.op(base, other, build.pathops.PathOp.INTERSECTION).area)
+                difference = (union - intersection) / union
+                self.assertGreaterEqual(difference, .08, f'{record["file"]} {alternate["name"]}: too similar')
+                self.assertLessEqual(difference, .25, f'{record["file"]} {alternate["name"]}: too distorted')
+            for ch in 'aeonmIl10':
+                base = build.name_of(ch)
+                self.assertNotEqual(glyphs[base]['path'], glyphs[base + '.alt']['path'])
+                self.assertEqual(glyphs[base]['advanceWidth'], glyphs[base + '.alt']['advanceWidth'])
+            self.assertEqual([n for n, _ in self.shape(face, 'ee', liga=False, calt=True)], ['e', 'e.alt'])
+            self.assertEqual([n for n, _ in self.shape(face, 'ae', liga=False, calt=False, ss01=True)], ['a.alt', 'e.alt'])
+            sample = 'coffee 0011 III'
+            on = sum(p.x_advance for _, p in self.shape(face, sample, liga=False, calt=True, ss01=True))
+            off = sum(p.x_advance for _, p in self.shape(face, sample, liga=False, calt=False, ss01=False))
+            self.assertEqual(on, off)
+
+    def test_ink_does_not_pool_inside_stroke_intersections(self):
+        drawing = build.spec(250, 'M0 0 L0 200', 'M0 100 L150 100')
+        ink = build.outline(drawing, 52, lambda _: None, gel=True)
+        self.assertFalse(ink.contains((-27, 100)), 'The joined crossbar must not create a pooled lump on the stem edge.')
+        self.assertTrue(ink.contains((150, 100)), 'The exposed terminal still has ink.')
 
     def test_script_oval_entries_do_not_spike_into_counters(self):
         for record, font, _ in self.faces:

@@ -105,3 +105,15 @@ marks advance zero. Wide centerlines are fitted before nib expansion, preserving
 round strokes. Kerning is disabled and ligatures preserve whole-cell advances.
 The site uses Mono in source editing and code, and the inspector offers it as a
 separate family. Design requirements live in `AGENTS.md`.
+
+Sans and Mono include a second set of letters and digits as real vector glyphs.
+Contextual forms alternate repeated characters automatically; the inspector
+Alternate shapes switch enables the full ss01 set. Alternate advances match
+their base glyphs, including the fixed 650-unit Mono cell. Stroke junctions
+suppress terminal pooling and closed bowls avoid capped interior stubs.
+
+Alternate variation is measured as symmetric ink difference divided by union
+area, with an 8–25% acceptance range after TrueType quantization. The generator
+targets 9.5–23% for margin. Local curve deformation varies arches, bowls and
+terminals coherently; it does not just shift or slant a copied outline. Nib
+width and advance are preserved. The inspector reports each alternate’s ratio.

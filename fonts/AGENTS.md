@@ -12,6 +12,9 @@ The tip labels describe appearance rather than calibrated physical line widths.
 - Keep variation deterministic and restrained; no per-frame or DOM letter jitter.
 - Mono must retain one advance for visible characters and spaces, zero advance
   for combining marks, no kerning, and aligned columns with shaping enabled.
+- Alternates must have 8–25% symmetric ink-outline difference relative to their
+  base, measured after compilation. Use local curve/proportion changes, not just
+  cloning with a small translation. Preserve identity, nib width and advances.
 - Preserve Unicode, native selection, source offsets and standalone export.
 - Edit source generators, regenerate artifacts and distribute them with
   `npm run fonts:build`, then run `python3 fonts/test.py` and relevant browser tests.
