@@ -112,7 +112,7 @@ function selectGlyph(glyph) {
 function specimen() {
   const sample = $('fontSpecimen'); sample.textContent = $('fontSample').value;
   if (!activeFont) return;
-  sample.style.fontFamily = `'${activeFont.family.replace(/['\\]/g, '')}', ${activeFont.id === 'sans' ? 'sans-serif' : 'cursive'}`;
+  sample.style.fontFamily = `'${activeFont.family.replace(/['\\]/g, '')}', ${activeFont.id === 'mono' ? 'monospace' : activeFont.id === 'sans' ? 'sans-serif' : 'cursive'}`;
   sample.style.fontWeight = String(activeFont.weight); sample.style.fontFeatureSettings = `"liga" ${$('fontLiga').checked ? 1 : 0}, "calt" ${$('fontCalt').checked ? 1 : 0}, "kern" 1, "curs" 1, "mark" 1`;
 }
 
@@ -120,10 +120,10 @@ function chooseFont() {
   const family = $('fontFamily').value;
   $('fontProfileWrap').hidden = family !== 'script';
   if (family === 'script') {
-    const profiles = [...new Set(fonts.filter((font) => font.id !== 'sans').map((font) => String(font.profile)))].sort((a, b) => Number(a) - Number(b));
+    const profiles = [...new Set(fonts.filter((font) => font.id.startsWith('script')).map((font) => String(font.profile)))].sort((a, b) => Number(a) - Number(b));
     choices($('fontProfile'), profiles.map((profile) => [profile, profile]));
   }
-  const variants = fonts.filter((font) => family === 'sans' ? font.id === 'sans' : String(font.profile) === $('fontProfile').value);
+  const variants = fonts.filter((font) => family !== 'script' ? font.id === family : String(font.profile) === $('fontProfile').value);
   const weights = [...new Set(variants.map((font) => Number(font.weight)))].sort((a, b) => a - b);
   choices($('fontWeight'), weights.map((weight) => [String(weight), weight === 700 ? 'Bold' : 'Regular']));
   activeFont = variants.find((font) => Number(font.weight) === Number($('fontWeight').value)) || variants[0] || fonts[0];
@@ -131,7 +131,7 @@ function chooseFont() {
   const glyph = activeFont.glyphs.find((item) => item.name === selectedName) || activeFont.glyphs.find((item) => item.unicode === 97) || activeFont.glyphs[0];
   if (glyph) selectGlyph(glyph);
   drawGrid(); specimen();
-  $('fontState').textContent = `${activeFont.family}${activeFont.id === 'sans' ? '' : ` · ${activeFont.profile} stroke`} · ${Number(activeFont.weight) === 700 ? 'Bold' : 'Regular'}. ${activeFont.glyphs.length} glyphs.`;
+  $('fontState').textContent = `${activeFont.family}${!activeFont.id.startsWith('script') ? '' : ` · ${activeFont.profile} stroke`} · ${Number(activeFont.weight) === 700 ? 'Bold' : 'Regular'}. ${activeFont.glyphs.length} glyphs.`;
 }
 
 for (const id of ['fontFamily', 'fontProfile', 'fontWeight']) $(id).addEventListener('change', chooseFont);
@@ -146,7 +146,7 @@ try {
   if (!response.ok) throw new Error(`Catalog response ${response.status}`);
   const catalog = await response.json(); fonts = Array.isArray(catalog.fonts) ? catalog.fonts.filter(validFont) : [];
   if (!fonts.length || fonts.some((font) => !font.glyphs.length || font.glyphs.some((glyph) => typeof glyph.name !== 'string' || typeof glyph.path !== 'string' || !Array.isArray(glyph.bounds) || glyph.bounds.length !== 4))) throw new Error('No usable font outlines in catalog');
-  choices($('fontFamily'), [['script', 'Jot Script'], ['sans', 'Jot Sans']].filter(([id]) => fonts.some((font) => id === 'sans' ? font.id === 'sans' : font.id !== 'sans')));
+  choices($('fontFamily'), [['script', 'Jot Script'], ['sans', 'Jot Sans'], ['mono', 'Jot Mono']].filter(([id]) => fonts.some((font) => id === 'script' ? font.id.startsWith('script') : font.id === id)));
   for (const id of controls) $(id).disabled = false;
   chooseFont();
 } catch {

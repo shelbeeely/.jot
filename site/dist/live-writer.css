@@ -12,7 +12,7 @@
  .jot-site.jot-writer .live-writing li{margin:0;min-height:1.8em}
  .jot-site.jot-writer .live-writing blockquote{padding-inline-start:1em;border-inline-start:3px solid var(--writer-border);margin-inline:0;color:var(--writer-muted)}
  .live-task{padding-inline-start:1.6em;position:relative}.live-task::before{content:attr(data-marker);position:absolute;inset-inline-start:0}
- .live-writing code{font: .9em/1.6 ui-monospace,Consolas,monospace;background:color-mix(in srgb,var(--writer-ink) 7%,var(--writer-bg));border-radius:3px;padding:.1em .25em}
+ .live-writing code{font: .9em/1.6 'Jot Mono',ui-monospace,Consolas,monospace;background:color-mix(in srgb,var(--writer-ink) 7%,var(--writer-bg));border-radius:3px;padding:.1em .25em}
  .live-writing .live-link{color:var(--jot-accent);text-decoration:underline;text-underline-offset:.15em}
  .live-writing mark.jot-highlighter-active{background:transparent!important;color:inherit;padding:0;border-radius:0}
  .live-writing .jot-highlight-word::after{opacity:var(--jot-highlight-strength,.6);mix-blend-mode:multiply;pointer-events:none}
@@ -24,7 +24,7 @@
  .jot-site.jot-writer .writer-file-actions #saveDevice{background:var(--writer-ink);color:var(--writer-bg)}
  .jot-site.jot-writer #writerPreviewToggle{display:none}
  html[data-pref-size=s] .jot-site.jot-writer .live-writing{font-size:18px}html[data-pref-size=l] .jot-site.jot-writer .live-writing{font-size:26px}html[data-pref-size=xl] .jot-site.jot-writer .live-writing{font-size:30px}
- .jot-site.jot-writer #writing{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
+ .jot-site.jot-writer #writing{font-family:'Jot Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
  html[data-pref-spacing=tight] .jot-site.jot-writer .live-writing{line-height:1.4}html[data-pref-spacing=roomy] .jot-site.jot-writer .live-writing{line-height:2}html[data-pref-spacing=roomier] .jot-site.jot-writer .live-writing{line-height:2.3}
  html[data-pref-measure=medium] .jot-site.jot-writer .live-writing{max-width:calc(65ch + 56px)}html[data-pref-measure=short] .jot-site.jot-writer .live-writing{max-width:calc(45ch + 56px)}
 }

@@ -74,8 +74,8 @@ const server = http.createServer((request, response) => {
       actual.on('pageerror', (error) => errors.push(error.message)); await actual.goto(origin + prefix + '/fonts/');
       await actual.waitForFunction(() => !document.getElementById('fontFamily').disabled);
       for (const font of catalog.fonts) {
-        await actual.selectOption('#fontFamily', font.id === 'sans' ? 'sans' : 'script');
-        if (font.id !== 'sans') await actual.selectOption('#fontProfile', String(font.profile));
+        await actual.selectOption('#fontFamily', font.id.startsWith('script') ? 'script' : font.id);
+        if (font.id.startsWith('script')) await actual.selectOption('#fontProfile', String(font.profile));
         await actual.selectOption('#fontWeight', String(font.weight));
         const loaded = await actual.evaluate(async ({ family, weight }) => (await document.fonts.load(`${weight} 32px '${family}'`)).length, font);
         assert.ok(loaded > 0, `${font.family} ${font.weight}: generated WOFF2 loads`);

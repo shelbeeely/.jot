@@ -240,7 +240,7 @@ Linux. Details and differences from the site (no passkeys in Linux's web view): 
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
 | [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), locked documents (`lock.mjs`: `.jotlock`), automation (`automation.mjs`, `connect.mjs`), proofreading hints, tests |
-| [`fonts/`](fonts/) | Original Jot Sans and Jot Script sources, deterministic Python generators, bundled WOFF2 fonts, glyph outlines and catalog |
+| [`fonts/`](fonts/) | Original Jot Sans, Jot Script and Jot Mono sources, deterministic Python generators, bundled WOFF2 fonts, glyph outlines and catalog |
 | [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`), Your life online (`/import/`); the scanner (`/scan/`) is unfinished and not linked |
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colors and a live page preview with charts, from the same renderer as the site |
 | [`desktop/`](desktop/) | **The desktop app** (Tauri v2): the site's pages plus large exports, Save dialogs and a locked-down network; its own Rust and npm dependencies |
@@ -336,9 +336,13 @@ Jot v1 is a draft (spec 1.0.0-draft.3, parser 0.1.0). See [DECISIONS.md](DECISIO
 [roadmap](specification/ROADMAP.md) for current boundaries. The page scanner at `/scan/` is unfinished and hidden from site navigation;
 diagram rendering and handwriting OCR are not implemented. The parser's vendored libraries (Marked,
 Chart.js, JSZip, hash.js) carry their own notices in `parser/vendor/`; the handwriting fonts (Caveat, Playpen Sans, Shantell Sans) are
-under the SIL Open Font License, with their licences in `parser/fonts/`. The original Jot Sans and Jot Script fonts use SIL OFL 1.1;
+under the SIL Open Font License, with their licences in `parser/fonts/`. The original Jot Sans, Jot Script and Jot Mono fonts use SIL OFL 1.1;
 their sources and license are in `fonts/`. No project-wide licence is asserted for the Jot specification,
 the parser or the VS Code extension yet.
 
 The print engine that made KDP books from `.jot` writing (`journal/`) has been removed from this repository; it lives on in its
 history and in the Journaling repository.
+
+Jot Mono regular and bold bring the G2 pen style to fixed-width source editing
+and code. Choose Mono in Write or the typeface inspector. Font design rules
+are recorded in [fonts/AGENTS.md](fonts/AGENTS.md).

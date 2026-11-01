@@ -4,6 +4,7 @@ Jot is a plain-text journal format with a JavaScript parser, CLI, static website
 
 ## Project map
 
+- `fonts/`: original G2-style Sans, Script and Mono generators (rules: `fonts/AGENTS.md`).
 - `parser/`: canonical parser, renderer, shared handwriting styles, fonts and export code (rules: `parser/AGENTS.md`).
 - `site/dist/`: committed, buildless website (rules: `site/AGENTS.md`). Writer: `studio.mjs`, `studio.css`, `write/`; template editor: `editor/`. Site-only listening capture: `jot/music.mjs`; voice practice: `jot/voice.mjs`.
 - `docs/guide/`: guide sources; `site/build-guides.mjs` generates `site/dist/guide/`.

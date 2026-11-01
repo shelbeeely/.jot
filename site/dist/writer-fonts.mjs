@@ -4,6 +4,7 @@ export const WRITER_FONTS = [
   { value: 'script-07', label: '0.7 mm' },
   { value: 'script-10', label: '1.0 mm' },
   { value: 'sans', label: 'Sans' },
+  { value: 'mono', label: 'Mono' },
 ];
 const STORAGE_KEY = 'jot-writing-font-v1';
 

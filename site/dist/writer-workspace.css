@@ -69,7 +69,7 @@ body.jot-site.jot-writer{--writer-bg:#fff;--writer-ink:#24272b;--writer-muted:#6
  .jot-site.jot-writer .writing-grid{min-height:0}.jot-site.jot-writer .writing-pane{background:var(--writer-bg)}
  .jot-site.jot-writer .pane-title{display:none}.jot-site.jot-writer .writing-footer{font-size:13px}
  html[data-writer-options] .jot-site.jot-writer .pane-title{display:flex;padding:12px 20px}.jot-site.jot-writer .pane-title :is(span,.eyebrow){font-size:12px}
- .jot-site.jot-writer #writing{font:16px/1.8 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-width:76ch;align-self:center;margin:0 auto;min-height:calc(100vh - 150px);min-height:calc(100dvh - 150px);padding:36px 28px;resize:vertical;color:var(--writer-ink);background:var(--writer-bg);border-radius:0;box-shadow:none}
+ .jot-site.jot-writer #writing{font:16px/1.8 'Jot Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-width:76ch;align-self:center;margin:0 auto;min-height:calc(100vh - 150px);min-height:calc(100dvh - 150px);padding:36px 28px;resize:vertical;color:var(--writer-ink);background:var(--writer-bg);border-radius:0;box-shadow:none}
  .jot-site.jot-writer #writing::placeholder{color:var(--writer-muted);opacity:1}
  .jot-site.jot-writer :focus-visible{outline:2px solid var(--writer-ink);outline-offset:2px}
  html[data-pref-size=s] body.jot-site.jot-writer #writing{font-size:16px}html[data-pref-size=l] body.jot-site.jot-writer #writing{font-size:22px}html[data-pref-size=xl] body.jot-site.jot-writer #writing{font-size:26px}

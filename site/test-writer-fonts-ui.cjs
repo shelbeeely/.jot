@@ -62,7 +62,7 @@ async function checkFontLoads(page, family) {
       assert.match(await surface.evaluate(element => getComputedStyle(element).fontFamily), /Jot Script 07/);
       assert.equal(await surface.evaluate(element => getComputedStyle(element).fontSize), '22px');
       assert.equal(await surface.evaluate(element => getComputedStyle(element).fontSynthesis), 'none');
-      assert.equal(await font.locator('option').count(), 4);
+      assert.equal(await font.locator('option').count(), 5);
       assert.ok(await font.evaluate(element => !!element.closest('.writer-file-actions')), 'the font choice is in the visible top bar');
       const originalSize = await page.locator('html').getAttribute('data-pref-size');
       let previous = 0;
@@ -103,7 +103,7 @@ async function checkFontLoads(page, family) {
       await selectVisible(page, 'café', 4); await page.keyboard.press('ArrowRight'); await page.keyboard.press('Backspace');
       assert.equal(await source(), 'Before ==caf &amp; tea \\* stars== after.');
       await page.keyboard.press('Control+z'); assert.equal(await source(), fixture);
-      for (const [value, family] of [['script-05', 'Jot Script 05'], ['script-10', 'Jot Script 10'], ['sans', 'Jot Sans']]) {
+      for (const [value, family] of [['script-05', 'Jot Script 05'], ['script-10', 'Jot Script 10'], ['sans', 'Jot Sans'], ['mono', 'Jot Mono']]) {
         await font.selectOption(value);
         await checkFontLoads(page, family);
         assert.ok((await surface.evaluate(element => getComputedStyle(element).fontFamily)).includes(family));

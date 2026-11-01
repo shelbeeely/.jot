@@ -36,8 +36,8 @@ class OriginalFontTests(unittest.TestCase):
         order = font.getGlyphOrder()
         return [(order[g.codepoint], p) for g, p in zip(buffer.glyph_infos, buffer.glyph_positions)]
 
-    def test_eight_real_faces_and_coverage(self):
-        self.assertEqual(len(self.faces), 8)
+    def test_ten_real_faces_and_coverage(self):
+        self.assertEqual(len(self.faces), 10)
         expected = {ord(ch) for ch in build.CHARSET}
         for record, font, _ in self.faces:
             with self.subTest(face=record['file']):
@@ -75,8 +75,8 @@ class OriginalFontTests(unittest.TestCase):
             features = {r.FeatureTag for r in font['GSUB'].table.FeatureList.FeatureRecord}
             self.assertTrue({'liga', 'calt'} <= features)
             positions = {r.FeatureTag for r in font['GPOS'].table.FeatureList.FeatureRecord}
-            self.assertTrue({'kern', 'mark'} <= positions)
-            if record['profile'] != 'sans':
+            self.assertTrue(({'mark'} if record['id'] == 'mono' else {'kern', 'mark'}) <= positions)
+            if record['profile'] in ('0.5', '0.7', '1.0'):
                 self.assertIn('curs', positions)
             for source, expected in [('office', 'f_f_i'), ('afflict', 'f_f_l'), ('fluff', 'f_l')]:
                 on = self.shape(face, source, liga=True, calt=True)
@@ -89,7 +89,7 @@ class OriginalFontTests(unittest.TestCase):
         for face in self.faces:
             record, font, _ = face
             glyphs = {g['name']: g for g in record['glyphs']}
-            if record['profile'] == 'sans':
+            if record['profile'] in ('sans', 'mono'):
                 self.assertEqual(self.shape(face, 'f)', calt=True)[0][0], 'f.short')
                 self.assertEqual(self.shape(face, 'f)', calt=False)[0][0], 'f')
                 self.assertNotEqual(glyphs['f']['path'], glyphs['f.short']['path'])
@@ -103,12 +103,15 @@ class OriginalFontTests(unittest.TestCase):
                 self.assertEqual(len({glyphs[name]['path'] for name in ['a', 'a.init', 'a.medi', 'a.fina']}), 4)
             on = sum(p.x_advance for _, p in self.shape(face, 'AV', kern=True))
             off = sum(p.x_advance for _, p in self.shape(face, 'AV', kern=False))
-            self.assertLess(on, off)
+            if record['id'] == 'mono':
+                self.assertEqual(on, off)
+            else:
+                self.assertLess(on, off)
 
     def test_all_lowercase_join_pairs(self):
         for face in self.faces:
             record, _, _ = face
-            if record['profile'] == 'sans':
+            if record['profile'] in ('sans', 'mono'):
                 continue
             glyphs = {g['name']: g for g in record['glyphs']}
             letters = [chr(g['unicode']) for g in record['glyphs'] if g['unicode'] and g.get('joining') and g.get('form') == 'base']
@@ -200,6 +203,22 @@ class OriginalFontTests(unittest.TestCase):
                                'The printed capital I has visible end bars to distinguish it from l.')
             self.assertEqual(len({glyphs[n]['path'] for n in ['I', 'l', 'one']}), 3)
 
+    def test_mono_keeps_columns_and_overhangs_inside_cells(self):
+        for face in self.faces:
+            record, font, _ = face
+            if record['id'] != 'mono':
+                continue
+            self.assertEqual(font['post'].isFixedPitch, 1)
+            for glyph in record['glyphs']:
+                if glyph['unicode'] is not None and not glyph.get('mark') and glyph['unicode'] != 0xad:
+                    self.assertEqual(glyph['advanceWidth'], 650)
+                    self.assertGreaterEqual(glyph['bounds'][0], 0)
+                    self.assertLessEqual(glyph['bounds'][2], 650)
+            for text in ['iiii WWWW 0000', 'office != afflict', 'Il1 {}[](); // café']:
+                for enabled in [True, False]:
+                    shaped = self.shape(face, text, liga=enabled, calt=enabled, kern=enabled)
+                    self.assertEqual(sum(p.x_advance for _, p in shaped), 650 * len(text))
+
     def test_generated_checksums_and_license(self):
         checksums = json.loads((build.OUT / 'SHA256SUMS.json').read_text())
         for name, digest in checksums.items():
@@ -211,7 +230,7 @@ class OriginalFontTests(unittest.TestCase):
 
     def test_script_oval_entries_do_not_spike_into_counters(self):
         for record, font, _ in self.faces:
-            if record['id'] == 'sans':
+            if record['id'] in ('sans', 'mono'):
                 continue
             nominal = {'0.5': 40, '0.7': 52, '1.0': 78}[record['profile']]
             width = nominal * (1.4 if record['weight'] == 700 else 1)

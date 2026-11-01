@@ -1,14 +1,13 @@
 # Original Jot fonts
 
-Jot Sans and Jot Script are drawn from original procedural geometry. Their
+Jot Sans, Jot Script and Jot Mono are drawn from original procedural geometry. Their
 outlines are not traced, modified, or renamed versions of the bundled legacy
 fonts. The font sources and generated font software in this directory use the
 [SIL Open Font License 1.1](OFL.txt); this does not assign a project-wide license.
 
 Jot Sans fuses clear printed skeletons with round, open handwriting. It combines gently narrow capitals, roomier lowercase letters, softly bowed pen movements, and a barred capital I. Small fixed differences in slant, height, baseline and spacing give the letters a human rhythm while remaining stable across renders.
-Both families use the same almost even circular gel-pen nib, rounded terminals,
-small deterministic stroke variation and gentle terminal pooling. Sans retains
-geometric spacing and optically heavier UI strokes without baseline wobble.
+All families use the same almost even circular gel-pen nib, rounded terminals,
+small deterministic stroke variation and gentle terminal pooling. Sans keeps restrained, fixed handwriting variation and optically heavier UI strokes.
 Script has three visual tip presets: **0.5**, **0.7**, and
 **1.0**. These describe the visual feel, not a guarantee of a physical printed
 line width or a Pilot-manufactured typeface. Every family has original regular
@@ -50,7 +49,7 @@ metrics include the actual accent, loop and descender bounds.
 The compiler expands centerlines with a round nib, unions overlapping parts,
 converts conic/cubic segments into TrueType quadratic outlines, and serializes
 WOFF2 through FontTools/Brotli. Outlines remain closed SVG paths, never embedded
-rasters or SVG text. Both families have restrained per-stroke width variation of at
+rasters or SVG text. All families have restrained per-stroke width variation of at
 most 1.5%, and exposed terminal pooling of 5% at every open pen movement; joining anchors are excluded.
 Curve conversion uses a 0.15-unit tolerance, and oval entry strokes merge into the bowl instead of leaving a capped stub inside the counter. There are no sharp brush tapers, flat nibs, texture masks, or transparent ink.
 
@@ -70,7 +69,7 @@ shapes; they do not simulate changing physical ink or live pressure.
 
 ## Generated contract
 
-`generated/` contains eight WOFF2 files, their feature source, one SVG per glyph,
+`generated/` contains ten WOFF2 files, their feature source, one SVG per glyph,
 the font license, SHA-256 checksums and `catalog.json`. Each catalog face provides
 its ID, family, visual profile, weight, filename, units/em, vertical metrics and
 glyph list. Each glyph includes its name, Unicode or null for an unencoded
@@ -97,3 +96,12 @@ uses 40/52/78-unit Script nibs, scales dots and punctuation with each nib, and
 softens exposed starts and endings of every stroke while protecting joining
 anchors. Sans receives the same terminal treatment. These are visual design
 choices from photographs, not calibrated measurements of physical pen lines.
+
+## Jot Mono
+
+Jot Mono regular and bold use the same G2 round-nib construction and handprinted
+letter shapes. Every visible character and space advances 650 units; combining
+marks advance zero. Wide centerlines are fitted before nib expansion, preserving
+round strokes. Kerning is disabled and ligatures preserve whole-cell advances.
+The site uses Mono in source editing and code, and the inspector offers it as a
+separate family. Design requirements live in `AGENTS.md`.

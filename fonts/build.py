@@ -35,12 +35,12 @@ OUT = ROOT / 'generated'
 UPM = 1000
 ASCENT, DESCENT = 1050, -320
 EPOCH = 2082844800 + 1767225600  # 2026-01-01, seconds since OpenType's 1904 epoch.
-VERSION = '1.003'
+VERSION = '1.004'
 EXTRA = '\u0152\u0153\u0178\u0131\u20ac\u2010\u2011\u2013\u2014\u2018\u2019\u201a\u201c\u201d\u201e\u2022\u2026\u2039\u203a\u2212'
 MARKS = '\u0300\u0301\u0302\u0303\u0304\u0306\u0307\u0308\u030a\u030b\u030c\u0327\u0328'
 CHARSET = ''.join(dict.fromkeys(''.join(chr(c) for c in range(32, 127)) + ''.join(chr(c) for c in range(160, 256)) + EXTRA + MARKS))
 LIGATURES = ('ffi', 'ffl', 'ff', 'fi', 'fl')
-PROFILES = [('sans', 'sans', 'Jot Sans', 72), ('script05', '0.5', 'Jot Script 05', 40), ('script07', '0.7', 'Jot Script 07', 52), ('script10', '1.0', 'Jot Script 10', 78)]
+PROFILES = [('sans', 'sans', 'Jot Sans', 72), ('mono', 'mono', 'Jot Mono', 68), ('script05', '0.5', 'Jot Script 05', 40), ('script07', '0.7', 'Jot Script 07', 52), ('script10', '1.0', 'Jot Script 10', 78)]
 
 
 def name_of(ch):
@@ -284,7 +284,7 @@ def outline(specification, width, resolve, gel=False):
     return union(parts)
 
 
-def font_features(glyph_info, script):
+def font_features(glyph_info, script, mono=False):
     names = {g['name'] for g in glyph_info}
     lines = ['languagesystem DFLT dflt;', 'languagesystem latn dflt;']
     marks = [g for g in glyph_info if g.get('mark')]
@@ -327,7 +327,7 @@ def font_features(glyph_info, script):
     lines.append('} mark;')
     pairs = [('A', 'V', -65), ('A', 'W', -45), ('A', 'Y', -55), ('V', 'A', -65), ('W', 'A', -45), ('Y', 'A', -55), ('T', 'a', -40), ('T', 'o', -45), ('T', 'e', -40), ('F', 'o', -35), ('L', 'T', -25), ('P', 'a', -25)]
     lines.append('feature kern {')
-    for left, right, value in pairs:
+    for left, right, value in ([] if mono else pairs):
         if name_of(left) in names and name_of(right) in names:
             lines.append(f'pos {name_of(left)} {name_of(right)} {int(value * (.65 if script else 1))};')
     lines.append('} kern;')
@@ -335,7 +335,8 @@ def font_features(glyph_info, script):
 
 
 def make_font(id_, profile, family, pen_width, weight):
-    script = profile != 'sans'
+    script = profile in ('0.5', '0.7', '1.0')
+    mono = profile == 'mono'
     width = pen_width * (1.4 if weight == 700 else 1)
     specs = repertoire(script)
     cache = {}
@@ -350,6 +351,15 @@ def make_font(id_, profile, family, pen_width, weight):
         if ch not in cache:
             cache[ch] = outline(specs[ch], width, resolve, gel=True)
         return cache[ch]
+
+    mono_paths = {}
+
+    def fit_mono(path):
+        if not len(path):
+            return path
+        left, _, right, _ = path.bounds
+        scale = min(1, (550 - width) / max(1, right - left - width))
+        return scale, 325 - (left + right) * scale / 2
 
     records = []
     outlines = {}
@@ -372,17 +382,24 @@ def make_font(id_, profile, family, pen_width, weight):
         if unicode is not None:
             cmap[unicode] = name
 
-    add('.notdef', stroke('M85 0 L85 700 L515 700 L515 0 Z M85 0 L515 700', width * .65), 600)
+    add('.notdef', stroke('M85 0 L85 700 L515 700 L515 0 Z M85 0 L515 700', width * .65), 650 if mono else 600)
     for ch in CHARSET:
         s = specs[ch]
         p = resolve(ch)
+        advance = s['advance']
+        if mono and not s.get('mark'):
+            if len(p):
+                scale, shift = fit_mono(p)
+                p = resolve(ch, (scale, 0, 0, 1, shift, 0))
+            advance = 0 if ch == '\u00ad' else 650
+            mono_paths[ch] = p
         joining = script and ch.islower() and s.get('entry') is not None
         path = p
         # Isolated forms have a modest entry lift and terminal, never brush tapers.
         if joining:
             a = s['advance']
             path = union([p, script_entry(s, width), stroke(f'M{a} 90 Q{a + 24} 103 {a + 35} 145', width * .9)])
-        add(name_of(ch), path, s['advance'], ord(ch), mark=s.get('mark'), uppercase=ch.isupper(), joining=joining, form='base', **({'entry': None, 'exit': None} if joining else {}))
+        add(name_of(ch), path, advance, ord(ch), mark=s.get('mark'), uppercase=ch.isupper(), joining=joining, form='base', **({'entry': None, 'exit': None} if joining else {}))
     if script:
         # All matching accented forms reuse their corresponding base plus accent.
         joining_chars = [ch for ch in CHARSET if ch.islower() and specs[ch].get('entry') is not None]
@@ -397,13 +414,17 @@ def make_font(id_, profile, family, pen_width, weight):
                 add(name_of(ch) + '.' + suffix, union(parts), a, joining=True, form=suffix, entry=[0, 90] if suffix != 'init' else None, exit=[a, 90] if suffix != 'fina' else None)
     else:
         short_f = spec(specs['f']['advance'], 'M135 0 L135 550 C135 710 240 745 280 700', 'M55 480 L285 480')
-        add('f.short', outline(short_f, width, resolve, gel=True), specs['f']['advance'])
+        short_path = outline(short_f, width, resolve, gel=True)
+        if mono:
+            scale, shift = fit_mono(short_path)
+            short_path = outline(transformed_design(short_f, (scale, 0, 0, 1, shift, 0)), width, resolve, gel=True)
+        add('f.short', short_path, 650 if mono else specs['f']['advance'])
     # Genuine combined outlines, with compact common f joins rather than text encoding tricks.
     for lig in LIGATURES:
         paths, x = [], 0
         for i, ch in enumerate(lig):
-            paths.append(transformed(resolve(ch), (1, 0, 0, 1, x, 0)))
-            x += specs[ch]['advance'] - (0 if script else 42 if i < len(lig) - 1 else 0)
+            paths.append(transformed(mono_paths[ch] if mono else resolve(ch), (1, 0, 0, 1, x, 0)))
+            x += 650 if mono else specs[ch]['advance'] - (0 if script else 42 if i < len(lig) - 1 else 0)
         p = union(paths)
         base_name = '_'.join(lig)
         add(base_name, p, x, joining=script, form='base', entry=None, exit=None)
@@ -424,15 +445,15 @@ def make_font(id_, profile, family, pen_width, weight):
     style = 'Bold' if weight == 700 else 'Regular'
     fb.setupNameTable({'familyName': family, 'styleName': style, 'uniqueFontIdentifier': f'{family} {style} {VERSION}', 'fullName': f'{family} {style}', 'psName': family.replace(' ', '') + '-' + style, 'version': 'Version ' + VERSION, 'copyright': 'Copyright 2026 The Jot Font Authors. Original procedural outlines.', 'licenseDescription': 'SIL Open Font License, Version 1.1.', 'licenseInfoURL': 'https://openfontlicense.org'})
     fb.setupOS2(version=4, sTypoAscender=ASCENT, sTypoDescender=DESCENT, sTypoLineGap=0, usWinAscent=ASCENT, usWinDescent=-DESCENT, sxHeight=500, sCapHeight=700, usWeightClass=weight, fsType=0, fsSelection=0x80 | (0x20 if weight == 700 else 0x40))
-    fb.setupPost()
+    fb.setupPost(isFixedPitch=1 if mono else 0)
     fb.setupMaxp()
     fb.setupHead(created=EPOCH, modified=EPOCH, macStyle=1 if weight == 700 else 0)
-    features = font_features(records, script)
+    features = font_features(records, script, mono)
     addOpenTypeFeaturesFromString(fb.font, features)
     fb.font.recalcTimestamp = False
     fb.font.flavor = 'woff2'
     binary = io.BytesIO(); fb.font.save(binary)
-    filename = f'jot-sans-{weight}.woff2' if not script else f'jot-script-{profile.replace(".", "")}-{weight}.woff2'
+    filename = f'jot-{profile}-{weight}.woff2' if not script else f'jot-script-{profile.replace(".", "")}-{weight}.woff2'
     catalog = {'id': id_, 'family': family, 'profile': profile, 'weight': weight, 'file': filename, 'unitsPerEm': UPM, 'ascent': ASCENT, 'descent': DESCENT, 'capHeight': 700, 'xHeight': 500, 'glyphs': records}
     return binary.getvalue(), catalog, features
 
@@ -481,7 +502,7 @@ def main():
         target = args.output / name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(data)
-    print(f'Built 8 original WOFF2 faces, SVG glyphs and catalog ({len(files)} files).')
+    print(f'Built 10 original WOFF2 faces, SVG glyphs and catalog ({len(files)} files).')
 
 
 if __name__ == '__main__':

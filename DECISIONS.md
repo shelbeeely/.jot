@@ -783,3 +783,12 @@ inside the a/d/g/q counters. Those entries now merge at the outside of closed
 bowls; initial connectors follow the first pen movement tangent. Higher precision
 curve conversion avoids visible coarse fitting at inspector magnification.
 Counter probes across pen profiles and weights guard against the reported nub.
+
+## G2 design contract and Jot Mono (1 November 2026)
+
+The owner requested a font agent file establishing G2 pen strokes as the common
+model, plus a monospace family. fonts/AGENTS.md applies to every original Jot
+family. Mono regular/bold reuses handprinted centerlines fitted before circular
+nib expansion. Visible characters and spaces advance 650 units; combining marks
+advance zero; kerning is off and ligatures retain the full source column width.
+Mono is available in the inspector and used for source editing and code.

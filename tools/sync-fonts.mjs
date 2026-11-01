@@ -8,8 +8,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const generated = path.join(root, 'fonts/generated');
 const catalog = JSON.parse(fs.readFileSync(path.join(generated, 'catalog.json'), 'utf8'));
 const names = [...new Set(catalog.fonts.map((font) => font.file))];
-if (names.length !== 8 || names.some((name) => !/^jot-(sans|script-(05|07|10))-(400|700)\.woff2$/.test(name))) {
-  throw new Error('The original font catalog must describe the eight expected Jot faces.');
+if (names.length !== 10 || names.some((name) => !/^jot-(sans|mono|script-(05|07|10))-(400|700)\.woff2$/.test(name))) {
+  throw new Error('The original font catalog must describe the ten expected Jot faces.');
 }
 const copies = names.concat('jot-original-OFL.txt').flatMap((name) => ['parser/fonts', 'site/dist/jot/fonts'].map((directory) => [name, `${directory}/${name}`]));
 copies.push(['catalog.json', 'site/dist/fonts/catalog.json']);
