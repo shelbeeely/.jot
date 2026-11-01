@@ -188,3 +188,9 @@ After changing published resources or guides, run `node tools/build-offline.mjs`
 manifest generator last. Run `node --test site/test-browser-tools.mjs`, `node site/test-browser-tools-ui.cjs` and
 `node site/test-nearby-ui.cjs`; the latter establishes a real local WebRTC connection in Chromium. Native OS sharing and physical
 devices remain separate checks. See [Browser tools](../docs/guide/browser-tools.md).
+
+
+Connected source adapters live in `dist/connected-sources.mjs`, with explicit capabilities and bounded on-demand requests;
+`connected-sources-ui.mjs` provides the shared review/insertion UI. Initial provider: Open-Meteo daily weather. Run
+`node --test site/test-connected-sources.mjs` and `node site/test-connected-sources-ui.cjs`; provider responses are mocked.
+Native webview/CORS and live account checks remain separate. No contextual prose analysis is enabled.

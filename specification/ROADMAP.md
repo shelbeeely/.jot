@@ -19,7 +19,7 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Plain-text writing and date sections | Implemented; parser tested | Broader malformed-input and large-file fixtures |
 | Desktop and mobile writing tools | Implemented: formatting/shortcuts, list continuation, literal find/replace, parsed outline, Commands and reviewed entry templates; Chromium desktop and 320/390px mobile emulation tested | Physical mobile keyboard/device testing, richer personal templates and recovery |
 | Autocomplete and reference sources | Partial: current-journal suggestions, explicitly opened People/Places books and opt-in MusicBrainz lookup implemented | General reference tracks, media and broader smart-journal source catalog below; no background archive scan or journal upload |
-| Smart journal and context sources | Planned; basic weather/Todoist/webhook helpers and health-file import already exist, not a unified source picker | Shared on-demand picker; contextual suggestions off by default; weather and read-only Home Assistant first in the context track |
+| Smart journal and context sources | First slice implemented: shared on-demand source picker and reviewed Open-Meteo daily snapshots; transport/browser tests use mocked responses | Read-only Home Assistant next; contextual suggestions remain unimplemented/off; wider catalog remains planned |
 | Connected-data syntax | Proposed optional references and record conventions, not standardized semantic support | Specification review, parser/renderer work, conformance fixtures and Writer insertion controls; plain prose and old files remain valid |
 | WriteFreely editor and ActivityPub exploration | Planned; source-based integration assessment in `docs/proposals/writefreely-integration.md` | Evaluate editor enhancements and a reviewed publication adapter; isolated instance, license review and federation interoperability before release |
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
@@ -157,7 +157,7 @@ remain optional and limited to chosen activity or excerpts. Physical hardware an
 
 ## Smart journal: connected context and optional syntax
 
-Status: **planned**, with source catalog, defaults, Home Assistant boundaries and illustrative syntax in
+Status: **first weather/source-picker slice implemented**; wider connections, contextual suggestions and Home Assistant remain planned. Source catalog, defaults and boundaries are in
 [smart-journal-and-connected-data.md](../docs/proposals/smart-journal-and-connected-data.md). This is not a claim of
 implemented connections, contextual text analysis, a dashboard card or new semantic parser support.
 
@@ -408,3 +408,26 @@ hidden scanner remains hidden. See `docs/guide/browser-tools.md` for limitations
 optional stroke background member. Automated tests cover Chromium and local browser-to-browser WebRTC. Native share registration,
 physical pen/palm behavior, real laptop/phone Wi-Fi or hotspot compatibility and native desktop-webview support remain release
 validation. Dedicated hardware/firmware, live text-anchored ink and ongoing synchronization remain deferred.
+
+## Future `.jotz` archive version
+
+Design proposal: [jotz-archive.md](../docs/proposals/jotz-archive.md). Explore a versioned evolution of the existing ZIP representation with stable entry and
+media UUIDs, explicit dates/timezones, per-entry and asset encryption, and an optional public-only SQLite/FTS5 index. Existing
+`.jot`, `.jotz` and `.jotlock` behavior remains supported. No automatic migration, new runtime SQLite dependency or implemented
+per-entry encryption/index support is claimed. Decide visible metadata, key/recovery envelopes, index leakage prevention, entry boundaries, archive
+limits and measurable performance before shipping. Private search is in memory after unlock; public-index rebuilding must remove
+private text from all pages/FTS structures, not merely delete rows. Incremental encryption does not guarantee incremental ZIP I/O.
+
+
+## Connected sources: first delivery
+
+Implemented: **Tools → Connected sources** in Writer, an on-demand provider contract/catalog, bounded cancellable Open-Meteo
+lookup with explicit coordinates/date/timezone, review, source-preserving undoable insertion, timestamped model provenance, units,
+missing-value preservation and attribution. No journal prose analysis, background lookups, geolocation, new account writes or
+credential persistence. Daily recent/future forecast output is labelled forecast; historical archive output is estimated, never
+a personal observation. Existing generic records preserve the snapshot fields; this does not implement the entire syntax proposal.
+
+Browser/service tests mock Open-Meteo. Live endpoint/CORS/commercial-account compatibility and native desktop-webview access remain
+unverified; desktop CSP permits only the two named public weather origins. See [Connected sources](../docs/guide/connected-sources.md).
+Next: Home Assistant read-only entities/history with session credentials, then the separate default-off local contextual
+suggestions setting. Movie/TV lookup and reviewed Trakt actions remain the next media milestones.

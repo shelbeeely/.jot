@@ -1,3 +1,4 @@
+import { setupConnectedSources } from './connected-sources-ui.mjs';
 import { setupBrowserTools } from './browser-tools.mjs';
 import { setupAnnotations } from './annotation.mjs';
 import { appendCapture, mergedAssets } from './capture-core.mjs';
@@ -30,7 +31,7 @@ import A from './jot/automation.mjs';
 import {queryDiagnostics} from './jot/query.mjs';
 import {isPaletteRecord,paletteOf,moodboardOf,paletteCSS,paletteJSON,contrast} from './jot/palette.mjs';
 addChartStyles(document);
-let referenceBooks, liveWriter, deviceFiles, aiCompanion, browserTools, annotations;
+let referenceBooks, liveWriter, deviceFiles, aiCompanion, browserTools, annotations, connectedSources;
 let captureReceipts=[], captureBusy=false;
 let loadedFilename='';
 let fileRevision=0, savedFileRevision=-1, recoveringAssets=true;
@@ -292,7 +293,7 @@ const browserBridge = {
     if(capture.end>capture.position){const base=editor.value.slice(0,capture.position)+editor.value.slice(capture.end);change=appendCapture(base,capture.position,capture.source);change.end=capture.end;}
     else change=appendCapture(editor.value,capture.position,capture.source);
     const expected=editor.value.slice(0,change.start)+change.text+editor.value.slice(change.end);setAssets(combined);editor.focus();editor.setSelectionRange(change.start,change.end);
-    if(editor.jotApplyEdit)editor.jotApplyEdit(change);else if(!document.execCommand||!document.execCommand('insertText',false,change.text)){editor.setRangeText(change.text,change.start,change.end,'end');editor.dispatchEvent(new Event('input',{bubbles:true}));}
+    if(editor.jotApplyEdit&&document.documentElement.getAttribute('data-editor-mode')!=='source')editor.jotApplyEdit(change);else if(!document.execCommand||!document.execCommand('insertText',false,change.text)){editor.setRangeText(change.text,change.start,change.end,'end');editor.dispatchEvent(new Event('input',{bubbles:true}));}
     if(editor.value!==expected)throw Error('The source edit could not be applied. Your capture is retained.');captureReceipts.push(capture.id);update();
    }else setAssets(combined);
    const assetsSaved=await persistAssets();if(identity!==assetKey||lockWaiting)return false;
@@ -304,7 +305,7 @@ const browserBridge = {
  composing:()=>!!liveWriter?.composing,showLive:()=>{liveWriter.setMode('live');},surface:()=>liveWriter.surface,mountInline:(node,position)=>liveWriter.mountInline(node,position),
  lookupAsset:path=>assets.find(a=>a.path===path),assetFromURL:url=>assets.find(a=>assetUrls.get(a.path)===url)
 };
-browserTools=setupBrowserTools(browserBridge);annotations=setupAnnotations(browserBridge);
+browserTools=setupBrowserTools(browserBridge);annotations=setupAnnotations(browserBridge);connectedSources=setupConnectedSources(browserBridge);
 const writerWorkspace = setupWriterWorkspace({ editor, status, showPreview: () => {
   if (document.documentElement.hasAttribute('data-hide-preview')) { $('prefPreview').checked = true; $('prefPreview').dispatchEvent(new Event('change')); }
   clearTimeout(timer); update(); if (dirty) save(); setTab('preview');
@@ -392,7 +393,7 @@ function unbundleAssets(b) {
 }
 function showLock() {
   aiCompanion?.reset();
-  browserTools?.reset(); annotations?.reset();
+  browserTools?.reset(); annotations?.reset(); connectedSources?.reset();
   const waiting = !!lockWaiting, locked = !!lockKey;
   $('lockGate').hidden = !waiting; $('lockNote').hidden = !locked;
   editor.readOnly = waiting; document.querySelector('.studio-workspace').inert = waiting;

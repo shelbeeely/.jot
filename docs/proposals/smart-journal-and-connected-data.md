@@ -1,6 +1,7 @@
 # Smart journal: connected sources and optional structured syntax
 
-Updated 1 November 2026. Status: **planned**, not implemented connections, settings, card or semantic parser support.
+Updated 1 November 2026. Status: **weather/source-picker first slice implemented**. Other connections, contextual settings,
+Home Assistant card and complete semantic parser support remain planned.
 The owner wants many optional data sources at a journal writer's fingertips, on-demand lookup, contextual suggestions
 behind a setting that defaults off, read-only Home Assistant, and both concise references and structured `.jot` records.
 This proposal extends the [media plan](media-sources-and-service-actions.md); it does not replace its provider backlog.
@@ -183,3 +184,18 @@ records, code/escapes, no network side effects and byte-preserving round trips. 
 
 These are product boundaries informed by the guides and the owner's instructions, not evidence that connected sources
 improve journaling outcomes. No account was connected, sensor queried, external write performed or card deployed.
+
+
+## First delivery: on-demand weather
+
+Writer now has a shared Connected sources picker and provider capability catalog, initially Open-Meteo daily weather. Requests
+contain only explicitly entered coordinates, date and timezone; source text is not an adapter input. Historical archive output
+is labelled estimated and recent/future forecast output forecast. Null values stay missing rather than zero. Review shows exact
+Jot records, model provenance, retrieval time, units, coordinates and attribution before one undoable insertion. Source changes
+require a newly captured caret; closing/locking cancels pending lookup. Tests use mocked provider responses. Live provider terms,
+CORS and native platform compatibility require deployment checks; no unrestricted network proxy or embedded credentials exist.
+
+This first slice does not add prose analysis or enable contextual suggestions. Home Assistant remains next, read-only. Existing
+`measurement` and generic `observation` records carry snapshot provenance; no new short-reference namespace or automatic action
+semantics were added. Research: `docs/methods/digital-daily-notes.md, line 711` rejects cloud sync for journal content in that guide;
+explicitly sending lookup coordinates while retaining journal prose locally is an engineering choice, not a research finding.

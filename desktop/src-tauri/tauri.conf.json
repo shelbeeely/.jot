@@ -18,7 +18,7 @@
         "media-src": "'self' blob:",
         "font-src": "'self' data:",
         "worker-src": "'self' blob:",
-        "connect-src": "'self' ipc: http://ipc.localhost blob: data: https://api.spotify.com https://accounts.spotify.com https://ws.audioscrobbler.com https://api.listenbrainz.org https://openrouter.ai http://localhost:* http://127.0.0.1:* http://[::1]:* https://localhost:* https://127.0.0.1:* https://[::1]:*",
+        "connect-src": "'self' ipc: http://ipc.localhost blob: data: https://api.spotify.com https://accounts.spotify.com https://ws.audioscrobbler.com https://api.listenbrainz.org https://openrouter.ai https://api.open-meteo.com https://archive-api.open-meteo.com http://localhost:* http://127.0.0.1:* http://[::1]:* https://localhost:* https://127.0.0.1:* https://[::1]:*",
         "object-src": "'none'",
         "base-uri": "'self'",
         "form-action": "'none'",

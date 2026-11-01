@@ -873,3 +873,29 @@ downstrokes with straight segments at a consistent forward lean, draw two simple
 matching shoulders, and shorten its trailing connector and advance from 785 to
 690 units. Keep rounded G2 ink and the shared y=90 cursive anchors. This is a
 letterform correction; Sans and Mono drawings and alternate rules are unchanged.
+
+## 2026-11-01: Versioned `.jotz` archive proposal
+
+The owner proposed per-entry encryption, portable SQLite FTS5 search and UUID asset links, then clarified that the extension
+is `.jotz`, not `.jotx`. Integrations come first. Record the design in
+`docs/proposals/jotz-archive.md` as a future container version without silently changing `.jotz` v1 or claiming an implemented archive. Existing packaging and
+whole-document encryption remain supported. A public index must never contain private prose, tags, moods, thumbnails or media;
+privacy transitions rebuild it from public source rather than relying on row deletion. Keep private search in memory after
+unlock. Encryption mode/key management, safe SQLite reading, archive limits and performance need specification and tests.
+`docs/methods/expressive-writing.md, line 443` ("Keep it private") and `docs/methods/digital-daily-notes.md, line 711` (no cloud sync
+for journal content in that guide) inform the exposure boundary, not the cryptographic design. This is an engineering proposal,
+not a guarantee of secure implementation or instant multi-year search.
+
+
+## 2026-11-01: First connected-source delivery is explicit weather lookup
+
+Follow the accepted context roadmap with a shared provider capability catalog and review flow, initially Open-Meteo daily
+weather. Explicit coordinates/date/timezone are the only request inputs; no prose, geolocation permission, background requests
+or provider writes. Label historical model output estimated and recent/future daily model output forecast; keep null distinct
+from zero, preserve units and retrieval time, and include attribution. Requests omit credentials/referrer, reject redirects,
+bound response bytes, time out and cancel on close/lock. An explicit reviewed insertion is undoable and source-revision guarded.
+Public endpoint terms and CC BY attribution are shown; no commercial-account access is claimed. Desktop CSP adds only the two
+named weather origins. Transport/browser tests are mocked, not live provider or native webview verification. Read-only Home
+Assistant and the separate default-off contextual suggestions setting remain next; no active-entry analyzer is installed.
+`docs/methods/digital-daily-notes.md, line 711` rejects cloud content sync in that guide's context; `docs/methods/expressive-writing.md,
+line 443` says keep writing private. The provider architecture and forecast labeling are engineering choices, not study findings.
