@@ -1,8 +1,12 @@
-"""Original geometric Jot Sans centerlines. No existing typeface outlines are used.
+"""Original upright, handprinted Jot Sans centerlines. No existing outlines are used.
 
 Coordinates are font units, y up. The compiler expands these drawn centerlines
 with a circular nib and unions the result into clean, closed vector contours.
 """
+from fontTools.misc.transform import Transform
+from fontTools.pens.svgPathPen import SVGPathPen
+from fontTools.pens.transformPen import TransformPen
+from fontTools.svgLib.path import parse_path
 
 
 def ellipse(cx, cy, rx, ry):
@@ -23,17 +27,17 @@ def glyphs():
     g('B', 620, 'M90 0 L90 700 L310 700 C570 700 580 370 320 370 L90 370', 'M310 370 C620 370 610 0 310 0 L90 0')
     g('C', 650, 'M565 610 C495 695 410 715 310 700 C-25 650 -25 40 310 0 C410 -12 500 20 570 105')
     g('D', 675, 'M90 0 L90 700 L290 700 C685 700 685 0 290 0 Z')
-    g('E', 570, 'M490 700 L90 700 L90 0 L490 0', 'M90 360 L435 360')
+    g('E', 570, 'M490 700 Q285 706 90 700 Q84 340 90 0 Q280 -5 490 0', 'M90 350 Q260 357 425 350')
     g('F', 550, 'M90 0 L90 700 L485 700', 'M90 365 L420 365')
     g('G', 690, 'M585 605 C505 710 390 725 280 685 C-15 575 0 45 315 0 C435 -15 555 35 600 100 L600 320 L380 320')
-    g('H', 670, 'M90 0 L90 700', 'M580 0 L580 700', 'M90 355 L580 355')
-    g('I', 280, 'M140 0 L140 700')
+    g('H', 670, 'M90 0 Q84 350 90 700', 'M580 0 Q587 355 580 700', 'M90 345 Q335 355 580 350')
+    g('I', 350, 'M175 0 Q169 350 175 700', 'M75 700 Q175 706 275 700', 'M75 0 Q175 -5 275 0')
     g('J', 520, 'M430 700 L430 180 C430 -60 100 -70 65 130')
     g('K', 625, 'M90 0 L90 700', 'M555 700 L90 260', 'M290 450 L580 0')
     g('L', 535, 'M90 700 L90 0 L470 0')
-    g('M', 800, 'M90 0 L90 700 L400 255 L710 700 L710 0')
-    g('N', 695, 'M90 0 L90 700 L605 0 L605 700')
-    g('O', 710, ellipse(355, 350, 285, 350))
+    g('M', 800, 'M90 0 Q82 350 90 700 L400 255 L710 700 Q718 350 710 0')
+    g('N', 695, 'M90 0 Q84 350 90 700 Q350 345 605 0 Q611 350 605 700')
+    g('O', 710, 'M640 350 C645 565 530 706 352 700 C176 696 65 560 70 345 C74 133 177 -5 358 0 C535 5 637 141 640 350 Z')
     g('P', 605, 'M90 0 L90 700 L300 700 C630 700 630 345 300 345 L90 345')
     g('Q', 710, ellipse(355, 350, 285, 350), 'M400 180 L660 -70')
     g('R', 645, 'M90 0 L90 700 L310 700 C630 700 620 355 310 355 L90 355', 'M310 355 L580 0')
@@ -46,7 +50,7 @@ def glyphs():
     g('Y', 620, 'M55 700 L310 340 L565 700', 'M310 340 L310 0')
     g('Z', 595, 'M65 700 L535 700 L65 0 L535 0')
 
-    g('a', 555, 'M95 405 C155 545 470 535 470 345 L470 0', 'M465 275 C355 350 75 315 75 155 C75 -35 405 -50 470 155')
+    g('a', 555, 'M470 360 C365 580 75 535 75 250 C75 -30 365 -80 470 135', 'M470 500 Q464 245 470 0')
     g('b', 570, 'M85 0 L85 730', 'M85 360 C195 600 500 535 500 250 C500 -35 195 -100 85 140')
     g('c', 510, 'M445 420 C210 645 20 400 75 180 C110 20 300 -80 445 70')
     g('d', 570, 'M485 0 L485 730', 'M485 360 C375 600 70 535 70 250 C70 -35 375 -100 485 140')
@@ -83,4 +87,18 @@ def glyphs():
     g('7', 540, 'M65 700 L480 700 L165 0')
     g('8', 585, ellipse(292, 530, 180, 170), ellipse(292, 180, 215, 180))
     g('9', 580, 'M120 15 C425 -30 555 385 480 580 C405 800 75 730 75 490 C75 245 400 205 490 445')
+    # Fit the pen movements, not their expanded outlines: the circular nib stays
+    # circular. Capitals echo narrow upright handprinting; lowercase stays open.
+    for ch, drawing in data.items():
+        scale = .86 if ch.isupper() else .96
+        matrix = (scale, 0, 0, 1, 55 * (1 - scale), 0)
+        fitted = []
+        for d in drawing['paths']:
+            pen = SVGPathPen(None)
+            parse_path(d, TransformPen(pen, matrix))
+            fitted.append(pen.getCommands())
+        drawing['paths'] = fitted
+        transform = Transform(*matrix)
+        drawing['dots'] = [(*transform.transformPoint((x, y)), r) for x, y, r in drawing['dots']]
+        drawing['advance'] = round((drawing['advance'] - 110) * scale + 110)
     return data

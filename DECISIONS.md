@@ -759,3 +759,12 @@ of hitting a common size cap. Every exposed open-stroke start and ending receive
 small rounded pooling; connecting anchors retain even joins. The same stroke
 construction applies to Sans. No new pen presets or ink colors are introduced.
 The photographs guide appearance rather than calibrated physical widths.
+
+## Upright handprinted Sans lettering (1 November 2026)
+
+The owner selected lettering improvements from the G2 color-label photographs.
+Sans now has narrower upright capitals, lightly bowed strokes, a handprinted
+single-storey a, a less circular O and a barred I distinguishable from l and 1.
+Centerlines are width-fit before round-nib expansion, keeping stroke thickness
+and open lowercase counters suitable for interface text. Script faces and ink
+palettes retain their existing designs.

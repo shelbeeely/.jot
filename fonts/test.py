@@ -183,8 +183,18 @@ class OriginalFontTests(unittest.TestCase):
                 continue
             glyph = next(g for g in record['glyphs'] if g['unicode'] == ord('Œ'))
             width = 72 * (1.4 if record['weight'] == 700 else 1)
-            expected_left = 70 * .75 - width / 2
+            expected_left = (70 * .86 + 55 * .14) * .75 - width / 2
             self.assertLess(abs(glyph['bounds'][0] - expected_left), 2)
+
+    def test_handprinted_sans_proportions_and_distinct_stems(self):
+        for record, _, _ in self.faces:
+            if record['id'] != 'sans':
+                continue
+            glyphs = {g['name']: g for g in record['glyphs']}
+            self.assertLess(glyphs['O']['advanceWidth'], 650, 'Capitals have upright, narrow printed proportions.')
+            self.assertGreater(glyphs['I']['bounds'][2] - glyphs['I']['bounds'][0], 200,
+                               'The printed capital I has visible end bars to distinguish it from l.')
+            self.assertEqual(len({glyphs[n]['path'] for n in ['I', 'l', 'one']}), 3)
 
     def test_generated_checksums_and_license(self):
         checksums = json.loads((build.OUT / 'SHA256SUMS.json').read_text())

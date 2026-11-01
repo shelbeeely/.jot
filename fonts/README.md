@@ -5,7 +5,7 @@ outlines are not traced, modified, or renamed versions of the bundled legacy
 fonts. The font sources and generated font software in this directory use the
 [SIL Open Font License 1.1](OFL.txt); this does not assign a project-wide license.
 
-Jot Sans is a warm geometric family drawn as neatly handprinted pen letters.
+Jot Sans is an upright handprinted family with narrow capitals, open lowercase letters, softly bowed pen movements and a barred capital I.
 Both families use the same almost even circular gel-pen nib, rounded terminals,
 small deterministic stroke variation and gentle terminal pooling. Sans retains
 geometric spacing and optically heavier UI strokes without baseline wobble.

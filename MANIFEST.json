@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 71172,
-      "sha256": "5651b1430395a4a0bf97bcc6328c09dd7997c1187a759225d412f913ccf93ca4"
+      "byteLength": 71663,
+      "sha256": "795f24b9d58214282b0fa271a3d53dc71bf3488956830cedb116c5874ef47c68"
     },
     {
       "path": "README.md",
@@ -1224,18 +1224,18 @@
     },
     {
       "path": "fonts/README.md",
-      "byteLength": 5385,
-      "sha256": "aeb9064efb956e7f67d284c9b0e86ee95dbaf42a5b2973f48b26e45a085f6640"
+      "byteLength": 5447,
+      "sha256": "f659b6ddf5f0c999cd931766fbbbace9623a5c17466d8313576cf54dfeb06389"
     },
     {
       "path": "fonts/build.py",
       "byteLength": 28849,
-      "sha256": "17ecfa7b45fc6c921a7d24558ec17de882d3dae3403288234f02e588c49294fe"
+      "sha256": "3f5d5fe4182277664776f615f63fb90803fe24c372e3c04f35cd222db170b807"
     },
     {
       "path": "fonts/design_sans.py",
-      "byteLength": 5393,
-      "sha256": "028695a0b5811cb7a17c88a231552f3a6573582c3970f267d4dfde38c26fd352"
+      "byteLength": 6535,
+      "sha256": "6e2ca4dcfe7170e56525f8d9b40ea4255bd7cc51f3e5c3d5f6194ee8ec74bbe6"
     },
     {
       "path": "fonts/design_script.py",
@@ -1245,22 +1245,22 @@
     {
       "path": "fonts/generated/SHA256SUMS.json",
       "byteLength": 309747,
-      "sha256": "e543b59655e85c3a93b16b0135ee05d6f6ff625e4648bc0c5dd7fbdeaf2f108e"
+      "sha256": "b0553591c61f5bc299e54000e09237026e854d0f7119abfb2936965d25415059"
     },
     {
       "path": "fonts/generated/catalog.json",
-      "byteLength": 3692198,
-      "sha256": "a3c43d85ae73fa6b42ee4383f85e57280785790ab3b12081decfa653170d09ac"
+      "byteLength": 3692824,
+      "sha256": "a70815648922b8be226b924f5077a57e324f122959cba6f985fc10413626206d"
     },
     {
       "path": "fonts/generated/features/sans-400.fea",
       "byteLength": 18451,
-      "sha256": "51d7339f3227961f0606c355f5d0feccab9e467cf374d9da0a561c86095fcc85"
+      "sha256": "17674f6de117995446ec6e0b516866e18e8fec9f59069e5954d25fbba6174ea8"
     },
     {
       "path": "fonts/generated/features/sans-700.fea",
       "byteLength": 18451,
-      "sha256": "51d7339f3227961f0606c355f5d0feccab9e467cf374d9da0a561c86095fcc85"
+      "sha256": "17674f6de117995446ec6e0b516866e18e8fec9f59069e5954d25fbba6174ea8"
     },
     {
       "path": "fonts/generated/features/script05-400.fea",
@@ -1299,43 +1299,43 @@
     },
     {
       "path": "fonts/generated/jot-sans-400.woff2",
-      "byteLength": 15236,
-      "sha256": "54600e0b91bc3bcff7d7e9a346d8f85260b4e4c268017f831d8290cd72608782"
+      "byteLength": 15968,
+      "sha256": "89f20f81521ed785700db0c1ad3c9d2a8c3a61408ff684f4c63e5741530c8910"
     },
     {
       "path": "fonts/generated/jot-sans-700.woff2",
-      "byteLength": 15536,
-      "sha256": "0319f6d7445209452e8cb585b037156a4d5355b99b39dd15c5cdb531ec811db6"
+      "byteLength": 16264,
+      "sha256": "d34ebbb8c8914e6c7e65396826acd4e901b016e2a54e381de0d502e773255503"
     },
     {
       "path": "fonts/generated/jot-script-05-400.woff2",
-      "byteLength": 25348,
-      "sha256": "3c38a855b1e3465445cd1d1d167ea0460250da28bb50b281b5475b68eda1696b"
+      "byteLength": 25356,
+      "sha256": "18ab77eeb7984d0e19e47d23e018b111d8d9d5377eafc626a90d308a17a73cce"
     },
     {
       "path": "fonts/generated/jot-script-05-700.woff2",
-      "byteLength": 25700,
-      "sha256": "8afcc5bac92d576746885632c770d5c5e8963ae90f59800b552b58135a6141be"
+      "byteLength": 25692,
+      "sha256": "4512b9d93427faf504ca625d56a393858a31fea570b8b64efa303b71416678fb"
     },
     {
       "path": "fonts/generated/jot-script-07-400.woff2",
-      "byteLength": 25840,
-      "sha256": "aba75a99d67aabb6d0a3a8928559d5328e2f75d35486b8686840c7de527c1e17"
+      "byteLength": 25852,
+      "sha256": "d23b829e0d2d201d8ede6756f40d5f24215a12f1ca89dbf85494f0610a458457"
     },
     {
       "path": "fonts/generated/jot-script-07-700.woff2",
-      "byteLength": 25692,
-      "sha256": "2ccf9a31bbd2cf71656a51e4c07ef0c7f7c954f6b9d639dc37a2ed1786292a33"
+      "byteLength": 25696,
+      "sha256": "da8454e092eade3329a535d36c5f133d82498bcec46d998deff6b30311358935"
     },
     {
       "path": "fonts/generated/jot-script-10-400.woff2",
-      "byteLength": 25604,
-      "sha256": "53abe2ca30f8e66c9b33efec9eaa29dc8b091b50b3ea30f026b2eb56fc092be2"
+      "byteLength": 25600,
+      "sha256": "808c2869c47dc7c7f02739111588bfaf749feefc6666f72b96031046f013f714"
     },
     {
       "path": "fonts/generated/jot-script-10-700.woff2",
-      "byteLength": 25396,
-      "sha256": "b15e5beb8a6b2171fa7afca818d46a69c36c729afe64c5cae12797f2a2a86877"
+      "byteLength": 25416,
+      "sha256": "0a4520e6326174ab697648d29ae034f01ac9cdac93e93c05c6fb2d57627068f7"
     },
     {
       "path": "fonts/generated/svg/sans-400/.notdef.svg",
@@ -1344,8 +1344,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/A.svg",
-      "byteLength": 504,
-      "sha256": "50082f2c6073d20f039b4c52a37b3851a09bf26fb8d357c0ec66ff4a544cb9f3"
+      "byteLength": 502,
+      "sha256": "29dac193c72a9baefc2a1c03669797b00fc787212bdda34b8991ca260cc6cdef"
     },
     {
       "path": "fonts/generated/svg/sans-400/AE.svg",
@@ -1354,78 +1354,78 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/Aacute.svg",
-      "byteLength": 838,
-      "sha256": "007d53b092fb820ca833049f4801264a6f9fc667e3feda7cbd7141c582637cea"
+      "byteLength": 836,
+      "sha256": "a7186809c5697cd53ad7fe52a2bea86699fc0960e0654b70f4930e5891e325c5"
     },
     {
       "path": "fonts/generated/svg/sans-400/Acircumflex.svg",
-      "byteLength": 935,
-      "sha256": "e67cb2c8267ae7e2181eb20dffdeaf2a956b6f61a69f11643fb79b01f14e8e73"
+      "byteLength": 933,
+      "sha256": "78b7b29b3706ce819a3634410288de541cc83b1a1bca4aa8c84003cec8911d64"
     },
     {
       "path": "fonts/generated/svg/sans-400/Adieresis.svg",
-      "byteLength": 818,
-      "sha256": "ce49db799f22a8f78814872f4f4f3983199fc859cb817ad90bb7cb96a4139253"
+      "byteLength": 816,
+      "sha256": "81d662da1302190c6f262d7d10bf9aafcfb3f4cf58d3c42c08e5b08b93f828cc"
     },
     {
       "path": "fonts/generated/svg/sans-400/Agrave.svg",
-      "byteLength": 838,
-      "sha256": "645424f86869883df55136e3064156fb864b8f16ea014ace951fe7530ecadc52"
+      "byteLength": 836,
+      "sha256": "42308ed67734973cafb551661201f00b0476017f8577e8bbe6ee7312f327854d"
     },
     {
       "path": "fonts/generated/svg/sans-400/Aring.svg",
-      "byteLength": 974,
-      "sha256": "1c89f6580e851ee52ee8c96606dfbf6832b5be9746c3f97d3db8f869a679f783"
+      "byteLength": 972,
+      "sha256": "8cfe7797e0ddf3af9ae11bdd057eed8754d1a9171d3f29ca33e9958309334246"
     },
     {
       "path": "fonts/generated/svg/sans-400/Atilde.svg",
-      "byteLength": 1022,
-      "sha256": "7b9c9d46ab1c64c64564e519ae59a522e55bbf8d76b593ab83cb009ee90d859c"
+      "byteLength": 1020,
+      "sha256": "933a281be1506df82d27a3f14fc2d6d8383c4fed9f90f3b97a109c4ce7f3f9c5"
     },
     {
       "path": "fonts/generated/svg/sans-400/B.svg",
-      "byteLength": 873,
-      "sha256": "67f2bb2b1065e3e02d211fe702116c5452f1af831f876b64b8daac0f9bffa402"
+      "byteLength": 827,
+      "sha256": "b11c33a65a1430428105f00cf77651bb59673d6dc9d30c0cbfe0b94f464c7e38"
     },
     {
       "path": "fonts/generated/svg/sans-400/C.svg",
-      "byteLength": 672,
-      "sha256": "8a497b8eda3ceb56a865f462fd5697fbcc94952099363657d78a02dceaae82c7"
+      "byteLength": 674,
+      "sha256": "9fea0800aea062102ee3e415e3a1fd07a0e460cceaf827a7d5f5d9410ee20f35"
     },
     {
       "path": "fonts/generated/svg/sans-400/Ccedilla.svg",
-      "byteLength": 1075,
-      "sha256": "5e08a482cba9e85331ec6df6e103397c8902157c1852182fffcee14b045c4d93"
+      "byteLength": 1140,
+      "sha256": "51d899e0c1b98ff618bc87902ac1e1c25921d26577ceb30607a9c04c866a5922"
     },
     {
       "path": "fonts/generated/svg/sans-400/D.svg",
       "byteLength": 567,
-      "sha256": "8c741a6e8fd57f3dfa7f0d48ed23916cb01e5191e5e7f9c85e925d3da99b2245"
+      "sha256": "7faae16da9aaf281afdbd8d0813d62426bc5b12052955b0422757e0c7a4bea38"
     },
     {
       "path": "fonts/generated/svg/sans-400/E.svg",
-      "byteLength": 656,
-      "sha256": "8a4409b0e2e56c47b771513e1f3d84c756c6ffcf024fdb3b47203f26e4a37fc3"
+      "byteLength": 729,
+      "sha256": "577051e7db97606a831f30b535cf9e94db75e48a39b95537ea230c7be667a071"
     },
     {
       "path": "fonts/generated/svg/sans-400/Eacute.svg",
-      "byteLength": 990,
-      "sha256": "02803263a70b39103600fba2026d0bdd41dfedd0375af79bb9f4474766fa4348"
+      "byteLength": 1063,
+      "sha256": "7f473a2cd0fcb232c617b6b1e80ae5e572fbb2413239be1eef62c5ccf017f6b5"
     },
     {
       "path": "fonts/generated/svg/sans-400/Ecircumflex.svg",
-      "byteLength": 1087,
-      "sha256": "e1deeb5070605b2db1f35cdd7d5f6818d152e4c938a9756f41ead34e15430964"
+      "byteLength": 1160,
+      "sha256": "4989bc6b5a2a92477527d95ab9679d00fdad399cfdcb8ea0a56992c059daf71f"
     },
     {
       "path": "fonts/generated/svg/sans-400/Edieresis.svg",
-      "byteLength": 970,
-      "sha256": "168dd4eeb3778f41be0bebc65be32cfbfe91369e6c503aac0ec81d2c85e82463"
+      "byteLength": 1043,
+      "sha256": "e421ebe7686944c2c2953a5c883525168af4e09e40982a7a40b709734a18532e"
     },
     {
       "path": "fonts/generated/svg/sans-400/Egrave.svg",
-      "byteLength": 990,
-      "sha256": "68fa70a87b3629f3778517b55e840bfc4f034c54a99ab27ef6d261f8ba4c4548"
+      "byteLength": 1063,
+      "sha256": "c88eab852e71cd431a3eb5f4799162b800a105fda7d4be59e2f4f972943d5f58"
     },
     {
       "path": "fonts/generated/svg/sans-400/Eth.svg",
@@ -1440,137 +1440,137 @@
     {
       "path": "fonts/generated/svg/sans-400/F.svg",
       "byteLength": 573,
-      "sha256": "6d5808bf66a014e39eadd007aee04b0a26379bb3cd96f3cbdf5d9b9af86f0f13"
+      "sha256": "5c548ea563039c920440df6d09aa5338538765a34c61a1742dfbbf5dd0bfb8e9"
     },
     {
       "path": "fonts/generated/svg/sans-400/G.svg",
-      "byteLength": 857,
-      "sha256": "7bf9d1c2287fd2060dab3bb68dc50f02960ee64d01ff831a31d87ffebe598867"
+      "byteLength": 860,
+      "sha256": "1939a9f0d523acc2a7df43aeb971130cc4b8c1910cf5d6eac00dc153f9763348"
     },
     {
       "path": "fonts/generated/svg/sans-400/H.svg",
-      "byteLength": 633,
-      "sha256": "fcb01154b604ca3e0533063113b25477f48a62be3f6fd8a91ab07c779667695b"
+      "byteLength": 659,
+      "sha256": "53c9a7ff8edb1da6b28c87d81713d296d418f1feb80cf6ce177dadcfa70a4996"
     },
     {
       "path": "fonts/generated/svg/sans-400/I.svg",
-      "byteLength": 356,
-      "sha256": "ccfd8daa7796018a33e5ecd6057c9bc1df35467172164a870b872dcf3aaf80c8"
+      "byteLength": 648,
+      "sha256": "ac602f274e9c706f93933fabb9ebac2a7c4108eed64eed38af7f38c76cc124a3"
     },
     {
       "path": "fonts/generated/svg/sans-400/Iacute.svg",
-      "byteLength": 674,
-      "sha256": "2582d058707e90c221680683fdcc94a548898ad1a3fc04aa69ed207a32685be2"
+      "byteLength": 970,
+      "sha256": "9c0d1f377f5c2da783abc464f4d0f94bc047cf2e03890e183b4232dae18ed936"
     },
     {
       "path": "fonts/generated/svg/sans-400/Icircumflex.svg",
-      "byteLength": 763,
-      "sha256": "5bf7d4f5f2fa11a58cf15849e03320a0e195b6a09f51667906180f0e4985e404"
+      "byteLength": 1062,
+      "sha256": "41bb3bcde092b543f4cab62a93b11d827bfb96778a67bcdc56d21b382e5fa0aa"
     },
     {
       "path": "fonts/generated/svg/sans-400/Idieresis.svg",
-      "byteLength": 657,
-      "sha256": "a951b05cd6e7270753294d4dcade135b18eeac1e4d64ec2aa60a9c0fbdb00bf9"
+      "byteLength": 951,
+      "sha256": "dd45df2845bc662a41210f0b96c205cf4bc972e8f88217e7767f6bd3e4d80d9b"
     },
     {
       "path": "fonts/generated/svg/sans-400/Igrave.svg",
-      "byteLength": 673,
-      "sha256": "655a92c332be8aab304bdc9364a72fd47ad568109e8075ab4bf8da2b4813f2b5"
+      "byteLength": 967,
+      "sha256": "3966f112725a38b0677cbb8e56d8c3b3aae41f684f36231b3da85b990686c2c3"
     },
     {
       "path": "fonts/generated/svg/sans-400/J.svg",
-      "byteLength": 564,
-      "sha256": "2578421e3faa996f198fcd1709aed43ce03e4589e80e55220bdea8c4b3d2321d"
+      "byteLength": 562,
+      "sha256": "20b53cc5fe94345c9e36a16ec6eae2a3df1ea4a3b29f49a92901f2647cb59b1e"
     },
     {
       "path": "fonts/generated/svg/sans-400/K.svg",
-      "byteLength": 615,
-      "sha256": "b01dd52ad8bf738d87803b202200e0b35d5112fe72dab93946eb3377f6242991"
+      "byteLength": 614,
+      "sha256": "dc4ad902186ef419c95127c2b8a7cb52e2607867ad0297a0e04655ab9540f4a1"
     },
     {
       "path": "fonts/generated/svg/sans-400/L.svg",
       "byteLength": 426,
-      "sha256": "837b2faddf46854e8850a19177919d9badb9d806caa8645440fd1ebf3de2c4af"
+      "sha256": "36216d202e2626af5fb44315068f779d9afb858ef8dfc1e1e36093230df3edd0"
     },
     {
       "path": "fonts/generated/svg/sans-400/M.svg",
-      "byteLength": 686,
-      "sha256": "e6efaa45177b0c9951fca67c4c5a7850ecb115f3e5cdcc2aa80bda9b56869b6a"
+      "byteLength": 732,
+      "sha256": "8a6c5e06d16927d616c696622b7cf8c0a42b69dfc1fe78b8b7e8e8947f1f0aa3"
     },
     {
       "path": "fonts/generated/svg/sans-400/N.svg",
-      "byteLength": 547,
-      "sha256": "5d975f2f18ab62438aaabe4abfd540a3c90d4fe9d3a306beed46e34c555c157d"
+      "byteLength": 633,
+      "sha256": "19086bfa7349997a3e432873282583b87fb67e62a8dc63d85a39849a0904235e"
     },
     {
       "path": "fonts/generated/svg/sans-400/Ntilde.svg",
-      "byteLength": 1065,
-      "sha256": "e0c277476e56f989571b5dab3ad3b3a643ea0fdf61003ee20d62c778e80bfc4d"
+      "byteLength": 1151,
+      "sha256": "4bb17ad457239d2ca3bec1a955dd9d95b5387dbf63afa89d6cc3d6a2d15b9593"
     },
     {
       "path": "fonts/generated/svg/sans-400/O.svg",
-      "byteLength": 677,
-      "sha256": "06f87a0bb7ab44ef135dfa8ae6d3d19306d56f5e7072bc3dc1fbf32f10b0cab0"
+      "byteLength": 630,
+      "sha256": "8993967a4a430c5c8a1b5c4e28d31f406a269b6cebc5fb416f3d9412bd0d44ec"
     },
     {
       "path": "fonts/generated/svg/sans-400/OE.svg",
-      "byteLength": 1252,
-      "sha256": "2cf1e0bc09682b3ee45b67707c527601e9a37f885ee4d2c29e7096da659ce489"
+      "byteLength": 1220,
+      "sha256": "789cc67a4e63720bbd5fa9994ae78212dcee1e4c10411707e16212765c10cbba"
     },
     {
       "path": "fonts/generated/svg/sans-400/Oacute.svg",
-      "byteLength": 1011,
-      "sha256": "330afbbd5d7ccb05507efa8e2077ac6f510aceed77b828671a28bc72a1450325"
+      "byteLength": 964,
+      "sha256": "a6c5851530b259aa963f69b50007bee933e3bff0a55c59619d16eba8f27db91f"
     },
     {
       "path": "fonts/generated/svg/sans-400/Ocircumflex.svg",
-      "byteLength": 1108,
-      "sha256": "6c5ab83f201b45153af95fa134e33d2cb1763a23cecc63095c241177f281d1d5"
+      "byteLength": 1061,
+      "sha256": "b194da117917266acd049f08fd4deaf899ed00430d9b4ff71bc0eae5a90d1693"
     },
     {
       "path": "fonts/generated/svg/sans-400/Odieresis.svg",
-      "byteLength": 991,
-      "sha256": "22b43fb2999906c0ef77eac09b2d9eee2ceaa2a3836d33656246749377e364a9"
+      "byteLength": 944,
+      "sha256": "f394cf2191ee5e48976f36141a821c31629392fb25978a215368e0f657dec865"
     },
     {
       "path": "fonts/generated/svg/sans-400/Ograve.svg",
-      "byteLength": 1011,
-      "sha256": "cc030769e86f60dd84cd342847db4fe2efabb461ca75a8bb9d980cae13cf3a42"
+      "byteLength": 964,
+      "sha256": "dbc6547725d009e06574befa33f07d5c05aed806dea002858e3f9c32c6a6d0fb"
     },
     {
       "path": "fonts/generated/svg/sans-400/Oslash.svg",
-      "byteLength": 938,
-      "sha256": "3156f033924b1d7ac7c44a438163356633a9b4d99c431b6af3ac55daaf0e6561"
+      "byteLength": 887,
+      "sha256": "ed0451849f8d253e3a8534c9f43e11ab2000dcdb1d10b1f21eaf2bea93b59161"
     },
     {
       "path": "fonts/generated/svg/sans-400/Otilde.svg",
-      "byteLength": 1195,
-      "sha256": "7ba030a783e29c6e98f707e75fdbacf1cbd9d868aadda3ecd7ae3b6395e8f26f"
+      "byteLength": 1148,
+      "sha256": "30aeceadbdf0b21a00f9a3a9b7dcbc86e206d0a485cf0c6044ad78e63aa26ea6"
     },
     {
       "path": "fonts/generated/svg/sans-400/P.svg",
       "byteLength": 634,
-      "sha256": "a81d4924be12deea41eb270266fe06b858c4e92e17c41b2d3afea01359de8602"
+      "sha256": "5f213b6d7fc741b1ef763ea12c0cf48e4f66e5c34c836b41bdb42d28c7d46b76"
     },
     {
       "path": "fonts/generated/svg/sans-400/Q.svg",
-      "byteLength": 956,
-      "sha256": "a9759f298d733ae9183227b04114b186ff0355ce70f8baf741c9c9f46a27b454"
+      "byteLength": 916,
+      "sha256": "3051ddb77c9772848835b2fa825bf6b1027a058a76f17ec4d251acbdd826d6b6"
     },
     {
       "path": "fonts/generated/svg/sans-400/R.svg",
       "byteLength": 758,
-      "sha256": "656db144e1171cb1cc35691faa996a4daee469b1c275124b37e8401f3e8996eb"
+      "sha256": "a6f880b4fe5778cc51b2edb933f2cd1858d71cc6e5c0889b0019be01bc875fd4"
     },
     {
       "path": "fonts/generated/svg/sans-400/S.svg",
-      "byteLength": 932,
-      "sha256": "4d53d5216ff4e7925602947146253f0d8d4e9363f039dd1aa5a950f8d37d28cf"
+      "byteLength": 918,
+      "sha256": "5c72871b4486518e58dff3a22b3116ce0389ec0bbe58a34482e103d78b991171"
     },
     {
       "path": "fonts/generated/svg/sans-400/T.svg",
       "byteLength": 496,
-      "sha256": "a940678fa4d92735525682b50e19ab045794930139b6980996331070be36d642"
+      "sha256": "5e8bbf6240cd673499838399eec16740cc8ea747ae82d57e254f6d2896ed2b99"
     },
     {
       "path": "fonts/generated/svg/sans-400/Thorn.svg",
@@ -1579,78 +1579,78 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/U.svg",
-      "byteLength": 617,
-      "sha256": "2122e88816bf8948f0eb1216726c4a57df206eb7c020bae1d4626d1fdf4342e6"
+      "byteLength": 614,
+      "sha256": "ab67ae5c8755fb9d23bb4fecded29df4e3ca0310618e7b87ac7802ea6efa34b9"
     },
     {
       "path": "fonts/generated/svg/sans-400/Uacute.svg",
-      "byteLength": 951,
-      "sha256": "861ba4cf7bd53c07e199e2b39230a5b656c077ab89b6c390908e5f3a2f451246"
+      "byteLength": 948,
+      "sha256": "89687cd41ae51fe06044cabee1987c23a5b02e1587bdcf9d793ccb0d1668d4f1"
     },
     {
       "path": "fonts/generated/svg/sans-400/Ucircumflex.svg",
-      "byteLength": 1048,
-      "sha256": "757040fe2dc2031149624bced1b1770f7a01077886c155bab1a182144e8ea741"
+      "byteLength": 1045,
+      "sha256": "1530a671fa778ff368a04a3ecacfb0b4e45e105d89a4ee2bcc4f4b470e13c78e"
     },
     {
       "path": "fonts/generated/svg/sans-400/Udieresis.svg",
-      "byteLength": 931,
-      "sha256": "a45793ea74ec55891d68eb9cf1e4cac6e727a223a04d8eac93c2be173544e1f1"
+      "byteLength": 928,
+      "sha256": "0f2512967226341789337529af67007c1ed9f2c837533110c37aeaf4086118ff"
     },
     {
       "path": "fonts/generated/svg/sans-400/Ugrave.svg",
-      "byteLength": 951,
-      "sha256": "03408448f9dc1cffa8f8883a4a0159123feb9d52d53062ae4351832a16bdc398"
+      "byteLength": 948,
+      "sha256": "8f81de203657f83c9b759ba8f0be6d67c8af291506b799b67cc07141ed715b7e"
     },
     {
       "path": "fonts/generated/svg/sans-400/V.svg",
       "byteLength": 440,
-      "sha256": "3f59db7510c99f86b17d9c7641bff8cc4ea09873eedab22d60bf1d9a7f6525a8"
+      "sha256": "40d405e66640352e308768269aa8da2af27d5400d049d656bb6a81058f0b5121"
     },
     {
       "path": "fonts/generated/svg/sans-400/W.svg",
-      "byteLength": 727,
-      "sha256": "fa63610aad6c172c9ea445833fe1d913443652b02c1aa70d75e6ff608ad17edf"
+      "byteLength": 745,
+      "sha256": "9c425d45b3ca2ef9a376e36c56dcd74e18275dafda09e8670b43d0d6f48899d1"
     },
     {
       "path": "fonts/generated/svg/sans-400/X.svg",
-      "byteLength": 540,
-      "sha256": "10ada110f3f265bee7aa12e61e57698a6842834a90736a87c1d204b3342fb7d3"
+      "byteLength": 538,
+      "sha256": "19b5918d09e73237155e7932a70967d2d0988686d37a3c1c32a85555bbdf638a"
     },
     {
       "path": "fonts/generated/svg/sans-400/Y.svg",
       "byteLength": 482,
-      "sha256": "ae2cd15e490d62736e486bf9c5acfa099016d292bf10b4820084bc680138d77b"
+      "sha256": "438dbc8668746982219081ca0e1529b67c08623979a9af96a917d7ed9460058e"
     },
     {
       "path": "fonts/generated/svg/sans-400/Yacute.svg",
       "byteLength": 816,
-      "sha256": "1b31846ad590759b6bcb20431bb492058a2f53d6910234ae7655be98e8ff20b1"
+      "sha256": "6066b4e5f19b46f49906781168cfc2143c5cdb9d9289420c40e131d8be4a5409"
     },
     {
       "path": "fonts/generated/svg/sans-400/Ydieresis.svg",
       "byteLength": 796,
-      "sha256": "0a62ab7735349474eb27575faedd73ab1ff894f0ef9aef1cf51d810cc2144ffe"
+      "sha256": "369ff991f83b62132849c48ea07eaa1ab82aa4fcdd26eee44094da36002ff524"
     },
     {
       "path": "fonts/generated/svg/sans-400/Z.svg",
-      "byteLength": 536,
-      "sha256": "eb1352c9b5a1670d6a4272d7cbbc821d700b716ab3dc12a2f69d48798de3c319"
+      "byteLength": 537,
+      "sha256": "f2d85ad1ec98dfa60bedd98f140b6c2b9d602154b27ba743a492865c75f2c3ee"
     },
     {
       "path": "fonts/generated/svg/sans-400/a.svg",
-      "byteLength": 934,
-      "sha256": "b7ca5dfb45344a4d1ffa90d27c9f9207c1d908ff68070cb4c7eaf590d6f78032"
+      "byteLength": 849,
+      "sha256": "f74391ce7c1c54a525d97d983a2e85b5b9e267ed354cfd696fdc0488f14e7ddd"
     },
     {
       "path": "fonts/generated/svg/sans-400/aacute.svg",
-      "byteLength": 1268,
-      "sha256": "0f823163f1ed3e19a5402c2c2824bb5145529cc64def05f44982516e3c120be5"
+      "byteLength": 1183,
+      "sha256": "e5447935dafc314a1003743a0f8547ccc20a6bef2bd8af2f72977a0ea49619be"
     },
     {
       "path": "fonts/generated/svg/sans-400/acircumflex.svg",
-      "byteLength": 1365,
-      "sha256": "03d2c4f0bad1daf7ca05bdf5f3fa4ac1fc3cac97a5c85cf9f0718385482e240e"
+      "byteLength": 1280,
+      "sha256": "9c83778132aa1bf7e45c1261db0a2555714f629c72780fe8fa37b410b8bb4ba3"
     },
     {
       "path": "fonts/generated/svg/sans-400/acute.svg",
@@ -1664,8 +1664,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/adieresis.svg",
-      "byteLength": 1248,
-      "sha256": "849178e6d608b7d7e5ced6ae9c9bd425dedd5670374595531de8e706a86c32df"
+      "byteLength": 1163,
+      "sha256": "ffbc03c8abf7091c6cb7217366d52ca3f887b3895661debef80654225dbca963"
     },
     {
       "path": "fonts/generated/svg/sans-400/ae.svg",
@@ -1674,8 +1674,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/agrave.svg",
-      "byteLength": 1268,
-      "sha256": "93e84af5472e5672221bb318deb536f44808474859de6b64eff62739e57b4b7d"
+      "byteLength": 1183,
+      "sha256": "b9d8aa46c9e9116cdc560323d1a0ee3b7aacb61d57e6680eba3184e65c3607d4"
     },
     {
       "path": "fonts/generated/svg/sans-400/ampersand.svg",
@@ -1684,8 +1684,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/aring.svg",
-      "byteLength": 1404,
-      "sha256": "d894ff15b7489429fad01802607ab7090104a97b9a835af2c4c14d3f3a2b5c4f"
+      "byteLength": 1319,
+      "sha256": "7c02bd6900c7fcdd1e2325404933538bc66934a2f80d63a350d72cccdb27db3c"
     },
     {
       "path": "fonts/generated/svg/sans-400/asciicircum.svg",
@@ -1709,13 +1709,13 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/atilde.svg",
-      "byteLength": 1452,
-      "sha256": "4e6ed6238c4f2bc53d2b1696a8ea3c7f121e0f51b2a93a3bdb9584f7a1d8c8a9"
+      "byteLength": 1367,
+      "sha256": "8020fa270fff5dc1bc01330fc5eb60b25eafc4ba60c4909cf171328720cffba7"
     },
     {
       "path": "fonts/generated/svg/sans-400/b.svg",
-      "byteLength": 833,
-      "sha256": "140dd96b78eb7c91149fbfe19aa98d092d3c8ad25e6190b4efa241d21916940b"
+      "byteLength": 830,
+      "sha256": "e36f0803965917dc89f59356f0e612ae6473ee2ea090fe118ba77fa382334d65"
     },
     {
       "path": "fonts/generated/svg/sans-400/backslash.svg",
@@ -1759,13 +1759,13 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/c.svg",
-      "byteLength": 657,
-      "sha256": "83a84633a3470a3c8ace3f63547ad2bee35a00ed48aa8c265eed2d7bd5bb301b"
+      "byteLength": 676,
+      "sha256": "48948147c2d83db5bb8df500a74f2bfe239ceabd8ea4732e6eb7ad92d72eeeeb"
     },
     {
       "path": "fonts/generated/svg/sans-400/ccedilla.svg",
-      "byteLength": 1274,
-      "sha256": "9d67d9ffcb5ff71b1fe26c75359d8419bac3ee6d24fe8cd3f074a98bf7681895"
+      "byteLength": 1293,
+      "sha256": "d7ef8eb34e2afe8d23ca66283f38cc2d545431e78d326275444e196895939ad0"
     },
     {
       "path": "fonts/generated/svg/sans-400/cedilla.svg",
@@ -1800,7 +1800,7 @@
     {
       "path": "fonts/generated/svg/sans-400/d.svg",
       "byteLength": 848,
-      "sha256": "00f37103b64192b497ca53ce40f155c1978cad6ce8bcfb98dd2ec492aa39f8c5"
+      "sha256": "4c4a16db76eb86fe6dc133894b6260c9ace7e75aa16e8aaac30b2a650b9bf53d"
     },
     {
       "path": "fonts/generated/svg/sans-400/degree.svg",
@@ -1825,37 +1825,37 @@
     {
       "path": "fonts/generated/svg/sans-400/dotlessi.svg",
       "byteLength": 354,
-      "sha256": "1d19f4115bcbbe5c6e7ead8439b93e68830e6391879a35aa751465fca2aeae8f"
+      "sha256": "ad404e008667510fb13a3e4a43167b78dc63294ae245c964cadd752df5f5a66e"
     },
     {
       "path": "fonts/generated/svg/sans-400/e.svg",
       "byteLength": 737,
-      "sha256": "d09396adee80d4102693fa10640c2e3ac977aa9c6975e965795274ee2a3fdd0d"
+      "sha256": "4160aa64d95a6beb0026fad562873969dfc3347f5e8824af424e5cccf5eb30a3"
     },
     {
       "path": "fonts/generated/svg/sans-400/eacute.svg",
       "byteLength": 1071,
-      "sha256": "decd88675df7825f7d919ba1a8740e369b1bb6046797db6cd53d1a1837328616"
+      "sha256": "e616b4bdf2dd6d436c36bfe58987adafd613e6fca1d6b546ff0fbf7c47115dd9"
     },
     {
       "path": "fonts/generated/svg/sans-400/ecircumflex.svg",
       "byteLength": 1168,
-      "sha256": "ac74157b64129352b356a021bbd0722fa246a13302e4a6d9ee58241d95a04b81"
+      "sha256": "cabd9c0631f843ee27905434c8a027bae3d32d4e869dd3669db1e9050dbe4640"
     },
     {
       "path": "fonts/generated/svg/sans-400/edieresis.svg",
       "byteLength": 1051,
-      "sha256": "84f684ba044955f02a1ee4b30f052c7da8f6d9d41257147398c212e4d93f4c4c"
+      "sha256": "99475da158e8d32489b5efe362ee2538eb7c320c92dc38650f8c83081f3af228"
     },
     {
       "path": "fonts/generated/svg/sans-400/egrave.svg",
       "byteLength": 1071,
-      "sha256": "fac32a4cf29225f6c543669c87aa52b29b0f83099fa6d071a3771af8580fb060"
+      "sha256": "08d22ee7fb101e0093b0523ccee8a24ba88acf08ea2a22cb366aea3430cbf641"
     },
     {
       "path": "fonts/generated/svg/sans-400/eight.svg",
       "byteLength": 1181,
-      "sha256": "6d5822f222ad8a1c1d483e7adcf52b79e4977b645e24b7e5c89ae4c55ec93e0d"
+      "sha256": "67759a362659149e8c54850a2bef5403cefa2e5074e5c55edf2b8d10d8bc2fc5"
     },
     {
       "path": "fonts/generated/svg/sans-400/ellipsis.svg",
@@ -1900,47 +1900,47 @@
     {
       "path": "fonts/generated/svg/sans-400/f.svg",
       "byteLength": 713,
-      "sha256": "1d190a6b0c451a86fb037f414c2f7110ed69391073e94ba46425380b324d8e4b"
+      "sha256": "da6fc0d21bf86afbcbfde4114e8c50469d7d638f5b1ac3c50cc019ed5bb6ba87"
     },
     {
       "path": "fonts/generated/svg/sans-400/f_f.svg",
       "byteLength": 1297,
-      "sha256": "e9f4cb93459a58ca146f12cf80e48d56b9a71fbd30c0c1697eefb7828aaefc66"
+      "sha256": "ee9994c15f449e9360a24c273be5a1f8baaa3b2c1b601406e54d6c8fc9b6b807"
     },
     {
       "path": "fonts/generated/svg/sans-400/f_f_i.svg",
       "byteLength": 1666,
-      "sha256": "6d01c7cd4a2cff08b8f9821898ca105e84d0c297353baaa032d5af5ea7f0437f"
+      "sha256": "3d11fd2df030366c01efaea71cc08e3ab30e6a8a6ffbdc6a5c1fcdb779ce5175"
     },
     {
       "path": "fonts/generated/svg/sans-400/f_f_l.svg",
-      "byteLength": 1633,
-      "sha256": "d0896a8281b5c004956e1b290b1d8399268a284145d75b5eb4f22a82d05f21a0"
+      "byteLength": 1647,
+      "sha256": "025e20e5fcfc329025fd9d1a0b69dc54375d88333db941eb886c4e06f95c3716"
     },
     {
       "path": "fonts/generated/svg/sans-400/f_i.svg",
       "byteLength": 1081,
-      "sha256": "57ba375cad15efd30c9064555d8711e0838b5e31885431417f10ec2961477827"
+      "sha256": "5d297d0d45aee68ee055fadf5272ef07f4ecbc16b77ec250e46790fd052670d2"
     },
     {
       "path": "fonts/generated/svg/sans-400/f_l.svg",
-      "byteLength": 1048,
-      "sha256": "d3b62185f9f277779616b536f01cc83e70e6090c3b622f38eb2aa376fdf3bd1f"
+      "byteLength": 1062,
+      "sha256": "df13f44395370aac22bf8f109607b66667ddf023722368afc8140bb71c842849"
     },
     {
       "path": "fonts/generated/svg/sans-400/five.svg",
-      "byteLength": 845,
-      "sha256": "ca5d497c6f56050c07cf001f9123da21dbc10df214934ef7c47af3655517e3a5"
+      "byteLength": 831,
+      "sha256": "a38287b20034d585f13d4e1b326b5825fcef23ba1c870b3ba2bf1894cc1d4bfb"
     },
     {
       "path": "fonts/generated/svg/sans-400/four.svg",
       "byteLength": 577,
-      "sha256": "042434879ddc8bee71897f6484eac22e21b8fb55f45310856d4ee1a38652613f"
+      "sha256": "6cd38925d9928964a59d0652b4ff98358562da47a7459d33c3f8b4c700aa056a"
     },
     {
       "path": "fonts/generated/svg/sans-400/g.svg",
-      "byteLength": 1024,
-      "sha256": "636b0c2fae3dd086a7e670ffd54684bf506d7cd2af49f9da6e903226fbd37d20"
+      "byteLength": 992,
+      "sha256": "fb547c053a549dbdd6f27e60a962f7d1db7b0c1c29a13f5ccca4aa7bf64a6af6"
     },
     {
       "path": "fonts/generated/svg/sans-400/germandbls.svg",
@@ -1984,8 +1984,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/h.svg",
-      "byteLength": 705,
-      "sha256": "8b35138634854dbb23236525f4d420af826bdf01d379319f767afdf2815ded08"
+      "byteLength": 703,
+      "sha256": "28509c9e9b122850da2bb3e02a107fbdfd4946e502c097628faa96c509461be5"
     },
     {
       "path": "fonts/generated/svg/sans-400/hyphen.svg",
@@ -1995,42 +1995,42 @@
     {
       "path": "fonts/generated/svg/sans-400/i.svg",
       "byteLength": 493,
-      "sha256": "74a78760634c1a62c61677c9441fdd98f8ba73f04d758e979bd935d590bb0dc3"
+      "sha256": "15f8cd4671fd4bae0d9242f940f5a24f55149d10dd79639ac9df201fb02cd47b"
     },
     {
       "path": "fonts/generated/svg/sans-400/iacute.svg",
       "byteLength": 664,
-      "sha256": "94888c985d90f3e187494cf884a2ca8d5b1714175e428c3dcf4354b48e355558"
+      "sha256": "ea3ccbb81878f6d63dae34308c57ccee2ed8c8f155f86d68e189bf29c9c5e480"
     },
     {
       "path": "fonts/generated/svg/sans-400/icircumflex.svg",
-      "byteLength": 765,
-      "sha256": "be98fa1cd491f170dd06d43a6ac6773a5575014dd50995623b778c2bb600dc6b"
+      "byteLength": 766,
+      "sha256": "0d847e34e33b8b113511bd481f6af6fda67bd36a646298d0ed4363c1d27f3111"
     },
     {
       "path": "fonts/generated/svg/sans-400/idieresis.svg",
-      "byteLength": 644,
-      "sha256": "b5d9338eebb84f31b5e73f055b72ea2b40600149c66c47a22f4142549da6f398"
+      "byteLength": 642,
+      "sha256": "933ea04338f1336b2453cb5ae4928641dc35df07cc0d6a063790cdbb2cf0f35e"
     },
     {
       "path": "fonts/generated/svg/sans-400/igrave.svg",
       "byteLength": 664,
-      "sha256": "4572eb64feb90de7c3e452642e0b7b7073c862d83310c464b09f7e581302b4a2"
+      "sha256": "3e41179d744122c934b47f9f9e0f63838d84b2ea4ca6067fec903366bd5d5b77"
     },
     {
       "path": "fonts/generated/svg/sans-400/j.svg",
-      "byteLength": 645,
-      "sha256": "4b76eede12b8c292ce66af5360a4e62d71669e207f908e700c368c4eceedf97d"
+      "byteLength": 644,
+      "sha256": "84270b7fd85c9e57a0b21e085d1df388b4124d5ad019c3af7e466c204a6a57c2"
     },
     {
       "path": "fonts/generated/svg/sans-400/k.svg",
-      "byteLength": 615,
-      "sha256": "5570edd75d5381969126c1d9c16caaea0eb2482f816937fa21dd6d6945b6ff1f"
+      "byteLength": 633,
+      "sha256": "d3f6183a75891adc21994ef4fc652dddb569c83d1ccd7610da5015cf1093ef13"
     },
     {
       "path": "fonts/generated/svg/sans-400/l.svg",
-      "byteLength": 467,
-      "sha256": "d273524708f5b023acec30837942fd87ec67bb9d9f758c4cc9f2d2bb35aa9d19"
+      "byteLength": 481,
+      "sha256": "3492459962d3dafcc6b59ffdee5f386f89eeec69b6013fc7d7a48745cbf32e34"
     },
     {
       "path": "fonts/generated/svg/sans-400/less.svg",
@@ -2044,8 +2044,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/m.svg",
-      "byteLength": 1016,
-      "sha256": "e8fd6b26feef2d7b69b81d567d47b04093b187ad3fcd16724ec41791447b38f5"
+      "byteLength": 1015,
+      "sha256": "46afb7ae37e19446897c0ae85d2c595c925f20168eadcf91ac16b56189583d54"
     },
     {
       "path": "fonts/generated/svg/sans-400/macron.svg",
@@ -2070,17 +2070,17 @@
     {
       "path": "fonts/generated/svg/sans-400/n.svg",
       "byteLength": 705,
-      "sha256": "c2bf475f2474faa10ad94ece582e10e1c18ce9b58cdb91560e90fa8ea6b71bae"
+      "sha256": "700e03d9ac19fd57283f479a812d327506379a57bee32054a9521b6d01a69473"
     },
     {
       "path": "fonts/generated/svg/sans-400/nine.svg",
-      "byteLength": 867,
-      "sha256": "57e5f2e413753a5abe4862faca3262b078a8a19dcbd118fd59247f79c51a61c1"
+      "byteLength": 865,
+      "sha256": "83ffabd9ef16bb8681fbf3f6a7d28054dede779594c43e9d54cc5c01dfeb474e"
     },
     {
       "path": "fonts/generated/svg/sans-400/ntilde.svg",
       "byteLength": 1223,
-      "sha256": "0f5769214fda08b3117bf9affa32800b6290e67ee220149057ad690475548365"
+      "sha256": "c7025f6e36474e62e03d4b06ac20769a25e6987d85ee2b54fbb6de01670dbdff"
     },
     {
       "path": "fonts/generated/svg/sans-400/numbersign.svg",
@@ -2090,47 +2090,47 @@
     {
       "path": "fonts/generated/svg/sans-400/o.svg",
       "byteLength": 675,
-      "sha256": "09339790b9089b973b66c7d74213eaa234e1d95f2aa966cf2eaec74297db912d"
+      "sha256": "a39a1705e6e6bcca4433a36b38f76661e3e6b583bdcbe09866f81b0f2fff1199"
     },
     {
       "path": "fonts/generated/svg/sans-400/oacute.svg",
       "byteLength": 1009,
-      "sha256": "c234ee07e537ecb0d3350a2480b9ff23f44a40215feb967a570a29ce95c2e219"
+      "sha256": "2fa470eabae52d9e3420e81c043ad4e0411a81e22b9cc73384eda2706b4ad85b"
     },
     {
       "path": "fonts/generated/svg/sans-400/ocircumflex.svg",
       "byteLength": 1106,
-      "sha256": "dc6a86923d4808f24e40a3c66c72fd9a141db33ea51d7bcc89bf1ba2a2abbbfb"
+      "sha256": "855d0561af95d5d2f94dd30040af93a678c8fd29350c7dedff169f94dcb9c32a"
     },
     {
       "path": "fonts/generated/svg/sans-400/odieresis.svg",
       "byteLength": 989,
-      "sha256": "e618a69a13141f490c95d5c562e5e458b6e467c4018e71dab1dc03f7c77c4281"
+      "sha256": "037295d6636740c9cfac6ab615fd37a3a2ee6d8a9ef18ff8bb6ee173c4093c76"
     },
     {
       "path": "fonts/generated/svg/sans-400/oe.svg",
-      "byteLength": 1247,
-      "sha256": "92dcafb47a18502a0d1434006608fcfbdd3143c40b4cb5ed22cff07d44f94b02"
+      "byteLength": 1245,
+      "sha256": "210770016927ab8b7a85026c4c42577177245be9a654273d573d9584d9393154"
     },
     {
       "path": "fonts/generated/svg/sans-400/ograve.svg",
       "byteLength": 1009,
-      "sha256": "cf17e554975abd2b390d74bddf5e740bf2cdcf6617fe78aa0bc4d52176a9856c"
+      "sha256": "b30bb1949bcf881c07ce4c3edd07eb31690a1813fabba4e4d7df4d94e327d1b8"
     },
     {
       "path": "fonts/generated/svg/sans-400/one.svg",
-      "byteLength": 582,
-      "sha256": "1cb2598b18613466c6b4aaa9fb88516b48a733f1b09a846af318ce1d1a581ad1"
+      "byteLength": 599,
+      "sha256": "42da6e3372909120ae18a63f3b0074137b721807362a0f1bb616746457835eb7"
     },
     {
       "path": "fonts/generated/svg/sans-400/onehalf.svg",
       "byteLength": 1494,
-      "sha256": "13308dac1a8d98155af07aa956a8dad7975444b8693441b32bd1e0a0ff5cc636"
+      "sha256": "c12c930ab9566ce8c895e2da41927a17fe945d499bd035b68817e119d5623b24"
     },
     {
       "path": "fonts/generated/svg/sans-400/onequarter.svg",
-      "byteLength": 1202,
-      "sha256": "994f1cfe3d142a987e7665dfabba641f4240fb26bf8b50f02485f3dcab4b4d29"
+      "byteLength": 1201,
+      "sha256": "b3a7be5bac07c5b40b431b860ddc725e8ebc5ec219bfc9786462e42a19b573f1"
     },
     {
       "path": "fonts/generated/svg/sans-400/ordfeminine.svg",
@@ -2145,17 +2145,17 @@
     {
       "path": "fonts/generated/svg/sans-400/oslash.svg",
       "byteLength": 905,
-      "sha256": "a2817fed7d8266c642e78b3fee337def5b0c8ed1588152f2d86438c0cc1659a7"
+      "sha256": "369564899b9a9633f2e0502281977a1c0018cbc465883aa1d89bab2d38169eae"
     },
     {
       "path": "fonts/generated/svg/sans-400/otilde.svg",
       "byteLength": 1193,
-      "sha256": "5b6e4b0a88dd31b63db93545838beff5c5a7a98ee62691e8e619a008c3bb31de"
+      "sha256": "38d47f6c8c5f1c7a73b21354ef6a85b6507f4b9874e75ca215387d44d13c9882"
     },
     {
       "path": "fonts/generated/svg/sans-400/p.svg",
-      "byteLength": 855,
-      "sha256": "921523696f5bb4c9934f08bba5fc3a0b105473e1c5311573e711ea62ecb501e8"
+      "byteLength": 852,
+      "sha256": "a9fb2d4d65f5ecf4523546bc2b000a7a296a07123882a64291e963270bd1ef20"
     },
     {
       "path": "fonts/generated/svg/sans-400/paragraph.svg",
@@ -2200,7 +2200,7 @@
     {
       "path": "fonts/generated/svg/sans-400/q.svg",
       "byteLength": 874,
-      "sha256": "3b1ae4949c97eeba0774bc62fdd06b876399bb9efcdc0afe8efecc7ea340c778"
+      "sha256": "704827b82aa875f101d0a269444c0a1264ae388aebfc278f39d300c3a40e91c3"
     },
     {
       "path": "fonts/generated/svg/sans-400/question.svg",
@@ -2254,8 +2254,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/r.svg",
-      "byteLength": 611,
-      "sha256": "82bfa3964041a24a1823e191723d7c7f4cd65a84527d8f988245d16c17b56883"
+      "byteLength": 607,
+      "sha256": "26dbc0d8a91b44851a9e2797caad983d6a17a0f4ecb9fb23a583b029a8cfefd8"
     },
     {
       "path": "fonts/generated/svg/sans-400/registered.svg",
@@ -2264,8 +2264,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/s.svg",
-      "byteLength": 800,
-      "sha256": "c5c1885d1c97a5518ac6a9699d0e8c07bbe962cf300d0349a25830d989ab9cd4"
+      "byteLength": 799,
+      "sha256": "e09ee5bfc6d78b643e8075a271177d9a4d59af1a7780bb7b26a1e9b5c06e66d2"
     },
     {
       "path": "fonts/generated/svg/sans-400/section.svg",
@@ -2280,12 +2280,12 @@
     {
       "path": "fonts/generated/svg/sans-400/seven.svg",
       "byteLength": 445,
-      "sha256": "bb596eb906672db4e629d22c0d43dcfe269aa2f1ea77946f7ab3b502aa2292e0"
+      "sha256": "e8f8c58f86a79b9f5b5df4621b13d917f8cf32d99fb3a4329a12391b05ad2979"
     },
     {
       "path": "fonts/generated/svg/sans-400/six.svg",
       "byteLength": 867,
-      "sha256": "4bbf83ef214d3e02b579826e6b9d057f7673f359eeea0e11080b5665e33b3ecc"
+      "sha256": "0f8ef60dfd61d639267c370a7bfb00d0a77190025924de8feee73e95b17f6b15"
     },
     {
       "path": "fonts/generated/svg/sans-400/slash.svg",
@@ -2305,7 +2305,7 @@
     {
       "path": "fonts/generated/svg/sans-400/t.svg",
       "byteLength": 678,
-      "sha256": "397acdd9d19a4b5836981ea93f303e4864f2dd6917aa6a450ec3d229e701b95e"
+      "sha256": "11fe26bcabd7a4b4b5c40d66b8c80357af0e5a9d1c86783c2d5c627f0c885510"
     },
     {
       "path": "fonts/generated/svg/sans-400/thorn.svg",
@@ -2315,12 +2315,12 @@
     {
       "path": "fonts/generated/svg/sans-400/three.svg",
       "byteLength": 1008,
-      "sha256": "59da59e194d8e445cec4a7cc8b12baccbb0d71f4b23f53f1bcf4ca7b29ddb98d"
+      "sha256": "56a0332e5b4e692ea9b674a3b685dda9be64cb092ee73821936e942a8d82ded3"
     },
     {
       "path": "fonts/generated/svg/sans-400/threequarters.svg",
-      "byteLength": 1607,
-      "sha256": "56dae88ca1f91fe8af6c7d57d36fdb9b84563f72454ffedacd0a8e3ffa64bb89"
+      "byteLength": 1604,
+      "sha256": "405ad261ce72b02265b1ec627002790a66f30fdc967a6cbdf7c91e1f8a0c1b4a"
     },
     {
       "path": "fonts/generated/svg/sans-400/tildecomb.svg",
@@ -2330,32 +2330,32 @@
     {
       "path": "fonts/generated/svg/sans-400/two.svg",
       "byteLength": 857,
-      "sha256": "13197aa1c1f3c9eed22a179144ab96f3972c02a1a5a4fcb7a33b7c8098d65046"
+      "sha256": "c5f062a50cbb69f31095a034afc3af5a4cbda8176c718c58a145bfa80d9ae181"
     },
     {
       "path": "fonts/generated/svg/sans-400/u.svg",
       "byteLength": 706,
-      "sha256": "3a4b254c7abfa5a5fd2e372c0e048b0bc611a186cd64c635f8521ee68d19e8ec"
+      "sha256": "c653344e8c8aba4f5fd01660fc0177cf7fa113b11852b12b3d9aa4a8cb255e5d"
     },
     {
       "path": "fonts/generated/svg/sans-400/uacute.svg",
       "byteLength": 1040,
-      "sha256": "395d8806749aad76c00305f77cc29b4fec359d37ebe48a0178a5028d2381053e"
+      "sha256": "62d3887b295fcc27a5f5fcc184547f73542086eabcb197951c8524b8042396ef"
     },
     {
       "path": "fonts/generated/svg/sans-400/ucircumflex.svg",
       "byteLength": 1137,
-      "sha256": "b5b99814ef41eac69366b7a105db39fdd0d9d3c95bce041d45171760ec26e551"
+      "sha256": "c36a2e0a4205816750195ec6ab7681c66f8c48dc8a77c44bb5a7f4178f40d8e6"
     },
     {
       "path": "fonts/generated/svg/sans-400/udieresis.svg",
       "byteLength": 1020,
-      "sha256": "b9674689f89e8ba5fac2eedc8975d217acf2cdb3a1fe06520d20210ea8850d76"
+      "sha256": "9bbfcf67c3fc9bbd80de13150df012f4a7d5a06aef88606f0329e30d6ac4f572"
     },
     {
       "path": "fonts/generated/svg/sans-400/ugrave.svg",
       "byteLength": 1040,
-      "sha256": "b4be9da5dfd446c066e5f5a745371d2d7556fe1fa3162d7ea27dc13ed5544481"
+      "sha256": "ec17e2267c3d0ea0a15c0a3b5b1a22ab6ea1de76b3cd0c73e2ccafb21dfbc0d6"
     },
     {
       "path": "fonts/generated/svg/sans-400/underscore.svg",
@@ -2374,18 +2374,18 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/uni00B2.svg",
-      "byteLength": 861,
-      "sha256": "fb1159f62c231b6314dd99281ab3289e8bf5aff563b7def708dcae0bc6041cca"
+      "byteLength": 860,
+      "sha256": "9155ac5c97277007222f5f20485f5daccfbb29779fdffcea8a5678dea339f4d2"
     },
     {
       "path": "fonts/generated/svg/sans-400/uni00B3.svg",
       "byteLength": 981,
-      "sha256": "0f49e7b38fca1c02d3248a825bb8f76f4430d7346b7b244eaf409f23881a836a"
+      "sha256": "d3c3eaec8ebd20ef66bea3ec48081793a985853e569b769c1a2fb404d4feb438"
     },
     {
       "path": "fonts/generated/svg/sans-400/uni00B9.svg",
       "byteLength": 575,
-      "sha256": "4f6ddc764bd57eaff24d4609cfd12e24810cf11be839b51f3a8c543047829d57"
+      "sha256": "53f58c6a6f57ae09633a3f7be79ed86e794bb6498adc3dd33a8f74a8efe31220"
     },
     {
       "path": "fonts/generated/svg/sans-400/uni0302.svg",
@@ -2449,33 +2449,33 @@
     },
     {
       "path": "fonts/generated/svg/sans-400/v.svg",
-      "byteLength": 439,
-      "sha256": "be6766dab91dc59d621f427fd8ade0fde3468d23fddcb0d8dbc7d17702f46b0e"
+      "byteLength": 440,
+      "sha256": "a1a0594d2373edff3ad137d60dc7566a2b178f8f900eb549f4d3b4a74796b749"
     },
     {
       "path": "fonts/generated/svg/sans-400/w.svg",
       "byteLength": 686,
-      "sha256": "1c24a1eeebbc5dd75abf61f9de4b5318833e8bbe3c80e20afe872378d7d77a34"
+      "sha256": "a8bfc1826bbe8d02e94052fd115831741752eafbe46551d46bd5dd024375e056"
     },
     {
       "path": "fonts/generated/svg/sans-400/x.svg",
       "byteLength": 540,
-      "sha256": "8f933e666a9c28902339edcfe6ad851ef57588790929a7a30564d6d4b9233bf1"
+      "sha256": "5f23b0842aebb69b12f9546e7649ea8fa7e94c5a24bfb0815dc46d097d4bf3d5"
     },
     {
       "path": "fonts/generated/svg/sans-400/y.svg",
       "byteLength": 594,
-      "sha256": "e6ceb0a2a49bca02555fb7d1cadc5bf2f30703f3bfa8f66caafd5470529bfecb"
+      "sha256": "3a93e88e8a72ba37bfcb2256e16d588dea7a653bad61a7369bd575f5ca20db97"
     },
     {
       "path": "fonts/generated/svg/sans-400/yacute.svg",
       "byteLength": 928,
-      "sha256": "2dc56ab93200e16a3dc8d6bd432c403853875f2951669709679ee364794eb62f"
+      "sha256": "fa297c6dbd7ed20fa17cd67a7664bf372360d9443f802d7021197dc586565289"
     },
     {
       "path": "fonts/generated/svg/sans-400/ydieresis.svg",
       "byteLength": 908,
-      "sha256": "cd0fbc6c7b93153290e930b85afacb28ad45c55dff5153aedbfffc7e91f8b747"
+      "sha256": "e80c23f1c3f2ed9599bd7dee16dd6d3043ac5ec37d1539effa99427f8c16b2c5"
     },
     {
       "path": "fonts/generated/svg/sans-400/yen.svg",
@@ -2485,12 +2485,12 @@
     {
       "path": "fonts/generated/svg/sans-400/z.svg",
       "byteLength": 536,
-      "sha256": "ef67d8697a7fa5493854d4dd3100839d7359f5c6e184b508041d7ad41e2814c9"
+      "sha256": "869d8185d57bcd1f1c0f25152411e3f1c085eb18eaece6265a65f5ff4e36b059"
     },
     {
       "path": "fonts/generated/svg/sans-400/zero.svg",
       "byteLength": 680,
-      "sha256": "f3f4e0acb05b77f455fbfa751a13789c3d6962f98d163b6879dcdc1dfed13e59"
+      "sha256": "be5f01eb8110b26f1490a077376c7761063503347bd3c9880d19ccd115500217"
     },
     {
       "path": "fonts/generated/svg/sans-700/.notdef.svg",
@@ -2499,8 +2499,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/A.svg",
-      "byteLength": 505,
-      "sha256": "96fb7b02a5a26b847e8d49db273f2c679eab4b1727bbecf731bca5c638782035"
+      "byteLength": 520,
+      "sha256": "bdc86f28cfc143d1073223b253c1aaa560410e656f323b53a47230ad0bb163f5"
     },
     {
       "path": "fonts/generated/svg/sans-700/AE.svg",
@@ -2509,78 +2509,78 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/Aacute.svg",
-      "byteLength": 839,
-      "sha256": "9d9c62d17e64da10952e0e468a65e9868253e9e330804cca819e8718176a460b"
+      "byteLength": 854,
+      "sha256": "f752a6870526df7ee82614b8941e2ec6a3f7e7f6a269e9c5603df6c938af6d12"
     },
     {
       "path": "fonts/generated/svg/sans-700/Acircumflex.svg",
-      "byteLength": 936,
-      "sha256": "3c387757280187149236acb393b8723caab4da5aab4acd1ab8a49ad82f1a2679"
+      "byteLength": 951,
+      "sha256": "c14926cd29ffbac87c45243d4f4aa6fef06e09196e863fffd9d1215633ea1ad1"
     },
     {
       "path": "fonts/generated/svg/sans-700/Adieresis.svg",
-      "byteLength": 819,
-      "sha256": "d3b86786e861f11150e500d9df64e5306e34dc6e6c84d05daeaaa276bef5910a"
+      "byteLength": 834,
+      "sha256": "749f3f1ba6fa4d9d489be89216e92b4d66dbcde8cc98ee275c428a0be4e98415"
     },
     {
       "path": "fonts/generated/svg/sans-700/Agrave.svg",
-      "byteLength": 839,
-      "sha256": "8106b2329d29af351d40f608d2bb70114921517134bad5095ff6916aa41a2fca"
+      "byteLength": 854,
+      "sha256": "da5dc3d1600e94426454fde78e17c9e142eda2b6e124c523731558419d1d082d"
     },
     {
       "path": "fonts/generated/svg/sans-700/Aring.svg",
-      "byteLength": 958,
-      "sha256": "7a8158c84bc6cd20d7004a3450f4ba09b8883afa1b3d86a3dc58b22a53d61fe8"
+      "byteLength": 973,
+      "sha256": "31645e6609572855bf1c058ebdf9e9ef4a827d4c36c5f9bdac64b03e301804cc"
     },
     {
       "path": "fonts/generated/svg/sans-700/Atilde.svg",
-      "byteLength": 1039,
-      "sha256": "2a108d4899ca68d5c2a837b9bfe7d208256fd806b300765ab7da806a9c3e46e2"
+      "byteLength": 1054,
+      "sha256": "7b2d540fab940918674ef9c189bd70f7c6bd4f92d165ee325c42b00e90ab4795"
     },
     {
       "path": "fonts/generated/svg/sans-700/B.svg",
-      "byteLength": 873,
-      "sha256": "f3f4ff71ea736a22f6eedd9e0d4acb7a3cf78760d673cbcf39be6eb2749221fd"
+      "byteLength": 829,
+      "sha256": "04c493516cb86d6beddaebc592ea8379cbc247d71e36e11e396bdd989da646e1"
     },
     {
       "path": "fonts/generated/svg/sans-700/C.svg",
       "byteLength": 681,
-      "sha256": "7263b48c22547917f6c24d6c90da65ddcc772499b7f699df915d7916696d2217"
+      "sha256": "ec3c2440479d1ef6db2362db17e3ce29dc55a72cc12817c8a5585903a361f921"
     },
     {
       "path": "fonts/generated/svg/sans-700/Ccedilla.svg",
-      "byteLength": 994,
-      "sha256": "1dcbdba23040acd3861bcb10a4fd4b23a9eb57d7c4de387884a37f552c008ae6"
+      "byteLength": 995,
+      "sha256": "bfb7709034356306558dbf3c7308a7fc52848de817b8d5c09703e7270774055a"
     },
     {
       "path": "fonts/generated/svg/sans-700/D.svg",
-      "byteLength": 569,
-      "sha256": "a64c03470f9f76384ac02cb72026f24e5060ca1e67b9852176f70ccceca1eca9"
+      "byteLength": 539,
+      "sha256": "62f60c1562f1db9c8f9e308019851487edc87c626fe1bcbed5d1d2735afb4114"
     },
     {
       "path": "fonts/generated/svg/sans-700/E.svg",
-      "byteLength": 657,
-      "sha256": "856333554be759e7aa700d47636f91ac890f610dbc206da644efe0e97ada876e"
+      "byteLength": 730,
+      "sha256": "66a9276c437d6bf473cf2ca5e4d29291386fa0f0ace73a4ea4034daf68eec74d"
     },
     {
       "path": "fonts/generated/svg/sans-700/Eacute.svg",
-      "byteLength": 991,
-      "sha256": "92f6e2728b7c42793cf5a6ad4b748652b5410a5b964e2ecf0f47a70b6edca3c3"
+      "byteLength": 1064,
+      "sha256": "9572dcbd84f5169b72f5b0ea8a3d13d54d14785f3214e6a205e479da814d228f"
     },
     {
       "path": "fonts/generated/svg/sans-700/Ecircumflex.svg",
-      "byteLength": 1088,
-      "sha256": "30737e3fef670649826efd3b0044d651fc4716baed884cf6092696fd978735c7"
+      "byteLength": 1161,
+      "sha256": "91a6755e59d09f2a35240d4d14c0fc0b8a14b11b1935222a68d8b3a267d57a5c"
     },
     {
       "path": "fonts/generated/svg/sans-700/Edieresis.svg",
-      "byteLength": 971,
-      "sha256": "435b38446853866253b1db43ceee4168e63c1fd7af3eb4dc16b104765aa3552c"
+      "byteLength": 1044,
+      "sha256": "49b8e461fe867fb97d111845b019f7befd7d89c1240c7a681dd63d06b4721957"
     },
     {
       "path": "fonts/generated/svg/sans-700/Egrave.svg",
-      "byteLength": 991,
-      "sha256": "94995fe7d6e2ae0328cd23407f16ad038710af08d9e1962a43dfe973129d4839"
+      "byteLength": 1064,
+      "sha256": "eff28f62e19096d341c5c45211ddd6d50e426b3eecd44536151d573bbea81831"
     },
     {
       "path": "fonts/generated/svg/sans-700/Eth.svg",
@@ -2595,137 +2595,137 @@
     {
       "path": "fonts/generated/svg/sans-700/F.svg",
       "byteLength": 573,
-      "sha256": "44a2a72bed2bf419ae2d89508c33d1391be279666364cbbc41011c2021346065"
+      "sha256": "a1dbe09a6d8d6a3f2707c5b347ccc5d6ab2d12670df0f60b332dcd12adb88725"
     },
     {
       "path": "fonts/generated/svg/sans-700/G.svg",
-      "byteLength": 880,
-      "sha256": "9012b4f718c5b0c1dbe9557aedee6901095cecaa32961688870cbbe1c70941c1"
+      "byteLength": 858,
+      "sha256": "675e8f4f12e600be6d71327bc3f73c5203a5dbcd9c3881dc8ea08630681a8956"
     },
     {
       "path": "fonts/generated/svg/sans-700/H.svg",
-      "byteLength": 633,
-      "sha256": "aadb0f8baae50f62116d7202773741ef033fd3ad746851722df7fbb2faf243dc"
+      "byteLength": 707,
+      "sha256": "73f13eadab86bbf5086db1dae96b50f96ce04ca7cbfbd5b98511440ddcc536ed"
     },
     {
       "path": "fonts/generated/svg/sans-700/I.svg",
-      "byteLength": 349,
-      "sha256": "e49b861f465146f42bdb684495f9626dccd91736e3aa4dc4900bcf60bfa6282c"
+      "byteLength": 646,
+      "sha256": "3942bf4db31d384fed32921ce73e5b4a3315bb836ff3d75d4d1e9992f26a804c"
     },
     {
       "path": "fonts/generated/svg/sans-700/Iacute.svg",
-      "byteLength": 668,
-      "sha256": "2fecac20d5a75973d2e58585138d2d0649a4a903691e3df8a74d22b5cbc952d9"
+      "byteLength": 967,
+      "sha256": "e49e17dc40356dfa827b661a84f475ecd05692a7c7a7a42d6d1730322b00c592"
     },
     {
       "path": "fonts/generated/svg/sans-700/Icircumflex.svg",
-      "byteLength": 759,
-      "sha256": "3dd3262312c26eab1021c081cdea93ae207972cbd9f8e21d8a7e80fda168dfb3"
+      "byteLength": 1060,
+      "sha256": "0981a6cfbd00903ed06c7b8a0391fed47b7e2fa5ed7020b2a0620a1858235301"
     },
     {
       "path": "fonts/generated/svg/sans-700/Idieresis.svg",
-      "byteLength": 652,
-      "sha256": "2f810b951213393f314845a00099cfb672545846b080b0976c8ee3f025e4bf25"
+      "byteLength": 951,
+      "sha256": "0c2fbb9e2ea39bc4c76d195a8c12a82ba5face913ef7a8650812a67a29b1aaec"
     },
     {
       "path": "fonts/generated/svg/sans-700/Igrave.svg",
-      "byteLength": 666,
-      "sha256": "9f33e61c5728d2e44e35fc65dec3b98f7efaa158de4e23eb7a467c9a8239bb3c"
+      "byteLength": 965,
+      "sha256": "b28bd0669b1c1448bd48bf30211fe5524ff20f249ccf9d4fc3e533c565e4c828"
     },
     {
       "path": "fonts/generated/svg/sans-700/J.svg",
-      "byteLength": 563,
-      "sha256": "cc07aa4c0bc30d3dd863815018074133b64555f8a313583d0d91bc8280b7401b"
+      "byteLength": 549,
+      "sha256": "febd2056de1b55b675ca18c20f0a560597410952f120f0431133c89982bab167"
     },
     {
       "path": "fonts/generated/svg/sans-700/K.svg",
       "byteLength": 635,
-      "sha256": "b9d5030fbebae01727cc334bb1c778c4ebf44ae035eceb2102859a60152141f2"
+      "sha256": "3b378cbd9c43cd4876a291eb235dc6253814e5fb2522debfe621538181297878"
     },
     {
       "path": "fonts/generated/svg/sans-700/L.svg",
       "byteLength": 427,
-      "sha256": "9f92a5c13713e112768f604ccdfc2d3566fa89cf51aa6ce60a735bbadf24bcdc"
+      "sha256": "0cdf707a6f083477cc57a3343ddd6448a170c53ee0070fa9b2e96ccd939bf1db"
     },
     {
       "path": "fonts/generated/svg/sans-700/M.svg",
-      "byteLength": 687,
-      "sha256": "5a4980a10124da97f056928a0a49dd47835f0a7796057784304e88cf8048a6d2"
+      "byteLength": 732,
+      "sha256": "241c2fa39198ac404eb6fec4996f4fb18c3d6044a372be40240954112736c722"
     },
     {
       "path": "fonts/generated/svg/sans-700/N.svg",
-      "byteLength": 587,
-      "sha256": "04689428e49eed8574b6bf2b9082c80ce894f788763c20d0ae788fcf01810c58"
+      "byteLength": 633,
+      "sha256": "30c11311591befd30a93c2bde1f1dce2a24fb375507a89b7eeb858d3060236b4"
     },
     {
       "path": "fonts/generated/svg/sans-700/Ntilde.svg",
-      "byteLength": 1121,
-      "sha256": "deee5cb559114a29f7e9d7df82cede260ac3dfc26d10a6d1332c77b7f12bb5db"
+      "byteLength": 1167,
+      "sha256": "6ffab401608782fe6da4ef7a47e6d9f647f27de460de5dc03cff6d6328242fdd"
     },
     {
       "path": "fonts/generated/svg/sans-700/O.svg",
-      "byteLength": 679,
-      "sha256": "5cc23d218a2714fef243183fe432d0a901bdcf9fe65cbfe7a66dfdbc2c4e4c9b"
+      "byteLength": 592,
+      "sha256": "626f3d3682ce78aabc108e8df3592dd0bf9cbc7f74036567993fb9d4e964f48a"
     },
     {
       "path": "fonts/generated/svg/sans-700/OE.svg",
-      "byteLength": 1222,
-      "sha256": "b8c8fb7621f8b8d16c4ba327e7fd8b65861dcba9359f3f7dbd3ba70b4bac3efa"
+      "byteLength": 1175,
+      "sha256": "8bfe0b8ae6078b1efcef4d5247de3ec69a7b82659deefd776dd7027a9d016f74"
     },
     {
       "path": "fonts/generated/svg/sans-700/Oacute.svg",
-      "byteLength": 1013,
-      "sha256": "618c6462f20c4e0088c92e500733ed0647387d150d0207e45e4a65f7d6fe4b65"
+      "byteLength": 926,
+      "sha256": "8dd34955de420e1b88329a9f26d0d23fae0c5ee6731bc5842039926fd2168639"
     },
     {
       "path": "fonts/generated/svg/sans-700/Ocircumflex.svg",
-      "byteLength": 1110,
-      "sha256": "d0227dcc2233bb2ea2ba8abba8504b1d4837284ee60ec57eea8aa5de312cdcf5"
+      "byteLength": 1023,
+      "sha256": "69926b33ddb89b26adb54260de19986340256abca5c7c76860a18e2f4066954e"
     },
     {
       "path": "fonts/generated/svg/sans-700/Odieresis.svg",
-      "byteLength": 993,
-      "sha256": "1e1eb9366ae5f3f4066195eb2acd1da0915d34f7613088ad6cdefca81af67991"
+      "byteLength": 906,
+      "sha256": "d7956353857dcd1727c638dafc47d3d6950069f97caa0e8d67facb4eb984752f"
     },
     {
       "path": "fonts/generated/svg/sans-700/Ograve.svg",
-      "byteLength": 1013,
-      "sha256": "024a726efb8ef03e595bbf57b9e837211d3ec7c2d757b46699b546dbdcef3c7f"
+      "byteLength": 926,
+      "sha256": "ab9a966e421066a4be2d6a11b1d44e32d1b49d4ef31c6d3aac01fe5aa2ce3813"
     },
     {
       "path": "fonts/generated/svg/sans-700/Oslash.svg",
-      "byteLength": 906,
-      "sha256": "c359fa9e4aff2e60a15ffa6c0ef064f14d57997d347c8d2787ca58d2484f5886"
+      "byteLength": 815,
+      "sha256": "bd7b7280b2ba173e8c9a8b84e221662c355b3ffbb89a9172eb1389b1175d421f"
     },
     {
       "path": "fonts/generated/svg/sans-700/Otilde.svg",
-      "byteLength": 1213,
-      "sha256": "b2c98ae307e3ce688e8be9eb546d8f4ab99419f5a525f059826a2ae6961eff15"
+      "byteLength": 1126,
+      "sha256": "75d2bc9ceb682c38c205a12e5332e6d50e4a89b38bd1eb43c9b10aa8612ae233"
     },
     {
       "path": "fonts/generated/svg/sans-700/P.svg",
       "byteLength": 634,
-      "sha256": "e70dcfc59576adb0803214da7921ec4ae1093732a9dbd8c634114b282cd6b3c1"
+      "sha256": "eb83b3d1bd233406081c35361d4eb9eb28b07d2e43a7b690c036668db8225f88"
     },
     {
       "path": "fonts/generated/svg/sans-700/Q.svg",
-      "byteLength": 928,
-      "sha256": "6d5b785595a57544ddf2c1675a57bdb6593ef80e57547a754043ee5701d8783b"
+      "byteLength": 926,
+      "sha256": "53899fec6ac02bc87a773000cbcf995b31d30964b9067d2156e0a2b4d134d8ab"
     },
     {
       "path": "fonts/generated/svg/sans-700/R.svg",
-      "byteLength": 776,
-      "sha256": "a0ef0974dcd75c8df29e66f98273f379172212702a1bdbbb68b2cb1ac50fd793"
+      "byteLength": 726,
+      "sha256": "a490c5dc4db8fed084e5b498c04811c38b7b89d9bde88e221d7051fc61427d0d"
     },
     {
       "path": "fonts/generated/svg/sans-700/S.svg",
-      "byteLength": 969,
-      "sha256": "34d2b573bffc71d79ac7d9084af8e14f0068e764028caceda7fc2c9dc30dabf1"
+      "byteLength": 905,
+      "sha256": "263eb136630cb07d304cb58e0f329d14d791686c529b6abff3cb27fb7f5845f3"
     },
     {
       "path": "fonts/generated/svg/sans-700/T.svg",
       "byteLength": 493,
-      "sha256": "a84b9278285b5c4dd0b3cb8bfdd43e05943dec6fa4ec4b9a8e1bc8b9c7363e5c"
+      "sha256": "cb5f37628694bfd0924f4bd122e3acca727eb750472b0043342d9fe86fe34988"
     },
     {
       "path": "fonts/generated/svg/sans-700/Thorn.svg",
@@ -2734,78 +2734,78 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/U.svg",
-      "byteLength": 583,
-      "sha256": "bbee45189cfc6f1b6d17dc5b3f10a7f85a69f716c8b4dd07e3098ba8eebba490"
+      "byteLength": 585,
+      "sha256": "64b9f4338d59b0756ebb2c55af41b9b64e1a23a82bea24dc44ed815b24bd1f3e"
     },
     {
       "path": "fonts/generated/svg/sans-700/Uacute.svg",
-      "byteLength": 917,
-      "sha256": "6ecbf7fcbdfea9b132ce33ee6c69a418c02ff9121395dca2ec6d411a1c932678"
+      "byteLength": 919,
+      "sha256": "9a2edcc6d74ffbc1f78e0fc0a269de057b2fa52710784a3f6c2c27fca1d77e50"
     },
     {
       "path": "fonts/generated/svg/sans-700/Ucircumflex.svg",
-      "byteLength": 1014,
-      "sha256": "3701eb3884d15fa05a035509072da4ea472c5f92e5b4105fe05cf80d7f83c611"
+      "byteLength": 1016,
+      "sha256": "67e847cb5bd25158513bb43b02058fea866f96428203dc3066cb5097f4f41201"
     },
     {
       "path": "fonts/generated/svg/sans-700/Udieresis.svg",
-      "byteLength": 897,
-      "sha256": "9826c4b045472d3a8ad77c8a6f3dfc4bbc53653f335b1cec151b41bf8acc7226"
+      "byteLength": 899,
+      "sha256": "01f2b0d261a6e0dac138a2e5abaaa34113ab5542c16cc9580675d985af53c118"
     },
     {
       "path": "fonts/generated/svg/sans-700/Ugrave.svg",
-      "byteLength": 917,
-      "sha256": "66b07b6d233c194201df52e5f3d06dcae4b93783d82597f0e11aa5d38b4e2185"
+      "byteLength": 919,
+      "sha256": "d1ac67ad590bfb08af2aa13b891f18b18b4d0208bf14913fb42a6f079cd5835f"
     },
     {
       "path": "fonts/generated/svg/sans-700/V.svg",
-      "byteLength": 440,
-      "sha256": "2498704f9b113c30553a6a5cbe75562aef7df8fcd2248dae48dd04d6e5348f0c"
+      "byteLength": 460,
+      "sha256": "3aa598e17e41b170f023b85bbe8b38cfe48696a0b367822a4c5cf361f3a2c5fd"
     },
     {
       "path": "fonts/generated/svg/sans-700/W.svg",
       "byteLength": 751,
-      "sha256": "60126bc01f29412a887aea1b1505c07898fda4870fb9fd316c1dc4c383430bda"
+      "sha256": "732471ec38b5685bdd2115c8209c79e6f29d67a66754a794eeccfb518f6fb39b"
     },
     {
       "path": "fonts/generated/svg/sans-700/X.svg",
-      "byteLength": 578,
-      "sha256": "fc7a302fbc93dd18dddb68402f39e6d2a0d801992bd64b05689c0fabfd7f1457"
+      "byteLength": 542,
+      "sha256": "f378407d23163bcc410db31bbf3cd734fe8dcf9fac37de855cde960ca7db2070"
     },
     {
       "path": "fonts/generated/svg/sans-700/Y.svg",
-      "byteLength": 519,
-      "sha256": "76642c14436c2356c19ef6c12dbeb6fe601863b1b04ddee7fd47ec4276a495dc"
+      "byteLength": 482,
+      "sha256": "df96a5aa40b98eca74f393d4bec69574c7423ab40767f9c3e3bdebee7cab6f0d"
     },
     {
       "path": "fonts/generated/svg/sans-700/Yacute.svg",
-      "byteLength": 853,
-      "sha256": "a7918a1d1afb1f997cbbaca1904ec152e5a84717bc02cc46158d48f8a0406368"
+      "byteLength": 816,
+      "sha256": "64ada6f392d2e7c04e8174fbf020f17845f57e608c6c762476fe176464706e0d"
     },
     {
       "path": "fonts/generated/svg/sans-700/Ydieresis.svg",
-      "byteLength": 833,
-      "sha256": "6d4348eb80e7ff197986fa0b3d3c509d8829e70cff26742d1b0a8402a3a00c1f"
+      "byteLength": 796,
+      "sha256": "02046b7b9c9c89d9e9c3434753ff8ccbc5f5fdc3e0e8e0a7367d80f2adfecaa3"
     },
     {
       "path": "fonts/generated/svg/sans-700/Z.svg",
-      "byteLength": 537,
-      "sha256": "777028f2b577663a4ac6d2d0bbbcf51f6fe332b063f6bd580e441c0b7650d50f"
+      "byteLength": 538,
+      "sha256": "178c390903f2d9514c98ddbd3cfe6c7c5dd291c0ebb02cd807be2ea2c55cbfc8"
     },
     {
       "path": "fonts/generated/svg/sans-700/a.svg",
-      "byteLength": 923,
-      "sha256": "5e10c8c41a075e49aed09c1d3b48986acfbcde65f101f2d1ba04d913b3ac1639"
+      "byteLength": 765,
+      "sha256": "e18175816c99bcf3711f7a8218ad180b38fb1a283771f51ee10a58dfc0a13171"
     },
     {
       "path": "fonts/generated/svg/sans-700/aacute.svg",
-      "byteLength": 1257,
-      "sha256": "21760ac6df98fabb68337f706ec24f3435e6a928bcfb28effd0e240376b34612"
+      "byteLength": 1099,
+      "sha256": "06e9bed57354644a2e6ea05c8329399073397bbb14ad10fd5c976ebba82acf71"
     },
     {
       "path": "fonts/generated/svg/sans-700/acircumflex.svg",
-      "byteLength": 1354,
-      "sha256": "696264be3bc096b948d0eded7c660689a553d101e40afc8b44f4d2cd86ce116b"
+      "byteLength": 1196,
+      "sha256": "f38b2540abc598740fdd4122a162c10eba65ddc72cc59b315cc1afd9800b98ca"
     },
     {
       "path": "fonts/generated/svg/sans-700/acute.svg",
@@ -2819,8 +2819,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/adieresis.svg",
-      "byteLength": 1237,
-      "sha256": "3129fd60e55c620d0ba25a4e30d9dfb7b6acfde34b7ce43ff8b22da8444c11d8"
+      "byteLength": 1079,
+      "sha256": "72f52a5b680558b90364e2f989a3586f64e3b5762b96a15200b08134314fd097"
     },
     {
       "path": "fonts/generated/svg/sans-700/ae.svg",
@@ -2829,8 +2829,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/agrave.svg",
-      "byteLength": 1257,
-      "sha256": "e268cdd21881cc6c6658bd12735f45f6212eeb364d268a4f5f749788261b0d65"
+      "byteLength": 1099,
+      "sha256": "aa79c97662efaba11a023c3d8c741f428f477fd04b301e2ee9a9e4b5dcee05d4"
     },
     {
       "path": "fonts/generated/svg/sans-700/ampersand.svg",
@@ -2839,8 +2839,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/aring.svg",
-      "byteLength": 1400,
-      "sha256": "b3d169497fe816b49b36154cd14e4c7aebd7c7bd016e9fa7a08516b9a06cf098"
+      "byteLength": 1242,
+      "sha256": "de3472df153937012d70797196c432bd951dc86380fd9b38ecd2c6632015e06a"
     },
     {
       "path": "fonts/generated/svg/sans-700/asciicircum.svg",
@@ -2864,13 +2864,13 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/atilde.svg",
-      "byteLength": 1457,
-      "sha256": "0c1bc9499adeb1835a07b446e4a52d7858bc5524df947ea11a8d54cc46211ad1"
+      "byteLength": 1299,
+      "sha256": "58067fc998e698b774f0a3a4ef0d1cefba0cbd9f0e6fafc8cbaed2994aaafa8f"
     },
     {
       "path": "fonts/generated/svg/sans-700/b.svg",
-      "byteLength": 820,
-      "sha256": "1bcf15e5c68d7037934ad726bd75f7e7fdb6c6b915832e7a67abf7fbdb708b4f"
+      "byteLength": 759,
+      "sha256": "f2a158e47b3ad20fe916bc54ddf1d270f3ef076af2ea610e9987bc1fced7a4ae"
     },
     {
       "path": "fonts/generated/svg/sans-700/backslash.svg",
@@ -2915,12 +2915,12 @@
     {
       "path": "fonts/generated/svg/sans-700/c.svg",
       "byteLength": 680,
-      "sha256": "68102d493aaa234496808d5194c855c20c8f1673dbd2d7879e139b32b1c169e0"
+      "sha256": "1ff9bd3946bd972710377b8ec4ede978cb1b2561962cc07a8ced99ad735a5b19"
     },
     {
       "path": "fonts/generated/svg/sans-700/ccedilla.svg",
       "byteLength": 1253,
-      "sha256": "7bf6e34c8bc93bfd82adf8ad542079410c1280ab6738d07348aa199a4cd89c32"
+      "sha256": "3647ced1b8dd1eab8e20d8c980f5117435246e6aa786a390e8f57197199ef419"
     },
     {
       "path": "fonts/generated/svg/sans-700/cedilla.svg",
@@ -2954,8 +2954,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/d.svg",
-      "byteLength": 834,
-      "sha256": "467c9ee272913a6bd87e2f72edb23582171ae19d19af557991f31b22f87be493"
+      "byteLength": 777,
+      "sha256": "f0f9412c4fc0a1d93bc4314bd25fa800a76438e9e44f36d962d42f832ea147be"
     },
     {
       "path": "fonts/generated/svg/sans-700/degree.svg",
@@ -2979,38 +2979,38 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/dotlessi.svg",
-      "byteLength": 354,
-      "sha256": "80e41e2f1546d38a3dbc7fd077c6c159e8f1ae4f5fcc555d9e85379a6e2cf29b"
+      "byteLength": 352,
+      "sha256": "421ef78853261fd6a9fdef525f04fbc48c0edef53758f33357ebb1533d9fa650"
     },
     {
       "path": "fonts/generated/svg/sans-700/e.svg",
-      "byteLength": 760,
-      "sha256": "fc9c009d3963fc774dbf16aa99d5b98bfa3b2d75ef41aa5aa18e69865f0f6296"
+      "byteLength": 759,
+      "sha256": "c7520c619be5e505857c353d78787b7204868eb6fcfd61425dda6312a2005fa7"
     },
     {
       "path": "fonts/generated/svg/sans-700/eacute.svg",
-      "byteLength": 1094,
-      "sha256": "d0dce4e4de958e393e4f77c31c736cd5ca893729e074721ec2e0ef12871ad29f"
+      "byteLength": 1093,
+      "sha256": "43caa229df0f8b48349d403f357f54f4e2b8ebd1ac4349041395d1965f835f56"
     },
     {
       "path": "fonts/generated/svg/sans-700/ecircumflex.svg",
-      "byteLength": 1191,
-      "sha256": "0a79c5a77d77c4d73408011da8a3f01d0b0b87895fe636b08edbe2c597c4bfe5"
+      "byteLength": 1190,
+      "sha256": "1dda1a150c6ed89d3bce38ccd5f096374c33309ca088e43f66924280de978bff"
     },
     {
       "path": "fonts/generated/svg/sans-700/edieresis.svg",
-      "byteLength": 1074,
-      "sha256": "33e99117bcc537ac9a17b09eaeab45c8a51f17f602138aebfa687378f098b65c"
+      "byteLength": 1073,
+      "sha256": "6934b3c1c1c0be8001d6140f90a9e25f54455e78d28801862d0106e8c0bf13c2"
     },
     {
       "path": "fonts/generated/svg/sans-700/egrave.svg",
-      "byteLength": 1094,
-      "sha256": "e847ac9e1a313bc03db82705bf6a8c922e9f7c850600432290a3a585a7200bda"
+      "byteLength": 1093,
+      "sha256": "a3844ccf13bb7e135e2c4db6ab110b16341cada6d75ea31527a2e5bbb3d1598d"
     },
     {
       "path": "fonts/generated/svg/sans-700/eight.svg",
       "byteLength": 1181,
-      "sha256": "f876f9ac9b547eb8ed4020ee908b4256a687fb63429eeee5cf93b7acc5c9c8f5"
+      "sha256": "50b3d683bbbda92d5b54d460bcecbfa39115150ecce9df5519d3bb75c2284b5c"
     },
     {
       "path": "fonts/generated/svg/sans-700/ellipsis.svg",
@@ -3054,48 +3054,48 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/f.svg",
-      "byteLength": 729,
-      "sha256": "0d997ae411bfc5bb7521ba511a812f13ece41d5171d4e2cb78d32a2702423f14"
+      "byteLength": 709,
+      "sha256": "25199f023c3aa4de70750cbf518b52e3d9859248ade9b1564033f94db025d7df"
     },
     {
       "path": "fonts/generated/svg/sans-700/f_f.svg",
-      "byteLength": 1253,
-      "sha256": "6d18989447652cda0fd105fdc0e07bb45003b452f06adc6c2fa068142cb59806"
+      "byteLength": 1213,
+      "sha256": "e53814c911be134048175759eb6ed3c3ec6d8e7801b7c0d16fb002dcb20a94c0"
     },
     {
       "path": "fonts/generated/svg/sans-700/f_f_i.svg",
-      "byteLength": 1669,
-      "sha256": "f9d06dd1878aa3758d300e507c62bda158a019ff17cd20ccf9743ffec97be37b"
+      "byteLength": 1633,
+      "sha256": "45a02c5d297b0591cbfc7e83e687484c9a57591f03b2beecf749d9c595c5ddce"
     },
     {
       "path": "fonts/generated/svg/sans-700/f_f_l.svg",
-      "byteLength": 1562,
-      "sha256": "57771ace26bf1227521c2ef45f1c67d34ef514aa5f823035c33871ae08574bc2"
+      "byteLength": 1522,
+      "sha256": "603d9e001078db729dd7e90519fd1414697d78d309b45b670043895426882134"
     },
     {
       "path": "fonts/generated/svg/sans-700/f_i.svg",
-      "byteLength": 1144,
-      "sha256": "ffdc16eff99959bc04d85f0c71d91c4cc075c6a12b0e44f62598f0f0d3af89b2"
+      "byteLength": 1128,
+      "sha256": "cced17371e442089180658b3faf600dbee08f6c709e8c74f241333502ae8e652"
     },
     {
       "path": "fonts/generated/svg/sans-700/f_l.svg",
-      "byteLength": 1037,
-      "sha256": "8b4ba119c750a62a744d6f010c59cfdcabdd7a92e2f1e756793602129ab1fe2c"
+      "byteLength": 1017,
+      "sha256": "39ff9bbc260e8e34c17d4f7ba2f98747f968a30f59b1fa92e00835cd56dca3e7"
     },
     {
       "path": "fonts/generated/svg/sans-700/five.svg",
-      "byteLength": 832,
-      "sha256": "ff961320d9d50a28b6024a95ae40fe3e95acf6fa1daa6da85a0c1216ba48a70b"
+      "byteLength": 831,
+      "sha256": "20854fd0c351f60b3ce3a2d38134f38602ecf3a7cd6a1b55e01d7f35de49ba50"
     },
     {
       "path": "fonts/generated/svg/sans-700/four.svg",
       "byteLength": 597,
-      "sha256": "225beed0d0f34fc1900c37803c0e863181ed900200c82711b57035849bf8b9da"
+      "sha256": "a0f2055b6644655f2d107e85c7c73fe5b032fe1e384107687d40b51bbf3a3e38"
     },
     {
       "path": "fonts/generated/svg/sans-700/g.svg",
-      "byteLength": 1032,
-      "sha256": "40d69d42fcf087ca73a466d3e7c59fe6fa27b4b6f41978f218dece84fafae180"
+      "byteLength": 993,
+      "sha256": "d18a4cecc37fd37ed278e62d932997ef966d28be0c1a81ca54c816c4f5f53f77"
     },
     {
       "path": "fonts/generated/svg/sans-700/germandbls.svg",
@@ -3140,7 +3140,7 @@
     {
       "path": "fonts/generated/svg/sans-700/h.svg",
       "byteLength": 689,
-      "sha256": "a56ef73929cc664b654959aca87f66c1dbf209efd69c77601ba530e81790f699"
+      "sha256": "6ae0a4a7e20c2b48af527a77f4eaf6aae1fb56ea1776ff806d5b1d6a6a4e36d9"
     },
     {
       "path": "fonts/generated/svg/sans-700/hyphen.svg",
@@ -3149,43 +3149,43 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/i.svg",
-      "byteLength": 571,
-      "sha256": "82b86c1d497d98ee553b659c50149368b7d29ba03ebecc106230eafbd4f9848d"
+      "byteLength": 567,
+      "sha256": "513771364c2dca17d62b48ffea07bf4518cd6c475807e12a2eaec247acfe38cc"
     },
     {
       "path": "fonts/generated/svg/sans-700/iacute.svg",
-      "byteLength": 664,
-      "sha256": "630719fc4b3990ddd1090a5b0e7f49acf5dc21aaabd761c8e0acc304e9747dfe"
+      "byteLength": 662,
+      "sha256": "8263d3039e20ad4f3478fee04c478bc33172928d561d68e8a0936bee20b60127"
     },
     {
       "path": "fonts/generated/svg/sans-700/icircumflex.svg",
-      "byteLength": 768,
-      "sha256": "cf5796d62914fc2d4f80206f031c73be4b10a9c5d2d9e9cdd26c51aaf67fc8a1"
+      "byteLength": 766,
+      "sha256": "23c8a14def8cdf3ed36979e94f4fa0e5acdf3249dd60459289dfa8c50aaf808e"
     },
     {
       "path": "fonts/generated/svg/sans-700/idieresis.svg",
-      "byteLength": 651,
-      "sha256": "05df66447478ffd14a5708ec794402fec10e0bbf78afcda6eff05777e049781a"
+      "byteLength": 649,
+      "sha256": "a5dbfc331aeb31df3c694b27b0733db1729d4a3dadeb905b4ad0d79200d6cb60"
     },
     {
       "path": "fonts/generated/svg/sans-700/igrave.svg",
-      "byteLength": 664,
-      "sha256": "dd061220b68520a5d59e954d73562873a719514f449bbbfde8607e4242c81f66"
+      "byteLength": 662,
+      "sha256": "df64419eeaa3d2bdd30de39d9269fe77e4e89ec2c378600a47e59397e7250a4b"
     },
     {
       "path": "fonts/generated/svg/sans-700/j.svg",
-      "byteLength": 748,
-      "sha256": "d5b483278be9297e3743fad47312fe5ad21da7e1d3ab6a309afb2dba498075b9"
+      "byteLength": 745,
+      "sha256": "cebb145beea6cea56d25f12bfbd83726344ff56250ee78e0fb0b164aec9451c4"
     },
     {
       "path": "fonts/generated/svg/sans-700/k.svg",
       "byteLength": 653,
-      "sha256": "e18ba0e8a4e244001bd72862265357b34e76bcd73102329889cda3feecb7476a"
+      "sha256": "ba76fe2e61daa5b0ab3b9c0b3116bd96298e0f85943f8d00dacfda72e4e20b08"
     },
     {
       "path": "fonts/generated/svg/sans-700/l.svg",
-      "byteLength": 440,
-      "sha256": "7979c52999d803e17057fb1a87bc0304c1b426a3398ddd95b099d4118f2eafc3"
+      "byteLength": 439,
+      "sha256": "68e589179247e146ef93f83894ac42c7a6f134a6cb47a8f6420c6949b5967804"
     },
     {
       "path": "fonts/generated/svg/sans-700/less.svg",
@@ -3199,8 +3199,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/m.svg",
-      "byteLength": 1028,
-      "sha256": "0709e121d488bff37fcccebfc55024f6d3c3e0a90099b736b6aafa3a347eece7"
+      "byteLength": 947,
+      "sha256": "22a65a2e8b1199c470fc2a22dc9b8f117d484bd21f42ba1410e8b8f5283c1e5a"
     },
     {
       "path": "fonts/generated/svg/sans-700/macron.svg",
@@ -3225,17 +3225,17 @@
     {
       "path": "fonts/generated/svg/sans-700/n.svg",
       "byteLength": 669,
-      "sha256": "5daff35a1ae1add41713a1d8af564c9d42c5744b6a4bd53ca32580f1a7c02b41"
+      "sha256": "8b4fa324ad93eb9c47d82b7ca751f4daf7ccdd4907ab2ccce66aad332b5405b1"
     },
     {
       "path": "fonts/generated/svg/sans-700/nine.svg",
-      "byteLength": 879,
-      "sha256": "0f7b731a032d530253493502f897a3adbcb0993f4922ab40704049f76b319ab2"
+      "byteLength": 863,
+      "sha256": "3fe37e0e8709e4876defbcf6d7ab509509a4a167891c570bce32bae1e0b3b779"
     },
     {
       "path": "fonts/generated/svg/sans-700/ntilde.svg",
       "byteLength": 1203,
-      "sha256": "897b6e00730e82be38ccf90399fb416633b9377c8e2a0a09ce1ef96c3c5bf3ac"
+      "sha256": "c355313a52c2b917a13baf8e7977a81c928eb8694984b678e4e9898ed85373ff"
     },
     {
       "path": "fonts/generated/svg/sans-700/numbersign.svg",
@@ -3245,47 +3245,47 @@
     {
       "path": "fonts/generated/svg/sans-700/o.svg",
       "byteLength": 675,
-      "sha256": "eb57ccd00a241669dc028ef1ef881627a4069c1db53140b0005aa22666931486"
+      "sha256": "d4fe493adc00be6e3da0a97c6bf7e785b51e340de6d6d47e66e7b926729d0536"
     },
     {
       "path": "fonts/generated/svg/sans-700/oacute.svg",
       "byteLength": 1009,
-      "sha256": "0e11bb547b2a919eb43dbbae9fd6e654c3c3c3df05a2bf1991671962f5d39aa6"
+      "sha256": "dd832cb5248f595bff8db68e863e39b4ea9d6f270b554dab51411d562b9c529e"
     },
     {
       "path": "fonts/generated/svg/sans-700/ocircumflex.svg",
       "byteLength": 1106,
-      "sha256": "ba55ccf58b93f6da5770dcd5629f268dcb319041dee4471e4b32623ebccd708f"
+      "sha256": "be26b60dd04b4bb0d5daa1e5ca86abeaae4931750ac568fc8a07794afaadc0cd"
     },
     {
       "path": "fonts/generated/svg/sans-700/odieresis.svg",
       "byteLength": 989,
-      "sha256": "4942adc4834987db83bd892bf495f75d49321e23a9b4625892bbc802870c9479"
+      "sha256": "e0d1260846d5294b3f389505a363e7847002b1e6cfaf4ef37b94fab2395976fd"
     },
     {
       "path": "fonts/generated/svg/sans-700/oe.svg",
-      "byteLength": 1222,
-      "sha256": "604a25f88aee0767eee147320b07d1b294358a00e71d9580b8d315b8c9e0ba8b"
+      "byteLength": 1238,
+      "sha256": "6ab287bf40bbf94dc19d22880fe3458ea70a25db9a944756026d5547c411359d"
     },
     {
       "path": "fonts/generated/svg/sans-700/ograve.svg",
       "byteLength": 1009,
-      "sha256": "d1a4791e17db77791f964b6196d6fe3909880fb8f0475bb081221413d17bd700"
+      "sha256": "d96b40c251c5b474675334c34630240012d37bd0efd1d6d193c00823582c67ad"
     },
     {
       "path": "fonts/generated/svg/sans-700/one.svg",
-      "byteLength": 602,
-      "sha256": "fa68428a23203f1bb196c3481a9a59dda46b1656c26911f906c56dc68582aacc"
+      "byteLength": 599,
+      "sha256": "b97deb2ed3b58500e1fdc2f91aa34871520e0394baea502ec7a73f7f4d9d6a97"
     },
     {
       "path": "fonts/generated/svg/sans-700/onehalf.svg",
       "byteLength": 1498,
-      "sha256": "cb7da4f3b8ddb54c1a4fcddb1dd9a2a5ae2af9ba66655b9d79926b9fa70d3001"
+      "sha256": "3a41be0b7c88c64e62eddbcfd558cd49e33e884e1a4b14dec488009faa498031"
     },
     {
       "path": "fonts/generated/svg/sans-700/onequarter.svg",
-      "byteLength": 1224,
-      "sha256": "a6b53994efad508478e3210ffdd76f554628a8d5adcf84a08f1c93105c1a08d5"
+      "byteLength": 1223,
+      "sha256": "1a2c299c314e2c40dd653a12f2941012ae6570a5a6668c2336d516ca2a32f2bf"
     },
     {
       "path": "fonts/generated/svg/sans-700/ordfeminine.svg",
@@ -3300,17 +3300,17 @@
     {
       "path": "fonts/generated/svg/sans-700/oslash.svg",
       "byteLength": 944,
-      "sha256": "62798bef3da297052e21249b6ee20866169293abc2c8773bb359ad6c3a0cf664"
+      "sha256": "310f73952437e871757176fb7451ead5f3a3bb6f3c7a59b94d3da9856ee6ab28"
     },
     {
       "path": "fonts/generated/svg/sans-700/otilde.svg",
       "byteLength": 1209,
-      "sha256": "ac0c31480161fdaff7f54c3a127388901fa84e7a5800e9db2f15549bcd13ec9f"
+      "sha256": "c0470d61663c11d32050032eba2a11905cdfed020b84a0d2cb9607de73fb0819"
     },
     {
       "path": "fonts/generated/svg/sans-700/p.svg",
-      "byteLength": 839,
-      "sha256": "43c5331b872711ad990fbea17037c707d854d06a30609be95b80ba09d474ca9e"
+      "byteLength": 778,
+      "sha256": "a2ef2e1ce006525f6304dcdb8d7ed30d12c3855f16d4d4e74d02f348a9e39bf8"
     },
     {
       "path": "fonts/generated/svg/sans-700/paragraph.svg",
@@ -3354,8 +3354,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/q.svg",
-      "byteLength": 855,
-      "sha256": "78231c1c9812f71b03123d02189dbf2bc8c124e8a9095b3a669953ae6e7fbeac"
+      "byteLength": 798,
+      "sha256": "d11775ff1e6206478d408f01e77fc5d051b7e152825137d534a4204ba3518ce3"
     },
     {
       "path": "fonts/generated/svg/sans-700/question.svg",
@@ -3409,8 +3409,8 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/r.svg",
-      "byteLength": 559,
-      "sha256": "7ce8c4cc76e624d724bc01b9d22a903afb0743e85b83a80c69f09c635c34b003"
+      "byteLength": 575,
+      "sha256": "a410bccfa8fc9062528e47bc638b606ea099638a8b0b2210d1376337a2ea3c0e"
     },
     {
       "path": "fonts/generated/svg/sans-700/registered.svg",
@@ -3420,7 +3420,7 @@
     {
       "path": "fonts/generated/svg/sans-700/s.svg",
       "byteLength": 872,
-      "sha256": "de3276409ca110e37f679177ca1c00f6134d7a4133b17cc4cc22f6a479c3a08f"
+      "sha256": "0d884c4c13ba309af4e1c87ea76fa655d8ec0bfad6c7a4b82232041330d50a92"
     },
     {
       "path": "fonts/generated/svg/sans-700/section.svg",
@@ -3435,12 +3435,12 @@
     {
       "path": "fonts/generated/svg/sans-700/seven.svg",
       "byteLength": 445,
-      "sha256": "88163ddb25459a4c7781c1dcd728b4e77798cb1159dbea291014568b94885b96"
+      "sha256": "20ede35f1bebcf639dae25d03dc31b14122b4fb32d45ecaf7f55befed9dd0732"
     },
     {
       "path": "fonts/generated/svg/sans-700/six.svg",
-      "byteLength": 884,
-      "sha256": "0ca692e17c5976486fefd77880ebbe41e9f60d32a7be1b7db26c46ea4e72dfba"
+      "byteLength": 871,
+      "sha256": "245496b40da3f81813ccdbaf8426b763f9f43ae0ca257965d8d8a7149c38aef4"
     },
     {
       "path": "fonts/generated/svg/sans-700/slash.svg",
@@ -3460,7 +3460,7 @@
     {
       "path": "fonts/generated/svg/sans-700/t.svg",
       "byteLength": 689,
-      "sha256": "5e9e76eb538332385ca70b4e2c0208442a6243b1795e554ab21454592beecd7f"
+      "sha256": "3da655ffb862db00d9e9308d374754071423caa47b52a623e93c33f4ee942445"
     },
     {
       "path": "fonts/generated/svg/sans-700/thorn.svg",
@@ -3469,13 +3469,13 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/three.svg",
-      "byteLength": 1031,
-      "sha256": "027971d4b949b7db0bafe4d7d325a8bf5f9d9f6a91d0cb4d85406ac94a9138ce"
+      "byteLength": 1015,
+      "sha256": "16acc95f6f8c94a294193572504ab3753def26d15a9abbcc1f9c97b53921bf73"
     },
     {
       "path": "fonts/generated/svg/sans-700/threequarters.svg",
-      "byteLength": 1629,
-      "sha256": "bc9cb26de92228fac41d95f014dfe88d38f461cefdb242f630db948bba7f262a"
+      "byteLength": 1628,
+      "sha256": "75533c46f90b35aa2fdabb725439b767a6c362c7cdd6d9d480c7a99b1553e283"
     },
     {
       "path": "fonts/generated/svg/sans-700/tildecomb.svg",
@@ -3485,32 +3485,32 @@
     {
       "path": "fonts/generated/svg/sans-700/two.svg",
       "byteLength": 858,
-      "sha256": "a28903292b8a547c4ef27826e45d5d36729e7927c9806355053796f0c85960d5"
+      "sha256": "4ca72a434a3b4904d32c0c3cedd7789195b87c798badc41923029ede7cf94590"
     },
     {
       "path": "fonts/generated/svg/sans-700/u.svg",
       "byteLength": 681,
-      "sha256": "dad91b1e17cf6d7b01c7f331bb7d76393d656d31d1f757622d35c97de9b35eee"
+      "sha256": "abfa4328886894f213322f3896bfaa8878e778ad55be266691793daa5aa3e50b"
     },
     {
       "path": "fonts/generated/svg/sans-700/uacute.svg",
       "byteLength": 1015,
-      "sha256": "58a8dcd153e251a5415f025e50b0b54c801489f0c0ab8c628a58eae7b300a763"
+      "sha256": "e48561acef04dfa886000c3d0f881358a092d4175f42146139862cd5cbcf070e"
     },
     {
       "path": "fonts/generated/svg/sans-700/ucircumflex.svg",
       "byteLength": 1112,
-      "sha256": "b061c789f9e611baee880fc8efc0c35a074ba21927d7cbbd1b6a6625c60d23ce"
+      "sha256": "b3024ac21ee9dbc5355ea2c59dc949f5a32cf51e9bf5dae839e8a430bf4b4183"
     },
     {
       "path": "fonts/generated/svg/sans-700/udieresis.svg",
       "byteLength": 995,
-      "sha256": "be0c2080daa2b9f01d1fbe070d92f7acfd56b382faaab5dd35bdf19c1cad15bc"
+      "sha256": "cfefbbd3c999d580d619656acc85db5257a4fbb364eee22dd38d08c956adc877"
     },
     {
       "path": "fonts/generated/svg/sans-700/ugrave.svg",
       "byteLength": 1015,
-      "sha256": "bb0613bcadf63027c509db8b20b6cfdc68b00ddb5c8a0a12bf2b51cd0ee22deb"
+      "sha256": "30e6bf75ecb774d85d74fe0b73cbb054a88af3b5e29552121f6ceb9d7d71c28b"
     },
     {
       "path": "fonts/generated/svg/sans-700/underscore.svg",
@@ -3529,18 +3529,18 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/uni00B2.svg",
-      "byteLength": 861,
-      "sha256": "a7a550ed84a36789c5dbfd8b52479454ff1fdcf496ddfb1a3efc3b96c61f79a9"
+      "byteLength": 860,
+      "sha256": "cdbe8fa44bb39d854470d3613740ef7842bc4adce470154823a427b2abbf5869"
     },
     {
       "path": "fonts/generated/svg/sans-700/uni00B3.svg",
-      "byteLength": 996,
-      "sha256": "de665e5d4f121daf286a1d022fb690d945c5c82ae53d522c325f2ebcd31136ed"
+      "byteLength": 994,
+      "sha256": "4680463abc607134a658b8faa9988d83138797406f408f46fa30b0955dbb379e"
     },
     {
       "path": "fonts/generated/svg/sans-700/uni00B9.svg",
       "byteLength": 575,
-      "sha256": "2c46875f30d412569e52d19b4e4b3ed6a8e8320c2a085eab7e3cca426ff1767d"
+      "sha256": "0253f7ecab75ad82b1e0a2048da23daa1a043fff84d7350c0b193238713869d2"
     },
     {
       "path": "fonts/generated/svg/sans-700/uni0302.svg",
@@ -3605,32 +3605,32 @@
     {
       "path": "fonts/generated/svg/sans-700/v.svg",
       "byteLength": 440,
-      "sha256": "a9a275d4e100fcb114ee05d250616b3d67cbdb51cc750aea17f6b4d6aa9109ab"
+      "sha256": "31eb824f4224cc142d9a2d3d4abf64a37e5cbd97f739403d9ef0415044c54e8d"
     },
     {
       "path": "fonts/generated/svg/sans-700/w.svg",
       "byteLength": 728,
-      "sha256": "e40a44f4c0aa66d78c0a401986294495fab732710db79bb6da0665358873ef0f"
+      "sha256": "5826295caa1e6b51de2cd978161f1d2655e63d8bdcab2e57221ff9d794121928"
     },
     {
       "path": "fonts/generated/svg/sans-700/x.svg",
       "byteLength": 614,
-      "sha256": "010f3ddbd0fccfe1d6825c0de36eae4f69aed989eb587818a5c2f547c3b3bd6a"
+      "sha256": "6b1b3961c4337ebeeda520da7870a671a036c8d9d9d260fb8a1db98c3cd3b1de"
     },
     {
       "path": "fonts/generated/svg/sans-700/y.svg",
       "byteLength": 616,
-      "sha256": "788f0fb0bc5b335ad2fcdd5ae941e1ca423dfd17bff3623a94d0873e24cffa06"
+      "sha256": "621e86fc6cdbd084890d0fcbaf8646c08d6cb58dec68fd31288f86f0cca4b4e3"
     },
     {
       "path": "fonts/generated/svg/sans-700/yacute.svg",
       "byteLength": 950,
-      "sha256": "a421d258e3a0306b6296a59058cd0e0152516722ec59e4546804102ba74c64ff"
+      "sha256": "1905b5bb3fae99b62d782e6e953f448d8912cf621bdf801eb56d130f399b91c7"
     },
     {
       "path": "fonts/generated/svg/sans-700/ydieresis.svg",
       "byteLength": 930,
-      "sha256": "a7f6b5148978b7db69d1bd76da8413af1a5c563c14320e7910e225c7f915b927"
+      "sha256": "71aef320f8254e0c991beacfd1d9f070a83734829cc5341014c803cf3358ccf7"
     },
     {
       "path": "fonts/generated/svg/sans-700/yen.svg",
@@ -3639,13 +3639,13 @@
     },
     {
       "path": "fonts/generated/svg/sans-700/z.svg",
-      "byteLength": 537,
-      "sha256": "cec77f99922d360af0c6b469e86012c43c395def12fef804de6acc80b4c66409"
+      "byteLength": 538,
+      "sha256": "1f4d89286aca4b9e5a40c7353e3bf0593398f913594a739e282e5fa65f99ef2e"
     },
     {
       "path": "fonts/generated/svg/sans-700/zero.svg",
-      "byteLength": 682,
-      "sha256": "b739bf1a06ade348d5ab2df8dab4a25a0f2b5e090d2eb3a44312d88983b36a9c"
+      "byteLength": 680,
+      "sha256": "28a9d22b433cc889c11aa12c86d42661fda8a413d0900a74699b71d0611022ee"
     },
     {
       "path": "fonts/generated/svg/script05-400/.notdef.svg",
@@ -16494,8 +16494,8 @@
     },
     {
       "path": "fonts/test.py",
-      "byteLength": 11705,
-      "sha256": "1ca9655dbd4d58a8fb26756da043084ed63b2ca7c0b575fc14437f840b4e062e"
+      "byteLength": 12352,
+      "sha256": "7650dd986d2ef0d739026ad840e07e1492523f89e5c45a6ce36395c9e3680eb2"
     },
     {
       "path": "package-lock.json",
@@ -16614,43 +16614,43 @@
     },
     {
       "path": "parser/fonts/jot-sans-400.woff2",
-      "byteLength": 15236,
-      "sha256": "54600e0b91bc3bcff7d7e9a346d8f85260b4e4c268017f831d8290cd72608782"
+      "byteLength": 15968,
+      "sha256": "89f20f81521ed785700db0c1ad3c9d2a8c3a61408ff684f4c63e5741530c8910"
     },
     {
       "path": "parser/fonts/jot-sans-700.woff2",
-      "byteLength": 15536,
-      "sha256": "0319f6d7445209452e8cb585b037156a4d5355b99b39dd15c5cdb531ec811db6"
+      "byteLength": 16264,
+      "sha256": "d34ebbb8c8914e6c7e65396826acd4e901b016e2a54e381de0d502e773255503"
     },
     {
       "path": "parser/fonts/jot-script-05-400.woff2",
-      "byteLength": 25348,
-      "sha256": "3c38a855b1e3465445cd1d1d167ea0460250da28bb50b281b5475b68eda1696b"
+      "byteLength": 25356,
+      "sha256": "18ab77eeb7984d0e19e47d23e018b111d8d9d5377eafc626a90d308a17a73cce"
     },
     {
       "path": "parser/fonts/jot-script-05-700.woff2",
-      "byteLength": 25700,
-      "sha256": "8afcc5bac92d576746885632c770d5c5e8963ae90f59800b552b58135a6141be"
+      "byteLength": 25692,
+      "sha256": "4512b9d93427faf504ca625d56a393858a31fea570b8b64efa303b71416678fb"
     },
     {
       "path": "parser/fonts/jot-script-07-400.woff2",
-      "byteLength": 25840,
-      "sha256": "aba75a99d67aabb6d0a3a8928559d5328e2f75d35486b8686840c7de527c1e17"
+      "byteLength": 25852,
+      "sha256": "d23b829e0d2d201d8ede6756f40d5f24215a12f1ca89dbf85494f0610a458457"
     },
     {
       "path": "parser/fonts/jot-script-07-700.woff2",
-      "byteLength": 25692,
-      "sha256": "2ccf9a31bbd2cf71656a51e4c07ef0c7f7c954f6b9d639dc37a2ed1786292a33"
+      "byteLength": 25696,
+      "sha256": "da8454e092eade3329a535d36c5f133d82498bcec46d998deff6b30311358935"
     },
     {
       "path": "parser/fonts/jot-script-10-400.woff2",
-      "byteLength": 25604,
-      "sha256": "53abe2ca30f8e66c9b33efec9eaa29dc8b091b50b3ea30f026b2eb56fc092be2"
+      "byteLength": 25600,
+      "sha256": "808c2869c47dc7c7f02739111588bfaf749feefc6666f72b96031046f013f714"
     },
     {
       "path": "parser/fonts/jot-script-10-700.woff2",
-      "byteLength": 25396,
-      "sha256": "b15e5beb8a6b2171fa7afca818d46a69c36c729afe64c5cae12797f2a2a86877"
+      "byteLength": 25416,
+      "sha256": "0a4520e6326174ab697648d29ae034f01ac9cdac93e93c05c6fb2d57627068f7"
     },
     {
       "path": "parser/fonts/playpen-sans-OFL.txt",
@@ -16964,8 +16964,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1141038,
-      "sha256": "a8648a30d668485dbe5f7341908565cc59cb477f68e488a5448ec8e4a73c3697"
+      "byteLength": 1142530,
+      "sha256": "b307e9e723799b5435fa6541d0da92de9eecd2650955a5dddfaba8addac8feaa"
     },
     {
       "path": "site/dist/editor-capture.mjs",
@@ -17294,8 +17294,8 @@
     },
     {
       "path": "site/dist/fonts/catalog.json",
-      "byteLength": 3692198,
-      "sha256": "a3c43d85ae73fa6b42ee4383f85e57280785790ab3b12081decfa653170d09ac"
+      "byteLength": 3692824,
+      "sha256": "a70815648922b8be226b924f5077a57e324f122959cba6f985fc10413626206d"
     },
     {
       "path": "site/dist/fonts/index.html",
@@ -17474,43 +17474,43 @@
     },
     {
       "path": "site/dist/jot/fonts/jot-sans-400.woff2",
-      "byteLength": 15236,
-      "sha256": "54600e0b91bc3bcff7d7e9a346d8f85260b4e4c268017f831d8290cd72608782"
+      "byteLength": 15968,
+      "sha256": "89f20f81521ed785700db0c1ad3c9d2a8c3a61408ff684f4c63e5741530c8910"
     },
     {
       "path": "site/dist/jot/fonts/jot-sans-700.woff2",
-      "byteLength": 15536,
-      "sha256": "0319f6d7445209452e8cb585b037156a4d5355b99b39dd15c5cdb531ec811db6"
+      "byteLength": 16264,
+      "sha256": "d34ebbb8c8914e6c7e65396826acd4e901b016e2a54e381de0d502e773255503"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-05-400.woff2",
-      "byteLength": 25348,
-      "sha256": "3c38a855b1e3465445cd1d1d167ea0460250da28bb50b281b5475b68eda1696b"
+      "byteLength": 25356,
+      "sha256": "18ab77eeb7984d0e19e47d23e018b111d8d9d5377eafc626a90d308a17a73cce"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-05-700.woff2",
-      "byteLength": 25700,
-      "sha256": "8afcc5bac92d576746885632c770d5c5e8963ae90f59800b552b58135a6141be"
+      "byteLength": 25692,
+      "sha256": "4512b9d93427faf504ca625d56a393858a31fea570b8b64efa303b71416678fb"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-07-400.woff2",
-      "byteLength": 25840,
-      "sha256": "aba75a99d67aabb6d0a3a8928559d5328e2f75d35486b8686840c7de527c1e17"
+      "byteLength": 25852,
+      "sha256": "d23b829e0d2d201d8ede6756f40d5f24215a12f1ca89dbf85494f0610a458457"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-07-700.woff2",
-      "byteLength": 25692,
-      "sha256": "2ccf9a31bbd2cf71656a51e4c07ef0c7f7c954f6b9d639dc37a2ed1786292a33"
+      "byteLength": 25696,
+      "sha256": "da8454e092eade3329a535d36c5f133d82498bcec46d998deff6b30311358935"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-10-400.woff2",
-      "byteLength": 25604,
-      "sha256": "53abe2ca30f8e66c9b33efec9eaa29dc8b091b50b3ea30f026b2eb56fc092be2"
+      "byteLength": 25600,
+      "sha256": "808c2869c47dc7c7f02739111588bfaf749feefc6666f72b96031046f013f714"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-10-700.woff2",
-      "byteLength": 25396,
-      "sha256": "b15e5beb8a6b2171fa7afca818d46a69c36c729afe64c5cae12797f2a2a86877"
+      "byteLength": 25416,
+      "sha256": "0a4520e6326174ab697648d29ae034f01ac9cdac93e93c05c6fb2d57627068f7"
     },
     {
       "path": "site/dist/jot/fonts/playpen-sans-OFL.txt",
@@ -18299,43 +18299,43 @@
     },
     {
       "path": "vscode/media/jot/fonts/jot-sans-400.woff2",
-      "byteLength": 15236,
-      "sha256": "54600e0b91bc3bcff7d7e9a346d8f85260b4e4c268017f831d8290cd72608782"
+      "byteLength": 15968,
+      "sha256": "89f20f81521ed785700db0c1ad3c9d2a8c3a61408ff684f4c63e5741530c8910"
     },
     {
       "path": "vscode/media/jot/fonts/jot-sans-700.woff2",
-      "byteLength": 15536,
-      "sha256": "0319f6d7445209452e8cb585b037156a4d5355b99b39dd15c5cdb531ec811db6"
+      "byteLength": 16264,
+      "sha256": "d34ebbb8c8914e6c7e65396826acd4e901b016e2a54e381de0d502e773255503"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-05-400.woff2",
-      "byteLength": 25348,
-      "sha256": "3c38a855b1e3465445cd1d1d167ea0460250da28bb50b281b5475b68eda1696b"
+      "byteLength": 25356,
+      "sha256": "18ab77eeb7984d0e19e47d23e018b111d8d9d5377eafc626a90d308a17a73cce"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-05-700.woff2",
-      "byteLength": 25700,
-      "sha256": "8afcc5bac92d576746885632c770d5c5e8963ae90f59800b552b58135a6141be"
+      "byteLength": 25692,
+      "sha256": "4512b9d93427faf504ca625d56a393858a31fea570b8b64efa303b71416678fb"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-07-400.woff2",
-      "byteLength": 25840,
-      "sha256": "aba75a99d67aabb6d0a3a8928559d5328e2f75d35486b8686840c7de527c1e17"
+      "byteLength": 25852,
+      "sha256": "d23b829e0d2d201d8ede6756f40d5f24215a12f1ca89dbf85494f0610a458457"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-07-700.woff2",
-      "byteLength": 25692,
-      "sha256": "2ccf9a31bbd2cf71656a51e4c07ef0c7f7c954f6b9d639dc37a2ed1786292a33"
+      "byteLength": 25696,
+      "sha256": "da8454e092eade3329a535d36c5f133d82498bcec46d998deff6b30311358935"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-10-400.woff2",
-      "byteLength": 25604,
-      "sha256": "53abe2ca30f8e66c9b33efec9eaa29dc8b091b50b3ea30f026b2eb56fc092be2"
+      "byteLength": 25600,
+      "sha256": "808c2869c47dc7c7f02739111588bfaf749feefc6666f72b96031046f013f714"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-10-700.woff2",
-      "byteLength": 25396,
-      "sha256": "b15e5beb8a6b2171fa7afca818d46a69c36c729afe64c5cae12797f2a2a86877"
+      "byteLength": 25416,
+      "sha256": "0a4520e6326174ab697648d29ae034f01ac9cdac93e93c05c6fb2d57627068f7"
     },
     {
       "path": "vscode/media/jot/fonts/playpen-sans-OFL.txt",
