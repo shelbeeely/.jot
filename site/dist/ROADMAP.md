@@ -19,7 +19,7 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Plain-text writing and date sections | Implemented; parser tested | Broader malformed-input and large-file fixtures |
 | Desktop and mobile writing tools | Implemented: formatting/shortcuts, list continuation, literal find/replace, parsed outline, Commands and reviewed entry templates; Chromium desktop and 320/390px mobile emulation tested | Physical mobile keyboard/device testing, richer personal templates and recovery |
 | Autocomplete and reference sources | Partial: current-journal suggestions, explicitly opened People/Places books and opt-in MusicBrainz lookup implemented | General reference tracks, media and broader smart-journal source catalog below; no background archive scan or journal upload |
-| Smart journal and context sources | First slice implemented: shared on-demand source picker and reviewed Open-Meteo daily snapshots; transport/browser tests use mocked responses | Read-only Home Assistant next; contextual suggestions remain unimplemented/off; wider catalog remains planned |
+| Smart journal and context sources | Implemented: shared on-demand source picker, reviewed Open-Meteo daily snapshots and selected read-only Home Assistant states/history; transport/browser tests use mocked responses | Wider providers next; contextual suggestions remain unimplemented/off; wider catalog remains planned |
 | Connected-data syntax | Proposed optional references and record conventions, not standardized semantic support | Specification review, parser/renderer work, conformance fixtures and Writer insertion controls; plain prose and old files remain valid |
 | WriteFreely editor and ActivityPub exploration | Planned; source-based integration assessment in `docs/proposals/writefreely-integration.md` | Evaluate editor enhancements and a reviewed publication adapter; isolated instance, license review and federation interoperability before release |
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
@@ -157,7 +157,7 @@ remain optional and limited to chosen activity or excerpts. Physical hardware an
 
 ## Smart journal: connected context and optional syntax
 
-Status: **first weather/source-picker slice implemented**; wider connections, contextual suggestions and Home Assistant remain planned. Source catalog, defaults and boundaries are in
+Status: **weather/source picker and read-only Home Assistant implemented**; wider connections, contextual suggestions and the Home Assistant card remain planned. Source catalog, defaults and boundaries are in
 [smart-journal-and-connected-data.md](../docs/proposals/smart-journal-and-connected-data.md). This is not a claim of
 implemented connections, contextual text analysis, a dashboard card or new semantic parser support.
 
@@ -429,5 +429,17 @@ a personal observation. Existing generic records preserve the snapshot fields; t
 
 Browser/service tests mock Open-Meteo. Live endpoint/CORS/commercial-account compatibility and native desktop-webview access remain
 unverified; desktop CSP permits only the two named public weather origins. See [Connected sources](../docs/guide/connected-sources.md).
-Next: Home Assistant read-only entities/history with session credentials, then the separate default-off local contextual
-suggestions setting. Movie/TV lookup and reviewed Trakt actions remain the next media milestones.
+Implemented next slice: Home Assistant read-only entities/history with memory-only credentials. Next: the separate default-off
+local contextual suggestions setting. Movie/TV lookup and reviewed Trakt actions remain the next media milestones.
+
+
+### Read-only Home Assistant delivery
+
+Writer's Connected sources picker supports one to five chosen entity IDs from an explicit HTTPS/loopback instance. It reads
+current states or up to seven past days/200 historical states, bounds each response to 512 KiB, and preserves reported values,
+units, entity IDs, update times, missing history and boundary states. Tokens clear on close/lock/host change and never enter
+journals or browser storage. No service calls, device writes, subscriptions, current-state fallback for missing history or
+automatic insertions. Records use existing measurement/observation syntax and reviewed provenance fields. Tests use mocked
+provider responses and browser requests; actual instance credentials, CORS/private-network permissions and native webviews still
+need verification. Desktop instance access remains loopback-only under the existing CSP; arbitrary host access is not claimed.
+The optional Home Assistant card and contextual suggestions remain planned.

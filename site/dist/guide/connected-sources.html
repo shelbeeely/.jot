@@ -18,8 +18,7 @@
 <main>
 <div class="guide-wrap" id="guide"><h1 id="connected-sources">Connected sources</h1>
 <article class="guide">
-<p>Choose <strong>Tools → Connected sources</strong> in Writer. The first source is <strong>Weather · Open-Meteo</strong>. Other sources, including read-only
-Home Assistant, are on the roadmap. You can keep writing without connecting anything.</p>
+<p>Choose <strong>Tools → Connected sources</strong> in Writer. Choose <strong>Weather · Open-Meteo</strong> or <strong>Home Assistant · read-only</strong>. Additional providers remain on the roadmap. You can keep writing without connecting anything.</p>
 <p>Enter latitude, longitude, a day and its timezone, then choose <strong>Look up weather</strong>. UTC starts selected; change it if your weather
 day belongs to another timezone. No location permission or place search is requested. Only these lookup fields go to Open-Meteo;
 your journal text, passphrase and AI key do not. Opening this tool or typing in your journal makes no weather request.</p>
@@ -43,9 +42,37 @@ The normal browser draft retains snapshots after you explicitly add them; locked
 attribution retained in the inserted source. Its public endpoint is intended for non-commercial use under its
 <a href="https://open-meteo.com/en/terms">current terms</a>. Commercial deployments need an appropriate service agreement; this first
 adapter does not implement a customer API-key endpoint. Quotas, provider availability, browser CORS and network policies apply.</p>
-<p>Contextual suggestions remain unimplemented/off; this tool does not analyze surrounding prose. Home Assistant, additional media
-sources and confirmed external service actions remain separate milestones. Tests use mocked weather responses and Chromium;
-live service access and native desktop-webview behavior have not been verified.</p>
+<h2 id="read-only-home-assistant">Read-only Home Assistant</h2>
+<p>Choose <strong>Home Assistant · read-only</strong>, enter your instance origin, a session access token and one to five entity IDs, such as
+<code>sensor.living_room_temperature</code>. Use an access token created in your Home Assistant profile. The origin must be HTTPS with no path, query or credentials; HTTP is allowed only for loopback
+(<code>localhost</code>, <code>127.0.0.1</code>, <code>[::1]</code>). This tool does not provide a proxy for insecure local-network instances. Changing the instance
+clears the token so it cannot be reused silently on another host. A token may grant broader server permissions than Jot uses.</p>
+<p>Choose <strong>Current states</strong> or <strong>History</strong>, then <strong>Read selected entities</strong>. History needs start and end timestamps with seconds and
+an explicit UTC offset, such as <code>2026-10-01T09:00:00Z</code>. It is limited to a past interval of seven days and 200 returned states in
+total. Each entity response is bounded to 512 KiB. Narrow the interval or selection if the server returns too much; Jot does not
+silently truncate the history. Only the selected state/history endpoints are requested. There is no whole-house entity scan,
+websocket subscription, service call, scene/script trigger or device-state write. Browsers may make a CORS preflight request.</p>
+<p>Review before adding. Numeric reported states become measurement records; text, unknown/unavailable states and missing entities
+become observations. Records preserve entity identity, units, server update time, optional last-changed time and retrieval time.
+They say <code>data-kind: reported</code>: a server value is not proof of what you did or a direct physical measurement. A history response
+can include a state that predates the selected start so you can see the state at the boundary. That row keeps its original time
+and <code>boundary-state: true</code>; it is not an event that happened within the interval. Missing/expired history is explicitly marked
+<code>availability: no-history</code>, without requesting current readings as a substitute.</p>
+<p>Only the reviewed state, name, unit and timestamps are retained, not arbitrary entity attributes. The access token is sent only
+in the Authorization header to the chosen instance, never in the URL, journal, offline cache or local/session storage. Redirects
+are rejected. Closing this tool (including Escape), switching providers, changing the instance, locking/replacing the journal or
+leaving the page clears the token. A save retry uses the already reviewed snapshot and does not repeat the network lookup.
+Instance addresses and selected entity IDs are included in the preview and saved records; consider them before sharing a journal.</p>
+<p>Your server must allow the exact Writer origin under Home Assistant&#39;s
+<a href="https://www.home-assistant.io/integrations/http/#cors_allowed_origins">CORS configuration</a>. For example, allow the actual HTTPS
+origin hosting your Writer; a path such as <code>/write/</code> is not part of the origin. Use your own server&#39;s trusted HTTPS address and
+certificate. Private-network browser permissions, proxies and server/account permissions can still block access. The native
+desktop app&#39;s existing network policy supports loopback instances; arbitrary HTTPS Home Assistant hosts are not added to its
+allowlist by this change. Do not put a token into a dashboard card, launch URL or CORS configuration. The optional Home Assistant
+card remains a separate design exploration. See the <a href="https://developers.home-assistant.io/docs/api/rest/">Home Assistant REST API</a>.</p>
+<p>Contextual suggestions remain unimplemented/off; this tool does not analyze surrounding prose. Additional media sources and
+confirmed external service actions remain separate milestones. Tests use mocked weather/Home Assistant responses and Chromium;
+live instance authentication, real CORS/private-network access and native desktop-webview behavior have not been verified.</p>
 </article></div>
 </main>
 </body>

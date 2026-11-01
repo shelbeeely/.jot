@@ -1,6 +1,9 @@
+import { sourceJSON } from './source-response.mjs';
+import { createHomeAssistantClient } from './home-assistant-source.mjs';
 // Shared on-demand source contract. Opening a picker or a document never performs a request.
 export const SOURCE_CATALOG = Object.freeze([
-  Object.freeze({ id: 'weather', label: 'Weather · Open-Meteo', capabilities: Object.freeze(['lookup', 'snapshot']), network: true, attribution: 'Open-Meteo · CC BY 4.0', credentials: false })
+  Object.freeze({ id: 'weather', label: 'Weather · Open-Meteo', capabilities: Object.freeze(['lookup', 'snapshot']), network: true, attribution: 'Open-Meteo · CC BY 4.0', credentials: false }),
+  Object.freeze({ id: 'home-assistant', label: 'Home Assistant · read-only', capabilities: Object.freeze(['lookup', 'history', 'snapshot']), network: true, credentials: true })
 ]);
 const DAY = 86400000;
 export function calendarDate(value) {
@@ -53,24 +56,17 @@ export function weatherSource(snapshot, id) {
   return [records, ...measurements, '[Weather data: Open-Meteo](https://open-meteo.com/) · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)'].join('\n\n');
 }
 export function createSourceClient({ fetchImpl = (...args) => fetch(...args), now = () => Date.now() } = {}) {
-  let next = 0;
+  let next = 0; const homeAssistant = createHomeAssistantClient({ fetchImpl, now });
   return {
     async lookup(id, input, { signal } = {}) {
+      if (id === 'home-assistant') return homeAssistant.lookup(input, { signal });
       if (id !== 'weather') throw Error('This source is not implemented.');
       const request = weatherRequest(input, now());
       if (now() < next) throw Error('Wait a moment before another lookup.');
       next = now() + 1100;
       const response = await fetchImpl(request.url, { signal, credentials: 'omit', referrerPolicy: 'no-referrer', redirect: 'error', cache: 'no-store', headers: { Accept: 'application/json' } });
       if (!response.ok) { if(response.status === 429) next = now() + 10000; throw Error(response.status === 429 ? 'The weather service is busy. Wait before retrying.' : 'Weather is unavailable for that request. You can keep writing.'); }
-      if (Number(response.headers.get('content-length')) > 262144) throw Error('The weather response is too large.');
-      const reader = response.body?.getReader();
-      if (!reader) throw Error('The browser could not read the weather response.');
-      let size = 0; const chunks = [];
-      try {
-        for (;;) { const { done, value } = await reader.read(); if (done) break; size += value.length; if (size > 262144) throw Error('The weather response is too large.'); chunks.push(value); }
-      } finally { await reader.cancel().catch(() => {}); reader.releaseLock(); }
-      const bytes = new Uint8Array(size); let offset = 0; for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
-      return weatherSnapshot(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)), request, new Date(now()).toISOString());
+      return weatherSnapshot(await sourceJSON(response), request, new Date(now()).toISOString());
     }
   };
 }

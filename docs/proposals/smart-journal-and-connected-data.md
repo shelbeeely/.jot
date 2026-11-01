@@ -1,6 +1,6 @@
 # Smart journal: connected sources and optional structured syntax
 
-Updated 1 November 2026. Status: **weather/source-picker first slice implemented**. Other connections, contextual settings,
+Updated 1 November 2026. Status: **weather and read-only Home Assistant implemented**. Other connections, contextual settings,
 Home Assistant card and complete semantic parser support remain planned.
 The owner wants many optional data sources at a journal writer's fingertips, on-demand lookup, contextual suggestions
 behind a setting that defaults off, read-only Home Assistant, and both concise references and structured `.jot` records.
@@ -195,7 +195,19 @@ Jot records, model provenance, retrieval time, units, coordinates and attributio
 require a newly captured caret; closing/locking cancels pending lookup. Tests use mocked provider responses. Live provider terms,
 CORS and native platform compatibility require deployment checks; no unrestricted network proxy or embedded credentials exist.
 
-This first slice does not add prose analysis or enable contextual suggestions. Home Assistant remains next, read-only. Existing
+This first slice does not add prose analysis or enable contextual suggestions. Home Assistant now follows this flow with explicitly selected current states or bounded history; the optional card remains planned. Existing
 `measurement` and generic `observation` records carry snapshot provenance; no new short-reference namespace or automatic action
 semantics were added. Research: `docs/methods/digital-daily-notes.md, line 711` rejects cloud sync for journal content in that guide;
 explicitly sending lookup coordinates while retaining journal prose locally is an engineering choice, not a research finding.
+
+
+## Second delivery: read-only Home Assistant
+
+Implemented in the shared picker: explicit HTTPS/loopback instance, memory-only token, one to five selected entities, current state
+or a chosen past history interval (seven days/200 states/512 KiB per entity). Only state/history GET requests are issued; no device
+control, subscriptions or broad discovery. Preserve server timestamps/units, missing/unavailable data and a labelled boundary state
+before the history start. Missing history never falls back to current readings. Readable snapshot records retain only reviewed
+fields, `data-kind: reported`, instance and entity identity, and retrieval time. No account credential is included. Token clearing,
+redirect rejection, endpoint scoping, response limits and reviewed undoable insertion are covered by mocked tests. Live HA/CORS
+and native webview access remain unverified. Desktop support remains constrained by its existing loopback-only instance policy;
+no wildcard HTTPS permission was added. Contextual suggestions and the optional dashboard card remain separate milestones.

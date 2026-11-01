@@ -899,3 +899,24 @@ named weather origins. Transport/browser tests are mocked, not live provider or 
 Assistant and the separate default-off contextual suggestions setting remain next; no active-entry analyzer is installed.
 `docs/methods/digital-daily-notes.md, line 711` rejects cloud content sync in that guide's context; `docs/methods/expressive-writing.md,
 line 443` says keep writing private. The provider architecture and forecast labeling are engineering choices, not study findings.
+
+
+## 2026-11-01: Read-only Home Assistant snapshots in Connected sources
+
+The owner asked to finish the next integration after committing weather. Use explicit instance/token/entity inputs and GET-only
+state/history endpoints; no whole-instance state listing, services, events, scripts, scenes, state writes or subscriptions. HTTPS
+or loopback is required. Tokens stay in page memory, clear on close/lock/instance changes and never enter portable content or
+browser storage. Limit requests to five entity IDs, history to seven past days/200 total states and each response to 512 KiB.
+Retain reported state, units, server timestamps, instance/entity identity and retrieval time; missing history remains missing.
+A pre-start history boundary row keeps its original timestamp and explicit boundary marker. Server state is labelled reported,
+not a claim about the writer's activity. Review precedes insertion, with stale-source guards, source/live undo and save retries.
+Reject redirects, unselected entities, malformed timestamps and credential echoes; sanitize provider labels/fields. Actual token
+permissions may exceed the adapter's reads. Existing desktop CSP permits loopback instances; no wildcard permission was added
+for arbitrary HTTPS hosts. Home Assistant CORS and private-network access remain deployment requirements, not something a local
+proxy bypasses. Tests mock providers and browser requests; no live account or native-webview verification is claimed. The card
+and contextual suggestions remain planned. `docs/methods/expressive-writing.md, line 443` (keep it private by choice) and
+`docs/methods/digital-daily-notes.md, line 711` (no cloud journal-content sync in that guide) inform the boundary. The endpoint,
+limit and timestamp decisions are engineering choices; those guides do not establish them as research findings.
+
+Regression checks also exposed unreadable lock/unlock action colors in dark mode. Those dialog buttons now use the same themed
+ink and paper colors as their surrounding controls; encryption behavior is unchanged.

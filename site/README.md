@@ -191,6 +191,7 @@ devices remain separate checks. See [Browser tools](../docs/guide/browser-tools.
 
 
 Connected source adapters live in `dist/connected-sources.mjs`, with explicit capabilities and bounded on-demand requests;
-`connected-sources-ui.mjs` provides the shared review/insertion UI. Initial provider: Open-Meteo daily weather. Run
-`node --test site/test-connected-sources.mjs` and `node site/test-connected-sources-ui.cjs`; provider responses are mocked.
+`connected-sources-ui.mjs` provides the shared review/insertion UI. Providers: Open-Meteo daily weather and selected read-only Home Assistant states/history. Run
+`node --test site/test-connected-sources.mjs site/test-home-assistant-source.mjs`, `node site/test-connected-sources-ui.cjs`
+and `node site/test-home-assistant-ui.cjs`; provider responses are mocked.
 Native webview/CORS and live account checks remain separate. No contextual prose analysis is enabled.
