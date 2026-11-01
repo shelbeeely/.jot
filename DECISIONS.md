@@ -1,5 +1,87 @@
 # Latest Jot v1 decisions
 
+## Smart journal sources and optional syntax (1 November 2026)
+
+The owner approved a broad smart-journal source catalog and both concise references and structured records. The roadmap,
+`docs/proposals/smart-journal-and-connected-data.md` and the extended media proposal document this planned work. Add
+AniList, Hardcover, SIMKL, Inoreader, OpenSubsonic and gPodder to the existing media backlog. Extend existing weather,
+Todoist, webhook and health-import foundations for a shared source picker; physical hardware and firmware remain deferred.
+
+On-demand lookup uses explicit inputs without processing prose. Contextual suggestions are a separate locally remembered
+setting, **off by default**. If enabled, analyze only the active entry locally; selection precedes external lookup and
+reviewed insertion. Disabling cancels pending analysis and clears suggestions. No private prose is sent to providers.
+
+Home Assistant is **read-only**: chosen instances/entities/ranges, current states and available history, with no service
+calls, device/synthetic-state writes, scene/script triggers or background subscriptions. An optional dashboard card is a
+separate exploration, beginning with a Writer launcher and selected read-only context; no card implementation is chosen.
+
+The optional syntax draft proposes typed TMDB/Trakt references, media/activity conventions and sourced observations using
+the existing record grammar. Generic preservation is not semantic support. Canonical specification changes, conformance
+fixtures, parser/renderer behavior and Writer controls are later milestones. No automatic migration or released-version
+bump occurs here; existing `sync` records remain preservable and never authorize requests.
+
+Research basis: `docs/methods/digital-daily-notes.md, line 711` rejects journal-content cloud sync. Its objection to
+activity-based suggestions at line 712 is narrowed by the owner's explicit optional-setting request, with local analysis
+and no unselected external lookup. `docs/methods/expressive-writing.md, line 443` supports private writing unless sharing
+is chosen; `docs/methods/symptom-tracking.md, line 686` rejects symptom-data cloud sync. These guide boundaries, not a
+claim that integrations improve journaling outcomes. No live connection, provider write, semantic parser change or card
+deployment is implemented in this documentation update.
+
+## Media references and optional service actions (31 October 2026)
+
+The owner requested broader media autocomplete and the ability to send chosen activity back to services such as Trakt.
+Plan movie/TV/episode lookup first, then reviewed Trakt watched-history actions; expand music, streaming availability,
+podcasts, books and games through separate provider capabilities. Existing MusicBrainz lookup remains the implemented
+baseline. The roadmap and `docs/proposals/media-sources-and-service-actions.md` distinguish planned work from live support.
+
+A media reference is not evidence of watching/listening. Outbound actions require a chosen account and confirmed activity;
+optional future rules are explicitly enabled and do not interpret prose or trigger on autosave. Send selected activity
+metadata, not the private entry. Preserve rewatches and prevent duplicate writes, uncertain retries and import/export loops.
+Provider credentials and local delivery receipts stay outside portable journal content. No account was connected or write
+performed. Research basis: `docs/methods/digital-daily-notes.md, line 711` (avoid third-party journal-content sync) and
+`docs/methods/expressive-writing.md, line 443` (sharing is chosen). No format syntax change is established by this plan.
+
+## Physical hardware and firmware deferred (31 October 2026)
+
+The owner removed dedicated physical hardware and firmware from current delivery. Both will be explored later, as recorded
+in `specification/ROADMAP.md`. Current work focuses on the Jot format and Writer software, including the beginner's first
+entry, saving, recovery and returning to writing. Hardware procurement, parts lists, enclosure design, device prototypes,
+firmware ports and device-specific integrations are not current milestones or prerequisites for Writer v1.
+
+This supersedes the 30 October direction to continue firmware work. The five hardware-specific research proposals and
+parts lists have been removed from the active repository. No device, component supplier, firmware target, production
+plan or hardware price is selected. No firmware implementation was present in this repository.
+
+The physical/digital bridge remains possible through existing software capabilities: ordinary input devices, optional
+printing and retaining handwriting originals. Those capabilities do not commit Jot to developing a physical product.
+
+Paper entries count before digitizing; capture can happen later and retains originals (`docs/methods/rocketbook-and-scan-systems.md,
+line 538`; `docs/methods/digital-daily-notes.md, line 420`). Keep navigation and setup small (`docs/methods/e-ink-templates.md,
+line 519`). Reduced distraction is **plausible by design**, not directly tested for journaling (same guide, line 501);
+reduced social-media use remains a product goal, not an established outcome.
+
+## Jot Writer v1 starts with people who have never journaled (30 October 2026)
+
+The owner set the primary audience: people who have never journaled and want help getting started. The v1 promise is a
+comfortable start, a small first entry, and an easy return whenever they choose. Attractive pages and portable files support
+that experience. This replaces the earlier positioning assumption that paper-journal enthusiasts are the primary audience.
+
+This audience guides **Jot Writer**, the application. The **Jot format** defines saved content and its portable meaning;
+the writer owns onboarding, suggestions, method/template selection, editor preferences and recovery. Optional profile
+contracts and saved layout intent remain format concerns; implementing them does not require the same interface. The brief
+spells out this boundary and distinguishes format conformance from Writer v1 readiness. No format syntax changes are made.
+
+The delivery brief is `docs/proposals/first-journal-v1.md`; its onboarding changes are planned, not implemented. The existing
+writer already starts blank and supports ordinary writing. The next slice should offer one optional, concrete starting
+question, with a clear way to write freely, before introducing methods, formatting or file-format details. Saving, recovery
+and reopening remain release priorities because a beginner must be able to trust the first entry they make.
+
+Research basis: short, concrete prompts with an exit (`docs/methods/prompt-journaling.md, line 435`); avoid template bloat
+(`docs/methods/digital-daily-notes.md, line 488`); no catch-up or missed-day counts (`docs/methods/low-demand-check-in.md,
+line 236`). These guide the design, not a claim of demonstrated onboarding effectiveness: "Prompts help people start writing"
+is explicitly **claimed**, not studied as such (`docs/methods/prompt-journaling.md, line 405`), and the low-demand format's
+evidence is **anecdotal** (`docs/methods/low-demand-check-in.md, line 173`). Test the experience with first-time journalers.
+
 ## The brand book (30 October 2026)
 
 The brand is written down as a whole: `docs/brand/README.md` (the brand book: foundation, logo, color, type, imagery, the system,
@@ -251,7 +333,7 @@ boundary that excluded page layout. It does not add scanning codes, fixed-positi
 - These are optional presentation hints in existing hidden comments: `jot-page: {"paper":"A5","pitchMm":5,"marginMm":8}` and
   `jot-block: {"id":"notes","rows":8,"gap":1,"newPage":false}`, closed by a separate `jot-block-end` comment. Values are validated and
   bounded, never interpreted as HTML or CSS. Block ids link repeated instances to their template block.
-- Unchanged Auto-only templates omit the extra layout markers to preserve compact text and InkDeck capacity. The editor generates
+- Unchanged Auto-only templates omit the extra layout markers to preserve compact text. The editor generates
   markers separately for its visual preview. Saved template JSON and the hidden template comment round-trip all layout settings.
 - The shared handwritten renderer aligns children within each sized block, then allocates its minimum rows and page-start space.
   Write restores a file's paper/grid settings; print and standalone HTML retain block space. Editing outlines and controls stay in
@@ -621,3 +703,21 @@ existing styles. This changes the default presentation without adding format syn
 Jot Writer defaults to a source-backed live writing surface on desktop and mobile. Supported prose and flat lists project into semantic DOM; source offsets drive edits. Unsupported structures remain source-preserving cards with explicit Source editing. Document-dependent chart/query cards show source rather than an incorrect isolated calculation; the full page preview remains authoritative. Plain-text paste, local completion and bounded undo stay local. Physical IME and native OS picker behavior need device testing; Chromium automation uses synthetic composition and mocked handles.
 
 Secure Chromium File System Access connects only explicitly chosen files, with explicit Save, Save as and download fallback. Handles stay in memory. Exact-byte external-change checks are best effort, not an atomic filesystem transaction. Locked journals retain encrypted download behavior rather than entering the plain device-save path. Autosave remains separate from device saving. Relocking clears live projections and their undo history.
+
+
+## 2026-11-01: Optional BYOK AI writing companion
+
+The owner explicitly requested OpenRouter and local-model BYOK drafts and suggestions with strict Jot output, then a separate
+OpenRouter ZDR toggle. This is a scoped change from `docs/methods/digital-daily-notes.md, line 714` (no generative AI summaries)
+and `docs/methods/prompt-journaling.md, line 623` (AI prompts excluded). Those guides do not establish benefits of AI journaling;
+this is an owner-requested optional tool, not an evidence-backed default or a replacement for the existing local invitations.
+Jot's to-jot guidance shapes the prompt: preserve uncertainty and avoid invented facts, dates or measurements.
+
+AI and AI suggestions are off each session. Requests are explicit and send only the instruction and an optionally chosen selection;
+there is no background journal processing. Keys and companion state remain in memory and clear on disconnect/page exit/document
+lock or replacement. Existing local autocomplete stays local. OpenRouter denies provider data collection, requires parameter support,
+and exposes ZDR on by default as an independent routing toggle. No silent privacy downgrade, model retry or cloud fallback. Local
+servers must use loopback; BYOK cloud requests are labelled remote. Containers, tool calls and remote journal files are unnecessary
+and excluded. Use JSON schema where supported and always validate the local response envelope, Jot fragment and complete edited
+source. Apply requires review, checks the original revision, preserves unrelated source and supports undo. Syntax validation does
+not prove accuracy or complete profile semantics. Tests mock services; live provider and native webview behavior remain unverified.

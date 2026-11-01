@@ -1,6 +1,6 @@
 // Jot template editor: the page. The model and the .jot text come from template.mjs; the check uses the Jot parser (../jot/jot.mjs).
 // The template is kept in this browser (localStorage, if allowed); nothing is sent anywhere.
-import { BLOCKS, LAYOUT_OPTS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, renderManual, renderJot, monthLabel, templateFromJot } from './template.mjs';
+import { BLOCKS, LAYOUT_OPTS, BLOCK_ORDER, ZONES, STARTERS, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderFiles, renderManual, renderJot, monthLabel, templateFromJot } from './template.mjs';
 import { parse } from '../jot/jot.mjs';
 import { renderPreview, addChartStyles } from '../jot/preview.mjs';
 import { pageGeometry, PAPERS } from '../jot/handwriting.mjs';
@@ -235,11 +235,10 @@ function drawPreview() {
   pick.hidden = files.length < 2;
   if (files.length > 1) $('#file-sel').innerHTML = files.map((x, i) => `<option value="${i}"${i === shown ? ' selected' : ''}>${esc(x.file)}</option>`).join('');
   $('#jot').textContent = f.text;
-  const ast = parse(f.text), probs = ast.diagnostics, big = files.filter((x) => x.bytes > INKDECK_BYTES);
+  const ast = parse(f.text), probs = ast.diagnostics;
   const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
   $('#check').innerHTML = `${files.length > 1 ? `${files.length} files · ` : ''}${ast.entries.length} ${ast.entries.length === 1 ? 'day' : 'days'} in this file · ${kb(f.bytes)} · `
-    + (probs.length ? `<span class="warn">${probs.length} ${probs.length === 1 ? 'problem' : 'problems'}</span>` : '<span class="ok">valid Jot</span>')
-    + (big.length ? ` · <span class="warn">over the 16 KB InkDeck opens${tpl.per === 'month' ? ': choose a file a week' : ''}</span>` : '');
+    + (probs.length ? `<span class="warn">${probs.length} ${probs.length === 1 ? 'problem' : 'problems'}</span>` : '<span class="ok">valid Jot</span>');
   const ul = $('#problems'); ul.hidden = !probs.length;
   ul.innerHTML = probs.slice(0, 8).map((p) => `<li>${esc(p.message)}</li>`).join('');
   document.title = `${tpl.title} · ${monthLabel(tpl.month)} · Jot template editor`;

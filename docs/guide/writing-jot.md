@@ -1,6 +1,6 @@
 # Writing in Jot
 
-Jot is a way to keep a journal as plain text. You can write it in any text editor, on a phone, on an e-ink writer like InkDeck, or in
+Jot is a way to keep a journal as plain text. You can write it in any text editor, on a computer or phone, or in
 the Jot workspace in your browser. Nothing has to be filled in, and nothing is required except your words.
 
 This guide covers everything you need to write a `.jot` file by hand. It takes about ten minutes to read, and you can stop after the
@@ -461,7 +461,7 @@ handwritten page with its hand inside the file.
 - **`.jotz`** is a packaged journal: one file that carries pictures, scans or handwriting together with the writing (it is a ZIP inside).
 
 The Jot workspace opens both and saves whichever fits: plain `.jot` when there are no attachments, `.jotz` when there are. A text
-editor or InkDeck works with `.jot`; to get the writing out of a `.jotz`, open it in the workspace (or unzip it and open
+editor works with `.jot`; to get the writing out of a `.jotz`, open it in the workspace (or unzip it and open
 `journal.txt`).
 
 - **`.jotlock`** is a locked journal: a `.jot` or `.jotz` encrypted with a passphrase. Only its ways in open it: the passphrase,
@@ -503,7 +503,6 @@ Things to know first:
 
 - **Any text editor**, on a computer or a phone. Save the file with a `.jot` ending. (For colors, see
   [Colors in your text editor](#colors-in-your-text-editor).)
-- **InkDeck**, the e-ink writing firmware for the Xteink X3/X4: it creates `.jot` files for you.
 - **The Jot workspace** (**Write**, on this site): a plain editor with optional preview, charts, method ideas and attachments.
 - **VS Code**, with the Jot extension: colors for Jot's marks and a live page preview with charts. See
   [Colors in your text editor](#colors-in-your-text-editor).

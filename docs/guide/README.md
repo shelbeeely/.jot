@@ -1,9 +1,11 @@
 # Jot guides
 
+- [Optional AI writing companion](ai-companion.md): explicit BYOK drafts and suggestions, OpenRouter ZDR and local models.
+
 - [Writing in Jot](writing-jot.md): how to write a `.jot` journal by hand: dates, tasks, notes, ratings. Ten minutes; the first
   section is enough to start.
 - [Using the template editor](template-editor.md): design a journal's shape and download it as a `.jot` file to fill in, on a
-  computer, a phone or InkDeck.
+  computer or a phone.
   Its [Numbers and charts](template-editor.md#numbers-and-charts) section covers the weekly dashboard: numbers each day, a chart of
   the week.
 - [Automation and connections](automation.md): put your events on your calendar, bring in numbers from a fitness app, carry tasks
