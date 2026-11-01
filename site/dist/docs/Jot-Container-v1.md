@@ -6,6 +6,18 @@ import/export and `.md` is a writing-only export. There is no separate `.jotlock
 This is a fresh format replacement requested by the owner. Cryptographic/container review and large-archive benchmarks remain
 release validation; implementation tests are not a security audit or a claim of instant ten-year search.
 
+## Offline completeness: v1 completion requirement
+
+A complete `.jotz` MUST be readable offline in a locally available compatible reader. This applies to the entire document, not only text or previously cached thumbnails: all entries, included images/audio/video, ink components, included documents, saved integration snapshots and resources needed for supported presentation must be local. No source-provider account, expiring URL, cloud server, journal-upload service or AI model may be required to reopen or read saved content. Protected members require a supported local passphrase/recovery/key path; being encrypted is not permission to require an online key service.
+
+Selected media MUST finish downloading and pass validation before an importer reports it as attached or the document as complete. Thumbnails/previews cannot stand in for a selected original without an explicit choice and accurate labeling. Missing/unsupported/oversize content must be reported and preserved where possible; a recoverable incomplete draft must not be advertised as a complete offline document. An unsupported format needs a declared local reader capability or an explicitly chosen offline-readable rendition with the original retained, not an assumption that every device can decode every media type.
+
+External links may remain citations or optional links: their labels and saved reference/snapshot must be readable offline, and reading the journal must not require opening the destination. This does not require copying arbitrary websites or downloading licensed streaming catalogs. Any remote embed used as document content needs a permitted bundled representation or a clear incomplete-content warning. Opening a document must not fetch such content automatically.
+
+Reader software must also be available offline: an installed desktop/mobile app or an explicitly prepared offline web app with local parser, renderer, fonts and other runtime resources. The archive is not an executable or a substitute for installing a reader. Exact source/assets must survive an offline open/edit/save/reopen cycle. Search must fall back to local source if its cache is unavailable. Test on a fresh reader profile without provider caches, with network disabled, across public/mixed/protected documents and missing/corrupt-cache cases.
+
+Status: this is a required v1 acceptance contract. The prototype bundles source/assets and an offline web shell, but complete media-format coverage, dependency/completeness validation, fresh-profile native testing and the planned provider connectors are not yet verified. See the format and Writer roadmap gates; this specification update does not claim those implementations exist.
+
 ## Structure and losslessness
 
 Ordinary single-volume ZIP, STORE/DEFLATE, without ZIP encryption or ZIP64:

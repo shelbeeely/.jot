@@ -6,6 +6,8 @@ Rules for `site/`, on top of the repository's root `AGENTS.md`. `site/dist/` is 
 
 Every implemented `.jot`/`.jotz` format change must update Writer in the same change. Consume canonical shared modules and verify affected open/edit/preview/save, media/reference, privacy, search, persistence, sharing and import/export paths; include recovery/conflict behavior where affected. Keep the shared web implementation and desktop/mobile consumers compatible, updating platform bridges, MIME/file associations and CSP when needed. Run relevant browser checks and available native checks; report unsupported/unverified platforms honestly. Documentation-only proposals stay planned.
 
+Whole-document offline reading is required for v1: all saved content and supported rendering must work without provider requests or caches. Keep the offline shell/runtime local, validate imported asset completion, show missing/unsupported/pending content honestly and test network-disabled archive reading plus local unlock. Do not count source-provider URLs or preview-only placeholders as complete media.
+
 Use `WRITER-ROADMAP.md` for web, desktop/mobile, integrations and UI delivery; use `specification/ROADMAP.md` for normative format work. Cross-link dependencies and regenerate both published roadmaps with `node tools/sync-roadmap.mjs`.
 
 ## Running and testing

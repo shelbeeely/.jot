@@ -22,7 +22,10 @@ const server = http.createServer((req, res) => {
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url())&&!r.url().startsWith(origin))remote.push(r.url());});
   await page.addInitScript(()=>{window.wakeRequests=0;window.wakeReleases=0;Object.defineProperty(navigator,'wakeLock',{configurable:true,value:{request:async()=>{window.wakeRequests++;return Object.assign(new EventTarget(),{release:async()=>{window.wakeReleases++;}});}}});});
   await page.goto(origin+'/write/');await require('./test-source-workspace.cjs')(page);
-  await page.waitForFunction(async()=>!!(await navigator.serviceWorker.getRegistration())?.active && (await caches.keys()).length > 0);
+  // waitForFunction predicates are synchronous: a returned Promise is truthy before the worker is ready.
+  // Wait for the platform readiness promise before reloading; this app deliberately does not claim existing clients.
+  await page.evaluate(()=>{window.offlineWorkerReady=false;navigator.serviceWorker.ready.then(()=>{window.offlineWorkerReady=true;});});
+  await page.waitForFunction(()=>window.offlineWorkerReady===true);
   await page.reload();await require('./test-source-workspace.cjs')(page);await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
   await page.fill('#writing','# Original\n\nKeep this.');await page.locator('#writing').evaluate(e=>e.setSelectionRange(e.value.length,e.value.length));
   await page.click('#writerBrowserBtn');assert.equal(await page.isChecked('#browserWake'),false);assert.equal(await page.evaluate(()=>window.wakeRequests),0);

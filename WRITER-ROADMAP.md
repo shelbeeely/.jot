@@ -12,6 +12,13 @@ Remain at the **0.1.0 prototype** stage while required v1 acceptance remains ope
 
 Whenever the format changes, update the corresponding Writer behavior in the same change, including shared modules, open/edit/preview/save, media, search, protection, imports/exports and platform file handling. Cross-link format dependencies rather than maintain another normative grammar or container design here. A format feature is not delivered to writers until these paths work and relevant checks pass.
 
+## Whole-document offline reading: required for v1
+
+- [ ] Make every saved complete `.jotz` readable offline, including all saved text, selected media/originals, ink components, included documents, supported presentation and integration snapshots. No provider credentials, temporary media URLs, server calls or AI may be needed to read it; protected entries retain local unlocking routes.
+- [ ] Finish and validate selected downloads before attaching them or reporting a complete document. Show truthful pending/failed/incomplete/unsupported-content states and archive-limit feedback; never silently replace an original with a preview or omit a failed attachment.
+- [ ] Keep parser, rendering/codec dependencies and fonts available locally in installed apps and the prepared offline web app. Document supported media capabilities and explicit local renditions; a generic image/video attachment is not proof of universal playback support.
+- [ ] Test a fresh compatible reader with no provider/media cache, offline archive opening, local unlock, all entries/media, index fallback, editing, saving and reopening. Cover web offline preparation plus native desktop/mobile without requiring browser/provider credentials. Source links remain optional references with local readable labels, not reading dependencies.
+
 ## Web application track
 
 - [ ] Deliver and validate the first-entry path without required setup, syntax knowledge, method selection or account creation.

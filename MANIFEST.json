@@ -109,8 +109,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 9133,
-      "sha256": "ee7ed275d0e7c27fa1b80fa5668d90a620300674e3393424bac6775c3cfdd55f"
+      "byteLength": 9564,
+      "sha256": "179558e340894a414c6079f82d23fbf44849fb5c2f9cfcda576d3dc17e1e2a4e"
     },
     {
       "path": "CLAUDE.md",
@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 90845,
-      "sha256": "0623183a43095dde7ce4701198c377bbe3e4f018427263448e332adc39d4941e"
+      "byteLength": 92712,
+      "sha256": "a47b066a70c1e2be18e266da978df5444a0369016002ab27a50100f455413d5f"
     },
     {
       "path": "README.md",
@@ -129,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 60523,
-      "sha256": "3ca2717af45d7cac5036716778e6f14b33fbd56269e6cdb117fbd0530a0f7d2e"
+      "byteLength": 61833,
+      "sha256": "f2db70c17dca37510410fc5f72f9b42d1152560b3b9108d063f7a623ae8d531e"
     },
     {
       "path": "cli/README.md",
@@ -1214,8 +1214,8 @@
     },
     {
       "path": "docs/proposals/photo-library-integrations.md",
-      "byteLength": 9398,
-      "sha256": "afb1fbeb1acf817be9fded3fbc379ef1149dfa38d20e157e12090e6ded529a95"
+      "byteLength": 10160,
+      "sha256": "b60b95186436f3cae416f30448552a61e1ecfb4081ac78d1b8542186edd052b3"
     },
     {
       "path": "docs/proposals/smart-journal-and-connected-data.md",
@@ -20149,8 +20149,8 @@
     },
     {
       "path": "parser/CONTAINER.md",
-      "byteLength": 9220,
-      "sha256": "d32c8cddfa6c283e036c1f177f898da2314cbe13825afdf66c8b681ff079588a"
+      "byteLength": 11916,
+      "sha256": "562ff445d8644778d68e38e4342e25255d27cbd6116fafb1f2f169d89d29a4b8"
     },
     {
       "path": "parser/LOCK.md",
@@ -20164,8 +20164,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 15317,
-      "sha256": "9506c203234d37f41c7115793f45dd468a03030bd3c81409930dd25f1bdc316d"
+      "byteLength": 16302,
+      "sha256": "ef57aaca86f14d47ab7f43719b16d456ec3e0d9ccb94c4a25c047e06815e730a"
     },
     {
       "path": "parser/archive-common.mjs",
@@ -20579,8 +20579,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 9751,
-      "sha256": "09d7a182515b7d8fcb352cf64bc12d1bbb7c367af41f3cd680baa58315d6e20a"
+      "byteLength": 10159,
+      "sha256": "51da1afeeccf92f9e016c0045eb3b1f06c29638c699dd214cb3766542002e4cb"
     },
     {
       "path": "site/CLAUDE.md",
@@ -20599,13 +20599,13 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 15314,
-      "sha256": "7d1ce223ada570ad74206cf603d4f16a8cda67bf7dead346db79296ee775f794"
+      "byteLength": 16299,
+      "sha256": "8865a1fda28e342c58696556965b89e055516ada2d5be447422ebe9eed67e222"
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 60548,
-      "sha256": "2d4a61221feea7deedf7f4dc66c5501867aba9cfca32adfb899a9fe140c92f75"
+      "byteLength": 61858,
+      "sha256": "b43d68b14bd70e4b9c964182f959484e4e246acb5b0aaff948e809ab06a5de2e"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -20699,13 +20699,13 @@
     },
     {
       "path": "site/dist/docs/Jot-Complete-Specification.pdf",
-      "byteLength": 306843,
-      "sha256": "eb4712b8e58f1edbe474503769ac0d6d0c17e96961e71ecf9c95c5d3f3d0fbca"
+      "byteLength": 307961,
+      "sha256": "04680fc1135749e2cd3d66688399d1cb1b55a01a121270f737dc055a2251c2e1"
     },
     {
       "path": "site/dist/docs/Jot-Container-v1.md",
-      "byteLength": 9233,
-      "sha256": "5ed780e1462dd98719b2d24eaa004f7ac478bc7019b53629ffc130d6aabc9b9b"
+      "byteLength": 11929,
+      "sha256": "388cc452cb893f5890fbdc5ee4e3927441ed36c7c7a37443e53adac8c99fd1fd"
     },
     {
       "path": "site/dist/docs/Jot-Protection-v1.md",
@@ -20719,8 +20719,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1937716,
-      "sha256": "4419f236c9991a154ab6a20d68b4a7a46bacb3a2907ea934f841f09ccba891cd"
+      "byteLength": 1939098,
+      "sha256": "a8b7d9eb7d8204cbc12c3b4bda4078c36951491356c4a5978f6144dd7dd508f3"
     },
     {
       "path": "site/dist/editor-capture.mjs",
@@ -21605,7 +21605,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 4102,
-      "sha256": "d1876c899595ea2983e8c9afd8310967d93981fb67160e9c1cb130711187ba22"
+      "sha256": "5b8ad4ad41626ef222e326f893a5f9522b910d2b7df05b850a05d0e8e30d2b15"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -21774,8 +21774,8 @@
     },
     {
       "path": "site/test-browser-tools-ui.cjs",
-      "byteLength": 8836,
-      "sha256": "fc9a9a5b681850adb727c6e865084c4b15abd0ba9f77ec4ab56af79a054d3277"
+      "byteLength": 9129,
+      "sha256": "a6dd5480d804fe5df14ff75c91be63c673c77f76a6a8143dc38dfa5c1f2a127b"
     },
     {
       "path": "site/test-browser-tools.mjs",
@@ -22019,18 +22019,18 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 152521,
-      "sha256": "489ae800ff135bbea1cb7dac7fb949ad1ac67a132d0f2eb74cfba87e15161c56"
+      "byteLength": 153264,
+      "sha256": "b62270f04de527b831b00c9726a423ee836fa723df9951eedd33e2562ed93175"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
-      "byteLength": 306843,
-      "sha256": "eb4712b8e58f1edbe474503769ac0d6d0c17e96961e71ecf9c95c5d3f3d0fbca"
+      "byteLength": 307961,
+      "sha256": "04680fc1135749e2cd3d66688399d1cb1b55a01a121270f737dc055a2251c2e1"
     },
     {
       "path": "specification/Jot-Container-v1.md",
-      "byteLength": 9233,
-      "sha256": "5ed780e1462dd98719b2d24eaa004f7ac478bc7019b53629ffc130d6aabc9b9b"
+      "byteLength": 11929,
+      "sha256": "388cc452cb893f5890fbdc5ee4e3927441ed36c7c7a37443e53adac8c99fd1fd"
     },
     {
       "path": "specification/Jot-Protection-v1.md",
@@ -22044,8 +22044,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 15317,
-      "sha256": "9506c203234d37f41c7115793f45dd468a03030bd3c81409930dd25f1bdc316d"
+      "byteLength": 16302,
+      "sha256": "ef57aaca86f14d47ab7f43719b16d456ec3e0d9ccb94c4a25c047e06815e730a"
     },
     {
       "path": "specification/conformance.json",

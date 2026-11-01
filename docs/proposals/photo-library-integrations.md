@@ -2,6 +2,10 @@
 
 Updated 1 November 2026. Status: **planned, not implemented**. The owner requested Immich alongside Google Photos and iCloud Photos, including Apple users despite not using Apple personally. This is Writer integration work within the 0.1.0 → complete-v1 roadmap; existing generic attachments do not constitute dedicated connectors. No account connection, external write or deployment was performed.
 
+## Whole-document offline requirement
+
+The entire saved journal must read offline, not just text or photo thumbnails. Download and validate every selected original/component before confirming attachment or offline completeness; preserve a clear pending/error state on cancellation, expiry, quota or size failure. Save a provider-independent copy and reviewed snapshots. Imported media must remain usable in a fresh compatible reader without its source account or browser cache. Codec/preview limits need declared capabilities or explicit local renditions, not silent data loss. Test local unlock and open/edit/save/reopen with network disabled; external citations are optional references. This extends all providers and document content, not only photo import.
+
 ## Shared experience
 
 Choose a source explicitly, select photos/videos, review the result, then attach selected media to an entry as an undoable operation. Album/date/metadata search is available only where the provider permits it. A photo is a possible writing aid, not proof of an event, mood, attendance or relationship. No unsolicited memory prompts, background library scan/backup or journal text sent as a search query. Contextual suggestions retain the independent default-off setting.

@@ -50,6 +50,12 @@ All unchecked items remain planned or unverified. These are format requirements;
 - [ ] Test missing, corrupt, shared and unused assets, attachment renames, undo and source/visual round trips. Report broken references without silently dropping data or fetching external content.
 - [ ] Define explicit source-only export and unpack/repack workflows with clear attachment/protection limits. Public extracted source can be diffed; the ZIP itself is not directly Git-diff-friendly. Private source must not be silently extracted.
 
+### D3a. Whole-document offline completeness
+
+- [ ] Finalize the required contract in `Jot-Container-v1.md`: all saved content and supported presentation must remain readable without network, provider accounts/caches or AI. Include original selected media, ink components, included documents and integration snapshots; no thumbnail-only or URL-only substitutes presented as complete attachments.
+- [ ] Define local codec/rendering capability and explicit offline-readable derivative/fallback rules. Keep external citations optional; distinguish a reference from remotely hosted document content. No automatic crawling, streaming downloads or rights bypass is implied.
+- [ ] Define completeness/dependency validation and missing/oversize/unsupported-content reporting without destroying source or blocking recoverable draft saves. Add fresh-profile, network-disabled, complete-source/asset and protected local-unlock conformance cases; local source search must work without the cache.
+
 ### D4. Entry protection and unlocking
 
 - [ ] Finalize the per-member authenticated-encryption contract and public/private metadata boundary. Independently review key derivation, key wrapping, nonce handling, manifest binding, recovery, passphrase changes and passkey behavior.
