@@ -1,6 +1,6 @@
 /** Jot template editor: the model and the generator. Pure (no DOM, no storage), so the page and the tests run the same code.
  *
- * A template is the structure of a journal; it becomes plain Jot v1 text to fill in by hand (on a keyboard, a phone or InkDeck):
+ * A template is the structure of a journal; it becomes plain Jot v1 text to fill in using any text editor:
  *   { v: 1, title, month: 'YYYY-MM', per: 'month' | 'week' | 'day',
  *     zones: { front: [block], weekStart: [block], day: [block], weekEnd: [block], back: [block] } }
  * A block is { id, type, title, ...its options } (BLOCKS lists the types and their options).
@@ -20,7 +20,6 @@ export const TEMPLATE_VERSION = 1;
 export const LAYOUT_OPTS = [NLayout('minRows', 'Minimum rows (0 = Auto)', 0, 200, 0), NLayout('gapAfter', 'Blank rows after', 0, 20, 1), { k: 'newPage', kind: 'choice', label: 'Start on new page', choices: [['no', 'No'], ['yes', 'Yes']], def: 'no' }];
 function NLayout(k, label, lo, hi, def) { return { k, label, lo, hi, def, kind: 'num' }; }
 
-export const INKDECK_BYTES = 16383; // InkDeck's editor buffer: a bigger file opens cut short
 export const ZONES = [
   { id: 'front', name: 'Before the days', hint: 'Once, at the start: a theme, contacts, a plan for the month.' },
   { id: 'weekStart', name: 'Each week begins', hint: 'Under "Week of …", before the week\'s days.' },

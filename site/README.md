@@ -40,8 +40,8 @@ remembered in this browser (`jot-hand-v1`). The writing workspace uses the separ
 
 ## Template editor (`dist/editor/`)
 
-A separate editor just for Jot: build the structure of a journal and download it as a plain-text `.jot` to fill in by hand (a keyboard,
-a phone or InkDeck). Optional handwritten page layout reserves grid rows per block, gaps and page starts, with paper-size and margin controls. No scan codes or drawing blocks.
+A separate editor just for Jot: build the structure of a journal and download it as a plain-text `.jot` to fill in using a text editor
+on a computer or phone. Optional handwritten page layout reserves grid rows per block, gaps and page starts, with paper-size and margin controls. No scan codes or drawing blocks.
 
 - **Five zones:** before the days, each week begins, each day, each week ends, after the days.
 - **Blocks:** writing space, prompt (several questions take turns, one a day), checkboxes, task lines, scale, ratings, fill-in blanks,
@@ -50,8 +50,7 @@ a phone or InkDeck). Optional handwritten page layout reserves grid rows per blo
   weekly dashboard, empty). Past seven blocks in **Each week begins** the zone says so (the "rule of 7"; a note, never a refusal).
 - **Text or Page:** the right-hand side shows the file as text, or as a page with its charts drawn (`../jot/preview.mjs`). **Sample
   numbers** fills empty days with stand-in numbers in the Page view only; they never reach the file.
-- **Files:** one for the month, or a file a week or a day (InkDeck opens 16 KB a file). The page checks its own output with the Jot
-  parser and says when a file is over that size.
+- **Files:** one for the month, or a file a week or a day. The page checks its own output with the Jot parser.
 - **The file:** `### YYYY-MM-DD | Weekday` entries, `#### ` headings to write under, `[ ] ` boxes, `[[a · b]]` choices, and ratings as
   `measurement` / `observation` records with empty values, their scales declared once at the top. Typed text never changes the
   structure: line markers are escaped, record field names that collide with reserved Jot fields get `x-`.
@@ -164,3 +163,11 @@ Tests: `node --test site/test-music.mjs` and `node site/test-music-ui.cjs` (Spot
 Last.fm and ListenBrainz public-profile reads are also in `music.mjs`: explicit now/recent requests, reviewable selection, source and
 listen-time provenance, no submissions or journal uploads. Last.fm needs an application API key in page memory; ListenBrainz public
 reads need only a username. Libre.fm is documented as manual-only until direct browser API access can be verified.
+
+## BYOK writing companion
+
+`dist/ai-client.mjs` owns the bounded OpenRouter/local Chat Completions request and strict response/Jot validation;
+`dist/ai-companion.mjs` owns the opt-in inline review UI. No new runtime dependencies, storage, automatic requests or cloud fallback.
+Run `node --test site/test-ai-client.mjs` and `node site/test-ai-ui.cjs` (mocked responses, never real keys).
+See [the companion guide](../docs/guide/ai-companion.md). Desktop CSP allows OpenRouter and loopback servers; native webview/CORS
+behavior still requires device verification.

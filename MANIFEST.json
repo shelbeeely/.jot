@@ -94,8 +94,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 3336,
-      "sha256": "d7aa77bd87721ee37391a868bdaee86f9bea44c37eadacdd17e55b9c2c357afa"
+      "byteLength": 3360,
+      "sha256": "11ca1804f47dd3de4d960f898017a16e1f4b8dad1f8d81dfeff0cfb120bf83ec"
     },
     {
       "path": ".gitignore",
@@ -114,13 +114,13 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 56417,
-      "sha256": "a639f37d8cfc839df203b9fcbc4ffc02e42fb3280f4d24c3cee01607ded9cc90"
+      "byteLength": 65372,
+      "sha256": "dfea805bc0f0e92d652552f86f79336e04d59b02db4ad56629c2db5d50b77139"
     },
     {
       "path": "README.md",
-      "byteLength": 21148,
-      "sha256": "a5b0c10b61722111c2b268f40a3ca51e6a2d60190805ef6aae8da31eb44e196c"
+      "byteLength": 22035,
+      "sha256": "43bb14fcc97774cdc526a3fcb380203a2baa19e6b80c826ab5a65216b100a2b6"
     },
     {
       "path": "cli/README.md",
@@ -319,8 +319,8 @@
     },
     {
       "path": "desktop/README.md",
-      "byteLength": 6214,
-      "sha256": "1e03b5a122cd6e15db17f545ad4bcd8d4078ecc34aa87f60f4bf68cb32d67c24"
+      "byteLength": 6829,
+      "sha256": "627eaf16b74c604cd9e9c24d8d0bf34ce60756a93aa74770e0fe9305debe2e8b"
     },
     {
       "path": "desktop/app-icon.png",
@@ -669,8 +669,8 @@
     },
     {
       "path": "desktop/src-tauri/tauri.conf.json",
-      "byteLength": 2986,
-      "sha256": "53f309a600eca28dbec650cc5bd94d20e7fa2c86f80f88fa695cfd35d4b918cf"
+      "byteLength": 3117,
+      "sha256": "729dfd41d98127acc28f16f3a453537d395dbe98509f0eb568135f24327f1f1d"
     },
     {
       "path": "desktop/test-desktop.cjs",
@@ -804,8 +804,13 @@
     },
     {
       "path": "docs/guide/README.md",
-      "byteLength": 1983,
-      "sha256": "3fcfb00ac7fca5b49e9f990687cb81795c4eef6bc958955c25daf6aafebe1edd"
+      "byteLength": 2098,
+      "sha256": "1d8032aa565ba8fe7891fdd10384899d42c53e13013b8e8bce38049f7485200a"
+    },
+    {
+      "path": "docs/guide/ai-companion.md",
+      "byteLength": 5721,
+      "sha256": "a82aa1413a77258b2b7e0e5d6daaf6107a1ba0b37ef69d60e09accfe2ab9728d"
     },
     {
       "path": "docs/guide/automation.md",
@@ -819,13 +824,13 @@
     },
     {
       "path": "docs/guide/manual.md",
-      "byteLength": 3872,
-      "sha256": "7b887a736bfffbab95d879dd68204142af6f3ed65070112c1dc4d54b26bfa060"
+      "byteLength": 3845,
+      "sha256": "f3a580d038bb5db324b4103e37305117f711be27d4205dd81e7ef2290d3ce016"
     },
     {
       "path": "docs/guide/template-editor.md",
-      "byteLength": 13708,
-      "sha256": "729b188b0a4f2bc798edf29acda161ede62308f4f2630bf4926cc1b6693eac02"
+      "byteLength": 13073,
+      "sha256": "4c3c4685123afcb8b15b7866f497adc8be4b65ec3d279674ac98e6f8769c5655"
     },
     {
       "path": "docs/guide/turning-anything-into-jot.md",
@@ -839,8 +844,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 45679,
-      "sha256": "7f17f9f4c250fd26833e17a80ef03fb5a7e5c9e66989a26e3bc9bea90c206780"
+      "byteLength": 45550,
+      "sha256": "9d3f1b87c068ee0ff96a0d56652b2337d502b9c553bf0fc60aabb715970d7d6b"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -1123,19 +1128,34 @@
       "sha256": "6f4811b2143ee3d19ca166355d78ff8696d9c5ceb1c5f894595f1b62f4936814"
     },
     {
+      "path": "docs/proposals/first-journal-v1.md",
+      "byteLength": 10477,
+      "sha256": "d57874946d1706220f6c8c833a2e168cfe5a5666a7ae18615c6e422fda92f29e"
+    },
+    {
       "path": "docs/proposals/jot-books.md",
       "byteLength": 4364,
       "sha256": "a0427e8f8ce2ca183ec1572515783a626831143c38f7f898df0f8f9f55dc2714"
     },
     {
       "path": "docs/proposals/logo.md",
-      "byteLength": 5170,
-      "sha256": "353788c1be621610ab1ecc030cad81746023b8dcf6be52e1c578f6c1bdfd420f"
+      "byteLength": 5162,
+      "sha256": "5768b5c1d3877186e7f1e12f0d189bff6c451963ea37b29f3a8bfb1406a785d9"
+    },
+    {
+      "path": "docs/proposals/media-sources-and-service-actions.md",
+      "byteLength": 16252,
+      "sha256": "8b7f4ae76a2e14c863f0ebeb2c77e1ae9d927c867d5eef68d6a0e0c53207ae4a"
     },
     {
       "path": "docs/proposals/notes-sharing-collaboration.md",
       "byteLength": 17260,
       "sha256": "61c7d0ea7d525e95e20df3bdb15fdd4d4ce49db89b08f5b7f23b13cef150a50b"
+    },
+    {
+      "path": "docs/proposals/smart-journal-and-connected-data.md",
+      "byteLength": 14577,
+      "sha256": "a2f390923c84d2a199bf00e35703024b4d523ff671a7f7c78a2a044e81561d2f"
     },
     {
       "path": "docs/proposals/writefreely-integration.md",
@@ -1204,8 +1224,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 37821,
-      "sha256": "636103079b3fbe71bfb005e4e0d079be248d63a58083e48d473baaae788d9209"
+      "byteLength": 50236,
+      "sha256": "e781edacacca5f82645724aa1b1c6b87ab11043ff495524bd30194679bfc6d24"
     },
     {
       "path": "parser/automation-test.mjs",
@@ -1509,8 +1529,8 @@
     },
     {
       "path": "site/README.md",
-      "byteLength": 13949,
-      "sha256": "0d244e30590d6ea1fffd565287a062a9c98f3140cd15f5fc7bdf20ec100bcf58"
+      "byteLength": 14444,
+      "sha256": "6880cd066ccc5b90f48668513e813d50899faa90ca73fe066a02dc4d9c75f84a"
     },
     {
       "path": "site/build-guides.mjs",
@@ -1519,8 +1539,23 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 37821,
-      "sha256": "636103079b3fbe71bfb005e4e0d079be248d63a58083e48d473baaae788d9209"
+      "byteLength": 50236,
+      "sha256": "e781edacacca5f82645724aa1b1c6b87ab11043ff495524bd30194679bfc6d24"
+    },
+    {
+      "path": "site/dist/ai-client.mjs",
+      "byteLength": 8174,
+      "sha256": "855ad90b314d75495e4e7a01069dbf64783f1502d5428c4d9024c1fb0ca2e3be"
+    },
+    {
+      "path": "site/dist/ai-companion.css",
+      "byteLength": 1389,
+      "sha256": "3a086fc99a4a56360f788993aa9ad6892cdf1ce317df5a516d22577e5090da00"
+    },
+    {
+      "path": "site/dist/ai-companion.mjs",
+      "byteLength": 10215,
+      "sha256": "0bc920c7100bd4160c3cf128328a5b7235c797cc123095834204549184964913"
     },
     {
       "path": "site/dist/apple-touch-icon.png",
@@ -1574,8 +1609,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 947726,
-      "sha256": "c666b368c1540eb29b9e788642e4dd0704bfb7f3146b9ecb2ae8357b849fff05"
+      "byteLength": 952158,
+      "sha256": "dddd2229d93d0b722993d22a488aa7cb2e5b1b501f844671599e31a787a87d3d"
     },
     {
       "path": "site/dist/editor-capture.mjs",
@@ -1584,8 +1619,8 @@
     },
     {
       "path": "site/dist/editor/app.mjs",
-      "byteLength": 31319,
-      "sha256": "b354d02507907dd851bb51a309fab56d42be46c3b6b8a0200bf78a4facf4a042"
+      "byteLength": 31111,
+      "sha256": "547225c16a35b53f5139ea6a9a034d06a7fbdc98f479dd075d2a5f1762b0425a"
     },
     {
       "path": "site/dist/editor/editor.css",
@@ -1594,13 +1629,13 @@
     },
     {
       "path": "site/dist/editor/index.html",
-      "byteLength": 10335,
-      "sha256": "964acb5a671e5625aa4630d278be0250dc5ef0263efc6b8dec8952fda882b52c"
+      "byteLength": 10330,
+      "sha256": "ca5ba3f4442081954df803c2f8e394e34e95c486f516a0771211fc5b6c8e8994"
     },
     {
       "path": "site/dist/editor/template.mjs",
-      "byteLength": 30872,
-      "sha256": "2507e7217b36dd2d33f5b1263b1573a0b87f1f8b7d8d11ed1c066973dd341482"
+      "byteLength": 30756,
+      "sha256": "bdf004f93b33f69efc29be32b546e152e8fe300400ff8c7269630457feedff23"
     },
     {
       "path": "site/dist/entry-timezone.mjs",
@@ -1903,6 +1938,11 @@
       "sha256": "b3df1eb62729e7ee0ab90554740be8b8b6ea3d656795494d13bc6f79fc6e5b68"
     },
     {
+      "path": "site/dist/guide/ai-companion.html",
+      "byteLength": 10161,
+      "sha256": "c7323e4a7de25284215cda986898f3c05b528f5abbcd1312e76cd44f056f9a71"
+    },
+    {
       "path": "site/dist/guide/automation.html",
       "byteLength": 35226,
       "sha256": "c88d9af88c4e528541eb39cf64d3de9ea1ca9f78a6beca7fe78c0f5c4acdcb39"
@@ -1919,18 +1959,18 @@
     },
     {
       "path": "site/dist/guide/index.html",
-      "byteLength": 5782,
-      "sha256": "97f29420eca8bface70e353a3cdd33f7f4587c44d62e94bf055a660ea939d202"
+      "byteLength": 5924,
+      "sha256": "43fea8a7c350fe22c2cf99e543898e18a2c274168de4523008b485734a626bab"
     },
     {
       "path": "site/dist/guide/manual.html",
-      "byteLength": 8929,
-      "sha256": "483577e6a28abb39b38bb752910d3e25edf7a6397db4c54d0ca1445145a358e5"
+      "byteLength": 8898,
+      "sha256": "3e1cbb34fe4797a5321965032e9a6358d66e9886488654580ede264325d4a207"
     },
     {
       "path": "site/dist/guide/template-editor.html",
-      "byteLength": 22074,
-      "sha256": "ed7ea92c7feea303605ceaa6b0cd1b3c31bc4a6d7c1a4d82eb88d58d53f5ca3c"
+      "byteLength": 21346,
+      "sha256": "1a52ff026a9d5166ae015cca34669e2ab3028772840fcba26ff67459fa0e9a5d"
     },
     {
       "path": "site/dist/guide/turning-anything-into-jot.html",
@@ -1944,8 +1984,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 61316,
-      "sha256": "69bf33ea65c45cfee199cb7361af6fdfbc0ac953839db0d1a1b825baf4ed727b"
+      "byteLength": 61156,
+      "sha256": "5d099df8213994cdd79e4c79fd8d1f43f9cf05157d391757092524121c7969c8"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -1989,8 +2029,8 @@
     },
     {
       "path": "site/dist/index.html",
-      "byteLength": 13781,
-      "sha256": "f7eccdbe105c5b26317bc9ee8524edd0e25e5967e3cc18708ee53c7857c632c5"
+      "byteLength": 13844,
+      "sha256": "b053ca99f7917374ce70fc6ced7e3bdd3b6975daea8588a1fe80b8050aea4849"
     },
     {
       "path": "site/dist/jot/archive.mjs",
@@ -2319,13 +2359,13 @@
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 71101,
-      "sha256": "28c5da4d9cbbb550f005dbfebd2f2b46d4b410a85728f29f388d8ceb51a8cd78"
+      "byteLength": 71278,
+      "sha256": "9be86f0fde7f65941b851d3046ecf1265fc90bbbfae9ccf7c9761cb183e8ef33"
     },
     {
       "path": "site/dist/write/index.html",
-      "byteLength": 49769,
-      "sha256": "2e79e749d133a889224ebc1b4b4627a841231ca30ddb460d4dfc93d0b7e7ff56"
+      "byteLength": 49812,
+      "sha256": "aa1c530db25f341c76aaead51440d896b29eb8fe3f4bcd98658a7e4bd4b0051e"
     },
     {
       "path": "site/dist/write/spotify-callback.html",
@@ -2349,13 +2389,23 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 16377,
-      "sha256": "763d4269420c8dde8710b6758c347928446549e75d5445b73bf98e4395314f9f"
+      "byteLength": 16497,
+      "sha256": "93f4f07fb2aaba675c58e19c4e08416eae011ef8c2b22382874ab6f33415d539"
     },
     {
       "path": "site/dist/writing-tools.mjs",
       "byteLength": 12566,
       "sha256": "6802ca7ea328d6945f2b67ea74d43165b72e1d5ca3dc0426603284b38d9728d2"
+    },
+    {
+      "path": "site/test-ai-client.mjs",
+      "byteLength": 4648,
+      "sha256": "ac18935290525d1cbeac1ca8f545e858f2a90b9bcd846a04295c520fa621b0fa"
+    },
+    {
+      "path": "site/test-ai-ui.cjs",
+      "byteLength": 7339,
+      "sha256": "642407a9ece268d052174ed3302e6f3f18466503a02c237b871c496f6343664e"
     },
     {
       "path": "site/test-autocomplete-ui.cjs",
@@ -2409,8 +2459,8 @@
     },
     {
       "path": "site/test-editor.mjs",
-      "byteLength": 16378,
-      "sha256": "2ef0b4cf3333a790057f589f4543a401578cca902eb5499f455f34d7d95d2cf9"
+      "byteLength": 16267,
+      "sha256": "eef3a89e50ee5c388c924f97d3bfae05e330ed4497c04e4e847cb5a8fc203468"
     },
     {
       "path": "site/test-entry-timezone-ui.cjs",
@@ -2424,8 +2474,8 @@
     },
     {
       "path": "site/test-guides.mjs",
-      "byteLength": 5795,
-      "sha256": "282083239beaf19c30c189e83330b178e5e5e8bd7265c2fb54f1a8ed505e7521"
+      "byteLength": 5780,
+      "sha256": "a2513c7db8329dd42df6075571cffacd6a6c7fc903eb719f72ff109a0bcd4262"
     },
     {
       "path": "site/test-health-ui.cjs",
@@ -2579,8 +2629,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 37821,
-      "sha256": "636103079b3fbe71bfb005e4e0d079be248d63a58083e48d473baaae788d9209"
+      "byteLength": 50236,
+      "sha256": "e781edacacca5f82645724aa1b1c6b87ab11043ff495524bd30194679bfc6d24"
     },
     {
       "path": "specification/conformance.json",

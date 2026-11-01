@@ -6,6 +6,7 @@ import { setupReferenceBooks } from './reference-books-ui.mjs';
 import { setupLocalAutocomplete } from './local-autocomplete.mjs';
 import { setupWriterWorkspace } from './writer-workspace.mjs';
 import { setupMediaLookup } from './media-lookup.mjs';
+import { setupAICompanion } from './ai-companion.mjs';
 import { setupMusicPlayer } from './music-player.mjs';
 import { setupMusicCapture } from './jot/music.mjs';
 import { setupVoicePractice } from './jot/voice.mjs';
@@ -26,7 +27,7 @@ import A from './jot/automation.mjs';
 import {queryDiagnostics} from './jot/query.mjs';
 import {isPaletteRecord,paletteOf,moodboardOf,paletteCSS,paletteJSON,contrast} from './jot/palette.mjs';
 addChartStyles(document);
-let referenceBooks, liveWriter, deviceFiles;
+let referenceBooks, liveWriter, deviceFiles, aiCompanion;
 let fileRevision=0, savedFileRevision=-1, recoveringAssets=true;
 let assets=[],assetUrls=new Map(),assetKey='legacy-active',packageMetadata={},assetsReady=Promise.resolve();
 // A locked journal (Jot Lock, ./jot/lock.mjs): lockKey is this visit's session (a content key that cannot be exported, and the ways in;
@@ -258,6 +259,7 @@ liveWriter=setupLiveWriter({editor,status,getReferences:()=>referenceBooks.targe
 let restoreSourceScroll = !!resume;
 editor.addEventListener('jotmodechange',event=>{if(event.detail==='source'&&restoreSourceScroll){restoreSourceScroll=false;requestAnimationFrame(()=>{if(resume)editor.scrollTop=resume.scroll;});}});
 setupLocalAutocomplete({ editor, getAst: () => ast, getReferences: () => referenceBooks.targets() });
+aiCompanion = setupAICompanion({ editor, status, getRevision: () => fileRevision });
 const writerWorkspace = setupWriterWorkspace({ editor, status, showPreview: () => {
   if (document.documentElement.hasAttribute('data-hide-preview')) { $('prefPreview').checked = true; $('prefPreview').dispatchEvent(new Event('change')); }
   clearTimeout(timer); update(); if (dirty) save(); setTab('preview');
@@ -343,6 +345,7 @@ function unbundleAssets(b) {
   return list.map((d) => { const data = b.slice(at, at + d.length); at += d.length; return { path: d.path, mediaType: d.mediaType, data }; });
 }
 function showLock() {
+  aiCompanion?.reset();
   const waiting = !!lockWaiting, locked = !!lockKey;
   $('lockGate').hidden = !waiting; $('lockNote').hidden = !locked;
   editor.readOnly = waiting; document.querySelector('.studio-workspace').inert = waiting;

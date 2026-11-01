@@ -4,6 +4,13 @@
 
 **Jot things down. Get beautiful pages back.**
 
+Jot Writer is being built first for people who have never journaled and want help getting started. Its v1 goal is to help you write
+a small first entry, keep it safely and return whenever you choose. See the [first-journal brief](docs/proposals/first-journal-v1.md)
+for the planned beginner experience and its release criteria.
+
+Dedicated physical hardware and firmware are deferred to [future exploration](specification/ROADMAP.md#physical-hardware-and-firmware-future-exploration).
+Current delivery focuses on the Jot format and Writer software.
+
 Jot is a plain-text journal format that combines Markdown with simple marks for tasks, events, questions and ideas. Keep a moment,
 a day, a month or an ongoing journal in one file, then read it as formatted pages, handwritten notes or a dashboard of your numbers.
 
@@ -160,7 +167,15 @@ in any text editor. Live Spotify capture requires a registered app's public Clie
 cover configuration and Spotify's access limits. **Last.fm / ListenBrainz** can also fetch public current/recent listening activity
 for review, with source and listen-time labels. ListenBrainz needs only a username; Last.fm needs an application API key.
 [Scrobbler setup](docs/guide/automation.md#scrobbling-services) includes Android options and Libre.fm's current limitation.
-Tokens and API keys stay in page memory; the journal is never uploaded.
+Tokens and API keys stay in page memory; music capture never uploads journal writing.
+
+## Optional AI companion
+
+Writer offers reviewed inline drafts and on-demand suggestions using your own OpenRouter key or a loopback OpenAI-compatible
+model server. AI and AI suggestions start off. Requests send only your instruction and explicitly chosen selection, with no
+automatic text processing. Keys stay in session memory. OpenRouter ZDR is a separate toggle, on by default; provider data collection
+is always denied. Local requests never fall back to the cloud. Responses must pass local Jot validation before an explicit,
+undoable Apply. See the [AI companion guide](docs/guide/ai-companion.md) for setup, privacy boundaries and validation limits.
 
 ## Jot for VS Code
 
@@ -178,8 +193,8 @@ Details: [vscode/README.md](vscode/README.md).
 ## Template editor: a journal's shape as a .jot
 
 A separate editor just for Jot, in the site at `/editor/`: put together what each day, week and month asks (writing space, prompts,
-checkboxes, scales, blanks, time blocks ...), then download a plain-text `.jot` to fill in by hand, one file for the month or a file a
-week for InkDeck. The handwritten Page view shows paper, grid rows and page boundaries. Reserve a minimum number of rows per block,
+checkboxes, scales, blanks, time blocks ...), then download a plain-text `.jot` to fill in, one file for the month or smaller weekly
+or daily files. The handwritten Page view shows paper, grid rows and page boundaries. Reserve a minimum number of rows per block,
 set gaps and page starts, or drag a block’s bottom handle to resize it. Full-width blocks expand with longer writing. Undo, drag to
 reorder, charts, and reopen any downloaded `.jot` to get
 its template back. Details: [site/README.md](site/README.md#template-editor-disteditor).
@@ -207,12 +222,6 @@ Details: [converter/README.md](converter/README.md).
 have: exports of any size read a file at a time from disk with guards against hostile ZIPs, native Save dialogs with atomic
 writes, a network limited to the listening services, and web links opened in your own browser. Built from source for now; tested on
 Linux. Details and differences from the site (no passkeys in Linux's web view): [desktop/README.md](desktop/README.md).
-
-## InkDeck
-
-[InkDeck](https://github.com/shelbeeely/inkdeck), the Bluetooth-keyboard writing firmware for the Xteink X3/X4, saves `.jot` files:
-new files start with the Jot metadata block, and ZIP-packaged `.jot` files are refused rather than opened as text. The template editor's
-**A file a week** download fits its 16 KB files.
 
 ## Repository map
 

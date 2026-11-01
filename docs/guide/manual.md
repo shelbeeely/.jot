@@ -43,7 +43,7 @@ In the block's options (⚙), **Hints** turns the short note under each heading 
 
 ## Filling it in
 
-Write under each heading in any text editor, on a phone or on InkDeck. A few things that help:
+Write under each heading in any text editor on a computer or phone. A few things that help:
 
 - **Be specific.** "Three tasks a week, never more" is a rule you can keep. "Be more organised" is not.
 - **Write the why after the dash.** If you can't say why a block is there, it may not need to be.
@@ -68,5 +68,5 @@ workspace, or open it in the template editor to get its template.
 
 - **In each month:** with the **My manual** block in **Before the days**, every month you download starts with the manual's
   headings. Copy your answers in, or keep them in one `manual.jot` and let the month's copy be a reminder to reread it.
-- **Its own file:** keep `manual.jot` next to your months, on your computer or on InkDeck's card.
+- **Its own file:** keep `manual.jot` next to your monthly journal files.
 - **Revise it** when you change the template. The **What I do** part is rewritten from the template each time, so the two stay in step.

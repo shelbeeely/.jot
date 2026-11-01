@@ -1,7 +1,7 @@
 # Using the template editor
 
 The template editor builds the **shape** of a journal: what each day, week and month asks of you. It gives you a plain-text `.jot`
-file with a dated entry for every day, ready to fill in by hand on any keyboard, a phone or InkDeck.
+file with a dated entry for every day, ready to fill in using any text editor on a computer or phone.
 
 It runs in your browser. Your template stays in that browser and nothing is sent anywhere.
 
@@ -96,7 +96,7 @@ to keep its paper, grid and reserved space for handwritten preview, **Print / PD
 row badges and resize handles are editor guides and are not exported. Plain-text readers keep the writing and may ignore layout hints.
 Use your browser's default print margins and 100% scale; printer-specific physical proofs are still recommended.
 
-Adding layout hints increases file size. The existing 16 KB warning still applies for InkDeck; choose weekly or daily files if needed.
+Adding layout hints increases file size. Choose weekly or daily files if you prefer smaller downloads.
 
 ## Numbers and charts
 
@@ -152,15 +152,14 @@ numbers so you can see what a filled-in week will look like (they are never writ
 written by hand on a dot grid (see [Handwritten pages on a dot grid](writing-jot.md#handwritten-pages-on-a-dot-grid)). Above it:
 
 - **valid Jot**, or the problems found, if any (there should not be any: the editor checks its own output);
-- how many days the file holds and its size;
-- a warning when a file is too big for InkDeck (see below).
+- how many days the file holds and its size.
 
 ## Downloading
 
 **Files** sets how the month is split:
 
 - **One file for the month:** one `.jot` file, named like `my-journal-2026-10.jot`.
-- **A file a week (fits InkDeck):** five or six files, one per week, each named by its first day (`my-journal-2026-10-05.jot`).
+- **A file a week:** five or six files, one per week, each named by its first day (`my-journal-2026-10-05.jot`).
   The month's opening blocks go in the first file and the closing ones in the last.
 - **A file a day.**
 
@@ -213,18 +212,12 @@ You can also keep the template as its own file: **More → Save template (.json)
 **More → Download my manual (.jot)** saves your manual on its own (see [Write your own manual](manual.md)); it carries the template
 too.
 
-## With InkDeck
+## Choosing smaller files
 
-InkDeck is writing firmware for the Xteink X3/X4 e-ink readers with a Bluetooth keyboard.
+Choose **A file a week** or **A file a day** if you prefer shorter files to open, edit or organize. **One file for the month**
+keeps the month together. Every choice produces ordinary `.jot` files that you can edit in a text editor or the Jot workspace.
 
-1. In the editor, set **Files** to **A file a week (fits InkDeck)** and download. InkDeck opens files up to 16 KB; a month with many
-   blocks a day can go over that, and the editor warns you when it does.
-2. Copy the files to the device's SD card.
-3. On InkDeck, open this week's file and write: type after `[ ] `, after `value:`, and under the headings.
-4. Copy the files back to your computer whenever you like. Opening one in the editor still brings the template back.
-
-New files you make on InkDeck itself are `.jot` too, with the metadata block already at the top. Name them by date (`2026-10-26.jot`),
-or start them with a `### 2026-10-26` heading, so they know which day they belong to.
+Opening any file made by the template editor still brings its template back.
 
 ## Privacy
 
@@ -236,7 +229,6 @@ or start them with a `### 2026-10-26` heading, so they know which day they belon
 
 | What you see | What to do |
 | --- | --- |
-| "over the 16 KB InkDeck opens" | Choose **A file a week**, or fewer blocks a day |
 | "This .jot has no template in it" | The file was made somewhere else. Build the template again, or open a `.jot` the editor made |
 | "That file is not a Jot template, a .jot or a day layout" | Check you picked the right file |
 | Only one of several files downloaded | Allow the site to download several files, then press **Download .jot** again |
