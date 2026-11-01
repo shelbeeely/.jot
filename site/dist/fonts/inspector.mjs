@@ -114,12 +114,13 @@ function specimen() {
   const sample = $('fontSpecimen'); sample.textContent = $('fontSample').value;
   if (!activeFont) return;
   sample.style.fontFamily = `'${activeFont.family.replace(/['\\]/g, '')}', ${activeFont.id === 'mono' ? 'monospace' : activeFont.id === 'sans' ? 'sans-serif' : 'cursive'}`;
-  sample.style.fontWeight = String(activeFont.weight); sample.style.fontFeatureSettings = `"liga" ${$('fontLiga').checked ? 1 : 0}, "calt" ${$('fontCalt').checked ? 1 : 0}, "kern" 1, "curs" 1, "mark" 1, "ss01" ${$('fontAlternates').checked ? 1 : 0}`;
+  sample.style.fontWeight = String(activeFont.weight); sample.style.fontFeatureSettings = `"liga" ${$('fontLiga').checked ? 1 : 0}, "calt" ${$('fontCalt').checked ? 1 : 0}, "kern" 1, "curs" 1, "mark" 1, "ss01" ${$('fontAlternates').checked ? 1 : 0}, "ss02" ${$('fontConnect').checked ? 1 : 0}`;
 }
 
 function chooseFont() {
   const family = $('fontFamily').value;
   $('fontAlternates').closest('label').hidden = family === 'script';
+  $('fontConnect').closest('label').hidden = family !== 'script';
   $('fontProfileWrap').hidden = family !== 'script';
   if (family === 'script') {
     const profiles = [...new Set(fonts.filter((font) => font.id.startsWith('script')).map((font) => String(font.profile)))].sort((a, b) => Number(a) - Number(b));
@@ -137,7 +138,7 @@ function chooseFont() {
 }
 
 for (const id of ['fontFamily', 'fontProfile', 'fontWeight']) $(id).addEventListener('change', chooseFont);
-for (const id of ['fontLiga', 'fontCalt', 'fontAlternates', 'fontSample']) $(id).addEventListener('input', specimen);
+for (const id of ['fontLiga', 'fontCalt', 'fontAlternates', 'fontConnect', 'fontSample']) $(id).addEventListener('input', specimen);
 for (const id of ['glyphSearch', 'glyphKind']) $(id).addEventListener(id === 'glyphSearch' ? 'input' : 'change', () => { page = 0; drawGrid(); });
 $('glyphPrevious').addEventListener('click', () => { page--; drawGrid(); });
 $('glyphNext').addEventListener('click', () => { page++; drawGrid(); });

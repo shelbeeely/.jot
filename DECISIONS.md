@@ -829,3 +829,17 @@ downstrokes with straight segments at a consistent forward lean, draw two simple
 matching shoulders, and shorten its trailing connector and advance from 785 to
 690 units. Keep rounded G2 ink and the shared y=90 cursive anchors. This is a
 letterform correction; Sans and Mono drawings and alternate rules are unchanged.
+
+
+## Script letters separate by default (1 November 2026)
+
+The owner requested nonconnecting characters and supplied a pen comparison with
+separate handwritten labels. Script now defaults to pen-lift forms: the original
+cursive bodies without the extra initial/final connecting extensions, fitted
+inside shared regular/bold cells with at least 32 units of side space per side
+using compiled bold bounds. This
+preserves complete ink and the round G2 nib. Default ligatures preserve each
+letter's gap and advance instead of silently reconnecting them. Optional ss02
+restores the connected contextual forms; the inspector provides Connect letters.
+No user text, source offsets or export dependency changes. Tests retain optional
+join checks and add default separation checks across every lowercase pair.

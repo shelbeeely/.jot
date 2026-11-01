@@ -3,7 +3,7 @@
 All original Jot fonts replicate the appearance of Pilot G2 gel-pen strokes.
 This applies to Sans, Script, Mono and future original families. Use the supplied
 writing references for round nibs, gentle ink buildup and nearly even strokes.
-Keep their identities distinct: printed Sans, connected Script, fixed-width Mono.
+Keep their identities distinct: printed Sans, pen-lift Script with optional connected forms, fixed-width Mono.
 The tip labels describe appearance rather than calibrated physical line widths.
 
 - Draw original centerlines. Never trace or rename another font.

@@ -35,7 +35,7 @@ OUT = ROOT / 'generated'
 UPM = 1000
 ASCENT, DESCENT = 1050, -320
 EPOCH = 2082844800 + 1767225600  # 2026-01-01, seconds since OpenType's 1904 epoch.
-VERSION = '1.009'
+VERSION = '1.010'
 EXTRA = '\u0152\u0153\u0178\u0131\u20ac\u2010\u2011\u2013\u2014\u2018\u2019\u201a\u201c\u201d\u201e\u2022\u2026\u2039\u203a\u2212'
 MARKS = '\u0300\u0301\u0302\u0303\u0304\u0306\u0307\u0308\u030a\u030b\u030c\u0327\u0328'
 CHARSET = ''.join(dict.fromkeys(''.join(chr(c) for c in range(32, 127)) + ''.join(chr(c) for c in range(160, 256)) + EXTRA + MARKS))
@@ -341,12 +341,15 @@ def font_features(glyph_info, script, mono=False):
         lines.append(f"sub {' '.join(name_of(c) for c in lig)} by {'_'.join(lig)};")
     lines.append('} liga;')
     if script:
+        lines += ['feature ss02 {']
+        lines += [f"sub {g['name']} by {g['connectedAlternate']};" for g in glyph_info if g.get('connectedAlternate')]
+        lines += ['} ss02;']
         joining = [g for g in glyph_info if g.get('joining') and g.get('form') == 'base']
         base = [g['name'] for g in joining]
         all_join = [g['name'] for g in glyph_info if g.get('joining')]
         lines += ['@JOIN = [' + ' '.join(all_join) + '];', '@ISO = [' + ' '.join(base) + '];']
         for label, suffix in [('INI', 'init'), ('MED', 'medi'), ('FIN', 'fina')]:
-            lines.append(f'@{label} = [' + ' '.join(f'{n}.{suffix}' for n in base) + '];')
+            lines.append(f'@{label} = [' + ' '.join(f"{g['contextName']}.{suffix}" for g in joining) + '];')
         lines += ['feature calt {', 'lookupflag IgnoreMarks;', "sub @JOIN @ISO' @JOIN by @MED;", "sub @JOIN @ISO' by @FIN;", "sub @ISO' @JOIN by @INI;", '} calt;', 'feature curs {', 'lookupflag IgnoreMarks;']
         for g in glyph_info:
             if not g.get('joining'):
@@ -433,6 +436,33 @@ def make_font(id_, profile, family, pen_width, weight):
         if unicode is not None:
             cmap[unicode] = name
 
+    wide_cache = {}
+
+    def wide_resolve(ch, matrix=None):
+        # Both weights share cells measured with the broadest ink in this hand.
+        if matrix is not None:
+            if abs(abs(matrix[0]) - abs(matrix[3])) > .001:
+                return outline(transformed_design(specs[ch], matrix), pen_width * 1.4, wide_resolve, gel=True)
+            return transformed(wide_resolve(ch), matrix)
+        if ch not in wide_cache:
+            wide_cache[ch] = outline(specs[ch], pen_width * 1.4, wide_resolve, gel=True)
+        return wide_cache[ch]
+
+    def ink_bounds(path):
+        pen = TTGlyphPen(None)
+        path.draw(Cu2QuPen(pen, max_err=.15, reverse_direction=True))
+        glyph = pen.glyph(); glyph.recalcBounds(None)
+        return glyph.xMin, glyph.xMax
+
+    def detached(path, ch):
+        # Fit complete compiled bounds, never crop or stretch the nib. Center
+        # regular ink in the same cell as bold, with at least 32 units per side.
+        left, right = ink_bounds(path)
+        wide_left, wide_right = ink_bounds(wide_resolve(ch))
+        advance = wide_right - wide_left + 64
+        shift = round((advance - (right - left)) / 2) - left
+        return transformed(path, (1, 0, 0, 1, shift, 0)), advance
+
     add('.notdef', stroke('M85 0 L85 700 L515 700 L515 0 Z M85 0 L515 700', width * .65), 650 if mono else 600)
     for ch in CHARSET:
         s = specs[ch]
@@ -450,7 +480,14 @@ def make_font(id_, profile, family, pen_width, weight):
         if joining:
             a = s['advance']
             path = union([p, script_entry(s, width), stroke(f'M{a} 90 Q{a + 24} 103 {a + 35} 145', width * .9)])
-        add(name_of(ch), path, advance, ord(ch), mark=s.get('mark'), uppercase=ch.isupper(), joining=joining, form='base', **({'entry': None, 'exit': None} if joining else {}))
+        if joining:
+            loose, loose_advance = detached(p, ch)
+            add(name_of(ch), loose, loose_advance, ord(ch), uppercase=ch.isupper(), joining=False, form='detached', connectedAlternate=name_of(ch) + '.connected')
+            add(name_of(ch) + '.connected', path, advance, joining=True, form='base', contextName=name_of(ch), entry=None, exit=None)
+        else:
+            if script and ch.isalnum():
+                path, advance = detached(path, ch)
+            add(name_of(ch), path, advance, ord(ch), mark=s.get('mark'), uppercase=ch.isupper(), joining=False, form='base')
     if script:
         # All matching accented forms reuse their corresponding base plus accent.
         joining_chars = [ch for ch in CHARSET if ch.islower() and specs[ch].get('entry') is not None]
@@ -497,7 +534,19 @@ def make_font(id_, profile, family, pen_width, weight):
             x += 650 if mono else specs[ch]['advance'] - (0 if script else 42 if i < len(lig) - 1 else 0)
         p = union(paths)
         base_name = '_'.join(lig)
-        add(base_name, p, x, joining=script, form='base', entry=None, exit=None)
+        if script:
+            # Default ligatures preserve the same pen lifts and advances as
+            # their separate characters; liga must not silently reconnect ink.
+            detached_parts, detached_advance = [], 0
+            for ch in lig:
+                g = next(g for g in records if g['unicode'] == ord(ch))
+                part = pathops.Path(); parse_path(g['path'], part.getPen())
+                detached_parts.append(transformed(part, (1, 0, 0, 1, detached_advance, 0)))
+                detached_advance += g['advanceWidth']
+            add(base_name, union(detached_parts), detached_advance, joining=False, form='detached', connectedAlternate=base_name + '.connected')
+            add(base_name + '.connected', p, x, joining=True, form='base', contextName=base_name, entry=None, exit=None)
+        else:
+            add(base_name, p, x, joining=False, form='base', entry=None, exit=None)
         if script:
             for suffix in ['init', 'medi', 'fina']:
                 parts = [p]

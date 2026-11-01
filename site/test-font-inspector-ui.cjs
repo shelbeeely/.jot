@@ -53,7 +53,12 @@ const server = http.createServer((request, response) => {
       assert.equal(await page.textContent('#fontSpecimen'), 'office café <img onerror=alert(1)>'); assert.equal(await page.locator('#fontSpecimen img').count(), 0);
       const features = await page.locator('#fontSpecimen').evaluate((element) => getComputedStyle(element).fontFeatureSettings);
       assert.match(features, /"liga" 0/); assert.match(features, /"calt" 0/);
+      assert.equal(await page.locator('#fontConnect').isChecked(), false);
+      assert.match(features, /"ss02" 0/);
+      await page.check('#fontConnect');
+      assert.match(await page.locator('#fontSpecimen').evaluate((element) => getComputedStyle(element).fontFeatureSettings), /"ss02"(?: 1)?(?:,|$)/);
       await page.selectOption('#fontFamily', 'sans');
+      assert.equal(await page.locator('#fontConnect').isVisible(), false);
       await page.check('#fontAlternates');
       assert.match(await page.locator('#fontSpecimen').evaluate((element) => getComputedStyle(element).fontFeatureSettings), /"ss01"(?: 1)?(?:,|$)/);
       assert.equal(await page.locator('#fontProfileWrap').isVisible(), false);

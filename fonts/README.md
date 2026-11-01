@@ -117,3 +117,18 @@ area, with an 8–25% acceptance range after TrueType quantization. The generato
 targets 9.5–23% for margin. Local curve deformation varies arches, bowls and
 terminals coherently; it does not just shift or slant a copied outline. Nib
 width and advance are preserved. The inspector reports each alternate’s ratio.
+
+
+## Pen-lift Script default
+
+Script keeps its cursive shapes but separates characters by default. Complete
+compiled glyph bounds receive at least 32 units of side space on each side,
+giving a minimum 64-unit gap before optional optical kerning. Regular and bold
+share cells measured with bold ink, keeping advances stable across weights. Nothing is clipped or horizontally
+stretched. Default ligatures preserve the separate letters, gaps and advances.
+
+The optional `ss02` feature restores connected writing and lets `calt` select
+initial, medial and final forms with cursive anchors. It is off by default, so
+the Writer, landing page and standalone exports use the pen-lift forms without
+CSS letter spacing or per-letter HTML. The inspector offers a Connect letters
+switch for comparison. Earlier joining descriptions refer to this optional set.

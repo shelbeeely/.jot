@@ -94,7 +94,7 @@ class OriginalFontTests(unittest.TestCase):
                 self.assertEqual(self.shape(face, 'f)', calt=False)[0][0], 'f')
                 self.assertNotEqual(glyphs['f']['path'], glyphs['f.short']['path'])
             else:
-                on = [name for name, _ in self.shape(face, 'minimum', calt=True)]
+                on = [name for name, _ in self.shape(face, 'minimum', calt=True, ss02=True)]
                 off = [name for name, _ in self.shape(face, 'minimum', calt=False)]
                 self.assertTrue(on[0].endswith('.init'))
                 self.assertTrue(on[-1].endswith('.fina'))
@@ -108,16 +108,45 @@ class OriginalFontTests(unittest.TestCase):
             else:
                 self.assertLess(on, off)
 
+    def test_script_default_letters_keep_pen_lift_gaps(self):
+        for face in self.faces:
+            record, _, _ = face
+            if not record['id'].startswith('script'):
+                continue
+            glyphs = {g['name']: g for g in record['glyphs']}
+            letters = [chr(g['unicode']) for g in record['glyphs'] if g['unicode'] and g.get('connectedAlternate')]
+            for left in letters:
+                for right in letters:
+                    shaped = self.shape(face, left + right, liga=False, calt=True, curs=True)
+                    self.assertEqual(len(shaped), 2)
+                    (ln, lp), (rn, rp) = shaped
+                    self.assertNotIn('.', ln)
+                    self.assertNotIn('.', rn)
+                    gap = lp.x_advance + rp.x_offset + glyphs[rn]['bounds'][0] - lp.x_offset - glyphs[ln]['bounds'][2]
+                    self.assertGreaterEqual(gap, 62, (record['file'], left, right, gap))
+            ascii_letters = [ch for ch in build.CHARSET if ch.isascii() and ch.isalnum()]
+            for left in ascii_letters:
+                for right in ascii_letters:
+                    (ln, lp), (rn, rp) = self.shape(face, left + right, liga=False)
+                    gap = lp.x_advance + rp.x_offset + glyphs[rn]['bounds'][0] - lp.x_offset - glyphs[ln]['bounds'][2]
+                    self.assertGreaterEqual(gap, 20, (record['file'], left, right, gap))
+            for text in ['office', 'afflict', 'fluff']:
+                on = self.shape(face, text, liga=True)
+                off = self.shape(face, text, liga=False)
+                self.assertEqual(sum(p.x_advance for _, p in on), sum(p.x_advance for _, p in off))
+                for name, _ in on:
+                    self.assertFalse(glyphs[name].get('joining'))
+
     def test_all_lowercase_join_pairs(self):
         for face in self.faces:
             record, _, _ = face
             if record['profile'] in ('sans', 'mono'):
                 continue
             glyphs = {g['name']: g for g in record['glyphs']}
-            letters = [chr(g['unicode']) for g in record['glyphs'] if g['unicode'] and g.get('joining') and g.get('form') == 'base']
+            letters = [chr(g['unicode']) for g in record['glyphs'] if g['unicode'] and g.get('connectedAlternate')]
             for left in letters:
                 for right in letters:
-                    shaped = self.shape(face, left + right, liga=False, calt=True, curs=True)
+                    shaped = self.shape(face, left + right, liga=False, calt=True, curs=True, ss02=True)
                     self.assertEqual(len(shaped), 2)
                     (ln, lp), (rn, rp) = shaped
                     self.assertTrue(ln.endswith('.init'), (left, right, ln))
@@ -188,7 +217,8 @@ class OriginalFontTests(unittest.TestCase):
                 self.assertEqual(sum(op == 'moveTo' for op, _ in pen.value), 1, 'The m must remain a single connected stroke silhouette.')
                 ink = build.pathops.Path(); parse_path(glyph['path'], ink.getPen())
                 for point in [(250, 200), (460, 200)]:
-                    self.assertFalse(ink.contains(point), f'{record["file"]} {glyph["name"]}: open arch interior')
+                    shift = glyph['bounds'][0] - next(g['bounds'][0] for g in record['glyphs'] if g['name'] == 'm.medi') if glyph['name'] == 'm' else 0
+                    self.assertFalse(ink.contains((point[0] + shift, point[1])), f'{record["file"]} {glyph["name"]}: open arch interior')
 
     def test_script_i_has_one_connected_body_and_a_clear_dot(self):
         for record, _, _ in self.faces:
@@ -298,7 +328,7 @@ class OriginalFontTests(unittest.TestCase):
             glyphs = font.getGlyphSet()
             for name in ['a', 'd']:
                 probe = PointInsidePen(glyphs, (125 + width * .35, 270))
-                glyphs[name].draw(probe)
+                glyphs[name + '.medi'].draw(probe)
                 self.assertFalse(probe.getResult(), f'{record["file"]} {name}: entry stroke intrudes into the open bowl')
 
     def test_deterministic_regeneration(self):
