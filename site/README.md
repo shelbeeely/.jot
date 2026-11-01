@@ -1,5 +1,7 @@
 # Jot site
 
+Product milestones: [Writer roadmap](../WRITER-ROADMAP.md), with web, desktop and mobile tracks. Format dependencies: [Jot format roadmap](../specification/ROADMAP.md).
+
 The site: the home page, the writing workspace (`/write/`), the template editor (`/editor/`), the converter (`/convert/`), Your life
 online (`/import/`), the guides and the examples. The desktop app (`../desktop/`) loads these same pages. Details of each are below.
 

@@ -19,7 +19,7 @@ The .jot file holds the writing: one moment, a day, a month or an ongoing journa
 
 Status: 1.0.0-draft.3, 26 October 2026. This folder specifies the format; the implementation lives beside it. All examples are fictional.
 
-The JavaScript parser (`../parser/`, version 0.1.0, a working prototype: Markdown and diagram recognition, the page renderer, `.jotz` containers, per-entry archive protection) implements most of this draft, and the site, command line, converters, VS Code extension and desktop app all use it. It does not yet claim full conformance with every rule and profile. `ROADMAP.md` here tracks what is implemented and what is planned.
+The JavaScript parser (`../parser/`, version 0.1.0, a working prototype: Markdown and diagram recognition, the page renderer, `.jotz` containers, per-entry archive protection) implements most of this draft, and the site, command line, converters, VS Code extension and desktop app all use it. It does not yet claim full conformance with every rule and profile. [ROADMAP.md](ROADMAP.md) here tracks format implementation and conformance; the separate [Writer roadmap](../WRITER-ROADMAP.md) tracks web, desktop/mobile and integration delivery.
 
 Jotz v1 is the default journal archive, with ordered source entries, media, optional per-entry protection and a public SQLite/FTS5 index. See Jot-Container-v1.md and Jot-Protection-v1.md. Plain `.jot` and the .txt examples are readable source; there is no separate encrypted file type or legacy container migration.
 

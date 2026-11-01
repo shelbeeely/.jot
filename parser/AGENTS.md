@@ -9,6 +9,10 @@ Rules for `parser/`, on top of the repository's root `AGENTS.md`. This is the ca
 - Keep the package self-contained: no runtime fetches or new dependencies. Third-party code lives in `vendor/` with its licence beside it.
 - Changes to the format itself belong in `specification/`, with fixtures in `specification/conformance.json`.
 
+## Keep Writer aligned with format changes
+
+A format/parser/container/protection change must include the corresponding Writer support in the same change, as required by root `AGENTS.md`. Check opening, source/visual editing, preview, assets, persistence, search, locking and file import/export/save paths; regenerate shared copies and run relevant format plus Writer tests. Update the format roadmap (`specification/ROADMAP.md`) and its dependent application work (`WRITER-ROADMAP.md`). Do not declare a format feature complete while Writer still cannot handle it.
+
 ## After changing a module
 
 1. Copy each changed module to `site/dist/jot/` (CI compares `jot`, `timezone`, `container`, `proofread`, `charts`, `preview`, `handwriting`, `styles`, `palette`, `export`, `automation`, `connect`, `include`, `query`, `health`, `vendor/chart`, `vendor/marked` and `fonts/`). `converter/convert.mjs` is copied there the same way.

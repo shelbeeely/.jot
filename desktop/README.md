@@ -1,5 +1,7 @@
 # Jot desktop (Tauri v2)
 
+App delivery is tracked in the [Writer roadmap](../WRITER-ROADMAP.md#desktop-application-track); the [format roadmap](../specification/ROADMAP.md) owns document contracts. Format changes must include corresponding Writer updates under root `AGENTS.md`.
+
 Jot as an app for Linux, macOS and Windows, set up to build for Android and iOS too. The pages are the website's own
 (`site/dist/`), loaded unchanged, so the app has the website's features; the app adds what a web page cannot have, through a small
 bridge injected into every page as `window.jotDesktop` (`src-tauri/src/bridge.js`). On the website the bridge does not exist and

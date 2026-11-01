@@ -30,6 +30,16 @@ The guides in `docs/methods/` are evidence for decisions, not background reading
 - Write reader-facing copy (pages, guides, status messages, descriptions) in the voice of `docs/brand/voice.md`, and use the canonical descriptions in `docs/brand/messaging.md`; the brand book is `docs/brand/README.md`.
 - External service requests must be explicit. Keep secrets and account tokens out of Git, journals, local storage and exports.
 
+## Format changes must update Writer
+
+Whenever `.jot` or `.jotz` changes, update Jot Writer to support that change in the same implementation change. This includes syntax/semantics, manifest/schema, member paths, media/reference handling, encryption, metadata, search and rendering contracts. Do not mark a format change complete with only a specification or parser update, or silently defer Writer support.
+
+Trace each affected path: opening, editing, source/visual round trips, preview, assets, privacy/locking, browser persistence, search, device saves, import/export, sharing and recovery. Update shared canonical modules first and regenerate browser/editor copies and distributables. Keep web and desktop/mobile consumers aligned; update native file associations, MIME/CSP rules or file bridges when affected. Preserve unrelated source, assets and protection; clearly reject unsupported capabilities instead of dropping data.
+
+Verify relevant format/conformance tests and affected Writer workflows in the same change. Include public/mixed/protected archive cases when container/protection changes. Run native checks where available; report unavailable platform validation explicitly rather than claiming it passed. A documentation-only proposal must remain marked planned and must not claim Writer support exists.
+
+Keep two separate canonical roadmaps: `specification/ROADMAP.md` for the format contract and reference/conformance work, and `WRITER-ROADMAP.md` for Writer web, desktop/mobile apps, integrations and companion editor tooling. Cross-link dependencies and update status/evidence in both when affected. Both are at the 0.1.0 prototype stage targeting v1; do not move unfinished required work beyond v1 to declare completion. `node tools/sync-roadmap.mjs` generates their published copies.
+
 ## Generated files
 
 Never hand-edit a generated file or copy; change its source and regenerate. After changing canonical parser modules, follow `parser/AGENTS.md`. Regenerate only affected deliverables:

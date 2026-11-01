@@ -2,6 +2,12 @@
 
 Rules for `site/`, on top of the repository's root `AGENTS.md`. `site/dist/` is published to GitHub Pages as is, so keep notes like this one outside it.
 
+## Keep Writer aligned with the format
+
+Every implemented `.jot`/`.jotz` format change must update Writer in the same change. Consume canonical shared modules and verify affected open/edit/preview/save, media/reference, privacy, search, persistence, sharing and import/export paths; include recovery/conflict behavior where affected. Keep the shared web implementation and desktop/mobile consumers compatible, updating platform bridges, MIME/file associations and CSP when needed. Run relevant browser checks and available native checks; report unsupported/unverified platforms honestly. Documentation-only proposals stay planned.
+
+Use `WRITER-ROADMAP.md` for web, desktop/mobile, integrations and UI delivery; use `specification/ROADMAP.md` for normative format work. Cross-link dependencies and regenerate both published roadmaps with `node tools/sync-roadmap.mjs`.
+
 ## Running and testing
 
 Serve the site with `python3 -m http.server 8000 --directory site/dist`; open `/write/` or `/editor/`.

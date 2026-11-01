@@ -5,7 +5,7 @@
 **Jot things down. Get beautiful pages back.**
 
 **Development status: 0.1.0 prototype, working toward Jot v1.** The format and Writer are not finalized. See the
-[v1 completion roadmap](specification/ROADMAP.md#primary-document-completion-required-for-v1); required v1 work will be completed before moving beyond v1.
+[format roadmap](specification/ROADMAP.md) and separate [Writer roadmap](WRITER-ROADMAP.md) for web, desktop and mobile; required v1 work will be completed before moving beyond v1.
 
 Read the name as *just one thought*: whatever is on your mind, one thought at a time, as brief or as detailed as it needs to be.
 
@@ -13,7 +13,7 @@ Jot Writer is being built first for people who have never journaled and want hel
 a small first entry, keep it safely and return whenever you choose. See the [first-journal brief](docs/proposals/first-journal-v1.md)
 for the planned beginner experience and its release criteria.
 
-Dedicated physical hardware and firmware are deferred to [future exploration](specification/ROADMAP.md#physical-hardware-and-firmware-future-exploration).
+Dedicated physical hardware and firmware are deferred to [future exploration](WRITER-ROADMAP.md#physical-hardware-and-firmware-future-exploration).
 Current delivery focuses on the Jot format and Writer software.
 
 Jot is a plain-text journal format that combines Markdown with simple marks for tasks, events, questions and ideas. Keep a moment,
@@ -335,7 +335,7 @@ of commits. Calendars (`*.ics`) are git-ignored. The publishing privacy check sc
 ## Status and licences
 
 Jot v1 is a draft (spec 1.0.0-draft.3, parser 0.1.0). See [DECISIONS.md](DECISIONS.md) and the
-[roadmap](specification/ROADMAP.md) for current boundaries. The page scanner at `/scan/` is unfinished and hidden from site navigation;
+[Writer roadmap](WRITER-ROADMAP.md) and [format roadmap](specification/ROADMAP.md) for current boundaries. The page scanner at `/scan/` is unfinished and hidden from site navigation;
 diagram rendering and handwriting OCR are not implemented. The parser's vendored libraries (Marked,
 Chart.js, JSZip, hash.js) carry their own notices in `parser/vendor/`; the handwriting fonts (Caveat, Playpen Sans, Shantell Sans) are
 under the SIL Open Font License, with their licences in `parser/fonts/`. The original Jot Sans, Jot Script and Jot Mono fonts use SIL OFL 1.1;
