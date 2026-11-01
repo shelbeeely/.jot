@@ -34,12 +34,12 @@ OUT = ROOT / 'generated'
 UPM = 1000
 ASCENT, DESCENT = 1050, -320
 EPOCH = 2082844800 + 1767225600  # 2026-01-01, seconds since OpenType's 1904 epoch.
-VERSION = '1.000'
+VERSION = '1.001'
 EXTRA = '\u0152\u0153\u0178\u0131\u20ac\u2010\u2011\u2013\u2014\u2018\u2019\u201a\u201c\u201d\u201e\u2022\u2026\u2039\u203a\u2212'
 MARKS = '\u0300\u0301\u0302\u0303\u0304\u0306\u0307\u0308\u030a\u030b\u030c\u0327\u0328'
 CHARSET = ''.join(dict.fromkeys(''.join(chr(c) for c in range(32, 127)) + ''.join(chr(c) for c in range(160, 256)) + EXTRA + MARKS))
 LIGATURES = ('ffi', 'ffl', 'ff', 'fi', 'fl')
-PROFILES = [('sans', 'sans', 'Jot Sans', 72), ('script05', '0.5', 'Jot Script 05', 42), ('script07', '0.7', 'Jot Script 07', 52), ('script10', '1.0', 'Jot Script 10', 65)]
+PROFILES = [('sans', 'sans', 'Jot Sans', 72), ('script05', '0.5', 'Jot Script 05', 40), ('script07', '0.7', 'Jot Script 07', 52), ('script10', '1.0', 'Jot Script 10', 78)]
 
 
 def name_of(ch):
@@ -100,13 +100,21 @@ def stroke(d, width, gel=False, joins=()):
         # Tiny round terminal pools give an exposed gel stroke a soft ending.
         # Joining anchors are never pooled: adjacent letters keep even joins.
         endings = []
-        if movements.value and movements.value[-1][0] == 'endPath':
-            for operation, points in reversed(movements.value[:-1]):
-                if points:
-                    endings.append(points[-1]); break
+        start = current = None
+        for operation, points in movements.value:
+            if operation == 'moveTo':
+                start = current = points[0]
+            elif operation == 'endPath':
+                if start is not None:
+                    endings.extend([start, current])
+                start = current = None
+            elif operation == 'closePath':
+                start = current = None
+            elif points:
+                current = points[-1]
         for x, y in endings:
             if not any(abs(x - a) < 1 and abs(y - b) < 1 for a, b in joins):
-                result = pathops.op(result, circle(x, y, width * .52), pathops.PathOp.UNION)
+                result = pathops.op(result, circle(x, y, width * .525), pathops.PathOp.UNION)
     return result
 
 
@@ -255,7 +263,7 @@ def outline(specification, width, resolve, gel=False):
         joins = tuple(p for p in [specification.get('entry'), specification.get('exit')] if p)
         parts.append(stroke(d, width * specification.get('strokeScale', 1), gel=gel and not specification.get('mark'), joins=joins))
     for x, y, r in specification.get('dots', []):
-        parts.append(circle(x, y, r * width / 52 if specification.get('mark') else r * min(1.22, width / 52)))
+        parts.append(circle(x, y, r * width / 52))
     for name, matrix in specification.get('components', []):
         parts.append(resolve(name, matrix))
     return union(parts)

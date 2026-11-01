@@ -749,3 +749,13 @@ size and high-contrast themes (its specific VoiceOver details remain uncertain).
 requires named colors alongside swatches, and line 180 calls for words for color roles and contrast ratios for text palettes.
 The precise typography and compositing choices respond to the owner's request and are checked in font, renderer and browser
 regressions; they are not claimed as tested therapeutic or productivity benefits.
+
+## G2 stroke reference refinement (1 November 2026)
+
+The owner supplied pen writing photographs and requested stroke refinement only.
+Script fine/medium/broad nibs now use 40/52/78 units: stronger separation while
+keeping medium familiar. Dot and punctuation widths scale with the nib instead
+of hitting a common size cap. Every exposed open-stroke start and ending receives
+small rounded pooling; connecting anchors retain even joins. The same stroke
+construction applies to Sans. No new pen presets or ink colors are introduced.
+The photographs guide appearance rather than calibrated physical widths.

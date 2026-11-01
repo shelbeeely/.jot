@@ -51,7 +51,7 @@ The compiler expands centerlines with a round nib, unions overlapping parts,
 converts conic/cubic segments into TrueType quadratic outlines, and serializes
 WOFF2 through FontTools/Brotli. Outlines remain closed SVG paths, never embedded
 rasters or SVG text. Both families have restrained per-stroke width variation of at
-most 1.5%, and exposed terminal pooling of 4%; joining anchors are excluded.
+most 1.5%, and exposed terminal pooling of 5% at every open pen movement; joining anchors are excluded.
 There are no sharp brush tapers, flat nibs, texture masks, or transparent ink.
 
 The repertoire includes printable ASCII, Latin-1 Supplement, Œ/œ/Ÿ, dotless i,
@@ -88,3 +88,12 @@ combining marks, distinct weights/profiles, licenses and byte-identical builds.
 Browser tests additionally check real font loading, editor interaction, exports,
 the inspector, and highlight readability; compilation alone is not an aesthetic
 or accessibility assessment.
+
+## Stroke refinement from pen references
+
+The supplied G2 writing comparisons guide relative visual weights: fine stays
+light, medium is restrained, and broad is substantially inkier. Version 1.001
+uses 40/52/78-unit Script nibs, scales dots and punctuation with each nib, and
+softens exposed starts and endings of every stroke while protecting joining
+anchors. Sans receives the same terminal treatment. These are visual design
+choices from photographs, not calibrated measurements of physical pen lines.

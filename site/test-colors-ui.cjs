@@ -132,6 +132,7 @@ const server = http.createServer((req, res) => {
       if (target.querySelector('span').getAttribute('style') || target.querySelector('[data-highlight-style]')) throw Error('Unsafe AST color accepted');
     });
     await page.setViewportSize({width:390,height:844});
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth+1), 'no sideways page scroll');
     assert.deepEqual(errors, []);
     console.log('PASS: handwritten default, four combined colors, print parity, PDF, embedded-font export, persistence, clear/undo, Typed preference mobile layout, three highlight styles, per-occurrence variation and Rewrite/print stability.');

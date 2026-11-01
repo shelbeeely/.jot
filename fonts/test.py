@@ -160,6 +160,21 @@ class OriginalFontTests(unittest.TestCase):
             self.assertEqual(actual, vector(gel))
             self.assertNotEqual(actual, vector(plain))
 
+    def test_gel_terminals_preserve_joins_and_profile_dot_weights(self):
+        path = 'M0 0 L0 200 M300 500 L300 700'
+        exposed = build.stroke(path, 52, gel=True)
+        joined = build.stroke(path, 52, gel=True, joins=[(0, 0)])
+        self.assertLess(exposed.bounds[1], joined.bounds[1] - .5,
+                        'The first exposed start pools even with several pen movements; a joining anchor does not.')
+        regular = {r['id']: r for r, _, _ in self.faces if r['weight'] == 400}
+        diameters = []
+        for id_ in ['script05', 'script07', 'script10']:
+            dot = next(g for g in regular[id_]['glyphs'] if g['name'] == 'period')
+            diameters.append(dot['bounds'][2] - dot['bounds'][0])
+        self.assertLess(diameters[0], diameters[1])
+        self.assertGreater(diameters[2] / diameters[0], 1.8,
+                           'Broad punctuation must retain the broad pen width, rather than hitting a shared dot-size cap.')
+
     def test_width_fit_letters_keep_the_round_nib(self):
         # The O inside Sans Œ is width-fit to75%. Its vertical nib must remain
         # full width, rather than shrinking to75% like an outlined-path scale.
