@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 74739,
-      "sha256": "1c8a281a843706e3e4bdcdaa2a4bad910f21baaf1b414b10d1d7e351fc9e9d19"
+      "byteLength": 75192,
+      "sha256": "ad9e64ab6e0ec89e4d152ab54cefd9d6bc11c85fb253c7c832f9888bd69d73d9"
     },
     {
       "path": "README.md",
@@ -1235,7 +1235,7 @@
     {
       "path": "fonts/build.py",
       "byteLength": 34102,
-      "sha256": "59b447d83d008bcf48e53a9b910ce9e380aeac266cf1b2583c1ab0de697a87b5"
+      "sha256": "75ecea0c843b22400ea6dec9d2a2c1d29160d2006076a843f4805b33682b67d9"
     },
     {
       "path": "fonts/design_sans.py",
@@ -1244,18 +1244,18 @@
     },
     {
       "path": "fonts/design_script.py",
-      "byteLength": 13142,
-      "sha256": "ee43976770c6282dc2cd637f9f62fe2c8b48c92cb0d2aa21f95bd8b56948f294"
+      "byteLength": 13118,
+      "sha256": "e42b8105a3eda6d06eba6979769ff0183149a82c1dc7bade27dbbab2c44dfdaf"
     },
     {
       "path": "fonts/generated/SHA256SUMS.json",
       "byteLength": 378819,
-      "sha256": "0d44b0d6fee0bb6de53439e6f02c37d4137a458322721c3f5e1cba792ded04c9"
+      "sha256": "139102bb92875376029298f41591e4c79a82198cd41a84ef881a9f4a88c89156"
     },
     {
       "path": "fonts/generated/catalog.json",
-      "byteLength": 5999160,
-      "sha256": "9f4da93d1268fddf8fe9b1b74a6db71c43dec2d97e21aade29080ae36b0fc901"
+      "byteLength": 5995476,
+      "sha256": "2b84c8b4fb3eedc9467d15fdd2956cbfcb4168aa2e10e03dfbf38e4ce60510a1"
     },
     {
       "path": "fonts/generated/features/mono-400.fea",
@@ -1280,42 +1280,42 @@
     {
       "path": "fonts/generated/features/script05-400.fea",
       "byteLength": 54188,
-      "sha256": "b9d322e463f88b1a0ed549978920fb3289d8188758f8745b3bc198030b7ff595"
+      "sha256": "c84929d3f891be95277af798a310fafe61842e11134a6c086335bd024ab2de5f"
     },
     {
       "path": "fonts/generated/features/script05-700.fea",
       "byteLength": 54188,
-      "sha256": "b9d322e463f88b1a0ed549978920fb3289d8188758f8745b3bc198030b7ff595"
+      "sha256": "c84929d3f891be95277af798a310fafe61842e11134a6c086335bd024ab2de5f"
     },
     {
       "path": "fonts/generated/features/script07-400.fea",
       "byteLength": 54188,
-      "sha256": "b9d322e463f88b1a0ed549978920fb3289d8188758f8745b3bc198030b7ff595"
+      "sha256": "c84929d3f891be95277af798a310fafe61842e11134a6c086335bd024ab2de5f"
     },
     {
       "path": "fonts/generated/features/script07-700.fea",
       "byteLength": 54188,
-      "sha256": "b9d322e463f88b1a0ed549978920fb3289d8188758f8745b3bc198030b7ff595"
+      "sha256": "c84929d3f891be95277af798a310fafe61842e11134a6c086335bd024ab2de5f"
     },
     {
       "path": "fonts/generated/features/script10-400.fea",
       "byteLength": 54188,
-      "sha256": "b9d322e463f88b1a0ed549978920fb3289d8188758f8745b3bc198030b7ff595"
+      "sha256": "c84929d3f891be95277af798a310fafe61842e11134a6c086335bd024ab2de5f"
     },
     {
       "path": "fonts/generated/features/script10-700.fea",
       "byteLength": 54188,
-      "sha256": "b9d322e463f88b1a0ed549978920fb3289d8188758f8745b3bc198030b7ff595"
+      "sha256": "c84929d3f891be95277af798a310fafe61842e11134a6c086335bd024ab2de5f"
     },
     {
       "path": "fonts/generated/jot-mono-400.woff2",
-      "byteLength": 23476,
-      "sha256": "c76ee1e1f54abe9a0e86b026b8433fc0a32b16e68a891b6dc8ddeeeba686b6d4"
+      "byteLength": 23504,
+      "sha256": "271b0ca953f85a9b7be69e35d59b1521321fe1264bd0c0b722d14996dae83e1a"
     },
     {
       "path": "fonts/generated/jot-mono-700.woff2",
-      "byteLength": 24204,
-      "sha256": "867a8afa0ae8ad4164a9b472a5adc2146db64f62fc0a93f0a6d983a8f02223f0"
+      "byteLength": 24212,
+      "sha256": "cf41c473fd78b88477564f27b97017aae2bfa2c3ad605cb74779b266b1a9144b"
     },
     {
       "path": "fonts/generated/jot-original-OFL.txt",
@@ -1324,43 +1324,43 @@
     },
     {
       "path": "fonts/generated/jot-sans-400.woff2",
-      "byteLength": 23408,
-      "sha256": "1ae9e86a50af0e43d14a5fe670be94f8229419c59d57b54cf31670a0474d5b1f"
+      "byteLength": 23400,
+      "sha256": "0357847d0c1a3ede666f6c222d4f0027b056ff078bf56e3b22782794c7fb6531"
     },
     {
       "path": "fonts/generated/jot-sans-700.woff2",
-      "byteLength": 23976,
-      "sha256": "42f8a982a4864429835aa9821577b872e303ff68d04a1cd332084c0f3483e1b9"
+      "byteLength": 24044,
+      "sha256": "2e49c64d1d556500eb3373b02825c5c8e8aabf9b4780161e8095e6447c4d65d5"
     },
     {
       "path": "fonts/generated/jot-script-05-400.woff2",
-      "byteLength": 26700,
-      "sha256": "317cf1c3bac2730ea537e421b365930e7734e914ca73aeab0ac87690b53117da"
+      "byteLength": 26852,
+      "sha256": "dd1436e2e968250a5be6f3121e72fba66d5529608f8b9b6909a25f9410f15e7f"
     },
     {
       "path": "fonts/generated/jot-script-05-700.woff2",
-      "byteLength": 27036,
-      "sha256": "3bbbc22676f5fa67df3eae46492076c61517226358e4a1a064f614f452f806bc"
+      "byteLength": 26968,
+      "sha256": "603cc592d4b350aa08dd4f589a45a21ae18d0bb2688af0879517e87ad5950f92"
     },
     {
       "path": "fonts/generated/jot-script-07-400.woff2",
-      "byteLength": 27184,
-      "sha256": "edac024d2905d73fa4e4012a90be162852a3cee3934af972bf0d3e451514bf77"
+      "byteLength": 27120,
+      "sha256": "e2a8b33a0952a425c08ff4c414aaa124e35e82a9bb385f19513825832466233d"
     },
     {
       "path": "fonts/generated/jot-script-07-700.woff2",
-      "byteLength": 27480,
-      "sha256": "c959a599b148da2828a4a0f1324812fa53574f54917e0f9529a9adb8a2a21be2"
+      "byteLength": 27424,
+      "sha256": "ee6844dc2c1ef70e832264d3fd80bd36373c19ff0044eee603e60e44f4fe89f1"
     },
     {
       "path": "fonts/generated/jot-script-10-400.woff2",
-      "byteLength": 27680,
-      "sha256": "0bc59687ea95161d33f08d4c070cd9bff393cff88059f80bf84bdd820fcb7b03"
+      "byteLength": 27564,
+      "sha256": "93819680dd462b9cd637c722f48b051cd13fb2cc392efcbfbf41a74d7006fcd5"
     },
     {
       "path": "fonts/generated/jot-script-10-700.woff2",
-      "byteLength": 28192,
-      "sha256": "3f02a5b8a7be8a6387e692153420a596531d031db0bfb2df146c54f576cd256c"
+      "byteLength": 28152,
+      "sha256": "a83f25a06c0dba70c7fff9af96cc00dc7703e3a1d7a34b6336919cb7d1388877"
     },
     {
       "path": "fonts/generated/svg/mono-400/.notdef.svg",
@@ -8464,23 +8464,23 @@
     },
     {
       "path": "fonts/generated/svg/script05-400/m.fina.svg",
-      "byteLength": 2344,
-      "sha256": "371d0e4a6663d3d30ace314748045b3d4ab7dc30913661e33b4d454368e64dd8"
+      "byteLength": 2166,
+      "sha256": "7b82f3bcd585498d671f98cc38346877384a80e4d52b0001742d1942ff5b9ef4"
     },
     {
       "path": "fonts/generated/svg/script05-400/m.init.svg",
-      "byteLength": 2295,
-      "sha256": "be6ef3ae6baa4cae0757d7d21383f7024900b743046642c248e5d32e19d7f65c"
+      "byteLength": 2110,
+      "sha256": "a437dbee6caa34d3a37dc0f7f21691356efc07ba04fd076b3049298beecc8dd9"
     },
     {
       "path": "fonts/generated/svg/script05-400/m.medi.svg",
-      "byteLength": 2192,
-      "sha256": "41d4c92182b80f5337942901126ee0656bf30e48e5703da4c98b3b5d4f8f03be"
+      "byteLength": 2014,
+      "sha256": "84829f9d5cd7b83693f1db4560dba64ebdbebd99e8269bab0b6416119a34ffb7"
     },
     {
       "path": "fonts/generated/svg/script05-400/m.svg",
-      "byteLength": 2442,
-      "sha256": "352daf11e7c3bc73235c1c1b8746a334cfdbb17d1ec26c1299bfe0e415b46bb1"
+      "byteLength": 2257,
+      "sha256": "c288d365b248edee3e74609cde6ec7815f85ead7cd746ed0783ba210da573ff2"
     },
     {
       "path": "fonts/generated/svg/script05-400/macron.svg",
@@ -10604,23 +10604,23 @@
     },
     {
       "path": "fonts/generated/svg/script05-700/m.fina.svg",
-      "byteLength": 2394,
-      "sha256": "0188718a46f3c56f7e966960f86e0e8d418cd43ca5c6239455a0872b3e7dc9eb"
+      "byteLength": 2238,
+      "sha256": "1866394f632848aaa2e6ec2db968cecc799407b8b165665329c3f76fa1ca76a6"
     },
     {
       "path": "fonts/generated/svg/script05-700/m.init.svg",
-      "byteLength": 2328,
-      "sha256": "7dc4aeac9953481226def4ffc2a764f43696c5824a3a326f16d82fd2770e8908"
+      "byteLength": 2190,
+      "sha256": "dd2ac95b6d8cb53ecaf63425f1257590d7d5cd49cfa2f3fcfb3ce848fff52ec8"
     },
     {
       "path": "fonts/generated/svg/script05-700/m.medi.svg",
-      "byteLength": 2244,
-      "sha256": "0a5079c28dd4f011fa943a7869a2a6ac7a5809fe8983c003ce89b22606708650"
+      "byteLength": 2088,
+      "sha256": "8710a860b503379472c71cc171c8a112bf19cc1ecc04248981157bc6df221af2"
     },
     {
       "path": "fonts/generated/svg/script05-700/m.svg",
-      "byteLength": 2473,
-      "sha256": "2cf85dda0a21a85138d6f3a93b1bf378a99a69f1a997adbc18e669deafe249cf"
+      "byteLength": 2335,
+      "sha256": "dcdc496dc3f50b688f0df2ff96140d88228e906e5dbfcd35ae958974fc5f4eea"
     },
     {
       "path": "fonts/generated/svg/script05-700/macron.svg",
@@ -12744,23 +12744,23 @@
     },
     {
       "path": "fonts/generated/svg/script07-400/m.fina.svg",
-      "byteLength": 2383,
-      "sha256": "36c0e10500986a9e8aff4aeebc8a724bbb630982435c9158a74bab0b0e84e1c0"
+      "byteLength": 2210,
+      "sha256": "91d7b2b5b81d023596ac7c1811bcdb94cada6453548d135384d2aa1a9762ce4a"
     },
     {
       "path": "fonts/generated/svg/script07-400/m.init.svg",
-      "byteLength": 2317,
-      "sha256": "8e1b51492a242e7a34e938be77c13c1eba5435eadbb15c5ecf0467dc2638d2c0"
+      "byteLength": 2140,
+      "sha256": "ade63b8b74630f6232a6cbee6afb7e1edae30324ef3c9b828e3af0f9be6a3ed0"
     },
     {
       "path": "fonts/generated/svg/script07-400/m.medi.svg",
-      "byteLength": 2232,
-      "sha256": "9775ebcd5885db22a64bbe7eeea67b4224b3d8c5c6af69c8ac2e0223cafc1035"
+      "byteLength": 2060,
+      "sha256": "7d47d35260ddaee7f58748affe5119e9144ded9a5b15ae32c393fc2f4f9bd72f"
     },
     {
       "path": "fonts/generated/svg/script07-400/m.svg",
-      "byteLength": 2463,
-      "sha256": "94931816b80115215bd18b61af498332782ae360fac284b00f7a5677d4a8dd4d"
+      "byteLength": 2285,
+      "sha256": "222579eda88ddd07cdac5b2831a7faa47b85312e91311d2ab9b0332723502ff1"
     },
     {
       "path": "fonts/generated/svg/script07-400/macron.svg",
@@ -14884,23 +14884,23 @@
     },
     {
       "path": "fonts/generated/svg/script07-700/m.fina.svg",
-      "byteLength": 2418,
-      "sha256": "dd1c1d84674180cf47acd11af68d63c04cb0cf80c1eb6d9e191193d9b3904df7"
+      "byteLength": 2190,
+      "sha256": "d83c065831a41d88c0fa073a0845ad6291926c1780f7752b9b1d3758065d1c6f"
     },
     {
       "path": "fonts/generated/svg/script07-700/m.init.svg",
-      "byteLength": 2346,
-      "sha256": "0e509eb0659fcb3347227020615dce79d7b137c03db4df61cf1aa697265d2c47"
+      "byteLength": 2133,
+      "sha256": "ccd75cf05bdbdf680066e75cde65d6d694699f5ec472a11aec128f508c3f0fd1"
     },
     {
       "path": "fonts/generated/svg/script07-700/m.medi.svg",
-      "byteLength": 2269,
-      "sha256": "5c11f769f58dda4bfebedae539741894b6af249277d227bd9508d45803f80205"
+      "byteLength": 2041,
+      "sha256": "222f47072ae35736cfbb124169e73523ec740f509a8ff07ebd2ada9892701ef8"
     },
     {
       "path": "fonts/generated/svg/script07-700/m.svg",
-      "byteLength": 2490,
-      "sha256": "ce788aa884be55bf8740e4a8fa321bfffb4e83f71c89a8114f570b0c09bc67ea"
+      "byteLength": 2277,
+      "sha256": "c69f33e60a49944196055e7604514ec99aa13a92ef64ef1cab6fe4b976cf8ec9"
     },
     {
       "path": "fonts/generated/svg/script07-700/macron.svg",
@@ -17024,23 +17024,23 @@
     },
     {
       "path": "fonts/generated/svg/script10-400/m.fina.svg",
-      "byteLength": 2415,
-      "sha256": "1d4f49713aaa917b9c473e8e32e81a1b5ba45b913bf6945099a9309e7885f0aa"
+      "byteLength": 2216,
+      "sha256": "40d7bc2aa7ed31aa86be7ad327ebb3b57c0ddb837a995f1ea7331d74d3dc65df"
     },
     {
       "path": "fonts/generated/svg/script10-400/m.init.svg",
-      "byteLength": 2343,
-      "sha256": "0b0ca7aa0364e348447814b9b14daafdc8d65d8933dd830300ebc5ec32bb3a9d"
+      "byteLength": 2158,
+      "sha256": "b4b7c5a02b7a60ea4935a86d20280017544960c85d449abf841283d6e7713ccb"
     },
     {
       "path": "fonts/generated/svg/script10-400/m.medi.svg",
-      "byteLength": 2266,
-      "sha256": "d3cc3a6e825807bcf85eb6b1ce57cb33f4850eb5a3af09c617896b7530d8309e"
+      "byteLength": 2067,
+      "sha256": "f6878bda2c5262bb2aad1d25429f3918c08bc59d92913d7574928dc4153258bf"
     },
     {
       "path": "fonts/generated/svg/script10-400/m.svg",
-      "byteLength": 2487,
-      "sha256": "44c1f803852791e51221993e3e7afa6425b595dfb58d5b79a501de9cb035ea10"
+      "byteLength": 2302,
+      "sha256": "473e6a0f6281af6cce067a620d4a6a0fde361e514b50a2878e93d54993e3beaa"
     },
     {
       "path": "fonts/generated/svg/script10-400/macron.svg",
@@ -19164,23 +19164,23 @@
     },
     {
       "path": "fonts/generated/svg/script10-700/m.fina.svg",
-      "byteLength": 3146,
-      "sha256": "c3cda47f894a971d1a7ee6bccb0ccfef3f5a568b1e24644ef968061e5fec9d36"
+      "byteLength": 3104,
+      "sha256": "a3955fb681882fedb0f6d3cf22fa73cdbf43f22e9c5c7bf0bb72cf8ebb383234"
     },
     {
       "path": "fonts/generated/svg/script10-700/m.init.svg",
-      "byteLength": 2987,
-      "sha256": "f6bc3665d90dd833616c3d634cde5269f896b52e73ade587f7000b91284d88ae"
+      "byteLength": 3007,
+      "sha256": "784bdcef3055ae140c4d01169556fb3b0b04b3b5eca9a73399e11d9d27aee614"
     },
     {
       "path": "fonts/generated/svg/script10-700/m.medi.svg",
-      "byteLength": 3173,
-      "sha256": "7b670f9e83d04570350045a537fcf9af84638699c07ab421412902c31dff3253"
+      "byteLength": 3150,
+      "sha256": "cede6730d2da52749322c678b20fbe4b8c14bd0a123ade36dbbc4b51e5dbde0d"
     },
     {
       "path": "fonts/generated/svg/script10-700/m.svg",
-      "byteLength": 2955,
-      "sha256": "730ff7ff36fc48fab99dea74c05ea7e9849158270bfb52ddf5794759bd4fe601"
+      "byteLength": 2957,
+      "sha256": "5c355b6ab9eced08511b9d11ff5e6e63efa7f99b99c8265d9796b60793ca1a66"
     },
     {
       "path": "fonts/generated/svg/script10-700/macron.svg",
@@ -20184,13 +20184,13 @@
     },
     {
       "path": "parser/fonts/jot-mono-400.woff2",
-      "byteLength": 23476,
-      "sha256": "c76ee1e1f54abe9a0e86b026b8433fc0a32b16e68a891b6dc8ddeeeba686b6d4"
+      "byteLength": 23504,
+      "sha256": "271b0ca953f85a9b7be69e35d59b1521321fe1264bd0c0b722d14996dae83e1a"
     },
     {
       "path": "parser/fonts/jot-mono-700.woff2",
-      "byteLength": 24204,
-      "sha256": "867a8afa0ae8ad4164a9b472a5adc2146db64f62fc0a93f0a6d983a8f02223f0"
+      "byteLength": 24212,
+      "sha256": "cf41c473fd78b88477564f27b97017aae2bfa2c3ad605cb74779b266b1a9144b"
     },
     {
       "path": "parser/fonts/jot-original-OFL.txt",
@@ -20199,43 +20199,43 @@
     },
     {
       "path": "parser/fonts/jot-sans-400.woff2",
-      "byteLength": 23408,
-      "sha256": "1ae9e86a50af0e43d14a5fe670be94f8229419c59d57b54cf31670a0474d5b1f"
+      "byteLength": 23400,
+      "sha256": "0357847d0c1a3ede666f6c222d4f0027b056ff078bf56e3b22782794c7fb6531"
     },
     {
       "path": "parser/fonts/jot-sans-700.woff2",
-      "byteLength": 23976,
-      "sha256": "42f8a982a4864429835aa9821577b872e303ff68d04a1cd332084c0f3483e1b9"
+      "byteLength": 24044,
+      "sha256": "2e49c64d1d556500eb3373b02825c5c8e8aabf9b4780161e8095e6447c4d65d5"
     },
     {
       "path": "parser/fonts/jot-script-05-400.woff2",
-      "byteLength": 26700,
-      "sha256": "317cf1c3bac2730ea537e421b365930e7734e914ca73aeab0ac87690b53117da"
+      "byteLength": 26852,
+      "sha256": "dd1436e2e968250a5be6f3121e72fba66d5529608f8b9b6909a25f9410f15e7f"
     },
     {
       "path": "parser/fonts/jot-script-05-700.woff2",
-      "byteLength": 27036,
-      "sha256": "3bbbc22676f5fa67df3eae46492076c61517226358e4a1a064f614f452f806bc"
+      "byteLength": 26968,
+      "sha256": "603cc592d4b350aa08dd4f589a45a21ae18d0bb2688af0879517e87ad5950f92"
     },
     {
       "path": "parser/fonts/jot-script-07-400.woff2",
-      "byteLength": 27184,
-      "sha256": "edac024d2905d73fa4e4012a90be162852a3cee3934af972bf0d3e451514bf77"
+      "byteLength": 27120,
+      "sha256": "e2a8b33a0952a425c08ff4c414aaa124e35e82a9bb385f19513825832466233d"
     },
     {
       "path": "parser/fonts/jot-script-07-700.woff2",
-      "byteLength": 27480,
-      "sha256": "c959a599b148da2828a4a0f1324812fa53574f54917e0f9529a9adb8a2a21be2"
+      "byteLength": 27424,
+      "sha256": "ee6844dc2c1ef70e832264d3fd80bd36373c19ff0044eee603e60e44f4fe89f1"
     },
     {
       "path": "parser/fonts/jot-script-10-400.woff2",
-      "byteLength": 27680,
-      "sha256": "0bc59687ea95161d33f08d4c070cd9bff393cff88059f80bf84bdd820fcb7b03"
+      "byteLength": 27564,
+      "sha256": "93819680dd462b9cd637c722f48b051cd13fb2cc392efcbfbf41a74d7006fcd5"
     },
     {
       "path": "parser/fonts/jot-script-10-700.woff2",
-      "byteLength": 28192,
-      "sha256": "3f02a5b8a7be8a6387e692153420a596531d031db0bfb2df146c54f576cd256c"
+      "byteLength": 28152,
+      "sha256": "a83f25a06c0dba70c7fff9af96cc00dc7703e3a1d7a34b6336919cb7d1388877"
     },
     {
       "path": "parser/fonts/playpen-sans-OFL.txt",
@@ -20549,8 +20549,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1216389,
-      "sha256": "c9912010d4f213b6e71cd6ee6a329e4c7497d468cfa89baf04edbfcd13dc935f"
+      "byteLength": 1216293,
+      "sha256": "ad2c1b427d07dc9a8d84967ef8f9f7e38ed6cfa2ee47726b030219e3928596f0"
     },
     {
       "path": "site/dist/editor-capture.mjs",
@@ -20879,8 +20879,8 @@
     },
     {
       "path": "site/dist/fonts/catalog.json",
-      "byteLength": 5999160,
-      "sha256": "9f4da93d1268fddf8fe9b1b74a6db71c43dec2d97e21aade29080ae36b0fc901"
+      "byteLength": 5995476,
+      "sha256": "2b84c8b4fb3eedc9467d15fdd2956cbfcb4168aa2e10e03dfbf38e4ce60510a1"
     },
     {
       "path": "site/dist/fonts/index.html",
@@ -21054,13 +21054,13 @@
     },
     {
       "path": "site/dist/jot/fonts/jot-mono-400.woff2",
-      "byteLength": 23476,
-      "sha256": "c76ee1e1f54abe9a0e86b026b8433fc0a32b16e68a891b6dc8ddeeeba686b6d4"
+      "byteLength": 23504,
+      "sha256": "271b0ca953f85a9b7be69e35d59b1521321fe1264bd0c0b722d14996dae83e1a"
     },
     {
       "path": "site/dist/jot/fonts/jot-mono-700.woff2",
-      "byteLength": 24204,
-      "sha256": "867a8afa0ae8ad4164a9b472a5adc2146db64f62fc0a93f0a6d983a8f02223f0"
+      "byteLength": 24212,
+      "sha256": "cf41c473fd78b88477564f27b97017aae2bfa2c3ad605cb74779b266b1a9144b"
     },
     {
       "path": "site/dist/jot/fonts/jot-original-OFL.txt",
@@ -21069,43 +21069,43 @@
     },
     {
       "path": "site/dist/jot/fonts/jot-sans-400.woff2",
-      "byteLength": 23408,
-      "sha256": "1ae9e86a50af0e43d14a5fe670be94f8229419c59d57b54cf31670a0474d5b1f"
+      "byteLength": 23400,
+      "sha256": "0357847d0c1a3ede666f6c222d4f0027b056ff078bf56e3b22782794c7fb6531"
     },
     {
       "path": "site/dist/jot/fonts/jot-sans-700.woff2",
-      "byteLength": 23976,
-      "sha256": "42f8a982a4864429835aa9821577b872e303ff68d04a1cd332084c0f3483e1b9"
+      "byteLength": 24044,
+      "sha256": "2e49c64d1d556500eb3373b02825c5c8e8aabf9b4780161e8095e6447c4d65d5"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-05-400.woff2",
-      "byteLength": 26700,
-      "sha256": "317cf1c3bac2730ea537e421b365930e7734e914ca73aeab0ac87690b53117da"
+      "byteLength": 26852,
+      "sha256": "dd1436e2e968250a5be6f3121e72fba66d5529608f8b9b6909a25f9410f15e7f"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-05-700.woff2",
-      "byteLength": 27036,
-      "sha256": "3bbbc22676f5fa67df3eae46492076c61517226358e4a1a064f614f452f806bc"
+      "byteLength": 26968,
+      "sha256": "603cc592d4b350aa08dd4f589a45a21ae18d0bb2688af0879517e87ad5950f92"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-07-400.woff2",
-      "byteLength": 27184,
-      "sha256": "edac024d2905d73fa4e4012a90be162852a3cee3934af972bf0d3e451514bf77"
+      "byteLength": 27120,
+      "sha256": "e2a8b33a0952a425c08ff4c414aaa124e35e82a9bb385f19513825832466233d"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-07-700.woff2",
-      "byteLength": 27480,
-      "sha256": "c959a599b148da2828a4a0f1324812fa53574f54917e0f9529a9adb8a2a21be2"
+      "byteLength": 27424,
+      "sha256": "ee6844dc2c1ef70e832264d3fd80bd36373c19ff0044eee603e60e44f4fe89f1"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-10-400.woff2",
-      "byteLength": 27680,
-      "sha256": "0bc59687ea95161d33f08d4c070cd9bff393cff88059f80bf84bdd820fcb7b03"
+      "byteLength": 27564,
+      "sha256": "93819680dd462b9cd637c722f48b051cd13fb2cc392efcbfbf41a74d7006fcd5"
     },
     {
       "path": "site/dist/jot/fonts/jot-script-10-700.woff2",
-      "byteLength": 28192,
-      "sha256": "3f02a5b8a7be8a6387e692153420a596531d031db0bfb2df146c54f576cd256c"
+      "byteLength": 28152,
+      "sha256": "a83f25a06c0dba70c7fff9af96cc00dc7703e3a1d7a34b6336919cb7d1388877"
     },
     {
       "path": "site/dist/jot/fonts/playpen-sans-OFL.txt",
@@ -21889,13 +21889,13 @@
     },
     {
       "path": "vscode/media/jot/fonts/jot-mono-400.woff2",
-      "byteLength": 23476,
-      "sha256": "c76ee1e1f54abe9a0e86b026b8433fc0a32b16e68a891b6dc8ddeeeba686b6d4"
+      "byteLength": 23504,
+      "sha256": "271b0ca953f85a9b7be69e35d59b1521321fe1264bd0c0b722d14996dae83e1a"
     },
     {
       "path": "vscode/media/jot/fonts/jot-mono-700.woff2",
-      "byteLength": 24204,
-      "sha256": "867a8afa0ae8ad4164a9b472a5adc2146db64f62fc0a93f0a6d983a8f02223f0"
+      "byteLength": 24212,
+      "sha256": "cf41c473fd78b88477564f27b97017aae2bfa2c3ad605cb74779b266b1a9144b"
     },
     {
       "path": "vscode/media/jot/fonts/jot-original-OFL.txt",
@@ -21904,43 +21904,43 @@
     },
     {
       "path": "vscode/media/jot/fonts/jot-sans-400.woff2",
-      "byteLength": 23408,
-      "sha256": "1ae9e86a50af0e43d14a5fe670be94f8229419c59d57b54cf31670a0474d5b1f"
+      "byteLength": 23400,
+      "sha256": "0357847d0c1a3ede666f6c222d4f0027b056ff078bf56e3b22782794c7fb6531"
     },
     {
       "path": "vscode/media/jot/fonts/jot-sans-700.woff2",
-      "byteLength": 23976,
-      "sha256": "42f8a982a4864429835aa9821577b872e303ff68d04a1cd332084c0f3483e1b9"
+      "byteLength": 24044,
+      "sha256": "2e49c64d1d556500eb3373b02825c5c8e8aabf9b4780161e8095e6447c4d65d5"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-05-400.woff2",
-      "byteLength": 26700,
-      "sha256": "317cf1c3bac2730ea537e421b365930e7734e914ca73aeab0ac87690b53117da"
+      "byteLength": 26852,
+      "sha256": "dd1436e2e968250a5be6f3121e72fba66d5529608f8b9b6909a25f9410f15e7f"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-05-700.woff2",
-      "byteLength": 27036,
-      "sha256": "3bbbc22676f5fa67df3eae46492076c61517226358e4a1a064f614f452f806bc"
+      "byteLength": 26968,
+      "sha256": "603cc592d4b350aa08dd4f589a45a21ae18d0bb2688af0879517e87ad5950f92"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-07-400.woff2",
-      "byteLength": 27184,
-      "sha256": "edac024d2905d73fa4e4012a90be162852a3cee3934af972bf0d3e451514bf77"
+      "byteLength": 27120,
+      "sha256": "e2a8b33a0952a425c08ff4c414aaa124e35e82a9bb385f19513825832466233d"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-07-700.woff2",
-      "byteLength": 27480,
-      "sha256": "c959a599b148da2828a4a0f1324812fa53574f54917e0f9529a9adb8a2a21be2"
+      "byteLength": 27424,
+      "sha256": "ee6844dc2c1ef70e832264d3fd80bd36373c19ff0044eee603e60e44f4fe89f1"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-10-400.woff2",
-      "byteLength": 27680,
-      "sha256": "0bc59687ea95161d33f08d4c070cd9bff393cff88059f80bf84bdd820fcb7b03"
+      "byteLength": 27564,
+      "sha256": "93819680dd462b9cd637c722f48b051cd13fb2cc392efcbfbf41a74d7006fcd5"
     },
     {
       "path": "vscode/media/jot/fonts/jot-script-10-700.woff2",
-      "byteLength": 28192,
-      "sha256": "3f02a5b8a7be8a6387e692153420a596531d031db0bfb2df146c54f576cd256c"
+      "byteLength": 28152,
+      "sha256": "a83f25a06c0dba70c7fff9af96cc00dc7703e3a1d7a34b6336919cb7d1388877"
     },
     {
       "path": "vscode/media/jot/fonts/playpen-sans-OFL.txt",

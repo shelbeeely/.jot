@@ -820,3 +820,12 @@ including derived accented forms. Tests protect a connected body, separate dot
 and usable dot clearance in fine and broad ink. The m also separates its entry
 and stem from two smoother shoulders, avoiding the sharp top reversal while
 retaining its advance and joining anchors.
+
+
+## Steadier Script m construction (1 November 2026)
+
+The owner still found m squiggly after the first refinement. Replace its bowed
+downstrokes with straight segments at a consistent forward lean, draw two simple
+matching shoulders, and shorten its trailing connector and advance from 785 to
+690 units. Keep rounded G2 ink and the shared y=90 cursive anchors. This is a
+letterform correction; Sans and Mono drawings and alternate rules are unchanged.

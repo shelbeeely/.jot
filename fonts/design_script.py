@@ -58,13 +58,13 @@ def glyphs():
             "M171 214 C271 346 327 510 397 463 C461 420 333 284 249 251 C346 260 327 75 397 48 C434 34 476 68 515 90", join=True),
         "l": _g(305,
             "M0 90 C96 168 162 436 210 646 C247 820 316 800 288 640 C255 453 130 185 148 81 C167 -13 243 51 305 90", join=True),
-        "m": _g(785,
-            # Separate the entry and stem from the shoulders so the top does
-            # not reverse into a spike. Broad ink keeps two open arch counters.
-            "M0 90 C55 106 101 180 135 300",
-            "M163 460 C145 356 119 186 132 60",
-            "M132 60 C161 219 224 458 310 465 C384 471 366 290 350 177 Q339 93 344 60",
-            "M344 60 C376 230 439 461 522 465 C600 469 574 283 566 175 C550 77 569 32 624 49 C681 67 733 91 785 90", join=True),
+        "m": _g(690,
+            # Straight, equally leaning downstrokes and two simple shoulders.
+            # Avoid bowed stems and extra reversals that read as a squiggle.
+            "M0 90 C50 90 105 180 141 250",
+            "M175 460 L110 60",
+            "M110 60 C140 240 210 460 300 460 C357 460 374 418 365 360 L318 65",
+            "M318 65 C348 240 418 460 508 460 C565 460 582 418 573 360 L532 105 Q525 60 580 60 C625 60 657 90 690 90", join=True),
         "n": _g(535,
             "M0 90 C80 114 117 291 151 451 C130 317 111 151 127 48 C156 224 220 468 315 473 C413 478 370 234 369 106 C368 8 433 29 490 70 C509 83 521 88 535 90", join=True),
         "o": _g(490,
