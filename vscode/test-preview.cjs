@@ -24,6 +24,12 @@ srv.listen(0, '127.0.0.1', async () => {
     await p.goto(`http://127.0.0.1:${srv.address().port}/`);
     await p.waitForFunction(() => window.__sent.some((m) => m.type === 'ready'));
     ok(true, 'the webview says it is ready (the extension then sends the text)');
+    await p.evaluate(() => window.postMessage({ type: 'update', text: '# {{document.filename}}\n', name: 'notes.jot' }, '*'));
+    await p.waitForFunction(() => document.querySelector('#page h1')?.textContent === 'notes.jot');
+    await p.evaluate(() => window.postMessage({ type: 'update', text: '# {{document.filename}}\n', name: 'renamed.jot' }, '*'));
+    await p.waitForFunction(() => document.querySelector('#page h1')?.textContent === 'renamed.jot');
+    ok(true, 'filename variables follow host updates without changing the source');
+
     await p.evaluate((t) => window.postMessage({ type: 'update', text: t, name: 'week.jot' }, '*'), text);
     await p.waitForSelector('.jot-chart canvas');
     const charts = await p.evaluate(async () => { const { Chart } = await import('/media/jot/vendor/chart.mjs'); return [...document.querySelectorAll('.jot-chart canvas')].map((c) => { const ch = Chart.getChart(c); return { type: ch.config.type, data: ch.data.datasets[0].data, w: c.width }; }); });

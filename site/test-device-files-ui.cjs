@@ -151,6 +151,29 @@ function installFileAccessMock() {
     assert.equal(await packaged.page.evaluate(() => window.jotDeviceMock.records.opened.writes), 0);
     await packaged.context.close();
 
+    // Rename at the document heading uses Save as, preserves the original and never rewrites variables.
+    const renamed = await create();
+    const renameSource = '# {{document.filename}}\n\nKeep this writing.';
+    await renamed.page.evaluate(source => { window.jotDeviceMock.records.opened.bytes = [...new TextEncoder().encode(source)]; window.jotDeviceMock.records.saved.name = 'renamed.jot'; }, renameSource);
+    await renamed.page.click('#openBtn'); await waitSource(renamed.page, renameSource);
+    await renamed.page.fill('#documentName', 'renamed');
+    assert.equal(await renamed.page.isVisible('#documentRenameSave'), true);
+    assert.match(await renamed.page.textContent('#paperPreview'), /device-note\.jot/);
+    await renamed.page.evaluate(() => window.jotDeviceMock.saveQueue.push('error:AbortError'));
+    await renamed.page.press('#documentName', 'Enter');
+    await renamed.page.waitForFunction(() => window.jotDeviceMock.saveCalls === 1 && !document.getElementById('saveDevice').disabled);
+    assert.equal(await renamed.page.evaluate(() => window.jotDeviceMock.records.opened.writes), 0);
+    assert.equal(await renamed.page.inputValue('#documentName'), 'renamed');
+    await renamed.page.evaluate(() => window.jotDeviceMock.saveQueue.push('saved'));
+    await renamed.page.click('#documentRenameSave');
+    await renamed.page.waitForFunction(() => window.jotDeviceMock.records.saved.writes === 1 && document.getElementById('documentRenameSave').hidden);
+    assert.equal(await text(renamed.page, 'opened'), renameSource); assert.equal(await text(renamed.page, 'saved'), renameSource);
+    assert.match(await renamed.page.textContent('#paperPreview'), /renamed\.jot/);
+    await renamed.page.fill('#documentName', 'discard-this'); await renamed.page.press('#documentName', 'Escape');
+    assert.equal(await renamed.page.inputValue('#documentName'), 'renamed');
+    assert.equal(await renamed.page.evaluate(() => window.jotDeviceMock.saveCalls), 2);
+    await renamed.context.close();
+
     // Unsupported browser APIs keep the existing download path usable.
     const fallback = await create(false);
     await sourceMode(fallback.page); await fallback.page.fill('#writing', 'A portable plain journal.');

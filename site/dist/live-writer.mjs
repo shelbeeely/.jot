@@ -99,7 +99,9 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
       return;
     }
     const tags = { strong: 'strong', em: 'em', code: 'code', link: 'span', highlight: 'mark', strike: 's', underline: 'u' };
-    const span = node(tags[part.kind] || 'span');
+    const attachment = part.kind === 'link' && part.href ? asset(part.href) : null;
+    const span = node(attachment?.url ? 'a' : tags[part.kind] || 'span');
+    if (attachment?.url) { span.href = attachment.url; span.download = part.href.split('/').pop(); }
     if (part.kind === 'link') { span.className = 'live-link'; if (part.href) span.title = part.href; }
     if (part.kind === 'highlight') {
       span.className = 'jot-highlighter-active';
@@ -141,6 +143,7 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
       } else { currentList = null; fragment.append(line); }
     }
     surface.replaceChildren(fragment); surface.toggleAttribute('data-empty', !editor.value.trim());
+    editor.dispatchEvent(new win.Event('jotliveupdate'));
     if (active && doc.activeElement === surface) select(keep.start, keep.end, keep.direction);
   }
   function apply(edit, { group = '', focus = true } = {}) {
@@ -287,5 +290,5 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
     source = editor.value; remember(source, editor.selectionStart, editor.selectionEnd); render();
   }
   editor.jotApplyEdit = apply; editor.jotSetMode = setMode; root.setAttribute('data-editor-mode', 'live'); render();
-  return { surface, setMode, syncFromSource, get composing() { return composing; }, reset() { composing = false; composition = null; closeSuggestions(); source = editor.value; history = [{ text: source, start: editor.selectionStart, end: editor.selectionEnd }]; at = 0; lastGroup = ''; render(); } };
+  return { surface, setMode, syncFromSource, mountInline(element, position) { const item = wrappers.find(item => item.node.parentNode === surface && item.to >= position); if (item) item.node.after(element); else surface.append(element); }, get composing() { return composing; }, reset() { composing = false; composition = null; closeSuggestions(); source = editor.value; history = [{ text: source, start: editor.selectionStart, end: editor.selectionEnd }]; at = 0; lastGroup = ''; render(); } };
 }

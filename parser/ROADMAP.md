@@ -393,3 +393,18 @@ response-envelope and Jot parsing checks precede explicit undoable insertion. Op
 an independent ZDR toggle, on by default. No silent policy downgrade, tools, containers, remote file uploads or cloud fallback.
 See `docs/guide/ai-companion.md`. Automated transport and browser checks use mocked models. Live-provider compatibility, native
 webview/CORS and physical-device checks remain release validation; complete profile-semantic validation remains separate work.
+
+
+## Everyday browser tools and manual nearby transfer
+
+Writer implements an optional offline PWA shell, local storage protection/usage, session wake lock, reviewed outgoing sharing and
+a separate local incoming inbox. Manual nearby transfers use WebRTC with local candidates, two-way invitation/response pairing,
+comparison codes, integrity verification and inbox review; no Bluetooth, STUN/TURN, internet signaling or automatic merge. Incoming
+OS share delivery requires browser support and an active controlling worker; file-picker import remains available.
+
+Inline annotation creates an immutable page snapshot with editable strokes and composed PNG; later text edits do not move its
+marks. Source uses existing image/link syntax and self-contained `.jotz` assets. Done/Cancel and source Undo are preserved. The
+hidden scanner remains hidden. See `docs/guide/browser-tools.md` for limitations and `specification/Jot-Container-v1.md` for the
+optional stroke background member. Automated tests cover Chromium and local browser-to-browser WebRTC. Native share registration,
+physical pen/palm behavior, real laptop/phone Wi-Fi or hotspot compatibility and native desktop-webview support remain release
+validation. Dedicated hardware/firmware, live text-anchored ink and ongoing synchronization remain deferred.

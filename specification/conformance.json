@@ -158,6 +158,19 @@
       "id": "entry-timezone-scope",
       "input": "---\nTimezone: America/Los_Angeles\n---\n### 2026-10-28\n@timezone: Europe/London\no Call at 09:00\n### 2026-10-29\no Call at 09:00\n",
       "expected": "First entry uses Europe/London; second resets to document America/Los_Angeles. Preserve source and local dates/times; calendar instants resolve independently."
+    },
+    {
+      "id": "document-filename-variable",
+      "input": "# Notes from {{document.filename}}\n",
+      "renderContext": {
+        "filename": "October.jot"
+      },
+      "expected": "Inline documentVariable filename token; displayed heading Notes from October.jot. Source retains the variable; no date is inferred."
+    },
+    {
+      "id": "document-filename-literals",
+      "input": "`{{document.filename}}` and \\{{document.filename}} and {{document.unknown}}.\n",
+      "expected": "Code, escaped known variable and unknown variable remain literal; no filename lookup or source rewriting."
     }
   ]
 }

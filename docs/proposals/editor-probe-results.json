@@ -1,0 +1,184 @@
+{
+  "versions": {
+    "@codemirror/state": "6.7.6",
+    "@codemirror/view": "6.43.15",
+    "@codemirror/commands": "6.11.1",
+    "draftly": "3.0.1",
+    "prosemirror-markdown": "1.13.9",
+    "@milkdown/kit": "7.23.0"
+  },
+  "results": [
+    {
+      "library": "CodeMirror",
+      "fixture": "prose",
+      "exact": true,
+      "logicalLines": 7,
+      "physicalLines": 7,
+      "internalLength": 58,
+      "sourceLength": 58,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "Draftly",
+      "fixture": "prose",
+      "exact": true,
+      "logicalLines": 7,
+      "physicalLines": 7,
+      "internalLength": 58,
+      "sourceLength": 58,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "ProseMirror Markdown default",
+      "fixture": "prose",
+      "exact": false,
+      "output": "### 2026-11-01\n\nA **quiet** *morning*.\n\n\\[ \\] Take a walk."
+    },
+    {
+      "library": "Milkdown CommonMark default",
+      "fixture": "prose",
+      "exact": false,
+      "output": "### 2026-11-01\n\nA __quiet__ *morning*.\n\n\\[ ] Take a walk.\n"
+    },
+    {
+      "library": "CodeMirror",
+      "fixture": "record",
+      "exact": true,
+      "logicalLines": 9,
+      "physicalLines": 9,
+      "internalLength": 111,
+      "sourceLength": 111,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "Draftly",
+      "fixture": "record",
+      "exact": true,
+      "logicalLines": 9,
+      "physicalLines": 9,
+      "internalLength": 111,
+      "sourceLength": 111,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "ProseMirror Markdown default",
+      "fixture": "record",
+      "exact": false,
+      "output": ":::record note #remember label: A note future-field: keep this exactly body: | first line second line :::"
+    },
+    {
+      "library": "Milkdown CommonMark default",
+      "fixture": "record",
+      "exact": false,
+      "output": ":::record note #remember\nlabel: A note\nfuture-field: keep this exactly\nbody: |\nfirst line\nsecond line\n:::\n"
+    },
+    {
+      "library": "CodeMirror",
+      "fixture": "opaque",
+      "exact": true,
+      "logicalLines": 6,
+      "physicalLines": 6,
+      "internalLength": 64,
+      "sourceLength": 64,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "Draftly",
+      "fixture": "opaque",
+      "exact": true,
+      "logicalLines": 6,
+      "physicalLines": 6,
+      "internalLength": 64,
+      "sourceLength": 64,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "ProseMirror Markdown default",
+      "fixture": "opaque",
+      "exact": false,
+      "output": "<!-- Keep this comment exactly -->\n\n```text\nliteral *marks*\n```"
+    },
+    {
+      "library": "Milkdown CommonMark default",
+      "fixture": "opaque",
+      "exact": false,
+      "output": "<!-- Keep this comment exactly -->\n\n```text\nliteral *marks*\n```\n"
+    },
+    {
+      "library": "CodeMirror",
+      "fixture": "crlf",
+      "exact": true,
+      "logicalLines": 8,
+      "physicalLines": 8,
+      "internalLength": 51,
+      "sourceLength": 58,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "Draftly",
+      "fixture": "crlf",
+      "exact": true,
+      "logicalLines": 8,
+      "physicalLines": 8,
+      "internalLength": 51,
+      "sourceLength": 58,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "ProseMirror Markdown default",
+      "fixture": "crlf",
+      "exact": false,
+      "output": "## ﻿--- title: Journal\n\n### 2026-11-01\n\nAn entry."
+    },
+    {
+      "library": "Milkdown CommonMark default",
+      "fixture": "crlf",
+      "exact": false,
+      "output": "***\n\n## title: Journal\n\n### 2026-11-01\n\nAn entry.\n"
+    },
+    {
+      "library": "CodeMirror",
+      "fixture": "mixed",
+      "exact": true,
+      "logicalLines": 3,
+      "physicalLines": 6,
+      "internalLength": 19,
+      "sourceLength": 21,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "Draftly",
+      "fixture": "mixed",
+      "exact": true,
+      "logicalLines": 3,
+      "physicalLines": 6,
+      "internalLength": 19,
+      "sourceLength": 21,
+      "undo": true,
+      "redo": true
+    },
+    {
+      "library": "ProseMirror Markdown default",
+      "fixture": "mixed",
+      "exact": false,
+      "output": "One.\n\nTwo.\n\nThree."
+    },
+    {
+      "library": "Milkdown CommonMark default",
+      "fixture": "mixed",
+      "exact": false,
+      "output": "One.\n\nTwo.\n\nThree.\n"
+    }
+  ],
+  "errors": [],
+  "externalRequests": []
+}

@@ -1,5 +1,7 @@
 # Jot guides
 
+- [Browser tools](browser-tools.md): offline installation, sharing, nearby transfer and editable annotated page snapshots.
+
 - [Optional AI writing companion](ai-companion.md): explicit BYOK drafts and suggestions, OpenRouter ZDR and local models.
 
 - [Writing in Jot](writing-jot.md): how to write a `.jot` journal by hand: dates, tasks, notes, ratings. Ten minutes; the first
