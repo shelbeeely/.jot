@@ -37,6 +37,9 @@ Never hand-edit a generated file or copy; change its source and regenerate. Afte
 ```sh
 python3 fonts/build.py
 node tools/sync-fonts.mjs
+node tools/sync-parser.mjs
+node tools/sync-archive-specs.mjs
+node tools/build-archive-examples.mjs
 node tools/build-handwriting-css.mjs
 node site/build-guides.mjs
 node tools/sync-roadmap.mjs

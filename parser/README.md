@@ -1,6 +1,6 @@
 # Jot JavaScript parser
 
-The format is **Jot v1**: plain UTF-8 writing in a `.jot` file, or, when a journal has images, scans or strokes, one self-contained ZIP-based `.jotz` package whose writing is `journal.txt` and whose assets are under `assets/`. The parser implementation version is independently 0.1.0. A file can contain one moment, a day, a month or an ongoing journal. The source parser handles the writing itself; `container.mjs` reads/writes the complete document. The web scanner is a separate app; scanning images does not parse handwriting into text.
+The writing grammar is **Jot v1**; journals default to **Jotz container v2** with exact ordered entry source, UUID media, optional per-entry AES-256-GCM and a portable public-only SQLite/FTS5 index. Plain `.jot` remains source import/export. There is no separate `.jotlock` format or v1 container compatibility. The parser implementation version is independently 0.1.0. `container.mjs` handles the archive; `parse` remains source-preserving text parsing.
 
 This is a working **prototype**, version 0.1.0, with a source-preserving block AST and Markdown tokens. It is not a claim of complete conformance with every rule/profile of the larger draft specification.
 
@@ -145,7 +145,7 @@ const hints = proofread(parse(text), {
 These are non-destructive prose-only English pattern hints, separate from syntax diagnostics. They do not constitute a full grammar or spelling engine. The browser workspace additionally uses native browser spellcheck. Run both test files with `npm test` or `node --test test.mjs proofread-test.mjs`.
 
 
-See CONTAINER.md for the single-file document contract and pack/unpack/readDocument APIs. See LOCK.md for locked documents (`.jotlock`): `lock`, `unlock`, `isLocked` and `kindOf` in `lock.mjs` encrypt a whole `.jot` or `.jotz` using built-in Web Crypto (one content key; ways in by passphrase, recovery code or a passkey's PRF answer, through PBKDF2-SHA-256 or HKDF, and AES-256-GCM) and give back the same bytes; `createLock`, `unlockSession`, `addWay`, `removeWay`, `changePassphrase` and `waysIn` manage the ways in; no added dependencies; `node --test lock-test.mjs`. Plain Markdown export contains only writing; it does not contain attached binary files. Container support uses vendored JSZip and a hash.js SHA-256 fallback with included license notices.
+See CONTAINER.md and LOCK.md for the Jotz v2 format and protection rules. `pack`, `unpack`, `readDocument`, `packedState` and `searchArchive` preserve source/assets and support public/private entries. `lock.mjs` offers all-private archive copies and passphrase/recovery/passkey management, not a separate file type. SQLite WASM is bundled locally; no runtime download or OPFS is used. Plain writing export omits media and protection. Run container-test.mjs, archive-test.mjs and lock-test.mjs.
 
 ## Spotify short links
 

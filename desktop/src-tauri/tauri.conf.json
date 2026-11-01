@@ -12,7 +12,7 @@
     "security": {
       "csp": {
         "default-src": "'self'",
-        "script-src": "'self'",
+        "script-src": "'self' 'wasm-unsafe-eval'",
         "style-src": "'self' 'unsafe-inline'",
         "img-src": "'self' blob: data:",
         "media-src": "'self' blob:",
@@ -42,26 +42,10 @@
     "fileAssociations": [
       {
         "ext": [
-          "jot"
-        ],
-        "name": "Jot journal",
-        "description": "Jot journal",
-        "role": "Editor",
-        "rank": "Owner",
-        "mimeType": "text/x-jot",
-        "exportedType": {
-          "identifier": "io.github.shelbeeely.jot.journal",
-          "conformsTo": [
-            "public.plain-text"
-          ]
-        }
-      },
-      {
-        "ext": [
           "jotz"
         ],
-        "name": "Jot journal with attachments",
-        "description": "Jot journal with attachments",
+        "name": "Jot journal archive",
+        "description": "Jotz v2 journal archive",
         "role": "Editor",
         "rank": "Owner",
         "mimeType": "application/x-jotz",
@@ -74,17 +58,17 @@
       },
       {
         "ext": [
-          "jotlock"
+          "jot"
         ],
-        "name": "Locked Jot journal",
-        "description": "Locked Jot journal",
+        "name": "Jot journal",
+        "description": "Jot journal",
         "role": "Editor",
         "rank": "Owner",
-        "mimeType": "application/x-jotlock",
+        "mimeType": "text/x-jot",
         "exportedType": {
-          "identifier": "io.github.shelbeeely.jot.locked",
+          "identifier": "io.github.shelbeeely.jot.journal",
           "conformsTo": [
-            "public.data"
+            "public.plain-text"
           ]
         }
       }

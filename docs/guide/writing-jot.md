@@ -28,10 +28,8 @@ The Tools menu also offers **Write only** and **Side by side** views for page la
 
 In secure desktop Chromium browsers, **Open** connects a selected device file and **Save** writes back on explicit request.
 **Save as** chooses another destination. **Ctrl+S / Cmd+S** saves; add Shift for Save as. Device access is separate from browser
-autosave. External file changes stop saving so you can keep both versions. Adding attachments to plain text chooses a new
-`.jotz` destination. Handles last only for this visit. When file access is unavailable, Save downloads a copy instead.
-**Tools → Download journal** always keeps a separate copy. Locked journals Save as an encrypted download; direct device writes
-are currently for unlocked `.jot` and `.jotz` documents. Other exports and printing are unencrypted.
+autosave. External file changes stop saving so you can keep both versions. Saving imported plain text chooses a new `.jotz` destination. Handles last only for this visit. When file access is unavailable, Save downloads a copy instead.
+**Tools → Download journal** always keeps a separate copy. Save and Download both preserve the configured per-entry protection in `.jotz`. Other exports and printing are unencrypted.
 
 Extra controls stay closed until you need them. In **Tools**, choose **Journal tools** for the journal button row,
 **Formatting controls** for formatting buttons and **Colors**, or **Writing options** for suggestions and writing hints.
@@ -460,49 +458,33 @@ changing it does not change your words or the site's controls. Font choices stay
 The [Fonts page](../../site/dist/fonts/) lets you try Jot Sans and Jot Script, compare stroke styles and weights, and inspect
 individual letters with their spacing guides. Sample text on that page stays there until you leave or reload it.
 
-## Plain and packaged files
+## Journal archives and writing exports
 
-- **`.jot`** is plain text: what you see is what is in it. This is what you write and what templates make.
-- **`.jotz`** is a packaged journal: one file that carries pictures, scans or handwriting together with the writing (it is a ZIP inside).
+Writer saves **`.jotz` by default**, even for text-only journals. One ZIP-based file keeps ordered entries, media, timestamps and a
+portable public search index. Public entry source is readable after unzipping; protected entries are not. Plain `.jot` and
+Markdown remain writing-only import/export options and omit attachments and encryption. The old separate `.jotlock` file type
+is replaced by protection inside `.jotz`; this fresh format has no migration layer.
 
-The Jot workspace opens both and saves whichever fits: plain `.jot` when there are no attachments, `.jotz` when there are. A text
-editor works with `.jot`; to get the writing out of a `.jotz`, open it in the workspace (or unzip it and open
-`journal.txt`).
+### Protect selected entries
 
-- **`.jotlock`** is a locked journal: a `.jot` or `.jotz` encrypted with a passphrase. Only its ways in open it: the passphrase,
-  a recovery code or a passkey you added (below).
+**Lock with a passphrase** initially protects every entry and offers a recovery code, shown once. Keep that code apart from the
+journal. **Tools → Entries, privacy and search** lets you make individual entries public, save those choices and search words,
+tags, dates or measurements. New entries start protected after setup. Public text/tags/measurements enter the portable SQLite
+index; protected text is searched only in memory while unlocked. Private entry dates and cryptographic metadata remain visible.
+All attachments and settings stay encrypted while protection is enabled, including images referenced by public entries.
 
-### Locking a journal
+Save privacy choices updates the browser copy. Save or Download updates an external archive separately. Earlier downloads and
+backups keep their earlier privacy settings. A failed privacy save can leave an earlier public copy, so the tool says so.
 
-In the workspace, **Lock with a passphrase** encrypts the journal with the browser's own built-in cryptography (AES-256-GCM).
-Nothing is sent anywhere. Unless you untick it, you also get a **recovery code**: a second way in for when the passphrase is
-forgotten, shown once. Save it in a password manager or write it down, away from the journal. From then on:
+**Ways in** supports recovery codes, passphrase changes and passkeys/security keys where the browser supports PRF. At least one
+passphrase or recovery code remains. Passkeys work only for their original site. **Remove the lock** makes the current archive
+public; it does not change earlier copies. Preferences can relock after time away. Reload/relock hides private writing and keys,
+while public writing remains readable in the locked panel. **Search public entries** searches that public index without unlocking. Browser storage is not a backup: keep downloaded archives.
 
-- this browser keeps only an encrypted copy of the writing and its attachments;
-- **Download locked** saves a `.jotlock`, which opens in the workspace (Open a journal) or with the command line (`jot unlock`);
-- reloading the page asks for the passphrase before showing anything. **Remove it from this browser** deletes the locked copy
-  here if you no longer need it;
-- **Ways in** lists what opens the journal, and lets you add a **passkey or security key**, make a new recovery code, change the
-  passphrase, remove one, or **Remove the lock** to go back to an ordinary journal. Each change asks for a way in you already
-  have. A passphrase or recovery code always stays.
-- **Passkeys and security keys:** a passkey on your phone or computer, or a key such as a YubiKey, unlocks with a touch, a
-  fingerprint, your face or a PIN. It works only on this site, and only where the browser and the key support it (if not, you are
-  told). A synced passkey is as safe as the account it syncs with, and someone can make you unlock with your face or finger more
-  easily than make you tell a passphrase: if that worries you, keep to the passphrase.
-- **Lock again**, in Preferences, clears the journal from the page after 5, 15 (the standard) or 60 minutes with no typing or
-  clicking, saving it (locked) first, so a journal left open on a shared computer doesn't stay open. **Never** keeps it open
-  until you close the page.
-- Your password manager can save the passphrase: Jot names it after the journal, so separate journals get separate entries.
+Printing, formatted page downloads, Markdown and Jot source exports can expose content selected after unlocking. Only `.jotz`
+keeps the entry protection and attached media. A mixed public/private archive is not fully encrypted. Encryption uses platform
+AES-256-GCM with per-member content keys; independent security review and large/mobile archive benchmarks remain release checks.
 
-Things to know first:
-
-- **Nobody can reset it.** Jot never keeps or sends your passphrase, recovery code or passkey. Without one of them, nobody can
-  open the journal, you included.
-- Copies you downloaded keep the ways in they had then: removing a passphrase or passkey does not reach them.
-- **Other exports are not encrypted:** Markdown, calendar and CSV files, a downloaded page and printing. Copies you downloaded
-  before locking are not locked either.
-- A locked file's name, size and dates still show, and a lock does not help if someone uses your browser while the journal is
-  unlocked.
 
 ## Where to write
 
@@ -842,7 +824,7 @@ restores the previous name. You can also choose **Tools → Rename document**. W
 heading's **Save as…** button to choose the new file; the original is kept. Cancelling leaves the original connected and the
 proposed name available to retry. Its actual name remains in the filename variable until Save as succeeds. The template editor uses the generated file's name; VS Code uses the open document's name.
 
-The source and plain `.jot` download keep the variable. Source/live editing shows its spelling; Page preview, print and formatted
+The source and plain `.jot` source export keep the variable. Source/live editing shows its spelling; Page preview, print and formatted
 HTML export show the name. A formatted export captures the name at export time. An included journal displays its own filename.
 The name does not supply dates or other journal information.
 

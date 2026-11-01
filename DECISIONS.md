@@ -920,3 +920,23 @@ limit and timestamp decisions are engineering choices; those guides do not estab
 
 Regression checks also exposed unreadable lock/unlock action colors in dark mode. Those dialog buttons now use the same themed
 ink and paper colors as their surrounding controls; encryption behavior is unchanged.
+
+
+## 2026-11-01: Replace storage formats with default Jotz v2, without migration
+
+The owner requested replacing both the old `.jotz` container and separate `.jotlock` encryption, clarified this is a fresh project
+with no migration requirement, and explicitly made `.jotz` the default. This supersedes earlier container/lock decisions. Every
+journal Save/Download is now a v2 archive. Plain Jot and Markdown are explicit source import/export. Entries retain stable UUIDs,
+exact source, logical dates/timezones and known actual creation/update instants. Private member keys and a protected catalog bind
+identity, revision, date, ordered manifest and key slots. Passphrase/recovery/passkey slots remain available. All attachments are
+protected whenever protection is enabled, including shared/unused assets and annotated backgrounds. Dates and slot metadata are
+public; a mixed archive is not fully encrypted. A public-only SQLite/FTS5 cache is rebuilt on privacy transitions, while private
+search stays in memory. No OPFS/WAL or plaintext sidecar exists. Browser content persists as the archive in IndexedDB documents;
+localStorage is only a pointer. Device saves preserve conflict/atomic-write guards. Old copies cannot be retroactively erased.
+
+New source fixtures, default downloads, entry controls, public locked reading, recovery/passkeys, indexes, stale/corrupt-cache
+fallback and ciphertext reuse are tested. An independent Node crypto implementation verifies key-slot and member decryption.
+SQLite WASM is vendored with upstream notices/licenses; desktop CSP allows wasm-unsafe-eval for local WASM, not JavaScript eval.
+Independent cryptographic review, cross-app/native-device checks and large-journal/mobile benchmarks remain release work.
+`docs/methods/expressive-writing.md, line 443` (privacy by choice) and `docs/methods/digital-daily-notes.md, line 711` (no cloud journal
+sync in that guide) inform the exposure boundary. The algorithms, container layout and index limits are engineering choices.

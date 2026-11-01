@@ -19,4 +19,4 @@ Status: 1.0.0-draft.3, 26 October 2026. This folder specifies the format; the im
 
 The JavaScript parser (`../parser/`, version 0.1.0, a working prototype: Markdown and diagram recognition, the page renderer, `.jotz` containers, `.jotlock` locks) implements most of this draft, and the site, command line, converters, VS Code extension and desktop app all use it. It does not yet claim full conformance with every rule and profile. `ROADMAP.md` here tracks what is implemented and what is planned.
 
-Draft 3: plain writing is `.jot`; the self-contained document with assets is `.jotz` (see Jot-Container-v1.md and example.jotz). Either can be locked with a passphrase as `.jotlock` (see Jot-Lock-v1.md). The .txt examples are readable source.
+Jotz v2 is the default journal archive, with ordered source entries, media, optional per-entry protection and a public SQLite/FTS5 index. See Jot-Container-v2.md and Jot-Protection-v2.md. Plain `.jot` and the .txt examples are readable source; there is no separate encrypted file type or legacy container migration.

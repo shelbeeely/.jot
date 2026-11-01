@@ -145,15 +145,15 @@ saving it. `jot help` lists every option.
 ### Locking a journal with a passphrase
 
 ```
-jot lock journal.jot --recovery-code         # makes journal.jotlock; asks for the passphrase twice, shows a recovery code once
-jot unlock journal.jotlock -o copy.jot       # the journal back, exactly as it was
-jot unlock journal.jotlock --recovery        # ...with the recovery code instead
-jot lock-info journal.jotlock                # its ways in
+jot lock journal.jot --recovery-code         # makes journal.jotz; asks for the passphrase twice, shows a recovery code once
+jot unlock journal.jotz --source -o copy.jot       # the journal back, exactly as it was
+jot unlock journal.jotz --recovery        # ...with the recovery code instead
+jot lock-info journal.jotz                # its ways in
 ```
 
 A locked journal is encrypted with your passphrase (AES-256-GCM, with the key made from the passphrase by PBKDF2), using only
 what is built into Node and browsers. Anyone with the passphrase can open it, with Jot or with a few lines of Python or Node
-(the [Jot Lock](../../site/dist/docs/Jot-Lock-v1.md) recipes); nobody else can.
+(the [Jot Lock](../../site/dist/docs/Jot-Protection-v2.md) recipes); nobody else can.
 
 - **Nobody can reset it.** Jot never keeps or sends your passphrase or recovery code. Without one of them, the journal cannot be
   opened by anyone, you included. Keep them in a password manager.
@@ -164,7 +164,7 @@ what is built into Node and browsers. Anyone with the passphrase can open it, wi
   someone uses your unlocked computer, or makes you give up the passphrase.
 - For scripts, the passphrase can come from `JOT_PASSPHRASE`; it is never taken as an argument, where other programs could see it.
 
-The workspace opens and saves locked journals too: see [Locking a journal](writing-jot.md#locking-a-journal).
+The workspace opens and saves locked journals too: see [Locking a journal](writing-jot.md#protect-selected-entries).
 
 ## In VS Code
 

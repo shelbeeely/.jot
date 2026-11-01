@@ -97,13 +97,11 @@ For an editor with a live preview, see [Jot for VS Code](#jot-for-vs-code).
 | Format | Contents | Best for |
 | --- | --- | --- |
 | `.jot` | Plain UTF-8 text | Writing in any text editor, templates and e-ink devices |
-| `.jotz` | A ZIP-based package with writing and assets | Keeping images, scans and editable ink with a journal |
-| `.jotlock` | A `.jot` or `.jotz`, encrypted ([Jot Lock v1](specification/Jot-Lock-v1.md)) | Keeping a journal private on a shared computer or in a backup |
+| `.jotz` | Default v2 ZIP archive: entries, media, public-only SQLite search and optional per-entry encryption | Every journal, including text-only and protected journals |
 | Exported `.html` | A standalone formatted page with its assets included | Sharing or reading without the workspace |
 | Printed PDF | Pages produced through the browser's **Print / PDF** action | Printing and fixed-layout copies |
 
-The workspace opens `.jot`, `.jotz`, `.jotlock`, `.md` and `.txt`. It downloads plain `.jot` when there are no attachments and `.jotz` when there
-are. A repository ZIP contains the project itself; it is a different download from a journal package. Packaging does not encrypt a file; locking does (below).
+Writer saves and downloads `.jotz` by default. Plain `.jot` and Markdown are source import/export options. Public entries remain readable inside the ZIP; protected entries and attachments use AES-256-GCM. Dates and encryption metadata remain visible. [Container](specification/Jot-Container-v2.md) · [Protection](specification/Jot-Protection-v2.md). There is no separate `.jotlock` format or migration layer.
 
 ## Features
 
@@ -156,10 +154,10 @@ VS Code all use the same code. Guide: [Automation and connections](docs/guide/au
 ### Locked journals
 
 **Write → Lock with a passphrase** encrypts the journal with the browser's built-in Web Crypto (AES-256-GCM, keys from PBKDF2-SHA-256);
-the browser then keeps only an encrypted copy, **Download locked** saves a `.jotlock`, and the page locks again after time away.
-**Ways in** adds a recovery code or a passkey or security key (WebAuthn PRF), and changes or removes them. Nobody can reset a
-forgotten passphrase. The command line has `jot lock`, `jot unlock` and `jot lock-info`. Format: [Jot Lock v1](specification/Jot-Lock-v1.md);
-guide: [Locking a journal](docs/guide/writing-jot.md#locking-a-journal).
+the browser then keeps only an encrypted copy, **Download journal** saves a protected `.jotz`, and the page locks again after time away.
+**Entries, privacy and search** makes chosen entries public and searches the local archive. **Ways in** adds a recovery code or a passkey or security key (WebAuthn PRF), and changes or removes them. Nobody can reset a
+forgotten passphrase. The command line has `jot lock`, `jot unlock` and `jot lock-info`. Format: [Jotz v2 protection](specification/Jot-Protection-v2.md);
+guide: [Locking a journal](docs/guide/writing-jot.md#protect-selected-entries).
 
 ## Your life online: data exports into a journal
 
@@ -239,7 +237,7 @@ Linux. Details and differences from the site (no passkeys in Linux's web view): 
 | --- | --- |
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
-| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), locked documents (`lock.mjs`: `.jotlock`), automation (`automation.mjs`, `connect.mjs`), proofreading hints, tests |
+| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), archive protection (`lock.mjs`), automation (`automation.mjs`, `connect.mjs`), proofreading hints, tests |
 | [`fonts/`](fonts/) | Original Jot Sans, Jot Script and Jot Mono sources, deterministic Python generators, bundled WOFF2 fonts, glyph outlines and catalog |
 | [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`), Your life online (`/import/`); the scanner (`/scan/`) is unfinished and not linked |
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colors and a live page preview with charts, from the same renderer as the site |

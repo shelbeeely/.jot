@@ -13,14 +13,14 @@ the pages behave as they always have.
 | Hostile archives | Names are never used as paths | Also refused: files over 1 GiB unpacked, ZIP bombs (over 200 times their packed size), names that escape the archive |
 | Downloads | The browser's download folder | A native Save dialog for every download on every page, written atomically (`files.rs`) |
 | Network | Whatever the browser allows | Locked by the content security policy (`tauri.conf.json`): the listening services, OpenRouter and loopback model servers (explicit optional requests). Links to the web open in your own browser, never inside the app |
-| Your journal files | Opened through the page's Open button | `.jot`, `.jotz` and `.jotlock` are Jot's file types: they show the iota in the file manager and a double-click opens them in the writer (`opened.rs`) |
+| Your journal files | Opened through the page's Open button | `.jotz` archives and `.jot` source are Jot's file types: they show the iota in the file manager and a double-click opens them in the writer (`opened.rs`) |
 | Code | Served from the website each visit | Inside the app, the same every time, and it works with no network |
 
 Files are read only after you pick them in a dialog or open them from the file manager, and written only where you choose: the
 pages cannot call a file-system, shell or HTTP plugin, because there is none (`capabilities/default.json`), and they can read an
 opened journal only once, by the number the app gave it.
 
-**Jot's file types.** The installers register `.jot` (plain text), `.jotz` (a ZIP package) and `.jotlock` (locked) with the app.
+**Jot's file types.** The installers register `.jotz` (the default v2 archive, with optional entry protection) and `.jot` (source import/export) with the app.
 Windows shows them with the app's icon; macOS draws a document with the app icon on it; the Linux package installs their MIME
 types (`linux/jot-mime.xml`) with a document icon, a cream page with the iota (`linux/jot-document.svg`, from `docs/brand/`), and
 its desktop entry passes the files on (`linux/jot.desktop`). A double-click starts the app with the file (an argument on Windows and
@@ -92,3 +92,7 @@ The CSP permits `https://openrouter.ai` and HTTP/HTTPS loopback hosts on user-se
 or HTTP proxy plugin is added. Local servers must allow the webview origin through CORS. The companion is tested in Chromium
 with mocked responses; native webview and live-model compatibility remain unverified. See the
 [AI companion guide](../docs/guide/ai-companion.md), including the OpenRouter ZDR toggle and privacy limits.
+
+The v2 archive replacement removes the obsolete encrypted-file association and bundles SQLite WASM with wasm-unsafe-eval enabled
+for local WebAssembly. Source/browser tests do not verify native webview execution or OS association installation. Rebuild and verify
+platform installers, native webview execution and file associations after container/WASM/CSP changes.

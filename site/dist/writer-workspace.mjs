@@ -36,7 +36,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
-  for (const id of ['writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
+  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
     if (name !== 'write') showPreview();
@@ -109,6 +109,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['Jot task', 'task'], ['Quote', 'quote'], ['Indent', 'indent'], ['Outdent', 'outdent'],
   ].map(([label, action, hint]) => ({ label, detail: hint || 'Format writing', run: () => { showWriting(); tools.run(action); } }));
   const targets = [
+    ['writerArchiveBtn', 'Entries, privacy and search', 'Choose protected entries and search the local archive'],
     ['writerSourcesBtn', 'Connected sources', 'Look up and review weather; no journal prose sent'],
     ['writerBrowserBtn', 'Offline, sharing and nearby transfer', 'Install, protect storage, share, review incoming items and pair devices'],
     ['writerAnnotateBtn', 'Annotate page', 'Write over a frozen page copy and keep editable strokes'],
@@ -125,7 +126,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['prefsBtn', 'Writing preferences', 'Size, spacing, contrast and layout'], ['musicBtn', 'Music and background media', 'Attach tracks, albums, playlists, IMDb or YouTube references'],
     ['musicPlayerBtn', 'Music player', 'Load a persistent Spotify player'], ['voiceBtn', 'Voice practice', 'Optional pitch tool'],
     ['importHealthBtn', 'Import health data', 'Review daily measurements'], ['attachBtn', 'Attach a file', 'Keep files in a .jotz'],
-    ['downloadJot', 'Download journal', '.jot or .jotz'], ['markdownBtn', 'Export Markdown', 'Writing as .md'],
+    ['downloadJot', 'Download journal', 'Jotz v2 archive'], ['sourceJotBtn', 'Export Jot source', 'Unencrypted writing as .jot; attachments omitted'], ['markdownBtn', 'Export Markdown', 'Writing as .md'],
     ['printBtn', 'Print or PDF', 'Formatted pages'], ['exportPage', 'Download page', 'Standalone HTML'],
     ['icsBtn', 'Export calendar', 'Events and tasks as .ics'], ['numbersCsvBtn', 'Export numbers', 'Measurements as CSV'],
     ['tasksCsvBtn', 'Export tasks', 'Tasks as CSV'], ['importCsvBtn', 'Import numbers CSV', 'Review measurements from a file'],

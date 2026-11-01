@@ -1,6 +1,6 @@
 # Jot roadmap
 
-Updated 1 November 2026. The format remains **Jot v1** (draft 3); the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` packages the writing (`journal.txt`) together with its assets. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
+Updated 1 November 2026. The text grammar remains **Jot v1**; the default journal container is **Jotz v2**; the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` stores ordered entry source, media, a public SQLite index and optional per-entry encryption. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
 
 The primary audience for Jot Writer v1 is people who have never journaled and want help getting started. Prioritize a small first entry,
 clear saving and an easy return. The beginner experience in `docs/proposals/first-journal-v1.md` is planned; it is not yet
@@ -42,10 +42,10 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Task migration and reviews | Task capture, calendar/CSV export, today insertion, task rollover and weekly reviews implemented and tested in parser/CLI; workspace controls exist | Durable task links, migration history and cross-document workflows |
 | Plain .jot and packaged .jotz | Plain .jot save; ZIP-based .jotz import/export, asset hashes/limits and browser asset persistence implemented | More recovery, quotas, corrupted-file and interop fixtures |
 | Your life online (data exports) | Implemented and tested on made-up samples: X/Twitter, Mastodon, Facebook, Instagram, Tumblr, Reddit and Google Keep/Blogger exports into one dated journal, on the command line (`converter/jot-archive.mjs`) and in the browser (`/import/`); own words by default, private, no counts | Checks against real exports; Bluesky, LinkedIn, chat exports, Google Photos and YouTube history |
-| Desktop and mobile app | First slice (Tauri v2, `desktop/`): the website's pages unchanged in the system web view, plus exports of any size read a file at a time from disk with guards against hostile ZIPs, native Save dialogs with atomic writes, a network locked to the listening services and web links opened in the person's browser; Linux debug build, `.deb` bundle and WebDriver suite pass | Open and save `.jot`, `.jotz` and `.jotlock` in place with file associations; keychain-held lock passphrases on request; macOS, Windows, Android and iOS builds; passkeys where the web view offers WebAuthn |
+| Desktop and mobile app | First slice (Tauri v2, `desktop/`): the website's pages unchanged in the system web view, plus exports of any size read a file at a time from disk with guards against hostile ZIPs, native Save dialogs with atomic writes, a network locked to the listening services and web links opened in the person's browser; Linux debug build, `.deb` bundle and WebDriver suite pass | Open and save `.jot` source and `.jotz` archives in place with file associations; keychain-held lock passphrases on request; macOS, Windows, Android and iOS builds; passkeys where the web view offers WebAuthn |
 | OCR and handwriting transcription | Planned | User-reviewed transcription linked to originals |
 | Local-first persistence | Journal text/cursor autosave and IndexedDB assets implemented; browser reload checks pass | Multiple journals, storage exhaustion, cross-tab conflicts and recovery |
-| Privacy and security | Client-side processing, safe DOM preview and automated privacy gate; locked documents (`.jotlock`, Jot Lock v1: PBKDF2-SHA-256 and AES-256-GCM from built-in Web Crypto) in the parser and `jot lock`/`jot unlock`, tested including independent Node and Python readers; the workspace locks, opens and downloads them, keeping only encrypted copies in browser storage and locking again after time away (browser-tested); ways in: passphrase, recovery code, and passkeys or security keys through WebAuthn PRF (tested on Chromium's virtual authenticator, not yet on real phones or keys) | Threat model, encrypted backups and export-redaction implementation |
+| Privacy and security | Jotz v2 per-entry AES-256-GCM, protected attachments/catalog, public-only SQLite FTS5 index, passphrase/recovery/passkey slots and encrypted archive persistence; wrong keys, tampering, privacy transitions and independent Node decryption tested | Independent security review, real-device passkeys, recovery UX and large/mobile archive benchmarks |
 | Accessibility | Labels, focus styles and corner keyboard controls implemented; writer reduced-motion (setting and system) and higher-contrast preferences browser-tested | Mobile/screen-reader and stylus accessibility audit |
 | Round-trip editing | Original parser input preserved; textarea uses browser line endings | AST edits with lossless serialization and file conflict recovery |
 | Neurodivergent-friendly personalization | Partial: the writer's Preferences panel sets text size, line spacing, line length, density, higher contrast and reduced motion, and hides the preview, parser tabs, counts and decoration independently; a focus mode leaves with Escape or its button; choices stay in this browser; browser-tested | Ruling choices, deferred checking, the template editor and other surfaces, and testing with people who have different needs; no diagnosis-based preset forced on users |
@@ -373,17 +373,21 @@ Editing through either source or a visual block view must not silently discard t
 4. Add responsive columns/sidebars and predictable print layout with visible overflow.
 5. Extend the parser/serializer conformance suite and test source/visual round trips.
 
-Acceptance examples: a single day combining BuJo tasks, gratitude text and untranscribed handwriting; a photo with a caption beside a reflection; a tracker plus freewriting in another language; an unknown block opened without its plugin; a two-column screen layout becoming a one-column pocket print; a missing attachment; a very tall handwriting block; undoing a reorder; and extracting journal.txt from .jot and opening it in a plain-text editor with its reading order and asset labels understandable. All are planned checks until the corresponding implementation exists.
+Acceptance examples: a single day combining BuJo tasks, gratitude text and untranscribed handwriting; a photo with a caption beside a reflection; a tracker plus freewriting in another language; an unknown block opened without its plugin; a two-column screen layout becoming a one-column pocket print; a missing attachment; a very tall handwriting block; undoing a reorder; and extracting public entry source from .jotz and opening it in a plain-text editor with its reading order and asset labels understandable. All are planned checks until the corresponding implementation exists.
 
 
-## Self-contained document decision
+## Default archive decision
 
-Jot v1 has two representations with the same writing (draft 3, 26 October 2026): plain `.jot`, readable and editable in any text editor, and packaged `.jotz`, one ZIP-based document with journal.txt, manifest.json and every included asset. Readers decide by content, so a mislabelled file still opens. Text-only tools list `.jot` and never save a package as text. The workspace saves plain `.jot` when a journal has no attachments and `.jotz` when it has. Provide writing-only export and keep editable handwriting originals without compulsory transcription.
+Writer now defaults to Jotz v2 for every journal. Plain `.jot` remains a source import/export option. The fresh format replaces the
+former container and separate encrypted-file design; there is no v1 container or `.jotlock` migration layer. Ordered entry UUIDs
+preserve repeated dates, preamble, exact source and explicit time metadata. Public entries are readable/indexable; protected
+entries use independent keys and ciphertext. All media/settings are protected whenever a session is configured. Save/Download,
+browser persistence, entry privacy controls, public locked reading and local search use this model.
 
-Implemented: JavaScript pack/unpack/readDocument APIs; safe paths and declared size limits; SHA-256 integrity checks; legacy text import; editor asset attachment/local preview; one-file import/export; IndexedDB asset persistence; handwriting image+stroke insertion; corrected scan insertion. Core tests include text and exact binary round trips, corrupt/missing/extra members, unsafe paths, directory records and hashing. Browser export reports a complete package with two handwriting assets and local reload restores them. The cloud download-event hook did not provide the exported file path and a file-picker import test stalled; browser end-to-end file-import/download verification remains incomplete. Exact byte verification is covered independently by module tests.
-
-Next: real-device download/import checks, storage exhaustion, cross-tab conflict/recovery, asset editing within visual blocks, stronger long-term archive interoperability and optional encryption. ZIP packaging alone is not encryption or PDF compatibility.
-
+[Container specification](Jot-Container-v2.md) · [Protection specification](Jot-Protection-v2.md). Test coverage includes source/asset
+round trips, public-only FTS5, key slots, authenticated descriptor/order binding, ciphertext reuse and privacy changes rebuilding
+a clean index. Ciphertext reuse is not incremental ZIP disk I/O. Dates and cryptographic metadata remain visible. Independent
+security review, actual-device WebAuthn/native webviews, large archive and ten-year search benchmarks remain release validation.
 
 ## Optional BYOK AI companion (2026-11-01)
 
@@ -404,20 +408,16 @@ OS share delivery requires browser support and an active controlling worker; fil
 
 Inline annotation creates an immutable page snapshot with editable strokes and composed PNG; later text edits do not move its
 marks. Source uses existing image/link syntax and self-contained `.jotz` assets. Done/Cancel and source Undo are preserved. The
-hidden scanner remains hidden. See `docs/guide/browser-tools.md` for limitations and `specification/Jot-Container-v1.md` for the
+hidden scanner remains hidden. See `docs/guide/browser-tools.md` for limitations and `specification/Jot-Container-v2.md` for the
 optional stroke background member. Automated tests cover Chromium and local browser-to-browser WebRTC. Native share registration,
 physical pen/palm behavior, real laptop/phone Wi-Fi or hotspot compatibility and native desktop-webview support remain release
 validation. Dedicated hardware/firmware, live text-anchored ink and ongoing synchronization remain deferred.
 
-## Future `.jotz` archive version
+## Jotz v2 archive delivery
 
-Design proposal: [jotz-archive.md](../docs/proposals/jotz-archive.md). Explore a versioned evolution of the existing ZIP representation with stable entry and
-media UUIDs, explicit dates/timezones, per-entry and asset encryption, and an optional public-only SQLite/FTS5 index. Existing
-`.jot`, `.jotz` and `.jotlock` behavior remains supported. No automatic migration, new runtime SQLite dependency or implemented
-per-entry encryption/index support is claimed. Decide visible metadata, key/recovery envelopes, index leakage prevention, entry boundaries, archive
-limits and measurable performance before shipping. Private search is in memory after unlock; public-index rebuilding must remove
-private text from all pages/FTS structures, not merely delete rows. Incremental encryption does not guarantee incremental ZIP I/O.
-
+Implemented as the default fresh container, not a migration. The original proposal is superseded by the default archive decision
+above and the versioned container/protection specifications. Optional data-source integration snapshots remain ordinary records;
+opening an archive never contacts a provider, executes stored SQL or analyzes private content remotely.
 
 ## Connected sources: first delivery
 

@@ -29,15 +29,15 @@ const LOOP = 'Round again:\n\n![](loop.jot)\n';
       const p = await browser.newPage({ viewport: { width: 390, height: 844 }, colorScheme: mode });
       p.on('pageerror', (e) => errors.push(e.message)); p.on('dialog', (d) => d.accept());
       const remote = []; p.on('request', (q) => { if (!q.url().startsWith(origin) && !q.url().startsWith('blob:') && !q.url().startsWith('data:')) remote.push(q.url()); });
-      await p.goto(origin + '/write/');
-      await p.setInputFiles('#openFile', file);
+      await p.goto(origin + '/write/');await require('./test-source-workspace.cjs')(p);
+      await p.setInputFiles('#openFile', file);await require('./test-source-workspace.cjs').command(p,'Page preview');
       await p.waitForSelector('#paperPreview .jot-include[data-source="assets/week.jot#2026-10-25"]');
       const got = await p.evaluate(() => { const box = document.querySelector('#paperPreview .jot-include[data-source]'); return { label: box.getAttribute('aria-label'), text: box.textContent, notes: [...document.querySelectorAll('#paperPreview .jot-include-missing')].map((x) => x.textContent), wide: document.documentElement.scrollWidth - innerWidth }; });
       ok(got.label === 'Included from assets/week.jot#2026-10-25' && /Sunday walk · assets\/week\.jot#2026-10-25/.test(got.text) && /Rain on the window/.test(got.text) && !/Not this one/.test(got.text), `${mode}: the included entry shows in place, framed and labelled with its source`);
       ok(got.notes.some((t) => /not found: assets\/gone\.jot/.test(t)), `${mode}: a missing include says so`);
       ok(got.notes.some((t) => /not repeated: loop\.jot/.test(t)) && await p.locator('#paperPreview [data-source="assets/loop.jot"]').count() === 1, `${mode}: a loop stops after one round, with a notice`);
       ok(/!\[Sunday walk\]\(assets\/week\.jot#2026-10-25\)/.test(await p.inputValue('#writing')), `${mode}: the writing keeps its one include line`);
-      ok(got.wide === 0 && remote.length === 0, `${mode}: no sideways scroll at 390px, and nothing fetched from anywhere else`);
+      ok(got.wide === 0 && remote.length === 0, `${mode}: no sideways scroll at 390px, and nothing fetched from anywhere else (overflow ${got.wide}px, remote ${JSON.stringify(remote)})`);
       await p.locator('#paperPreview .jot-include').first().scrollIntoViewIfNeeded();
       if (shots) { fs.mkdirSync(shots, { recursive: true }); await p.locator('#paperPreview').screenshot({ path: path.join(shots, `include-${mode}.png`) }); }
       if (fs.existsSync(AXE)) {
@@ -48,9 +48,9 @@ const LOOP = 'Round again:\n\n![](loop.jot)\n';
       if (mode === 'light') {
         await p.evaluate(() => { const w = document.getElementById('writing'); w.setSelectionRange(w.value.length, w.value.length); });
         await p.setInputFiles('#attachFile', plain);
-        await p.waitForFunction(() => /!\[later\.jot\]\(assets\/later\.jot\)/.test(document.getElementById('writing').value));
-        await p.waitForSelector('#paperPreview .jot-include[data-source="assets/later.jot"]');
-        ok(/Later\./.test(await p.textContent('#paperPreview [data-source="assets/later.jot"]')), 'attaching a .jot inserts an include line, and it shows');
+        await p.waitForFunction(() => /!\[later\.jot\]\(media\/[0-9a-f-]+\.jot\)/.test(document.getElementById('writing').value));
+        await p.waitForSelector('#paperPreview .jot-include[data-source^="media/"]');
+        ok(/Later\./.test(await p.textContent('#paperPreview [data-source^="media/"]')), 'attaching a .jot inserts an include line, and it shows');
       }
       await p.close();
     }

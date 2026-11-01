@@ -2,8 +2,8 @@ const toolCommand = async (page, label) => { await page.click('#writerCommandsBt
 const lockCommand = page => toolCommand(page,'Journal lock and ways in');
 const downloadCommand = page => toolCommand(page,'Download journal');
 // Locking a journal in /write/ with the browser's built-in Web Crypto (studio.mjs, jot/lock.mjs, jot/passkey.mjs): only encrypted
-// copies in browser storage, a .jotlock download that Node unlocks, asked again after a reload (passphrase, recovery code, passkey),
-// opening a .jotlock, ways in (a passkey on Chromium's virtual authenticator with PRF, a new recovery code, a new passphrase, removing
+// copies in browser storage, a protected .jotz download that Node unlocks, asked again after a reload (passphrase, recovery code, passkey),
+// opening a .jotz, ways in (a passkey on Chromium's virtual authenticator with PRF, a new recovery code, a new passphrase, removing
 // them), removing the lock, removing a locked journal from the browser, and locking again after time away. Everything is local; no
 // requests leave the page. WebAuthn needs a domain, so the server is localhost. Run: node site/test-lock-ui.cjs
 const {chromium}=require('playwright'),http=require('node:http'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
@@ -14,7 +14,7 @@ const PASS='correct horse battery',SECRET='Secret rain on the window.',MARK='ATT
 const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);parts.push(k+'='+localStorage.getItem(k));}
   const db=await new Promise((ok,no)=>{const r=indexedDB.open('jot-documents-v1');r.onupgradeneeded=()=>{for(const s of ['assets','handoff'])if(!r.result.objectStoreNames.contains(s))r.result.createObjectStore(s);};r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error);});
   const flat=v=>v instanceof Uint8Array?Array.from(v,c=>String.fromCharCode(c)).join(''):Array.isArray(v)?v.map(flat).join('|'):v&&typeof v==='object'?Object.values(v).map(flat).join('|'):String(v);
-  for(const s of ['assets','handoff'])parts.push(await new Promise(ok=>{const r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(flat(r.result));}));db.close();return parts.join('\n');});
+  for(const s of [...db.objectStoreNames])parts.push(await new Promise(ok=>{const r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(flat(r.result));}));db.close();return parts.join('\n');});
 (async()=>{
  const {unlock,kindOf}=await import('../parser/lock.mjs'),{readDocument}=await import('../parser/container.mjs');
  await new Promise(r=>server.listen(0,'localhost',r));const base=`http://localhost:${server.address().port}`,browser=await chromium.launch();
@@ -43,19 +43,19 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   assert.match(CODE,/^([0-9A-HJKMNP-TV-Z]{5}-){4}[0-9A-HJKMNP-TV-Z]{5}$/);await audit(page,'#codeDialog');
   await page.keyboard.press('Escape');assert.ok(await page.$eval('#codeDialog',d=>d.open),'only "I have kept it" closes it');
   await page.click('#codeDone');assert.equal(await page.textContent('#codeText'),'');
-  assert.ok(await page.isVisible('#lockNote'));assert.equal((await page.textContent('#downloadJot')).trim(),'Download locked ↓');assert.equal(await page.textContent('#docExt'),'.jotlock');
+  assert.ok(await page.isVisible('#lockNote'));assert.equal((await page.textContent('#downloadJot')).trim(),'Download .jotz ↓');assert.equal(await page.textContent('#docExt'),'.jotz');
   let all=await stored(page);assert.ok(!all.includes(SECRET)&&!all.includes(MARK)&&!all.includes('Sunday'),'nothing in the clear: '+all.slice(0,300));
   assert.equal(JSON.parse(await page.evaluate(()=>localStorage.getItem('jot-workspace-v1'))).locked,1);
   await page.$eval('#writing',e=>{e.focus();e.setSelectionRange(e.value.length,e.value.length);});await page.keyboard.type('More rain.');
-  await page.waitForFunction(()=>document.querySelector('#saveState').textContent==='Saved in this browser, locked');
+  await page.waitForFunction(()=>document.querySelector('#saveState').textContent.includes('protected archive'));
   all=await stored(page);assert.ok(!all.includes('More rain'),'later saves are encrypted too');
 
-  // Download locked: a .jotlock that the parser's own unlock opens, with the writing and the attachment.
-  const dl=page.waitForEvent('download');await downloadCommand(page);const d=await dl;assert.match(d.suggestedFilename(),/\.jotlock$/);
-  const bytes=new Uint8Array(fs.readFileSync(await d.path()));assert.equal(Buffer.from(bytes.subarray(0,10)).toString(),'JOTLOCK 1\n');
+  // Download locked: a .jotz that the parser's own unlock opens, with the writing and the attachment.
+  const dl=page.waitForEvent('download');await downloadCommand(page);const d=await dl;assert.match(d.suggestedFilename(),/\.jotz$/);
+  const bytes=new Uint8Array(fs.readFileSync(await d.path()));assert.equal(bytes[0],80);assert.equal(bytes[1],75);
   const plain=await unlock(bytes,PASS);assert.equal(kindOf(plain),'jotz');const doc=await readDocument(plain);
-  assert.match(doc.source,/Secret rain on the window\.\n\[note\.txt\]\(assets\/note\.txt\)[\s\S]*More rain\./);assert.equal(Buffer.from(doc.assets[0].data).toString(),MARK);
-  const lockedFile=path.join(path.dirname(await d.path()),'kept.jotlock');fs.writeFileSync(lockedFile,bytes);
+  assert.match(doc.source,/Secret rain on the window\.\n\[note\.txt\]\(media\/[0-9a-f-]+\)[\s\S]*More rain\./);assert.equal(Buffer.from(doc.assets[0].data).toString(),MARK);
+  const lockedFile=path.join(path.dirname(await d.path()),'kept.jotz');fs.writeFileSync(lockedFile,bytes);
 
   // A reload asks again: nothing shows until the right passphrase; a wrong one just asks again.
   await page.reload();await page.waitForFunction(()=>document.querySelector('#unlockDialog').open);
@@ -78,14 +78,14 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   assert.equal(await page.evaluate(()=>localStorage.getItem('jot-workspace-v1')),null);assert.ok(!(await page.isVisible('#lockGate')));
   done();await ctx.close();
 
-  // Opening a .jotlock in another browser profile: asked for the passphrase, opened with its attachment, and kept locked.
+  // Opening a .jotz in another browser profile: asked for the passphrase, opened with its attachment, and kept locked.
   const ctx2=await browser.newContext({viewport:{width:1100,height:900}}),p2=await ctx2.newPage(),done2=watch(p2);
   await p2.goto(base+'/write/');await p2.waitForFunction(()=>document.documentElement.hasAttribute('data-pref-size'));
   await p2.setInputFiles('#openFile',lockedFile);await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);
   await p2.fill('#unlockPass',PASS);await p2.click('#unlockGo');await p2.waitForFunction(()=>/More rain\./.test(document.querySelector('#writing').value));
   assert.equal(await p2.inputValue('#documentName'),'kept');assert.match(await p2.textContent('#assetList'),/note\.txt/);assert.ok(await p2.isVisible('#lockNote'));
   await p2.waitForFunction(()=>{try{return JSON.parse(localStorage.getItem('jot-workspace-v1')).locked===1;}catch{return false;}});
-  assert.ok(!(await stored(p2)).includes(SECRET),'an opened .jotlock stays encrypted in this browser');
+  assert.ok(!(await stored(p2)).includes(SECRET),'an opened .jotz stays encrypted in this browser');
   // Ways in, with a passkey on Chromium's virtual authenticator (PRF supported, user verified).
   const cdp=await ctx2.newCDPSession(p2);await cdp.send('WebAuthn.enable');
   await cdp.send('WebAuthn.addVirtualAuthenticator',{options:{protocol:'ctap2',ctap2Version:'ctap2_1',transport:'internal',hasResidentKey:true,hasUserVerification:true,isUserVerified:true,hasPrf:true,automaticPresenceSimulation:true}});
@@ -116,7 +116,7 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   // Remove the lock (confirmed with the passphrase): back to plain storage and a plain download.
   await p2.click('#removeLock');await p2.waitForFunction(()=>document.querySelector('#unlockDialog').open);await p2.fill('#unlockPass',NEWPASS);await p2.click('#unlockGo');
   await p2.waitForFunction(()=>/lock is removed/.test(document.querySelector('#journalNotice').textContent));
-  assert.ok((await stored(p2)).includes(SECRET));assert.equal((await p2.textContent('#downloadJot')).trim(),'Download .jot ↓');assert.ok(!(await p2.isVisible('#lockNote')));
+  assert.ok((await stored(p2)).includes(SECRET));assert.equal((await p2.textContent('#downloadJot')).trim(),'Download .jotz ↓');assert.ok(!(await p2.isVisible('#lockNote')));
   done2();await ctx2.close();
   // Lock again after time away (default 15 minutes): saved encrypted first, then the locked panel; Never keeps it open.
   const ctx3=await browser.newContext({viewport:{width:1100,height:900}}),p3=await ctx3.newPage(),done3=watch(p3);
@@ -136,6 +136,6 @@ const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localSto
   await p3.click('#prefsBtn');await p3.selectOption('#prefRelock','0');await p3.click('#prefsDone');
   await p3.clock.runFor(3*60*60000);assert.match(await p3.inputValue('#writing'),/Last words\./,'Never: it stays open');assert.ok(!(await p3.isVisible('#lockGate')));
   done3();await ctx3.close();
-  console.log('PASS: lock (mismatch and short passphrase checks, a recovery code shown once), nothing stored in the clear (writing, later saves, attachments), .jotlock download unlocked by the parser, reload asks again (wrong passphrase, cancel, recovery code), ways in (passkey with PRF added and used, new recovery code, new passphrase, passkey removed, last passphrase kept), remove from this browser, open a .jotlock (kept locked), remove the lock, lock again after 15 minutes away (and Never), the journal name for password managers; 390px light/dark accessibility; no requests leave the page.');
+  console.log('PASS: lock (mismatch and short passphrase checks, a recovery code shown once), nothing stored in the clear (writing, later saves, attachments), .jotz download unlocked by the parser, reload asks again (wrong passphrase, cancel, recovery code), ways in (passkey with PRF added and used, new recovery code, new passphrase, passkey removed, last passphrase kept), remove from this browser, open a .jotz (kept locked), remove the lock, lock again after 15 minutes away (and Never), the journal name for password managers; 390px light/dark accessibility; no requests leave the page.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

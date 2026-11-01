@@ -8,14 +8,9 @@
     <icon name="io.github.shelbeeely.jot-document"/>
   </mime-type>
   <mime-type type="application/x-jotz">
-    <comment>Jot journal with attachments</comment>
+    <comment>Jot journal archive</comment>
     <sub-class-of type="application/zip"/>
     <glob pattern="*.jotz"/>
-    <icon name="io.github.shelbeeely.jot-document"/>
-  </mime-type>
-  <mime-type type="application/x-jotlock">
-    <comment>Locked Jot journal</comment>
-    <glob pattern="*.jotlock"/>
     <icon name="io.github.shelbeeely.jot-document"/>
   </mime-type>
 </mime-info>

@@ -14,8 +14,8 @@ export function dependencies(source, assets) {
   const available = new Map(assets.map(a => [a.path, a])), wanted = new Set();
   const visit = value => {
     if (!value || typeof value !== 'object') return;
-    if (['link', 'image'].includes(value.type) && typeof value.href === 'string' && value.href.startsWith('assets/')) wanted.add(value.href);
-    if (value.name && typeof value.value === 'string' && value.value.startsWith('assets/') && safePath(value.value)) wanted.add(value.value);
+    if (['link', 'image'].includes(value.type) && typeof value.href === 'string' && /^(assets|media)\//.test(value.href)) wanted.add(value.href);
+    if (value.name && typeof value.value === 'string' && /^(assets|media)\//.test(value.value) && safePath(value.value)) wanted.add(value.value);
     for (const child of Object.values(value)) if (Array.isArray(child)) child.forEach(visit); else if (child && typeof child === 'object') visit(child);
   };
   visit(parse(source));
@@ -24,7 +24,7 @@ export function dependencies(source, assets) {
     if (!asset) throw Error('A referenced attachment is missing: ' + path);
     if (path.endsWith('.jot-ink.json')) {
       const ink = JSON.parse(new TextDecoder().decode(asset.data));
-      if (ink.background) { if (!safePath(ink.background) || !ink.background.startsWith('assets/')) throw Error('Unsafe ink background.'); wanted.add(ink.background); }
+      if (ink.background) { if (!safePath(ink.background) || !/^(assets|media)\//.test(ink.background)) throw Error('Unsafe ink background.'); wanted.add(ink.background); }
     }
   }
   return [...wanted].map(path => { const item = available.get(path); if (!item) throw Error('A referenced attachment is missing: ' + path); return item; });
@@ -62,7 +62,7 @@ export async function reviewCapture(item) {
 export async function mergedAssets(existing, incoming) {
   const result = [...existing], map = new Map(result.map(a => [a.path, a]));
   for (const a of incoming) {
-    if (!safePath(a.path) || !a.path.startsWith('assets/')) throw Error('Unsafe attachment path.');
+    if (!safePath(a.path) || !/^(assets|media)\//.test(a.path)) throw Error('Unsafe attachment path.');
     const previous = map.get(a.path);
     if (previous) { if (await sha256(previous.data) !== await sha256(a.data)) throw Error('Attachment name conflict. Open this capture separately.'); }
     else { result.push(a); map.set(a.path, a); }

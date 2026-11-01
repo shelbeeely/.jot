@@ -187,14 +187,14 @@ jot query journal.jot --show tasks --tag health --period week   # or ask one her
 <p>The reading commands never change a file. The writing commands say what they changed, and <code>--dry-run</code> prints the result instead of
 saving it. <code>jot help</code> lists every option.</p>
 <h3 id="locking-a-journal-with-a-passphrase">Locking a journal with a passphrase</h3>
-<pre tabindex="0"><code>jot lock journal.jot --recovery-code         # makes journal.jotlock; asks for the passphrase twice, shows a recovery code once
-jot unlock journal.jotlock -o copy.jot       # the journal back, exactly as it was
-jot unlock journal.jotlock --recovery        # ...with the recovery code instead
-jot lock-info journal.jotlock                # its ways in
+<pre tabindex="0"><code>jot lock journal.jot --recovery-code         # makes journal.jotz; asks for the passphrase twice, shows a recovery code once
+jot unlock journal.jotz --source -o copy.jot       # the journal back, exactly as it was
+jot unlock journal.jotz --recovery        # ...with the recovery code instead
+jot lock-info journal.jotz                # its ways in
 </code></pre>
 <p>A locked journal is encrypted with your passphrase (AES-256-GCM, with the key made from the passphrase by PBKDF2), using only
 what is built into Node and browsers. Anyone with the passphrase can open it, with Jot or with a few lines of Python or Node
-(the <a href="../docs/Jot-Lock-v1.md">Jot Lock</a> recipes); nobody else can.</p>
+(the <a href="../docs/Jot-Protection-v2.md">Jot Lock</a> recipes); nobody else can.</p>
 <ul>
 <li><strong>Nobody can reset it.</strong> Jot never keeps or sends your passphrase or recovery code. Without one of them, the journal cannot be
 opened by anyone, you included. Keep them in a password manager.</li>
@@ -205,7 +205,7 @@ the passphrase or the recovery code.</li>
 someone uses your unlocked computer, or makes you give up the passphrase.</li>
 <li>For scripts, the passphrase can come from <code>JOT_PASSPHRASE</code>; it is never taken as an argument, where other programs could see it.</li>
 </ul>
-<p>The workspace opens and saves locked journals too: see <a href="writing-jot.html#locking-a-journal">Locking a journal</a>.</p>
+<p>The workspace opens and saves locked journals too: see <a href="writing-jot.html#protect-selected-entries">Locking a journal</a>.</p>
 <h2 id="in-vs-code">In VS Code</h2>
 <p>The Jot extension has the same commands (press <strong>Ctrl+Shift+P</strong> and type &quot;Jot&quot;): <strong>Today&#39;s Entry</strong> (<strong>Ctrl+Alt+T</strong>), <strong>Carry Open
 Tasks to Today</strong>, <strong>Add a Week Review</strong>, <strong>Export Calendar (.ics)</strong>, <strong>Export as CSV</strong> and <strong>Import Numbers from CSV</strong>. Each change is

@@ -5,7 +5,7 @@ const KIND = { strong: 'strong', em: 'em', codespan: 'code', link: 'link', mark:
 const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" };
 const safeHref = value => {
   const href = mediaURL(value || '') || value || '';
-  if (href.startsWith('assets/') && href.length <= 512 && !/[\\:\u0000-\u001f]/.test(href) && href.split('/').every(part => part && part !== '.' && part !== '..')) return href;
+  if (/^(assets|media)\//.test(href) && href.length <= 512 && !/[\\:\u0000-\u001f]/.test(href) && href.split('/').every(part => part && part !== '.' && part !== '..')) return href;
   return /^(?:https?:|mailto:|#)/i.test(href) || /^[A-Za-z0-9][A-Za-z0-9._-]*\.jot#[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(href) ? href : undefined;
 };
 

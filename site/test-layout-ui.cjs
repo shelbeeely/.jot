@@ -87,7 +87,7 @@ const srv = http.createServer((q, r) => {
     await w.waitForFunction(() => document.querySelector('#paperPreview [data-block-id="notes"]')?.dataset.usedRows);
     assert.equal(await w.inputValue('#journalPaper'), 'Letter'); assert.equal(await w.inputValue('#pitch'), '5');
     assert.equal(await w.$eval('#paperPreview [data-block-id="notes"]', (e) => +e.dataset.usedRows), 8);
-    await w.selectOption('#look', 'typed'); await w.reload();
+    await w.selectOption('#look', 'typed');await w.waitForFunction(()=>document.getElementById('saveState').textContent.startsWith('Saved in this browser'));await w.reload();
     await require('./test-source-workspace.cjs')(w);
     await command(w, 'Side by side');
     await w.waitForFunction(() => document.querySelector('#paperPreview [data-block-id="notes"]')?.dataset.usedRows);
