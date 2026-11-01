@@ -1,12 +1,69 @@
 # Jot roadmap
 
-Updated 1 November 2026. The text grammar remains **Jot v1**; the default journal container is **Jotz v1**; the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` stores ordered entry source, media, a public SQLite index and optional per-entry encryption. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
+Updated 1 November 2026. Current development stage: **0.1.0 prototype / pre-v1**. **Jot v1 and Jotz v1 are the target specifications, not finalized releases.** The name is Jot; `.jot` is plain writing, and `.jotz` stores ordered entry source, media, a public SQLite index and optional per-entry encryption. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
 
 The primary audience for Jot Writer v1 is people who have never journaled and want help getting started. Prioritize a small first entry,
 clear saving and an easy return. The beginner experience in `docs/proposals/first-journal-v1.md` is planned; it is not yet
 implemented or validated with first-time journalers. Attractive pages and portable files support that experience.
 
 The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadmap.mjs` after editing it; CI checks that the parser and published-site copies match. Status below is based on source and automated checks, not just the specification.
+
+## Release policy: finish v1 before moving beyond it
+
+The current project is a **0.1.0 prototype**, working toward a complete **1.0.0** release. Existing v1 specification names and archive schema `1.0` identify the target document contract; they do not certify a stable product, complete interoperability or a security-reviewed release. Keep current package versions at their actual development versions. Do not rename unfinished requirements as v2 work or begin a post-v1 format just to avoid completing this roadmap. No finalized v1 compatibility promise is made yet; the owner has explicitly waived migration for the fresh prototype.
+
+Finalize v1 only when its required format, Writer, interoperability, safety and usability acceptance criteria have evidence. Existing integrations and other roadmap tracks remain in scope as recorded below; this document-format checklist does not replace them. Any scope deferral must be an explicit roadmap decision rather than a silent move to a later major version. Dedicated hardware/firmware remains deferred under the existing decision.
+
+## Primary document completion: required for v1
+
+All unchecked items below remain **planned or unverified**, even where part of the implementation already exists. Source research: `docs/proposals/document-format-research.md`; document decision: `docs/proposals/jotz-archive.md`.
+
+### D1. Finalize the document and source contract
+
+- [ ] Specify `.jotz` as the primary document to create, open, edit, keep and share; `.jot` is exact editable UTF-8 entry source, generally inside the package and also supported independently. Both target v1. Define supported open/edit/preview/save behavior across Writer, CLI and editor integrations, without claiming every application handles every feature.
+- [ ] Finalize the manifest schema: document ID, schema version, ordered entries, typed media, reference resolution, time metadata, encryption capabilities and index generation. Specify which statistics are optional/derived and prevent public statistics from disclosing private content.
+- [ ] Freeze Markdown/Jot precedence, canonical source rules, required/optional capabilities and conformance fixtures. Unknown required features must produce a clear unsupported/read-only result rather than a destructive save.
+- [ ] Define safe preservation of optional metadata/extensions and unknown members. Test lossless edits and refuse saves when required content or protection cannot be preserved.
+
+### D2. Chronological organization with stable identity
+
+- [ ] Design and implement public entry paths such as `entries/2026/11/2026-11-01_<id>.jot`, plus `entries/undated/<id>.jot`. Current UUID-only entry paths remain the prototype implementation until this is specified and tested. Internal entry files use `.jot`, not `.md`.
+- [ ] Keep identity independent of date/path and ordering explicit in the manifest. Cover multiple entries on one day, repeated dates, undated preambles, multi-day writing, reordered entries and changed dates without collisions or invented timestamps. Never require one entry or file per day.
+- [ ] Decide how chronological grouping applies to multi-day source and private entries. Document visible dates/paths and keep encrypted members opaque; do not introduce plaintext duplicates or disclose private titles through filenames.
+- [ ] Validate nested ZIP paths, duplicate names, case/normalization collisions, decompression limits, malformed descriptors and hostile references. Update recovery/extraction tools and conformance examples for the finalized layout.
+
+### D3. Bundled media and relationships
+
+- [ ] Finalize stable media IDs, MIME types, readable source aliases and relative semantic links. Preserve audio, photos, sketches, editable ink and their originals when moving or saving the document.
+- [ ] Test missing, corrupt, shared and unused assets, attachment renames, undo and source/visual round trips. Report broken references without silently dropping data or fetching external content.
+- [ ] Define explicit source-only export and unpack/repack workflows with clear attachment/protection limits. Public extracted source can be diffed; the ZIP itself is not directly Git-diff-friendly. Private source must not be silently extracted.
+
+### D4. Entry protection and unlocking
+
+- [ ] Finalize the per-member authenticated-encryption contract and public/private metadata boundary. Independently review key derivation, key wrapping, nonce handling, manifest binding, recovery, passphrase changes and passkey behavior.
+- [ ] Keep the parameters and wrapped keys needed to unlock accessible without first decrypting the private catalog. An optional encrypted metadata/key file must have a defined purpose and unlock path; `keys.json.enc` is not an adopted requirement merely because it appeared in an example tree.
+- [ ] Verify no private source, attachment name, preview, thumbnail, statistic, search cache or temporary file leaks into public members or browser persistence. Preserve privacy choices when editing and exporting archives; explain intentionally visible dates and cryptographic metadata.
+- [ ] Verify recovery and failed-save behavior with users and real devices. Privacy changes must rebuild public caches, and documentation must distinguish removal from the current file from erasure of old copies/backups.
+
+### D5. Portable search without source dependency
+
+- [ ] Finalize the public-only `index.sqlite` schema, FTS5 reader capability, generation/hash validation and rebuild rules. Opening a package must never execute document-supplied SQL.
+- [ ] Recover exact source when the index is missing, stale, unsupported or corrupt. Keep private search in unlocked memory, with no plaintext private index, WAL, temporary database or stale deleted pages.
+- [ ] Benchmark realistic multi-year journals, large attachments, repeated saves and mobile memory. Publish measured limits and results; do not promise instant ten-year search from SQLite's presence alone. Distinguish unchanged-ciphertext reuse from incremental filesystem writes.
+
+### D6. Presentation and direct editor support
+
+- [ ] Define source versus generated presentation, supported rendering profiles, font portability, reflow, pagination and accessible fallbacks. PDF is a fixed-layout export, not a second authoritative journal source.
+- [ ] Specify optional previews/thumbnails and how they become stale or are regenerated. Protected content must never appear in a public preview; use a generic image or deliberately public-only content.
+- [ ] Implement direct `.jotz` opening/editing/saving in the VS Code integration and assess VSCodium/Cursor compatibility. Preserve media, order, metadata and protection; do not associate ZIP bytes with the Markdown language. Existing standalone `.jot` support remains supported.
+- [ ] Assess and implement an Obsidian integration within an explicit support contract, including its `.md` assumptions, asset handling, encrypted-entry access and lossless archive saves. Record tested editor versions and installation requirements; neither editor family currently has direct archive support.
+
+### D7. Complete-v1 evidence and release gate
+
+- [ ] Publish versioned source/container/protection specifications, examples and conformance fixtures with an independent reader round trip. Demonstrate readable public source recovery using ordinary ZIP tools.
+- [ ] Verify Writer/CLI/desktop/editor workflows against public, mixed and protected journals; cover new/open/save/save-as, external conflicts, interrupted writes, storage exhaustion and recovery without losing newer edits.
+- [ ] Complete the first-journal path, accessibility and physical-device checks from the existing roadmap, alongside security review and realistic performance evidence. Automated tests alone do not close these checks.
+- [ ] Reconcile every required v1 acceptance item with implemented/tested evidence, keep remaining limitations explicit, and finalize specifications before publishing a stable **1.0.0**. Do not advance beyond v1 while these required gates remain open.
 
 ## Status meanings
 
@@ -40,7 +97,7 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | Charts of tracked numbers | `:::record chart` drawn with bundled Chart.js on canvas per metric (gaps for empty days, a text summary and a table) in the workspace, the template editor's Page view and VS Code; tests pass | Month and year views, chosen daily aggregations (spec §5.2), charts printed from filled-in numbers |
 | Structured observations | Generic records and ordered fields implemented | Scales, units, profile constraints, missing-data validation |
 | Task migration and reviews | Task capture, calendar/CSV export, today insertion, task rollover and weekly reviews implemented and tested in parser/CLI; workspace controls exist | Durable task links, migration history and cross-document workflows |
-| Plain .jot and packaged .jotz | Plain .jot save; ZIP-based .jotz import/export, asset hashes/limits and browser asset persistence implemented | More recovery, quotas, corrupted-file and interop fixtures |
+| Primary .jotz document and .jot source | Prototype: default ZIP archive saving, exact entry source, bundled media, per-entry protection and public search index; standalone source import/export | Complete D1–D7 above: finalized layout, conformance, direct editor support, safe recovery and release evidence |
 | Your life online (data exports) | Implemented and tested on made-up samples: X/Twitter, Mastodon, Facebook, Instagram, Tumblr, Reddit and Google Keep/Blogger exports into one dated journal, on the command line (`converter/jot-archive.mjs`) and in the browser (`/import/`); own words by default, private, no counts | Checks against real exports; Bluesky, LinkedIn, chat exports, Google Photos and YouTube history |
 | Desktop and mobile app | First slice (Tauri v2, `desktop/`): the website's pages unchanged in the system web view, plus exports of any size read a file at a time from disk with guards against hostile ZIPs, native Save dialogs with atomic writes, a network locked to the listening services and web links opened in the person's browser; Linux debug build, `.deb` bundle and WebDriver suite pass | Open and save `.jot` source and `.jotz` archives in place with file associations; keychain-held lock passphrases on request; macOS, Windows, Android and iOS builds; passkeys where the web view offers WebAuthn |
 | OCR and handwriting transcription | Planned | User-reviewed transcription linked to originals |
@@ -379,7 +436,7 @@ Acceptance examples: a single day combining BuJo tasks, gratitude text and untra
 ## Default archive decision
 
 Writer now defaults to Jotz v1 for every journal. Plain `.jot` remains a source import/export option. The fresh format replaces the
-former container and separate encrypted-file design; there is no v1 container or `.jotlock` migration layer. Ordered entry UUIDs
+former container and separate encrypted-file design; there is no migration layer for earlier prototype containers or `.jotlock`. Ordered entry UUIDs
 preserve repeated dates, preamble, exact source and explicit time metadata. Public entries are readable/indexable; protected
 entries use independent keys and ciphertext. All media/settings are protected whenever a session is configured. Save/Download,
 browser persistence, entry privacy controls, public locked reading and local search use this model.

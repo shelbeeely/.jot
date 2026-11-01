@@ -1,6 +1,6 @@
 # Jot JavaScript parser
 
-The writing grammar is **Jot v1**; journals default to **Jotz container v2** with exact ordered entry source, UUID media, optional per-entry AES-256-GCM and a portable public-only SQLite/FTS5 index. Plain `.jot` remains source import/export. There is no separate `.jotlock` format or v1 container compatibility. The parser implementation version is independently 0.1.0. `container.mjs` handles the archive; `parse` remains source-preserving text parsing.
+The project is a **0.1.0 prototype working toward v1**, not a finalized release. The writing grammar targets **Jot v1**; journals default to **Jotz v1 draft container** with exact ordered entry source, UUID media, optional per-entry AES-256-GCM and a portable public-only SQLite/FTS5 index. Plain `.jot` remains source import/export. There is no separate `.jotlock` format or compatibility with earlier prototype containers. The parser implementation version is independently 0.1.0. `container.mjs` handles the archive; `parse` remains source-preserving text parsing.
 
 This is a working **prototype**, version 0.1.0, with a source-preserving block AST and Markdown tokens. It is not a claim of complete conformance with every rule/profile of the larger draft specification.
 

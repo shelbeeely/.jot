@@ -119,13 +119,13 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 87051,
-      "sha256": "409a1d03afd1b8577c08f789a21f4e1500288269dabeac66a0d8d0af9266f8c3"
+      "byteLength": 88239,
+      "sha256": "d28cf8d832f83002e62a6e90e53938070f15108f6e3c37b5be31f33f56bd3826"
     },
     {
       "path": "README.md",
-      "byteLength": 25547,
-      "sha256": "8e684ca1f9d6719fbd6bad3350fdffe218404c2a562d73450bee2ac569368553"
+      "byteLength": 25816,
+      "sha256": "8135cbf8f043a1e90104abdebc7a9b2ea79dcaf596f71026de14c927d38e72fb"
     },
     {
       "path": "cli/README.md",
@@ -1189,8 +1189,8 @@
     },
     {
       "path": "docs/proposals/jotz-archive.md",
-      "byteLength": 3396,
-      "sha256": "d144e2a77c206502756a7d2e532dd9951dee818035918a25184179e316a43e4b"
+      "byteLength": 3719,
+      "sha256": "b827366bdb82a2f3e239a3a178913467442ca25427de2e361c471c215c418c17"
     },
     {
       "path": "docs/proposals/logo.md",
@@ -20149,13 +20149,13 @@
     },
     {
       "path": "parser/README.md",
-      "byteLength": 17564,
-      "sha256": "df3b5ffa30170fb39d4723f14cb77431b9965333edf3c7435ad9f35bb4451514"
+      "byteLength": 17677,
+      "sha256": "0ebae008737ba422fce57f5523be1f1babc583cdee4221ffbd81dc5ea594f75f"
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 53592,
-      "sha256": "9262a0540bb042c6f1e3406718c3f96748303ee1074998967cfcf99874b6d0d3"
+      "byteLength": 61794,
+      "sha256": "451e676cec873c204e2ec16c0a3233a8d5b79169bfd899f1573009a9511afa8e"
     },
     {
       "path": "parser/archive-common.mjs",
@@ -20589,8 +20589,8 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 53592,
-      "sha256": "9262a0540bb042c6f1e3406718c3f96748303ee1074998967cfcf99874b6d0d3"
+      "byteLength": 61794,
+      "sha256": "451e676cec873c204e2ec16c0a3233a8d5b79169bfd899f1573009a9511afa8e"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -20704,8 +20704,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1951776,
-      "sha256": "0a785cd2152c6ce965a87ca125b38881beb9fcfd894fee2f7e003ead7a102ac2"
+      "byteLength": 1954639,
+      "sha256": "5cbd29c57f9aea26bd136648e5de0c62ccf56235fb8c451d0db8b77b30c2845b"
     },
     {
       "path": "site/dist/editor-capture.mjs",
@@ -22019,13 +22019,13 @@
     },
     {
       "path": "specification/README.md",
-      "byteLength": 2110,
-      "sha256": "3d75056f8d5b912810e6111f47abeb82002dc7d8a2a7c3cc3ac27ac771500a19"
+      "byteLength": 2362,
+      "sha256": "dda0faeb25dfac8380652511a21a07bc87ebeb94ae0c9fec24286d8f68b17023"
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 53592,
-      "sha256": "9262a0540bb042c6f1e3406718c3f96748303ee1074998967cfcf99874b6d0d3"
+      "byteLength": 61794,
+      "sha256": "451e676cec873c204e2ec16c0a3233a8d5b79169bfd899f1573009a9511afa8e"
     },
     {
       "path": "specification/conformance.json",

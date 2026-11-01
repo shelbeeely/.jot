@@ -28,3 +28,5 @@ Writer and integrations should treat opening a `.jotz` as opening the journal, n
 The supplied format comparison motivates portable media, semantic tracking, local search and deliberate privacy. Its performance and security claims are not guarantees: DOCX and PDF can support strong encryption, Markdown supports metadata and working relative links, and search performance depends on implementation and journal size. The archive itself is binary and not directly diff-friendly; extracted public source is. Any editable unpacked mode needs its own future design, especially for private entries.
 
 See [document format research](document-format-research.md) for primary sources, package inspection and outstanding interoperability decisions.
+
+Implementation stage: **0.1.0 prototype**, targeting Jot v1. The example chronological layout and remaining document requirements are tracked in [D1–D7 of the canonical roadmap](../../specification/ROADMAP.md#primary-document-completion-required-for-v1); they are not deferred to v2 or described as already implemented.
