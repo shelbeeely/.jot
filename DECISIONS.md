@@ -808,3 +808,15 @@ Closed bowl movements remove capped internal stubs, and stroke intersections
 suppress terminal pooling while exposed endpoints retain the gel-ink treatment.
 Mono retains fixed columns with shaping enabled. Regression tests check every
 alternate, shaping, junction behavior and deterministic generation.
+
+
+## Script lowercase i and m refinement (1 November 2026)
+
+The owner found the Script lowercase i awkward and then identified m as another
+possible source. The i entry now meets the stem below a round exposed top, replacing the sharp top retrace, and its dot sits
+closer to the stem along the same forward lean. Advance and contextual anchors
+are unchanged. All Script profiles and weights share the revised movements,
+including derived accented forms. Tests protect a connected body, separate dot
+and usable dot clearance in fine and broad ink. The m also separates its entry
+and stem from two smoother shoulders, avoiding the sharp top reversal while
+retaining its advance and joining anchors.

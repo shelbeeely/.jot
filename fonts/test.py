@@ -179,6 +179,34 @@ class OriginalFontTests(unittest.TestCase):
         self.assertGreater(diameters[2] / diameters[0], 1.8,
                            'Broad punctuation must retain the broad pen width, rather than hitting a shared dot-size cap.')
 
+    def test_script_m_keeps_open_shoulders_in_broad_ink(self):
+        for record, _, _ in self.faces:
+            if not record['id'].startswith('script'):
+                continue
+            for glyph in (g for g in record['glyphs'] if g['name'] in ('m', 'm.init', 'm.medi', 'm.fina')):
+                pen = RecordingPen(); parse_path(glyph['path'], pen)
+                self.assertEqual(sum(op == 'moveTo' for op, _ in pen.value), 1, 'The m must remain a single connected stroke silhouette.')
+                ink = build.pathops.Path(); parse_path(glyph['path'], ink.getPen())
+                for point in [(250, 200), (460, 200)]:
+                    self.assertFalse(ink.contains(point), f'{record["file"]} {glyph["name"]}: open arch interior')
+
+    def test_script_i_has_one_connected_body_and_a_clear_dot(self):
+        for record, _, _ in self.faces:
+            if not record['id'].startswith('script'):
+                continue
+            for glyph in (g for g in record['glyphs'] if g['name'] in ('i', 'i.init', 'i.medi', 'i.fina')):
+                pen = RecordingPen(); parse_path(glyph['path'], pen)
+                contours, current = [], None
+                for operation, points in pen.value:
+                    if operation == 'moveTo':
+                        current = build.pathops.Path(); contours.append(current)
+                    getattr(current.getPen(), operation)(*points)
+                self.assertEqual(len(contours), 2, f'{record["file"]} {glyph["name"]}: connected body and separate dot')
+                body, dot = sorted(contours, key=lambda p: p.bounds[1])
+                gap = dot.bounds[1] - body.bounds[3]
+                self.assertGreater(gap, 12, 'Broad ink must not merge the dot into the stem.')
+                self.assertLess(gap, 100, 'Fine ink must not leave the dot floating too high.')
+
     def test_width_fit_letters_keep_the_round_nib(self):
         # The O inside Sans Œ is width-fit to75%. Its vertical nib must remain
         # full width, rather than shrinking to75% like an outlined-path scale.
