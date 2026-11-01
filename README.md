@@ -312,3 +312,11 @@ the parser or the VS Code extension yet.
 
 The print engine that made KDP books from `.jot` writing (`journal/`) has been removed from this repository; it lives on in its
 history and in the Journaling repository.
+
+
+## Browser tools
+
+Writer can prepare its application files for offline use, request persistent local storage and optionally keep the screen awake.
+Reviewed sharing, a separate local incoming inbox, local-network WebRTC transfers and editable annotated page copies are available
+through Tools. Downloads remain the fallback. See [Browser tools](docs/guide/browser-tools.md) for privacy boundaries, browser
+limitations, pairing steps and what has been tested. Bluetooth and automatic synchronization are not part of nearby transfer.

@@ -49,7 +49,8 @@ const server = http.createServer((req, res) => {
     assert.equal(await page.locator('html').getAttribute('data-writer-view'), 'write');
     await command('Journal tools');
     for (const selector of ['body>header', '.studio-intro', '.tool-row', '.writer-format', '.writing-footer', '.preview-pane', '.jot-foundation', '.asset-shelf']) assert.equal(await page.isVisible(selector), false, selector);
-    assert.ok((await page.locator('#writing').boundingBox()).y < 180, 'writing starts near the top on desktop');
+    const nameBox = await page.locator('#documentName').boundingBox(), writingBox = await page.locator('#writing').boundingBox();
+    assert.ok(nameBox.y < 180 && writingBox.y >= nameBox.y + nameBox.height && writingBox.y < 320, 'writing follows the editable document name near the top');
     assert.doesNotMatch(await page.locator('#writing').evaluate((editor) => getComputedStyle(editor).fontFamily), /Caveat|cursive/i, 'source uses a standard reading font');
     assert.doesNotMatch(await page.locator('.studio-bar').evaluate((bar) => getComputedStyle(bar).fontFamily), /Caveat|cursive/i, 'editor controls use a standard reading font');
     assert.ok(await page.isVisible('#openBtn') && await page.isVisible('#saveDevice') && await page.isVisible('#writerCommandsBtn'));
@@ -220,7 +221,8 @@ const server = http.createServer((req, res) => {
     await phone.waitForFunction(() => document.documentElement.hasAttribute('data-pref-size')); await command('Journal tools', phone);
     assert.equal(await phone.locator('html').getAttribute('data-writer-view'), 'write');
     assert.equal(await phone.inputValue('#writing'), '');
-    assert.ok((await phone.locator('#writing').boundingBox()).y < 180, 'writing starts near the top on mobile');
+    const mobileName = await phone.locator('#documentName').boundingBox(), mobileWriting = await phone.locator('#writing').boundingBox();
+    assert.ok(mobileName.y < 200 && mobileWriting.y >= mobileName.y + mobileName.height && mobileWriting.y < 360, 'writing follows the editable document name on mobile');
     assert.ok(await phone.isVisible('#writerCommandsBtn'));
     assert.equal(await phone.isVisible('.tool-row'), false, 'secondary tools collapse by default');
     assert.equal(await phone.isVisible('.writer-format'), false, 'formatting controls collapse by default');

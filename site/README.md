@@ -171,3 +171,20 @@ reads need only a username. Libre.fm is documented as manual-only until direct b
 Run `node --test site/test-ai-client.mjs` and `node site/test-ai-ui.cjs` (mocked responses, never real keys).
 See [the companion guide](../docs/guide/ai-companion.md). Desktop CSP allows OpenRouter and loopback servers; native webview/CORS
 behavior still requires device verification.
+
+Filename variable checks: `node --test parser/formatting-test.mjs` and `node site/test-document-variables-ui.cjs`.
+The browser suite checks literal/code boundaries, safe basename rendering, includes, exports and Writer filename changes.
+
+
+## Offline, sharing, annotations and nearby transfer
+
+Browser modules are `browser-session.mjs`, `browser-tools.mjs`, `capture-core.mjs`, `inbox.mjs`, `nearby.mjs`, `annotation.mjs` and
+`ink.mjs`. `sw.mjs` caches only paths in generated `offline-files.mjs`; the basic manifest omits incoming sharing until a worker
+controls Writer, then the share-enabled manifest is selected. IndexedDB schema v3 adds a separate unencrypted inbox. No server
+or remote signaling infrastructure is added. Dependencies in `dist/vendor/browser/` are locally bundled with pinned versions and
+licenses. The existing hidden scanner stays hidden.
+
+After changing published resources or guides, run `node tools/build-offline.mjs` (also copies the existing app icon), then the
+manifest generator last. Run `node --test site/test-browser-tools.mjs`, `node site/test-browser-tools-ui.cjs` and
+`node site/test-nearby-ui.cjs`; the latter establishes a real local WebRTC connection in Chromium. Native OS sharing and physical
+devices remain separate checks. See [Browser tools](../docs/guide/browser-tools.md).

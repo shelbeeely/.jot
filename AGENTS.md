@@ -39,11 +39,12 @@ node site/build-guides.mjs
 node tools/sync-roadmap.mjs
 node tools/build-methods-index.mjs
 node tools/sync-brand.mjs
+node tools/build-offline.mjs
 python3 tools/build-parser-zip.py
 node tools/manifest.cjs
 ```
 
-Run the manifest command last, including new files. `node tools/check-generated.mjs` runs the fast generated-file checks in about a second; run it before every commit. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. The logo's masters in `docs/brand/` come from `docs/brand/source/build.sh` (see `docs/brand/README.md`); `tools/sync-brand.mjs` puts them in the site's headers and icons. Avoid unrelated generated changes.
+Run `tools/build-offline.mjs` after changing published Writer resources or guides; it generates the public offline allowlist and app icon copy. Run the manifest command last, including new files. `node tools/check-generated.mjs` runs the fast generated-file checks in about a second; run it before every commit. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. The logo's masters in `docs/brand/` come from `docs/brand/source/build.sh` (see `docs/brand/README.md`); `tools/sync-brand.mjs` puts them in the site's headers and icons. Avoid unrelated generated changes.
 
 ## Verification
 

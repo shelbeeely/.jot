@@ -721,3 +721,47 @@ servers must use loopback; BYOK cloud requests are labelled remote. Containers, 
 and excluded. Use JSON schema where supported and always validate the local response envelope, Jot fragment and complete edited
 source. Apply requires review, checks the original revision, preserves unrelated source and supports undo. Syntax validation does
 not prove accuracy or complete profile semantics. Tests mock services; live provider and native webview behavior remain unverified.
+
+
+## 2026-11-01: Explicit document filename presentation
+
+The owner requested a built-in filename variable in the Jot Document Format. `{{document.filename}}` is an optional inline
+presentation token, supplied by the host and rendered as a plain-text basename with extension. It never changes stored source,
+record data, metadata or entry dates, and performs no filesystem, environment or network lookup. Unknown/missing context remains
+literal; code and escapes stay literal. Included documents have their own context. Writer uses the opened/connected name or the
+proposed name for an unsaved document; template and VS Code previews receive their existing file names. Formatted exports capture
+the current display. This preserves the rule that filenames do not establish journal facts. Specification §4.2.6 and conformance
+fixtures document the extension; no general expression engine or automatic content migration is introduced.
+
+
+## 2026-11-01: Rename from the document heading
+
+Writer places its editable document name above the writing in live, source and preview views. The name remains separate from
+journal content. Enter confirms a local draft name, Escape restores the name from focus, and Tools can focus/select the heading.
+Connected file name changes offer Save as and route explicit Save through the same picker; cancellation or failure never claims
+to have renamed the file. Save as keeps the original. The filename variable updates with the actual chosen name on success.
+The screen heading stays out of print/export; an explicit filename variable in the writing supplies a printed heading.
+
+
+## 2026-11-01: Everyday browser tools and explicit local transfers
+
+The owner chose offline installation, local-storage protection, wake lock, outgoing/incoming sharing and handwriting; then chose
+manual same-network transfers, QR pairing with file fallback, a temporary local inbox without journal-passphrase protection,
+and inline over-page handwriting saved as an annotated snapshot with Done/Cancel. These choices do not restart hardware/firmware
+work or select a new editor. No therapeutic or productivity benefit is claimed.
+
+Public application assets alone enter the versioned offline cache. Existing local/encrypted journal storage remains separate.
+Incoming content never auto-merges; ID conflicts/metadata require review or opening separately. Capture receipts remain in local
+journal state, encrypted with that state when locked, to avoid duplicate insertion after partial persistence. Acknowledged nearby
+transfers are in a review inbox, not merged journals. No STUN/TURN/signaling service is used. Pairing is explicit and expires.
+Incoming OS share delivery needs a controlling service worker; its manifest is only advertised in that state. If a worker is
+removed, browser POST delivery can reach the host; the local file-picker inbox is the alternative for strict local-only intake.
+
+Research basis: `docs/methods/digital-daily-notes.md, line 711` avoids third-party journal-content sync;
+`docs/methods/expressive-writing.md, line 443` supports keeping writing private unless sharing is chosen. The locally retained
+unencrypted pending inbox is the owner's explicit choice and is labelled separately from a locked journal. Ink retains originals
+and editable strokes, without OCR or automatic transcription. Native share sheets, physical pens and cross-device network behavior
+remain device validation, not claims established by synthetic Chromium tests.
+
+Locally bundled QR and DOM-to-image libraries support the approved workflow without CDN scripts. The public copyright contact in
+one exact, hash-pinned dijkstrajs license is preserved by a file-specific privacy-gate exception; emails elsewhere remain rejected.

@@ -89,3 +89,20 @@ body.jot-site.jot-writer{--writer-bg:#fff;--writer-ink:#24272b;--writer-muted:#6
  .jot-site.jot-writer .writer-format{flex-wrap:wrap;overflow-x:visible}.jot-site.jot-writer .writer-format label{white-space:normal;flex-basis:100%}
  html[data-focus] .jot-site.jot-writer .writer-file-actions{grid-column:2;grid-row:1/3;width:auto}
 }
+
+/* A document name above the writing, shared by live/source and preview views. */
+@media screen{
+ .jot-site.jot-writer .writer-document-heading{box-sizing:border-box;width:100%;max-width:76ch;margin:0 auto;padding:24px 28px 12px;display:flex;flex-direction:column;align-items:stretch;gap:2px;font-size:18px;color:var(--writer-ink)}
+ .jot-site.jot-writer .document-name-label{font-size:12px;color:var(--writer-muted)}
+ .jot-site.jot-writer .writer-document-heading .document-name-row{display:flex;align-items:center;gap:6px;max-width:100%;min-width:0}
+ .jot-site.jot-writer .writer-document-heading #documentName{box-sizing:border-box;flex:1;width:100%;min-width:0;max-width:none;height:52px;padding:4px 0;border:0;border-bottom:1px solid transparent;border-radius:0;background:transparent;color:var(--writer-ink);font:600 28px/1.3 ui-sans-serif,system-ui,sans-serif}
+ .jot-site.jot-writer .writer-document-heading #documentName:hover{border-bottom-color:var(--writer-border)}
+ .jot-site.jot-writer .writer-document-heading #documentName:focus-visible{outline:2px solid var(--writer-ink);outline-offset:3px}
+ .jot-site.jot-writer .writer-document-heading #docExt{font-size:16px;color:var(--writer-muted)}
+ .jot-site.jot-writer #documentRenameSave{flex:none;min-height:44px;padding:8px 12px;font:inherit;font-size:14px;border:1px solid var(--writer-border);border-radius:5px;background:var(--writer-bg);color:var(--writer-ink);cursor:pointer}
+ .jot-site.jot-writer .document-rename-help{margin:4px 0;font-size:13px;color:var(--writer-muted)}
+ .jot-site.jot-writer .writer-document-heading :is(#saveState,#deviceFileState){font-size:12px;color:var(--writer-muted)}
+ .document-rename-help[hidden],#documentRenameSave[hidden]{display:none!important}
+}
+@media(max-width:850px){.jot-site.jot-writer .writer-document-heading{padding:18px 0 10px}.jot-site.jot-writer .writer-document-heading #documentName{font-size:24px}.jot-site.jot-writer .document-name-row{flex-wrap:wrap}.jot-site.jot-writer .writer-document-heading #documentName{flex-basis:55%}}
+@media print{.writer-document-heading{display:none!important}}

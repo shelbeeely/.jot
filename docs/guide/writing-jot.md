@@ -817,3 +817,30 @@ Period ends are exclusive, so this covers 26 October through 1 November. A month
 `end: 2026-11-01`. A plain “Weekly recap” heading without a date stays inside the preceding dated entry. These are ordinary
 entries with explicit coverage, not new typed week/month navigation modes. A recap timezone describes that recap only; it never
 changes the original entries it references. Link to its period record ID when repeated dates would make a date-only link ambiguous.
+
+
+## Show the document filename
+
+Write `{{document.filename}}` where you want the current filename to appear in a preview or formatted page:
+
+```jot
+# Notes from {{document.filename}}
+```
+
+For a file called `October.jot`, this displays **Notes from October.jot**. The extension is included; folders are not.
+Writer uses a connected/opened file's name, or its proposed download name for a new journal. Renaming an unconnected document
+through **Document name** above the writing updates the preview. Click the name to edit it; Enter confirms it and Escape
+restores the previous name. You can also choose **Tools → Rename document**. With a connected device file, press Enter or the
+heading's **Save as…** button to choose the new file; the original is kept. Cancelling leaves the original connected and the
+proposed name available to retry. Its actual name remains in the filename variable until Save as succeeds. The template editor uses the generated file's name; VS Code uses the open document's name.
+
+The source and plain `.jot` download keep the variable. Source/live editing shows its spelling; Page preview, print and formatted
+HTML export show the name. A formatted export captures the name at export time. An included journal displays its own filename.
+The name does not supply dates or other journal information.
+
+Use backticks or escape the first brace (`\{{document.filename}}`) to show the variable literally. Code blocks, metadata and
+record data stay literal. This is only a filename display variable: there are no expressions, scripts or file lookups.
+If a renderer does not know the filename, or does not support variables, it can leave `{{document.filename}}` visible.
+
+The editable name above Writer is a screen control. To show the filename at the top of a printed or exported document, put
+`# {{document.filename}}` at the beginning of the writing. Renaming the document does not add or rewrite a heading in its source.

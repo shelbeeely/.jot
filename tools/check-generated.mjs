@@ -6,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const checks = ['vscode/sync.mjs', 'tools/build-handwriting-css.mjs', 'site/build-guides.mjs', 'tools/sync-roadmap.mjs', 'tools/build-methods-index.mjs', 'tools/sync-brand.mjs', 'tools/manifest.cjs'];
+const checks = ['vscode/sync.mjs', 'tools/build-handwriting-css.mjs', 'site/build-guides.mjs', 'tools/sync-roadmap.mjs', 'tools/build-methods-index.mjs', 'tools/sync-brand.mjs', 'tools/build-offline.mjs', 'tools/manifest.cjs'];
 const failed = checks.map((c) => [c, spawnSync(process.execPath, [c, '--check'], { cwd: ROOT, encoding: 'utf8' })]).filter(([, r]) => r.status !== 0);
 for (const [c, r] of failed) console.error(`node ${c} --check failed:\n${(r.stderr || r.stdout).trim()}\n`);
 if (failed.length) { console.error('Regenerate as AGENTS.md "Generated files" describes (manifest last).'); process.exit(1); }

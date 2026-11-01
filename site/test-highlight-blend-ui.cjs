@@ -35,7 +35,8 @@ async function checkPixels(page) {
     for (const scheme of ['light','dark']) for (const look of ['hand','typed']) {
       const page=await browser.newPage({viewport:{width:1000,height:900},colorScheme:scheme}); page.on('pageerror',e=>errors.push(e.message));
       await page.goto(`http://127.0.0.1:${server.address().port}/write/`);
-      await page.click('#writerPreviewToggle');
+      await require('./test-source-workspace.cjs')(page);
+      await require('./test-source-workspace.cjs').command(page, 'Side by side');
       await page.selectOption('#look',look);
       await page.fill('#writing','[MMMM]{ink=#5078c8 highlight=#f0b428}');
       await page.waitForSelector('#paperPreview .jot-highlight-word'); await page.$eval('#paperPreview',async e=>{await e.jotReady;});

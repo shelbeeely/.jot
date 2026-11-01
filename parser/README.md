@@ -27,6 +27,15 @@ Use `parse(text, {journal:false})` for ordinary Markdown without journal extensi
 
 This package's `README.md` and tests are the implementation contract for version 0.1; the larger specification describes a broader design. It does not claim full CommonMark/GFM test-suite certification, and Jot extension boundaries may differ from plain Markdown. Named styles do not require magic section names.
 
+## Document filename variable
+
+`{{document.filename}}` is an inline `documentVariable` token (`name: 'filename'`). The source remains unchanged.
+`renderPreview(ast, target, { filename: 'October.jot' })` displays the supplied basename as plain text, including its extension.
+If `filename` is absent, `from` may supply the document path; parent directories are never displayed. Included files use their
+own basename. Unknown variables and missing context remain literal. Escapes, code, metadata, record values and URL targets are
+not interpolated. Textual captions may render inline variables without changing their underlying record values. Formatted exports
+capture the rendered name; plain source exports preserve the token. No filesystem lookup, expressions or date inference occurs.
+
 ## Mermaid and other diagrams
 
 Use a Markdown fenced code block with one of these language names: `mermaid`, `dot`/`graphviz`, `plantuml`/`puml`, `d2`, `vega` or `vega-lite`/`vegalite`. The code node gains `diagram: {engine, language, source}`. Vega/Vega-Lite additionally expose `config` for valid JSON objects. Invalid JSON is diagnosed and preserved. Extend recognition with `parse(text, {diagramLanguages: {'my-chart':'custom-engine'}})`.

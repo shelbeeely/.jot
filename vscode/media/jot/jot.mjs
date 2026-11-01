@@ -98,6 +98,8 @@ const spotifyLink = { name: 'spotifyLink', level: 'inline',
   }
 };
 const EXTENSIONS = [
+  { name: 'documentVariable', level: 'inline', start: src => { const i = src.indexOf('{{document.filename}}'); return i < 0 ? undefined : i; },
+    tokenizer(src) { if (src.startsWith('{{document.filename}}')) return { type: 'documentVariable', raw: '{{document.filename}}', name: 'filename' }; } },
   musicBrainzLink,
   backgroundMediaLink,
   spotifyLink,
@@ -242,5 +244,5 @@ function links(ast,ids,dupIds){
 }
 /** Exact round trip. This does not serialize mutations to derived nodes. */
 export function stringify(ast){if(!ast||typeof ast.source!=='string')throw new TypeError('Expected a Jot AST with original source');return ast.source;}
-export const markdownEngine={name:'Marked',version:'17.0.5',dialect:'GFM',extensions:['musicBrainzLink','backgroundMediaLink','spotifyLink','colorSpan','mark','ins','sup','footnote','footnoteRef','center','callout']};
+export const markdownEngine={name:'Marked',version:'17.0.5',dialect:'GFM',extensions:['documentVariable','musicBrainzLink','backgroundMediaLink','spotifyLink','colorSpan','mark','ins','sup','footnote','footnoteRef','center','callout']};
 export default {parse,stringify,markdownEngine};

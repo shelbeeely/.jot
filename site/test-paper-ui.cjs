@@ -36,12 +36,13 @@ const srv = http.createServer((q, r) => {
         const picker = await p.locator('#formatPreset optgroup').evaluateAll((groups) => groups.filter((group) => group.label.startsWith('Mildliner')).flatMap((group) => [...group.children].map((option) => option.value)));
         const reference = await p.evaluate(async () => Object.values((await import('/jot/palettes.mjs')).mildlinerPalettes).flat().map(([, hex]) => '#' + hex.toLowerCase()));
         assert.deepEqual(picker, reference);
+        await require('./test-source-workspace.cjs')(p);
         await p.fill('#writing', '### 2026-10-26\n\nA page of writing.');
-        await p.click('#writerPreviewToggle');
+        await require('./test-source-workspace.cjs').command(p, 'Side by side');
         await p.$eval('#paperPreview', async (paper) => { await paper.jotReady; });
         assert.match(await p.$eval('#paperPreview', (paper) => getComputedStyle(paper).fontFamily), /Jot Caveat/, 'rendered journal paper retains handwriting');
         assert.equal(await p.$eval('#paperPreview', (paper) => getComputedStyle(paper).backgroundColor), mode === 'light' ? 'rgb(255, 253, 246)' : 'rgb(36, 38, 34)');
-        await p.click('#writerPreviewToggle');
+        await require('./test-source-workspace.cjs').command(p, 'Side by side');
       }
       if (route === '/') {
         await p.waitForFunction(() => [...document.querySelectorAll('.jot-page')].every((page) => page.jotGrid));
