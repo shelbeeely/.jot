@@ -76,7 +76,7 @@ summary sentence and a table.
 
 ## Page styles and export
 
-`styles.mjs`: `STYLES` (journal, notes, plain), `styleCSS()` (each scoped to `.jot-style-<id>`, system fonts only, nothing fetched) and
+`styles.mjs`: `STYLES` (journal, notes, plain), `styleCSS()` (each scoped to `.jot-style-<id>`, bundled Jot Sans with system fallbacks, nothing fetched remotely) and
 `pageCSS(style, [wMm, hMm])` (the `@page` box: paper, book margins, page numbers). `renderPreview(ast, el, { style: 'journal' })` applies
 one to a typed page. `export.mjs`: `exportHTML(page, { title, pageCss })` makes one standalone HTML file from a rendered page (its
 styles copied in, charts as PNG pictures, attachments and the hand in use embedded as data: URLs, no scripts). The preview also writes
@@ -104,8 +104,7 @@ Beyond GFM, the lexer understands `==highlight==` (`mark` tokens), `++underline+
 `alignToGrid(page, {pitchMm, dots, pageRows})` once the font has loaded; `pageGeometry(paperMm, pitchMm)` gives the `@page` box whose
 writing area is whole rows of dots. `renderPreview(ast, el, { hand: {…} })` does all three and resolves `el.jotReady` when the page is
 aligned. On a handwritten page, task boxes are hand-drawn SVG in the ink colour (`boxSVG`: a wobbly square, and for a done task a
-scribbled tick that draws itself; `BOX_CSS`). The hands are open fonts in `fonts/` (SIL OFL 1.1, each with its licence): Caveat (Pen), Playpen Sans (Neat print) and
-Shantell Sans (Marker), Latin and Latin Extended, regular and bold. Tests: `node --test handwriting-test.mjs` (the browser side is in
+scribbled tick that draws itself; `BOX_CSS`). The default hand is the original Jot Script 0.7. Jot Script 0.5 and 1.0 provide finer and fuller gel-pen strokes; each has real regular and bold outlines. The original Jot Sans is used for controls and typed Notes pages. Their SVG generators, WOFF2 compiler, catalog and shaping tests live in `../fonts/`. The bundled Caveat (Pen), Playpen Sans (Neat print) and Shantell Sans (Marker) choices remain available. All fonts carry their SIL OFL 1.1 licence in `fonts/`. Original fonts cover Western European Latin with system fallbacks for other writing; journal Unicode is always preserved. Tests: `node --test handwriting-test.mjs` (the browser side is in
 `site/test-editor-ui.cjs` and `vscode/test-preview.cjs`).
 
 ## Handwriting

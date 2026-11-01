@@ -6,17 +6,22 @@
  *   handwritingCSS(fontBase)                                  the fonts and the look (add once, with the fonts folder's URL)
  *   pageGeometry(paperMm, pitchMm, marginMm)                  @page size and margins so a printed page holds whole rows of dots
  *
- * The hands are open fonts (SIL OFL 1.1, fonts/): Caveat (pen, two full sets of alternate letters), Playpen Sans (neat print, its own
- * contextual alternates) and Shantell Sans (marker, its own alternates). Alternates and the small wobbles are chosen from the text and
- * the seed, never at random, so the same journal prints the same every time. The words are only drawn differently: the text, its order,
+ * The original Jot Script hands are generated from round-nib pen paths (../fonts/) and shape whole words with liga/calt.
+ * Legacy SIL OFL hands remain available: Caveat (pen), Playpen Sans (neat print) and Shantell Sans (marker).
+ * The small wobbles are chosen from the text and seed, so the same journal prints the same every time. The text, its order,
  * selection and copying are unchanged, and screen readers read the words as they are.
  */
 
 export const HANDS = {
+  script05: { name: 'Jot Script · 0.5', family: 'Jot Script 05', file: 'jot-script-05', generated: true, alternates: [''], size: 1.06, wobble: 0.2 },
+  script07: { name: 'Jot Script · 0.7', family: 'Jot Script 07', file: 'jot-script-07', generated: true, alternates: [''], size: 1.06, wobble: 0.2 },
+  script10: { name: 'Jot Script · 1.0', family: 'Jot Script 10', file: 'jot-script-10', generated: true, alternates: [''], size: 1.06, wobble: 0.2 },
   pen: { name: 'Pen', family: 'Jot Caveat', file: 'caveat', alternates: ['', 'ss01', 'ss02'], size: 1.06, wobble: 1 },
   print: { name: 'Neat print', family: 'Jot Playpen', file: 'playpen-sans', alternates: [''], size: 0.86, wobble: 0.6 },
   marker: { name: 'Marker', family: 'Jot Shantell', file: 'shantell-sans', alternates: [''], size: 0.9, wobble: 0.8 },
 };
+export const DEFAULT_HAND = 'script07';
+export const SANS_FAMILY = 'Jot Sans';
 export const INKS = { blue: '#1f3a8a', black: '#22262a', green: '#1d5c3a', purple: '#4c2a85', brown: '#5b3a1e' };
 export const PITCHES = [4, 5, 6, 7]; // mm between dots; 5 mm is the usual dot-grid notebook
 const LATIN = 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
@@ -69,17 +74,18 @@ export function dotGridImage(p) {
 }
 function paperCSS() {
   return `
-:root{--jot-paper:#fffdf6;--jot-tag-ink:#8250df;--jot-context-ink:#1a7f37;--jot-back:#ede9df;--jot-ink:${INKS.blue};--jot-muted:#56617a;--jot-edge:#d2cbbc;--jot-accent:#65508f;--jot-accent-ink:#fffdf6;--jot-soft:#eeE8f2;--jot-ink-ratio:100%;--jot-grid:${dotGridImage(pitchPx(5))};--jot-texture:repeating-linear-gradient(0deg,#8d795405 0 1px,transparent 1px 3px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--jot-paper:#242622;--jot-back:#191c18;--jot-ink:#cbd5eb;--jot-tag-ink:#c2a6fa;--jot-context-ink:#91c9a0;--jot-muted:#aeb9b0;--jot-edge:#505649;--jot-accent:#c3afe7;--jot-accent-ink:#241f2e;--jot-soft:#37323f;--jot-ink-ratio:42%;--jot-texture:repeating-linear-gradient(0deg,#e6dbb704 0 1px,transparent 1px 3px);color-scheme:dark}}
-:root[data-theme=dark]{--jot-paper:#242622;--jot-back:#191c18;--jot-ink:#cbd5eb;--jot-tag-ink:#c2a6fa;--jot-context-ink:#91c9a0;--jot-muted:#aeb9b0;--jot-edge:#505649;--jot-accent:#c3afe7;--jot-accent-ink:#241f2e;--jot-soft:#37323f;--jot-ink-ratio:42%;--jot-texture:repeating-linear-gradient(0deg,#e6dbb704 0 1px,transparent 1px 3px);color-scheme:dark}
-body.jot-site{--hw-family:'${HANDS.pen.family}';--hw-pitch:${pitchPx(5)}px;--sans:var(--hw-family),cursive;--serif:var(--hw-family),cursive;--mono:var(--hw-family),cursive;--bg:var(--jot-back);--surface:var(--jot-paper);--sunk:var(--jot-back);--ink:var(--jot-ink);--muted:var(--jot-muted);--line:var(--jot-edge);--line-2:var(--jot-edge);--accent:var(--jot-accent);--accent-ink:var(--jot-accent-ink);--accent-soft:var(--jot-soft);--focus:var(--jot-accent);margin:0;color:var(--jot-ink);font:23px/1.5 var(--hw-family),cursive;background-color:var(--jot-back);background-image:var(--jot-grid),var(--jot-texture);background-size:var(--hw-pitch) var(--hw-pitch),3px 3px;color-scheme:light dark}
-.jot-site :is(button,input,select,textarea,code,pre){font-family:var(--hw-family),cursive}
+:root{--jot-paper:#fffdf6;--jot-tag-ink:#8250df;--jot-context-ink:#1a7f37;--jot-back:#ede9df;--jot-ink:${INKS.blue};--jot-muted:#56617a;--jot-edge:#d2cbbc;--jot-accent:#65508f;--jot-accent-ink:#fffdf6;--jot-soft:#eeE8f2;--jot-ink-ratio:100%;--jot-highlight-strength:.6;--jot-grid:${dotGridImage(pitchPx(5))};--jot-texture:repeating-linear-gradient(0deg,#8d795405 0 1px,transparent 1px 3px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--jot-paper:#242622;--jot-back:#191c18;--jot-ink:#cbd5eb;--jot-tag-ink:#c2a6fa;--jot-context-ink:#91c9a0;--jot-muted:#aeb9b0;--jot-edge:#505649;--jot-accent:#c3afe7;--jot-accent-ink:#241f2e;--jot-soft:#37323f;--jot-ink-ratio:20%;--jot-highlight-strength:.15;--jot-texture:repeating-linear-gradient(0deg,#e6dbb704 0 1px,transparent 1px 3px);color-scheme:dark}}
+:root[data-theme=dark]{--jot-paper:#242622;--jot-back:#191c18;--jot-ink:#cbd5eb;--jot-tag-ink:#c2a6fa;--jot-context-ink:#91c9a0;--jot-muted:#aeb9b0;--jot-edge:#505649;--jot-accent:#c3afe7;--jot-accent-ink:#241f2e;--jot-soft:#37323f;--jot-ink-ratio:20%;--jot-highlight-strength:.15;--jot-texture:repeating-linear-gradient(0deg,#e6dbb704 0 1px,transparent 1px 3px);color-scheme:dark}
+body.jot-site{--hw-family:'${HANDS[DEFAULT_HAND].family}';--hw-pitch:${pitchPx(5)}px;--sans:'Jot Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;--serif:var(--sans);--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--bg:var(--jot-back);--surface:var(--jot-paper);--sunk:var(--jot-back);--ink:var(--jot-ink);--muted:var(--jot-muted);--line:var(--jot-edge);--line-2:var(--jot-edge);--accent:var(--jot-accent);--accent-ink:var(--jot-accent-ink);--accent-soft:var(--jot-soft);--focus:var(--jot-accent);margin:0;color:var(--jot-ink);font:18px/1.6 var(--sans);font-kerning:normal;font-synthesis:style;background-color:var(--jot-back);background-image:var(--jot-grid),var(--jot-texture);background-size:var(--hw-pitch) var(--hw-pitch),3px 3px;color-scheme:light dark}
+.jot-site :is(button,input,select,textarea){font-family:var(--sans)}
+.jot-site :is(code,pre,kbd){font-family:var(--mono)}
 .jot-site :is(button,input,select,textarea){color:var(--jot-ink);accent-color:var(--jot-accent)}
-.jot-site :is(h1,h2,h3,h4,h5,h6){font-family:var(--hw-family),cursive;letter-spacing:normal;font-weight:700}
-.jot-site h1{font-size:clamp(44px,6vw,76px);line-height:1.1}.jot-site h2{font-size:36px;line-height:1.2}.jot-site h3{font-size:28px;line-height:1.25}
-.jot-site :is(.lead,.subtitle){font-size:25px;line-height:1.5;color:var(--jot-muted)}
+.jot-site :is(h1,h2,h3,h4,h5,h6){font-family:var(--sans);letter-spacing:-.02em;font-weight:700}
+.jot-site h1{font-size:clamp(36px,5.5vw,64px);line-height:1.15}.jot-site h2{font-size:30px;line-height:1.25}.jot-site h3{font-size:24px;line-height:1.3}
+.jot-site :is(.lead,.subtitle){font-size:20px;line-height:1.65;color:var(--jot-muted)}
 .jot-site :is(header,.top){height:auto;min-height:80px;flex-wrap:wrap;background:var(--jot-paper);border-color:var(--jot-edge)}
-.jot-site :is(nav a,nav button,.brand,.privacy,.btn,.button,.quiet){font-family:var(--hw-family),cursive;font-size:21px;min-height:44px}
+.jot-site :is(nav a,nav button,.brand,.privacy,.btn,.button,.quiet){font-family:var(--sans);font-size:16px;min-height:44px}
 .jot-site header nav{display:flex;flex-wrap:wrap;min-width:0}
 .jot-site :is(#docExt,#saveState,#wordCount,#assetCount,#assetSaveState){font-size:18px;color:var(--jot-muted)}
 .jot-site .preview-note,.jot-site .asset-shelf p{font-size:18px;line-height:1.5;color:var(--jot-muted)}
@@ -93,28 +99,32 @@ body.jot-site{--hw-family:'${HANDS.pen.family}';--hw-pitch:${pitchPx(5)}px;--san
 .jot-site :is(.btn,.button):hover:not(:disabled){background-color:var(--jot-soft);color:var(--jot-ink)}
 .jot-site :is(.btn.primary,.button.primary):hover:not(:disabled){background-color:var(--jot-accent);color:var(--jot-accent-ink)}
 .jot-site :is(.studio-workspace,.preview-pane,.settings,.zone,.preview,.diary,dialog,.sample-file,.written-page,.dash-chart,.card,.toc,.asset-shelf){background-color:var(--jot-paper);border-color:var(--jot-edge);box-shadow:1px 2px 0 color-mix(in srgb,var(--jot-edge) 40%,transparent)}
-.jot-site :is(.eyebrow,.tab,.pane-title,.pane-tabs button,.paper-tools,.tool-row,.format-tools,.format-tools select,.format-tools button,.writing-footer,.studio-bar,.studio-bar input,.check,.hint,.note,.small,.f-meta,.foot,footer,.resource-links a){font-family:var(--hw-family),cursive;font-size:19px;letter-spacing:normal;color:var(--jot-muted)}
-.jot-site :is(.paper-tools select,.paper-tools input,.format-tools input,.format-tools select,.format-tools button){font-size:19px}
-.jot-site #writing{font:23px/1.6 var(--hw-family),cursive;color:var(--jot-ink);background:var(--jot-paper);tab-size:2}
+.jot-site :is(.eyebrow,.tab,.pane-title,.pane-tabs button,.paper-tools,.tool-row,.format-tools,.format-tools select,.format-tools button,.writing-footer,.studio-bar,.studio-bar input,.check,.hint,.note,.small,.f-meta,.foot,footer,.resource-links a){font-family:var(--sans);font-size:14px;letter-spacing:normal;color:var(--jot-muted)}
+.jot-site :is(.paper-tools select,.paper-tools input,.format-tools input,.format-tools select,.format-tools button){font-size:16px}
+.jot-site #writing{font:16px/1.65 var(--mono);color:var(--jot-ink);background:var(--jot-paper);tab-size:2}
 .jot-site :is(.jot,.sample-file pre,.guide pre,.guide code){background-color:var(--jot-back);color:var(--jot-ink)}
 .jot-site :is(.studio-bar,.pane-tabs,.writing-footer,.format-tools,.tool-row){height:auto;min-height:54px;flex-wrap:wrap;border-color:var(--jot-edge)}
 .jot-site :is(.pane-tabs button,.studio-bar input,.paper-tools select){height:auto;min-height:44px}
 .jot-site .privacy{white-space:normal}.jot-site .studio-bar>div{min-width:0}.jot-site .studio-bar input{max-width:150px}
 .jot-site :is(.jot-record,.method-card,.check-card){background:var(--jot-paper);border-color:var(--jot-edge)}
-.jot-site :is(.feature-grid p,.reasons p,.card p,.dash-copy p,.written p,.compare td,.compare th){font-size:22px;color:var(--jot-ink)}
-.jot-site .tab span{font-size:17px}.jot-site .sample-file pre{font-size:19px}
+.jot-site :is(.feature-grid p,.reasons p,.card p,.dash-copy p,.written p,.compare td,.compare th){font-size:18px;color:var(--jot-ink)}
+.jot-site .tab span{font-size:14px}.jot-site .sample-file pre{font:16px/1.7 var(--mono)}
+.jot-site .guide pre{font-size:16px}
+.jot-site .hero-accent{font-family:'Jot Script 07',cursive;font-weight:400;letter-spacing:normal;line-height:1.3}
 .jot-site :is(.table-wrap,.jc-scroll){max-width:100%;overflow:auto}
-@media(max-width:600px){.jot-site :is(header,.top){padding:12px 16px;gap:10px}.jot-site nav{flex-wrap:wrap;gap:8px;flex-basis:100%}.jot-site nav a{padding:6px 8px}.jot-site :is(.format-tools,.paper-tools){gap:10px}.jot-site .format-tools label{flex-wrap:wrap;max-width:100%}.jot-site select{max-width:100%}.jot-site .pane-tabs{gap:12px}.jot-site .pane-tabs button{font-size:18px}}
-@media print{:root:not([data-theme]),:root[data-theme]{--jot-paper:#fff;--jot-tag-ink:#8250df;--jot-context-ink:#1a7f37;--jot-ink-ratio:100%;--jot-texture:none}.jot-site{background:none}}
+@media(max-width:600px){.jot-site :is(header,.top){padding:12px 16px;gap:10px}.jot-site nav{flex-wrap:wrap;gap:8px;flex-basis:100%}.jot-site nav a{padding:6px 8px}.jot-site :is(.format-tools,.paper-tools){gap:10px}.jot-site .format-tools label{flex-wrap:wrap;max-width:100%}.jot-site select{max-width:100%}.jot-site .pane-tabs{gap:12px}.jot-site .pane-tabs button{font-size:16px}}
+@media print{:root:not([data-theme]),:root[data-theme]{--jot-paper:#fff;--jot-tag-ink:#8250df;--jot-context-ink:#1a7f37;--jot-ink-ratio:100%;--jot-highlight-strength:.6;--jot-texture:none}.jot-site{background:none}}
 `;
 }
 
 /** The fonts and the look. fontBase: the URL of the fonts folder (ends with /). */
 export function handwritingCSS(fontBase) {
-  const face = (h) => [['latin', LATIN], ['latin-ext', LATIN_EXT]].flatMap(([sub, range]) => [400, 700].map((w) => `@font-face{font-family:'${h.family}';font-style:normal;font-weight:${w};font-display:block;src:url('${fontBase}${h.file}-${sub}-${w}-normal.woff2') format('woff2');unicode-range:${range}}`)).join('\n');
-  return `${Object.values(HANDS).map(face).join('\n')}
+  const face = (h) => h.generated
+    ? [400, 700].map((w) => `@font-face{font-family:'${h.family}';font-style:normal;font-weight:${w};font-display:swap;src:url('${fontBase}${h.file}-${w}.woff2') format('woff2')}`).join('\n')
+    : [['latin', LATIN], ['latin-ext', LATIN_EXT]].flatMap(([sub, range]) => [400, 700].map((w) => `@font-face{font-family:'${h.family}';font-style:normal;font-weight:${w};font-display:block;src:url('${fontBase}${h.file}-${sub}-${w}-normal.woff2') format('woff2');unicode-range:${range}}`)).join('\n');
+  return `${[{ family: SANS_FAMILY, file: 'jot-sans', generated: true }, ...Object.values(HANDS)].map(face).join('\n')}
 ${paperCSS()}
-.jot-hand{position:relative;--hw-pitch:18.890625px;--hw-ink:${INKS.blue};--hw-dot:#9aa0a6;--hw-size:1;color:var(--hw-ink);font-family:var(--hw-family),cursive;font-size:calc(var(--hw-pitch)*var(--hw-size));line-height:var(--hw-pitch);font-weight:400;font-kerning:normal;
+.jot-hand{position:relative;--hw-pitch:18.890625px;--hw-ink:${INKS.blue};--hw-dot:#9aa0a6;--hw-size:1;color:var(--hw-ink);font-family:var(--hw-family),cursive;font-size:calc(var(--hw-pitch)*var(--hw-size));line-height:var(--hw-pitch);font-weight:400;font-kerning:normal;font-variant-ligatures:common-ligatures contextual;font-synthesis:style;
   background-color:var(--jot-paper,#fffffd);background-image:var(--hw-dots),var(--jot-texture);background-size:var(--hw-pitch) var(--hw-pitch),3px 3px;background-position:var(--hw-dx,0) var(--hw-dy,0),0 0;background-origin:content-box,border-box;print-color-adjust:exact;-webkit-print-color-adjust:exact}
 .jot-hand *{line-height:inherit;margin-top:0;margin-bottom:0}
 .jot-hand :is(h1,h2,h3,h4,h5,h6,p,ul,ol,li,blockquote,pre,table,figure,dl,dd,dt,section,div,hr){font-family:inherit;font-weight:inherit;color:inherit;letter-spacing:normal}
@@ -132,6 +142,7 @@ ${paperCSS()}
 .jot-hand a{color:inherit;text-decoration:underline}
 .jot-hand img{display:block;max-width:100%}
 .jot-hand .hw-w{display:inline-block;transform:translateY(calc(var(--hw-text-shift,0px) + var(--y,0em))) rotate(var(--r,0deg)) skewX(var(--k,0deg));transform-origin:50% 80%;opacity:var(--o,1);white-space:pre}
+.jot-hand .hw-w.jot-highlight-word{opacity:1}
 .jot-hand .hw-c{position:relative;top:var(--cy,0)}
 .jot-hand em,.jot-hand i,.jot-hand cite{font-style:normal;--k:-9deg}
 .jot-hand :is(ins,u),.jot-hand :is(ins,u) .hw-w{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.18em}
@@ -295,8 +306,8 @@ export function paintHighlights(page, { seed = 1 } = {}) {
 
 const SKIP = new Set(['SCRIPT', 'STYLE', 'CANVAS', 'SVG', 'svg', 'INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'IMG', 'SUMMARY']);
 /** Turns every word on the page into handwriting. Safe to call again after a new render (it starts from the page as rendered). */
-export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
-  const H = HANDS[hand] || HANDS.pen, doc = page.ownerDocument;
+export function handwrite(page, { hand = DEFAULT_HAND, ink = 'blue', seed = 1 } = {}) {
+  const H = HANDS[hand] || HANDS[DEFAULT_HAND], doc = page.ownerDocument;
   page.classList.add('jot-hand');
   page.style.setProperty('--hw-family', `'${H.family}'`);
   page.style.setProperty('--hw-size', String(H.size));
@@ -326,7 +337,7 @@ export function handwrite(page, { hand = 'pen', ink = 'blue', seed = 1 } = {}) {
       const wob = H.wobble;
       w.style.setProperty('--r', `${((r() - 0.5) * 2.4 * wob).toFixed(2)}deg`);
       w.style.setProperty('--y', `${((r() - 0.5) * 0.06 * wob).toFixed(3)}em`);
-      w.style.setProperty('--o', (0.86 + r() * 0.14).toFixed(2));
+      w.style.setProperty('--o', H.generated ? '1' : (0.86 + r() * 0.14).toFixed(2));
       if (H.alternates.length > 1) {
         let last = -1, lastCh = '';
         for (const ch of part) {

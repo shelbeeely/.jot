@@ -34,6 +34,8 @@ The guides in `docs/methods/` are evidence for decisions, not background reading
 Never hand-edit a generated file or copy; change its source and regenerate. After changing canonical parser modules, follow `parser/AGENTS.md`. Regenerate only affected deliverables:
 
 ```sh
+python3 fonts/build.py
+node tools/sync-fonts.mjs
 node tools/build-handwriting-css.mjs
 node site/build-guides.mjs
 node tools/sync-roadmap.mjs
@@ -43,13 +45,16 @@ python3 tools/build-parser-zip.py
 node tools/manifest.cjs
 ```
 
-Run the manifest command last, including new files. `node tools/check-generated.mjs` runs the fast generated-file checks in about a second; run it before every commit. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. The logo's masters in `docs/brand/` come from `docs/brand/source/build.sh` (see `docs/brand/README.md`); `tools/sync-brand.mjs` puts them in the site's headers and icons. Avoid unrelated generated changes.
+Run the manifest command last, including new files. `node tools/check-generated.mjs` runs the generated-file checks, including original font regeneration; run it before every commit. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. The logo's masters in `docs/brand/` come from `docs/brand/source/build.sh` (see `docs/brand/README.md`); `tools/sync-brand.mjs` puts them in the site's headers and icons. Avoid unrelated generated changes.
 
 ## Verification
 
-Run relevant tests and all checks required by `pages.yml` before publishing. Core checks:
+Run relevant tests and all checks required by `pages.yml` before publishing. Original font generation needs Python 3.12 and `python3 -m pip install -r fonts/requirements.txt`; serving the committed site does not. Core checks:
 
 ```sh
+python3 fonts/build.py --check
+python3 fonts/test.py
+node tools/sync-fonts.mjs --check
 npm ci && npm run lint
 node --test tools/test-privacy.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/*test.mjs cli/test.mjs site/test-editor.mjs site/test-autocomplete.mjs site/test-device-files.mjs site/test-editor-capture.mjs site/test-live-model.mjs site/test-reference-books.mjs site/test-writer-search.mjs site/test-writer-templates.mjs site/test-writer-workspace.mjs site/test-writing-tools.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
 node site/test-core.cjs

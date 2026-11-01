@@ -104,24 +104,30 @@ blue or charcoal. On a photo, use the black or white version over a calm area, o
 
 ### Typography
 
-Jot's type is its own handwriting and the reader's system fonts: no web fonts are fetched, and the handwriting fonts ship with
-Jot (all SIL Open Font License).
+Both original families use rounded gel-pen strokes: Jot Sans looks neatly hand-printed, while Jot Script connects its letters. The Sans keeps geometric spacing for clear controls and headings.
 
-| Level | Typeface | Weight | Size | Use |
-| --- | --- | --- | --- | --- |
-| H1 | The page's hand (Caveat by default) | 700 | 44 to 76 px, fluid; line height 1.1 | One per page: the headline |
-| H2 | The same | 700 | 36 px; 1.2 | Sections |
-| H3 | The same | 700 | 28 px; 1.25 | Cards, steps |
-| Body | The same | 400 | 23 px; 1.5 | Running text on the site |
-| Labels, navigation, captions | The same | 400 | 19 to 21 px | Eyebrows, buttons, status lines |
-| The logo | Drawn, not set | | | Never typed in any font |
+Jot Sans is the original reading face for the site, guides and controls. Jot Script is the original handwriting face for rendered
+journal pages. Both ship with Jot under the SIL Open Font License 1.1; no font service is contacted. System fonts provide fallbacks.
 
-- **Hands.** Pen (Caveat, with three alternate letter shapes), Neat print (Playpen Sans) and Marker (Shantell Sans). The writer
-  chooses; the site uses Pen.
+| Level | Typeface | Weight | Use |
+| --- | --- | --- | --- |
+| Site headings | Jot Sans, then system sans | 700 | Headlines, sections, cards and steps |
+| Body | Jot Sans, then system sans | 400 | Site copy and guides |
+| Labels, navigation, captions | Jot Sans, then system sans | 400 or 700 | Controls and supporting text |
+| Source and code | System monospace | 400 or 700 | Literal Jot syntax and code samples |
+| Rendered handwritten pages | Jot Script 07 by default | 400 or 700 | Journal writing, sized to the chosen grid |
+| The logo | Drawn, not set | | Never typed in any font |
+
+- **Original hands.** Jot Script 05, 07 and 10 are three visual stroke styles, shown as 0.5, 0.7 and 1.0. They are inspired by a gel
+  pen's marks; the numbers are not physical width measurements. New handwritten previews use 0.7.
+- **Existing hands.** Pen (Caveat), Neat print (Playpen Sans) and Marker (Shantell Sans) remain available, with their existing
+  licenses and saved preferences. Handwriting stays inside rendered journal pages, including previews and exports.
 - **Typed page styles.** Journal uses a book serif stack (Iowan Old Style, Palatino, Charter, Georgia); Notes uses a sans stack
   (Inter, the system UI font, Roboto, Arial); Plain uses the reader's own. They come from `parser/styles.mjs`.
-- **Rules.** Sentence case everywhere; no letter-spacing tricks on the handwriting; line height never below 1.1 for headings or
-  1.5 for body. The sizes live in `parser/handwriting.mjs` (generated into the shared stylesheet).
+- **Rules.** Sentence case everywhere, relaxed reading line spacing, and no letter-spacing tricks on handwriting. The shared
+  stylesheet comes from `parser/handwriting.mjs`; page-specific styles keep their layout responsibilities.
+- **Inspect and reproduce.** `/fonts/` shows samples, glyph outlines, spacing and alternates. Original font sources and deterministic
+  generators live in `fonts/`; generated files are checked in CI. Inspector text stays in page memory; writer font choices stay local.
 
 ### Imagery
 
@@ -144,8 +150,8 @@ Everything grows from the page and the pen, so the system is mostly what Jot alr
   `#c3afe7` in dark mode) is for actions and focus only (primary buttons, focus rings, the current tab), never for the logo.
 - **The name beside the wordmark.** "ιot" is the logo; the name is Jot. Where people first meet the wordmark, "Jot" is also
   written in words nearby (the homepage's first line, the README's title, page titles "Tool · Jot").
-- **The handwriting.** Pages, navigation and headings use the site's handwriting fonts (Caveat, Playpen Sans, Shantell Sans);
-  the logo is drawn, not set in them, and nothing else is drawn to look like it.
+- **The typography.** Site copy, navigation, guides and controls use Jot Sans; source and code use monospace. Rendered journals use
+  the chosen handwriting or typed page style. The logo is drawn, not set in any of them, and nothing else is drawn to look like it.
 - **Tools under one name.** Jot is one brand: the tools are named in words beside the wordmark, never with their own marks:
   "ιot / SCAN" in the scanner's header, "Write", "Template editor", "Converter", "Your life online" in the navigation. The app
   icon, the extension icon, the file icon and the favicon are all the same iota.

@@ -287,7 +287,7 @@ async function drawPage() {
     page.style.boxSizing = 'content-box';
   }
   $('#sample-wrap').hidden = !shownAst.nodes.some((n) => n.type === 'record' && n.recordType === 'chart');
-  renderPreview(shownAst, page, { sample: $('#sample').checked, hand: hand ? { hand: 'pen', ink: 'blue', pitchMm: layout.pitchMm, pageRows: geometry.rows } : null });
+  renderPreview(shownAst, page, { sample: $('#sample').checked, hand: hand ? { hand: 'script07', ink: 'blue', pitchMm: layout.pitchMm, pageRows: geometry.rows } : null });
   await page.jotReady;
   if (revision !== previewRevision || view !== 'page') return;
   if (hand) {

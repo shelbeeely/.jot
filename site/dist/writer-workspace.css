@@ -37,9 +37,10 @@
 @media print{.writer-format,.writer-view,.writer-dialog{display:none!important}}
 
 /* The writer opens as a quiet document. Optional tools keep their existing behavior. */
-body.jot-site.jot-writer{--writer-bg:#fff;--writer-ink:#24272b;--writer-muted:#656b73;--writer-border:#e1e4e8;font:16px/1.6 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--writer-bg);color:var(--writer-ink)}
-@media(prefers-color-scheme:dark){body.jot-site.jot-writer{--writer-bg:#191b1e;--writer-ink:#e8e9eb;--writer-muted:#afb5be;--writer-border:#3c4149}}
-.jot-site.jot-writer :is(dialog,.studio-bar,.writer-format,.format-tools,.tool-row,.writing-footer,.pane-tabs,.paper-tools,.return-note,.asset-shelf,.notice,.local-suggestions,.pane-title,.music-player){font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body.jot-site.jot-writer{--writer-bg:#fff;--writer-ink:#24272b;--writer-muted:#656b73;--writer-border:#e1e4e8;font:16px/1.6 "Jot Sans",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--writer-bg);color:var(--writer-ink)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) body.jot-site.jot-writer{--writer-bg:#191b1e;--writer-ink:#e8e9eb;--writer-muted:#afb5be;--writer-border:#3c4149}}
+:root[data-theme=dark] body.jot-site.jot-writer{--writer-bg:#191b1e;--writer-ink:#e8e9eb;--writer-muted:#afb5be;--writer-border:#3c4149}
+.jot-site.jot-writer :is(dialog,.studio-bar,.writer-format,.format-tools,.tool-row,.writing-footer,.pane-tabs,.paper-tools,.return-note,.asset-shelf,.notice,.local-suggestions,.pane-title,.music-player){font-family:"Jot Sans",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .jot-site.jot-writer :is(dialog,.studio-bar,.writer-format,.format-tools,.tool-row,.writing-footer,.pane-tabs,.paper-tools,.return-note,.asset-shelf,.notice,.local-suggestions,.pane-title,.music-player) :is(button,input,select,textarea,label,p,h2,h3,span,strong,a){font-family:inherit}
 .jot-site.jot-writer :is(dialog,.studio-bar,.writer-format,.format-tools,.tool-row,.writing-footer,.writing-pane,.return-note,.asset-shelf,.notice,.local-suggestions){--jot-paper:var(--writer-bg);--jot-ink:var(--writer-ink);--jot-muted:var(--writer-muted);--jot-edge:var(--writer-border);color:var(--writer-ink)}
 .jot-site.jot-writer dialog{box-shadow:0 18px 80px #0003}.jot-site.jot-writer dialog h2{font-size:24px;letter-spacing:normal}
@@ -68,7 +69,7 @@ body.jot-site.jot-writer{--writer-bg:#fff;--writer-ink:#24272b;--writer-muted:#6
  .jot-site.jot-writer .writing-grid{min-height:0}.jot-site.jot-writer .writing-pane{background:var(--writer-bg)}
  .jot-site.jot-writer .pane-title{display:none}.jot-site.jot-writer .writing-footer{font-size:13px}
  html[data-writer-options] .jot-site.jot-writer .pane-title{display:flex;padding:12px 20px}.jot-site.jot-writer .pane-title :is(span,.eyebrow){font-size:12px}
- .jot-site.jot-writer #writing{font:18px/1.8 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:76ch;align-self:center;margin:0 auto;min-height:calc(100vh - 150px);min-height:calc(100dvh - 150px);padding:36px 28px;resize:vertical;color:var(--writer-ink);background:var(--writer-bg);border-radius:0;box-shadow:none}
+ .jot-site.jot-writer #writing{font:16px/1.8 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-width:76ch;align-self:center;margin:0 auto;min-height:calc(100vh - 150px);min-height:calc(100dvh - 150px);padding:36px 28px;resize:vertical;color:var(--writer-ink);background:var(--writer-bg);border-radius:0;box-shadow:none}
  .jot-site.jot-writer #writing::placeholder{color:var(--writer-muted);opacity:1}
  .jot-site.jot-writer :focus-visible{outline:2px solid var(--writer-ink);outline-offset:2px}
  html[data-pref-size=s] body.jot-site.jot-writer #writing{font-size:16px}html[data-pref-size=l] body.jot-site.jot-writer #writing{font-size:22px}html[data-pref-size=xl] body.jot-site.jot-writer #writing{font-size:26px}

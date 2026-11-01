@@ -721,3 +721,31 @@ servers must use loopback; BYOK cloud requests are labelled remote. Containers, 
 and excluded. Use JSON schema where supported and always validate the local response envelope, Jot fragment and complete edited
 source. Apply requires review, checks the original revision, preserves unrelated source and supports undo. Syntax validation does
 not prove accuracy or complete profile semantics. Tests mock services; live provider and native webview behavior remain unverified.
+
+## 2026-11-01: Reading fonts, original journal hands and legible highlighter strokes
+
+The owner reported that site text was hard to read and highlights obscured the writing, then chose handwriting for journal pages
+only. This supersedes the site-wide handwriting direction in "One paper stylesheet for the site and preview." Site copy, guides,
+navigation and controls use the original Jot Sans reading face, with system fallbacks; source and code use monospace. Rendered
+journals retain the chosen handwritten or typed look. Jot Script 07 is the default for new handwritten preferences; existing
+Pen, Neat print and Marker choices remain valid. Font preferences stay in the browser and do not edit journal source.
+
+Both families use the same rounded gel-pen stroke construction. Jot Sans keeps geometric printed letterforms and spacing, with subtle ink variation; it has regular and bold faces. Jot Script has 05, 07 and 10 stroke styles, each in regular and bold. The requested G2-style
+gel-pen appearance is a visual reference: the 0.5, 0.7 and 1.0 labels do not claim a measured physical nib or printed stroke width.
+These are original procedural fonts under SIL OFL 1.1; existing bundled fonts retain their own licenses. The deterministic Python
+pipeline in `fonts/` emits WOFF2 faces, glyph SVGs and a catalog. Python 3.12, pinned generator dependencies, source/artifact checks
+and font tests run before generated-copy checks in CI. The existing buildless JavaScript/CSS site serves committed font artifacts;
+font construction adds no runtime dependency. `/fonts/` provides sample text, family/stroke/weight controls, shaping toggles and
+glyph geometry. Its sample text stays in page memory.
+
+Highlights remain actual translucent marker, brush or pencil strokes above the ink, with multiply blending. Coverage is lower in
+dark mode, and displayed dark-mode handwriting ink is lighter. Highlighted handwriting does not receive the simulated per-word
+ink fading. The reference palette and source ink/highlight values stay unchanged; print returns to light paper and original ink.
+Live writing uses the shared stroke generator while creating mapped text leaves, preserving selection and source-based editing.
+
+Research supports the reading direction, without establishing these exact font designs or stroke values:
+`docs/methods/digital-daily-notes.md, line 511` recommends readable fonts when handwriting is a barrier; line 513 names system text
+size and high-contrast themes (its specific VoiceOver details remain uncertain). `docs/methods/moodboard-and-palette.md, line 179`
+requires named colors alongside swatches, and line 180 calls for words for color roles and contrast ratios for text palettes.
+The precise typography and compositing choices respond to the owner's request and are checked in font, renderer and browser
+regressions; they are not claimed as tested therapeutic or productivity benefits.

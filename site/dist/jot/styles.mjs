@@ -15,7 +15,7 @@ export const STYLES = {
   plain: { name: 'Plain', blurb: 'Simple and quiet, as Jot has always looked.' },
 };
 const SERIF = `'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua','URW Palladio L',P052,Charter,'Bitstream Charter',Georgia,serif`;
-const SANS = `Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue','Noto Sans',Arial,sans-serif`;
+const SANS = `'Jot Sans',Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue','Noto Sans',Arial,sans-serif`;
 const MONO = `ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace`;
 
 // Each style's rules are written for ".S" and scoped below to a doubled class, so they win over a page's own typed styles.

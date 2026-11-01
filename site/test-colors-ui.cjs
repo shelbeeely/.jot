@@ -30,13 +30,14 @@ const server = http.createServer((req, res) => {
   try {
     await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
     browser = await chromium.launch();
-    const page = await browser.newPage({viewport:{width:1440,height:1100}}), errors = [];
+    const page = await browser.newPage({viewport:{width:1440,height:1100},colorScheme:'light'}), errors = [];
     page.on('pageerror', e => errors.push(e.message));
     const url = `http://127.0.0.1:${server.address().port}/write/`;
     await page.goto(url); await require('./test-source-workspace.cjs')(page);
     assert.equal(await page.inputValue('#writing'), '');
     await openPreview(page); await openColorTools(page);
     assert.equal(await page.inputValue('#look'), 'hand');
+    assert.equal(await page.inputValue('#hand'), 'script07', 'new handwritten previews use Script 07');
     assert.equal(await page.inputValue('#formatColor'), '#fddd13');
     assert.equal(await page.locator('#formatPreset optgroup option').count(), 71);
     await page.locator('.palette-picker summary').click();
@@ -70,7 +71,7 @@ const server = http.createServer((req, res) => {
     const screen = await appearance();
     assert.equal(screen.ink, 'rgb(179, 57, 81)');
     assert.ok(screen.background.includes('192, 57, 43') && screen.background.includes('36, 90, 194'));
-    assert.ok(screen.font.includes('Jot Caveat'));
+    assert.ok(screen.font.includes('Jot Script 07'));
     assert.equal(await page.locator('#paperPreview .jot-highlight').evaluate(e=>getComputedStyle(e).getPropertyValue('--jot-highlight')).then(s=>s.trim()), '#ffe680');
     await page.emulateMedia({media:'print'});
     assert.deepEqual(await appearance(), screen);
@@ -87,6 +88,7 @@ const server = http.createServer((req, res) => {
     await openPreview(page); await openColorTools(page);
     assert.equal(await page.inputValue('#writing'), source);
     assert.equal(await page.inputValue('#look'), 'hand');
+    assert.equal(await page.inputValue('#hand'), 'script07', 'the chosen original hand persists');
     await selectAllWords(); await page.click('#clearColor');
     assert.equal(await page.inputValue('#writing'), '### 2026-10-26\n\nColorful handwriting');
     await page.locator('#writing').press('Control+z');
