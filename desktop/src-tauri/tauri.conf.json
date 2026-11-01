@@ -45,7 +45,7 @@
           "jotz"
         ],
         "name": "Jot journal archive",
-        "description": "Jotz v2 journal archive",
+        "description": "Jotz v1 journal archive",
         "role": "Editor",
         "rank": "Owner",
         "mimeType": "application/x-jotz",

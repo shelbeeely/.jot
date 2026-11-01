@@ -103,8 +103,8 @@ converter page.
 
 ## Locked journals (`dist/jot/lock.mjs`, `dist/jot/passkey.mjs`)
 
-The writer's **Lock with a passphrase** and **Ways in** use `lock.mjs` (a copy of `parser/lock.mjs`, [Jotz v2
-protection](../specification/Jot-Protection-v2.md)) with the browser's built-in Web Crypto, and `passkey.mjs` for passkeys and security keys (WebAuthn
+The writer's **Lock with a passphrase** and **Ways in** use `lock.mjs` (a copy of `parser/lock.mjs`, [Jotz v1
+protection](../specification/Jot-Protection-v1.md)) with the browser's built-in Web Crypto, and `passkey.mjs` for passkeys and security keys (WebAuthn
 PRF). Protected entries, media and settings are encrypted in the persisted archive; public entries stay public; the page locks again after time away.
 
     node test-lock-ui.cjs            # lock, unlock, ways in, autosave, Download locked; passkeys on a virtual authenticator
@@ -197,7 +197,7 @@ and `node site/test-home-assistant-ui.cjs`; provider responses are mocked.
 Native webview/CORS and live account checks remain separate. No contextual prose analysis is enabled.
 
 
-Writer now saves Jotz v2 archives by default, including text-only journals. `archive-tools.mjs` provides entry privacy/local search;
+Writer now saves Jotz v1 archives by default, including text-only journals. `archive-tools.mjs` provides entry privacy/local search;
 `jot/archive-*.mjs` and bundled SQLite WASM implement ordered source, independent member encryption, protected media/catalog and
 public-only FTS5. All durable workspace content is a single archive in IndexedDB `documents`; localStorage holds only a pointer.
 Regenerate canonical modules with `node tools/sync-parser.mjs` and specs with `node tools/sync-archive-specs.mjs`. Run

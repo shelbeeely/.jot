@@ -1,4 +1,4 @@
-// Passkeys and security keys for locked journals (site only; the format is in jot/lock.mjs and specification/Jot-Protection-v2.md).
+// Passkeys and security keys for locked journals (site only; the format is in jot/lock.mjs and specification/Jot-Protection-v1.md).
 // WebAuthn's PRF extension gives a secret that only this passkey or key, on this site, can produce, after a touch, a fingerprint, a
 // face or a PIN. There is no server and no account: the challenge is random and never checked, because nothing here signs anyone
 // in; the PRF answer is what opens the journal. Nothing is sent anywhere by this page.

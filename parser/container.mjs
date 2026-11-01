@@ -1,4 +1,4 @@
-/** Jotz v2: ordered entries, protected media and a rebuildable public SQLite/FTS5 index. */
+/** Jotz v1: ordered entries, protected media and a rebuildable public SQLite/FTS5 index. */
 import './vendor/jszip.mjs';
 import {parse} from './jot.mjs';
 import {LIMITS,safePath,dataBytes,sha256} from './archive-common.mjs';
@@ -14,7 +14,7 @@ const HASH=/^[0-9a-f]{64}$/;
 const caches=new WeakMap(),states=new WeakMap(),indexOwners=new WeakSet();
 export const packedState=bytes=>states.get(bytes)||null;
 const canonical=value=>JSON.stringify(value,(_,v)=>v&&typeof v==='object'&&!Array.isArray(v)?Object.fromEntries(Object.keys(v).sort().map(k=>[k,v[k]])):v);
-const aad=(archive,item)=>JSON.stringify(['JOTZ',2,archive,item.kind,item.id,item.revision,item.date??null]);
+const aad=(archive,item)=>JSON.stringify(['JOTZ',1,archive,item.kind,item.id,item.revision,item.date??null]);
 const clone=value=>JSON.parse(JSON.stringify(value));
 const memberPath=(kind,id,privateValue)=>privateValue?`private/${id}.enc`:kind==='entry'?`entries/${id}.jot`:`media/${id}`;
 function descriptor(item) {
@@ -30,11 +30,11 @@ function descriptor(item) {
 }
 /** The first ZIP member MUST be a bounded, uncompressed manifest. This is a capability hint, not authentication. */
 export function readArchiveHeader(input) {
-  const b=input instanceof Uint8Array?input:new Uint8Array(input);check(b.length>=30,'Not a Jotz v2 archive.');
+  const b=input instanceof Uint8Array?input:new Uint8Array(input);check(b.length>=30,'Not a Jotz v1 archive.');
   const v=new DataView(b.buffer,b.byteOffset,b.byteLength);check(v.getUint32(0,true)===0x04034b50&&v.getUint16(8,true)===0&&!(v.getUint16(6,true)&9),'The first ZIP member must be the stored manifest.');
   const size=v.getUint32(18,true),nameLength=v.getUint16(26,true),extra=v.getUint16(28,true),at=30+nameLength+extra;
   check(size<=LIMITS.manifestBytes&&at+size<=b.length&&dec.decode(b.subarray(30,30+nameLength))==='manifest.json','Missing bounded archive manifest.');
-  const m=JSON.parse(dec.decode(b.subarray(at,at+size)));check(m?.format==='jot'&&m.version==='2.0'&&ID.test(m.id),'Unsupported Jotz version.');return m;
+  const m=JSON.parse(dec.decode(b.subarray(at,at+size)));check(m?.format==='jot'&&m.version==='1.0'&&ID.test(m.id),'Unsupported Jotz version.');return m;
 }
 const frame=(metadata,bytes=new Uint8Array())=>{const h=enc.encode(JSON.stringify(metadata));check(h.length<=65536,'Member metadata is too large.');const out=new Uint8Array(4+h.length+bytes.length);new DataView(out.buffer).setUint32(0,h.length);out.set(h,4);out.set(bytes,4+h.length);return out;};
 function unframe(bytes){check(bytes.length>=4,'Truncated member.');const n=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength).getUint32(0);check(n<=65536&&n+4<=bytes.length,'Invalid member metadata.');return {metadata:JSON.parse(dec.decode(bytes.subarray(4,4+n))),data:bytes.slice(4+n)};}
@@ -73,7 +73,7 @@ export async function pack({source,assets=[],metadata={},entries=null,previous=n
   const publicEntries=await Promise.all(logical.filter(e=>!e.private).map(async e=>({...e,hash:await sha256(e.source)})));
   const generation=await sha256(JSON.stringify(publicEntries.map(e=>[e.id,e.date,e.timezone,e.hash]))),indexBytes=indexOwners.has(previous)&&previous?.indexBytes&&old?.index?.generation===generation?previous.indexBytes:await buildIndex(publicEntries,generation);
   const index={id:old?.index?.id||uuid(),kind:'index',revision:1,date:null,path:'index.sqlite',byteLength:indexBytes.length,sha256:await sha256(indexBytes),generation};descriptor(index);files.set(index.path,indexBytes);
-  const manifest={format:'jot',version:'2.0',id:archiveId,entries:members.filter(m=>m.kind==='entry'),assets:members.filter(m=>m.kind==='asset'),index};
+  const manifest={format:'jot',version:'1.0',id:archiveId,entries:members.filter(m=>m.kind==='entry'),assets:members.filter(m=>m.kind==='asset'),index};
   const catalog={entries:logical.map(entry=>Object.fromEntries(Object.entries(entry).filter(([key])=>key!=='source'))),assets:assetMetadata,metadata};
   if(session){
     manifest.keys=clone(validateKeys(session.keys));

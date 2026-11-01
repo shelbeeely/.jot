@@ -1,4 +1,4 @@
-// Deterministic public Jotz v2 fixtures from readable source and public test assets. No legacy format reader is shipped.
+// Deterministic public Jotz v1 fixtures from readable source and public test assets. No legacy format reader is shipped.
 import fs from 'node:fs';import {pack,reconcileEntries} from '../parser/container.mjs';
 const root=new URL('../',import.meta.url),source=fs.readFileSync(new URL('examples/packaged-source.jot',root),'utf8');
 const ids=['10000000-0000-4000-8000-000000000001','10000000-0000-4000-8000-000000000002'];
@@ -8,4 +8,4 @@ const bytes=await pack({source,entries,assets,id:'30000000-0000-4000-8000-000000
 // ZIP member timestamps are normalized by the canonical writer.
 const outputs=['specification/example.jotz','examples/packaged.jotz','site/dist/examples/packaged.jotz','site/dist/docs/example.jotz'];
 for(const name of outputs){const file=new URL(name,root);if(process.argv.includes('--check')){if(!fs.readFileSync(file).equals(bytes))throw Error('Archive example is stale: '+name);}else fs.writeFileSync(file,bytes);}
-console.log('Jotz v2 public examples: '+(process.argv.includes('--check')?'current':'written'));
+console.log('Jotz v1 public examples: '+(process.argv.includes('--check')?'current':'written'));

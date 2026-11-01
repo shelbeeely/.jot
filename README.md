@@ -16,8 +16,9 @@ Current delivery focuses on the Jot format and Writer software.
 Jot is a plain-text journal format that combines Markdown with simple marks for tasks, events, questions and ideas. Keep a moment,
 a day, a month or an ongoing journal in one file, then read it as formatted pages, handwritten notes or a dashboard of your numbers.
 
-Your writing stays in files you can open in a text editor. The browser workspace, command-line tools and VS Code extension share
-one parser and page renderer.
+Jot v1 uses `.jotz` as its primary journal document. It carries `.jot` entry source, media and optional entry protection in one
+portable archive. Standalone `.jot` source stays readable and editable in ordinary text editors. The browser workspace,
+command-line tools and VS Code extension share one parser and page renderer.
 
 - **Write your way:** mobile and desktop writing, formatting shortcuts, find/replace, an outline, reusable templates, tasks and measurements.
 - **Make it yours:** handwritten fonts, dot grids, inline colors and Journal, Notes or Plain page styles.
@@ -97,11 +98,11 @@ For an editor with a live preview, see [Jot for VS Code](#jot-for-vs-code).
 | Format | Contents | Best for |
 | --- | --- | --- |
 | `.jot` | Plain UTF-8 text | Writing in any text editor, templates and e-ink devices |
-| `.jotz` | Default v2 ZIP archive: entries, media, public-only SQLite search and optional per-entry encryption | Every journal, including text-only and protected journals |
+| `.jotz` | Primary v1 ZIP document: entries, media, public-only SQLite search and optional per-entry encryption | Every journal, including text-only and protected journals |
 | Exported `.html` | A standalone formatted page with its assets included | Sharing or reading without the workspace |
 | Printed PDF | Pages produced through the browser's **Print / PDF** action | Printing and fixed-layout copies |
 
-Writer saves and downloads `.jotz` by default. Plain `.jot` and Markdown are source import/export options. Public entries remain readable inside the ZIP; protected entries and attachments use AES-256-GCM. Dates and encryption metadata remain visible. [Container](specification/Jot-Container-v2.md) · [Protection](specification/Jot-Protection-v2.md). There is no separate `.jotlock` format or migration layer.
+Writer saves and downloads `.jotz` by default. Plain `.jot` and Markdown are source import/export options. Public entries remain readable inside the ZIP; protected entries and attachments use AES-256-GCM. Dates and encryption metadata remain visible. [Container](specification/Jot-Container-v1.md) · [Protection](specification/Jot-Protection-v1.md). There is no separate `.jotlock` format or migration layer.
 
 ## Features
 
@@ -156,7 +157,7 @@ VS Code all use the same code. Guide: [Automation and connections](docs/guide/au
 **Write → Lock with a passphrase** encrypts the journal with the browser's built-in Web Crypto (AES-256-GCM, keys from PBKDF2-SHA-256);
 the browser then keeps only an encrypted copy, **Download journal** saves a protected `.jotz`, and the page locks again after time away.
 **Entries, privacy and search** makes chosen entries public and searches the local archive. **Ways in** adds a recovery code or a passkey or security key (WebAuthn PRF), and changes or removes them. Nobody can reset a
-forgotten passphrase. The command line has `jot lock`, `jot unlock` and `jot lock-info`. Format: [Jotz v2 protection](specification/Jot-Protection-v2.md);
+forgotten passphrase. The command line has `jot lock`, `jot unlock` and `jot lock-info`. Format: [Jotz v1 protection](specification/Jot-Protection-v1.md);
 guide: [Locking a journal](docs/guide/writing-jot.md#protect-selected-entries).
 
 ## Your life online: data exports into a journal

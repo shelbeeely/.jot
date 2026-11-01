@@ -1,4 +1,4 @@
-/** Protection is part of Jotz v2, not a separate .jotlock file format. */
+/** Protection is part of Jotz v1, not a separate .jotlock file format. */
 import * as Keys from './archive-crypto.mjs';
 import {pack,readDocument,readArchiveHeader} from './container.mjs';
 export {createLock,addWay,removeWay,verifyWay,changePassphrase,newRecoveryCode,normalizeRecoveryCode,LockError,DEFAULT_ITERATIONS,RECOVERY_ITERATIONS,LIMITS} from './archive-crypto.mjs';

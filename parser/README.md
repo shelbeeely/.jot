@@ -145,7 +145,7 @@ const hints = proofread(parse(text), {
 These are non-destructive prose-only English pattern hints, separate from syntax diagnostics. They do not constitute a full grammar or spelling engine. The browser workspace additionally uses native browser spellcheck. Run both test files with `npm test` or `node --test test.mjs proofread-test.mjs`.
 
 
-See CONTAINER.md and LOCK.md for the Jotz v2 format and protection rules. `pack`, `unpack`, `readDocument`, `packedState` and `searchArchive` preserve source/assets and support public/private entries. `lock.mjs` offers all-private archive copies and passphrase/recovery/passkey management, not a separate file type. SQLite WASM is bundled locally; no runtime download or OPFS is used. Plain writing export omits media and protection. Run container-test.mjs, archive-test.mjs and lock-test.mjs.
+See CONTAINER.md and LOCK.md for the Jotz v1 format and protection rules. `pack`, `unpack`, `readDocument`, `packedState` and `searchArchive` preserve source/assets and support public/private entries. `lock.mjs` offers all-private archive copies and passphrase/recovery/passkey management, not a separate file type. SQLite WASM is bundled locally; no runtime download or OPFS is used. Plain writing export omits media and protection. Run container-test.mjs, archive-test.mjs and lock-test.mjs.
 
 ## Spotify short links
 

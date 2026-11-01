@@ -1,10 +1,10 @@
-/** Jotz v2 key slots and independently encrypted members, using Web Crypto AES-256-GCM. */
+/** Jotz v1 key slots and independently encrypted members, using Web Crypto AES-256-GCM. */
 const enc = new TextEncoder();
 export const LOCK_EXTENSION = '.jotz';
 export const DEFAULT_ITERATIONS = 600000; // OWASP's 2023 figure for PBKDF2-HMAC-SHA256
 export const RECOVERY_ITERATIONS = 100000; // a recovery code carries 125 random bits, so stretching matters less
 export const LIMITS = { minIterations: 100000, maxIterations: 2000000, maxHeader: 8192, maxKeys: 16, maxPayload: 64 * 1024 * 1024 };
-const PRF_INFO = enc.encode('JOTZ 2 webauthn-prf');
+const PRF_INFO = enc.encode('JOTZ 1 webauthn-prf');
 const CROCKFORD = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 
 export class LockError extends Error {
@@ -57,7 +57,7 @@ async function prfKey(prf) {
   return subtle().deriveKey({ name: 'HKDF', hash: 'SHA-256', salt: new Uint8Array(0), info: PRF_INFO }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
 }
 const contentKeyOf = (dek) => subtle().importKey('raw', dek, 'AES-GCM', false, ['encrypt', 'decrypt']);
-const wrapAad = (type) => enc.encode('JOTZ 2 keyslot ' + type);
+const wrapAad = (type) => enc.encode('JOTZ 1 keyslot ' + type);
 
 async function wrap(dek, kek, type, fields) {
   const iv = random(12);
@@ -191,7 +191,7 @@ export async function changePassphrase(s, secret, passphrase, { iterations = DEF
   return session(added.contentKey, added.keys.filter((k, i) => k.type !== 'passphrase' || i === added.keys.length - 1));
 }
 
-// Archive key slots reuse reviewed platform primitives, with a distinct Jotz v2 domain.
+// Archive key slots reuse reviewed platform primitives, with a distinct Jotz v1 domain.
 export function validateKeys(keys) {
   if (!Array.isArray(keys) || !keys.length || keys.length > LIMITS.maxKeys) fail('bad-header','Invalid archive key slots.');
   keys.forEach(checkEntry);
@@ -211,7 +211,7 @@ export async function sealMember(data, s, aad) {
   try {
     const key=await contentKeyOf(raw);
     const bytes=new Uint8Array(await subtle().encrypt({name:'AES-GCM',iv,additionalData:auth,tagLength:128},key,bytesOf(data)));
-    const wrapped=new Uint8Array(await subtle().encrypt({name:'AES-GCM',iv:keyIv,additionalData:enc.encode('JOTZ 2 member-key '+aad),tagLength:128},s.contentKey,raw));
+    const wrapped=new Uint8Array(await subtle().encrypt({name:'AES-GCM',iv:keyIv,additionalData:enc.encode('JOTZ 1 member-key '+aad),tagLength:128},s.contentKey,raw));
     return {bytes,encryption:{cipher:'AES-256-GCM',iv:b64(iv),keyIv:b64(keyIv),key:b64(wrapped)}};
   } finally { raw.fill(0); }
 }
@@ -220,7 +220,7 @@ export async function openMember(data, s, aad, encryption) {
   if(encryption?.cipher!=='AES-256-GCM'||iv?.length!==12||keyIv?.length!==12||wrapped?.length!==48)fail('bad-header','Invalid member encryption.');
   let raw;
   try {
-    raw=new Uint8Array(await subtle().decrypt({name:'AES-GCM',iv:keyIv,additionalData:enc.encode('JOTZ 2 member-key '+aad),tagLength:128},s.contentKey,wrapped));
+    raw=new Uint8Array(await subtle().decrypt({name:'AES-GCM',iv:keyIv,additionalData:enc.encode('JOTZ 1 member-key '+aad),tagLength:128},s.contentKey,wrapped));
     const key=await contentKeyOf(raw);
     return new Uint8Array(await subtle().decrypt({name:'AES-GCM',iv,additionalData:enc.encode(aad),tagLength:128},key,bytesOf(data)));
   } catch { fail('cannot-unlock','Could not unlock: that does not open this journal, or the file was changed.'); }

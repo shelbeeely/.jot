@@ -1,7 +1,7 @@
-# Jotz v2 protection
+# Jotz v1 protection
 
-Protection is part of the `.jotz` v2 container; there is no separate encrypted file extension. This specification describes the
-implemented prototype, not an independent cryptographic audit. See [container](Jot-Container-v2.md) for visibility and size limits.
+Protection is part of the `.jotz` v1 container; there is no separate encrypted file extension. This specification describes the
+implemented prototype, not an independent cryptographic audit. See [container](Jot-Container-v1.md) for visibility and size limits.
 
 ## Keys and ways in
 
@@ -10,11 +10,11 @@ Passphrase slots derive a wrapping key with PBKDF2-HMAC-SHA-256, UTF-8 NFC passp
 iterations. Accept 100,000 through 2,000,000 iterations with a combined slot work budget of 8,000,000. Recovery codes contain
 125 random bits in 25 Crockford base32 symbols (five groups), normalize case/separators and O/I/L ambiguities, and use
 100,000 iterations with an independent random salt. A passkey PRF answer uses HKDF-SHA-256, empty salt and UTF-8 info
-`JOTZ 2 webauthn-prf`; keep its random 32-byte PRF input, credential ID and RP identifier with the slot. Passkeys remain bound
+`JOTZ 1 webauthn-prf`; keep its random 32-byte PRF input, credential ID and RP identifier with the slot. Passkeys remain bound
 to that RP and browser/hardware support. Always retain at least one passphrase or recovery slot; at most 16 slots.
 
 A key slot wraps the master key with AES-256-GCM, random 12-byte IV and 128-bit tag. Additional authenticated data is UTF-8
-`JOTZ 2 keyslot ` followed by slot type (`passphrase`, `recovery-code`, `webauthn-prf`). `key` contains wrapped key bytes plus tag;
+`JOTZ 1 keyslot ` followed by slot type (`passphrase`, `recovery-code`, `webauthn-prf`). `key` contains wrapped key bytes plus tag;
 `iv` and `key` use standard padded base64. Passphrase/recovery slots include `kdf: PBKDF2-SHA-256`, iterations and base64 salt.
 Passkey slots include RP, base64url credential ID, base64 PRF input, optional public label, base64 IV and wrapped key.
 Passphrases/recovery codes/PRF answers are not stored in the archive. Salt, work factors, key-slot types, RP/credential metadata
@@ -28,8 +28,8 @@ The `encryption` descriptor is `{cipher:"AES-256-GCM",iv,keyIv,key}`, with padde
 plus tag (48 bytes). The member file contains ciphertext plus the 16-byte authentication tag. Hash ciphertext, not plaintext.
 
 Payload AAD is UTF-8 JSON of the exact ordered array:
-`["JOTZ",2,archiveUUID,memberKind,memberUUID,revision,logicalDateOrNull]`.
-Content-key wrapping AAD is UTF-8 `JOTZ 2 member-key ` concatenated with that JSON. This binds identity, kind, archive, revision and
+`["JOTZ",1,archiveUUID,memberKind,memberUUID,revision,logicalDateOrNull]`.
+Content-key wrapping AAD is UTF-8 `JOTZ 1 member-key ` concatenated with that JSON. This binds identity, kind, archive, revision and
 logical date. Do not use the master key directly to encrypt journal source. Nonces/content keys are fresh on member edits.
 Unchanged descriptors/ciphertext may be reused only with matching identity, revision, protection, plaintext and master key.
 

@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 const root=new URL('../site/dist/',import.meta.url),base=root.pathname;
 const iconSource=fs.readFileSync(new URL('../desktop/app-icon.png',import.meta.url)),iconTarget=new URL('app-icon.png',root);
 if(process.argv.includes('--check')){if(!fs.existsSync(iconTarget)||!fs.readFileSync(iconTarget).equals(iconSource))throw Error('Offline app icon is stale.');}else fs.writeFileSync(iconTarget,iconSource);
-const files=new Set(['./','index.html','write/','write/index.html','share/','share/index.html','manifest.webmanifest','manifest-share.webmanifest','app-icon.png','favicon.svg','apple-touch-icon.png','scan/style.css','offline-files.mjs','docs/Jot-Container-v2.md','docs/Jot-Protection-v2.md']);
+const files=new Set(['./','index.html','write/','write/index.html','share/','share/index.html','manifest.webmanifest','manifest-share.webmanifest','app-icon.png','favicon.svg','apple-touch-icon.png','scan/style.css','offline-files.mjs','docs/Jot-Container-v1.md','docs/Jot-Protection-v1.md']);
 for(const entry of fs.readdirSync(root,{withFileTypes:true}))if(entry.isFile()&&/\.(mjs|css)$/.test(entry.name)&&entry.name!=='offline-files.mjs')files.add(entry.name);
 const walk=(folder,accept)=>{for(const e of fs.readdirSync(new URL(folder,root),{withFileTypes:true})){const name=folder+e.name;if(e.isDirectory())walk(name+'/',accept);else if(accept(name))files.add(name);}};
 walk('jot/',name=>/\.(mjs|css|json|woff2|wasm)$/.test(name)||/\/(vendor|fonts)\/.*(?:LICENSE|OFL|README).*\.(md|txt)$/i.test(name));walk('vendor/',name=>/\.mjs$/.test(name));walk('guide/',name=>/\.html$/.test(name));

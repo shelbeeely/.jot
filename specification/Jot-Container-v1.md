@@ -1,8 +1,8 @@
-# Jotz v2: the default journal archive
+# Jotz v1: the default journal archive
 
-Status: implemented prototype, 1 November 2026. Jot's text grammar remains v1; the container is version **2.0**. `.jotz` is the
+Status: implemented Jot v1 prototype, 1 November 2026. Jot's text grammar remains v1; the container is version **1.0**. `.jotz` is the
 default for every journal, including text-only journals, with optional per-entry protection. `.jot` is readable source
-import/export and `.md` is a writing-only export. There is no separate `.jotlock` format and no v1 container migration/reader.
+import/export and `.md` is a writing-only export. There is no separate `.jotlock` format and no migration reader for earlier prototypes.
 This is a fresh format replacement requested by the owner. Cryptographic/container review and large-archive benchmarks remain
 release validation; implementation tests are not a security audit or a claim of instant ten-year search.
 
@@ -11,7 +11,7 @@ release validation; implementation tests are not a security audit or a claim of 
 Ordinary single-volume ZIP, STORE/DEFLATE, without ZIP encryption or ZIP64:
 
 ```text
-manifest.json                  # FIRST member, STORE, UTF-8 JSON; version 2.0
+manifest.json                  # FIRST member, STORE, UTF-8 JSON; version 1.0
 entries/<uuid>.jot             # public writing, exact UTF-8 bytes
 media/<uuid>                   # public attachment bytes
 private/<uuid>.enc             # protected entry, attachment or catalog
@@ -29,7 +29,7 @@ reject traversal/absolute/backslash/duplicate/symlink paths and extra members, e
 lengths and SHA-256. Empty directories under entries/, media/ and private/ are allowed. Member timestamps are fixed at
 2000-01-01T00:00:00Z; actual journal times belong in entry metadata, not ZIP timestamps.
 
-`manifest.json` has `format: "jot"`, `version: "2.0"`, archive UUID `id`, ordered `entries`, ordered `assets`, `index`, and either
+`manifest.json` has `format: "jot"`, `version: "1.0"`, archive UUID `id`, ordered `entries`, ordered `assets`, `index`, and either
 `catalogData` (unprotected archive) or `keys` plus encrypted `catalog` (protection enabled). UUIDs are random v4 identifiers,
 independent of dates or content. Member descriptors have `id`, `kind` (`entry`, `asset`, `catalog`, `index`), positive `revision`,
 `date` (logical entry day or null), `path`, `byteLength` and lowercase SHA-256 of stored member bytes. Public entry descriptors
@@ -51,7 +51,7 @@ are attachments with the same protection as the drawing; the source image/link c
 
 ## Protection and privacy changes
 
-See [Jotz protection](Jot-Protection-v2.md). One archive master key has passphrase/recovery/passkey ways in. Each protected member
+See [Jotz protection](Jot-Protection-v1.md). One archive master key has passphrase/recovery/passkey ways in. Each protected member
 uses its own random AES-256-GCM content key, authenticated descriptor identity and fresh nonce. Unchanged member ciphertext can
 be reused; changes to key-slot lists authenticate a new catalog without necessarily re-encrypting every entry. ZIP saving may
 still rewrite the whole file; incremental encryption is not incremental disk I/O.

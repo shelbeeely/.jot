@@ -8,9 +8,9 @@ Changed in draft 3: the two representations have their own extensions. Plain-tex
 
 ## The writing comes first
 
-Jot takes its main inspiration from Fountain: a readable plain-text writing format that an application can interpret and typeset. A `.jot` file is that writing itself, as plain UTF-8 text. When a journal includes images, scans or handwriting, a `.jotz` file packages the same writing, as its `journal.txt` member, together with those assets. Either MAY contain a single moment, one day, a whole month, several years, a topic collection, or an ongoing journal. File boundaries MUST NOT imply date boundaries. The filename MUST NOT be treated as authoritative journal content. A date heading organizes writing inside a document; it never requires a separate daily file.
+Jot takes its main inspiration from Fountain: a readable plain-text writing format that an application can interpret and typeset. A `.jot` file is that writing itself, as plain UTF-8 text. The primary `.jotz` document packages the same writing as ordered `.jot` entry members, together with any images, scans, handwriting or other assets, even when a journal is text-only. Either MAY contain a single moment, one day, a whole month, several years, a topic collection, or an ongoing journal. File boundaries MUST NOT imply date boundaries. The filename MUST NOT be treated as authoritative journal content. A date heading organizes writing inside a document; it never requires a separate daily file.
 
-A writer does not need metadata, JSON, a form, a method declaration, a database, or a structured record. The following is complete journal writing, a whole `.jot` file (or the `journal.txt` of a `.jotz`), combining several styles across two days:
+A writer does not need metadata, JSON, a form, a method declaration, a database, or a structured record. The following is complete journal writing, a whole `.jot` file (or the entry source inside a `.jotz`), combining several styles across two days:
 
 ```jot
 # October 2026
@@ -80,7 +80,7 @@ Jot has two representations with the same writing syntax, each with its own exte
 | `.jot` | Plain Jot: the writing as UTF-8 text (section 2.1). Readable and editable in any text editor. Cannot embed binary assets. | `text/plain; charset=utf-8` |
 | `.jotz` | Packaged Jot: a versioned ZIP archive with ordered entry source, UUID media, optional per-entry encryption and a public-only SQLite/FTS5 index (section 2.0). | `application/zip` |
 
-Writer MUST default to `.jotz` for every journal, including text-only journals. Plain `.jot` and Markdown remain explicit source import/export. Read content by signature, then validate container version; Jotz v2 is a fresh replacement with no v1 container or `.jotlock` migration layer. A tool that handles only text MAY list `.jot` and MUST NOT save ZIP bytes as text. Writing-only exports omit assets and protection and must say so.
+Writer MUST default to `.jotz` for every journal, including text-only journals. Plain `.jot` and Markdown remain explicit source import/export. Read content by signature, then validate container version. Both forms belong to Jot v1; earlier archive prototypes and `.jotlock` have no migration layer. A tool that handles only text MAY list `.jot` and MUST NOT save ZIP bytes as text. Writing-only exports omit assets and protection and must say so.
 
 Three capabilities are separately reportable. **Core Reader** parses structural blocks and preserves all source. **Profile Processor** additionally validates one or more named, versioned profiles. **Renderer** additionally produces a declared screen or print layout. A device supporting only Core MUST remain useful for free writing and capture; it MUST preserve unsupported profile blocks. Claiming Jot compatibility MUST list these capabilities, supported versions, limits and extensions. A file validator MUST distinguish syntax errors, profile issues, unresolved links and presentation warnings.
 
@@ -90,7 +90,7 @@ The format is local-first and independent of cloud services, AI, a particular ed
 
 ### 2.0 Self-contained document container (`.jotz`)
 
-The default journal is Jotz container version 2.0. The text grammar remains Jot v1. Normative container and encryption details are in [Jot-Container-v2.md](Jot-Container-v2.md) and [Jot-Protection-v2.md](Jot-Protection-v2.md).
+The default journal is Jotz container version 1.0. The text grammar remains Jot v1. Normative container and encryption details are in [Jot-Container-v1.md](Jot-Container-v1.md) and [Jot-Protection-v1.md](Jot-Protection-v1.md).
 
 The first ZIP member is a bounded, uncompressed UTF-8 `manifest.json`. Ordered public entry members are exact UTF-8 source at `entries/<uuid>.jot`; protected entries, all attachments when protection is enabled, and document metadata use independently encrypted `private/<uuid>.enc` members. Public media is under `media/<uuid>`. `index.sqlite` contains only public entries, tags and explicitly written measurements, with FTS5. It is a validated/rebuildable cache, never executable journal SQL or the source of truth. Private search uses unlocked source in memory.
 

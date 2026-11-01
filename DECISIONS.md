@@ -940,3 +940,12 @@ SQLite WASM is vendored with upstream notices/licenses; desktop CSP allows wasm-
 Independent cryptographic review, cross-app/native-device checks and large-journal/mobile benchmarks remain release work.
 `docs/methods/expressive-writing.md, line 443` (privacy by choice) and `docs/methods/digital-daily-notes.md, line 711` (no cloud journal
 sync in that guide) inform the exposure boundary. The algorithms, container layout and index limits are engineering choices.
+
+
+## 2026-11-01: Jot v1 uses a primary Jotz document with Jot entry source
+
+The owner clarified that `.jotz` is the primary document, analogous to keeping and sharing a PDF, and `.jot` source generally lives inside it. Both remain Jot v1. Correct the premature v2 archive naming, manifest version and cryptographic version domains to v1; no migration is required for these unreleased prototypes. A public entry is exact `.jot` source; a private entry encrypts that source without a plaintext duplicate. Standalone `.jot` remains useful and editable, but is not the complete document when assets or protection are needed. Writer retains default archive saving.
+
+The PDF analogy does not require fixed layout or imply ordinary text editors can read ZIP files. Editor integrations need archive support and lossless saves; the current VS Code extension still handles standalone source only. Record this limitation rather than claim compatibility. The supplied format comparison informs the document model, but unmeasured search performance, exclusive security advantages and ZIP diffability are not established facts. This is a document/versioning decision, not a change to journaling methods or privacy policy.
+
+Primary-specification research is recorded in `docs/proposals/document-format-research.md`, including inspection of generated DOCX/ODT/EPUB packages. It supports the package model without claiming partial encryption is unique, that PDF is read-only, or that an embedded index proves search speed. Further layout changes remain recommendations pending conformance/interoperability design.

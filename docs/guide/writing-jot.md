@@ -460,6 +460,8 @@ individual letters with their spacing guides. Sample text on that page stays the
 
 ## Journal archives and writing exports
 
+**Jot v1 uses `.jotz` as the primary journal document.** Keep, open and share this file as a complete journal. Its `.jot` files are the editable text source inside the archive; standalone `.jot` files also work in ordinary text editors. A `.jotz` needs Jot-aware software or an editor extension, rather than a Markdown file association.
+
 Writer saves **`.jotz` by default**, even for text-only journals. One ZIP-based file keeps ordered entries, media, timestamps and a
 portable public search index. Public entry source is readable after unzipping; protected entries are not. Plain `.jot` and
 Markdown remain writing-only import/export options and omit attachments and encryption. The old separate `.jotlock` file type

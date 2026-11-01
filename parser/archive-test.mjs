@@ -6,7 +6,7 @@ const secret=(await createLock('archive-test-password',{iterations:100000,recove
 const initial=await unpack(await pack({source}));
 const mixed=await pack({source,entries:initial.entries,privateEntries:[initial.entries.at(-1).id],secret:secret.session,previous:initial,assets:[{path:'media/recording.wav',mediaType:'audio/wav',data:'PRIVATE_AUDIO_MARKER_96897888335'}]});
 test('v2 preserves BOM, CRLF, repeated dates and separate stable identities',async()=>{
- const doc=await unpack(mixed,{secret:secret.session});try{assert.equal(doc.source,source);assert.equal(doc.entries.length,3);assert.equal(new Set(doc.entries.map(e=>e.id)).size,3);assert.equal(doc.archive.version,'2.0');assert.equal(doc.entries[1].date,doc.entries[2].date);assert.equal(doc.entries[1].createdAt,null);assert.equal(doc.indexError,null);}finally{doc.index?.close();}
+ const doc=await unpack(mixed,{secret:secret.session});try{assert.equal(doc.source,source);assert.equal(doc.entries.length,3);assert.equal(new Set(doc.entries.map(e=>e.id)).size,3);assert.equal(doc.archive.version,'1.0');assert.equal(doc.entries[1].date,doc.entries[2].date);assert.equal(doc.entries[1].createdAt,null);assert.equal(doc.indexError,null);}finally{doc.index?.close();}
 });
 test('every private payload, tag, source hash and asset metadata stays out of all readable ZIP members/index',async()=>{
  const zip=await globalThis.JSZip.loadAsync(mixed);for(const file of Object.values(zip.files)){const bytes=await file.async('uint8array'),text=new TextDecoder().decode(bytes);assert.doesNotMatch(text,/PRIVATE_UNIQUE_MARKER_5d838711e770|PRIVATE_AUDIO_MARKER_96897888335|#secret|recording\.wav/);}

@@ -153,7 +153,7 @@ jot lock-info journal.jotz                # its ways in
 
 A locked journal is encrypted with your passphrase (AES-256-GCM, with the key made from the passphrase by PBKDF2), using only
 what is built into Node and browsers. Anyone with the passphrase can open it, with Jot or with a few lines of Python or Node
-(the [Jot Lock](../../site/dist/docs/Jot-Protection-v2.md) recipes); nobody else can.
+(the [Jot Lock](../../site/dist/docs/Jot-Protection-v1.md) recipes); nobody else can.
 
 - **Nobody can reset it.** Jot never keeps or sends your passphrase or recovery code. Without one of them, the journal cannot be
   opened by anyone, you included. Keep them in a password manager.
