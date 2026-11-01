@@ -765,3 +765,111 @@ remain device validation, not claims established by synthetic Chromium tests.
 
 Locally bundled QR and DOM-to-image libraries support the approved workflow without CDN scripts. The public copyright contact in
 one exact, hash-pinned dijkstrajs license is preserved by a file-specific privacy-gate exception; emails elsewhere remain rejected.
+
+## 2026-11-01: Reading fonts, original journal hands and legible highlighter strokes
+
+The owner reported that site text was hard to read and highlights obscured the writing, then chose handwriting for journal pages
+only. This supersedes the site-wide handwriting direction in "One paper stylesheet for the site and preview." Site copy, guides,
+navigation and controls use the original Jot Sans reading face, with system fallbacks; source and code use monospace. Rendered
+journals retain the chosen handwritten or typed look. Jot Script 07 is the default for new handwritten preferences; existing
+Pen, Neat print and Marker choices remain valid. Font preferences stay in the browser and do not edit journal source.
+
+Both families use the same rounded gel-pen stroke construction. Jot Sans keeps geometric printed letterforms and spacing, with subtle ink variation; it has regular and bold faces. Jot Script has 05, 07 and 10 stroke styles, each in regular and bold. The requested G2-style
+gel-pen appearance is a visual reference: the 0.5, 0.7 and 1.0 labels do not claim a measured physical nib or printed stroke width.
+These are original procedural fonts under SIL OFL 1.1; existing bundled fonts retain their own licenses. The deterministic Python
+pipeline in `fonts/` emits WOFF2 faces, glyph SVGs and a catalog. Python 3.12, pinned generator dependencies, source/artifact checks
+and font tests run before generated-copy checks in CI. The existing buildless JavaScript/CSS site serves committed font artifacts;
+font construction adds no runtime dependency. `/fonts/` provides sample text, family/stroke/weight controls, shaping toggles and
+glyph geometry. Its sample text stays in page memory.
+
+Highlights remain actual translucent marker, brush or pencil strokes above the ink, with multiply blending. Coverage is lower in
+dark mode, and displayed dark-mode handwriting ink is lighter. Highlighted handwriting does not receive the simulated per-word
+ink fading. The reference palette and source ink/highlight values stay unchanged; print returns to light paper and original ink.
+Live writing uses the shared stroke generator while creating mapped text leaves, preserving selection and source-based editing.
+
+Research supports the reading direction, without establishing these exact font designs or stroke values:
+`docs/methods/digital-daily-notes.md, line 511` recommends readable fonts when handwriting is a barrier; line 513 names system text
+size and high-contrast themes (its specific VoiceOver details remain uncertain). `docs/methods/moodboard-and-palette.md, line 179`
+requires named colors alongside swatches, and line 180 calls for words for color roles and contrast ratios for text palettes.
+The precise typography and compositing choices respond to the owner's request and are checked in font, renderer and browser
+regressions; they are not claimed as tested therapeutic or productivity benefits.
+
+## G2 stroke reference refinement (1 November 2026)
+
+The owner supplied pen writing photographs and requested stroke refinement only.
+Script fine/medium/broad nibs now use 40/52/78 units: stronger separation while
+keeping medium familiar. Dot and punctuation widths scale with the nib instead
+of hitting a common size cap. Every exposed open-stroke start and ending receives
+small rounded pooling; connecting anchors retain even joins. The same stroke
+construction applies to Sans. No new pen presets or ink colors are introduced.
+The photographs guide appearance rather than calibrated physical widths.
+
+## Upright handprinted Sans lettering (1 November 2026)
+
+The owner selected lettering improvements from the G2 color-label photographs.
+Sans now has narrower upright capitals, lightly bowed strokes, a handprinted
+single-storey a, a less circular O and a barred I distinguishable from l and 1.
+Centerlines are width-fit before round-nib expansion, keeping stroke thickness
+and open lowercase counters suitable for interface text. Script faces and ink
+palettes retain their existing designs.
+
+## Sans and handwriting fusion (1 November 2026)
+
+The owner confirmed a fusion of clear Sans lettering and the supplied longer
+G2 handwriting sample. Lowercase e/o/n/m are rounder and more freely drawn;
+capitals remain upright with a little more room. Small deterministic differences
+in lean, height, baseline and spacing are built into the centerlines before
+nib expansion. The font remains native selectable text with stable print and
+export, preserving distinctions between I/l/1 and the chosen gel stroke.
+
+The reported clipped/jittery Script bowls also exposed an entry stroke ending
+inside the a/d/g/q counters. Those entries now merge at the outside of closed
+bowls; initial connectors follow the first pen movement tangent. Higher precision
+curve conversion avoids visible coarse fitting at inspector magnification.
+Counter probes across pen profiles and weights guard against the reported nub.
+
+## G2 design contract and Jot Mono (1 November 2026)
+
+The owner requested a font agent file establishing G2 pen strokes as the common
+model, plus a monospace family. fonts/AGENTS.md applies to every original Jot
+family. Mono regular/bold reuses handprinted centerlines fitted before circular
+nib expansion. Visible characters and spaces advance 650 units; combining marks
+advance zero; kerning is off and ligatures retain the full source column width.
+Mono is available in the inspector and used for source editing and code.
+
+
+## Sans and Mono alternates and junctions (1 November 2026)
+
+The owner requested G2-style alternate characters with a minimum visible variation.
+Sans and Mono provide alternate vectors for all ASCII letters and digits through
+ss01, with calt alternating repeated characters. Each alternate preserves its base
+advance and round nib. Smooth local centerline changes must produce 8-25% symmetric
+ink-outline difference over union area after TrueType conversion; the compiler
+targets 9.5-23% for quantization margin. This is a design constraint, not a physical
+measurement of G2 handwriting. The inspector exposes alternate forms and their ratio.
+
+Closed bowl movements remove capped internal stubs, and stroke intersections
+suppress terminal pooling while exposed endpoints retain the gel-ink treatment.
+Mono retains fixed columns with shaping enabled. Regression tests check every
+alternate, shaping, junction behavior and deterministic generation.
+
+
+## Script lowercase i and m refinement (1 November 2026)
+
+The owner found the Script lowercase i awkward and then identified m as another
+possible source. The i entry now meets the stem below a round exposed top, replacing the sharp top retrace, and its dot sits
+closer to the stem along the same forward lean. Advance and contextual anchors
+are unchanged. All Script profiles and weights share the revised movements,
+including derived accented forms. Tests protect a connected body, separate dot
+and usable dot clearance in fine and broad ink. The m also separates its entry
+and stem from two smoother shoulders, avoiding the sharp top reversal while
+retaining its advance and joining anchors.
+
+
+## Steadier Script m construction (1 November 2026)
+
+The owner still found m squiggly after the first refinement. Replace its bowed
+downstrokes with straight segments at a consistent forward lean, draw two simple
+matching shoulders, and shorten its trailing connector and advance from 785 to
+690 units. Keep rounded G2 ink and the shared y=90 cursive anchors. This is a
+letterform correction; Sans and Mono drawings and alternate rules are unchanged.

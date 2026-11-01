@@ -4,6 +4,10 @@ const { chromium } = require('playwright');
 const http = require('node:http'), fs = require('node:fs'), path = require('node:path'), assert = require('node:assert/strict');
 const root = path.join(__dirname, 'dist');
 const os = require('node:os'), { execFileSync } = require('node:child_process');
+async function command(page, label) {
+  await page.click('#writerCommandsBtn'); await page.fill('#writerCommandsSearch', label);
+  await page.locator('#writerCommandsList button').filter({ has: page.locator('strong').filter({ hasText: new RegExp('^' + label + '$', 'i') }) }).click();
+}
 const srv = http.createServer((q, r) => {
   let f = path.resolve(root, '.' + decodeURIComponent(q.url.split('?')[0]));
   if (!f.startsWith(root + path.sep)) { r.writeHead(403); return r.end(); }
@@ -78,18 +82,18 @@ const srv = http.createServer((q, r) => {
     const w = await browser.newPage({ acceptDownloads: true }); w.on('pageerror', (e) => errors.push(e.message));
     await w.goto(base + '/write/');
     await require('./test-source-workspace.cjs')(w);
-    await require('./test-source-workspace.cjs').command(w, 'Side by side');
+    await command(w, 'Side by side');
     await w.setInputFiles('#openFile', { name: 'grid.jot', mimeType: 'text/plain', buffer: Buffer.from(jot) });
     await w.waitForFunction(() => document.querySelector('#paperPreview [data-block-id="notes"]')?.dataset.usedRows);
     assert.equal(await w.inputValue('#journalPaper'), 'Letter'); assert.equal(await w.inputValue('#pitch'), '5');
     assert.equal(await w.$eval('#paperPreview [data-block-id="notes"]', (e) => +e.dataset.usedRows), 8);
     await w.selectOption('#look', 'typed'); await w.reload();
     await require('./test-source-workspace.cjs')(w);
-    await require('./test-source-workspace.cjs').command(w, 'Side by side');
+    await command(w, 'Side by side');
     await w.waitForFunction(() => document.querySelector('#paperPreview [data-block-id="notes"]')?.dataset.usedRows);
     assert.equal(await w.inputValue('#look'), 'hand', 'saved layout is restored after unrelated typed preferences');
     // Every hand and pitch keeps a checkbox in the first grid cell and visible text between the dot rows.
-    for (const hand of ['pen', 'print', 'marker']) for (const pitch of ['4', '5', '6', '7']) {
+    for (const hand of ['script05', 'script07', 'script10', 'pen', 'print', 'marker']) for (const pitch of ['4', '5', '6', '7']) {
       await w.selectOption('#hand', hand); await w.selectOption('#pitch', pitch);
       await w.$eval('#paperPreview', async (page) => { await page.jotReady; });
       const alignment = await w.$eval('#paperPreview', (page) => {

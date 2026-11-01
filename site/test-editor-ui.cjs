@@ -7,6 +7,10 @@ const ROOT = path.join(__dirname, 'dist'), SHOTS = process.argv[2] || fs.mkdtemp
 const AXE = path.join(__dirname, '../node_modules/axe-core/axe.min.js');
 const TYPES = { '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json' };
 let n = 0; const ok = (c, m) => { assert.ok(c, m); n++; console.log('ok   ' + m); };
+async function command(page, label) {
+  await page.click('#writerCommandsBtn'); await page.fill('#writerCommandsSearch', label);
+  await page.locator('#writerCommandsList button').filter({ has: page.locator('strong').filter({ hasText: new RegExp('^' + label + '$', 'i') }) }).click();
+}
 
 const srv = http.createServer((q, r) => {
   let f = path.normalize(path.join(ROOT, decodeURIComponent(q.url.split('?')[0])));
@@ -214,27 +218,28 @@ const srv = http.createServer((q, r) => {
   }
   // the workspace (/write/): plain .jot without attachments, one .jotz with them (spec draft 3)
   { const w = await b.newPage({ viewport: { width: 1280, height: 900 }, acceptDownloads: true }); w.on('pageerror', (e) => errs.push(e.message));
-    await w.goto(URL0.replace('/editor/', '/write/')); await w.waitForSelector('#writing');
+    await w.goto(URL0.replace('/editor/', '/write/')); await require('./test-source-workspace.cjs')(w);
     await w.evaluate(async () => { try { localStorage.clear(); } catch {} });
-    await w.reload(); await w.waitForSelector('#writing'); await w.waitForTimeout(400);
+    await w.reload(); await require('./test-source-workspace.cjs')(w); await command(w, 'Side by side'); await w.waitForTimeout(400);
     await w.fill('#writing', '### 2026-10-26 | Monday\n\n:::record measurement #s1\nmetric: sleep\nunit: h\nvalue: 7\n:::\n\n### 2026-10-27\n\n:::record measurement #s2\nmetric: sleep\nunit: h\nvalue: 8\n:::\n\n:::record chart #week\nmetrics: sleep\n:::\n'); await w.dispatchEvent('#writing', 'input');
     await w.waitForSelector('#paperPreview .jot-chart canvas');
     const ws = await w.evaluate(async () => { const { Chart } = await import('/jot/vendor/chart.mjs'); return Chart.getChart(document.querySelector('#paperPreview .jot-chart canvas')).data.datasets[0].data; });
     ok(/avg 7\.5 h/.test(await w.textContent('#paperPreview .jot-chart')) && ws.filter((v) => v !== null).join() === '7,8', 'workspace: a chart record in the writing is drawn in the page preview (its week, from the entry it is in)');
     await w.fill('#writing', '### 2026-10-26 | Monday\n\nA plain day.\n');
-    const d1p = w.waitForEvent('download'); await w.click('#downloadJot'); const d1 = await d1p, t1 = fs.readFileSync(await d1.path());
+    const d1p = w.waitForEvent('download'); await command(w, 'Download journal'); const d1 = await d1p, t1 = fs.readFileSync(await d1.path());
     ok(/\.jot$/.test(d1.suggestedFilename()) && t1[0] !== 0x50 && /A plain day/.test(t1.toString()) && (await w.textContent('#docExt')) === '.jot', `workspace: no attachments, Download .jot saves plain text (${d1.suggestedFilename()})`);
     const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
     await w.setInputFiles('#attachFile', { name: 'dot.png', mimeType: 'image/png', buffer: png });
     await w.waitForFunction(() => document.querySelector('#docExt').textContent === '.jotz', null, { timeout: 8000 });
-    const d2p = w.waitForEvent('download'); await w.click('#downloadJot'); const d2 = await d2p, t2 = fs.readFileSync(await d2.path());
+    const d2p = w.waitForEvent('download'); await command(w, 'Download journal'); const d2 = await d2p, t2 = fs.readFileSync(await d2.path());
     ok(/\.jotz$/.test(d2.suggestedFilename()) && t2[0] === 0x50 && t2[1] === 0x4b, `workspace: with an attachment it saves one .jotz package (${d2.suggestedFilename()})`);
     await w.close(); }
   // fuller formatting and the handwritten page on a dot grid (the workspace)
   { const w = await b.newPage({ viewport: { width: 1280, height: 900 } }); w.on('pageerror', (e) => errs.push(e.message));
-    await w.goto(URL0.replace('/editor/', '/write/')); await w.waitForSelector('#writing');
-    await w.evaluate(() => { try { localStorage.clear(); } catch {} }); await w.reload(); await w.waitForSelector('#writing');
+    await w.goto(URL0.replace('/editor/', '/write/')); await require('./test-source-workspace.cjs')(w);
+    await w.evaluate(() => { try { localStorage.clear(); } catch {} }); await w.reload(); await require('./test-source-workspace.cjs')(w); await command(w, 'Side by side');
     ok(await w.inputValue('#look') === 'hand', 'new workspace previews start handwritten');
+    ok(await w.inputValue('#hand') === 'script07', 'new handwritten preferences start with Jot Script 07');
     await w.selectOption('#look', 'typed');
     const journal = '# Notebook\n\n### 2026-10-26 | Monday\n\nThe rain made the room ==quieter== and ++softer++, x^2^.[^1]\n\n[x] Walk\n[ ] Call Sam\n[x] Stretch\n[ ] Read\n[x] Tea\n\n> [!TIP]\n> Headphones helped.\n\n-> A small beginning. <-\n\n| What | How much |\n| --- | --- |\n| Tea | 2 |\n\n:::record measurement #s\nmetric: sleep\nunit: h\nvalue: 7.5\n:::\n\n:::record chart #c\nmetrics: sleep\n:::\n\n[^1]: At the kitchen table.\n\n' + Array.from({ length: 40 }, (_, i) => `### 2026-10-${String(i % 28 + 1).padStart(2, '0')}\n\nA long day of writing, line after line, so the journal runs onto several printed pages and every one of them must keep its words on the dots. Day ${i + 1}.\n`).join('\n');
     await w.fill('#writing', journal); await w.dispatchEvent('#writing', 'input'); await w.waitForSelector('#paperPreview .jot-callout');
@@ -250,7 +255,7 @@ const srv = http.createServer((q, r) => {
       await v.setContent(html1, { waitUntil: 'load' });
       ok(reqs.length === 0 && await v.$eval('main.jot-export.jot-style-notes', (m) => getComputedStyle(m.querySelector('.jot-date')).borderLeftStyle === 'solid' && m.querySelector('img').naturalWidth > 0), 'the downloaded page opens on its own, styled, its chart showing, with nothing fetched');
       await v.close(); }
-    await w.selectOption('#look', 'hand'); await w.waitForFunction(() => document.querySelector('#paperPreview').jotGrid);
+    await w.selectOption('#look', 'hand'); await w.selectOption('#hand', 'pen'); await w.waitForFunction(() => document.querySelector('#paperPreview').jotGrid);
     const g = await w.evaluate(() => { const p = document.querySelector('#paperPreview'), pad = parseFloat(getComputedStyle(p).paddingTop), pitch = p.jotGrid.pitch;
       const blocks = [...p.children].filter((e) => !e.classList.contains('hw-page-edge'));
       const top0 = p.getBoundingClientRect().top + pad, off = blocks.map((e) => (e.getBoundingClientRect().top - top0 - (parseFloat(e.style.top) || 0)) / pitch).filter((r) => Math.abs(r - Math.round(r)) > 0.005);
@@ -280,8 +285,9 @@ const srv = http.createServer((q, r) => {
       const v = await w.evaluate(async () => (await axe.run(document.querySelector('#paperPreview'), { resultTypes: ['violations'] })).violations.filter((x) => ['serious', 'critical'].includes(x.impact)).map((x) => `${x.id}: ${x.nodes.length}`));
       ok(v.length === 0, 'the handwritten page: axe finds nothing serious' + (v.length ? ': ' + v.join(', ') : ''));
     }
-    await w.reload(); await w.waitForSelector('#writing');
+    await w.reload(); await require('./test-source-workspace.cjs')(w); await command(w, 'Side by side');
     ok((await w.$eval('#look', (s) => s.value)) === 'hand' && !(await w.$eval('#handTools', (e) => e.hidden)), 'the look is remembered');
+    ok(await w.inputValue('#hand') === 'pen', 'an explicit legacy Pen preference is retained');
     await w.selectOption('#look', 'typed'); await w.waitForTimeout(400);
     ok(!(await w.$('#paperPreview.jot-hand')) && !(await w.$('#paperPreview .hw-w')) && /@page \{ size: 148mm 210mm; margin: \d+mm [^}]*@bottom-center/.test(await w.textContent('#printSettings')), 'Typed puts the page back as it was');
     await w.screenshot({ path: path.join(SHOTS, 'workspace-typed-formatting.png') });
@@ -289,7 +295,7 @@ const srv = http.createServer((q, r) => {
   // tools: today, carry tasks forward, week review, calendar and CSV out, numbers in (all without the internet)
   { const w = await b.newPage({ viewport: { width: 1280, height: 900 }, acceptDownloads: true }); w.on('pageerror', (e) => errs.push(e.message));
     const offsite = []; w.on('request', (r) => { if (!r.url().startsWith(URL0.replace('/editor/', '/'))) offsite.push(r.url()); });
-    await w.goto(URL0.replace('/editor/', '/write/')); await w.waitForSelector('#writing'); await w.evaluate(() => { try { localStorage.clear(); } catch {} }); await w.reload(); await w.waitForSelector('#writing');
+    await w.goto(URL0.replace('/editor/', '/write/')); await require('./test-source-workspace.cjs')(w); await w.evaluate(() => { try { localStorage.clear(); } catch {} }); await w.reload(); await require('./test-source-workspace.cjs')(w);
     const start = '### 2020-01-06 | Monday\n\n[ ] Call Sam\n[x] Walk\no Dinner 19:00\n\n:::record measurement #steps-2020-01-06\nmetric: steps\nvalue:\n:::\n';
     await w.fill('#writing', start); await w.dispatchEvent('#writing', 'input'); await w.waitForTimeout(400);
     const today = await w.evaluate(async () => (await import('/jot/automation.mjs')).localToday());

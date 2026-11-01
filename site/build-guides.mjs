@@ -47,7 +47,7 @@ export function buildPage(file, md) {
 <a class="skip" href="#guide">Skip to the guide</a>
 <header class="top">
   ${brandLink('../')}
-  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./"${file === 'README.md' ? ' aria-current="page"' : ''}>Guides</a><a href="../examples/">Examples</a></nav>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./"${file === 'README.md' ? ' aria-current="page"' : ''}>Guides</a><a href="../examples/">Examples</a><a href="../fonts/">Typefaces</a></nav>
 </header>
 <main>
 <div class="guide-wrap" id="guide">${h1}${nav}<article class="guide">

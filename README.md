@@ -74,6 +74,7 @@ The static site needs Python 3 to serve it locally; no build or npm install is r
 | [Your life online](http://localhost:8000/import/) | Turn social and blog data exports into one dated journal |
 | [Guides](http://localhost:8000/guide/) | Learn the writing format and tools |
 | [Examples](http://localhost:8000/examples/) | Read or download converted public-domain diaries |
+| [Fonts](http://localhost:8000/fonts/) | Try Jot's original fonts and inspect their glyphs and spacing |
 
 The server runs until you press **Ctrl+C**. Download your journal to keep a file outside the browser's local storage.
 
@@ -106,7 +107,8 @@ are. A repository ZIP contains the project itself; it is a different download fr
 
 ## Features
 
-The site and journal preview share one handwriting stylesheet, with cream paper in light mode and charcoal paper in dark mode.
+The site uses Jot Sans for reading and controls, with system fonts as a fallback and monospace for source and code. Handwriting
+belongs to rendered journal pages. The shared page stylesheet keeps cream paper in light mode and charcoal paper in dark mode.
 The homepage demonstrates ink colors, highlights and other Jot marks, including all 25 Mildliner colors (the picker in **Write** has 71 reference colors: those 25, 36 soft reference colors and 10 pastels), without a writing editor; open **Write** to make your own page.
 
 
@@ -129,12 +131,13 @@ standalone `.html` with everything inside (`parser/export.mjs`). VS Code has the
 
 ### Inline colors
 
-Select words in the workspace and apply text ink, highlight, strikethrough or underline colors, using a palette or custom hex. Colors persist in `.jot` source and appear in preview, print and standalone HTML export. Highlighter strokes blend over the ink, so the text color underneath affects the result. Handwritten is the default for new workspace preferences. See [Color in handwritten pages](docs/guide/writing-jot.md#color-in-handwritten-pages). Browser regression check: `node site/test-colors-ui.cjs` (Playwright and Chromium).
+Select words in the workspace and apply text ink, highlight, strikethrough or underline colors, using a palette or custom hex. Colors persist in `.jot` source and appear in preview, print and standalone HTML export. Translucent highlighter strokes blend over the ink, with lighter coverage in dark mode so the writing stays readable. Handwritten is the default for new preview preferences; saved choices are kept. See [Color in handwritten pages](docs/guide/writing-jot.md#color-in-handwritten-pages). Browser regression check: `node site/test-colors-ui.cjs` (Playwright and Chromium).
 
 ### Handwritten pages on a dot grid
 
-In the workspace (**Write**), **Look → Handwritten** writes the journal in a handwriting font (Pen, Neat print or Marker; each letter
-of the Pen hand comes in three shapes) and puts every line on a row of a dot grid (4 to 7 mm). **Print / PDF** prints the dots and the
+In the workspace (**Write**), **Look → Handwritten** writes the journal in Jot Script, an original gel-pen-inspired hand in 0.5,
+0.7 and 1.0 stroke styles. New previews use 0.7; existing Pen, Neat print and Marker choices remain available. These numbers name
+visual stroke styles, not physical pen widths. Handwriting puts every line on a row of a dot grid (4 to 7 mm). **Print / PDF** prints the dots and the
 writing together, page after page, on A5, A4, Letter, pocket or your own paper. The template editor's Page view and VS Code show it
 too. Guide: [Handwritten pages on a dot grid](docs/guide/writing-jot.md#handwritten-pages-on-a-dot-grid). Fuller formatting
 (`==highlight==`, `++underline++`, `^sup^`, footnotes, callouts, centred lines): [More ways to mark words](docs/guide/writing-jot.md#more-ways-to-mark-words).
@@ -237,6 +240,7 @@ Linux. Details and differences from the site (no passkeys in Linux's web view): 
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
 | [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), locked documents (`lock.mjs`: `.jotlock`), automation (`automation.mjs`, `connect.mjs`), proofreading hints, tests |
+| [`fonts/`](fonts/) | Original Jot Sans, Jot Script and Jot Mono sources, deterministic Python generators, bundled WOFF2 fonts, glyph outlines and catalog |
 | [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`), Your life online (`/import/`); the scanner (`/scan/`) is unfinished and not linked |
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colors and a live page preview with charts, from the same renderer as the site |
 | [`desktop/`](desktop/) | **The desktop app** (Tauri v2): the site's pages plus large exports, Save dialogs and a locked-down network; its own Rust and npm dependencies |
@@ -253,6 +257,7 @@ Linux. Details and differences from the site (no passkeys in Linux's web view): 
 ## Development and validation
 
 Run commands from the project root. Use Node.js 22 to match CI; Python 3 supports the local server and archive checks.
+Regenerating the original fonts uses Python 3.12 and the pinned packages in `fonts/requirements.txt`.
 The publishing privacy check also needs `pdftotext` (provided by Poppler).
 
 ```sh
@@ -277,6 +282,30 @@ Run `node site/test-highlight-blend-ui.cjs` for pixel checks of highlights over 
 Run `node site/test-music-ui.cjs` for manual listening notes and Spotify connection/capture checks with stubbed service responses.
 Run `node site/test-lock-ui.cjs` for locking and ways in, and `node site/test-import-ui.cjs` for Your life online; `site/AGENTS.md` lists every suite.
 These browser checks are separate from the Node.js tests above. The desktop app has its own tests ([desktop/README.md](desktop/README.md#tests)).
+
+### Original font sources
+
+Jot Sans has regular and bold faces. Jot Script has 0.5, 0.7 and 1.0 stroke styles, each in regular and bold. The original fonts
+are built from the sources in [`fonts/`](fonts/) and ship under the SIL Open Font License 1.1. The older bundled hands keep their
+own licenses. No font service is contacted when using the site or exporting a page.
+
+With a Python 3.12 virtual environment activated:
+
+```sh
+python3 -m pip install -r fonts/requirements.txt
+npm run fonts:build
+npm run fonts:check
+npm run fonts:test
+```
+
+The build writes the WOFF2 faces, glyph SVGs and catalog to `fonts/generated/`. The check verifies those artifacts against the
+sources without rewriting them; tests validate font structure and shaping. Run the font build before syncing renderer copies
+and generating `MANIFEST.json`. CI checks the fonts before checking those copies. The ordinary site remains static HTML, CSS and
+JavaScript: serving its committed files needs no font build or Python packages.
+
+The site's `/fonts/` page has editable samples, regular/bold and stroke controls, ligature/contextual-form toggles, a searchable
+glyph grid, and glyph outlines with spacing and alignment guides. Inspector text stays in page memory. Writer font preferences
+stay in this browser and do not change the journal's source.
 
 Contributors and coding agents: [AGENTS.md](AGENTS.md) holds the working rules (with more in `parser/`, `site/` and `vscode/`).
 Before changing behavior, read [DECISIONS.md](DECISIONS.md) and the relevant component README. Parser code is copied into the site and
@@ -307,7 +336,8 @@ Jot v1 is a draft (spec 1.0.0-draft.3, parser 0.1.0). See [DECISIONS.md](DECISIO
 [roadmap](specification/ROADMAP.md) for current boundaries. The page scanner at `/scan/` is unfinished and hidden from site navigation;
 diagram rendering and handwriting OCR are not implemented. The parser's vendored libraries (Marked,
 Chart.js, JSZip, hash.js) carry their own notices in `parser/vendor/`; the handwriting fonts (Caveat, Playpen Sans, Shantell Sans) are
-under the SIL Open Font License, with their licences in `parser/fonts/`. No project-wide licence is asserted for the Jot specification,
+under the SIL Open Font License, with their licences in `parser/fonts/`. The original Jot Sans, Jot Script and Jot Mono fonts use SIL OFL 1.1;
+their sources and license are in `fonts/`. No project-wide licence is asserted for the Jot specification,
 the parser or the VS Code extension yet.
 
 The print engine that made KDP books from `.jot` writing (`journal/`) has been removed from this repository; it lives on in its
@@ -320,3 +350,7 @@ Writer can prepare its application files for offline use, request persistent loc
 Reviewed sharing, a separate local incoming inbox, local-network WebRTC transfers and editable annotated page copies are available
 through Tools. Downloads remain the fallback. See [Browser tools](docs/guide/browser-tools.md) for privacy boundaries, browser
 limitations, pairing steps and what has been tested. Bluetooth and automatic synchronization are not part of nearby transfer.
+
+Jot Mono regular and bold bring the G2 pen style to fixed-width source editing
+and code. Choose Mono in Write or the typeface inspector. Font design rules
+are recorded in [fonts/AGENTS.md](fonts/AGENTS.md).

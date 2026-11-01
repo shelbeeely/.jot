@@ -3,7 +3,10 @@
   "private": true,
   "description": "Jot: a plain-text journal format, its parser, the site and the VS Code extension. Only the linter and the browser tests need these.",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "fonts:build": "python3 fonts/build.py && node tools/sync-fonts.mjs",
+    "fonts:check": "python3 fonts/build.py --check && node tools/sync-fonts.mjs --check",
+    "fonts:test": "python3 fonts/test.py"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

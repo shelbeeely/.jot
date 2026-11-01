@@ -3,6 +3,10 @@
 const { chromium } = require('playwright');
 const http = require('node:http'), fs = require('node:fs'), path = require('node:path'), assert = require('node:assert/strict');
 const root = path.join(__dirname, 'dist');
+async function command(page, label) {
+  await page.click('#writerCommandsBtn'); await page.fill('#writerCommandsSearch', label);
+  await page.locator('#writerCommandsList button').filter({ has: page.locator('strong').filter({ hasText: new RegExp('^' + label + '$', 'i') }) }).click();
+}
 const srv = http.createServer((q, r) => {
   let file = path.resolve(root, '.' + decodeURIComponent(q.url.split('?')[0]));
   if (!file.startsWith(root + path.sep) && file !== root) { r.writeHead(403); return r.end(); }
@@ -24,10 +28,11 @@ const srv = http.createServer((q, r) => {
       assert.equal(await p.$eval('#jot-hand-css', (s) => new URL(s.href).pathname), '/jot/handwriting.css');
       const style = await p.evaluate(() => ({ font: getComputedStyle(document.body).fontFamily, texture: getComputedStyle(document.body).backgroundImage,
         ink: getComputedStyle(document.body).color, paper: getComputedStyle(document.documentElement).getPropertyValue('--jot-paper').trim(), wide: document.documentElement.scrollWidth - innerWidth }));
+      assert.match(style.font, /Jot Sans/, 'site reading text uses Jot Sans');
+      assert.doesNotMatch(style.font, /Caveat|Playpen|Shantell|Jot Script|cursive/i, 'handwriting stays in rendered journals');
       if (route === '/write/') {
-        assert.doesNotMatch(style.font, /Caveat|cursive/i, 'the writing workspace uses a standard reading font');
         assert.equal(style.texture, 'none', 'the writing workspace has a plain background');
-      } else { assert.match(style.font, /Jot Caveat/); assert.match(style.texture, /svg/); }
+      } else assert.match(style.texture, /svg/);
       assert.equal(style.paper, mode === 'light' ? '#fffdf6' : '#242622'); assert.equal(style.wide, 0, `${mode} ${route}: mobile width`);
       if (route === '/write/') {
         assert.equal(await p.inputValue('#writing'), '', 'a first visit opens blank writing');
@@ -37,12 +42,13 @@ const srv = http.createServer((q, r) => {
         const reference = await p.evaluate(async () => Object.values((await import('/jot/palettes.mjs')).mildlinerPalettes).flat().map(([, hex]) => '#' + hex.toLowerCase()));
         assert.deepEqual(picker, reference);
         await require('./test-source-workspace.cjs')(p);
+        assert.match(await p.$eval('#writing', (editor) => getComputedStyle(editor).fontFamily), /monospace/i, 'source uses a monospace font');
         await p.fill('#writing', '### 2026-10-26\n\nA page of writing.');
-        await require('./test-source-workspace.cjs').command(p, 'Side by side');
+        await command(p, 'Side by side');
         await p.$eval('#paperPreview', async (paper) => { await paper.jotReady; });
-        assert.match(await p.$eval('#paperPreview', (paper) => getComputedStyle(paper).fontFamily), /Jot Caveat/, 'rendered journal paper retains handwriting');
+        assert.match(await p.$eval('#paperPreview', (paper) => getComputedStyle(paper).fontFamily), /Jot Script 07/, 'rendered journal paper uses the default Script 07 hand');
         assert.equal(await p.$eval('#paperPreview', (paper) => getComputedStyle(paper).backgroundColor), mode === 'light' ? 'rgb(255, 253, 246)' : 'rgb(36, 38, 34)');
-        await require('./test-source-workspace.cjs').command(p, 'Side by side');
+        await command(p, 'Write only');
       }
       if (route === '/') {
         await p.waitForFunction(() => [...document.querySelectorAll('.jot-page')].every((page) => page.jotGrid));
@@ -60,7 +66,7 @@ const srv = http.createServer((q, r) => {
         assert.ok(await p.locator('.feature-example .jot-footnotes').count() > 0);
         assert.ok(await p.locator('.feature-example .jot-measure').count() > 0);
         const preview = await p.$eval('#sample-page', (page) => ({ paper: getComputedStyle(page).backgroundColor, font: getComputedStyle(page).fontFamily }));
-        assert.equal(preview.paper, mode === 'light' ? 'rgb(255, 253, 246)' : 'rgb(36, 38, 34)'); assert.match(preview.font, /Jot Caveat/);
+        assert.equal(preview.paper, mode === 'light' ? 'rgb(255, 253, 246)' : 'rgb(36, 38, 34)'); assert.match(preview.font, /Jot Script 07/);
         const html = await p.$eval('#feature-preview-0', async (page) => {
           const { exportHTML } = await import('/jot/export.mjs'); return exportHTML(page, { title: 'Paper and ink' });
         });
@@ -91,6 +97,6 @@ const srv = http.createServer((q, r) => {
       await p.close();
     }
     assert.deepEqual(errors, []);
-    console.log('PASS: shared cream/charcoal handwritten paper, plain writer shell, homepage color and feature examples without an editor, print, mobile width and accessibility across six routes in both modes.');
+    console.log('PASS: Jot Sans reading text, monospace source, Script 07 journal paper, homepage color and feature examples without an editor, print, mobile width and accessibility across six routes in both modes.');
   } finally { await browser.close(); srv.close(); }
 })().catch((e) => { console.error(e); srv.close(); process.exitCode = 1; });

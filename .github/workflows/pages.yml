@@ -23,11 +23,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: fonts/requirements.txt
+      - name: Install font generation tools
+        run: python3 -m pip install --disable-pip-version-check -r fonts/requirements.txt
       - name: Install pdftotext (the privacy check reads PDFs)
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils
 
       - name: Privacy check
         run: node tools/privacy-check.mjs site/dist
+
+      - name: Original fonts match their sources
+        run: |
+          python3 fonts/build.py --check
+          node tools/sync-fonts.mjs --check
+          python3 fonts/test.py
 
       - name: The site is built from the current sources
         run: |

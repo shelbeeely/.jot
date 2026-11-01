@@ -436,9 +436,9 @@ and **Jot: Export as HTML** saves the same page.
 The workspace (**Write**) can show your journal as if you had written it by hand in a dot-grid notebook, and print it that way:
 
 1. Open **Preview**, then set **Look** to **Handwritten**.
-2. Choose a **Hand**: **Pen** (a natural pen hand; each letter comes in three shapes, so two `e`s side by side are never quite the
-   same), **Neat print** or **Marker**. Choose an **Ink** color, and how far apart the dots are (**Dots every** 4 to 7 mm; 5 mm is
-   the usual notebook).
+2. Choose a **Hand**. **Jot Script** comes in **0.5**, **0.7** and **1.0** stroke styles; new previews use **0.7**. The numbers describe
+   the look of the strokes, not a measured pen width. **Pen**, **Neat print** and **Marker** remain available, and existing choices
+   are kept. Choose an **Ink** color, and how far apart the dots are (**Dots every** 4 to 7 mm; 5 mm is the usual notebook).
 3. Pick the **Paper** (A5, A4, Letter, pocket or your own size), then **Print / PDF**. In the print dialog keep the margins at
    **Default** and the scale at **100%**.
 
@@ -454,6 +454,11 @@ print the handwriting on plain paper, or on paper that already has a dot grid.
 
 The template editor's **Page** view and the VS Code extension can show the handwritten look too, and **Download page ↓** keeps a
 handwritten page with its hand inside the file.
+
+Site copy, guides and controls use Jot Sans for reading. Source and code use monospace. Handwriting is the journal's look, so
+changing it does not change your words or the site's controls. Font choices stay in this browser; the `.jot` source stays the same.
+The [Fonts page](../../site/dist/fonts/) lets you try Jot Sans and Jot Script, compare stroke styles and weights, and inspect
+individual letters with their spacing guides. Sample text on that page stays there until you leave or reload it.
 
 ## Plain and packaged files
 
@@ -567,7 +572,7 @@ The full rules are in the [Jot specification](../../site/dist/docs/Jot-Complete-
 
 ## Color in handwritten pages
 
-New previews use **Handwritten**; an existing **Look** preference is kept. The same colors appear in handwritten preview,
+New previews use **Handwritten** with **Jot Script 0.7**; existing **Look** and **Hand** preferences are kept. The same colors appear in handwritten preview,
 **Print / PDF**, and **Download page** (standalone HTML).
 
 Choose **Tools → Formatting controls**, then **Colors**. Select words on one line, choose a palette color or a custom color,
@@ -607,6 +612,9 @@ The color menu and **Show color swatches** offer 71 colors from the supplied Mil
 Highlighter strokes sit on top of the writing and blend with the ink underneath, like a translucent marker on paper. Changing the
 text ink changes the visible result under the same highlight. The source keeps both colors separately; the effect carries through
 to Typed and Handwritten preview, print, PDF and standalone HTML. Marker, brush and pencil use the same blending rule.
+The live writing surface also uses a translucent stroke over highlighted words. Dark mode uses lighter stroke coverage and
+lighter displayed handwriting ink to keep the letters visible. The saved ink and highlight colors stay unchanged; print uses
+light paper and the original ink colors.
 
 ## Albums, playlists and Spotify short links
 

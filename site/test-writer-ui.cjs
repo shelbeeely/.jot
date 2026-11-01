@@ -51,14 +51,14 @@ const server = http.createServer((req, res) => {
     for (const selector of ['body>header', '.studio-intro', '.tool-row', '.writer-format', '.writing-footer', '.preview-pane', '.jot-foundation', '.asset-shelf']) assert.equal(await page.isVisible(selector), false, selector);
     const nameBox = await page.locator('#documentName').boundingBox(), writingBox = await page.locator('#writing').boundingBox();
     assert.ok(nameBox.y < 180 && writingBox.y >= nameBox.y + nameBox.height && writingBox.y < 320, 'writing follows the editable document name near the top');
-    assert.doesNotMatch(await page.locator('#writing').evaluate((editor) => getComputedStyle(editor).fontFamily), /Caveat|cursive/i, 'source uses a standard reading font');
-    assert.doesNotMatch(await page.locator('.studio-bar').evaluate((bar) => getComputedStyle(bar).fontFamily), /Caveat|cursive/i, 'editor controls use a standard reading font');
+    assert.match(await page.locator('#writing').evaluate((editor) => getComputedStyle(editor).fontFamily), /monospace/i, 'source uses a monospace font');
+    assert.match(await page.locator('.studio-bar').evaluate((bar) => getComputedStyle(bar).fontFamily), /Jot Sans/i, 'editor controls use Jot Sans');
     assert.ok(await page.isVisible('#openBtn') && await page.isVisible('#saveDevice') && await page.isVisible('#writerCommandsBtn'));
     await audit(page, 'body');
     await command('Side by side');
     assert.equal(await page.locator('html').getAttribute('data-writer-view'), 'split');
     assert.ok(await page.isVisible('.preview-pane'));
-    assert.match(await page.locator('#paperPreview').evaluate((paper) => getComputedStyle(paper).fontFamily), /Caveat|cursive/i, 'the formatted paper retains its handwriting font');
+    assert.match(await page.locator('#paperPreview').evaluate((paper) => getComputedStyle(paper).fontFamily), /Jot Script 07/i, 'the formatted paper uses the default Script 07 handwriting font');
     await command('Write only');
     assert.equal(await page.locator('html').getAttribute('data-writer-view'), 'write');
     await command('Journal tools'); await command('Formatting controls'); await command('Writing options');

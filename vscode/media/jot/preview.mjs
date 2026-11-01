@@ -301,7 +301,7 @@ export function renderPreview(ast, target, opts = {}) {
   target.classList.toggle('jot-hand', !!hand); // before anything is drawn, so charts size themselves to the grid
   for (const c of [...target.classList]) if (c.startsWith('jot-style-')) target.classList.remove(c);
   if (!hand && opts.style && isStyle(opts.style)) { addPageStyles(doc); target.classList.add(`jot-style-${opts.style}`); }
-  if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.pen).family}'`); }
+  if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.script07).family}'`); }
   else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift']) target.style.removeProperty(k);
   const root = doc.createDocumentFragment(), lend = typeof opts.include === 'function' ? opts.include : () => null;
   let includes = 0;
@@ -429,7 +429,7 @@ export function renderPreview(ast, target, opts = {}) {
   target.jotReady = Promise.resolve();
   if (hand) {
     handwrite(target, hand);
-    const fam = (HANDS[hand.hand] || HANDS.pen).family, fonts = doc.fonts;
+    const fam = (HANDS[hand.hand] || HANDS.script07).family, fonts = doc.fonts;
     const loaded = fonts && fonts.load ? Promise.all([fonts.load(`400 16px '${fam}'`), fonts.load(`700 16px '${fam}'`)]).catch(() => {}) : Promise.resolve();
     target.jotReady = loaded.then(() => {
       if (!target.isConnected || target.jotRevision !== revision) return null;
@@ -455,9 +455,10 @@ export function addPageStyles(doc) {
 export const PREVIEW_CSS = `${CHART_CSS}
 .jot-colors{print-color-adjust:exact;-webkit-print-color-adjust:exact}
 .jot-highlighter-active{background-image:none!important;background-color:transparent!important;padding:0}
-.jot-highlight-space{background-image:var(--jot-highlight-stroke);background-size:100% 1lh;background-position:center;background-repeat:no-repeat;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.jot-highlight-space{opacity:var(--jot-highlight-strength,.6);background-image:var(--jot-highlight-stroke);background-size:100% 1lh;background-position:center;background-repeat:no-repeat;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .jot-highlight-word{display:inline-block;position:relative;isolation:isolate;white-space:pre;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-.jot-highlight-word::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background-image:var(--jot-highlight-stroke);background-size:100% 100%;background-repeat:no-repeat;mix-blend-mode:multiply;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.jot-highlight-word::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;opacity:var(--jot-highlight-strength,.6);background-image:var(--jot-highlight-stroke);background-size:100% 100%;background-repeat:no-repeat;mix-blend-mode:multiply;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.jot-highlight-word{opacity:1}
 .jot-highlight{background-color:var(--jot-highlight);box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .jot-colors :is(del,ins){text-decoration-color:var(--jot-decoration,currentColor)}
 mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.15em}
@@ -481,7 +482,8 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-mood{margin:0;min-width:0;break-inside:avoid}.jot-mood img{display:block;width:100%;height:auto;border-radius:4px}
 .jot-mood figcaption{font-size:.86em;margin-top:.25em}.jot-mood-caption,.jot-mood-credit{display:block}.jot-mood-credit{font-style:italic;font-size:.92em}
 .jot-mood-missing{border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:4px;padding:.6em;font-size:.88em;overflow-wrap:anywhere}
-.jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}`;
+.jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}
+:is(.jot-task-text,.jot-margin,.jot-date-note,.jot-footnotes):has(:is(mark,.jot-highlight)){opacity:1}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;
   const s = doc.createElement('style'); s.id = 'jot-chart-css'; s.textContent = PREVIEW_CSS; doc.head.append(s);

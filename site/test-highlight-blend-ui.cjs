@@ -23,7 +23,7 @@ async function checkPixels(page) {
       const ctx = canvas.getContext('2d'); ctx.drawImage(image, 0, 0); return ctx.getImageData(0, 0, image.width, image.height).data; }
     const a = await pixels(before), b = await pixels(after); let ink = 0, tinted = 0;
     for (let i=0; i<a.length; i+=4) if (a[i]===80 && a[i+1]===120 && a[i+2]===200 && a[i+3]===255) {
-      ink++; if (b[i+2] < 180 && b[i] <= 81 && b[i+1] <= 121) tinted++;
+      ink++; if (b[i+2] < a[i+2] - 2 && b[i] <= a[i] + 1 && b[i+1] <= a[i+1] + 1) tinted++;
     }
     return {ink, tinted};
   }, {before, after});
