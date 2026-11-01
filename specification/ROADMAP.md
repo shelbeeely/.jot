@@ -117,6 +117,10 @@ Audio/video attachments are a later extension under the asset system, not a reas
 - [ ] Keep records as data, never authority to execute actions or fetch remote content. Credentials and delivery receipts remain outside portable source. Preserve unknown/partial records.
 - [ ] Reconcile proposed syntax with current semantics, add conformance fixtures, and deliver parser/renderer and Writer insertion/editing support together. Provider selection, credentials, on-demand lookups, suggestions and outbound actions belong to the Writer roadmap.
 
+## Photo-library interoperability dependency
+
+Immich, Google Photos and Apple Photos/iCloud Photos are planned Writer connectors, tracked in `WRITER-ROADMAP.md` and `docs/proposals/photo-library-integrations.md`. D3, D4 and D6 own the portable media, metadata/provenance, protection and derived-preview requirements. Imported originals must remain usable without their provider account; provider credentials and expiring URLs are not portable asset storage. Review multi-part media and original-versus-derived metadata semantics with conformance fixtures if the existing contract needs expansion. Deliver any resulting format changes and corresponding Writer support together; this roadmap addition does not change syntax/schema or implement connectors.
+
 ## Reference implementation and coordinated delivery
 
 The canonical JavaScript parser/container/protection modules live in `parser/`. Shared browser and editor copies are generated. Writer currently defaults to `.jotz`, preserving ordered source, UUID media and optional per-member protection with a public-only SQLite index. Chronological directories and complete unknown-feature preservation remain planned above. CLI and independent-editor interoperability are release evidence, not consequences of choosing ZIP.

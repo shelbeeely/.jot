@@ -210,6 +210,7 @@ implemented connections, contextual text analysis, a dashboard card or new seman
 | Food/recipes | Open Food Facts, USDA FoodData Central, recipe managers |
 | Money | Public exchange rates, Actual Budget, Firefly III and selected financial-file imports |
 | Nature/knowledge | iNaturalist, eBird, Wikidata, museum collections |
+| Photo libraries | Immich, Google Photos Picker, Apple Photos/iCloud Photos through supported native selection or explicit downloaded-file import |
 | Personal/custom | Chosen journal archives, contacts, files, RSS, CSV/JSON and supported automation bridges |
 
 Each source has independently verified lookup, import, insertion and outbound capabilities. All new providers are candidates
@@ -240,6 +241,27 @@ Within the context track, prioritize weather and read-only Home Assistant. Then 
 setting and wider catalog. Track canonical specification edits, parser/renderer support, conformance fixtures and Writer
 insertion controls as separate format milestones. Evaluate the card independently. Physical hardware and firmware remain
 deferred; no account access, live-data query, external write or deployment is performed by this roadmap update.
+
+## Photo libraries: Immich, Google Photos and iCloud Photos
+
+Status: **planned**, part of the complete-v1 integration backlog. Existing general file attachments are not a dedicated photo-library connector. Research, API constraints and acceptance details: photo-library-integrations.md (repository source: `docs/proposals/photo-library-integrations.md`). Include Apple users even when the maintainer develops on another platform; verify Apple workflows on actual supported devices before claiming parity.
+
+| Provider | Planned supported route | Platform constraints and acceptance |
+| --- | --- | --- |
+| Immich | Explicit self-hosted server connection; album/date/metadata browsing and selected image/video download through the published API | Verify a pinned supported server/API version, narrowly permitted API key, per-request origin boundaries, CORS/CSP and desktop/mobile reachability; no admin, backup, upload, deletion or library mutation |
+| Google Photos | OAuth and Google Photos Picker API sessions; user-selected media copied into the journal | Broad existing-library browsing through the old Library API is not available; verify app registration/scopes, session expiry, cancellation, bounded session polling and expiring authenticated downloads. Takeout import is a separate reviewed local-export route |
+| Apple Photos / iCloud Photos | Native Photos/PhotosUI pickers where supported; selected local files downloaded from iCloud.com or exposed by iCloud for Windows elsewhere | No promise of a general public iCloud Photos web-library API. Native access must handle cloud-only items, selected-item/limited permissions, download progress and cancellation; no Apple-password collection or private API scraping |
+
+- [ ] Deliver a shared explicit photo-source → select → review → attach flow, with album/date filters only where supported. No background library sync, journal upload, automatic memories or hidden analysis of writing. Keep provider queries separate from journal text; any later contextual suggestions stay behind the existing default-off toggle.
+- [ ] Implement Immich first against a pinned supported release; test selected-server authentication, read-only search/album/media capabilities, pagination, restricted access, revoked keys and safe redirect/origin handling. Search APIs may use POST while remaining read-only; verify actual endpoint permissions rather than treating the HTTP verb as authorization.
+- [ ] Implement Google Picker with the current `photospicker.mediaitems.readonly` scope, exact selected-item review and authenticated content retrieval before URLs expire. Cancel/delete sessions where supported and discard late results. Do not silently fall back to removed broad Library API scopes or proxy private media through a third party.
+- [ ] Implement Apple native selection on supported iOS/macOS hosts and file-import fallbacks for web, Windows, Linux and Android. The web app cannot call PhotoKit directly. Verify permissions, iCloud download delays, HEIC/HEIF, orientation, video and Live/Motion Photo component handling; retain originals and label unsupported previews without dropping data.
+- [ ] Import selected media as actual `.jotz` asset bytes with stable source identity, explicit provenance and readable `.jot` links. Do not depend on expiring provider URLs or login to reopen the saved journal. Keep external source references separate from bundled content; do not export access tokens, credentials, signed URLs or delivery state.
+- [ ] Review capture time/timezone, captions, location and EXIF before inserting metadata into source; never infer attendance, mood or a personal event from a photo. Embedded original EXIF can itself contain GPS/private data: disclose that distinction and make stripping/transcoding an explicit reviewed operation rather than claiming that omitting a source field removes embedded metadata.
+- [ ] Preserve selected originals, optional derivatives and multi-part assets; deduplicate by verified provider/content identity without merging different photos or repeated journal references. Keep media and previews subject to the journal's protection rules. Preflight the current archive/media size limits, show progress and recover cleanly from cancellation, quotas, missing assets and unsupported files.
+- [ ] Test offline reopen, relock/unlock, source/visual edits, archive round trips and export privacy with fictional media; verify live accounts separately. Publish a provider/platform matrix with native/device evidence and graceful manual-import fallbacks.
+
+Format dependency: D3 (bundled media/relationships), D4 (protection), D5 (limits/indexing) and D6 (preview rules) in the format roadmap. This plan does not change syntax or the archive schema. If new media/provenance semantics are required, define conformance fixtures and implement corresponding Writer support in the same change under `AGENTS.md`.
 
 ## WriteFreely and ActivityPub exploration
 

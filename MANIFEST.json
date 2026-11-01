@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 89396,
-      "sha256": "150c92be32d9862986c267fec93248b72b3f1053946524d1e47b4c68d935b103"
+      "byteLength": 90845,
+      "sha256": "0623183a43095dde7ce4701198c377bbe3e4f018427263448e332adc39d4941e"
     },
     {
       "path": "README.md",
@@ -129,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 55488,
-      "sha256": "5f54e1c62550202e4a8445287b055e52461119c472a56068d2310fc014172573"
+      "byteLength": 60523,
+      "sha256": "3ca2717af45d7cac5036716778e6f14b33fbd56269e6cdb117fbd0530a0f7d2e"
     },
     {
       "path": "cli/README.md",
@@ -1213,9 +1213,14 @@
       "sha256": "61c7d0ea7d525e95e20df3bdb15fdd4d4ce49db89b08f5b7f23b13cef150a50b"
     },
     {
+      "path": "docs/proposals/photo-library-integrations.md",
+      "byteLength": 9398,
+      "sha256": "afb1fbeb1acf817be9fded3fbc379ef1149dfa38d20e157e12090e6ded529a95"
+    },
+    {
       "path": "docs/proposals/smart-journal-and-connected-data.md",
-      "byteLength": 17157,
-      "sha256": "19cf618be208892b789be57fbb1c7cf08cc082fe49e80f7ebb55814f79596925"
+      "byteLength": 17665,
+      "sha256": "684c16369c80d4e8a8b5a1455143cda746e4c48f137cc26c7d32cc101be83173"
     },
     {
       "path": "docs/proposals/writefreely-integration.md",
@@ -20159,8 +20164,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 14562,
-      "sha256": "2a38f63bf0533c2ae2b0b10527e4ae5d51f8aeb2d131216f192d6835917a9610"
+      "byteLength": 15317,
+      "sha256": "9506c203234d37f41c7115793f45dd468a03030bd3c81409930dd25f1bdc316d"
     },
     {
       "path": "parser/archive-common.mjs",
@@ -20594,13 +20599,13 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 14559,
-      "sha256": "8eb480657c28357317cf500ff4cc20742841c4296014dd008dac3075c0c928d4"
+      "byteLength": 15314,
+      "sha256": "7d1ce223ada570ad74206cf603d4f16a8cda67bf7dead346db79296ee775f794"
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 55493,
-      "sha256": "8f99cf0446dca57a90a2a537d983d279c8acc272cd39abb4da587c5ae16d825d"
+      "byteLength": 60548,
+      "sha256": "2d4a61221feea7deedf7f4dc66c5501867aba9cfca32adfb899a9fe140c92f75"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -20714,8 +20719,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1937466,
-      "sha256": "1eab5221c4e9de6a2835da5675d715961a433c2f14a78054e86e0f86a5300f6b"
+      "byteLength": 1937716,
+      "sha256": "4419f236c9991a154ab6a20d68b4a7a46bacb3a2907ea934f841f09ccba891cd"
     },
     {
       "path": "site/dist/editor-capture.mjs",
@@ -21600,7 +21605,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 4102,
-      "sha256": "4938c2f088d3a1f603200263c34a922a7f89d0e84b750b974c1c29217c22453d"
+      "sha256": "d1876c899595ea2983e8c9afd8310967d93981fb67160e9c1cb130711187ba22"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -22039,8 +22044,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 14562,
-      "sha256": "2a38f63bf0533c2ae2b0b10527e4ae5d51f8aeb2d131216f192d6835917a9610"
+      "byteLength": 15317,
+      "sha256": "9506c203234d37f41c7115793f45dd468a03030bd3c81409930dd25f1bdc316d"
     },
     {
       "path": "specification/conformance.json",

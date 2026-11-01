@@ -26,6 +26,7 @@ Verify authentication, terms, pricing, attribution, coverage, browser access and
 | Food and recipes | Open Food Facts, USDA FoodData Central, recipe managers | Foods, ingredients, recipes and source nutrition data; do not infer what was eaten from a lookup |
 | Money | Public exchange-rate sources, Actual Budget, Firefly III, selected financial-file imports | Rates and selected records; no bank connection or transaction upload by default |
 | Nature and knowledge | iNaturalist, eBird, Wikidata, museum collections | Species, observations, artworks and references; a species lookup is not a confirmed sighting |
+| Photo libraries | Immich, Google Photos Picker, Apple Photos/iCloud Photos native pickers and downloaded-file imports | Explicit selection and reviewed bundled assets; read-only access, no background library backup or journal upload |
 | Personal and custom data | Chosen journals, contacts, files, RSS, CSV/JSON, supported automation bridges | Explicitly selected local material first; no background archive scan or unrestricted remote URL fetching |
 
 Retain every planned media provider: TMDB, Trakt, Spotify, YouTube, Open Library, IGDB, ListenBrainz, Last.fm, Jellyfin,
@@ -211,3 +212,5 @@ fields, `data-kind: reported`, instance and entity identity, and retrieval time.
 redirect rejection, endpoint scoping, response limits and reviewed undoable insertion are covered by mocked tests. Live HA/CORS
 and native webview access remain unverified. Desktop support remains constrained by its existing loopback-only instance policy;
 no wildcard HTTPS permission was added. Contextual suggestions and the optional dashboard card remain separate milestones.
+
+Photo-library delivery is specified in [photo-library-integrations.md](photo-library-integrations.md) and the separate Writer roadmap. All three dedicated connectors remain planned; the format roadmap owns portable assets/protection rather than provider authentication.
