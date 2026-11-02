@@ -42,11 +42,15 @@ lengths and SHA-256. Empty directories under entries/, media/ and private/ are a
 2000-01-01T00:00:00Z; actual journal times belong in entry metadata, not ZIP timestamps.
 
 `manifest.json` has `format: "jot"`, `version: "1.0"`, archive UUID `id`, ordered `entries`, ordered `assets`, `index`, and either
-`catalogData` (unprotected archive) or `keys` plus encrypted `catalog` (protection enabled). UUIDs are random v4 identifiers,
+`catalogData` (unprotected archive) or `keys` plus encrypted `catalog` (protection enabled). The two catalog forms MUST NOT coexist. The index descriptor is optional for readers; writers generate it. A missing descriptor/payload or unusable cache must leave verified source available for local search. UUIDs are random v4 identifiers,
 independent of dates or content. Member descriptors have `id`, `kind` (`entry`, `asset`, `catalog`, `index`), positive `revision`,
 `date` (logical entry day or null), `path`, `byteLength` and lowercase SHA-256 of stored member bytes. Public entry descriptors
 also contain `timezone`, `createdAt` and `updatedAt`; protected descriptors MUST NOT expose these or plaintext hashes/titles/tags.
 `index` additionally has `generation`; protected descriptors additionally have `encryption` (see protection specification).
+
+The prototype's supported container contract is closed: unknown manifest, catalog, member and protected-payload metadata fields are rejected with an unsupported-format error rather than silently lost on resave. Arbitrary JSON document metadata within `catalogData.metadata` (or the encrypted catalog's `metadata`) remains preserved. Unknown fields in `.jot` source are not container fields and remain exact source. Future container extensions require an explicit preservation/capability contract before acceptance.
+
+Catalog entries/assets must have the same count, identity, revision and order as their member lists, entry protection must match descriptors, and available payload metadata must agree with the catalog. Readers validate these before replacing the current journal. Writers validate generated manifests/catalogs and reject duplicate identities/paths before emitting bytes. Unsupported cryptographic descriptors are rejected even for locked public reading; no implicit plaintext downgrade is permitted.
 
 The ordered entries reconstruct the exact original source by concatenation. Every parsed dated heading starts an entry, even
 when dates repeat; preamble/frontmatter and undated writing get an undated entry when needed. Source is not normalized: retain

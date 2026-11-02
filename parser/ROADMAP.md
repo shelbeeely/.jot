@@ -137,6 +137,10 @@ Audio/video attachments are a later extension under the asset system, not a reas
 
 Immich, Google Photos and Apple Photos/iCloud Photos are planned Writer connectors, tracked in `WRITER-ROADMAP.md` and `docs/proposals/photo-library-integrations.md`. D3, D4 and D6 own the portable media, metadata/provenance, protection and derived-preview requirements. Imported originals must remain usable without their provider account; provider credentials and expiring URLs are not portable asset storage. Review multi-part media and original-versus-derived metadata semantics with conformance fixtures if the existing contract needs expansion. Deliver any resulting format changes and corresponding Writer support together; this roadmap addition does not change syntax/schema or implement connectors.
 
+## Core finalization evidence (2 November 2026)
+
+The reader now refuses unknown structural fields rather than dropping them on resave, validates catalog identities/order/privacy and member encryption descriptors, and accepts an absent index descriptor with source-search fallback. The writer validates generated member identities/catalogs before emitting bytes. Custom JSON document metadata and unknown source fields remain preserved. Writer regression coverage exercises unsupported imports without replacing current writing and cacheless import/search/save. This closes concrete preservation/fallback gaps; it does not finalize the wider v1 schema/extension policy, chronological layout, independent security review or native/editor interoperability. See `docs/proposals/v1-core-finalization.md`.
+
 ## Reference implementation and coordinated delivery
 
 The canonical JavaScript parser/container/protection modules live in `parser/`. Shared browser and editor copies are generated. Writer currently defaults to `.jotz`, preserving ordered source, UUID media and optional per-member protection with a public-only SQLite index. Chronological directories and complete unknown-feature preservation remain planned above. CLI and independent-editor interoperability are release evidence, not consequences of choosing ZIP.

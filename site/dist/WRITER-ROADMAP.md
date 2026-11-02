@@ -68,6 +68,10 @@ Encryption is a required part of Writer v1 and its primary `.jotz` workflow acro
 - [ ] Complete accessibility, physical-device, realistic performance and applicable independent security review. Clearly distinguish mocked provider checks from live interoperability evidence.
 - [ ] Close required Writer milestones, synchronize format dependencies and document remaining explicitly approved limitations before publishing stable **1.0.0**. Do not advance beyond v1 with required gates open.
 
+## Core finalization evidence (2 November 2026)
+
+Shared archive validation rejects unsupported/contradictory structure before replacing current writing; absent search-index descriptors use local source and regenerate on save. Regression coverage includes invalid import preservation, cacheless import/search/save, entry protection and existing offline workflows. The finalization pass retains the 0.1.0 status and open required v1 gates. Navigation/tool consolidation is being checked against the current web experience; it does not change document semantics. See `docs/proposals/v1-core-finalization.md`.
+
 ## Status meanings
 
 - Implemented: working source exists, with limitations below.

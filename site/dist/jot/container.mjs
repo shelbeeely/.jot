@@ -19,6 +19,7 @@ const clone=value=>JSON.parse(JSON.stringify(value));
 const memberPath=(kind,id,privateValue)=>privateValue?`private/${id}.enc`:kind==='entry'?`entries/${id}.jot`:`media/${id}`;
 function descriptor(item) {
   check(item&&ID.test(item.id)&&['entry','asset','catalog','index'].includes(item.kind)&&safePath(item.path),'Invalid archive member identity.');
+  check(['id','kind','revision','date','path','byteLength','sha256'].every(key=>Object.hasOwn(item,key)),'Missing archive member fields.');
   check(Number.isInteger(item.revision)&&item.revision>=1&&item.revision<=1000000000,'Invalid member revision.');
   check(Number.isSafeInteger(item.byteLength)&&item.byteLength>=0&&item.byteLength<=LIMITS.assetBytes+65536&&HASH.test(item.sha256),'Invalid member size or digest.');
   check(item.date===null||item.date===undefined||/^\d{4}-\d{2}-\d{2}$/.test(item.date),'Invalid logical entry date.');
@@ -27,6 +28,36 @@ function descriptor(item) {
   check(Object.keys(item).every(key=>['id','kind','revision','date','path','byteLength','sha256','encryption','generation','timezone','createdAt','updatedAt'].includes(key)),'Unexpected public member metadata.');
   if(item.encryption)check(!['timezone','createdAt','updatedAt'].some(k=>k in item),'Protected member metadata must be encrypted.');
   if(item.kind==='index')check(HASH.test(item.generation),'Invalid index generation.');
+  if(item.kind!=='entry')check(item.date===null&&!['timezone','createdAt','updatedAt'].some(key=>key in item),'Invalid non-entry metadata.');
+  if(item.kind!=='index')check(!('generation'in item),'Unexpected index generation metadata.');
+  if('encryption'in item)check(exactKeys(item.encryption,['cipher','iv','keyIv','key'])&&item.encryption.cipher==='AES-256-GCM'&&/^[A-Za-z0-9+/]{16}$/.test(item.encryption.iv)&&/^[A-Za-z0-9+/]{16}$/.test(item.encryption.keyIv)&&/^[A-Za-z0-9+/]{64}$/.test(item.encryption.key),'Invalid member encryption descriptor.');
+}
+const exactKeys=(value,required,optional=[])=>value&&typeof value==='object'&&!Array.isArray(value)&&required.every(key=>Object.hasOwn(value,key))&&Object.keys(value).every(key=>required.includes(key)||optional.includes(key));
+function validateManifest(manifest) {
+  check(exactKeys(manifest,['format','version','id','entries','assets'],['index','keys','catalog','catalogData']),'Unsupported archive manifest fields; this reader cannot safely preserve them.');
+  check(manifest.format==='jot'&&manifest.version==='1.0'&&ID.test(manifest.id),'Unsupported Jotz version.');
+  check(Array.isArray(manifest.entries)&&manifest.entries.length<=10000&&Array.isArray(manifest.assets)&&manifest.assets.length<=1000,'Invalid entry/asset lists.');
+  const protectedArchive=Object.hasOwn(manifest,'keys');
+  check(protectedArchive?Object.hasOwn(manifest,'catalog')&&!Object.hasOwn(manifest,'catalogData'):Object.hasOwn(manifest,'catalogData')&&!Object.hasOwn(manifest,'catalog'),'Inconsistent archive catalog protection.');
+  if(protectedArchive)validateKeys(manifest.keys);
+  const items=[...manifest.entries,...manifest.assets,...(Object.hasOwn(manifest,'index')?[manifest.index]:[]),...(protectedArchive?[manifest.catalog]:[])],ids=new Set(),paths=new Set();
+  for(const item of items){descriptor(item);check(!ids.has(item.id)&&!paths.has(item.path),'Duplicate archive member.');ids.add(item.id);paths.add(item.path);}
+  check(manifest.entries.every(e=>e.kind==='entry'&&(!e.encryption||protectedArchive))&&manifest.assets.every(e=>e.kind==='asset'&&!!e.encryption===protectedArchive),'Inconsistent member protection or type.');
+  if(Object.hasOwn(manifest,'index'))check(manifest.index.kind==='index'&&!manifest.index.encryption,'Invalid public search index.');
+  if(protectedArchive)check(manifest.catalog.kind==='catalog'&&!!manifest.catalog.encryption,'Invalid protection catalog.');
+  return manifest;
+}
+function validateCatalog(catalog,manifest) {
+  check(exactKeys(catalog,['entries','assets','metadata'],manifest.keys?['binding']:[])&&Array.isArray(catalog.entries)&&Array.isArray(catalog.assets)&&catalog.metadata&&typeof catalog.metadata==='object'&&!Array.isArray(catalog.metadata),'Unsupported archive catalog fields; this reader cannot safely preserve them.');
+  check(catalog.entries.length===manifest.entries.length&&catalog.assets.length===manifest.assets.length,'Archive catalog member count mismatch.');
+  for(const [i,entry]of catalog.entries.entries()){
+    const item=manifest.entries[i];
+    check(exactKeys(entry,['id','date','timezone','private','revision','createdAt','updatedAt'])&&entry.id===item.id&&entry.date===item.date&&entry.revision===item.revision&&entry.private===!!item.encryption,'Invalid ordered entry catalog.');
+  }
+  for(const [i,asset]of catalog.assets.entries()){
+    const item=manifest.assets[i];
+    check(exactKeys(asset,['id','revision','path','mediaType'],['name'])&&asset.id===item.id&&asset.revision===item.revision,'Invalid ordered asset catalog.');
+  }
 }
 /** The first ZIP member MUST be a bounded, uncompressed manifest. This is a capability hint, not authentication. */
 export function readArchiveHeader(input) {
@@ -34,7 +65,7 @@ export function readArchiveHeader(input) {
   const v=new DataView(b.buffer,b.byteOffset,b.byteLength);check(v.getUint32(0,true)===0x04034b50&&v.getUint16(8,true)===0&&!(v.getUint16(6,true)&9),'The first ZIP member must be the stored manifest.');
   const size=v.getUint32(18,true),nameLength=v.getUint16(26,true),extra=v.getUint16(28,true),at=30+nameLength+extra;
   check(size<=LIMITS.manifestBytes&&at+size<=b.length&&dec.decode(b.subarray(30,30+nameLength))==='manifest.json','Missing bounded archive manifest.');
-  const m=JSON.parse(dec.decode(b.subarray(at,at+size)));check(m?.format==='jot'&&m.version==='1.0'&&ID.test(m.id),'Unsupported Jotz version.');return m;
+  return validateManifest(JSON.parse(dec.decode(b.subarray(at,at+size))));
 }
 const frame=(metadata,bytes=new Uint8Array())=>{const h=enc.encode(JSON.stringify(metadata));check(h.length<=65536,'Member metadata is too large.');const out=new Uint8Array(4+h.length+bytes.length);new DataView(out.buffer).setUint32(0,h.length);out.set(h,4);out.set(bytes,4+h.length);return out;};
 function unframe(bytes){check(bytes.length>=4,'Truncated member.');const n=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength).getUint32(0);check(n<=65536&&n+4<=bytes.length,'Invalid member metadata.');return {metadata:JSON.parse(dec.decode(bytes.subarray(4,4+n))),data:bytes.slice(4+n)};}
@@ -80,6 +111,7 @@ export async function pack({source,assets=[],metadata={},entries=null,previous=n
     const binding=await sha256(canonical(manifest));catalog.binding=binding;
     manifest.catalog=await put('catalog',old?.catalog?.id||uuid(),(old?.catalog?.revision||0)+1,null,frame(catalog),true);
   }else manifest.catalogData=catalog;
+  validateManifest(manifest);validateCatalog(catalog,manifest);
   const text=enc.encode(JSON.stringify(manifest)+'\n');check(text.length<=LIMITS.manifestBytes,'Manifest exceeds 4 MiB.');
   const zip=new JSZip();zip.file('manifest.json',text,{createFolders:false,compression:'STORE',date:new Date('2000-01-01T00:00:00Z')});let total=text.length;
   for(const [path,bytes] of files){total+=bytes.length;check(total<=LIMITS.totalBytes,'Expanded archive exceeds 64 MiB.');zip.file(path,bytes,{createFolders:false,compression:path==='index.sqlite'?'STORE':'DEFLATE',date:new Date('2000-01-01T00:00:00Z')});}
@@ -93,10 +125,10 @@ export async function unpack(input,{secret=null}={}) {
   check(listing.length<=LIMITS.entries&&Array.isArray(header.entries)&&header.entries.length<=10000&&Array.isArray(header.assets)&&header.assets.length<=1000,'Invalid entry/asset lists.');
   const zip=await JSZip.loadAsync(bytes,{checkCRC32:false,createFolders:false});
   const actualManifest=await readBounded(zip.file('manifest.json'),LIMITS.manifestBytes);check(JSON.stringify(JSON.parse(dec.decode(actualManifest)))===JSON.stringify(header),'Conflicting ZIP manifest.');
-  const all=[...header.entries,...header.assets,header.index,...(header.catalog?[header.catalog]:[])],listed=new Set(['manifest.json']),ids=new Set(),saved=new Map();
+  const all=[...header.entries,...header.assets,...(header.index?[header.index]:[]),...(header.catalog?[header.catalog]:[])],listed=new Set(['manifest.json']),ids=new Set(),saved=new Map();
   for(const item of all){descriptor(item);check(!listed.has(item.path)&&!ids.has(item.id),'Duplicate archive member.');listed.add(item.path);ids.add(item.id);check(item.kind==='index'||byPath.get(item.path)?.expanded===item.byteLength,'Missing member or size mismatch: '+item.path);}
   check(listing.every(e=>listed.has(e.path)),'Archive contains unlisted members.');
-  check(header.entries.every(e=>e.kind==='entry')&&header.assets.every(e=>e.kind==='asset')&&header.index.kind==='index','Wrong member type.');
+  check(header.entries.every(e=>e.kind==='entry')&&header.assets.every(e=>e.kind==='asset')&&(!header.index||header.index.kind==='index'),'Wrong member type.');
   const protectedArchive=!!header.keys;check(protectedArchive===!!header.catalog,'Missing protection catalog.');if(protectedArchive)validateKeys(header.keys);
   check(header.entries.every(e=>!e.encryption||protectedArchive)&&header.assets.every(e=>!!e.encryption===protectedArchive),'Inconsistent member protection.');
   const session=protectedArchive&&secret?await openKeys(header.keys,secret):null;
@@ -106,24 +138,26 @@ export async function unpack(input,{secret=null}={}) {
   if(session){check(header.catalog.kind==='catalog'&&!!header.catalog.encryption,'Invalid protection catalog.');catalog=unframe(await extract(header.catalog)).metadata;const bound={...header};delete bound.catalog;check(catalog.binding===await sha256(canonical(bound)),'Archive catalog authentication failed.');}
   else if(protectedArchive){await get(header.catalog);catalog=null;}
   check(catalog===null||catalog&&Array.isArray(catalog.entries)&&Array.isArray(catalog.assets)&&catalog.metadata&&typeof catalog.metadata==='object'&&!Array.isArray(catalog.metadata),'Missing archive metadata.');
+  if(catalog)validateCatalog(catalog,header);
   const entries=[];let sourceTotal=0;
   for(const item of header.entries){
     if(item.encryption&&!session){await get(item);entries.push({id:item.id,date:item.date,private:true,revision:item.revision,source:null});continue;}
     const plain=await extract(item),info=catalog?.entries.find(e=>e.id===item.id);let value;
-    if(item.encryption){const framed=unframe(plain);value={...framed.metadata,source:dec.decode(framed.data)};}else value={source:dec.decode(plain),timezone:item.timezone||info?.timezone||null,createdAt:item.createdAt||info?.createdAt||null,updatedAt:item.updatedAt||info?.updatedAt||null};
+    if(item.encryption){const framed=unframe(plain);check(exactKeys(framed.metadata,['timezone','createdAt','updatedAt']),'Unsupported protected entry metadata.');value={...framed.metadata,source:dec.decode(framed.data)};}else value={source:dec.decode(plain),timezone:item.timezone||info?.timezone||null,createdAt:item.createdAt||info?.createdAt||null,updatedAt:item.updatedAt||info?.updatedAt||null};
     check(typeof value.source==='string'&&enc.encode(value.source).length<=LIMITS.entryBytes,'Invalid entry source.');
     const dated=parse(value.source).nodes.filter(node=>node.type==='heading'&&node.date);check(item.date?dated.length===1&&dated[0].start===0&&dated[0].date===item.date:dated.length===0,'Entry source does not match its logical date boundary.');
     sourceTotal+=enc.encode(value.source).length;check(sourceTotal<=LIMITS.sourceBytes,'Journal source exceeds 32 MiB.');
     for(const time of [value.createdAt,value.updatedAt])check(time===null||typeof time==='string'&&/^\d{4}-\d{2}-\d{2}T/.test(time)&&Number.isFinite(Date.parse(time)),'Invalid entry timestamp.');
     check(value.timezone===null||typeof value.timezone==='string'&&value.timezone.length<=100,'Invalid entry timezone.');
+    if(catalog)check(info&&['timezone','createdAt','updatedAt'].every(key=>info[key]===value[key]),'Conflicting entry catalog metadata.');
     entries.push({source:value.source,timezone:value.timezone,createdAt:value.createdAt,updatedAt:value.updatedAt,id:item.id,date:item.date,private:!!item.encryption,revision:item.revision,hash:await sha256(value.source)});
   }
   const assets=[];
-  for(const item of header.assets){if(item.encryption&&!session){await get(item);continue;}const plain=await extract(item);const framed=item.encryption?unframe(plain):{metadata:catalog?.assets.find(a=>a.id===item.id),data:plain},info=framed.metadata;check(info&&safePath(info.path)&&/^(assets|media)\//.test(info.path)&&typeof info.mediaType==='string'&&info.mediaType.length<160&&!/[\r\n]/.test(info.mediaType)&&(info.name===undefined||typeof info.name==='string'&&info.name.length<=240),'Invalid asset metadata.');assets.push({id:item.id,revision:item.revision,path:info.path,mediaType:info.mediaType,...(info.name?{name:info.name}:{}),data:framed.data});}
+  for(const item of header.assets){if(item.encryption&&!session){await get(item);continue;}const plain=await extract(item);const framed=item.encryption?unframe(plain):{metadata:catalog?.assets.find(a=>a.id===item.id),data:plain},info=framed.metadata;check(exactKeys(info,['path','mediaType'],['name'])||!item.encryption&&exactKeys(info,['id','revision','path','mediaType'],['name']),'Unsupported asset payload metadata.');check(info&&safePath(info.path)&&/^(assets|media)\//.test(info.path)&&typeof info.mediaType==='string'&&info.mediaType.length<160&&!/[\r\n]/.test(info.mediaType)&&(info.name===undefined||typeof info.name==='string'&&info.name.length<=240),'Invalid asset metadata.');const catalogAsset=catalog.assets.find(asset=>asset.id===item.id);check(catalogAsset&&['path','mediaType','name'].every(key=>catalogAsset[key]===info[key]),'Conflicting asset catalog metadata.');assets.push({id:item.id,revision:item.revision,path:info.path,mediaType:info.mediaType,...(info.name?{name:info.name}:{}),data:framed.data});}
   check(new Set(assets.map(a=>a.path)).size===assets.length,'Duplicate asset aliases.');
   const publicEntries=entries.filter(e=>!e.private),generation=await sha256(JSON.stringify(publicEntries.map(e=>[e.id,e.date,e.timezone,e.hash])));
   let index=null,indexBytes=null,indexError=null;
-  try{indexBytes=await get(header.index);check(header.index.generation===generation,'Stale index generation.');index=await openIndex(indexBytes,publicEntries,generation);}catch(error){indexError=error.message;}
+  try{check(header.index,'Search index missing; using source search.');indexBytes=await get(header.index);check(header.index.generation===generation,'Stale index generation.');index=await openIndex(indexBytes,publicEntries,generation);}catch(error){indexError=error.message;}
   const doc={source:entries.filter(e=>e.source!==null).map(e=>e.source).join(''),assets,entries,manifest:header,archive:header,metadata:catalog?.metadata||{},session,packaged:true,partial:protectedArchive&&!session,protected:protectedArchive,index,indexBytes,indexError};
   caches.set(doc,saved);return doc;
 }
