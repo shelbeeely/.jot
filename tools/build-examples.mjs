@@ -1,3 +1,4 @@
+import {siteNavigation,navigationStyles} from './sync-navigation.mjs';
 // The example diaries on the site (site/dist/examples/): public-domain diaries from Project Gutenberg, converted with converter/.
 //   node tools/build-examples.mjs --from <folder>    convert pg<N>.txt files already downloaded into <folder>
 //   node tools/build-examples.mjs                     download them from gutenberg.org first
@@ -92,12 +93,13 @@ export function page(index) {
 <link rel="stylesheet" href="../editor/editor.css">
 <link rel="stylesheet" href="examples.css">
 <link id="jot-hand-css" rel="stylesheet" href="../jot/handwriting.css">
+${navigationStyles('../')}
 </head>
 <body class="jot-site">
 <a class="skip" href="#diaries">Skip to the diaries</a>
 <header class="top">
   ${brandLink('../')}
-  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="../guide/">Guides</a><a href="./" aria-current="page">Examples</a><a href="../fonts/">Typefaces</a></nav>
+  ${siteNavigation('../','tools',false)}
 </header>
 <main>
   <section class="intro">
@@ -150,6 +152,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const problems = check();
     if (problems.length) { console.error(problems.join('\n')); process.exit(1); }
     console.log('examples: current, every file valid Jot');
+  } else if (args.includes('--index-only')) {
+    const index = JSON.parse(fs.readFileSync(path.join(OUT, 'index.json'), 'utf8'));
+    fs.writeFileSync(path.join(OUT, 'index.html'), page(index));
+    console.log('examples: rebuilt page from the existing diary index');
   } else {
     const i = args.indexOf('--from'), from = i >= 0 ? args[i + 1] : null;
     fs.mkdirSync(OUT, { recursive: true });

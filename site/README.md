@@ -2,6 +2,8 @@
 
 Product milestones: [Writer roadmap](../WRITER-ROADMAP.md), with web, desktop and mobile tracks. Format dependencies: [Jot format roadmap](../specification/ROADMAP.md).
 
+Primary navigation is **Write, Tools, Guides**. `/tools/` groups templates, imports, conversion, examples, typefaces and technical downloads; existing tool URLs remain valid. `tools/sync-navigation.mjs` owns the menu across source pages and generated guides/examples.
+
 The site: the home page, the writing workspace (`/write/`), the template editor (`/editor/`), the converter (`/convert/`), Your life
 online (`/import/`), the guides and the examples. The desktop app (`../desktop/`) loads these same pages. Details of each are below.
 

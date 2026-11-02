@@ -7,6 +7,8 @@
 **Development status: 0.1.0 prototype, working toward Jot v1.** The format and Writer are not finalized. See the
 [format roadmap](specification/ROADMAP.md) and separate [Writer roadmap](WRITER-ROADMAP.md) for web, desktop and mobile; required v1 work will be completed before moving beyond v1.
 
+The website keeps **Write, Tools and Guides** in its main menu. Templates, imports, conversion, examples and typefaces live under Tools.
+
 Read the name as *just one thought*: whatever is on your mind, one thought at a time, as brief or as detailed as it needs to be.
 
 Jot Writer is being built first for people who have never journaled and want help getting started. Its v1 goal is to help you write

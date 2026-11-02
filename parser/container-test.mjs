@@ -37,6 +37,6 @@ test('custom document metadata remains lossless within the supported metadata ob
 });
 
 test('versioned archive conformance fixtures reject unsupported features and inconsistent privacy',async()=>{
- const {readFileSync}=await import('node:fs'),fixtures=JSON.parse(readFileSync(new URL('../specification/conformance.json',import.meta.url),'utf8')).archiveCases,bytes=await pack({source:'Exact source.',assets:[{path:'media/a',data:'original'}]});
+ const {readFileSync}=await import('node:fs'),fixtures=JSON.parse(readFileSync(new URL('./archive-conformance.json',import.meta.url),'utf8')).cases,bytes=await pack({source:'Exact source.',assets:[{path:'media/a',data:'original'}]});
  for(const fixture of fixtures){const changed=await changedManifest(bytes,manifest=>{for(const change of fixture.changes){let parent=manifest;for(const key of change.path.slice(0,-1))parent=parent[key];parent[change.path.at(-1)]=change.value;}});await assert.rejects(unpack(changed),new RegExp(fixture.expectedError),fixture.id);}
 });

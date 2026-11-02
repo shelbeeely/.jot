@@ -18,3 +18,10 @@ The baseline suite passed 290 tests before edits. Added focused regression cases
 Chronological-path contract, safe extension capability/preservation policy beyond this closed reader profile, complete per-attachment/shared-media privacy controls, complete offline dependency/codec verification, independent container/cryptographic review, first-time-journaler validation, physical-device/native builds and direct editor interoperability remain open in the two roadmaps. Provider integrations remain in their existing backlog. The current environment does not provide Cargo/native GTK/WebKit validation. No stable v1 release, publishing or migration commitment follows from this pass.
 
 The owner's additional request to reduce website clutter is handled as a separate information-architecture change: preserve a clear Write entry point and group occasional tasks under Tools. It must not obscure journal save/protection controls or silently remove supported tools.
+
+
+## Site simplification
+
+Primary navigation is Write / Tools / Guides. The Tools hub groups occasional preparation/import/conversion tasks, examples/typefaces and collapsed technical resources. Original tool URLs remain functional; this consolidates discovery rather than deleting useful pages. Screenshot inspection identified six equal-priority links wrapping on mobile; the new three-link menu fits alongside the brand at narrow widths. Writer's default writing surface was already calm and is preserved. New browser coverage checks routes, mobile reflow, keyboard resource disclosure and light/dark accessibility. Actual user research, physical devices and full WCAG certification remain outside this check.
+
+The examples page can now regenerate from its committed index using `--index-only`, avoiding a network rebuild of diary source for navigation-only changes. The parser download also includes generated archive conformance fixtures so the archive tests do not depend on an absent parent specification directory.

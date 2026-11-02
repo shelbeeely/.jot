@@ -51,6 +51,7 @@ Never hand-edit a generated file or copy; change its source and regenerate. Afte
 ```sh
 python3 fonts/build.py
 node tools/sync-fonts.mjs
+node tools/sync-navigation.mjs
 node tools/sync-parser.mjs
 node tools/sync-archive-specs.mjs
 node tools/build-archive-examples.mjs
@@ -63,6 +64,8 @@ node tools/build-offline.mjs
 python3 tools/build-parser-zip.py
 node tools/manifest.cjs
 ```
+
+Use `node tools/build-examples.mjs --index-only` for examples-page/navigation-only updates; it reuses the committed diary index without re-fetching or replacing diary source.
 
 Run `tools/build-offline.mjs` after changing published Writer resources or guides; it generates the public offline allowlist and app icon copy. Run the manifest command last, including new files. `node tools/check-generated.mjs` runs the generated-file checks, including original font regeneration; run it before every commit. Examples are generated with `tools/build-examples.mjs`; don't hand-edit diary outputs. The logo's masters in `docs/brand/` come from `docs/brand/source/build.sh` (see `docs/brand/README.md`); `tools/sync-brand.mjs` puts them in the site's headers and icons. Avoid unrelated generated changes.
 

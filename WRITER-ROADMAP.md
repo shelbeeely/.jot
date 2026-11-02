@@ -70,7 +70,7 @@ Encryption is a required part of Writer v1 and its primary `.jotz` workflow acro
 
 ## Core finalization evidence (2 November 2026)
 
-Shared archive validation rejects unsupported/contradictory structure before replacing current writing; absent search-index descriptors use local source and regenerate on save. Regression coverage includes invalid import preservation, cacheless import/search/save, entry protection and existing offline workflows. The finalization pass retains the 0.1.0 status and open required v1 gates. Navigation/tool consolidation is being checked against the current web experience; it does not change document semantics. See `docs/proposals/v1-core-finalization.md`.
+Shared archive validation rejects unsupported/contradictory structure before replacing current writing; absent search-index descriptors use local source and regenerate on save. Regression coverage includes invalid import preservation, cacheless import/search/save, entry protection and existing offline workflows. The finalization pass retains the 0.1.0 status and open required v1 gates. Primary site navigation is now Write / Tools / Guides. The Tools hub groups templates, imports, conversion, examples, typefaces and collapsed technical resources; source and generated pages share one checked menu. Existing tool URLs and Writer commands remain available. This changes information architecture, not document semantics. See `docs/proposals/v1-core-finalization.md`.
 
 ## Status meanings
 

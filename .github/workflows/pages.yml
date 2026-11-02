@@ -44,6 +44,7 @@ jobs:
 
       - name: The site is built from the current sources
         run: |
+          node tools/sync-navigation.mjs --check
           node tools/sync-parser.mjs --check
           node tools/sync-archive-specs.mjs --check
           node tools/build-archive-examples.mjs --check
