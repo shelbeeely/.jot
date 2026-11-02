@@ -480,6 +480,7 @@ portable public search index. Public entry source is readable after unzipping; p
 Markdown remain writing-only import/export options and omit attachments and encryption. The old separate <code>.jotlock</code> file type
 is replaced by protection inside <code>.jotz</code>; this fresh format has no migration layer.</p>
 <h3 id="protect-selected-entries">Protect selected entries</h3>
+<p>Encryption is a core v1 requirement. In the current prototype it starts when you choose <strong>Lock with a passphrase</strong>; a journal is not automatically encrypted just because it stays on your device. Whole-document privacy/recovery usability and independent security review remain release work.</p>
 <p><strong>Lock with a passphrase</strong> initially protects every entry and offers a recovery code, shown once. Keep that code apart from the
 journal. <strong>Tools → Entries, privacy and search</strong> lets you make individual entries public, save those choices and search words,
 tags, dates or measurements. New entries start protected after setup. Public text/tags/measurements enter the portable SQLite

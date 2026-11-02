@@ -30,3 +30,9 @@ The supplied format comparison motivates portable media, semantic tracking, loca
 See [document format research](document-format-research.md) for primary sources, package inspection and outstanding interoperability decisions.
 
 Implementation stage: **0.1.0 prototype**, targeting Jot v1. The example chronological layout and remaining document requirements are tracked in [D1–D7 of the canonical roadmap](../../specification/ROADMAP.md#primary-document-completion-required-for-v1); they are not deferred to v2 or described as already implemented.
+
+## Encryption as a core requirement (2 November 2026)
+
+The owner clarified that encryption is core to journaling. It is required v1 format/Writer capability, including private media and metadata, local offline unlocking and understandable recovery. This does not make all content mandatorily encrypted or change current defaults. The prototype protects all attachments after setup; independent per-asset controls and shared-asset/derived-output policy remain acceptance work. Protect content without pretending currently visible dates and cryptographic metadata are hidden.
+
+`docs/methods/expressive-writing.md, line 443` says “Keep it private unless you choose.” `docs/methods/digital-daily-notes.md, lines 434–446` distinguishes local plaintext from encrypted sync and notes export/metadata exposure. These support deliberate privacy and clear disclosure; specific crypto algorithms, defaults and UI behavior are engineering decisions, not research findings.

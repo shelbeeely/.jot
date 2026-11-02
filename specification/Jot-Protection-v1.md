@@ -3,6 +3,14 @@
 Protection is part of the `.jotz` v1 container; there is no separate encrypted file extension. This specification describes the
 implemented prototype, not an independent cryptographic audit. See [container](Jot-Container-v1.md) for visibility and size limits.
 
+## Core v1 requirement and current scope
+
+Encryption is a core Jotz/Writer v1 capability. A conforming protected-document workflow must preserve private entries, media, ink, included documents, integration snapshots and private descriptive metadata through supported edits and saves, with offline unlocking and a portable recovery path. Public `.jotz` content and standalone unencrypted `.jot` remain supported choices; a declaration of encryption support is not a claim that every new file is automatically encrypted.
+
+The current prototype supports entry privacy choices and conservatively encrypts all attachments and document metadata once protection is configured. Independent per-attachment controls remain planned. Public references must not make a protected asset public implicitly. Previews, search and other derivatives must follow the relevant protection boundary. Current dates/member IDs/sizes and key-slot parameters remain visible, as specified by the container; do not imply all metadata or every archive byte is hidden.
+
+These are core v1 acceptance requirements, with completion tracked in both roadmaps. This clarification changes no cipher, key structure, wire version or runtime default. Independent review, complete shared-asset/editor interoperability and native-device verification remain outstanding.
+
 ## Keys and ways in
 
 Generate a random 32-byte master key. Import it as a non-exportable Web Crypto AES-256-GCM CryptoKey for page-session use.

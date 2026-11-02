@@ -1,6 +1,6 @@
 # Jot format roadmap
 
-Updated 1 November 2026. **Current stage: 0.1.0 prototype / pre-v1.** This roadmap owns the Jot format as a whole: plain `.jot` source, the primary `.jotz` document, syntax, semantic records, assets, protection, search interchange, conformance and parser/serializer contracts. Jot v1 and Jotz v1 are target specifications, not finalized releases.
+Updated 2 November 2026. **Current stage: 0.1.0 prototype / pre-v1.** This roadmap owns the Jot format as a whole: plain `.jot` source, the primary `.jotz` document, syntax, semantic records, assets, protection, search interchange, conformance and parser/serializer contracts. Jot v1 and Jotz v1 are target specifications, not finalized releases.
 
 The separate [Jot Writer roadmap](../WRITER-ROADMAP.md) owns the web application and its desktop/mobile delivery, editor experience, integrations, saving/recovery UX and platform verification. Source research: `docs/proposals/document-format-research.md`. The canonical format roadmap is `specification/ROADMAP.md`; `node tools/sync-roadmap.mjs` generates the parser/site copies and the separate published Writer roadmap.
 
@@ -9,6 +9,16 @@ The separate [Jot Writer roadmap](../WRITER-ROADMAP.md) owns the web application
 The current project is a **0.1.0 prototype** targeting **1.0.0**. Existing v1 specification names and archive schema `1.0` designate the target contract, not a stable-release or security certification. No post-v1 format is planned until the required v1 work is finalized. Unfinished requirements must not silently be moved to v2. The fresh prototype has no migration requirement; preserve that decision unless the owner changes it.
 
 Format and Writer have separate completion evidence. A format change must include corresponding Writer support in the same change: parsing, editing, preview, assets, protection, persistence, import/export and applicable web/native file handling. Regenerate shared copies and run relevant format plus Writer checks. Track dependencies in both roadmaps; an updated specification alone is not a completed feature. See root `AGENTS.md` and area instructions.
+
+## Encryption is a core v1 capability
+
+Encryption is fundamental to the journal document and a required v1 format capability. It covers private writing, media/originals, ink components, included documents, saved integration data and private descriptive metadata, with safe derived previews and search behavior. Public content remains an explicit supported choice; this requirement does not force encryption on standalone plain `.jot` or change the prototype's new-document defaults.
+
+- [ ] Finalize protection semantics across entries, attachments, shared assets, metadata, previews and indexes. Keep the current conservative behavior (all media protected after setup) until finer attachment controls can preserve privacy reliably; per-attachment controls remain planned.
+- [ ] Define interoperable offline unlocking and recovery without a service account, server-held master key or cloud dependency. Explain the consequences of losing all local recovery methods.
+- [ ] Specify visible metadata precisely, including currently exposed dates/IDs/sizes/key-slot parameters. Do not describe every byte of the current archive as encrypted or imply encryption hides all metadata.
+- [ ] Require safe preservation of protection when a compatible archive editor saves; readers without the required crypto capability must refuse unsupported protected operations without plaintext conversion, silent downgrade or content loss. Plain-source readers remain useful within their declared capability.
+- [ ] Treat privacy transitions, export exposure, independent review and tamper/corruption/recovery fixtures as v1 release gates alongside D4. Synchronize corresponding Writer behavior in the same implemented format change.
 
 ## Status meanings
 

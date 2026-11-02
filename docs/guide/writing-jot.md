@@ -469,6 +469,8 @@ is replaced by protection inside `.jotz`; this fresh format has no migration lay
 
 ### Protect selected entries
 
+Encryption is a core v1 requirement. In the current prototype it starts when you choose **Lock with a passphrase**; a journal is not automatically encrypted just because it stays on your device. Whole-document privacy/recovery usability and independent security review remain release work.
+
 **Lock with a passphrase** initially protects every entry and offers a recovery code, shown once. Keep that code apart from the
 journal. **Tools → Entries, privacy and search** lets you make individual entries public, save those choices and search words,
 tags, dates or measurements. New entries start protected after setup. Public text/tags/measurements enter the portable SQLite

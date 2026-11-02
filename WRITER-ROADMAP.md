@@ -1,6 +1,6 @@
 # Jot Writer roadmap
 
-Updated 1 November 2026. **Current stage: 0.1.0 prototype / pre-v1.** This roadmap owns Jot Writer as a product: the web app, desktop/mobile apps, integrations and companion editor tooling. The [Jot format roadmap](specification/ROADMAP.md) separately owns `.jot`/`.jotz` syntax, container structure, encryption/interchange contracts and conformance.
+Updated 2 November 2026. **Current stage: 0.1.0 prototype / pre-v1.** This roadmap owns Jot Writer as a product: the web app, desktop/mobile apps, integrations and companion editor tooling. The [Jot format roadmap](specification/ROADMAP.md) separately owns `.jot`/`.jotz` syntax, container structure, encryption/interchange contracts and conformance.
 
 The primary audience is people who have never journaled: help them make a small first entry, save it safely and return whenever they choose. The beginner path in `docs/proposals/first-journal-v1.md` remains planned until implemented and validated. `.jotz` is the primary document; `.jot` source remains independently usable.
 
@@ -11,6 +11,17 @@ The canonical Writer roadmap is `WRITER-ROADMAP.md`; `node tools/sync-roadmap.mj
 Remain at the **0.1.0 prototype** stage while required v1 acceptance remains open. Do not move unfinished work to v2 to declare v1 complete. Keep existing integrations and backlog requirements; any deferral needs an explicit roadmap decision. Dedicated hardware/firmware remains deferred.
 
 Whenever the format changes, update the corresponding Writer behavior in the same change, including shared modules, open/edit/preview/save, media, search, protection, imports/exports and platform file handling. Cross-link format dependencies rather than maintain another normative grammar or container design here. A format feature is not delivered to writers until these paths work and relevant checks pass.
+
+## Encryption is core to the journaling experience
+
+Encryption is a required part of Writer v1 and its primary `.jotz` workflow across web, desktop and mobile. It must be understandable, local and reliable for beginners. Public/source-only use remains a deliberate supported choice; this priority does not silently enable encryption, invent a password or claim current browser data is encrypted before protection is configured.
+
+- [ ] Make protection and recovery discoverable in the normal journal flow, with an accurate persistent status for unprotected content, mixed protection and protected content. Explain remaining visible dates/metadata and what each action saves; a local-only file is not automatically encrypted.
+- [ ] Complete coherent controls for private entries, media/attachments and private metadata. Preserve the current all-attachments-protected policy after setup until per-attachment selection is implemented and tested. A public reference must not downgrade a protected/shared asset or expose its thumbnail, original filename or private metadata.
+- [ ] Keep offline passphrase/recovery unlock, passphrase changes, relocking and key removal/recovery usable without a provider account. Passkeys are an additional platform-dependent route; retain a portable local recovery path. Clearly explain lost-key consequences without implying the service can reset encryption.
+- [ ] Preserve protection across autosave, device save/save-as, imports, integration attachments, outgoing sharing and edits. Make plaintext source/Markdown/HTML/PDF/print exposure clear at the explicit export action; never silently replace a protected archive with a plaintext copy.
+- [ ] Verify no private data leaks through cached previews, search databases, provider logs, temporary files or relocked editor/undo state. Cloud/local AI remain optional explicit tools; reading/unlocking must never send journal content for processing.
+- [ ] Complete tamper, wrong-key, recovery, failed-save, shared-media, export and offline tests plus independent cryptographic review and actual-device checks before stable v1. Existing automated crypto/browser tests are prototype evidence, not an audit.
 
 ## Whole-document offline reading: required for v1
 

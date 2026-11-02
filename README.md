@@ -13,6 +13,8 @@ Jot Writer is being built first for people who have never journaled and want hel
 a small first entry, keep it safely and return whenever you choose. See the [first-journal brief](docs/proposals/first-journal-v1.md)
 for the planned beginner experience and its release criteria.
 
+**Encryption is core to Jot’s v1 journaling experience.** Protected `.jotz` documents must keep private writing, media and metadata safe through editing, saving and offline unlocking. The prototype supports protection after setup; independent review and the remaining protection/recovery workflows are required v1 work, not a completed-security claim.
+
 Dedicated physical hardware and firmware are deferred to [future exploration](WRITER-ROADMAP.md#physical-hardware-and-firmware-future-exploration).
 Current delivery focuses on the Jot format and Writer software.
 
