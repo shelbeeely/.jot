@@ -1,0 +1,51 @@
+{
+  "id": "./write/",
+  "name": "Jot Writer",
+  "short_name": "Jot",
+  "description": "A journal you keep. Write locally and carry your own files.",
+  "start_url": "./write/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f5f3ed",
+  "icons": [
+    {
+      "src": "./app-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "share_target": {
+    "action": "./share/",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": [
+            "text/plain",
+            "application/zip",
+            "application/octet-stream",
+            "image/png",
+            "image/jpeg",
+            "application/json",
+            ".jot",
+            ".jotz",
+            ".jotlock"
+          ]
+        }
+      ]
+    }
+  }
+}

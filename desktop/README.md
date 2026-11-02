@@ -12,7 +12,7 @@ the pages behave as they always have.
 | Data exports (Your life online) | Whole ZIPs load into memory: large ones need unzipping first | Any size, ZIP64 included: the app reads the ZIP's index, then one file at a time (`archive.rs`) |
 | Hostile archives | Names are never used as paths | Also refused: files over 1 GiB unpacked, ZIP bombs (over 200 times their packed size), names that escape the archive |
 | Downloads | The browser's download folder | A native Save dialog for every download on every page, written atomically (`files.rs`) |
-| Network | Whatever the browser allows | Locked by the content security policy (`tauri.conf.json`): only the listening tool's services (Spotify, Last.fm, ListenBrainz). Links to the web open in your own browser, never inside the app |
+| Network | Whatever the browser allows | Locked by the content security policy (`tauri.conf.json`): the listening services, OpenRouter and loopback model servers (explicit optional requests). Links to the web open in your own browser, never inside the app |
 | Your journal files | Opened through the page's Open button | `.jot`, `.jotz` and `.jotlock` are Jot's file types: they show the iota in the file manager and a double-click opens them in the writer (`opened.rs`) |
 | Code | Served from the website each visit | Inside the app, the same every time, and it works with no network |
 
@@ -84,3 +84,11 @@ and archive reading are written to work there, but need checking on devices.
 - `src-tauri/src/bridge.js`: `window.jotDesktop` and downloads as saved files.
 - `src-tauri/tauri.conf.json`: identity, the content security policy, bundling. `capabilities/default.json`: what pages may call.
 - `app-icon.png`: the icon source, copied from `docs/brand/` (the Jot iota on cream paper); `npx tauri icon app-icon.png -o src-tauri/icons --ios-color '#fffdf6'` makes every size.
+
+## Optional BYOK AI
+
+Writer shares the web companion: explicit requests, session-only keys, reviewed Jot drafts and opt-in suggestions.
+The CSP permits `https://openrouter.ai` and HTTP/HTTPS loopback hosts on user-selected ports. No general remote-host allowance
+or HTTP proxy plugin is added. Local servers must allow the webview origin through CORS. The companion is tested in Chromium
+with mocked responses; native webview and live-model compatibility remain unverified. See the
+[AI companion guide](../docs/guide/ai-companion.md), including the OpenRouter ZDR toggle and privacy limits.

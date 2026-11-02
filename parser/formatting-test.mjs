@@ -138,3 +138,17 @@ test('MusicBrainz identities link to the database and remain source-preserving',
   }
   assert.ok(!types('`musicbrainz:recording:' + uuid + '`').includes('link'));
 });
+
+test('document filename is an explicit inline variable, preserving source and opaque data', () => {
+  const literal = '{{document.filename}}';
+  const source = `\ufeff---\r\ntitle: ${literal}\r\n---\r\n\r\n# Notes from ${literal}\r\n\r\n[ ] Read ${literal}\r\n\r\n:::record note\r\nbody: ${literal}\r\n:::\r\n`;
+  const ast = parse(source);
+  assert.equal(stringify(ast), source);
+  assert.equal(ast.metadata.find(field => field.name === 'title').value, literal);
+  assert.equal(ast.nodes.find(n => n.type === 'record').fields[0].value, literal);
+  assert.equal(ast.nodes.find(n => n.type === 'heading').markdown.tokens.at(-1).type, 'documentVariable');
+  assert.equal(types(literal)[0], 'documentVariable');
+  for (const text of ['{{document.unknown}}', '{{ document.filename }}', '\\{{document.filename}}', '`{{document.filename}}`', '&lbrace;&lbrace;document.filename}}']) assert.ok(!types(text).includes('documentVariable'), text);
+  assert.equal(parse('```jot\n' + literal + '\n```').nodes[0].type, 'code');
+  assert.equal(parse('### 2026-11-01 | ' + literal).entries[0].date, '2026-11-01');
+});

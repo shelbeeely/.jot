@@ -1,0 +1,13 @@
+.writer-ai{box-sizing:border-box;min-width:0;width:100%;padding:1rem;border-top:1px solid var(--jot-edge,#aaa);background:var(--jot-paper,#fff);color:var(--jot-ink,#222);font-family:system-ui,sans-serif;font-size:.9rem;line-height:1.5}
+.writer-ai[hidden],.writer-ai [hidden]{display:none!important}
+.writer-ai .ai-heading,.writer-ai .ai-actions{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.writer-ai h2{font-size:1.1rem;margin:0}
+.writer-ai label{display:block;margin:.7rem 0}
+.writer-ai input:not([type=checkbox]),.writer-ai select,.writer-ai textarea{display:block;box-sizing:border-box;width:100%;max-width:100%;margin-top:.25rem;font:inherit;color:inherit;background:var(--jot-paper,#fff);border:1px solid var(--jot-edge,#888);padding:.45rem}
+.writer-ai textarea{resize:vertical;white-space:pre-wrap}
+.writer-ai #aiOutput{font-family:ui-monospace,monospace}
+.writer-ai fieldset{min-width:0;margin:1rem 0;border:1px solid var(--jot-edge,#aaa);padding:.75rem}
+.writer-ai button{white-space:normal;min-height:44px;background:var(--jot-paper,#fff);color:var(--jot-ink,#222);border:1px solid var(--jot-edge,#aaa)}
+.writer-ai input:not([type=checkbox]),.writer-ai select{min-height:44px;font-size:16px}
+.writer-ai label:has(input[type=checkbox]){min-height:44px;align-content:center}
+@media print{.writer-ai,#writerAIBtn{display:none!important}}

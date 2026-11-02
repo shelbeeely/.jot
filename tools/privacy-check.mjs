@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 // The privacy gate for the published site: nothing personal, private or secret leaves through GitHub Pages.
 //   node tools/privacy-check.mjs [site/dist]
 // Reads every file (raw bytes, so image text chunks count too), decoded .zip/.jotz members and metadata, and PDF text (pdftotext, from
@@ -24,14 +25,16 @@ const RULES = [
   [/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/, 'an email address'],
 ];
 const EMAIL_OK = new Set([]);
+// Preserve the public copyright contact in this exact, pinned upstream license only.
+const LICENSE_EMAILS = { 'vendor/browser/dijkstrajs-LICENSE.md.txt': { sha256: 'c46324e45a005413535a6fb7a97e9eacd3cc6bf30335b7d5c10b8ee3af9e60c2', emails: ['self@wyattbaldwin.com'] } };
 const PAGES_FILE = 100 * 1024 * 1024, PAGES_SITE = 1024 * 1024 * 1024; // GitHub Pages limits
 
-function findings(text, where) {
+function findings(text, where, allowedEmails = EMAIL_OK) {
   const out = [];
   for (const [re, what] of RULES) {
     const g = new RegExp(re.source, re.flags.includes('g') ? re.flags : `${re.flags}g`);
     for (const m of text.matchAll(g)) {
-      if (what === 'an email address' && EMAIL_OK.has(m[0].toLowerCase())) continue;
+      if (what === 'an email address' && allowedEmails.has(m[0].toLowerCase())) continue;
       out.push(`${where}: ${what} (“${m[0].slice(0, 40)}”)`); break;
     }
   }
@@ -51,7 +54,7 @@ export async function check(dir) {
     const archive = /\.(zip|jotz)$/i.test(rel);
     // Compressed payload bytes are not text and can coincidentally resemble an email or token.
     // Inspect the actual decoded members and comments instead, retaining raw scans for other files.
-    if (!archive) problems.push(...findings(buf.toString('latin1'), rel), ...findings(buf.toString('utf8'), rel));
+    if (!archive) { const license = LICENSE_EMAILS[rel], allowedEmails = license && createHash('sha256').update(buf).digest('hex') === license.sha256 ? new Set(license.emails) : EMAIL_OK; problems.push(...findings(buf.toString('latin1'), rel, allowedEmails), ...findings(buf.toString('utf8'), rel, allowedEmails)); }
     if (archive) {
       const zip = await globalThis.JSZip.loadAsync(buf);
       problems.push(...findings(zip.comment || '', `${rel} (archive comment)`));

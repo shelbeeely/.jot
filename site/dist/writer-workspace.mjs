@@ -36,7 +36,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
-  for (const id of ['writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
+  for (const id of ['writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
     if (name !== 'write') showPreview();
@@ -80,7 +80,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     dialog.addEventListener('keydown', event => {
       if (event.key === 'Escape' && !event.isComposing && !event.defaultPrevented) { event.preventDefault(); dialog.close(); }
     });
-    dialog.addEventListener('close', () => { if (!doc.querySelector('dialog[open]')) editor.focus({ preventScroll: true }); });
+    dialog.addEventListener('close', () => { const active = doc.activeElement; if (!doc.querySelector('dialog[open]') && (dialog.contains(active) || !active?.matches('input,textarea,[contenteditable=true]'))) editor.focus({ preventScroll: true }); });
     input.onkeydown = event => {
       if (!event.isComposing && event.key === 'ArrowDown') { const first = list.querySelector('button'); if (first) { event.preventDefault(); first.focus(); } }
       else if (!event.isComposing && event.key === 'Enter') { const first = list.querySelector('button'); if (first) { event.preventDefault(); first.click(); } }
@@ -109,6 +109,9 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['Jot task', 'task'], ['Quote', 'quote'], ['Indent', 'indent'], ['Outdent', 'outdent'],
   ].map(([label, action, hint]) => ({ label, detail: hint || 'Format writing', run: () => { showWriting(); tools.run(action); } }));
   const targets = [
+    ['writerBrowserBtn', 'Offline, sharing and nearby transfer', 'Install, protect storage, share, review incoming items and pair devices'],
+    ['writerAnnotateBtn', 'Annotate page', 'Write over a frozen page copy and keep editable strokes'],
+    ['writerAIBtn', 'AI companion', 'Optional BYOK drafts and suggestions; OpenRouter or local models'],
     ['lockBtn', 'Journal lock and ways in', 'Encrypt this journal or manage its unlock methods'],
     ['saveDevice', 'Save', 'Save directly to the connected device file'], ['saveDeviceAs', 'Save as', 'Choose a new device file'], ['openImportedBtn', 'Open imported file', 'Use the browser file input without connecting a device file'],
     ['openBtn', 'Open a journal', '.jot, .jotz, Markdown or text'], ['newBtn', 'New journal', 'Start a blank journal'],
@@ -129,6 +132,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['roadmapBtn', 'Roadmap', 'Current features and planned work'],
   ].map(([id, label, detail]) => ({ label, detail, run: () => $(id).click() }));
   const panels = [
+    { label: 'Rename document', detail: 'Edit the name above your writing', run: () => { $('documentName').focus(); $('documentName').select(); } },
     { label: 'Source editing', detail: 'Edit the complete plain Jot source', run: () => { showWriting(); editor.jotSetMode?.('source'); } },
     { label: 'Live editing', detail: 'Type directly in the formatted document', run: () => { showWriting(); editor.jotSetMode?.('live'); } },
     { label: 'Journal tools', detail: 'Show or hide journal action buttons', run: () => $('writerToolsToggle').click() },

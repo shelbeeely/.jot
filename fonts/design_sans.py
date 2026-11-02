@@ -1,0 +1,109 @@
+"""Original upright, handprinted Jot Sans centerlines. No existing outlines are used.
+
+Coordinates are font units, y up. The compiler expands these drawn centerlines
+with a circular nib and unions the result into clean, closed vector contours.
+"""
+from fontTools.misc.transform import Transform
+from fontTools.pens.svgPathPen import SVGPathPen
+from fontTools.pens.transformPen import TransformPen
+from fontTools.svgLib.path import parse_path
+
+
+def ellipse(cx, cy, rx, ry):
+    k = 0.55228475
+    return (f'M{cx + rx} {cy} C{cx + rx} {cy + k * ry} {cx + k * rx} {cy + ry} {cx} {cy + ry} '
+            f'C{cx - k * rx} {cy + ry} {cx - rx} {cy + k * ry} {cx - rx} {cy} '
+            f'C{cx - rx} {cy - k * ry} {cx - k * rx} {cy - ry} {cx} {cy - ry} '
+            f'C{cx + k * rx} {cy - ry} {cx + rx} {cy - k * ry} {cx + rx} {cy} Z')
+
+
+def glyphs():
+    data = {}
+
+    def g(ch, advance, *paths, dots=()):
+        data[ch] = {'advance': advance, 'paths': list(paths), 'dots': list(dots)}
+
+    g('A', 650, 'M65 0 L325 700 L585 0', 'M155 240 L495 240')
+    g('B', 620, 'M90 0 L90 700', 'M90 370 L90 700 L310 700 C570 700 580 370 310 370 Z', 'M90 0 L90 370 L310 370 C620 370 610 0 310 0 Z')
+    g('C', 650, 'M565 610 C495 695 410 715 310 700 C-25 650 -25 40 310 0 C410 -12 500 20 570 105')
+    g('D', 675, 'M90 0 L90 700 L290 700 C685 700 685 0 290 0 Z')
+    g('E', 570, 'M490 700 Q285 706 90 700 Q84 340 90 0 Q280 -5 490 0', 'M90 350 Q260 357 425 350')
+    g('F', 550, 'M90 0 L90 700 L485 700', 'M90 365 L420 365')
+    g('G', 690, 'M585 605 C505 710 390 725 280 685 C-15 575 0 45 315 0 C435 -15 555 35 600 100 L600 320 L380 320')
+    g('H', 670, 'M90 0 Q84 350 90 700', 'M580 0 Q587 355 580 700', 'M90 345 Q335 355 580 350')
+    g('I', 350, 'M175 0 Q169 350 175 700', 'M75 700 Q175 706 275 700', 'M75 0 Q175 -5 275 0')
+    g('J', 520, 'M430 700 L430 180 C430 -60 100 -70 65 130')
+    g('K', 625, 'M90 0 L90 700', 'M555 700 L90 260', 'M290 450 L580 0')
+    g('L', 535, 'M90 700 L90 0 L470 0')
+    g('M', 800, 'M90 0 Q82 350 90 700 L400 255 L710 700 Q718 350 710 0')
+    g('N', 695, 'M90 0 Q84 350 90 700 Q350 345 605 0 Q611 350 605 700')
+    g('O', 710, 'M640 350 C645 565 530 706 352 700 C176 696 65 560 70 345 C74 133 177 -5 358 0 C535 5 637 141 640 350 Z')
+    g('P', 605, 'M90 0 L90 700', 'M90 345 L90 700 L300 700 C630 700 630 345 300 345 Z')
+    g('Q', 710, ellipse(355, 350, 285, 350), 'M400 180 L660 -70')
+    g('R', 645, 'M90 0 L90 700', 'M90 355 L90 700 L310 700 C630 700 620 355 310 355 Z', 'M310 355 L580 0')
+    g('S', 615, 'M535 610 C425 765 85 740 85 540 C85 335 535 390 535 170 C535 -40 170 -60 70 95')
+    g('T', 600, 'M55 700 L545 700', 'M300 700 L300 0')
+    g('U', 665, 'M85 700 L85 220 C85 -85 580 -85 580 220 L580 700')
+    g('V', 630, 'M55 700 L315 0 L575 700')
+    g('W', 925, 'M50 700 L255 0 L462 620 L670 0 L875 700')
+    g('X', 625, 'M65 700 L560 0', 'M560 700 L65 0')
+    g('Y', 620, 'M55 700 L310 340 L565 700', 'M310 340 L310 0')
+    g('Z', 595, 'M65 700 L535 700 L65 0 L535 0')
+
+    g('a', 555, ellipse(272.5, 250, 197.5, 250), 'M470 500 Q464 245 470 0')
+    g('b', 570, 'M85 0 L85 730', ellipse(292.5, 250, 207.5, 250))
+    g('c', 510, 'M445 420 C210 645 20 400 75 180 C110 20 300 -80 445 70')
+    g('d', 570, 'M485 0 L485 730', ellipse(277.5, 250, 207.5, 250))
+    g('e', 565, 'M80 245 Q275 253 480 270 C490 560 80 580 75 255 C65 -28 353 -55 470 75')
+    g('f', 370, 'M135 0 L135 550 C135 755 280 765 325 690', 'M55 480 L315 480')
+    g('g', 570, 'M485 500 L485 -55 C485 -260 195 -275 105 -155', ellipse(277.5, 250, 207.5, 250))
+    g('h', 565, 'M85 0 L85 730', 'M85 345 C165 570 480 565 480 315 L480 0')
+    g('i', 245, 'M123 0 L123 500', dots=((123, 660, 42),))
+    g('j', 270, 'M185 500 L185 -75 C185 -245 60 -270 10 -205', dots=((185, 660, 42),))
+    g('k', 530, 'M85 0 L85 730', 'M455 500 L85 150', 'M240 300 L475 0')
+    g('l', 260, 'M115 730 L115 70 C115 5 140 -5 190 0')
+    g('m', 850, 'M85 0 Q79 260 85 500', 'M85 330 C151 555 414 541 420 300 Q423 140 420 0', 'M420 332 C491 551 755 558 762 305 Q766 145 760 0')
+    g('n', 580, 'M85 0 Q79 255 85 500', 'M85 335 C171 558 477 547 487 310 Q493 145 485 0')
+    g('o', 595, 'M510 251 C514 410 421 506 286 500 C150 494 67 397 75 243 C83 89 164 -6 299 0 C435 6 507 101 510 251 Z')
+    g('p', 570, 'M85 -240 L85 500', ellipse(292.5, 250, 207.5, 250))
+    g('q', 570, 'M485 -240 L485 500', ellipse(277.5, 250, 207.5, 250))
+    g('r', 380, 'M85 0 L85 500', 'M85 340 C135 505 245 545 325 490')
+    g('s', 485, 'M415 425 C320 560 80 515 80 375 C80 230 415 295 415 125 C415 -40 155 -45 65 60')
+    g('t', 365, 'M145 670 L145 120 C145 -10 240 -20 310 35', 'M55 480 L310 480')
+    g('u', 565, 'M85 500 L85 170 C85 -75 400 -70 480 155', 'M480 500 L480 0')
+    g('v', 515, 'M55 500 L257 0 L460 500')
+    g('w', 760, 'M55 500 L210 0 L380 430 L550 0 L705 500')
+    g('x', 505, 'M65 500 L440 0', 'M440 500 L65 0')
+    g('y', 520, 'M55 500 L265 0', 'M465 500 L235 -110 C190 -245 105 -265 45 -210')
+    g('z', 480, 'M65 500 L415 500 L65 0 L415 0')
+
+    g('0', 580, ellipse(290, 350, 205, 350))
+    g('1', 440, 'M100 550 L260 700 L260 0', 'M100 0 L385 0')
+    g('2', 575, 'M80 535 C75 755 490 780 490 550 C490 395 130 190 70 0 L505 0')
+    g('3', 570, 'M85 600 C220 785 490 720 490 535 C490 390 365 350 230 350', 'M230 350 C570 390 590 0 300 0 C190 0 115 35 65 110')
+    g('4', 585, 'M420 0 L420 700 L65 225 L530 225')
+    g('5', 565, 'M490 700 L120 700 L95 375 C360 495 500 375 500 190 C500 -40 155 -70 65 95')
+    g('6', 580, 'M460 685 C155 730 25 315 100 120 C175 -100 505 -30 505 210 C505 455 180 495 90 255')
+    g('7', 540, 'M65 700 L480 700 L165 0')
+    g('8', 585, ellipse(292, 530, 180, 170), ellipse(292, 180, 215, 180))
+    g('9', 580, 'M120 15 C425 -30 555 385 480 580 C405 800 75 730 75 490 C75 245 400 205 490 445')
+    # A restrained fusion: printed skeletons, rounder writing proportions and
+    # stable, small differences in lean, height, baseline and letter spacing.
+    # Transform movements before nib expansion so ink thickness remains even.
+    for ch, drawing in data.items():
+        seed = ord(ch) * 37
+        scale = .90 if ch.isupper() else 1.015
+        lean = ((seed % 9) - 4) * .005
+        rise = (((seed // 3) % 9) - 4) * 2.5
+        height = 1 + (((seed // 5) % 5) - 2) * .004
+        matrix = (scale, 0, lean, height, 55 * (1 - scale) - lean * 250, rise)
+        fitted = []
+        for d in drawing['paths']:
+            pen = SVGPathPen(None)
+            parse_path(d, TransformPen(pen, matrix))
+            fitted.append(pen.getCommands())
+        drawing['paths'] = fitted
+        transform = Transform(*matrix)
+        drawing['dots'] = [(*transform.transformPoint((x, y)), r) for x, y, r in drawing['dots']]
+        drawing['advance'] = round((drawing['advance'] - 110) * scale + 110 + ((seed // 7) % 11) - 5)
+    return data

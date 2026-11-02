@@ -15,8 +15,8 @@ export const STYLES = {
   plain: { name: 'Plain', blurb: 'Simple and quiet, as Jot has always looked.' },
 };
 const SERIF = `'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua','URW Palladio L',P052,Charter,'Bitstream Charter',Georgia,serif`;
-const SANS = `Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue','Noto Sans',Arial,sans-serif`;
-const MONO = `ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace`;
+const SANS = `'Jot Sans',Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue','Noto Sans',Arial,sans-serif`;
+const MONO = `'Jot Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace`;
 
 // Each style's rules are written for ".S" and scoped below to a doubled class, so they win over a page's own typed styles.
 const JOURNAL = `.S{--ink:#2b2622;--muted:#776b5f;--accent:#8a3b12;--rule:#ddd2c4;--paper:#fffdf8;--mark:#f6dd8a;color:var(--ink);background:var(--paper);background-image:none;font:17px/1.72 ${SERIF};font-variant-numeric:oldstyle-nums proportional-nums;font-kerning:normal;hyphens:auto;-webkit-hyphens:auto;text-rendering:optimizeLegibility;overflow-wrap:break-word;padding:2.4em 2.6em}

@@ -35,3 +35,19 @@ Vendored JSZip 3.10.1 handles ZIP, with its included MIT/GPL notice; hash.js and
 Attach files in the Jot editor. Included raster images preview locally; other assets have download links. Writing uses local text autosave and assets use IndexedDB. Failed asset persistence must prompt a portable `.jotz` download. The handwriting canvas can send both image and strokes to the editor; the scanner can send its corrected image. Downloading a journal with attachments saves a `.jotz` that includes all current attached assets, including unused ones, so review the asset list before sharing.
 
 Draft 3 (26 October 2026) gives the package its own extension, `.jotz`; plain writing stays `.jot`. No companion folder is used. Format stays Jot v1. Parser implementation versions are independent. Full visual block composition, encrypted storage and recognition remain separate roadmap work.
+
+
+## Editable annotated page snapshots
+
+An annotated page is ordinary image/link source plus package assets: the composed PNG, the frozen background PNG and an editable
+`application/json` stroke file. `jot-ink` version 1 retains its normalized coordinate/stroke representation and MAY include an
+optional `background` string naming another safe `assets/` raster member. Background paths MUST NOT name external resources or
+parent-directory paths. A consumer editing the strokes MUST verify that the referenced background is present and is a supported
+raster image; it MUST NOT execute JSON fields or retrieve backgrounds from a network. Preserve unknown fields.
+
+For example, writing may contain `![Annotated page](assets/annotation-ID.png)` and
+`[Editable handwriting strokes](assets/annotation-ID.jot-ink.json)`, with the stroke JSON's background set to
+`assets/annotation-ID-background.png`. A plain reader still shows the composed image. The background is an immutable copy of the
+page at capture time, including text and filename variables as rendered then; it does not track later document edits or layout
+changes. Editing creates new assets, retaining older referenced assets for Undo. Selected exports include the stroke file's
+background dependency; this does not permit reading other files or sharing unselected journal entries automatically.

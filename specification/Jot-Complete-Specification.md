@@ -272,6 +272,34 @@ not a streaming source. A shortened video reference does not encode timestamps; 
 A recording is not a composition, and an album release group is not an edition; readers must not silently substitute these or
 infer a matching Spotify/YouTube recording. Optional search must disclose the provider and let the writer select a match.
 
+#### 4.2.6 Document filename variable
+
+`{{document.filename}}` is an optional inline presentation variable. In rendered prose, headings, lists and other inline text,
+it displays the current document's filename, including its extension. The host supplies this context; the parser MUST NOT infer
+it from metadata, dates or journal content, query a filesystem, or store the resolved value in place of the source token.
+Only the final filename component MAY be displayed, never parent directories or a full path. Display control characters as spaces.
+The name of a `.jotz` document is its outer filename, not its internal `journal.txt` member.
+
+```jot
+# Notes from {{document.filename}}
+```
+
+With filename context `October.jot`, this heading displays “Notes from October.jot”. Renaming and rendering with the new context
+updates the display; saving the source still retains `{{document.filename}}`. This does not make filenames authoritative journal
+content (§2): names MUST NOT supply entry dates, stable identifiers, measurements or other journal facts.
+
+The token is exact and case-sensitive, without interior whitespace. Backslash-escaping its first opening brace
+(`\{{document.filename}}`), inline code and code blocks keep it literal. Metadata, record field values, IDs, link/image targets,
+URLs and executable syntax are never rewritten. A renderer MAY resolve the token in the inline presentation of a textual record
+caption without changing its field value or meaning. Insert the resolved name as plain text, never as Markdown or HTML, and do
+not evaluate a variable embedded inside the filename itself. This is not a general expression or template language.
+
+Unknown variables and a known variable without available filename context MUST remain visible in their original spelling and
+MUST NOT trigger a lookup or error. For a new unsaved document a host MAY supply its proposed filename; it SHOULD distinguish
+this from a chosen file. A host rendering an included document MUST use that included file's basename within its frame, including
+its footnotes, and restore the enclosing document's context afterwards. A formatted export captures the displayed name at export
+time; a plain `.jot` download keeps the variable. Renderers without variable support can display the original text unchanged.
+
 ### 4.3 Generic structured record
 
 ```jot

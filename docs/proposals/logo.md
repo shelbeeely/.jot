@@ -31,7 +31,7 @@ smallest mark there is. The word itself helps: "jot" comes from iota, the smalle
 wordmark is a lowercase "jot" drawn to match it, not typed in a font.
 
 **Must work on.** A 16 px favicon; app icons for macOS, Windows, Linux, Android (adaptive) and iOS; the site header in light
-(cream paper) and dark (charcoal paper); one colour in print; 1-bit on e-ink (InkDeck); a rubber stamp or emboss.
+(cream paper) and dark (charcoal paper); one colour in print; 1-bit monochrome; a rubber stamp or emboss.
 
 **Constraints.**
 

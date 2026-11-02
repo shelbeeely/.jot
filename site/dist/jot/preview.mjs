@@ -14,7 +14,7 @@
  *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …',
  *                                style: 'journal' | 'notes' | 'plain' | null (styles.mjs; a typed page only),
  *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 },
- *                                include(path) -> text | null, from: '', reference(href) -> void })
+ *                                include(path) -> text | null, from: '', filename: '', reference(href) -> void })
  *     `![label](other.jot#id)` on a line of its own shows that part of another journal in place, framed and labelled with where it
  *     came from (include.mjs). The host reads the file and lends its text through opts.include (the path is already checked to stay
  *     inside the root; `from` is this document's own path there); a missing, unsafe, looping or too-deep include says so on the page.
@@ -93,7 +93,14 @@ const CHARTS = new WeakMap(), chartsOf = (a, sample) => { const k = sample ? 's'
 const parsed = (text) => { let a = PARSED.get(text); if (!a) { a = parse(text); if (PARSED.size > 32) PARSED.delete(PARSED.keys().next().value); PARSED.set(text, a); } return a; };
 const decode = (s) => String(s || '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 
+// A filename is host context, never a source of dates, metadata or paths in rendered writing.
+export function documentFilename(value) {
+  if (typeof value !== 'string') return '';
+  return value.split(/[\\/]/).pop().replace(/[\u0000-\u001f\u007f]/g, ' ');
+}
+
 export function renderPreview(ast, target, opts = {}) {
+  let filename = documentFilename(opts.filename ?? opts.from);
   const doc = target.ownerDocument, asset = opts.asset || (() => null);
   const el = (tag, text, cls) => { const n = doc.createElement(tag); if (text !== undefined) n.textContent = text; if (cls) n.className = cls; return n; };
   function inline(tokens, into) {
@@ -101,6 +108,7 @@ export function renderPreview(ast, target, opts = {}) {
       let n;
       switch (t.type) {
         case 'text': if (t.tokens) { inline(t.tokens, into); continue; } n = tagged(decode(t.text)); break;
+        case 'documentVariable': n = el('span', filename || t.raw || '{{document.filename}}', 'jot-document-variable'); break;
         case 'escape': n = el('span', t.text); break;
         case 'strong': n = el('strong'); inline(t.tokens, n); break;
         case 'em': n = el('em'); inline(t.tokens, n); break;
@@ -208,7 +216,7 @@ export function renderPreview(ast, target, opts = {}) {
         const m = /^(\d{4}-\d{2}-\d{2})(?:\s*\|\s*(.*))?$/.exec(t.text || '');
         if (m && !Number.isNaN(Date.parse(m[1]))) { // a dated entry
           const { words, note } = dateWords(m[1], m[2], opts.locale), time = el('time', words); time.dateTime = m[1];
-          n.classList.add('jot-date'); n.append(time); if (note) n.append(' ', el('span', note, 'jot-date-note'));
+          n.classList.add('jot-date'); n.append(time); if (note) { const label = el('span', undefined, 'jot-date-note'); inline(inlineOf(note), label); n.append(' ', label); }
         } else inline(t.tokens, n);
         break;
       }
@@ -293,7 +301,7 @@ export function renderPreview(ast, target, opts = {}) {
   target.classList.toggle('jot-hand', !!hand); // before anything is drawn, so charts size themselves to the grid
   for (const c of [...target.classList]) if (c.startsWith('jot-style-')) target.classList.remove(c);
   if (!hand && opts.style && isStyle(opts.style)) { addPageStyles(doc); target.classList.add(`jot-style-${opts.style}`); }
-  if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.pen).family}'`); }
+  if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.script07).family}'`); }
   else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift']) target.style.removeProperty(k);
   const root = doc.createDocumentFragment(), lend = typeof opts.include === 'function' ? opts.include : () => null;
   let includes = 0;
@@ -313,8 +321,11 @@ export function renderPreview(ast, target, opts = {}) {
     const head = el('p', undefined, 'jot-include-source'); head.append(el('span', '⧉', 'jot-sym'), ' ', inc.label ? `${inc.label} · ` : '', el('span', where, 'jot-include-path'));
     box.append(head);
     const outer = notes; notes = { order: [], defs: new Map(), prefix: `${outer.prefix}inc${++includes}-` }; // its footnotes stay inside the frame, with ids of their own
-    draw(list, box, { level: at.level + 1, stack: [...at.stack, inc.path], from: inc.path });
-    footnotes(box); notes = outer;
+    const outerFilename = filename; filename = documentFilename(inc.path);
+    try {
+      draw(list, box, { level: at.level + 1, stack: [...at.stack, inc.path], from: inc.path });
+      footnotes(box);
+    } finally { notes = outer; filename = outerFilename; }
     into.append(box);
   }
   function draw(list, root, at) {
@@ -418,7 +429,7 @@ export function renderPreview(ast, target, opts = {}) {
   target.jotReady = Promise.resolve();
   if (hand) {
     handwrite(target, hand);
-    const fam = (HANDS[hand.hand] || HANDS.pen).family, fonts = doc.fonts;
+    const fam = (HANDS[hand.hand] || HANDS.script07).family, fonts = doc.fonts;
     const loaded = fonts && fonts.load ? Promise.all([fonts.load(`400 16px '${fam}'`), fonts.load(`700 16px '${fam}'`)]).catch(() => {}) : Promise.resolve();
     target.jotReady = loaded.then(() => {
       if (!target.isConnected || target.jotRevision !== revision) return null;
@@ -444,9 +455,10 @@ export function addPageStyles(doc) {
 export const PREVIEW_CSS = `${CHART_CSS}
 .jot-colors{print-color-adjust:exact;-webkit-print-color-adjust:exact}
 .jot-highlighter-active{background-image:none!important;background-color:transparent!important;padding:0}
-.jot-highlight-space{background-image:var(--jot-highlight-stroke);background-size:100% 1lh;background-position:center;background-repeat:no-repeat;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.jot-highlight-space{opacity:var(--jot-highlight-strength,.6);background-image:var(--jot-highlight-stroke);background-size:100% 1lh;background-position:center;background-repeat:no-repeat;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .jot-highlight-word{display:inline-block;position:relative;isolation:isolate;white-space:pre;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-.jot-highlight-word::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background-image:var(--jot-highlight-stroke);background-size:100% 100%;background-repeat:no-repeat;mix-blend-mode:multiply;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.jot-highlight-word::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;opacity:var(--jot-highlight-strength,.6);background-image:var(--jot-highlight-stroke);background-size:100% 100%;background-repeat:no-repeat;mix-blend-mode:multiply;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.jot-highlight-word{opacity:1}
 .jot-highlight{background-color:var(--jot-highlight);box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .jot-colors :is(del,ins){text-decoration-color:var(--jot-decoration,currentColor)}
 mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.15em}
@@ -470,7 +482,8 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-mood{margin:0;min-width:0;break-inside:avoid}.jot-mood img{display:block;width:100%;height:auto;border-radius:4px}
 .jot-mood figcaption{font-size:.86em;margin-top:.25em}.jot-mood-caption,.jot-mood-credit{display:block}.jot-mood-credit{font-style:italic;font-size:.92em}
 .jot-mood-missing{border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:4px;padding:.6em;font-size:.88em;overflow-wrap:anywhere}
-.jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}`;
+.jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}
+:is(.jot-task-text,.jot-margin,.jot-date-note,.jot-footnotes):has(:is(mark,.jot-highlight)){opacity:1}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;
   const s = doc.createElement('style'); s.id = 'jot-chart-css'; s.textContent = PREVIEW_CSS; doc.head.append(s);

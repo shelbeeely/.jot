@@ -1,6 +1,10 @@
 # Jot roadmap
 
-Updated 28 October 2026. The format remains **Jot v1** (draft 3); the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` packages the writing (`journal.txt`) together with its assets. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
+Updated 1 November 2026. The format remains **Jot v1** (draft 3); the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` packages the writing (`journal.txt`) together with its assets. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
+
+The primary audience for Jot Writer v1 is people who have never journaled and want help getting started. Prioritize a small first entry,
+clear saving and an easy return. The beginner experience in `docs/proposals/first-journal-v1.md` is planned; it is not yet
+implemented or validated with first-time journalers. Attractive pages and portable files support that experience.
 
 The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadmap.mjs` after editing it; CI checks that the parser and published-site copies match. Status below is based on source and automated checks, not just the specification.
 
@@ -14,7 +18,9 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 | --- | --- | --- |
 | Plain-text writing and date sections | Implemented; parser tested | Broader malformed-input and large-file fixtures |
 | Desktop and mobile writing tools | Implemented: formatting/shortcuts, list continuation, literal find/replace, parsed outline, Commands and reviewed entry templates; Chromium desktop and 320/390px mobile emulation tested | Physical mobile keyboard/device testing, richer personal templates and recovery |
-| Autocomplete and reference sources | Partial: current-journal suggestions, explicitly opened People/Places books and opt-in MusicBrainz lookup implemented | Ten additional source tracks below; no background archive scan or journal upload |
+| Autocomplete and reference sources | Partial: current-journal suggestions, explicitly opened People/Places books and opt-in MusicBrainz lookup implemented | General reference tracks, media and broader smart-journal source catalog below; no background archive scan or journal upload |
+| Smart journal and context sources | Planned; basic weather/Todoist/webhook helpers and health-file import already exist, not a unified source picker | Shared on-demand picker; contextual suggestions off by default; weather and read-only Home Assistant first in the context track |
+| Connected-data syntax | Proposed optional references and record conventions, not standardized semantic support | Specification review, parser/renderer work, conformance fixtures and Writer insertion controls; plain prose and old files remain valid |
 | WriteFreely editor and ActivityPub exploration | Planned; source-based integration assessment in `docs/proposals/writefreely-integration.md` | Evaluate editor enhancements and a reviewed publication adapter; isolated instance, license review and federation interoperability before release |
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
 | JavaScript parser | ES module for Node/browser; parser, formatting, proofreading and container suites pass | Stabilize API; complete semantic/profile validation |
@@ -50,16 +56,35 @@ The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadma
 
 ## Near-term order
 
-1. Complete handwritten formatting polish: physical color-print proofs, mobile print/download checks, then underline styles/thickness. Inline colors and handwritten-by-default workspace are implemented.
-2. Exercise the complete writing flow on a real phone, including handwriting and PDF downloads. Keep the unfinished scanner hidden until its own checks pass.
+1. Deliver and test a first-entry path for people new to journaling: one optional concrete starting question, writing freely,
+   and no required method, syntax or setup. Follow `docs/proposals/first-journal-v1.md`; the existing writer starts blank.
+2. Stabilize saving and returning: clear browser/device save states, recovery under storage failure and cross-tab conflicts,
+   and safe reopen/continue behavior. Exercise the core flow on a real phone, including typing and downloads.
 3. Reconcile the Jot draft with the JavaScript implementation and expand the conformance suite, including multilingual and input-composition fixtures.
-4. Add composable content blocks with stable identity and source order, then strengthen existing attachment bundles and recovery before users rely on mixed-media journals.
-5. Add local diagram rendering and optional recognition/proofreading adapters without silent network uploads.
-6. Expand autocomplete in stages: schema/templates and explicitly selected local sources first, then opt-in public catalogs. Explore WriteFreely publishing separately from private drafting; neither requires replacing the Jot format.
+4. Verify existing formatted output with physical color-print proofs and mobile print/PDF checks. Keep the unfinished
+   scanner hidden until its own checks pass. Further formatting controls follow the beginner and recovery priorities.
+5. Add composable content blocks with stable identity and source order, strengthening attachment bundles and recovery
+   before users rely on mixed-media journals.
+6. Add local diagram rendering and optional recognition/proofreading adapters without silent network uploads.
+7. Expand autocomplete in stages: schema/templates and explicitly selected local sources first, then opt-in public catalogs. Explore WriteFreely publishing separately from private drafting; neither requires replacing the Jot format.
+
+## Physical hardware and firmware: future exploration
+
+Status: **deferred; outside current delivery scope**. Physical hardware and firmware will be explored later. Current work
+focuses on the Jot format and Writer software, especially getting started, saving, recovery and returning to a journal.
+
+No dedicated device, component supplier, parts list, enclosure, hardware prototype or firmware target is selected.
+Hardware development and firmware ports are not prerequisites for Writer v1 and have no committed delivery date.
+When this track resumes, assess beginner-friendly assembly from off-the-shelf parts, affordability, reliable capture,
+local storage and interoperability with `.jot`, `.jotz` and Writer before selecting a device or publishing build instructions.
+
+Existing software support for ordinary keyboards/styluses, handwriting assets, printing and files on existing computers
+and phones remains part of the software tracks; it does not require a Jot-specific physical product.
 
 ## Autocomplete and reference-source expansion
 
-All ten additions below are **planned**, not available integrations. Existing current-journal suggestions, explicitly opened
+The ten general source tracks below are **planned**, not available integrations. The media expansion and optional outbound
+service actions are detailed in the following section. Existing current-journal suggestions, explicitly opened
 People/Places books and the optional MusicBrainz search remain the baseline. Imported sources supply suggestions; they do not
 establish that an event happened, add observations or change existing writing without selection.
 
@@ -74,7 +99,7 @@ establish that an event happened, add observations or change existing writing wi
 | P2 | YouTube Data API | Search video, channel and playlist titles, then review a chosen result. Preserve the selected entity type and stable ID; do not auto-load playback. Establish API credential/quota handling and recoverable unavailable/private/deleted-result behavior. |
 | P2 | Wikidata | Suggest public people, organizations, landmarks, artworks and other entities, with QID, type and multilingual labels for disambiguation. Keep public identity data separate from private People/Places records; names alone must not merge identities. |
 | P2 | Place search through Photon or Pelias | Search named places and addresses through an appropriate hosted or self-hosted service. Show provider, address context and coordinates for review before saving to a Places book. No automatic geolocation query, inferred location history or timezone change; verify provider usage terms and availability. |
-| P2 | Zotero/BibTeX imports and Crossref | Preview local bibliographic imports (including CSL JSON where supported) and optional DOI/title lookup. Preserve citation keys, DOI, title/authors and provenance; distinguish editions/versions and duplicates. Never turn imported article text into unsupported journal claims. |
+| P2 | Zotero/BibTeX imports and Crossref | Preview local bibliographic imports (including CSL JSON where supported) and optional DOI/title lookup. Preserve citation keys, DOI, title/authors and provenance; distinguish editions/versions and duplicates. Extend the same Zotero adapter with chosen library lookup and reviewed attachment of selected notes to source items. Never turn imported article text into unsupported journal claims. |
 
 Shared acceptance: work locally for local sources; make every online provider independently opt-in with a dedicated lookup field
 and clear source labels. Send only the requested lookup/type, never surrounding writing or an entire archive. Debounce and bound
@@ -84,6 +109,101 @@ merely to display a suggestion. Test keyboard, touch, IME, ambiguity, Unicode, m
 
 Use ordinary named links initially where existing syntax can express an identity. Evaluate new short-reference namespaces
 separately; adding a provider does not by itself change Jot v1. Remembering imported libraries stays optional and explicit.
+
+## Media autocomplete and connected service actions
+
+Status: **planned**, beyond existing MusicBrainz lookup and listening capture. Expand Writer to movies, TV series and
+episodes, music, streaming availability, podcasts, video, books/audiobooks and games. The source assessment, interaction
+contract and acceptance cases are in [media-sources-and-service-actions.md](../docs/proposals/media-sources-and-service-actions.md).
+
+1. Build a shared media picker/provider contract; preserve readable references and verified IDs with year, creator,
+   edition, platform and episode context. Online lookup sends only the explicit query, not journal prose.
+2. Add TMDB movie/TV lookup and optional country-specific streaming availability with required attribution. Availability
+   does not establish subscription access, account history or that an item was watched.
+3. Add Trakt OAuth connection and **Mark watched on Trakt** for a reviewed movie or episode, with the chosen event time.
+   Then evaluate watchlist and rating actions. A title mention or journal autosave never implies a watched event.
+4. Support selected history import and optional rules for explicitly confirmed activities. Separate lookup, import and
+   writes; preserve rewatches, prevent duplicates and import/export loops, reconcile uncertain sends, and show failures
+   without blocking the local journal. Keep tokens and delivery receipts outside portable journal content.
+5. Expand through the named integrations below. Each is **planned**, with authentication, API access and compatibility
+   verification required before release. Only advertise actions supported by current APIs and application access;
+   URL references/file imports remain fallbacks.
+
+| Integration | Bring into Writer | Optional outbound action |
+| --- | --- | --- |
+| ListenBrainz | Selected listening history and track references | Submit a confirmed listen |
+| Last.fm | Selected listening history and track references | Submit a confirmed scrobble under the service's rules |
+| Jellyfin | References from the user's movie/TV library | Mark an item watched or favorite |
+| Audiobookshelf | Audiobook/podcast references and selected listening progress | Update confirmed progress or completion |
+| Raindrop.io | Saved bookmarks and article references | Save a selected link, tags and excerpt |
+| Readwise and Reader | Selected highlights and reading references | Save a selected article or highlight using the appropriate API |
+| Zotero | Bibliographic references through the existing Zotero track | Attach a selected note to its source item; extend that adapter rather than create a duplicate |
+| Steam | Game references and available activity/achievement data | Initially read-only; do not assume completion writes are available |
+| AniList | Anime/manga references and selected lists | Confirmed watching/reading status and episode/chapter/volume progress where supported |
+| Hardcover | Book/edition references and selected reading lists | Evaluate confirmed reading-status/progress updates against current API capabilities |
+| SIMKL | Movie, TV and anime references/history | Confirmed watched or watchlist actions, subject to access and licensing review |
+| Inoreader | Selected RSS articles and feeds | Reviewed read, star or tag actions |
+| OpenSubsonic-compatible servers | Personal music-library references | Favorite, rate or submit a confirmed listen where supported |
+| gPodder-compatible services | Selected subscriptions and episode activity | Confirmed episode progress or played-state submission |
+| Media URL resolution | Resolve a supported pasted URL into a readable title and verified media identity | Offer only the resolved provider's supported, separately chosen actions |
+
+Retain TMDB, Trakt, Spotify, YouTube, Open Library and IGDB as planned providers alongside these additions. Resolve pasted
+URLs through known provider handlers; unsupported links remain ordinary links, without arbitrary server-side URL fetching.
+
+First implementation slice: movie/TV references, then reviewed Trakt watch-history writes. These require provider app
+configuration and live interoperability checks before release; no new service connection or account write is implemented.
+Next prioritize ListenBrainz, Raindrop.io and Audiobookshelf; retain the remaining integrations in the backlog. All sends
+remain optional and limited to chosen activity or excerpts. Physical hardware and firmware remain deferred.
+
+## Smart journal: connected context and optional syntax
+
+Status: **planned**, with source catalog, defaults, Home Assistant boundaries and illustrative syntax in
+[smart-journal-and-connected-data.md](../docs/proposals/smart-journal-and-connected-data.md). This is not a claim of
+implemented connections, contextual text analysis, a dashboard card or new semantic parser support.
+
+| Source group | Providers or sources to evaluate |
+| --- | --- |
+| Home context | Home Assistant, explicitly selected entities and available history; read-only |
+| Weather/environment | Open-Meteo and regional services; current/historical weather, forecasts, air quality, pollen, UV and marine conditions |
+| Astronomy/occasions | Sunrise/sunset, daylight, moon phases, public holidays and regional observances |
+| Calendars | Google Calendar, Microsoft 365, CalDAV and the existing chosen ICS-import track |
+| Tasks/projects | Todoist, Microsoft To Do, Notion |
+| Activity/sleep | Strava, Fitbit, Oura; supported Apple Health/Health Connect imports or native adapters |
+| Work/time | Toggl Track, Clockify, ActivityWatch, GitHub, GitLab |
+| Places/outings | OpenStreetMap-based services, event catalogs and regional transit sources; retain Photon/Pelias work |
+| Food/recipes | Open Food Facts, USDA FoodData Central, recipe managers |
+| Money | Public exchange rates, Actual Budget, Firefly III and selected financial-file imports |
+| Nature/knowledge | iNaturalist, eBird, Wikidata, museum collections |
+| Personal/custom | Chosen journal archives, contacts, files, RSS, CSV/JSON and supported automation bridges |
+
+Each source has independently verified lookup, import, insertion and outbound capabilities. All new providers are candidates
+requiring authentication, terms, pricing, attribution and platform checks. Extend existing weather, Todoist, webhook and
+health-import foundations rather than duplicate them. Preserve the existing media backlog and priorities.
+
+- Provide one searchable on-demand picker with favorites, filters, preview and undoable insertion. Use explicit query,
+  place/date/entity/file inputs without analyzing prose. Keep writing usable offline and retain snapshots with provenance.
+- **Contextual suggestions default off**, with a separate locally remembered setting. When enabled, analyze only the
+  active entry locally. Selection precedes external lookup and reviewed insertion; no journal prose leaves the device.
+  Disabling stops pending analysis and clears suggestions; entry changes/closing/locking cancel stale work.
+- **Home Assistant is read-only:** explicitly select an instance, entities and range; retrieve current state or available
+  history on demand. Preserve timestamps/units and missing/unavailable states. No service calls, scene/script triggers,
+  synthetic/device-state writes or background subscriptions. Verify authentication and actual browser/network reachability.
+- Explore an optional Home Assistant card separately: evaluate a Writer launcher with selected read-only context first;
+  embedded editing is a separate possibility. Check authentication, iframe/CSP and dashboard exposure before selecting
+  an implementation. No tokens or journal content in card configuration or URLs.
+- Plan **both concise inline references and structured records**: retain existing references; propose typed TMDB/Trakt
+  forms, media identity (`kind`, `title`, repeated `reference`), activity (`kind`, `item`, optional `date`/`at`) and shared
+  observation provenance. Reuse `measurement`/`observation`; distinguish observed, forecast, estimated and manual data.
+  Activities have identities distinct from their items to preserve rewatches and repeated listens.
+- Records are data, not instructions: opening/parsing/rendering never triggers network actions. Preserve partial/unknown
+  records and old files without automatic migration. New credentials and Writer delivery receipts stay outside portable
+  content; preserve existing `sync` records without treating them as authorization. Reconcile existing spec semantics
+  before a normative update. This draft does not bump the released format version or implement new syntax semantics.
+
+Within the context track, prioritize weather and read-only Home Assistant. Then implement the optional local-suggestions
+setting and wider catalog. Track canonical specification edits, parser/renderer support, conformance fixtures and Writer
+insertion controls as separate format milestones. Evaluate the card independently. Physical hardware and firmware remain
+deferred; no account access, live-data query, external write or deployment is performed by this roadmap update.
 
 ## WriteFreely and ActivityPub exploration
 
@@ -258,8 +378,33 @@ Acceptance examples: a single day combining BuJo tasks, gratitude text and untra
 
 ## Self-contained document decision
 
-Jot v1 has two representations with the same writing (draft 3, 26 October 2026): plain `.jot`, readable and editable in any text editor, and packaged `.jotz`, one ZIP-based document with journal.txt, manifest.json and every included asset. Readers decide by content, so a mislabelled file still opens. Text-only tools (editors, InkDeck) list `.jot` and never save a package as text. The workspace saves plain `.jot` when a journal has no attachments and `.jotz` when it has. Provide writing-only export and keep editable handwriting originals without compulsory transcription.
+Jot v1 has two representations with the same writing (draft 3, 26 October 2026): plain `.jot`, readable and editable in any text editor, and packaged `.jotz`, one ZIP-based document with journal.txt, manifest.json and every included asset. Readers decide by content, so a mislabelled file still opens. Text-only tools list `.jot` and never save a package as text. The workspace saves plain `.jot` when a journal has no attachments and `.jotz` when it has. Provide writing-only export and keep editable handwriting originals without compulsory transcription.
 
 Implemented: JavaScript pack/unpack/readDocument APIs; safe paths and declared size limits; SHA-256 integrity checks; legacy text import; editor asset attachment/local preview; one-file import/export; IndexedDB asset persistence; handwriting image+stroke insertion; corrected scan insertion. Core tests include text and exact binary round trips, corrupt/missing/extra members, unsafe paths, directory records and hashing. Browser export reports a complete package with two handwriting assets and local reload restores them. The cloud download-event hook did not provide the exported file path and a file-picker import test stalled; browser end-to-end file-import/download verification remains incomplete. Exact byte verification is covered independently by module tests.
 
 Next: real-device download/import checks, storage exhaustion, cross-tab conflict/recovery, asset editing within visual blocks, stronger long-term archive interoperability and optional encryption. ZIP packaging alone is not encryption or PDF compatibility.
+
+
+## Optional BYOK AI companion (2026-11-01)
+
+Implemented in Writer: inline reviewed drafts and on-demand suggestions using OpenRouter or loopback OpenAI-compatible servers.
+AI and AI suggestions default off. Context is limited to explicitly chosen selected text; keys remain in session memory. Strict
+response-envelope and Jot parsing checks precede explicit undoable insertion. OpenRouter denies provider data collection and has
+an independent ZDR toggle, on by default. No silent policy downgrade, tools, containers, remote file uploads or cloud fallback.
+See `docs/guide/ai-companion.md`. Automated transport and browser checks use mocked models. Live-provider compatibility, native
+webview/CORS and physical-device checks remain release validation; complete profile-semantic validation remains separate work.
+
+
+## Everyday browser tools and manual nearby transfer
+
+Writer implements an optional offline PWA shell, local storage protection/usage, session wake lock, reviewed outgoing sharing and
+a separate local incoming inbox. Manual nearby transfers use WebRTC with local candidates, two-way invitation/response pairing,
+comparison codes, integrity verification and inbox review; no Bluetooth, STUN/TURN, internet signaling or automatic merge. Incoming
+OS share delivery requires browser support and an active controlling worker; file-picker import remains available.
+
+Inline annotation creates an immutable page snapshot with editable strokes and composed PNG; later text edits do not move its
+marks. Source uses existing image/link syntax and self-contained `.jotz` assets. Done/Cancel and source Undo are preserved. The
+hidden scanner remains hidden. See `docs/guide/browser-tools.md` for limitations and `specification/Jot-Container-v1.md` for the
+optional stroke background member. Automated tests cover Chromium and local browser-to-browser WebRTC. Native share registration,
+physical pen/palm behavior, real laptop/phone Wi-Fi or hotspot compatibility and native desktop-webview support remain release
+validation. Dedicated hardware/firmware, live text-anchored ink and ongoing synchronization remain deferred.

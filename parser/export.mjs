@@ -41,12 +41,21 @@ export async function exportHTML(page, { title = 'Journal', lang = 'en', pageCss
     return (await response.text()).replace(/url\((['"])(.*?)\1\)/g, (match, quote, url) => /^(data:|blob:|#)/.test(url) ? match : `url('${new URL(url, sheet.href).href}')`);
   }));
   let css = sheets.join('\n');
-  const fonts = [...new Set([...css.matchAll(/url\('([^']+\.woff2)'\)/g)].map((m) => m[1]))];
-  const used = page.classList.contains('jot-hand') ? (doc.defaultView.getComputedStyle(page).getPropertyValue('--hw-family') || '').replace(/['"\s]/g, '') : '';
-  for (const f of fonts) {
-    const family = (new RegExp(`font-family:'([^']+)'[^}]*${f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).exec(css) || [])[1] || '';
-    if (!used || family.replace(/\s/g, '') !== used) { css = css.replace(new RegExp(`@font-face\\{[^}]*${f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^}]*\\}`, 'g'), ''); continue; } // only the hand in use
-    try { css = css.split(`url('${f}')`).join(`url('${await dataURL(f, fetchImpl)}')`); } catch { /* the hand falls back to cursive */ }
+  const faces = [...css.matchAll(/@font-face\s*\{[^}]*\}/g)].map(([rule]) => ({
+    rule, family: /font-family:\s*['"]([^'"]+)['"]/.exec(rule)?.[1], url: /url\(['"]([^'"]+\.woff2)['"]\)/.exec(rule)?.[1],
+  }));
+  const registered = new Set(faces.map((face) => face.family)), used = new Set();
+  // Inspect the actual paper, including typed pages and mixed-font blocks. Interface fonts outside it are not exported.
+  for (const element of [page, ...page.querySelectorAll('*')]) {
+    const families = doc.defaultView.getComputedStyle(element).fontFamily.match(/"[^"]*"|'[^']*'|[^,]+/g) || [];
+    const family = families.map((name) => name.trim().replace(/^['"]|['"]$/g, '')).find((name) => registered.has(name));
+    if (family) used.add(family);
+  }
+  const embedded = new Map();
+  for (const face of faces) {
+    if (!used.has(face.family) || !face.url) { css = css.replace(face.rule, ''); continue; }
+    if (!embedded.has(face.url)) embedded.set(face.url, await dataURL(face.url, fetchImpl));
+    css = css.replace(face.rule, face.rule.replace(face.url, embedded.get(face.url)));
   }
   const cls = [...page.classList].filter((c) => c.startsWith('jot-')).join(' '), vars = page.style.cssText;
   const body = `<main class="jot-export ${esc(cls)}"${vars ? ` style="${esc(vars)}"` : ''}>${clone.innerHTML}</main>`;

@@ -1,19 +1,19 @@
 // The Jot template editor's model and generator (dist/editor/template.mjs). Run: node --test test-editor.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, INKDECK_BYTES, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks, templateFromJot, templateComment, renderManual, MANUAL_SECTIONS, MARKS } from './dist/editor/template.mjs';
+import { BLOCKS, BLOCK_ORDER, ZONES, STARTERS, WIDGET_LIMIT, widgetCount, allowedIn, newBlock, normalizeTemplate, fromStarter, renderJot, renderFiles, monthDays, monthWeeks, templateFromJot, templateComment, renderManual, MANUAL_SECTIONS, MARKS } from './dist/editor/template.mjs';
 import { parse } from './dist/jot/jot.mjs';
 import { charts } from './dist/jot/charts.mjs';
 
 const records = (a) => a.nodes.filter((n) => n.type === 'record');
 const every = () => normalizeTemplate({ title: 'Every block', month: '2026-10', zones: Object.fromEntries(ZONES.map((z) => [z.id, BLOCK_ORDER.filter((t) => allowedIn(t, z.id)).map((t) => newBlock(t, z.id))])) });
 
-test('every starter, as a month and a file a week: valid Jot, a dated entry a day, small enough for InkDeck by the week', () => {
+test('every starter, as a month and a file a week: valid Jot, a dated entry a day', () => {
   for (const s of STARTERS) {
     const t = fromStarter(s.id, { month: '2026-10' }), [m] = renderFiles({ ...t, per: 'month' }), a = parse(m.text);
     assert.equal(a.diagnostics.length, 0, `${s.id}: ${JSON.stringify(a.diagnostics)}`);
     assert.deepEqual(a.entries.map((e) => e.date), monthDays('2026-10').map((d) => d.date), s.id);
-    for (const f of renderFiles({ ...t, per: 'week' })) assert.ok(f.bytes <= INKDECK_BYTES && parse(f.text).diagnostics.length === 0, `${s.id} ${f.file}`);
+    for (const f of renderFiles({ ...t, per: 'week' })) assert.equal(parse(f.text).diagnostics.length, 0, `${s.id} ${f.file}`);
   }
 });
 
@@ -117,11 +117,11 @@ test('Numbers and Week chart: measurements with units each day, a chart record p
   assert.ok(!allowedIn('chart', 'day') && allowedIn('chart', 'weekEnd') && allowedIn('numbers', 'day'), 'a chart goes with a week or the month, not a day');
 });
 
-test('Weekly dashboard: six widgets a week (within the rule of 7), numbers every day, a month that fits InkDeck', () => {
+test('Weekly dashboard: six widgets a week (within the rule of 7), numbers every day, a valid month', () => {
   const t = fromStarter('dashboard', { month: '2026-10' });
   assert.equal(widgetCount(t), 6); assert.ok(widgetCount(t) <= WIDGET_LIMIT && WIDGET_LIMIT === 7);
   const [m] = renderFiles({ ...t, per: 'month' }), a = parse(m.text);
-  assert.ok(m.bytes <= INKDECK_BYTES, `${m.bytes} bytes`);
+  assert.equal(a.diagnostics.length, 0);
   const cs = charts(a);
   assert.equal(cs.length, 5);
   assert.deepEqual(cs[1].model.series.map((s) => [s.metric, s.unit]), [['sleep', 'h'], ['work', 'h'], ['steps', ''], ['mood', '']]);

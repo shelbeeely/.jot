@@ -1,8 +1,10 @@
 import { projectSource } from './live-model.mjs';
 import { parse } from './jot/jot.mjs';
 import { renderPreview } from './jot/preview.mjs';
+import { highlightSVG } from './jot/handwriting.mjs';
 import { writingEdit, continueListEdit } from './writing-tools.mjs';
 import { completionIndex, localSuggestions } from './local-autocomplete.mjs';
+import { setupWriterFonts } from './writer-fonts.mjs';
 
 // The DOM is a projection, never a document serializer. All edits address Jot source.
 export function setupLiveWriter({ editor, status, getReferences = () => [], asset = () => null, reference = () => {} }) {
@@ -12,6 +14,7 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
   surface.setAttribute('role', 'textbox'); surface.setAttribute('aria-label', 'Jot journal writing'); surface.setAttribute('aria-multiline', 'true');
   surface.setAttribute('data-placeholder', 'Start anywhere. A sentence is enough.');
   editor.before(surface);
+  setupWriterFonts({ editor, surface });
   const focusSource = editor.focus.bind(editor), selectSource = editor.setSelectionRange.bind(editor);
   let active = true, source = editor.value, blocks = [], textLeaves = [], wrappers = [], internal = false, composing = false, composition = null;
   let history = [{ text: source, start: editor.selectionStart, end: editor.selectionEnd }], at = 0, lastGroup = '', lastTime = 0;
@@ -74,18 +77,40 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
     if (!selection) return;
     try { selection.setBaseAndExtent(direction === 'backward' ? b : a, direction === 'backward' ? bo : ao, direction === 'backward' ? a : b, direction === 'backward' ? ao : bo); } catch { /* a source-only selection can include an opaque block */ }
   }
-  function inline(part, parent) {
+  function inline(part, parent, highlighted = false) {
     if (part.kind === 'text') {
-      const text = doc.createTextNode(part.text || ''); parent.append(text);
-      textLeaves.push({ node: text, from: part.contentFrom ?? part.from, to: part.contentTo ?? part.to, map: part.map });
+      const value = part.text || '', from = part.contentFrom ?? part.from, to = part.contentTo ?? part.to;
+      if (!highlighted) {
+        const text = doc.createTextNode(value); parent.append(text);
+        textLeaves.push({ node: text, from, to, map: part.map });
+      } else {
+        // Build the fragments before registering leaves: their original source maps
+        // still address escapes and entities after a highlight wraps onto a new line.
+        let offset = 0;
+        for (const word of value.split(/(\s+)/)) {
+          if (!word) continue;
+          const end = offset + word.length, map = part.map?.slice(offset, end + 1);
+          const span = node('span'); span.className = /^\s+$/.test(word) ? 'jot-highlight-space' : 'jot-highlight-word';
+          const text = doc.createTextNode(word); span.append(text); parent.append(span);
+          textLeaves.push({ node: text, from: map?.[0] ?? from + offset, to: map?.at(-1) ?? Math.min(to, from + end), map });
+          offset = end;
+        }
+      }
       return;
     }
     const tags = { strong: 'strong', em: 'em', code: 'code', link: 'span', highlight: 'mark', strike: 's', underline: 'u' };
-    const span = node(tags[part.kind] || 'span');
+    const attachment = part.kind === 'link' && part.href ? asset(part.href) : null;
+    const span = node(attachment?.url ? 'a' : tags[part.kind] || 'span');
+    if (attachment?.url) { span.href = attachment.url; span.download = part.href.split('/').pop(); }
     if (part.kind === 'link') { span.className = 'live-link'; if (part.href) span.title = part.href; }
+    if (part.kind === 'highlight') {
+      span.className = 'jot-highlighter-active';
+      span.style.setProperty('--jot-highlight-stroke', `url("data:image/svg+xml,${encodeURIComponent(highlightSVG('#fddd13', 'marker', part.from + 1))}")`);
+      highlighted = true;
+    }
     wrappers.push({ node: span, from: part.from, to: part.to, inline: true }); parent.append(span);
-    if (part.text !== undefined) inline({ kind: 'text', text: part.text, from: part.contentFrom, to: part.contentTo, map: part.map }, span);
-    else for (const child of part.children || []) inline(child, span);
+    if (part.text !== undefined) inline({ kind: 'text', text: part.text, from: part.contentFrom, to: part.contentTo, map: part.map }, span, highlighted);
+    else for (const child of part.children || []) inline(child, span, highlighted);
   }
   function render(keep = sourceRange()) {
     if (composing) return;
@@ -118,6 +143,7 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
       } else { currentList = null; fragment.append(line); }
     }
     surface.replaceChildren(fragment); surface.toggleAttribute('data-empty', !editor.value.trim());
+    editor.dispatchEvent(new win.Event('jotliveupdate'));
     if (active && doc.activeElement === surface) select(keep.start, keep.end, keep.direction);
   }
   function apply(edit, { group = '', focus = true } = {}) {
@@ -264,5 +290,5 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
     source = editor.value; remember(source, editor.selectionStart, editor.selectionEnd); render();
   }
   editor.jotApplyEdit = apply; editor.jotSetMode = setMode; root.setAttribute('data-editor-mode', 'live'); render();
-  return { surface, setMode, syncFromSource, get composing() { return composing; }, reset() { composing = false; composition = null; closeSuggestions(); source = editor.value; history = [{ text: source, start: editor.selectionStart, end: editor.selectionEnd }]; at = 0; lastGroup = ''; render(); } };
+  return { surface, setMode, syncFromSource, mountInline(element, position) { const item = wrappers.find(item => item.node.parentNode === surface && item.to >= position); if (item) item.node.after(element); else surface.append(element); }, get composing() { return composing; }, reset() { composing = false; composition = null; closeSuggestions(); source = editor.value; history = [{ text: source, start: editor.selectionStart, end: editor.selectionEnd }]; at = 0; lastGroup = ''; render(); } };
 }

@@ -97,7 +97,7 @@ export function page(index) {
 <a class="skip" href="#diaries">Skip to the diaries</a>
 <header class="top">
   ${brandLink('../')}
-  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="../guide/">Guides</a><a href="./" aria-current="page">Examples</a></nav>
+  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="../guide/">Guides</a><a href="./" aria-current="page">Examples</a><a href="../fonts/">Typefaces</a></nav>
 </header>
 <main>
   <section class="intro">

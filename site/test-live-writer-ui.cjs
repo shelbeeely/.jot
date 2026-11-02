@@ -58,7 +58,7 @@ const server = http.createServer((req, res) => {
 
     assert.ok(await live.isVisible()); assert.equal(await page.isVisible('#writing'), false);
     assert.equal(await page.isVisible('.preview-pane'), false, 'editing uses one continuous document');
-    assert.equal(await source(), ''); assert.ok((await live.boundingBox()).y < 180);
+    assert.equal(await source(), ''); assert.ok((await live.boundingBox()).y < 260, 'writing starts near the top below the editable document name');
     await live.focus(); await page.keyboard.type('# A heading');
     await page.waitForFunction(() => !!document.querySelector('#liveWriting h1'));
     assert.equal(await source(), '# A heading');

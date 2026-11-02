@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { HANDS, INKS, PITCHES, pitchPx, snap, pageGeometry, handwritingCSS, PX_PER_MM } from './handwriting.mjs';
+import { HANDS, DEFAULT_HAND, SANS_FAMILY, INKS, PITCHES, pitchPx, snap, pageGeometry, handwritingCSS, PX_PER_MM } from './handwriting.mjs';
 
 test('the pitch is snapped to Chromium\'s layout unit, so hundreds of lines stay on the dots', () => {
   for (const mm of PITCHES) { const p = pitchPx(mm); assert.equal(p * 64, Math.round(p * 64)); assert.ok(Math.abs(p / PX_PER_MM - mm) < 0.01, `${mm} mm`); }
@@ -24,11 +24,23 @@ test('a printed page holds a whole number of rows and columns, centred, at least
 test('the fonts the look names are all here, each with its licence', () => {
   const css = handwritingCSS('./fonts/');
   for (const h of Object.values(HANDS)) {
+    if (h.generated) {
+      assert.ok(fs.existsSync(new URL('./fonts/jot-original-OFL.txt', import.meta.url)), 'original Jot font licence');
+      for (const w of [400, 700]) {
+        const f = `${h.file}-${w}.woff2`;
+        assert.ok(css.includes(f) && fs.existsSync(new URL(`./fonts/${f}`, import.meta.url)), f);
+      }
+      assert.deepEqual(h.alternates, [''], 'Script shaping keeps each word intact');
+      continue;
+    }
     assert.ok(fs.existsSync(new URL(`./fonts/${h.file}-OFL.txt`, import.meta.url)), `${h.file} licence`);
     for (const sub of ['latin', 'latin-ext']) for (const w of [400, 700]) { const f = `${h.file}-${sub}-${w}-normal.woff2`; assert.ok(css.includes(f) && fs.existsSync(new URL(`./fonts/${f}`, import.meta.url)), f); }
   }
   assert.deepEqual(HANDS.pen.alternates, ['', 'ss01', 'ss02'], 'the pen chooses among three shapes of each letter');
   assert.ok(Object.values(INKS).every((c) => /^#[0-9a-f]{6}$/.test(c)));
+  assert.equal(DEFAULT_HAND, 'script07');
+  assert.equal(SANS_FAMILY, 'Jot Sans');
+  for (const w of [400, 700]) assert.ok(fs.existsSync(new URL(`./fonts/jot-sans-${w}.woff2`, import.meta.url)));
 });
 
 test('the look outranks a page\'s own typed styles, and asks the printer to print the dots', () => {

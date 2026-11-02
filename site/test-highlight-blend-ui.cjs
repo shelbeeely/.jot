@@ -23,7 +23,7 @@ async function checkPixels(page) {
       const ctx = canvas.getContext('2d'); ctx.drawImage(image, 0, 0); return ctx.getImageData(0, 0, image.width, image.height).data; }
     const a = await pixels(before), b = await pixels(after); let ink = 0, tinted = 0;
     for (let i=0; i<a.length; i+=4) if (a[i]===80 && a[i+1]===120 && a[i+2]===200 && a[i+3]===255) {
-      ink++; if (b[i+2] < 180 && b[i] <= 81 && b[i+1] <= 121) tinted++;
+      ink++; if (b[i+2] < a[i+2] - 2 && b[i] <= a[i] + 1 && b[i+1] <= a[i+1] + 1) tinted++;
     }
     return {ink, tinted};
   }, {before, after});
@@ -35,7 +35,8 @@ async function checkPixels(page) {
     for (const scheme of ['light','dark']) for (const look of ['hand','typed']) {
       const page=await browser.newPage({viewport:{width:1000,height:900},colorScheme:scheme}); page.on('pageerror',e=>errors.push(e.message));
       await page.goto(`http://127.0.0.1:${server.address().port}/write/`);
-      await page.click('#writerPreviewToggle');
+      await require('./test-source-workspace.cjs')(page);
+      await require('./test-source-workspace.cjs').command(page, 'Side by side');
       await page.selectOption('#look',look);
       await page.fill('#writing','[MMMM]{ink=#5078c8 highlight=#f0b428}');
       await page.waitForSelector('#paperPreview .jot-highlight-word'); await page.$eval('#paperPreview',async e=>{await e.jotReady;});

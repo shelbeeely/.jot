@@ -8,7 +8,7 @@ import { drawChart, addChartStyles, addHandwritingStyles, renderPreview } from '
 addChartStyles(document); addHandwritingStyles(document);
 
 // what you jot, and what you get: the source shown on the left, laid out in the Journal style on the right
-renderPreview(parse(document.getElementById('sample-source').textContent), document.getElementById('sample-page'), { hand: { hand: 'pen', ink: 'blue', pitchMm: 5, seed: 2 } });
+renderPreview(parse(document.getElementById('sample-source').textContent), document.getElementById('sample-page'), { hand: { hand: 'script07', ink: 'blue', pitchMm: 5, seed: 2 } });
 
 // a week of numbers
 const sleep = [7.5, 6, 6.5, 8, 5.5, 8.5, 7], steps = [6200, 8400, 4100, 9800, 7300, 12100, 5600];
@@ -30,7 +30,7 @@ The rain made the room feel ==quieter==. I wanted to remember that.
 
 -> A small beginning is still a beginning. <-
 `;
-renderPreview(parse(page), document.getElementById('written-demo'), { hand: { hand: 'pen', ink: 'blue', pitchMm: 5, seed: 2 } });
+renderPreview(parse(page), document.getElementById('written-demo'), { hand: { hand: 'script07', ink: 'blue', pitchMm: 5, seed: 2 } });
 
 
 // Rendered examples, not an editor: each example can reveal the plain Jot that produced it.
@@ -90,7 +90,7 @@ for (const [i, [title, source]] of examples.entries()) {
   const details = document.createElement('details'), summary = document.createElement('summary'), pre = document.createElement('pre'), code = document.createElement('code');
   summary.textContent = 'See the .jot'; code.textContent = source; pre.tabIndex = 0; pre.append(code); details.append(summary, pre);
   card.append(heading, preview, details); document.getElementById('feature-samples').append(card);
-  renderPreview(parse(source), preview, { hand: { hand: 'pen', ink: 'blue', pitchMm: 5, seed: i + 10 } });
+  renderPreview(parse(source), preview, { hand: { hand: 'script07', ink: 'blue', pitchMm: 5, seed: i + 10 } });
 }
 
 
@@ -105,6 +105,6 @@ for (const [groupIndex, [group, colors]] of Object.entries(mildlinerPalettes).en
     const preview = document.createElement('div'); preview.className = 'palette-preview'; preview.id = `mildliner-${groupIndex}-${colorIndex}`;
     const code = document.createElement('code'); code.textContent = '#' + hex;
     row.append(dot, preview, code); list.append(row);
-    renderPreview(parse(`[${name}]{highlight=#${hex}}`), preview, { hand: { hand: 'pen', ink: 'blue', pitchMm: 5, seed: groupIndex * 5 + colorIndex + 1 } });
+    renderPreview(parse(`[${name}]{highlight=#${hex}}`), preview, { hand: { hand: 'script07', ink: 'blue', pitchMm: 5, seed: groupIndex * 5 + colorIndex + 1 } });
   }
 }

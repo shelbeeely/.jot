@@ -23,11 +23,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: fonts/requirements.txt
+      - name: Install font generation tools
+        run: python3 -m pip install --disable-pip-version-check -r fonts/requirements.txt
       - name: Install pdftotext (the privacy check reads PDFs)
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils
 
       - name: Privacy check
         run: node tools/privacy-check.mjs site/dist
+
+      - name: Original fonts match their sources
+        run: |
+          python3 fonts/build.py --check
+          node tools/sync-fonts.mjs --check
+          python3 fonts/test.py
 
       - name: The site is built from the current sources
         run: |
@@ -37,6 +50,7 @@ jobs:
           node tools/sync-brand.mjs --check
           node site/build-guides.mjs --check
           node tools/build-examples.mjs --check
+          node tools/build-offline.mjs --check
           node tools/manifest.cjs --check
           cmp converter/convert.mjs site/dist/jot/convert.mjs
           cmp converter/archive.mjs site/dist/jot/archive.mjs
@@ -50,7 +64,7 @@ jobs:
 
       - name: Tests
         run: |
-          node --test tools/test-privacy.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/lock-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/palette-test.mjs parser/automation-test.mjs parser/include-test.mjs parser/links-test.mjs parser/query-test.mjs parser/health-test.mjs cli/test.mjs site/test-editor.mjs site/test-autocomplete.mjs site/test-device-files.mjs site/test-editor-capture.mjs site/test-live-model.mjs site/test-reference-books.mjs site/test-writer-search.mjs site/test-writer-templates.mjs site/test-writer-workspace.mjs site/test-writing-tools.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
+          node --test tools/test-privacy.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/lock-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/palette-test.mjs parser/automation-test.mjs parser/include-test.mjs parser/links-test.mjs parser/query-test.mjs parser/health-test.mjs cli/test.mjs site/test-editor.mjs site/test-ai-client.mjs site/test-browser-tools.mjs site/test-autocomplete.mjs site/test-device-files.mjs site/test-editor-capture.mjs site/test-live-model.mjs site/test-reference-books.mjs site/test-writer-search.mjs site/test-writer-templates.mjs site/test-writer-workspace.mjs site/test-writing-tools.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
           node site/test-core.cjs
 
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

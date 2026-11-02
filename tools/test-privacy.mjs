@@ -65,3 +65,10 @@ test('ZIP comments, directory names and binary members are inspected as well as 
   assert.ok(found.some(f=>f.includes('(comment): an email address')));
   assert.ok(found.some(f=>f.includes('picture.png: an email address')));
 });
+
+test('a pinned upstream license preserves its public contact without allowing emails elsewhere', async () => {
+  const name='vendor/browser/dijkstrajs-LICENSE.md.txt',license=fs.readFileSync(path.join(ROOT,'site/dist',name));
+  assert.deepEqual(await check(site({[name]:license})),[]);
+  assert.ok((await check(site({'journal.jot':'self@wyattbaldwin.com'}))).some(issue=>issue.includes('email')));
+  assert.ok((await check(site({[name]:Buffer.concat([license,Buffer.from('\nChanged.\n')])}))).some(issue=>issue.includes('email')));
+});
