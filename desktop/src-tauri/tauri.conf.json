@@ -22,7 +22,7 @@
         "object-src": "'none'",
         "base-uri": "'self'",
         "form-action": "'none'",
-        "frame-src": "'none'"
+        "frame-src": "blob:"
       }
     }
   },

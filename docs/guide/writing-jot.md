@@ -34,6 +34,9 @@ autosave. External file changes stop saving so you can keep both versions. Savin
 Extra controls stay closed until you need them. In **Tools**, choose **Journal tools** for the journal button row,
 **Formatting controls** for formatting buttons and **Colors**, or **Writing options** for suggestions and writing hints.
 **Attached files** opens the attachment list; it also appears when the journal contains files.
+Choose **View** to open a supported image, audio recording, video or PDF locally. Image and attachment links in the preview open the same viewer. Audio and video have playback controls and never autoplay. Closing the viewer stops playback; replacing or locking the journal clears it.
+
+Once Writer is prepared for offline use, attached files need no provider connection. Playback depends on the browser's codecs; PDFs use its built-in viewer, which may be unavailable in some browsers or desktop webviews. **Download original** remains available when display fails or is unsupported. Downloads are separate, unencrypted copies. SVG, HTML and other unsupported files remain downloads; Writer does not execute them. Original attachment bytes remain unchanged in the journal.
 
 - **Bold**, **Italic**, **Code** and **Link** edit the selected source. **Heading**, **Task**, **Bullets**, **Numbers** and **Quote**
   format the selected lines. **Indent** and **Outdent** move those lines by two spaces. The text remains ordinary Jot/Markdown.
