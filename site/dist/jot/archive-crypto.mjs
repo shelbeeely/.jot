@@ -52,7 +52,7 @@ async function pbkdf2Key(secretBytes, salt, iterations) {
 }
 async function prfKey(prf) {
   const p = bytesOf(prf);
-  if (p.length < 32) fail('bad-options', 'A passkey answer is at least 32 bytes.');
+  if (p.length !== 32) fail('bad-options', 'A passkey answer must be exactly 32 bytes.');
   const base = await subtle().importKey('raw', p, 'HKDF', false, ['deriveKey']);
   return subtle().deriveKey({ name: 'HKDF', hash: 'SHA-256', salt: new Uint8Array(0), info: PRF_INFO }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
 }

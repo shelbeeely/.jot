@@ -360,3 +360,5 @@ limitations, pairing steps and what has been tested. Bluetooth and automatic syn
 Jot Mono regular and bold bring the G2 pen style to fixed-width source editing
 and code. Choose Mono in Write or the typeface inspector. Font design rules
 are recorded in [fonts/AGENTS.md](fonts/AGENTS.md).
+
+Security verification and passkey compatibility: [testing plan and current limits](docs/security/README.md). Run `npm run test:security`; browser checks use `npm run test:security:browser` with Playwright/Chromium available. Automated checks are not an independent security audit.

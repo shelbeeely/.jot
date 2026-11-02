@@ -6,7 +6,9 @@
     "lint": "eslint .",
     "fonts:build": "python3 fonts/build.py && node tools/sync-fonts.mjs",
     "fonts:check": "python3 fonts/build.py --check && node tools/sync-fonts.mjs --check",
-    "fonts:test": "python3 fonts/test.py"
+    "fonts:test": "python3 fonts/test.py",
+    "test:security": "node --test parser/container-test.mjs parser/archive-test.mjs parser/lock-test.mjs site/test-passkey-client.mjs tools/test-privacy.mjs",
+    "test:security:browser": "node site/test-lock-ui.cjs && node site/test-archive-ui.cjs && node site/test-browser-tools-ui.cjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

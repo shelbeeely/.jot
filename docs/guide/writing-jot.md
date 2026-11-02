@@ -480,7 +480,7 @@ All attachments and settings stay encrypted while protection is enabled, includi
 Save privacy choices updates the browser copy. Save or Download updates an external archive separately. Earlier downloads and
 backups keep their earlier privacy settings. A failed privacy save can leave an earlier public copy, so the tool says so.
 
-**Ways in** supports recovery codes, passphrase changes and passkeys/security keys where the browser supports PRF. At least one
+**Ways in** supports recovery codes, passphrase changes and passkeys/security keys where the browser supports PRF. Passkeys can be stored in a password manager, but the manager/browser must support PRF encryption unlocking, not only passkey login. Keep a passphrase or recovery code for offline access if that manager, another device or its network is unavailable. At least one
 passphrase or recovery code remains. Passkeys work only for their original site. **Remove the lock** makes the current archive
 public; it does not change earlier copies. Preferences can relock after time away. Reload/relock hides private writing and keys,
 while public writing remains readable in the locked panel. **Search public entries** searches that public index without unlocking. Browser storage is not a backup: keep downloaded archives.

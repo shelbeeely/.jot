@@ -20,6 +20,10 @@ Encryption is fundamental to the journal document and a required v1 format capab
 - [ ] Require safe preservation of protection when a compatible archive editor saves; readers without the required crypto capability must refuse unsupported protected operations without plaintext conversion, silent downgrade or content loss. Plain-source readers remain useful within their declared capability.
 - [ ] Treat privacy transitions, export exposure, independent review and tamper/corruption/recovery fixtures as v1 release gates alongside D4. Synchronize corresponding Writer behavior in the same implemented format change.
 
+## Security verification and passkeys
+
+The [security verification plan](../docs/security/README.md) separates automated evidence, mutation/fuzzing work, real-device compatibility and independent review. Passkey key slots use WebAuthn PRF → HKDF → master-key unwrap; current validation requires exactly 32-byte PRF output. Wrong RP/credential and malformed/unsupported browser responses must fail without exposing content, while passphrase/recovery access remains available. Domain/native-origin portability, actual-device offline behavior, fuzzing evidence and independent review remain required/unverified; virtual-authenticator tests are not a certification. Changing a passphrase is not compromise-recovery master-key rotation.
+
 ## Status meanings
 
 Implemented means code exists, tested means a named check passed, and planned/unverified means acceptance is still open. Current archive/protection code is a prototype; no claim of complete conformance, cross-editor support, instant search or independent security review follows from it.

@@ -7,4 +7,6 @@ for(const [source,parserCopy,siteCopy]of [['specification/Jot-Container-v1.md','
 const archiveCases=JSON.parse(fs.readFileSync(new URL('specification/conformance.json',root),'utf8')).archiveCases;
 const fixture=Buffer.from(JSON.stringify({format:'jot-archive-conformance',version:1,cases:archiveCases},null,2)+'\n'),fixturePath=new URL('parser/archive-conformance.json',root);
 if(check){if(!fs.existsSync(fixturePath)||!fs.readFileSync(fixturePath).equals(fixture))throw Error('Archive conformance copy is stale.');}else fs.writeFileSync(fixturePath,fixture);
+const security=fs.readFileSync(new URL('docs/security/README.md',root)),securityPath=new URL('site/dist/docs/security-testing.md',root);
+if(check){if(!fs.existsSync(securityPath)||!fs.readFileSync(securityPath).equals(security))throw Error('Security verification guide copy is stale.');}else fs.writeFileSync(securityPath,security);
 console.log('Archive specification copies: '+(check?'current':'synchronized'));

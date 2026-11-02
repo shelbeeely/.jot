@@ -3,13 +3,13 @@ import fs from 'node:fs';
 const root = new URL('../', import.meta.url), check = process.argv.includes('--check');
 const format = fs.readFileSync(new URL('specification/ROADMAP.md', root), 'utf8');
 const writer = fs.readFileSync(new URL('WRITER-ROADMAP.md', root), 'utf8');
-const publicWriter = writer.replaceAll('(specification/ROADMAP.md)', '(ROADMAP.md)')
+const publicWriter = writer.replaceAll('(specification/ROADMAP.md)', '(ROADMAP.md)').replaceAll('(docs/security/README.md)', '(docs/security-testing.md)')
   .replace(/\(specification\/(Jot-[^)]+\.md)\)/g, '(docs/$1)')
   .replace(/\(docs\/guide\/([^)]+)\.md\)/g, '(guide/$1.html)')
   .replace(/\[([^\]]+)\]\((docs\/proposals\/[^)]+)\)/g, '$1 (repository source: `$2`)');
 for (const [name, text] of [
   ['parser/ROADMAP.md', format],
-  ['site/dist/ROADMAP.md', format.replaceAll('(../WRITER-ROADMAP.md)', '(WRITER-ROADMAP.md)')],
+  ['site/dist/ROADMAP.md', format.replaceAll('(../WRITER-ROADMAP.md)', '(WRITER-ROADMAP.md)').replaceAll('(../docs/security/README.md)', '(docs/security-testing.md)')],
   ['site/dist/WRITER-ROADMAP.md', publicWriter]
 ]) {
   const target = new URL(name, root);

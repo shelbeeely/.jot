@@ -18,7 +18,7 @@ Passphrase slots derive a wrapping key with PBKDF2-HMAC-SHA-256, UTF-8 NFC passp
 iterations. Accept 100,000 through 2,000,000 iterations with a combined slot work budget of 8,000,000. Recovery codes contain
 125 random bits in 25 Crockford base32 symbols (five groups), normalize case/separators and O/I/L ambiguities, and use
 100,000 iterations with an independent random salt. A passkey PRF answer uses HKDF-SHA-256, empty salt and UTF-8 info
-`JOTZ 1 webauthn-prf`; keep its random 32-byte PRF input, credential ID and RP identifier with the slot. Passkeys remain bound
+`JOTZ 1 webauthn-prf`; the PRF output MUST be exactly 32 bytes. Keep its random 32-byte PRF input, credential ID and RP identifier with the slot. Passkeys remain bound
 to that RP and browser/hardware support. Always retain at least one passphrase or recovery slot; at most 16 slots.
 
 A key slot wraps the master key with AES-256-GCM, random 12-byte IV and 128-bit tag. Additional authenticated data is UTF-8
@@ -75,3 +75,9 @@ chosen after unlock can expose private content; the app labels their scope.
 Tests include independent decryption through node:crypto, every key-slot type, wrong keys, tag/ciphertext tampering, metadata/order
 binding, public-only index scans, repeated dates, exact source/assets and ciphertext reuse. Independent security review, cross-app
 interoperability and mobile/large-archive benchmarks remain unverified.
+
+## Security verification and passkey portability
+
+The repeatable validation plan and threat boundaries are in `docs/security/README.md` in the repository. Automated coverage includes exact PRF input/output sizes, allowed credential identity, RP mismatch, missing PRF support, cancellation, wrong keys, tampering and recovery. Client API mocks and Chromium virtual authenticators are different evidence levels; neither establishes real authenticator or synced-passkey interoperability.
+
+A passkey is an independent way to unwrap the same master key; it is not an extra factor required alongside the passphrase. A weak alternate passphrase remains an offline guessing target. Keep a passphrase or recovery code for portable offline access. A passkey stored on another device or managed/synced by a provider may require connectivity or unavailable hardware, so it cannot be the universal offline recovery promise. RP scope is a domain/security boundary, not a repository path; plan a stable production origin and native-app association separately. No account-login assertion verification is implied by this local PRF unlocking flow.

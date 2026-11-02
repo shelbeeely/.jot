@@ -23,6 +23,10 @@ Encryption is a required part of Writer v1 and its primary `.jotz` workflow acro
 - [ ] Verify no private data leaks through cached previews, search databases, provider logs, temporary files or relocked editor/undo state. Cloud/local AI remain optional explicit tools; reading/unlocking must never send journal content for processing.
 - [ ] Complete tamper, wrong-key, recovery, failed-save, shared-media, export and offline tests plus independent cryptographic review and actual-device checks before stable v1. Existing automated crypto/browser tests are prototype evidence, not an audit.
 
+## Passkey and security verification delivery
+
+The [security verification plan](docs/security/README.md) records the threat model, repeatable commands and the real-device matrix. The prototype has a PRF-based passkey/security-key flow and Chromium virtual-authenticator coverage. Client checks now validate exact PRF lengths, credential identity, RP scope and malformed/cancelled/unsupported responses. Real Apple/Android/Windows/Linux authenticators, credential-provider sync/migration, native app associations, stable production origin, offline recovery and independent review remain unverified. Support must be reported per browser/device combination, with an available passphrase/recovery fallback; no claim that every passkey works offline or across origins.
+
 ## Whole-document offline reading: required for v1
 
 - [ ] Make every saved complete `.jotz` readable offline, including all saved text, selected media/originals, ink components, included documents, supported presentation and integration snapshots. No provider credentials, temporary media URLs, server calls or AI may be needed to read it; protected entries retain local unlocking routes.
