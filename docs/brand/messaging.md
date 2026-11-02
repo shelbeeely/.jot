@@ -13,7 +13,8 @@ beautiful pages, with no account and nothing uploaded.
 
 Jot is a journal you write in plain text and read as beautiful pages: dates in words, tasks, margin notes, charts of your
 numbers, even handwriting on a dot grid. It is for anyone who keeps a journal, whatever their method, and the file stays an
-ordinary text file that any editor opens. No account, no subscription, nothing uploaded: your journal outlives the app.
+ordinary text file that any editor opens. There's no account or subscription, and nothing is uploaded, so your journal
+outlives the app.
 
 ## 03 Taglines
 

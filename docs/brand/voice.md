@@ -10,17 +10,17 @@ sounds like them. It reads `.agents/brand-context.md` for who Jot is for, and th
 Jot speaks like a good notebook would if it could talk: quietly, warmly, and only when it has something useful to say. It writes
 for someone who keeps a journal, not for someone who builds software, so it uses plain words and short sentences, and it leaves
 the page to the writer. It gives permission rather than instructions ("Start anywhere."), it is honest about what it cannot do,
-and it never measures, scores or hurries the person writing. Underneath the calm there is care: the privacy, the durable files and
-the methods research are real, and the voice can say so plainly.
+and it never measures, scores or hurries the person writing. The privacy, the durable files and the methods research are real, and
+the voice can say so plainly.
 
 **Voice essence:** Jot sounds like a trusted notebook that talks back now and then: calm, warm and plain.
 
 ## 02 Tone dimensions
 
-**Casual ←→ Formal:** casual, never sloppy. Contractions, everyday words, full sentences.
+**Casual ←→ Formal:** casual but careful: contractions and everyday words, in full sentences.
 > Your writing stays here.
 
-**Calm ←→ Energetic:** calm. No exclamation marks, no urgency, nothing that shouts.
+**Calm ←→ Energetic:** calm. Jot doesn't use exclamation marks or invent urgency.
 > Open a journal, or start a new one.
 
 **Serious ←→ Playful:** gently serious, with a light touch where it fits (a hand-drawn iota, "ιot"). Never jokes at the writer's
@@ -140,7 +140,7 @@ engagement, AI-powered, revolutionary, world-class, game-changing, simply / just
 **After:**
 > Journals last decades; apps don't. A `.jot` file still opens in Notepad.
 
-**Why it works:** "you", a concrete promise and a familiar example in place of jargon.
+**Why it works:** a concrete promise and a familiar example take the place of jargon.
 
 **Before:**
 > Write a little every day to build a healthy habit!

@@ -684,8 +684,8 @@
     },
     {
       "path": "docs/brand/README.md",
-      "byteLength": 17982,
-      "sha256": "d8af7218a5fce5075ad3667fba4a482ad2015c3c2bf1bf5774fcb08652ace68b"
+      "byteLength": 18031,
+      "sha256": "e9df2ac317bd244c5c4d9e8b005278f1c29f1196d4b947769aa05be014a8f9d7"
     },
     {
       "path": "docs/brand/app-icon.png",
@@ -764,8 +764,8 @@
     },
     {
       "path": "docs/brand/messaging.md",
-      "byteLength": 8712,
-      "sha256": "e1df9b1aad18a6119ae834bc56882376545019ce9b2f4f53a69fa4f31a36091d"
+      "byteLength": 8729,
+      "sha256": "f97e24b0530d2e7691677841c4a1fcb85caf3749972567643e34b61f2cb0f88a"
     },
     {
       "path": "docs/brand/social-preview.png",
@@ -819,8 +819,8 @@
     },
     {
       "path": "docs/brand/voice.md",
-      "byteLength": 9262,
-      "sha256": "d355c59b14c9100d1b591ea70dda7fc64ffc94349f4d4d168df4544b1aef684a"
+      "byteLength": 9228,
+      "sha256": "1cbd0908d29d75d534d1ec95581e69cd10d7734804625fa164504ecad7533a9f"
     },
     {
       "path": "docs/brand/vscode-icon.png",
@@ -22571,16 +22571,6 @@
       "path": "site/dist/docs/example.jotz",
       "byteLength": 2301,
       "sha256": "a056b8af76c77de86ddab3b502b496afcabb14c94b0ed18696e3047be60ff020"
-    },
-    {
-      "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1230064,
-      "sha256": "dfd4976f2ad8481c818750001eca335b530ab9087aceaf921a080ceeff6001d8"
-    },
-    {
-      "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1230064,
-      "sha256": "dfd4976f2ad8481c818750001eca335b530ab9087aceaf921a080ceeff6001d8"
     },
     {
       "path": "site/dist/docs/jot-parser.zip",

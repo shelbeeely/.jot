@@ -11,8 +11,8 @@ in [`.agents/brand-context.md`](../../.agents/brand-context.md); the decisions a
 **Mission.** Give everyone a journal that is theirs for life: written one thought at a time, in plain text that any editor
 opens, laid out as beautiful pages.
 
-**Vision.** A journal format that outlives every app that reads it, with tools good enough that people choose it for the pages,
-not just for the principle.
+**Vision.** A journal format that outlives every app that reads it, with tools good enough that people choose it for the pages
+as much as for the principle.
 
 **Values.**
 - **Your words are yours.** Plain files, no account, nothing uploaded.
@@ -166,12 +166,11 @@ Everything grows from the page and the pen, so the system is mostly what Jot alr
 
 **Voice essence:** Jot sounds like a trusted notebook that talks back now and then: calm, warm and plain.
 
-- **Permission, not pressure:** "Start anywhere. A sentence is enough." Never streaks or "you missed".
-- **Plain:** everyday words; technical terms only where someone needs them.
-- **Honest:** say the limits; never claim an effect the research doesn't show.
-- **Quiet:** few words; status messages say what happened, without celebrating.
-- **Warm:** the writer at the center; care shows in specifics, not adjectives.
-- **Private by default:** say plainly where words go (usually nowhere).
+Jot gives permission instead of pressure ("Start anywhere. A sentence is enough."), so it never mentions streaks or what
+someone missed. It uses everyday words and saves technical terms for readers who need them. It says what it can't do, and it
+never claims an effect the research doesn't show. Status messages say what happened without celebrating it. Warmth comes from
+specifics about the writer's own words rather than from adjectives, and Jot says plainly where those words go, which is
+usually nowhere.
 
 **Style:** short sentences; no exclamation marks; no em dashes in body copy; sentence case; American English; numerals for
 counts and sizes; contractions; active voice.
@@ -203,7 +202,7 @@ Proof points, audience variations and the canonical descriptions for the reposit
 ## Part 5: The brand in use
 
 **Website.** The wordmark in every header, in the page's ink; "Jot" in words in the first line and in every page title ("Tool ·
-Jot"); one primary action per screen in the purple accent; cream paper with the dot grid; the homepage tells, the writer does.
+Jot"); one primary action per screen in the purple accent; cream paper with the dot grid. The homepage explains Jot; the writer is for writing.
 `tools/sync-brand.mjs` keeps the headers, icons and link preview in step.
 
 **Apps and the extension.** The iota is every icon: the desktop and mobile app (cream tile), `.jot` files in the file manager
@@ -213,7 +212,7 @@ Jot"); one primary action per screen in the purple accent; cream paper with the 
 one thought" on its own line. GitHub's About and social preview are set by hand from `messaging.md` and `social-preview.png`.
 
 **Posts and link previews.** The social preview (the wordmark on dot-grid paper) and one line: the tagline or "Just one thought
-at a time." No hashtag strings, no countdowns.
+at a time." Leave out strings of hashtags and countdowns.
 
 **Status messages and errors.** What happened, or what to do, in one sentence; never blame, never celebrate.
 
