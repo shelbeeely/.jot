@@ -142,9 +142,15 @@ Shared archive validation rejects unsupported/contradictory structure before rep
 6. Add local diagram rendering and optional recognition/proofreading adapters without silent network uploads.
 7. Expand autocomplete in stages: schema/templates and explicitly selected local sources first, then opt-in public catalogs. Explore WriteFreely publishing separately from private drafting; neither requires replacing the Jot format.
 
+## ESP32 compatibility constraint
+
+The format/crypto must remain feasible for an ESP32-family implementation. Keep AES-256-GCM and compatible derivation primitives, with measured SDK/chip resource limits and independent format vectors. Writer should interchange complete offline `.jotz` content without depending on an embedded SQLite/WASM runtime; any constrained read/write profile must be specified and tested in both implementations. See the format roadmap's ESP32 target and `docs/security/README.md`.
+
+Passkey-manager access belongs to a WebAuthn-capable host or an explicitly evaluated authenticator/bridge. Embedded offline passphrase/recovery access must remain possible, with no implicit weakening of the protection scheme. Physical hardware selection, assembly and firmware delivery remain deferred; compatibility analysis is in scope, not a claim of implemented embedded support.
+
 ## Physical hardware and firmware: future exploration
 
-Status: **deferred; outside current delivery scope**. Physical hardware and firmware will be explored later. Current work
+Status: **device construction and firmware delivery deferred**. ESP32 cryptographic/file compatibility is a current constraint above; dedicated hardware and firmware will be explored later. Current work
 focuses on the Jot format and Writer software, especially getting started, saving, recovery and returning to a journal.
 
 No dedicated device, component supplier, parts list, enclosure, hardware prototype or firmware target is selected.

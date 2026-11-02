@@ -61,6 +61,20 @@ Build a bounded corpus covering public/mixed/protected, empty/BOM/CRLF/repeated 
 
 Run hostile inputs in an isolated process with time/memory budgets and no account credentials/network. Assert reject or bounded recovery as appropriate, no hang/unbounded allocation, no disk traversal/external fetch, no private plaintext output and no replacement of the previous journal on failed open. Classify expected public data changes separately from authenticated-private tampering; not every random byte mutation must fail. Save minimized reproducible crashes as regression fixtures. This harness/campaign is a release task, not something claimed completed by the existing unit suite.
 
+## ESP32-family interoperability target: unverified on hardware
+
+AES-256-GCM is the preferred common content-encryption primitive: it is already used by Jot through Web Crypto, while ESP-IDF exposes AES/GCM through its supported cryptographic stack. Keep SHA-256/HMAC, PBKDF2 and HKDF compatible at the byte/protocol level. ESP-IDF 6.x documentation describes migration to PSA Crypto; pin the SDK and use its supported public APIs rather than copying obsolete low-level code. Required features may need explicit configuration, and acceleration varies by chip/configuration.
+
+Current passphrase slots normally use 600,000 PBKDF2-HMAC-SHA-256 iterations. Benchmark on the actual chip before committing to acceptable unlock time/power; do not silently lower the work factor. Memory-heavy password derivation is not a baseline assumption for an ESP32. Test UTF-8/NFC and recovery normalization as well as cipher vectors, not just ASCII round trips.
+
+The current JavaScript ZIP/SQLite-WASM implementation and desktop-scale memory limits are not an ESP32 firmware implementation. Plan a bounded reader with suitable storage, optional index/source-search handling and explicit limits. Authenticate an encrypted member before exposing plaintext; many streaming AEAD APIs yield bytes before final verification. Safe staging/two-pass designs and any future chunking need explicit review and tests. Unknown/oversize content must not be silently dropped on save.
+
+A plain ESP-IDF application is not a browser running WebAuthn. Local passphrase/recovery unlock can use the same archive slots; direct passkey use or host-assisted provisioning requires a separately verified integration and trust/key lifecycle. Do not promise all password managers, FIDO2 tokens or native bridges work on a bare ESP32. Secure Boot/flash encryption can add device defenses on supported configurations but are not replacements for portable document encryption.
+
+Required evidence: browser/Node ↔ pinned ESP-IDF known-answer vectors, malformed/tampered-member rejection, authenticated-plaintext release, offline recovery, chip-specific time/RAM/power measurements, interrupted storage operations and round-trip preservation. The current environment has no `idf.py` or ESP32 cross-compiler and no physical-device evidence. This target does not change algorithms/file bytes or begin firmware delivery.
+
+Sources: [Espressif Mbed TLS integration](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/protocols/mbedtls.html) and [ESP-IDF 6.x security/PSA migration](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/migration-guides/release-6.x/6.0/security.html), read 2 November 2026. Compatibility/profile recommendations above are engineering decisions to be measured, not hardware test results.
+
 ## Real passkey/device matrix: unverified
 
 | Candidate configuration | Required checks | Evidence |

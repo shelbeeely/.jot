@@ -155,6 +155,18 @@ Immich, Google Photos and Apple Photos/iCloud Photos are planned Writer connecto
 
 The reader now refuses unknown structural fields rather than dropping them on resave, validates catalog identities/order/privacy and member encryption descriptors, and accepts an absent index descriptor with source-search fallback. The writer validates generated member identities/catalogs before emitting bytes. Custom JSON document metadata and unknown source fields remain preserved. Writer regression coverage exercises unsupported imports without replacing current writing and cacheless import/search/save. This closes concrete preservation/fallback gaps; it does not finalize the wider v1 schema/extension policy, chronological layout, independent security review or native/editor interoperability. See `docs/proposals/v1-core-finalization.md`.
 
+## ESP32-family cryptographic compatibility target
+
+The owner identified ESP32 as a target. Keep the core protection primitives compatible with supported ESP-IDF cryptography: AES-256-GCM, SHA-256/HMAC, PBKDF2-HMAC-SHA-256 and HKDF-SHA-256. Use maintained ESP-IDF/Mbed TLS or PSA Crypto interfaces appropriate to a pinned SDK/chip; do not implement our own cipher or reduce password work factors merely to make a benchmark faster. Primitive availability is not proof that the current JavaScript container/SQLite reader runs on a microcontroller.
+
+- [ ] Publish and cross-check browser/Node ↔ ESP-IDF vectors for key derivation, Unicode NFC passphrases, recovery-code normalization, exact AAD/framing, member encryption, wrong keys and tampering. Every supported implementation must derive the same keys and authenticate before releasing private content.
+- [ ] Benchmark the chosen ESP32 variant/SDK for current KDF settings, AES-GCM operations, RAM/flash/PSRAM, power and realistic entry/media sizes. Declare safe reader limits and refuse unsupported input without truncation or algorithm downgrade.
+- [ ] Design a bounded-storage/streaming archive profile with safe authenticated-plaintext release; streaming decryption must not display/act on plaintext before its tag is verified. Verify ZIP and catalog handling rather than loading desktop-sized archives into RAM. Any chunked-AEAD redesign needs its own established construction/review.
+- [ ] Keep source recoverable without SQLite/FTS5. Evaluate a constrained producer profile that can omit/rebuild the search cache on return to Writer; the current reference writer always builds the index. Specify this before claiming embedded write interoperability.
+- [ ] Define local offline unlock via passphrase/recovery on embedded readers. Browser/WebAuthn passkeys require a compatible host/authenticator integration; any trusted-host provisioning path needs authenticated pairing, explicit device trust and a reviewed key lifecycle, not a plaintext master-key transfer.
+
+No ESP-IDF toolchain or physical board was used for this assessment. Firmware/hardware product delivery remains deferred; this target constrains format/cryptography choices now and does not select a board or reopen an assembly project.
+
 ## Reference implementation and coordinated delivery
 
 The canonical JavaScript parser/container/protection modules live in `parser/`. Shared browser and editor copies are generated. Writer currently defaults to `.jotz`, preserving ordered source, UUID media and optional per-member protection with a public-only SQLite index. Chronological directories and complete unknown-feature preservation remain planned above. CLI and independent-editor interoperability are release evidence, not consequences of choosing ZIP.
