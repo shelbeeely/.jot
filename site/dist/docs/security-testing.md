@@ -28,6 +28,18 @@ A passkey is one independent unlocking method. It does not make a weak alternate
 
 A relying-party domain must remain stable. Repository paths on the same hosting origin do not isolate WebAuthn RP IDs, scripts or browser storage. Decide the production origin and native platform association before promising credential portability. A changed hostname or native webview origin may need a separately enrolled key or recovery; do not bypass origin checks. Journal names/labels shown to credential managers or stored in public slots must also be reviewed for sensitive information.
 
+## Nontechnical recovery and established cryptography
+
+The product goal is simple private journaling that survives losing one unlocking method. Prefer an everyday passkey plus an independently usable offline recovery code for the normal profile; optional passphrases remain supported. These are alternative routes. Requiring both on every unlock is a different threat policy and does not solve accidental loss by itself. Avoid making a 2-of-2 policy the beginner default.
+
+The intended Writer flow saves and confirms a separate backup, provides a recovery rehearsal, prevents accidentally reducing usable access to a single method, and helps replace a lost credential after authenticating with a remaining one. Store recovery outside the journal and avoid keeping every route in one vault/device. The current prototype already supports alternative slots, but recovery opt-out and single-method removal are still possible; those UX safeguards are planned, not claimed delivered. If all usable secrets are lost, the current local-only system cannot restore the journal.
+
+Use platform Web Crypto for the existing AES-256-GCM, PBKDF2-HMAC-SHA-256 and HKDF primitives, and WebAuthn PRF for compatible passkeys. Do not substitute hand-written algorithms or claim the overall Jot protocol is proven/audited because its primitives are established. A full review remains required.
+
+Strict multikey/2-of-3 can remain an advanced candidate when a user explicitly wants it. Any threshold implementation must use a reviewed implementation, authenticated encrypted shares/policy, independent review of the composition and recovery that matches the stated policy. Never use a homemade concatenation/hash recipe and call that a reviewed multikey protocol.
+
+Research identified `privy-io/shamir-secret-sharing` as a browser/Node candidate with published Cure53 and Zellic reports. It is not selected, installed or approved for Jot. The inspected main package reports 0.0.4; the reports cover earlier named revisions, not every future release or Jot integration. The library documents that reconstruction has no built-in integrity verification and JavaScript cannot promise true constant-time execution. Verify versions/fixes and add authenticated reconstruction and policy binding before considering adoption. The plain recovery profile above needs no new secret-sharing dependency.
+
 ## Repeatable automated checks
 
 ```sh
@@ -75,3 +87,5 @@ If a finding needs disclosure, use a maintainer-designated private channel or Gi
 - [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html): threat modeling, authenticated encryption and key management.
 
 `docs/methods/expressive-writing.md, line 443` supports privacy by deliberate choice. `docs/methods/digital-daily-notes.md, lines 434–446` distinguishes plaintext local files, encrypted sync and export/metadata exposure. These motivate honest privacy disclosure, not a particular cryptographic algorithm or proof of security. The concrete tests and threat boundaries above are engineering requirements.
+
+Multikey research sources (2 November 2026): [Privy library and limitations](https://github.com/privy-io/shamir-secret-sharing), [Cure53 review](https://cure53.de/audit-report_privy-sss-library.pdf), [Zellic review](https://github.com/Zellic/publications/blob/master/Privy_Shamir_Secret_Sharing_-_Zellic_Audit_Report.pdf), and [RFC 5869 HKDF](https://www.rfc-editor.org/rfc/rfc5869). These establish specific primitives/review history, not a reviewed Jot multikey protocol.

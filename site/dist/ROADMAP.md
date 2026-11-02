@@ -24,6 +24,16 @@ Encryption is fundamental to the journal document and a required v1 format capab
 
 The [security verification plan](docs/security-testing.md) separates automated evidence, mutation/fuzzing work, real-device compatibility and independent review. Passkey key slots use WebAuthn PRF → HKDF → master-key unwrap; current validation requires exactly 32-byte PRF output. Wrong RP/credential and malformed/unsupported browser responses must fail without exposing content, while passphrase/recovery access remains available. Domain/native-origin portability, actual-device offline behavior, fuzzing evidence and independent review remain required/unverified; virtual-authenticator tests are not a certification. Changing a passphrase is not compromise-recovery master-key rotation.
 
+## Established cryptography and recoverable protection
+
+The ordinary profile uses established Web Crypto primitives and alternative authenticated key slots: one valid everyday credential or a separately retained recovery code can open the master key. The loss of one method must not be a single point of journal loss in the intended Writer setup. This is recoverability, not a claim of mandatory two-factor encryption; weak alternate passphrases remain attackable and a recovery code grants full access.
+
+- [ ] Require maintained standard cryptographic implementations, documented parameters/domain separation, reproducible dependency provenance and independent review of the complete format/application composition. No hand-written ciphers, secret-sharing arithmetic, password hashing or improvised secret-combining protocol.
+- [ ] Define recovery and safe key-lifecycle semantics with Writer's plain-language setup/recovery flow. Do not silently remove alternative access or promise restoration after all secrets are lost.
+- [ ] Evaluate an optional advanced threshold profile only under an explicit threat/recovery policy. Pin any reviewed secret-sharing dependency and verify audit scope, fixes, integrity requirements and current code; a library audit does not audit Jot. Insufficient keys and unauthorized policy downgrades must fail cryptographically, and recovery must not create an undisclosed single-key bypass.
+
+The existing OR-style slots remain implemented. Threshold protection is not implemented or adopted as the default; no cipher, file version or dependency changes are made by this plan.
+
 ## Status meanings
 
 Implemented means code exists, tested means a named check passed, and planned/unverified means acceptance is still open. Current archive/protection code is a prototype; no claim of complete conformance, cross-editor support, instant search or independent security review follows from it.

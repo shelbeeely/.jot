@@ -23,6 +23,18 @@ Encryption is a required part of Writer v1 and its primary `.jotz` workflow acro
 - [ ] Verify no private data leaks through cached previews, search databases, provider logs, temporary files or relocked editor/undo state. Cloud/local AI remain optional explicit tools; reading/unlocking must never send journal content for processing.
 - [ ] Complete tamper, wrong-key, recovery, failed-save, shared-media, export and offline tests plus independent cryptographic review and actual-device checks before stable v1. Existing automated crypto/browser tests are prototype evidence, not an audit.
 
+## Simple protection with loss-tolerant recovery
+
+The owner wants established cryptography for nontechnical writers, with no journal loss from losing a single unlocking method. The normal experience should offer an everyday passkey (including a PRF-capable password manager) plus a separate independently usable recovery code. These are alternative unlock routes, not a requirement to present both every time. Do not make strict two-key unlocking the default merely to solve accidental loss.
+
+- [ ] Deliver a plain-language setup: choose an everyday unlock method, save an offline recovery code separately, and rehearse recovery before describing the backup as ready. Keep algorithm names, threshold counts and key-slot internals out of the normal product flow.
+- [ ] Provide clear lost-passkey, forgotten-passphrase and lost-backup paths: unlock with a remaining method, enroll/replace the missing method, save the updated journal and replace backups deliberately. Never imply a maintainer can reset a journal without a valid secret.
+- [ ] Prevent ordinary key-management actions from accidentally leaving a journal with only one usable method; warn clearly when imported archives lack recovery or a backup has not been confirmed. Slots in the same manager/device are not independent backup locations.
+- [ ] Keep recovery separate from the journal and preferably from its only device/password-manager vault. Explain that a recovery code is a full unlocking secret in this profile and that losing every usable method still makes recovery impossible without an explicitly designed escrow service, which is not planned here.
+- [ ] Keep strict multikey/threshold protection as an explicitly chosen advanced design track within the existing backlog. It must not become a mandatory beginner setup or an accidental recovery bypass. Use established constructions, reviewed code and independent review of Jot's composition before implementation.
+
+Current prototype: alternative passphrase/recovery/passkey slots exist and recovery is checked by default at passphrase setup, but users can opt out and remove ways down to a single portable method. Passkey-first setup, backup confirmation, single-method prevention and guided replacement remain planned. This decision changes no runtime default or file bytes.
+
 ## Passkey and security verification delivery
 
 The [security verification plan](docs/security-testing.md) records the threat model, repeatable commands and the real-device matrix. The prototype has a PRF-based passkey/security-key flow and Chromium virtual-authenticator coverage. Client checks now validate exact PRF lengths, credential identity, RP scope and malformed/cancelled/unsupported responses. Real Apple/Android/Windows/Linux authenticators, credential-provider sync/migration, native app associations, stable production origin, offline recovery and independent review remain unverified. Support must be reported per browser/device combination, with an available passphrase/recovery fallback; no claim that every passkey works offline or across origins.
