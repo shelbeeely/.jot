@@ -36,7 +36,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
-  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
+  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
     if (name !== 'write') showPreview();
@@ -113,6 +113,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['writerSourcesBtn', 'Connected sources', 'Look up and review weather; no journal prose sent'],
     ['writerBrowserBtn', 'Offline, sharing and nearby transfer', 'Install, protect storage, share, review incoming items and pair devices'],
     ['writerAnnotateBtn', 'Annotate page', 'Write over a frozen page copy and keep editable strokes'],
+    ['writerVoiceWritingBtn', 'Voice writing', 'Live local Whistle dictation, Needle organization and required prose cleanup'],
     ['writerAIBtn', 'AI companion', 'Optional BYOK drafts and suggestions; OpenRouter or local models'],
     ['lockBtn', 'Journal lock and ways in', 'Encrypt this journal or manage its unlock methods'],
     ['saveDevice', 'Save', 'Save directly to the connected device file'], ['saveDeviceAs', 'Save as', 'Choose a new device file'], ['openImportedBtn', 'Open imported file', 'Use the browser file input without connecting a device file'],

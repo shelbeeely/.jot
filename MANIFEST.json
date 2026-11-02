@@ -99,8 +99,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 4236,
-      "sha256": "fcfa9b3c35d5bee9e308da4f1c46475c3e74181ecba80dbc587ca9422b762f0d"
+      "byteLength": 4264,
+      "sha256": "9fc2fb6079cd62396b659eb33a903d5b71bc7c9b94014a1901af5c542b907f94"
     },
     {
       "path": ".gitignore",
@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 101456,
-      "sha256": "1744c65891e80b2c68bbd3aa2dc8cdef980e0b06bbc5a9ab1f0e15475ff271b2"
+      "byteLength": 103701,
+      "sha256": "08290283be58a736d41d6beeead4cd4757afb8935c3a0ed47672f7f31c449b75"
     },
     {
       "path": "README.md",
@@ -129,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 69257,
-      "sha256": "2d9e2265393d6bd9a51845c61255fce6e483f4de93a0cbeb994eed19afa92702"
+      "byteLength": 70016,
+      "sha256": "94c17c68e7d6b551463f309f6dd3cd2844a5123e082e0663b27167ebfac1fb9d"
     },
     {
       "path": "cli/README.md",
@@ -329,8 +329,8 @@
     },
     {
       "path": "desktop/README.md",
-      "byteLength": 7483,
-      "sha256": "e5fe89b4f902c950676680936b3429968fe56ad58c168d2e86c06bc8c56a726d"
+      "byteLength": 8748,
+      "sha256": "e886fe9d1def867c30ae998a630963c651e04ba8a6a51fc251533d637c8fc1b3"
     },
     {
       "path": "desktop/app-icon.png",
@@ -356,6 +356,16 @@
       "path": "desktop/src-tauri/Cargo.toml",
       "byteLength": 644,
       "sha256": "b65da2dfc4e2f26f60417804830d93bfdde835cf9388e1f5ffd1e03f1496f4f9"
+    },
+    {
+      "path": "desktop/src-tauri/Entitlements.plist",
+      "byteLength": 242,
+      "sha256": "71042aac63541bb0e540b3748133c3f0eae471e999dcbde4b73ff9337d3b97ee"
+    },
+    {
+      "path": "desktop/src-tauri/Info.plist",
+      "byteLength": 384,
+      "sha256": "59ca033fdc5eeef2498cc29bc533a5f5c6a038396ed9fda0c9bb3b354f5daf56"
     },
     {
       "path": "desktop/src-tauri/build.rs",
@@ -679,8 +689,8 @@
     },
     {
       "path": "desktop/src-tauri/tauri.conf.json",
-      "byteLength": 2857,
-      "sha256": "2937f73ecfa0c47e79569dd69b6d8d29e32707f873ee8e2da5ea37ab8216573d"
+      "byteLength": 2980,
+      "sha256": "7c5765c68de423d72e405a867bfa2a852b34b6e21e8cb404ae2810d4203cffb9"
     },
     {
       "path": "desktop/test-desktop.cjs",
@@ -839,8 +849,8 @@
     },
     {
       "path": "docs/guide/ai-companion.md",
-      "byteLength": 5721,
-      "sha256": "a82aa1413a77258b2b7e0e5d6daaf6107a1ba0b37ef69d60e09accfe2ab9728d"
+      "byteLength": 11397,
+      "sha256": "5b647ced015d0b91610814287b8b667821afe14c3936cf6403602c55d65b5ef7"
     },
     {
       "path": "docs/guide/automation.md",
@@ -1234,8 +1244,13 @@
     },
     {
       "path": "docs/security/README.md",
-      "byteLength": 15887,
-      "sha256": "02cf68ce50134e1eb7679e71b3641cedc4d2055f3a379cb82160c3ca01704542"
+      "byteLength": 18714,
+      "sha256": "e80766b10e83ed8536caf49a051b59460147a88ef25d44d80062d4002649dc21"
+    },
+    {
+      "path": "docs/vendor/needle/needle.h",
+      "byteLength": 4528,
+      "sha256": "a27dac4b3239eead91d124b7f7dbce5495c13019903fd817b68c16d39b055a99"
     },
     {
       "path": "eslint.config.mjs",
@@ -20144,8 +20159,8 @@
     },
     {
       "path": "package.json",
-      "byteLength": 928,
-      "sha256": "adf99778795a03677bc4f958c7d028fa8de8afce61ac89547c591240f4f27bad"
+      "byteLength": 1036,
+      "sha256": "8bced25dce090c07dd03707cb9793ac5758a77ac515851c2eae55d0beee6f1de"
     },
     {
       "path": "parser/AGENTS.md",
@@ -20594,8 +20609,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 10517,
-      "sha256": "e0acf3c44e268d333e6b3a6112d58339699dfe124d546978a69235acaca8a0d1"
+      "byteLength": 12006,
+      "sha256": "e8b34da1ecf497ab7ee08f4a7ff55d400d2ae9902cc8863151986bb5fe340088"
     },
     {
       "path": "site/CLAUDE.md",
@@ -20619,8 +20634,8 @@
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 69283,
-      "sha256": "0baf1fb6476b847adb33296d3edbceba10a02866f41e9da04d959c4579af5093"
+      "byteLength": 70042,
+      "sha256": "6d9bc7512a2e0838b370edb46c6345763b306a27e22fe7ea41d3a3a5948d3386"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -20744,8 +20759,8 @@
     },
     {
       "path": "site/dist/docs/security-testing.md",
-      "byteLength": 15887,
-      "sha256": "02cf68ce50134e1eb7679e71b3641cedc4d2055f3a379cb82160c3ca01704542"
+      "byteLength": 18714,
+      "sha256": "e80766b10e83ed8536caf49a051b59460147a88ef25d44d80062d4002649dc21"
     },
     {
       "path": "site/dist/editor-capture.mjs",
@@ -21094,8 +21109,8 @@
     },
     {
       "path": "site/dist/guide/ai-companion.html",
-      "byteLength": 10160,
-      "sha256": "7eb1d57e4eedf6dd745e5312fb62d39f054b99846f6075df9c20ac8f4c257702"
+      "byteLength": 16337,
+      "sha256": "1705de906566418be228a2062dfcd3f561ac09f8dd5690a78a289e28a6276c77"
     },
     {
       "path": "site/dist/guide/automation.html",
@@ -21634,8 +21649,8 @@
     },
     {
       "path": "site/dist/offline-files.mjs",
-      "byteLength": 4234,
-      "sha256": "4b52177278a3df175dbc21f23f81f3abe7cc71cc45977c984d8b578d04ac5999"
+      "byteLength": 4527,
+      "sha256": "1ecc030f6908206ece5d2f688a4b137fb6facba2498cd53d9572c2d1c78c291e"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -21688,14 +21703,39 @@
       "sha256": "b7cad43aef348389fc2741673779bb70a160bee3ef6e4bb265de4e003be617b3"
     },
     {
+      "path": "site/dist/speech-audio-worklet.mjs",
+      "byteLength": 824,
+      "sha256": "5329fd28d7b60cd81a4b4df4960c8a1eb6ae63eb68f391ae43e9f1440909584d"
+    },
+    {
+      "path": "site/dist/speech-capture.mjs",
+      "byteLength": 4457,
+      "sha256": "f391d98d4bb6e29f2547c48094612bf9d370c601b7b21ce972c0ff7f1a26a04c"
+    },
+    {
+      "path": "site/dist/speech-engine.mjs",
+      "byteLength": 1377,
+      "sha256": "8cfc1e655c0767201ac2ece7bd2eb2d02f1451d5c40eeedad0ab8f674d0fc90f"
+    },
+    {
+      "path": "site/dist/speech-models.mjs",
+      "byteLength": 3000,
+      "sha256": "dbb003d1278afd9a829c7a6f00446f93bf15e31e41141f93fe0597e81227c880"
+    },
+    {
+      "path": "site/dist/speech-worker.js",
+      "byteLength": 3147,
+      "sha256": "938a6de7b69e24bcc5021e49b055f73442d0387bf790e6f4b97ee3d4f60bd7f2"
+    },
+    {
       "path": "site/dist/studio.css",
-      "byteLength": 27521,
-      "sha256": "fb2f0710c1d43262fde1d232047faa4ef4caf34be549ac6d0a230ac44dbdc7b6"
+      "byteLength": 28356,
+      "sha256": "4d0a0fe736fac01f2e07ec570e46c6e09ce89ae3811329ffba3474767ac5ee18"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 79356,
-      "sha256": "f013b66d29bfd3502e9eeed415cfa464b6024ac15cf7a6a61f92e88977862af9"
+      "byteLength": 79649,
+      "sha256": "4cb79bb7585e9006c705b3484de6593e29fdcb049cadf77e08b725dbb56c6215"
     },
     {
       "path": "site/dist/sw.mjs",
@@ -21743,6 +21783,36 @@
       "sha256": "23a6dc4ecadb942b340e5a23037770149ef65d441ca9c8b972be8ce1bd5d1624"
     },
     {
+      "path": "site/dist/vendor/needle/LICENSE.txt",
+      "byteLength": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "site/dist/vendor/needle/README.md",
+      "byteLength": 1136,
+      "sha256": "0d1a08f3996c0ded6665d4f11cd7887c45d6cf04c6940d5a342134ce463e593b"
+    },
+    {
+      "path": "site/dist/vendor/needle/needle.js",
+      "byteLength": 62082,
+      "sha256": "a675c66f506a1b6f922d852c0cc0b82a843ce9d0fab6a80a408106f516df126f"
+    },
+    {
+      "path": "site/dist/vendor/needle/needle.wasm",
+      "byteLength": 930545,
+      "sha256": "7b73d09c17923bf81d6bdb82e19b3c343b8994f83d512ddec52eec9f6b029802"
+    },
+    {
+      "path": "site/dist/voice-writing-core.mjs",
+      "byteLength": 1717,
+      "sha256": "b9ef92a3056806b6031cafd9c72ab3357e19c676be765700806bdecd16f99e63"
+    },
+    {
+      "path": "site/dist/voice-writing.mjs",
+      "byteLength": 20179,
+      "sha256": "7d32f073730e6f3b3e8b9a2cb9a925659044c64654cc790ca745f734a6d7e28c"
+    },
+    {
       "path": "site/dist/write/index.html",
       "byteLength": 50779,
       "sha256": "6f2dd8d674a9c3729f8aa749c71dea276381757b5662f7aef29d2ac2b8e8bdc4"
@@ -21779,8 +21849,8 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 17402,
-      "sha256": "d222ca6c34c196ba98e384757667e6af3a27ad372030a5aae00aba97dc5f2446"
+      "byteLength": 17555,
+      "sha256": "722e80ef27761ba6c129f990b52c2c2af816fc74c0c005d425a09aa537c31ac4"
     },
     {
       "path": "site/dist/writing-tools.mjs",
@@ -22038,6 +22108,16 @@
       "sha256": "8605f6a4c2a6be3644453cb62774a04863e4a313406a8f52038abe1e5d2d92c0"
     },
     {
+      "path": "site/test-voice-writing-ui.cjs",
+      "byteLength": 13954,
+      "sha256": "87b691ebf9dd5f74df836f8ede69449217aabfe62811919196055206720ef107"
+    },
+    {
+      "path": "site/test-voice-writing.mjs",
+      "byteLength": 3405,
+      "sha256": "1fdb17ff499a0e970852a0d9c498fcedb3691c3decae97ef4634a1693cd21067"
+    },
+    {
       "path": "site/test-voice.mjs",
       "byteLength": 6165,
       "sha256": "053b2792b768be740b0c046fbbea30c9341c0aa54fad6e34351976cbf93aa4b3"
@@ -22179,8 +22259,8 @@
     },
     {
       "path": "tools/build-offline.mjs",
-      "byteLength": 2421,
-      "sha256": "eb9ac7634a8c6a1d5df1395c5c36655d24472276cc4a6acbd2361983ef9761d6"
+      "byteLength": 2548,
+      "sha256": "662ae4c03575cb31af4761964b2263c7a6dee8e8fe96d9ff238c827d3a4f803a"
     },
     {
       "path": "tools/build-parser-zip.py",

@@ -14,7 +14,7 @@ the pages behave as they always have.
 | Data exports (Your life online) | Whole ZIPs load into memory: large ones need unzipping first | Any size, ZIP64 included: the app reads the ZIP's index, then one file at a time (`archive.rs`) |
 | Hostile archives | Names are never used as paths | Also refused: files over 1 GiB unpacked, ZIP bombs (over 200 times their packed size), names that escape the archive |
 | Downloads | The browser's download folder | A native Save dialog for every download on every page, written atomically (`files.rs`) |
-| Network | Whatever the browser allows | Locked by the content security policy (`tauri.conf.json`): the listening services, OpenRouter and loopback model servers (explicit optional requests). Links to the web open in your own browser, never inside the app |
+| Network | Whatever the browser allows | Locked by the content security policy (`tauri.conf.json`): the listening services, OpenRouter, explicit pinned model downloads from Hugging Face and loopback model servers (explicit optional requests). Links to the web open in your own browser, never inside the app |
 | Your journal files | Opened through the page's Open button | `.jotz` archives and `.jot` source are Jot's file types: they show the iota in the file manager and a double-click opens them in the writer (`opened.rs`) |
 | Code | Served from the website each visit | Inside the app, the same every time, and it works with no network |
 
@@ -22,7 +22,7 @@ Files are read only after you pick them in a dialog or open them from the file m
 pages cannot call a file-system, shell or HTTP plugin, because there is none (`capabilities/default.json`), and they can read an
 opened journal only once, by the number the app gave it.
 
-**Jot's file types.** The installers register `.jotz` (the default v2 archive, with optional entry protection) and `.jot` (source import/export) with the app.
+**Jot's file types.** The installers register `.jotz` (the default v1 draft archive, with optional entry protection) and `.jot` (source import/export) with the app.
 Windows shows them with the app's icon; macOS draws a document with the app icon on it; the Linux package installs their MIME
 types (`linux/jot-mime.xml`) with a document icon, a cream page with the iota (`linux/jot-document.svg`, from `docs/brand/`), and
 its desktop entry passes the files on (`linux/jot.desktop`). A double-click starts the app with the file (an argument on Windows and
@@ -98,3 +98,10 @@ with mocked responses; native webview and live-model compatibility remain unveri
 The v2 archive replacement removes the obsolete encrypted-file association and bundles SQLite WASM with wasm-unsafe-eval enabled
 for local WebAssembly. Source/browser tests do not verify native webview execution or OS association installation. Rebuild and verify
 platform installers, native webview execution and file associations after container/WASM/CSP changes.
+
+
+## Voice writing
+
+Writer's voice-writing dialog uses the bundled CPU WebAssembly engine and worker in this wrapper too; it does not install Python, run a native model sidecar or bundle model weights. Users explicitly download/import the size/SHA-256-pinned Whistle and Needle files, with opt-in public-weight caching. Local model imports work without Hugging Face connectivity. The CSP permits the model host and its CDN for explicit downloads; it does not send journal/audio data there. Required prose cleanup uses an explicitly configured loopback writing server or consented BYOK OpenRouter connection. Offline cleanup requires that local writing server.
+
+Microphone, AudioWorklet, MediaRecorder, local-origin/CORS and wasm compatibility need physical platform checks. This change has browser/synthetic-microphone evidence; native builds were not available in the implementation environment. macOS microphone usage/entitlement metadata is supplied for builds; that alone does not establish macOS, iOS or Android microphone permission/recording support. Mobile platform permission integration remains a release check. Keep the existing voice-practice tool separate from transcription/optional recording.

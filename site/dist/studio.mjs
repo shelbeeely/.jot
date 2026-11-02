@@ -1,3 +1,4 @@
+import { setupVoiceWriting } from './voice-writing.mjs';
 import { setupAttachmentViewer, attachmentKind } from './attachment-viewer.mjs';
 import { setupArchiveTools } from './archive-tools.mjs';
 import { setupConnectedSources } from './connected-sources-ui.mjs';
@@ -33,7 +34,7 @@ import A from './jot/automation.mjs';
 import {queryDiagnostics} from './jot/query.mjs';
 import {isPaletteRecord,paletteOf,moodboardOf,paletteCSS,paletteJSON,contrast} from './jot/palette.mjs';
 addChartStyles(document);
-let referenceBooks, liveWriter, deviceFiles, aiCompanion, browserTools, annotations, connectedSources, archiveTools;
+let referenceBooks, liveWriter, deviceFiles, aiCompanion, voiceWriting, browserTools, annotations, connectedSources, archiveTools;
 let captureReceipts=[], captureBusy=false;
 let loadedFilename='',archiveState=null,archiveEntries=[],archiveId=crypto.randomUUID();
 let fileRevision=0, savedFileRevision=-1, durableRevision=-1, recoveringAssets=true;
@@ -148,7 +149,7 @@ for(const [title,state,description] of roadmap){const row=el('article',undefined
 window.addEventListener('pagehide',()=>{if(dirty)save();});
 
 const attachmentViewer=setupAttachmentViewer({document,lookupURL:url=>assets.find(a=>assetUrls.get(a.path)===url)});
-function setAssets(next){attachmentViewer.close();fileRevision++;deviceState();for(const u of assetUrls.values())URL.revokeObjectURL(u);assetUrls.clear();assets=next;for(const a of assets)assetUrls.set(a.path,URL.createObjectURL(new Blob([a.data],{type:a.mediaType})));renderAssets();}
+function setAssets(next){voiceWriting?.reset();attachmentViewer.close();fileRevision++;deviceState();for(const u of assetUrls.values())URL.revokeObjectURL(u);assetUrls.clear();assets=next;for(const a of assets)assetUrls.set(a.path,URL.createObjectURL(new Blob([a.data],{type:a.mediaType})));renderAssets();}
 function renderAssets(){$('writerAssetShelf').hidden=!assets.length;const list=$('assetList');list.replaceChildren();$('docExt').textContent='.jotz';$('assetCount').textContent=assets.length+' assets';if(!assets.length)list.append(el('li','No assets attached yet. Writing-only journals still download as one .jot document.'));for(const a of assets){const li=el('li'),label=el('span',(a.name||a.path)+' · '+Math.ceil(a.data.length/1024)+' KB'),get=el('a','Download','quiet');get.href=assetUrls.get(a.path);get.download=a.name||a.path.split('/').pop();const remove=el('button','Remove','quiet');remove.onclick=async()=>{if(!confirm('Remove this file from the document? Existing text references will be left visible.'))return;setAssets(assets.filter(x=>x.path!==a.path));dirty=true;update();save();await persistAssets();};li.append(label);if(attachmentKind(a)){const view=el('button','View','quiet');view.type='button';view.setAttribute('aria-label','View '+(a.name||a.path));view.onclick=()=>attachmentViewer.open(a);li.append(view);}li.append(get,remove);list.append(li);}}
 async function persistAssets(){const ok=await save();$('assetSaveState').textContent=ok?'Attachments are saved in the journal archive.':'The archive is not saved completely. Download the journal before closing.';return ok;}
 function assetPath(file){return 'media/'+crypto.randomUUID()+(/\.jot$/i.test(file.name)?'.jot':'');}
@@ -304,6 +305,7 @@ let restoreSourceScroll = !!resume;
 editor.addEventListener('jotmodechange',event=>{if(event.detail==='source'&&restoreSourceScroll){restoreSourceScroll=false;requestAnimationFrame(()=>{if(resume)editor.scrollTop=resume.scroll;});}});
 setupLocalAutocomplete({ editor, getAst: () => ast, getReferences: () => referenceBooks.targets() });
 aiCompanion = setupAICompanion({ editor, status, getRevision: () => fileRevision });
+
 const browserBridge = {
  editor, status, isLocked:()=>!!lockWaiting, revision:()=>fileRevision, identity:()=>assetKey,
  snapshot:()=>({source:editor.value,assets:assets.map(a=>({...a,data:a.data.slice()})),revision:fileRevision,identity:assetKey,filename:previewFilename(),locked:!!lockKey}),
@@ -333,6 +335,7 @@ const browserBridge = {
  composing:()=>!!liveWriter?.composing,showLive:()=>{liveWriter.setMode('live');},surface:()=>liveWriter.surface,mountInline:(node,position)=>liveWriter.mountInline(node,position),
  lookupAsset:path=>assets.find(a=>a.path===path),assetFromURL:url=>assets.find(a=>assetUrls.get(a.path)===url)
 };
+voiceWriting = setupVoiceWriting({ editor, status, getRevision: () => fileRevision, getIdentity: () => assetKey, addCapture: capture => browserBridge.addCapture(capture) });
 browserTools=setupBrowserTools(browserBridge);annotations=setupAnnotations(browserBridge);connectedSources=setupConnectedSources(browserBridge);
 archiveTools=setupArchiveTools({...browserBridge,hasSession:()=>!!lockKey,publicAvailable:()=>!!archiveState?.partial,entries:()=>lockWaiting?archiveState?.entries||[]:currentEntries(),async setPrivacy(ids){if(!lockKey)throw Error('Set up a passphrase first.');currentEntries();archiveEntries=archiveEntries.map(entry=>({...entry,private:ids.includes(entry.id),revision:entry.revision+(entry.private!==ids.includes(entry.id)?1:0)}));fileRevision++;dirty=true;return save();},async search(criteria){if(lockWaiting)return searchArchive(archiveState,criteria);await save();const state=archiveState&&archiveState.source===editor.value?archiveState:{entries:currentEntries(),index:null,indexBytes:null};return searchArchive(state,criteria);}});
 const writerWorkspace = setupWriterWorkspace({ editor, status, showPreview: () => {
@@ -396,6 +399,7 @@ const WAY_NAMES = { passphrase: 'Passphrase', 'recovery-code': 'Recovery code', 
 const journalName = () => $('documentName').value.trim() || 'Jot journal';
 function showLock() {
   aiCompanion?.reset();
+  voiceWriting?.reset();
   browserTools?.reset(); annotations?.reset(); connectedSources?.reset();archiveTools?.reset();
   const waiting = !!lockWaiting&&!recoveringAssets, locked = !!lockKey;
   $('lockGate').hidden = !waiting; $('lockNote').hidden = !locked;
