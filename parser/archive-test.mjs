@@ -47,3 +47,12 @@ test('an externally supplied index is rebuilt before export so unreachable bytes
  const bytes=await pack({source:'Public only.',index:'always'}),zip=await globalThis.JSZip.loadAsync(bytes),manifest=readArchiveHeader(bytes),original=await zip.file('index.sqlite').async('uint8array'),marker=new TextEncoder().encode('OLD_PRIVATE_UNUSED_PAGE_834788ec'),changed=new Uint8Array(original.length+marker.length);changed.set(original);changed.set(marker,original.length);zip.file('index.sqlite',changed);manifest.index.byteLength=changed.length;manifest.index.sha256=await(await import('./container.mjs')).sha256(changed);zip.file('manifest.json',JSON.stringify(manifest),{compression:'STORE'});
  const doc=await unpack(await zip.generateAsync({type:'uint8array'}));const safe=await pack({source:doc.source,entries:doc.entries,previous:doc,index:'always'});doc.index?.close();const clean=await globalThis.JSZip.loadAsync(safe);assert.doesNotMatch(await clean.file('index.sqlite').async('string'),/OLD_PRIVATE_UNUSED_PAGE/);
 });
+
+test('a fully protected journal can grow past a few hundred entries, and a public one reaches the 10,000-entry limit',async()=>{
+ const journal=n=>{let s='';const d=Date.UTC(2000,0,1);for(let i=0;i<n;i++)s+='### '+new Date(d+i*86400000).toISOString().slice(0,10)+'\n\nA day.\n\n';return s;};
+ // The encrypted catalog lists every entry; it used to be capped at 64 KiB, so saving failed at roughly 300 entries.
+ const protectedSource=journal(1200),bytes=await pack({source:protectedSource,secret:secret.session,privateEntries:'all',now:'2026-11-03T10:00:00.000Z'});
+ const opened=await unpack(bytes,{secret:secret.session});try{assert.equal(opened.source,protectedSource);assert.equal(opened.entries.length,1200);}finally{opened.index?.close();}
+ // The manifest describes every entry; at 4 MiB it overflowed below 10,000.
+ const big=journal(10000),large=await unpack(await pack({source:big,now:'2026-11-03T10:00:00.000Z'}));try{assert.equal(large.entries.length,10000);assert.equal(large.source,big);}finally{large.index?.close();}
+});

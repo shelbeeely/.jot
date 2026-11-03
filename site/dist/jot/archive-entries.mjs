@@ -11,10 +11,15 @@ export function reconcileEntries(source, previous=[], {privateByDefault=false, n
     for(let i=0;i<heads.length;i++)parts.push({date:heads[i].date,timezone:ast.entries[i]?.timezone||null,source:decoder.decode(bytes.subarray(heads[i].start,heads[i+1]?.start??bytes.length))});
   }
   if(parts.length>10000)throw Error('A journal supports at most 10,000 entries.');
-  const used=new Set(),matches=parts.map(part=>{const n=previous.findIndex((e,i)=>!used.has(i)&&e.source===part.source&&e.date===part.date);if(n>=0)used.add(n);return n;});
+  // Match each part to its previous entry: first an unused entry with identical date and source, then an unused entry
+  // with the same date, both in document order. Lookup tables keep this linear; scanning the whole list for every part
+  // made saving a long journal quadratic.
+  const used=new Set(),exact=new Map(),byDate=new Map(),take=(list)=>{while(list?.length&&used.has(list[0]))list.shift();const n=list?.length?list.shift():-1;if(n>=0)used.add(n);return n;};
+  previous.forEach((e,i)=>{const key=e.date+'\u0000'+e.source;if(!exact.has(key))exact.set(key,[]);exact.get(key).push(i);if(!byDate.has(e.date))byDate.set(e.date,[]);byDate.get(e.date).push(i);});
+  const matches=parts.map(part=>take(exact.get(part.date+'\u0000'+part.source)));
   return parts.map((part,i)=>{
     if(encoder.encode(part.source).length>LIMITS.entryBytes)throw Error('One entry exceeds 1 MiB. Split it into dated entries.');
-    let at=matches[i];if(at<0){at=previous.findIndex((e,j)=>!used.has(j)&&e.date===part.date);if(at>=0)used.add(at);}
+    let at=matches[i];if(at<0)at=take(byDate.get(part.date));
     const old=at>=0?previous[at]:null,changed=!old||old.source!==part.source||old.timezone!==part.timezone;
     return {id:old?.id||uuid(),...part,private:old?!!old.private:privateByDefault,revision:old?(old.revision||1)+(changed?1:0):1,createdAt:old?(old.createdAt??null):now,updatedAt:changed?now:old?.updatedAt||null};
   });

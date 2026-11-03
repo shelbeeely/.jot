@@ -67,8 +67,9 @@ export function readArchiveHeader(input) {
   check(size<=LIMITS.manifestBytes&&at+size<=b.length&&dec.decode(b.subarray(30,30+nameLength))==='manifest.json','Missing bounded archive manifest.');
   return validateManifest(JSON.parse(dec.decode(b.subarray(at,at+size))));
 }
-const frame=(metadata,bytes=new Uint8Array())=>{const h=enc.encode(JSON.stringify(metadata));check(h.length<=65536,'Member metadata is too large.');const out=new Uint8Array(4+h.length+bytes.length);new DataView(out.buffer).setUint32(0,h.length);out.set(h,4);out.set(bytes,4+h.length);return out;};
-function unframe(bytes){check(bytes.length>=4,'Truncated member.');const n=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength).getUint32(0);check(n<=65536&&n+4<=bytes.length,'Invalid member metadata.');return {metadata:JSON.parse(dec.decode(bytes.subarray(4,4+n))),data:bytes.slice(4+n)};}
+// Entry and attachment metadata is small (64 KiB). The encrypted catalog lists every entry, so it is bounded like the manifest.
+const frame=(metadata,bytes=new Uint8Array(),limit=65536)=>{const h=enc.encode(JSON.stringify(metadata));check(h.length<=limit,'Member metadata is too large.');const out=new Uint8Array(4+h.length+bytes.length);new DataView(out.buffer).setUint32(0,h.length);out.set(h,4);out.set(bytes,4+h.length);return out;};
+function unframe(bytes,limit=65536){check(bytes.length>=4,'Truncated member.');const n=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength).getUint32(0);check(n<=limit&&n+4<=bytes.length,'Invalid member metadata.');return {metadata:JSON.parse(dec.decode(bytes.subarray(4,4+n))),data:bytes.slice(4+n)};}
 /** Below this much public entry source, a search index costs more than it saves (SQLite+FTS5 alone is ~100 KiB), so writers omit it and readers search source. */
 export const INDEX_MIN_SOURCE_BYTES=256*1024;
 export async function pack({source,assets=[],metadata={},entries=null,previous=null,secret=null,privateEntries=null,id=null,now=null,index:indexMode='auto'}={}) {
@@ -118,10 +119,10 @@ export async function pack({source,assets=[],metadata={},entries=null,previous=n
   if(session){
     manifest.keys=clone(validateKeys(session.keys));
     const binding=await sha256(canonical(manifest));catalog.binding=binding;
-    manifest.catalog=await put('catalog',old?.catalog?.id||uuid(),(old?.catalog?.revision||0)+1,null,frame(catalog),true);
+    manifest.catalog=await put('catalog',old?.catalog?.id||uuid(),(old?.catalog?.revision||0)+1,null,frame(catalog,undefined,LIMITS.catalogBytes),true);
   }else manifest.catalogData=catalog;
   validateManifest(manifest);validateCatalog(catalog,manifest);
-  const text=enc.encode(JSON.stringify(manifest)+'\n');check(text.length<=LIMITS.manifestBytes,'Manifest exceeds 4 MiB.');
+  const text=enc.encode(JSON.stringify(manifest)+'\n');check(text.length<=LIMITS.manifestBytes,'Manifest exceeds 8 MiB.');
   const zip=new JSZip();zip.file('manifest.json',text,{createFolders:false,compression:'STORE',date:new Date('2000-01-01T00:00:00Z')});let total=text.length;
   for(const [path,bytes] of files){total+=bytes.length;check(total<=LIMITS.totalBytes,'Expanded archive exceeds 64 MiB.');zip.file(path,bytes,{createFolders:false,compression:path==='index.sqlite'?'STORE':'DEFLATE',date:new Date('2000-01-01T00:00:00Z')});}
   const bytes=await zip.generateAsync({type:'uint8array',compression:'DEFLATE',compressionOptions:{level:6}});check(bytes.length<=LIMITS.packageBytes,'Archive exceeds 64 MiB.');
@@ -144,7 +145,7 @@ export async function unpack(input,{secret=null}={}) {
   async function get(item){const file=zip.file(item.path);check(file,'Missing member: '+item.path);const raw=await readBounded(file,item.byteLength);check(raw.length===item.byteLength&&await sha256(raw)===item.sha256,'Member integrity check failed: '+item.path);return raw;}
   async function extract(item){const raw=await get(item),plain=item.encryption?await openMember(raw,session,aad(header.id,item),item.encryption):raw;saved.set(item.kind+':'+item.id,{hash:await sha256(plain),protect:!!item.encryption,archiveId:header.id,key:session?.contentKey,item,bytes:raw});return plain;}
   let catalog=header.catalogData;
-  if(session){check(header.catalog.kind==='catalog'&&!!header.catalog.encryption,'Invalid protection catalog.');catalog=unframe(await extract(header.catalog)).metadata;const bound={...header};delete bound.catalog;check(catalog.binding===await sha256(canonical(bound)),'Archive catalog authentication failed.');}
+  if(session){check(header.catalog.kind==='catalog'&&!!header.catalog.encryption,'Invalid protection catalog.');catalog=unframe(await extract(header.catalog),LIMITS.catalogBytes).metadata;const bound={...header};delete bound.catalog;check(catalog.binding===await sha256(canonical(bound)),'Archive catalog authentication failed.');}
   else if(protectedArchive){await get(header.catalog);catalog=null;}
   check(catalog===null||catalog&&Array.isArray(catalog.entries)&&Array.isArray(catalog.assets)&&catalog.metadata&&typeof catalog.metadata==='object'&&!Array.isArray(catalog.metadata),'Missing archive metadata.');
   if(catalog)validateCatalog(catalog,header);

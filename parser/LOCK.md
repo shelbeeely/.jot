@@ -41,7 +41,7 @@ Content-key wrapping AAD is UTF-8 `JOTZ 1 member-key ` concatenated with that JS
 logical date. Do not use the master key directly to encrypt journal source. Nonces/content keys are fresh on member edits.
 Unchanged descriptors/ciphertext may be reused only with matching identity, revision, protection, plaintext and master key.
 
-Each decrypted payload is a 4-byte unsigned big-endian JSON metadata length, metadata UTF-8 JSON (at most 64 KiB), then data:
+Each decrypted payload is a 4-byte unsigned big-endian JSON metadata length, metadata UTF-8 JSON (at most 64 KiB, or 8 MiB for the catalog, which lists every entry), then data:
 
 - entry: metadata `{timezone,createdAt,updatedAt}`, data = exact UTF-8 source;
 - asset: metadata `{path,mediaType,name?}`, data = original bytes;

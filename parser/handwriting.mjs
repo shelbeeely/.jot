@@ -367,19 +367,23 @@ export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {
   for (const e of page.querySelectorAll('.hw-page-edge')) e.remove();
   // Measure the font's visible ink, rather than centring its em box (the handwriting fonts have different ascenders).
   const canvas = doc.createElement('canvas'), context = canvas.getContext('2d');
-  const metricsOf = (tag) => {
+  // Font metrics for body text and every heading level, measured together: one layout pass instead of seven.
+  const TAGS = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+  const probes = TAGS.map((tag) => {
     const probe = doc.createElement(tag), mark = doc.createElement('span');
     mark.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
     probe.style.cssText = 'margin:0;padding:0;border:0;position:absolute;visibility:hidden;left:0;top:0;';
-    probe.append('Hx', mark); page.append(probe);
-    const baseline = mark.getBoundingClientRect().top - probe.getBoundingClientRect().top;
-    const style = doc.defaultView.getComputedStyle(probe);
+    probe.append('Hx', mark); page.append(probe); return { probe, mark };
+  });
+  const measured = probes.map(({ probe, mark }) => ({ baseline: mark.getBoundingClientRect().top - probe.getBoundingClientRect().top, style: doc.defaultView.getComputedStyle(probe) }));
+  const metrics = new Map(measured.map(({ baseline, style }, i) => {
     context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
     const ink = context.measureText('Hx');
     const ascent = ink.actualBoundingBoxAscent, descent = ink.actualBoundingBoxDescent;
-    const shift = snap(parseFloat(style.lineHeight) / 2 - baseline + (ascent - descent) / 2);
-    probe.remove(); return { baseline, shift };
-  };
+    return [TAGS[i], { baseline, shift: snap(parseFloat(style.lineHeight) / 2 - baseline + (ascent - descent) / 2) }];
+  }));
+  for (const { probe } of probes) probe.remove();
+  const metricsOf = (tag) => metrics.get(tag);
   const body = metricsOf('p'), base = body.baseline;
   page.style.setProperty('--hw-text-shift', `${body.shift}px`);
   page.style.setProperty('--hw-dx', `${-p / 2}px`);
@@ -393,7 +397,10 @@ export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {
     group.style.minHeight = ''; group.style.paddingBottom = '0';
     group.style.breakBefore = group.dataset.newPage === 'true' ? 'page' : 'auto';
   }
-  function alignBlocks(blocks) {
+  // Layout is read and written in separate passes: reading a height straight after writing a style makes the browser lay
+  // out the whole page again, which made long journals take quadratic time. A block's height never depends on its
+  // siblings' padding or margins, so measuring all, then writing all, gives the same result.
+  function setGaps(blocks) {
     blocks.forEach((el, i) => {
       el.style.marginTop = '0'; el.style.marginBottom = '0'; el.style.paddingBottom = '0';
       const lineish = (x) => x && (x.classList.contains('jot-task') || x.classList.contains('jot-blanks') || x.classList.contains('jot-measure'));
@@ -402,24 +409,25 @@ export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {
       el.style.marginTop = `${gap * p}px`;
       if (!el.classList.contains('jot-layout-block') && el.matches('pre,table,figure,section,img,.jot-chart,.jot-record,blockquote')) el.style.breakInside = 'avoid';
     });
-    for (const el of blocks) {
-      const h = el.getBoundingClientRect().height, rows = Math.max(1, Math.ceil(h / p - 0.01)), extra = rows * p - h;
-      if (extra > 0.01) el.style.paddingBottom = `${extra}px`;
-    }
   }
-  for (const group of groups) {
-    alignBlocks([...group.children]);
-    const natural = Math.max(1, Math.ceil(group.getBoundingClientRect().height / p - .01));
-    group.dataset.naturalRows = String(natural);
-    group.style.minHeight = `${Math.max(natural, Number(group.dataset.minRows)) * p}px`;
+  function padToRows(blocks) {
+    const heights = blocks.map((el) => el.getBoundingClientRect().height);
+    blocks.forEach((el, i) => { const h = heights[i], rows = Math.max(1, Math.ceil(h / p - 0.01)), extra = rows * p - h; if (extra > 0.01) el.style.paddingBottom = `${extra}px`; });
   }
+  const groupChildren = groups.map((group) => [...group.children]);
+  groupChildren.forEach(setGaps);
+  padToRows(groupChildren.flat());
+  const naturals = groups.map((group) => Math.max(1, Math.ceil(group.getBoundingClientRect().height / p - .01)));
+  groups.forEach((group, i) => { group.dataset.naturalRows = String(naturals[i]); group.style.minHeight = `${Math.max(naturals[i], Number(group.dataset.minRows)) * p}px`; });
   const blocks = [...page.children].filter((el) => !el.classList.contains('hw-page-edge'));
-  alignBlocks(blocks);
+  setGaps(blocks);
+  padToRows(blocks);
+  const heights = blocks.map((el) => el.getBoundingClientRect().height);
   // Screen and print use the same blank space for page starts. Oversized blocks flow over page boundaries.
   let cursor = 0;
-  for (const el of blocks) {
+  for (const [index, el] of blocks.entries()) {
     let gap = Math.round(parseFloat(el.style.marginTop) / p) || 0;
-    const heightRows = Math.max(1, Math.round(el.getBoundingClientRect().height / p));
+    const heightRows = Math.max(1, Math.round(heights[index] / p));
     let start = cursor + gap;
     if (pageRows > 0 && el.classList.contains('jot-layout-block')) {
       const forced = el.dataset.newPage === 'true';

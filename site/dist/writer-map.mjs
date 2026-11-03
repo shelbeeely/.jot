@@ -139,17 +139,36 @@ export function setupWriterMap({ editor, status = () => {}, jumpTo }) {
     apply();
   }
 
-  function render() {
-    renderedSource = editor.value;
+  // Large journals are read in a worker and drawn in batches, so the page keeps responding. A newer render or a lock
+  // cancels an older one through the generation number.
+  let generation = 0, worker = null, request = 0;
+  function buildGraph(source) {
+    if (source.length < 200000 || typeof Worker !== 'function') return Promise.resolve(journalGraph(source));
+    try { worker ||= new Worker(new URL('./writer-map-worker.mjs', import.meta.url), { type: 'module' }); } catch { return Promise.resolve(journalGraph(source)); }
+    const id = ++request, active = worker;
+    return new Promise(resolve => {
+      const finish = graph => { active.removeEventListener('message', done); active.removeEventListener('error', failed); resolve(graph); };
+      const done = ({ data }) => { if (data?.id === id) finish(data.error ? journalGraph(source) : data.graph); };
+      const failed = () => { if (worker === active) { active.terminate(); worker = null; } finish(journalGraph(source)); };
+      active.addEventListener('message', done); active.addEventListener('error', failed); active.postMessage({ id, source });
+    });
+  }
+  const frame = () => new Promise(resolve => (win.requestAnimationFrame || setTimeout)(() => resolve()));
+  async function render() {
+    const ticket = ++generation, source = editor.value;
+    renderedSource = source;
+    if (source.length >= 200000) summary.textContent = 'Reading the journal for its map…';
+    const built = await buildGraph(source);
+    if (ticket !== generation || section.hidden) { if (ticket === generation) renderedSource = null; return; }
     // Narrow screens get narrower day columns, so the calendar reads at its natural size instead of shrinking.
     const width = stage.getBoundingClientRect().width || 900, narrowStage = width < 700;
-    graph = journalGraph(editor.value); layout = layoutGraph(graph, narrowStage ? { left: 78, cell: Math.max(9, (width - 78 - 12) / 31), row: 30, top: 40 } : {}); nodes.clear(); world.replaceChildren(); thread = null; selected = -1;
+    graph = built; layout = layoutGraph(graph, narrowStage ? { left: 78, cell: Math.max(9, (width - 78 - 12) / 31), row: 30, top: 40 } : {}); nodes.clear(); world.replaceChildren(); thread = null; selected = -1;
     const dated = graph.entries.filter(entry => entry.date);
     if (!graph.entries.length || !dated.length) {
       summary.textContent = graph.entries.length ? 'No dated entries yet. Add a date heading, like "### 2026-11-03", and entries appear here.' : 'Nothing to map yet. Write an entry and it appears here.';
       details.replaceChildren(); threadList.replaceChildren(); svg.setAttribute('viewBox', '0 0 600 120'); return;
     }
-    summary.textContent = `${dated.length} ${dated.length === 1 ? 'entry' : 'entries'} · ${graph.edges.length} ${graph.edges.length === 1 ? 'link' : 'links'} between entries · ${graph.threads.length} ${graph.threads.length === 1 ? 'thread' : 'threads'} · ${formatMonth(dated[0].date)} to ${formatMonth(dated.at(-1).date)}`;
+    const finalSummary = `${dated.length} ${dated.length === 1 ? 'entry' : 'entries'} · ${graph.edges.length} ${graph.edges.length === 1 ? 'link' : 'links'} between entries · ${graph.threads.length} ${graph.threads.length === 1 ? 'thread' : 'threads'} · ${formatMonth(dated[0].date)} to ${formatMonth(dated.at(-1).date)}`;
     // Grid: month rows, day columns, a year label where the year changes. Empty months stay as blank rows.
     const grid = svgEl('g', { class: 'writer-map-grid', 'aria-hidden': 'true' });
     for (let day = 1; day <= 31; day += day === 1 ? 4 : 5) grid.append(text(layout.left + (day - 0.5) * layout.cell, layout.top - 24, String(day), 'writer-map-day'));
@@ -168,7 +187,16 @@ export function setupWriterMap({ editor, status = () => {}, jumpTo }) {
     }
     world.append(links, svgEl('g', { class: 'writer-map-thread-line', 'aria-hidden': 'true' }));
     const dots = svgEl('g', { class: 'writer-map-entries' });
-    for (const entry of dated) {
+    world.append(dots);
+    const BATCH = 1500;
+    for (let at = 0; at < dated.length; at++) {
+      const entry = dated[at];
+      if (at && at % BATCH === 0) {
+        summary.textContent = `Drawing the map… ${at.toLocaleString()} of ${dated.length.toLocaleString()} entries`;
+        if (at === BATCH) fitAll();
+        await frame();
+        if (ticket !== generation || section.hidden) { if (ticket === generation) renderedSource = null; return; }
+      }
       const point = layout.points.get(entry.index), radius = Math.max(2.5, Math.min(layout.radius, 3 + Math.log2(entry.words + 1)));
       const group = svgEl('g', { class: 'writer-map-entry', role: 'button', tabindex: '-1', 'data-index': entry.index, transform: `translate(${point.x} ${point.y})`,
         'aria-label': `${entryLabel(entry)}. ${entry.words} ${entry.words === 1 ? 'word' : 'words'}${entry.to.size ? `, links to ${entry.to.size}` : ''}${entry.from.size ? `, linked from ${entry.from.size}` : ''}.` });
@@ -176,7 +204,7 @@ export function setupWriterMap({ editor, status = () => {}, jumpTo }) {
       if (entry.title) group.append(text(radius + 4, 4, entry.title.slice(0, 28), 'writer-map-label'));
       dots.append(group); nodes.set(entry.index, group);
     }
-    world.append(dots);
+    summary.textContent = finalSummary;
     svg.setAttribute('viewBox', `0 0 ${stage.getBoundingClientRect().width || layout.width} ${stage.getBoundingClientRect().height || 480}`);
     const first = order()[0]; setFocus(first, false);
     renderThreads(); showDetails(-1); fitAll();
@@ -294,5 +322,5 @@ export function setupWriterMap({ editor, status = () => {}, jumpTo }) {
     get graph() { return graph; },
   };
   // Locking, opening another journal or clearing it drops everything the map knew.
-  function reset() { graph = null; layout = null; renderedSource = null; nodes.clear(); world.replaceChildren(); details.replaceChildren(); threadList.replaceChildren(); summary.textContent = ''; selected = focused = -1; thread = null; }
+  function reset() { generation++; worker?.terminate(); worker = null; graph = null; layout = null; renderedSource = null; nodes.clear(); world.replaceChildren(); details.replaceChildren(); threadList.replaceChildren(); summary.textContent = ''; selected = focused = -1; thread = null; }
 }

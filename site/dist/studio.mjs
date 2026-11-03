@@ -103,10 +103,13 @@ function adoptDocumentLayout(){
  $('printSettings').textContent=geometry.css;$('handTools').hidden=false;$('styleWrap').hidden=true;
 }
 function update(){try{liveWriter?.syncFromSource();ast=parse(editor.value);adoptDocumentLayout();hints=$('checkToggle').checked?proofread(ast,{dictionary}):[];preview();checks();$('wordCount').textContent=`${editor.value.trim()?editor.value.trim().split(/\s+/).length:0} words`;const summary=el('p',`${ast.entries.length} dated sections · ${ast.nodes.length} blocks · ${ast.nodes.filter(n=>n.diagram).length} diagrams · ${ast.diagnostics.length} syntax diagnostics`);$('structureSummary').replaceChildren(summary);const json=JSON.stringify(ast,null,2);$('structureOutput').textContent=json.length>18000?json.slice(0,18000)+'\n… Preview shortened. Download AST for all data.':json;}catch(e){status('Unable to parse this document: '+e.message,true);}}
+// The writing's scroll position, kept as it changes: reading scrollTop while saving forced a full page layout each time.
+let editorScroll=0;
+editor.addEventListener('scroll',()=>{editorScroll=editor.scrollTop;},{passive:true});
 function save(){
  if(lockWaiting)return Promise.resolve(false);
  $('saveState').textContent='Saving archive…';
- const snapshot={revision:fileRevision,source:editor.value,entries:structuredClone(currentEntries()),assets:assets.map(a=>({...a,data:a.data.slice()})),identity:assetKey,archiveId,secret:lockKey,metadata:{...packageMetadata,title:$('documentName').value,workspace:{name:$('documentName').value,filename:loadedFilename,captureReceipts:[...captureReceipts],cursor:editor.selectionStart,scroll:Math.round(editor.scrollTop)}}};
+ const snapshot={revision:fileRevision,source:editor.value,entries:structuredClone(currentEntries()),assets:assets.map(a=>({...a,data:a.data.slice()})),identity:assetKey,archiveId,secret:lockKey,metadata:{...packageMetadata,title:$('documentName').value,workspace:{name:$('documentName').value,filename:loadedFilename,captureReceipts:[...captureReceipts],cursor:editor.selectionStart,scroll:Math.round(editorScroll)}}};
  sealing=sealing.then(async()=>{
   if(snapshot.identity!==assetKey)return false;
   const bytes=await pack({source:snapshot.source,entries:snapshot.entries,assets:snapshot.assets,metadata:snapshot.metadata,id:snapshot.archiveId,secret:snapshot.secret,previous:archiveState});

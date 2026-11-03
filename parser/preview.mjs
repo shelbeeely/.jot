@@ -83,8 +83,11 @@ const TASK = { open: ['☐', 'to do'], completed: ['☑', 'done'], migrated: ['�
 const SIGN = { event: ['○', 'Event'], question: ['?', 'Question'], idea: ['!', 'Idea'], voice: ['❝', 'Voice'], synopsis: ['≡', 'Summary'] };
 const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 /** "2026-10-26" as words; the rest of the heading after "|" is kept when it says more than the weekday. */
+const DATE_FORMATS = new Map(); // one formatter per locale: creating one for every dated entry was slow on long journals
 export function dateWords(date, rest = '', locale = 'en-GB') {
-  const t = new Date(`${date}T00:00:00Z`), words = new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(t);
+  let format = DATE_FORMATS.get(locale);
+  if (!format) DATE_FORMATS.set(locale, (format = new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })));
+  const t = new Date(`${date}T00:00:00Z`), words = format.format(t);
   const note = String(rest || '').trim();
   return { words, note: note && note.toLowerCase() !== WEEKDAYS[t.getUTCDay()] ? note : '' };
 }

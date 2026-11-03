@@ -107,9 +107,10 @@ large/archive/mobile performance is not established merely by embedding SQLite.
 
 ## Limits
 
-64 MiB input and total expanded member bytes; 32 MiB combined source and per attachment; 1 MiB per entry; 4 MiB manifest;
+64 MiB input and total expanded member bytes; 32 MiB combined source and per attachment; 1 MiB per entry; 8 MiB manifest;
 16 MiB index; at most 10,000 source entries, 1,000 attachments and 12,000 ZIP members. Framed private metadata is bounded to
-64 KiB, with ciphertext/frame overhead separately bounded. Oversize or malformed required members reject the archive without
+64 KiB per entry or attachment; the encrypted catalog, which lists every entry, is bounded to 8 MiB like the manifest, so a
+fully protected journal can reach the 10,000-entry limit. Ciphertext/frame overhead is bounded separately. Oversize or malformed required members reject the archive without
 replacing the active document. An index cache error does not discard verified writing. No legacy fallback or silent truncation.
 
 ## JavaScript
