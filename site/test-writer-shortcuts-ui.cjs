@@ -41,6 +41,20 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decode
   await page.fill('#writerCommandsSearch','ctrl+u');assert.match(await page.textContent('#writerCommandsList'),/Underline/);await page.keyboard.press('Escape');
   let opened=false;await page.exposeFunction('markOpen',()=>{opened=true;});await page.evaluate(()=>document.getElementById('openBtn').addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();window.markOpen();},{capture:true}));
   await page.keyboard.press('Control+o');await page.waitForTimeout(200);assert.ok(opened,'Ctrl+O opens a journal');
-  assert.deepEqual(errors,[]);console.log('PASS: Writer shortcuts in source and live editing, undo/redo, shortcuts list search and accessibility, find and replace, tool search by key, open.');
+  // Clear formatting in this entry (Format menu), in source and live editing; earlier and later entries untouched; one undo.
+  for(const mode of ['source','live']){
+    await page.evaluate(m=>document.getElementById('writing').jotSetMode(m),mode);
+    const src='### 2026-11-01 | Sun\n\n**Old** and *past*\n\n### 2026-11-02 | Mon\n\n**Bold** and *it* ==hi==\n\n### 2026-11-03 | Tue\n\n*Later*\n';
+    await page.evaluate(t=>{const e=document.getElementById('writing');e.value=t;e.dispatchEvent(new Event('input',{bubbles:true}));},src);
+    await page.locator('#writing').evaluate((e,at)=>e.setSelectionRange(at,at),src.indexOf(' and *it*'));
+    await page.click('#writerFormatTop');await page.click('#writerFormatMenu >> text=Clear formatting in this entry');
+    const out=await page.inputValue('#writing');
+    assert.equal(out,src.replace('**Bold** and *it* ==hi==','Bold and it hi'),mode+': only this entry is cleared');
+    assert.match(await page.textContent('#journalNotice'),/Other entries are unchanged/);
+    if(mode==='live'){await page.click('#writerUndo');}else{await page.locator('#writing').focus();await page.keyboard.press('Control+z');}
+    assert.equal(await page.inputValue('#writing'),src,mode+': undo restores it');
+  }
+  await page.evaluate(()=>document.getElementById('writing').jotSetMode('source'));
+  assert.deepEqual(errors,[]);console.log('PASS: Writer shortcuts in source and live editing, clear formatting in one entry, undo/redo, shortcuts list search and accessibility, find and replace, tool search by key, open.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

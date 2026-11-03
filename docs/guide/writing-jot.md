@@ -43,7 +43,10 @@ Once Writer is prepared for offline use, attached files need no provider connect
 - The **Format** menu (the Tt button beside undo and redo) holds every formatting choice and the writing font, with its
   shortcut beside each. **Ctrl+B / Cmd+B** bold, **Ctrl+I** italic, **Ctrl+U** underline (`++text++`), **Ctrl+Shift+H**
   highlight (`==text==`), **Ctrl+Shift+X** strikethrough, **Ctrl+Shift+P** superscript (one word, `^2^`),
-  **Ctrl+Shift+Space** clears formatting from the selection. **Ctrl+Alt+1** to **3** make a heading and **Ctrl+Alt+0** normal
+  **Ctrl+Shift+Space** clears formatting from the selection. **Clear formatting in this entry**, in the same menu,
+  removes bold, italics, underline, highlights, strikethrough, superscript, inline code and colours from the whole dated
+  entry at the cursor and leaves every other entry as it was. The words, links, code blocks, records and the entry's
+  pen and ink stay; Undo brings the formatting back. **Ctrl+Alt+1** to **3** make a heading and **Ctrl+Alt+0** normal
   text (Ctrl+1 to 3 also work where the browser does not keep them for switching tabs). **Ctrl+E** centres a line
   (`-> text <-`) and **Ctrl+L** removes the centring. **Ctrl+Shift+7**, **8** and **9** make numbered, bulleted and task lines.
   On a Mac, use Cmd for Ctrl.

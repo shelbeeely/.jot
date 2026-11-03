@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 118425,
-      "sha256": "5c0af1c95517cc87e0c4750013971cf78bbc716564c35665286f86b0758919a4"
+      "byteLength": 119445,
+      "sha256": "85820b7008ba01f0b622c143293aee9faa0fbb3778ae79b7a655637c4518eb41"
     },
     {
       "path": "README.md",
@@ -894,8 +894,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 52782,
-      "sha256": "8965621b6ea89f6be7b6011a01af61426cf3f06562ee9c3271cdd1a59702caa0"
+      "byteLength": 53127,
+      "sha256": "35ad4aabd64dd775981b25a67f18e6d0793a7580d6b55d5e548e5462c1fdb31e"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -23149,8 +23149,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 69558,
-      "sha256": "15574a95a542c4b9576aa78b7821f12d589afe146032969224323c5756ed1d74"
+      "byteLength": 69914,
+      "sha256": "6d21f8119a43a7d81417b0f374adb465e6304b190211afaec3a0948bd47fe2a6"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -23635,7 +23635,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 4931,
-      "sha256": "3f921b9c7ddb4c6e5a32969bf1634fa65094475ec6b4f230175c33df0f878cc7"
+      "sha256": "21255aa8c52aadaf656902b7358b99f42c3d13c826e5577430a712a5a41cdec8"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23899,13 +23899,13 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 45507,
-      "sha256": "919c2e7c18dc368ad34e3c5d75a0fb692ba0517cbb2b283d2c1093b6b77667df"
+      "byteLength": 45607,
+      "sha256": "ffd2656ff0b9738c542391f8fdac4488713bd4b6c004b4f5dbf06dab2c7d57aa"
     },
     {
       "path": "site/dist/writing-tools.mjs",
-      "byteLength": 15621,
-      "sha256": "40786224276e8bf1cf71a4ca9cc2277ad3ea00fc1a3b73065acd5950060100d6"
+      "byteLength": 18521,
+      "sha256": "cf2a9bcde30ed978a096611d4dc8dee13e26eef2f193dd38b5453a76a95e0c45"
     },
     {
       "path": "site/fixtures/viewer.webm",
@@ -24214,8 +24214,8 @@
     },
     {
       "path": "site/test-writer-shortcuts-ui.cjs",
-      "byteLength": 5785,
-      "sha256": "59a2116f4eddaeaaaea2f02e7a38d7500454350eae3053ff791100d09fc6e930"
+      "byteLength": 7145,
+      "sha256": "4a9f7be5e1de86b7a4786b2b3dbaedc89114f7f260dbdde5b2a3d2753e273aae"
     },
     {
       "path": "site/test-writer-templates.mjs",
@@ -24239,8 +24239,8 @@
     },
     {
       "path": "site/test-writing-tools.mjs",
-      "byteLength": 10534,
-      "sha256": "83c3f33fb21996d9d76758ed37c22a95c23f837d756f3b624e78775449ebd04f"
+      "byteLength": 12024,
+      "sha256": "ddb9cddd0807c1f8ce18c65887e9c5ece10f041e92cf120ded421a57d71c0e34"
     },
     {
       "path": "specification/AGENTS.md",

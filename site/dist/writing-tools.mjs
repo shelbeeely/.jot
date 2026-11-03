@@ -1,4 +1,6 @@
 // Text edits stay ordinary Jot/Markdown and go through the browser's undo stack.
+import { parse } from './jot/jot.mjs';
+import { entryAtCaret } from './jot/timezone.mjs';
 const PREF = 'jot-smart-lists-v1';
 const TASK = '\\[[ xX><!\\-]\\]';
 const PREFIX = new RegExp(`^([ \\t]*)(?:#{1,6}[ \\t]+|(?:[-+*]|\\d+[.)])[ \\t]+(?:${TASK}[ \\t]*)?|${TASK}[ \\t]*|(?:>[ \\t]*)+)`);
@@ -92,8 +94,18 @@ function clearEdit(source, start, end) {
     grew = false;
     for (const mark of WRAPS) if (source.slice(from - mark.length, from) === mark && source.slice(to, to + mark.length) === mark) { from -= mark.length; to += mark.length; grew = true; break; }
   }
-  const selected = source.slice(from, to);
+  const selected = source.slice(from, to), text = clearText(selected);
+  return text === selected ? null : edit(from, to, text, from, from + text.length);
+}
+
+// Escapes, link destinations and web addresses are set aside first, so their * and _ are never read as formatting.
+function clearText(selected) {
+  const kept = [];
+  const keep = match => { kept.push(match); return '\uE000' + (kept.length - 1) + '\uE001'; };
   const text = selected
+    .replace(/\\[\\`*_{}[\]()#+\-.!~=^|>]/g, keep)
+    .replace(/\]\([^)\s]*(?:\s+"[^"]*")?\)/g, keep)
+    .replace(/<[a-z][a-z0-9+.-]*:[^>\s]*>|\bhttps?:\/\/[^\s<>()]+/gi, keep)
     .replace(/\[([^\]\r\n]*)\]\{(?:(?:ink|highlight|strike|underline)=#[0-9a-fA-F]{6}[ ]?)+\}/g, '$1')
     .replace(/(\*\*|~~|==|\+\+)(?=\S)([^\r\n]*?\S)\1/g, '$2')
     .replace(/(^|[^\w])__(?=\S)([^\r\n]*?\S)__(?!\w)/g, '$1$2')
@@ -102,7 +114,36 @@ function clearEdit(source, start, end) {
     .replace(/\^([^\s^[\]]+)\^/g, '$1')
     .replace(/`([^`\r\n]+)`/g, '$1')
     .replace(/^(\*\*|__|~~|==|\+\+|\*|_|\^|`)([\s\S]*)\1$/, '$2');
-  return text === selected ? null : edit(from, to, text, from, from + text.length);
+  return text.replace(/\uE000(\d+)\uE001/g, (_, i) => kept[Number(i)]);
+}
+
+// Prose blocks whose inline marks "Clear formatting in this entry" removes. Code, records, comments and directives keep theirs.
+const PROSE = new Set(['paragraph', 'heading', 'list', 'task', 'blockquote', 'table']);
+/** Clears inline formatting in the dated entry at `caret` only; earlier and later entries are untouched. Null when there is nothing to clear. */
+export function clearEntryEdit(source, caret, ast = parse(source)) {
+  const entry = entryAtCaret(ast, caret);
+  if (!entry) return null;
+  const bytes = new TextEncoder().encode(ast.source), decoder = new TextDecoder();
+  const charAt = byte => decoder.decode(bytes.slice(0, byte)).length;
+  const changes = [];
+  for (let i = entry.startNode + 1; i < entry.endNode; i++) {
+    const node = ast.nodes[i];
+    if (!PROSE.has(node.type)) continue;
+    const start = charAt(node.start), end = charAt(node.end), raw = source.slice(start, end);
+    // Each line is cleared on its own, so a mark never joins two lines.
+    const text = raw.split(/(\r?\n)/).map((part, k) => k % 2 ? part : clearText(part)).join('');
+    if (text !== raw) changes.push({ start, end, text });
+  }
+  const result = combine(source, caret, caret, changes);
+  if (!result) return null;
+  // Keep the caret near the same words: inside a cleared block, count only the words before it.
+  const inside = changes.find(change => caret > change.start && caret < change.end);
+  if (inside) {
+    const shift = changes.filter(change => change.end <= inside.start).reduce((sum, change) => sum + change.text.length - (change.end - change.start), 0);
+    const kept = Math.min(inside.text.length, clearText(source.slice(inside.start, caret)).length);
+    result.selectionStart = result.selectionEnd = inside.start + shift + kept;
+  }
+  return result;
 }
 
 /** A minimal replacement plus absolute final selection; null means no change. */
@@ -136,6 +177,7 @@ export function writingEdit(source, start, end, action) {
     return inlineEdit(source, start, end, '^');
   }
   if (action === 'clear') return clearEdit(source, start, end);
+  if (action === 'clearEntry') return clearEntryEdit(source, start);
   if (action === 'link') {
     const selected = source.slice(start, end);
     if (/[\r\n]/.test(selected)) return null;
@@ -233,10 +275,12 @@ export function setupWritingTools({ editor, status = () => {} }) {
     const replacement = writingEdit(editor.value, editor.selectionStart, editor.selectionEnd, action);
     if (!replacement) {
       if (action === 'superscript') status('Select one word, with no spaces, to make it superscript.');
-      else if (action === 'clear') status('Select formatted words to clear their formatting.');
+      else if (action === 'clear') status('Select formatted words to clear their formatting, or use Clear formatting in this entry.');
+      else if (action === 'clearEntry') status(entryAtCaret(parse(editor.value), editor.selectionStart) ? 'This entry has no bold, italics or other formatting to clear.' : 'Put the cursor in a dated entry to clear its formatting.');
       return false;
     }
     if (!applyWritingEdit(editor, replacement)) return false;
+    if (action === 'clearEntry') { status('Cleared the formatting in this entry. Other entries are unchanged; Undo brings it back.'); return true; }
     status('Applied ' + action.replace(/heading[1-6]/, 'heading') + '. Undo restores the previous writing.');
     return true;
   }

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { writingEdit, continueListEdit, applyWritingEdit, setupWritingTools } from './dist/writing-tools.mjs';
+import { writingEdit, continueListEdit, applyWritingEdit, setupWritingTools, clearEntryEdit } from './dist/writing-tools.mjs';
 
 function apply(source, replacement) {
   if (!replacement) return source;
@@ -154,4 +154,18 @@ test('centred lines, normal text and clear formatting keep the words', () => {
   assert.equal(run('**bold** [red]{ink=#ff0000} ==hi== snake_case_name', 0, 50, 'clear'), 'bold red hi snake_case_name');
   assert.equal(run('a **bold** b', 4, 8, 'clear'), 'a bold b', 'marks just outside the selection are cleared too');
   assert.equal(writingEdit('plain words', 0, 11, 'clear'), null);
+});
+
+test('clear formatting in this entry: only the entry at the cursor, prose only, words kept', () => {
+  const S = '### 2026-11-01 | Sun\n\n**Old** bold\n\n### 2026-11-02 | Mon\n\n@ink: green\n\n**Bold** and *it* [red]{ink=#ff0000} see [a_b](https://x.com/a_b_c) and \\*lit\\* at https://x.com/*y*\n\n- a __b__\n[ ] task ==hi==\n> quote _x_\n\n```\ncode **x**\n```\n\n# Head ~~b~~ ^2^\n\n### 2026-11-03 | Tue\n\n*Later*\n';
+  const caret = S.indexOf(' and *it*'), r = clearEntryEdit(S, caret), out = S.slice(0, r.start) + r.text + S.slice(r.end);
+  assert.ok(out.startsWith(S.slice(0, S.indexOf('### 2026-11-02'))), 'earlier entries are byte for byte the same');
+  assert.ok(out.endsWith('### 2026-11-03 | Tue\n\n*Later*\n'), 'later entries too');
+  assert.match(out, /\nBold and it red see \[a_b\]\(https:\/\/x\.com\/a_b_c\) and \\\*lit\\\* at https:\/\/x\.com\/\*y\*\n/);
+  assert.match(out, /- a b\n\[ \] task hi\n> quote x\n/); assert.match(out, /```\ncode \*\*x\*\*\n```/, 'code keeps its text');
+  assert.match(out, /# Head b 2\n/); assert.match(out, /@ink: green/, 'pen and ink are left alone');
+  assert.equal(out.slice(r.selectionStart, r.selectionStart + 7), ' and it', 'the caret stays by the same words');
+  assert.equal(clearEntryEdit(out, out.indexOf('Bold')), null, 'nothing left to clear');
+  assert.equal(clearEntryEdit('**Undated**', 3), null, 'undated writing is not an entry');
+  assert.equal(writingEdit(S, caret, caret, 'clearEntry').text, r.text);
 });
