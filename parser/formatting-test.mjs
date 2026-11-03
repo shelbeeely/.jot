@@ -152,3 +152,11 @@ test('document filename is an explicit inline variable, preserving source and op
   assert.equal(parse('```jot\n' + literal + '\n```').nodes[0].type, 'code');
   assert.equal(parse('### 2026-11-01 | ' + literal).entries[0].date, '2026-11-01');
 });
+
+test('parsing grows linearly with journal length (block extensions only look within the current paragraph)', () => {
+  const journal = days => Array.from({ length: days }, (_, i) => `### 2000-01-${String(1 + (i % 28)).padStart(2, '0')}\n\nA day of notes with -> arrows and [^ brackets.\n\nAnother paragraph.\n\n`).join('');
+  const time = source => { const start = performance.now(); parse(source); return performance.now() - start; };
+  time(journal(200));
+  const small = Math.max(1, time(journal(1000))), large = time(journal(4000));
+  assert.ok(large / small < 10, `4x the text took ${(large / small).toFixed(1)}x as long; quadratic scanning would be about 16x`);
+});

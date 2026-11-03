@@ -59,3 +59,11 @@ test('small archives omit the search index; larger public source or an explicit 
  const missing=await unpack(await zip.generateAsync({type:'uint8array'}));assert.ok(missing.indexError);assert.equal((await searchArchive(missing,{tag:'outside'})).length,1);
 });
 
+
+test('text search gives the same results with or without an index: case- and accent-insensitive substrings',async()=>{
+ const {searchArchive}=await import('./container.mjs');
+ const source='### 2026-11-01\n\nWe went walking by the café. #walk\n\n### 2026-11-02\n\nA quiet day.\n';
+ const results=[];
+ for(const index of ['always','never']){const doc=await unpack(await pack({source,index}));try{const row=[];for(const query of ['walk','WALKING','alk','cafe','café','quiet','nothing here'])row.push((await searchArchive(doc,{query})).length);row.push((await searchArchive(doc,{tag:'walk',query:'CAFE'})).length);results.push(row);}finally{doc.index?.close();}}
+ assert.deepEqual(results[0],results[1]);assert.deepEqual(results[0],[1,1,1,1,1,1,0,1]);
+});

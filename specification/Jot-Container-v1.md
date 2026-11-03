@@ -102,7 +102,7 @@ Readers verify schema/generation, entry identities/hashes and indexed public tex
 trusted_schema off and query_only on, reject unexpected SQL/schema objects, and use only fixed parameterized queries. No OPFS,
 SQLite files, WAL/SHM sidecars, ATTACH, extensions or user-supplied SQL are used. Stale, malformed or missing index payloads fall
 back to bounded source search, including tag/date/measurement filters. Private search runs only against unlocked in-memory source,
-never in the portable SQLite database. Search results are limited to 100. Loading an index still costs I/O and decompression;
+never in the portable SQLite database. Text search matches case- and accent-insensitive substrings of entry source (`walk` finds "walking", `cafe` finds "café") and gives the same results with or without an index: the index narrows tag, date and measurement filters, and the text is matched against verified source. Search results are limited to 100. Loading an index still costs I/O and decompression;
 large/archive/mobile performance is not established merely by embedding SQLite.
 
 ## Limits

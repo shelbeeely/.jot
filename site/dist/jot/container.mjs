@@ -175,10 +175,13 @@ export async function readDocument(input,options={}) {
   const bytes=await dataBytes(input);if(bytes[0]===0x50&&bytes[1]===0x4b&&bytes[2]===3&&bytes[3]===4)return unpack(bytes,options);
   check(bytes.length<=LIMITS.sourceBytes,'Plain source exceeds 32 MiB.');const source=dec.decode(bytes);return {source,assets:[],entries:reconcileEntries(source),manifest:null,archive:null,metadata:{},session:null,packaged:false,partial:false,protected:false,index:null};
 }
+// Text search is the same with or without an index: case- and accent-insensitive substrings of entry source.
+const folded=new WeakMap(),fold=text=>text.normalize('NFKD').replace(/\p{M}+/gu,'').toLocaleLowerCase();
+const foldedSource=entry=>{let value=folded.get(entry);if(value===undefined){value=fold(entry.source);folded.set(entry,value);}return value;};
 function sourceMatch(entry,criteria) {
   if(entry.source===null)return false;
   const {query='',tag='',from='',to='',metric='',min=null,max=null}=criteria;
-  if(query&&!entry.source.toLocaleLowerCase().includes(query.toLocaleLowerCase()))return false;
+  if(query.trim()&&!foldedSource(entry).includes(fold(query.trim())))return false;
   if(tag&&!(entry.source.match(/#[\p{L}\p{N}_-]+/gu)||[]).includes('#'+tag.replace(/^#/,'')))return false;
   if(from&&(!entry.date||entry.date<from)||to&&(!entry.date||entry.date>to))return false;
   if(metric){const values=parse(entry.source).nodes.filter(n=>n.type==='record'&&n.recordType==='measurement').map(n=>Object.fromEntries(n.fields.map(f=>[f.name,f.value]))).filter(f=>f.metric===metric&&f.value!==undefined&&f.value!==''&&f.missing!=='true').map(f=>Number(f.value)).filter(Number.isFinite);if(min===null&&max===null){if(!parse(entry.source).nodes.some(n=>n.type==='record'&&n.recordType==='measurement'&&n.fields.some(f=>f.name==='metric'&&f.value===metric)))return false;}else if(!values.some(value=>(min===null||value>=min)&&(max===null||value<=max)))return false;}
@@ -189,6 +192,7 @@ export async function searchArchive(document,criteria={}) {
   for(const key of ['min','max'])if(criteria[key]!==undefined&&criteria[key]!==null&&!Number.isFinite(criteria[key]))throw Error('Invalid numeric search bound.');
   if(!document.index&&document.indexBytes&&!document.indexError)try{document.index=await openIndex(document.indexBytes,document.entries,document.archive.index.generation);}catch(error){document.indexError=error.message;}
   let publicMatches;
-  try{publicMatches=document.index?document.index.search(criteria):document.entries.filter(e=>!e.private&&sourceMatch(e,criteria));}catch{document.index?.close();document.index=null;document.indexError='Search index unavailable; using source search.';publicMatches=document.entries.filter(e=>!e.private&&sourceMatch(e,criteria));}
+  // The index narrows tags, dates and measurements; the text itself is always matched against source, as without an index.
+  try{publicMatches=document.index?(()=>{const byId=new Map(document.entries.map(e=>[e.id,e]));return document.index.search({...criteria,query:''}).filter(hit=>{const entry=byId.get(hit.id);return entry&&sourceMatch(entry,{query:criteria.query||''});});})():document.entries.filter(e=>!e.private&&sourceMatch(e,criteria));}catch{document.index?.close();document.index=null;document.indexError='Search index unavailable; using source search.';publicMatches=document.entries.filter(e=>!e.private&&sourceMatch(e,criteria));}
   const ids=new Set(publicMatches.map(e=>e.id));return document.entries.filter(e=>e.private?sourceMatch(e,criteria):ids.has(e.id)).slice(0,100);
 }

@@ -3,6 +3,13 @@ import { applyTimezones } from './timezone.mjs';
 import { Marked } from './vendor/marked.mjs';
 import { COLOR, isPaletteRecord } from './palette.mjs';
 
+// A block extension can only interrupt the paragraph being read, which ends at the next blank line. Searching just
+// that far keeps parsing linear: searching the whole remaining journal for every paragraph made large journals slow.
+function blockStart(src, pattern) {
+  const stop = src.indexOf('\n\n'), m = pattern.exec(stop < 0 ? src : src.slice(0, stop + 1));
+  return m ? m.index + (m[0][0] === '\n' ? 1 : 0) : undefined;
+}
+
 // Fuller formatting (spec 4.2.1), as Marked extensions: the tokens carry their text and children like Marked's own.
 //   ==highlight==   ++underline++   ^superscript^   [^note] and [^note]: a footnote   -> a centred line <-
 // > [!NOTE] (TIP, IMPORTANT, WARNING, CAUTION) on a blockquote's first line makes a callout (added after lexing, below).
@@ -110,9 +117,9 @@ const EXTENSIONS = [
     tokenizer(src) { const m = /^\^([^\s^\[\]]+)\^/.exec(src); if (m) return { type: 'sup', raw: m[0], text: m[1], tokens: this.lexer.inlineTokens(m[1]) }; } },
   { name: 'footnoteRef', level: 'inline', start: (src) => { const i = src.indexOf('[^'); return i < 0 ? undefined : i; },
     tokenizer(src) { const m = /^\[\^([A-Za-z0-9_-]{1,40})\](?!:)/.exec(src); if (m) return { type: 'footnoteRef', raw: m[0], id: m[1] }; } },
-  { name: 'footnote', level: 'block', start: (src) => { const m = /(?:^|\n)\[\^[A-Za-z0-9_-]{1,40}\]:/.exec(src); return m ? m.index + (m[0][0] === '\n' ? 1 : 0) : undefined; },
+  { name: 'footnote', level: 'block', start: (src) => blockStart(src, /(?:^|\n)\[\^[A-Za-z0-9_-]{1,40}\]:/),
     tokenizer(src) { const m = /^\[\^([A-Za-z0-9_-]{1,40})\]:[ \t]*([^\n]*(?:\n(?: {2,}|\t)[^\n]*)*)(?:\n|$)/.exec(src); if (m) { const text = m[2].replace(/\n(?: {2,}|\t)/g, '\n').trim(); return { type: 'footnote', raw: m[0], id: m[1], text, tokens: this.lexer.inlineTokens(text) }; } } },
-  { name: 'center', level: 'block', start: (src) => { const m = /(?:^|\n)->/.exec(src); return m ? m.index + (m[0][0] === '\n' ? 1 : 0) : undefined; },
+  { name: 'center', level: 'block', start: (src) => blockStart(src, /(?:^|\n)->/),
     tokenizer(src) { const m = /^->[ \t]+([^\n]*?\S)[ \t]+<-[ \t]*(?:\n|$)/.exec(src); if (m) return { type: 'center', raw: m[0], text: m[1], tokens: this.lexer.inlineTokens(m[1]) }; } },
 ];
 const md = new Marked({ gfm: true, breaks: false, extensions: EXTENSIONS });

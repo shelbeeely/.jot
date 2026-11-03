@@ -261,3 +261,57 @@ body .writer-menu button:focus-visible{outline:none;background:color-mix(in srgb
 .writer-shortcut-list dt{font-size:15px;line-height:1.4}.writer-shortcut-list dd{margin:0;text-align:right;font-size:13px;color:var(--writer-muted,var(--jot-ink))}
 #writerShortcutsList{max-height:60vh;max-height:60dvh;overflow:auto;margin-top:12px}
 @media screen and (max-width:700px){#writerShortcutsDialog{width:100%;max-width:100%;max-height:88dvh;margin:auto 0 0;border:0;border-radius:28px 28px 0 0}}
+/* Journal map: entries on a calendar canvas. Screen only; the writing and pages stay measurable while it shows. */
+.writer-map{--map-ink:var(--writer-ink,var(--jot-ink));--map-muted:var(--writer-muted,var(--jot-ink));--map-edge:var(--writer-border,var(--jot-edge));--map-bg:var(--writer-bg,var(--jot-paper));--map-accent:#2f6fde;box-sizing:border-box;max-width:1320px;margin:0 auto 24px;color:var(--map-ink);font-family:"Jot Sans",ui-sans-serif,system-ui,sans-serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .writer-map{--map-accent:#8fb4ff}}
+:root[data-theme=dark] .writer-map{--map-accent:#8fb4ff}
+.writer-map[hidden]{display:none}
+.writer-map-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:12px 0}
+body .writer-map-head h2{margin:0;font-size:20px;letter-spacing:normal}
+.writer-map-summary{flex:1 1 280px;margin:0;font-size:14px;color:var(--map-muted)}
+.writer-map-controls{display:flex;gap:6px}
+body .writer-map-controls button,body .writer-map-open{min-width:44px;min-height:44px;padding:0 14px;border:1px solid var(--map-edge);border-radius:22px;background:var(--map-bg);color:var(--map-ink);font:inherit;font-size:15px;cursor:pointer;transition:none}
+body #writerMapOpen{background:var(--map-ink);color:var(--map-bg);border-color:var(--map-ink);font-weight:600;margin:6px 0 4px}
+.writer-map-body{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+.writer-map-stage{position:relative;height:min(70vh,760px);height:min(70dvh,760px);overflow:hidden;border:1px solid var(--map-edge);border-radius:12px;background:var(--map-bg);touch-action:none;cursor:grab}
+.writer-map-stage:active{cursor:grabbing}
+#writerMapCanvas{display:block;width:100%;height:100%}
+#writerMapCanvas:focus-visible,.writer-map-entry:focus-visible{outline:none}
+.writer-map-entry:focus-visible .writer-map-hit{stroke:var(--map-ink);stroke-width:2;fill:none}
+.writer-map-rule{stroke:var(--map-edge);stroke-width:1}
+.writer-map-month{font-size:13px;fill:var(--map-muted)}.writer-map-year{font-weight:700;fill:var(--map-ink)}
+.writer-map-day{font-size:11px;fill:var(--map-muted);text-anchor:middle}
+.writer-map-link{fill:none;stroke:var(--map-accent);stroke-width:1.6;opacity:.55}
+.writer-map-link.is-near{opacity:1;stroke-width:2.6}
+.writer-map-hit{fill:transparent}
+.writer-map-dot{fill:var(--map-ink);opacity:.82}
+.writer-map-entry{cursor:pointer}
+.writer-map-entry.is-selected .writer-map-dot{fill:var(--map-accent);opacity:1;stroke:var(--map-bg);stroke-width:2}
+.writer-map-label{font-size:11px;fill:var(--map-ink);display:none;pointer-events:none}
+.writer-map-near .writer-map-label{display:inline}
+.writer-map-far .writer-map-month:not(.writer-map-year){display:none}
+.writer-map-threaded .writer-map-entry:not(.in-thread):not(.is-selected) .writer-map-dot{opacity:.15}
+.writer-map-threaded .writer-map-link{opacity:.12}
+.writer-map-entry.in-thread .writer-map-dot{fill:var(--map-accent);opacity:1}
+.writer-map-thread-path{fill:none;stroke:var(--map-accent);stroke-width:1.5;stroke-dasharray:4 4;opacity:.8}
+.writer-map-side{display:grid;gap:16px;max-height:min(70vh,760px);max-height:min(70dvh,760px);overflow:auto}
+.writer-map-details,.writer-map-threads{border:1px solid var(--map-edge);border-radius:12px;padding:14px}
+body .writer-map-side h3{margin:0 0 4px;font-size:17px;letter-spacing:normal}
+body .writer-map-side h4{margin:12px 0 6px;font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--map-muted)}
+.writer-map-hint{margin:4px 0 8px;font-size:13px;line-height:1.5;color:var(--map-muted)}
+.writer-map-entry-title{margin:0 0 4px;font-size:15px}
+.writer-map-chips,.writer-map-thread-list{display:flex;flex-wrap:wrap;gap:6px}
+body .writer-map-chip{min-height:36px;padding:4px 12px;border:1px solid var(--map-edge);border-radius:18px;background:var(--map-bg);color:var(--map-ink);font:inherit;font-size:14px;cursor:pointer;transition:none}
+body .writer-map-chip[aria-pressed=true]{background:var(--map-accent);border-color:var(--map-accent);color:#fff}
+.writer-map-count{opacity:.7;font-size:12px}
+#writerMapThreadSearch{box-sizing:border-box;width:100%;min-height:44px;margin:4px 0 10px;padding:8px 10px;font:inherit;font-size:16px;border:1px solid var(--map-edge);border-radius:8px;background:var(--map-bg);color:var(--map-ink)}
+html[data-pref-contrast] .writer-map{--map-muted:var(--map-ink);--map-edge:var(--map-ink)}
+@media screen{
+ html[data-writer-view=map] .jot-site .writing-pane{display:none}
+ html[data-writer-view=map] .jot-site .preview-pane{position:fixed;top:0;left:-300vw;width:600px;height:100vh;overflow:hidden;visibility:hidden}
+ html[data-writer-view=map] .jot-site .writing-grid{min-height:0}
+ html[data-writer-view=map] .writer-voice-mic{display:none}
+}
+@media screen and (max-width:850px){.writer-map-body{grid-template-columns:1fr}.writer-map-stage{height:56vh;height:56dvh}.writer-map-side{max-height:none;overflow:visible}}
+@media screen and (max-width:700px){.jot-site.jot-writer .writer-file-actions #writerMapToggle{display:none}}
+@media print{.writer-map{display:none!important}}

@@ -4,7 +4,7 @@ html[data-writer-font=script-07]{--writer-writing-family:'Jot Script 07','Jot Ca
 html[data-writer-font=script-10]{--writer-writing-family:'Jot Script 10','Jot Caveat',cursive}
 html[data-writer-font=sans]{--writer-writing-family:'Jot Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif}
 .jot-site.jot-writer .writer-fonts{display:flex;align-items:center;gap:6px;min-height:44px;margin:0 4px;color:var(--writer-muted);font:13px/1.5 'Jot Sans',ui-sans-serif,system-ui,sans-serif;white-space:nowrap}
-.jot-site.jot-writer .writer-fonts select{width:auto;max-width:100px;min-height:44px;padding:6px 20px 6px 8px;border:1px solid var(--writer-border);border-radius:5px;background-color:var(--writer-bg);color:var(--writer-ink);font:14px/1.5 'Jot Sans',ui-sans-serif,system-ui,sans-serif;letter-spacing:normal}
+.jot-site.jot-writer .writer-fonts select{width:auto;max-width:200px;min-height:44px;padding:6px 20px 6px 8px;border:1px solid var(--writer-border);border-radius:5px;background-color:var(--writer-bg);color:var(--writer-ink);font:14px/1.5 'Jot Sans',ui-sans-serif,system-ui,sans-serif;letter-spacing:normal}
 .jot-site.jot-writer .writer-fonts select:disabled{opacity:.7}
 html[data-focus] .jot-site.jot-writer .writer-fonts{display:none}
 @media(max-width:700px){.jot-site.jot-writer .writer-fonts{gap:4px;margin:0}.jot-site.jot-writer .writer-fonts select{max-width:none}}

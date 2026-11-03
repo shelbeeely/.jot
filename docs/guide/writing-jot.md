@@ -58,6 +58,14 @@ Once Writer is prepared for offline use, attached files need no provider connect
 - **Find & replace** (**Ctrl+F / Cmd+F** while writing) searches literal text in this journal, with match-case and whole-word
   options. Next and Previous wrap around. Replace and Replace all are explicit; replacement text is literal, including `$`.
 - **Outline** jumps to a dated entry or heading. Headings inside code and comments stay out of the outline.
+- **Map** (on a phone, in the bar at the bottom; on a wider screen, at the top; or **Tools → Journal map**) shows every dated
+  entry on a calendar: one row per month, one column per day, with blank rows for months you did not write. Lines join
+  entries that link to each other (`[see Friday](#2026-10-30)` or a link to a record in another entry). **Threads** lists your
+  `#tags` and the people and places you link to from a People and Places book; choose one to see the entries it runs
+  through. Choosing an entry shows its date, length, what it links to and what links to it, but not its writing:
+  **Open in writing** takes you there. Drag to move, pinch or Ctrl/Cmd + scroll to zoom, or use the arrow keys to step
+  through entries in date order and Enter to choose one. The map is a view only, it never changes your writing, and it
+  is cleared when the journal locks.
 - **Tools** (**Ctrl+K / Cmd+K**) lists every writing tool and journal workflow in groups, with shortcuts beside them. Type to search, including by key ("ctrl u"), then choose a tool or press Enter.
   Arrow keys move through results and Escape closes the menu. Searching alone does not edit the journal.
 - **Entry templates**, available in Tools, offers daily reflections, weekly and monthly recaps, meetings and freewriting.
@@ -487,8 +495,10 @@ Encryption is a core v1 requirement. In the current prototype it starts when you
 
 **Lock with a passphrase** initially protects every entry and offers a recovery code, shown once. Keep that code apart from the
 journal. **Tools → Entries, privacy and search** lets you make individual entries public, save those choices and search words,
-tags, dates or measurements. New entries start protected after setup. Public text/tags/measurements enter the portable SQLite
-index; protected text is searched only in memory while unlocked. Private entry dates and cryptographic metadata remain visible.
+tags, dates or measurements. New entries start protected after setup. Word searches ignore case and accents and match
+inside words (`walk` finds "walking", `cafe` finds "café"). Journals with more than 256 KiB of public writing keep a portable
+SQLite index of public text, tags and measurements; results are the same with or without it. Protected text is searched only in
+memory while unlocked. Private entry dates and cryptographic metadata remain visible.
 All attachments and settings stay encrypted while protection is enabled, including images referenced by public entries.
 
 Save privacy choices updates the browser copy. Save or Download updates an external archive separately. Earlier downloads and
