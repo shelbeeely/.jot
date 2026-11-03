@@ -1,283 +1,117 @@
-# Jot roadmap
+# Jot format roadmap
 
-Updated 1 November 2026. The format remains **Jot v1** (draft 3); the parser implementation is 0.1.0. The name is Jot; `.jot` is plain writing, and `.jotz` packages the writing (`journal.txt`) together with its assets. A single document can span a moment, day, month, multiple years or a topic. The scanner remains a separate tool within the Jot workspace.
+Updated 2 November 2026. **Current stage: 0.1.0 prototype / pre-v1.** This roadmap owns the Jot format as a whole: plain `.jot` source, the primary `.jotz` document, syntax, semantic records, assets, protection, search interchange, conformance and parser/serializer contracts. Jot v1 and Jotz v1 are target specifications, not finalized releases.
 
-The primary audience for Jot Writer v1 is people who have never journaled and want help getting started. Prioritize a small first entry,
-clear saving and an easy return. The beginner experience in `docs/proposals/first-journal-v1.md` is planned; it is not yet
-implemented or validated with first-time journalers. Attractive pages and portable files support that experience.
+The separate [Jot Writer roadmap](WRITER-ROADMAP.md) owns the web application and its desktop/mobile delivery, editor experience, integrations, saving/recovery UX and platform verification. Source research: `docs/proposals/document-format-research.md`. The canonical format roadmap is `specification/ROADMAP.md`; `node tools/sync-roadmap.mjs` generates the parser/site copies and the separate published Writer roadmap.
 
-The canonical roadmap is `specification/ROADMAP.md`. Run `node tools/sync-roadmap.mjs` after editing it; CI checks that the parser and published-site copies match. Status below is based on source and automated checks, not just the specification.
+## Release policy: finish v1 before moving beyond it
+
+The current project is a **0.1.0 prototype** targeting **1.0.0**. Existing v1 specification names and archive schema `1.0` designate the target contract, not a stable-release or security certification. No post-v1 format is planned until the required v1 work is finalized. Unfinished requirements must not silently be moved to v2. The fresh prototype has no migration requirement; preserve that decision unless the owner changes it.
+
+Format and Writer have separate completion evidence. A format change must include corresponding Writer support in the same change: parsing, editing, preview, assets, protection, persistence, import/export and applicable web/native file handling. Regenerate shared copies and run relevant format plus Writer checks. Track dependencies in both roadmaps; an updated specification alone is not a completed feature. See root `AGENTS.md` and area instructions.
+
+## Encryption is a core v1 capability
+
+Encryption is fundamental to the journal document and a required v1 format capability. It covers private writing, media/originals, ink components, included documents, saved integration data and private descriptive metadata, with safe derived previews and search behavior. Public content remains an explicit supported choice; this requirement does not force encryption on standalone plain `.jot` or change the prototype's new-document defaults.
+
+- [ ] Finalize protection semantics across entries, attachments, shared assets, metadata, previews and indexes. Keep the current conservative behavior (all media protected after setup) until finer attachment controls can preserve privacy reliably; per-attachment controls remain planned.
+- [ ] Define interoperable offline unlocking and recovery without a service account, server-held master key or cloud dependency. Explain the consequences of losing all local recovery methods.
+- [ ] Specify visible metadata precisely, including currently exposed dates/IDs/sizes/key-slot parameters. Do not describe every byte of the current archive as encrypted or imply encryption hides all metadata.
+- [ ] Require safe preservation of protection when a compatible archive editor saves; readers without the required crypto capability must refuse unsupported protected operations without plaintext conversion, silent downgrade or content loss. Plain-source readers remain useful within their declared capability.
+- [ ] Treat privacy transitions, export exposure, independent review and tamper/corruption/recovery fixtures as v1 release gates alongside D4. Synchronize corresponding Writer behavior in the same implemented format change.
+
+## Security verification and passkeys
+
+The [security verification plan](docs/security-testing.md) separates automated evidence, mutation/fuzzing work, real-device compatibility and independent review. Passkey key slots use WebAuthn PRF → HKDF → master-key unwrap; current validation requires exactly 32-byte PRF output. Wrong RP/credential and malformed/unsupported browser responses must fail without exposing content, while passphrase/recovery access remains available. Domain/native-origin portability, actual-device offline behavior, fuzzing evidence and independent review remain required/unverified; virtual-authenticator tests are not a certification. Changing a passphrase is not compromise-recovery master-key rotation.
+
+## Established cryptography and recoverable protection
+
+The ordinary profile uses established Web Crypto primitives and alternative authenticated key slots: one valid everyday credential or a separately retained recovery code can open the master key. The loss of one method must not be a single point of journal loss in the intended Writer setup. This is recoverability, not a claim of mandatory two-factor encryption; weak alternate passphrases remain attackable and a recovery code grants full access.
+
+- [ ] Require maintained standard cryptographic implementations, documented parameters/domain separation, reproducible dependency provenance and independent review of the complete format/application composition. No hand-written ciphers, secret-sharing arithmetic, password hashing or improvised secret-combining protocol.
+- [ ] Define recovery and safe key-lifecycle semantics with Writer's plain-language setup/recovery flow. Do not silently remove alternative access or promise restoration after all secrets are lost.
+- [ ] Evaluate an optional advanced threshold profile only under an explicit threat/recovery policy. Pin any reviewed secret-sharing dependency and verify audit scope, fixes, integrity requirements and current code; a library audit does not audit Jot. Insufficient keys and unauthorized policy downgrades must fail cryptographically, and recovery must not create an undisclosed single-key bypass.
+
+The existing OR-style slots remain implemented. Threshold protection is not implemented or adopted as the default; no cipher, file version or dependency changes are made by this plan.
 
 ## Status meanings
 
-- Implemented: working source exists, with limitations below.
-- Tested: automated checks or an observed browser interaction passed.
-- Planned: a requirement, not an implemented feature.
+Implemented means code exists, tested means a named check passed, and planned/unverified means acceptance is still open. Current archive/protection code is a prototype; no claim of complete conformance, cross-editor support, instant search or independent security review follows from it.
+
+## Format implementation status
 
 | Area | Current state | Next acceptance milestone |
 | --- | --- | --- |
 | Plain-text writing and date sections | Implemented; parser tested | Broader malformed-input and large-file fixtures |
-| Desktop and mobile writing tools | Implemented: formatting/shortcuts, list continuation, literal find/replace, parsed outline, Commands and reviewed entry templates; Chromium desktop and 320/390px mobile emulation tested | Physical mobile keyboard/device testing, richer personal templates and recovery |
-| Autocomplete and reference sources | Partial: current-journal suggestions, explicitly opened People/Places books and opt-in MusicBrainz lookup implemented | General reference tracks, media and broader smart-journal source catalog below; no background archive scan or journal upload |
-| Smart journal and context sources | Planned; basic weather/Todoist/webhook helpers and health-file import already exist, not a unified source picker | Shared on-demand picker; contextual suggestions off by default; weather and read-only Home Assistant first in the context track |
-| Connected-data syntax | Proposed optional references and record conventions, not standardized semantic support | Specification review, parser/renderer work, conformance fixtures and Writer insertion controls; plain prose and old files remain valid |
-| WriteFreely editor and ActivityPub exploration | Planned; source-based integration assessment in `docs/proposals/writefreely-integration.md` | Evaluate editor enhancements and a reviewed publication adapter; isolated instance, license review and federation interoperability before release |
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
 | JavaScript parser | ES module for Node/browser; parser, formatting, proofreading and container suites pass | Stabilize API; complete semantic/profile validation |
-| Composable content blocks and layouts | Partial: full-width template blocks reserve handwritten grid rows, gaps and page starts; visual sizing, persistence and shared rendering are browser-tested | Responsive columns, richer mixed-media blocks and physical printer proofs |
 | Journaling methods | 62 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
-| Paper sizes | 27 presets in spec; common/custom sizes in app | Expose complete preset registry and physical print proofs |
-| Perspective scanner | Hidden from the site while unfinished (no links, noindex); core geometry/detection tests pass | Real Pixel camera, varied lighting, small pages and long pages |
-| PDF export | Generated multi-page PDF validated for page count and physical geometry | Verify download flow across Android browsers |
-| Handwriting | Canvas, pressure-aware pen, eraser, undo/redo, stroke import/export implemented | Mouse stroke, undo/redo and image handoff checked; physical stylus/palm testing remains |
-| Spelling | Native browser spellcheck plus optional supplied word list | Locale selection, personal dictionary persistence |
-| Grammar | Optional English pattern hints implemented/tested | Real grammar-engine adapter; language-specific checks |
-| Mermaid and other diagrams | Fenced blocks identified/preserved; tests pass | Install local rendering engines, accessibility labels and sanitized output |
-| Formatted pages and export | Journal, Notes and Plain styles; dates, task states, signs, tags and margin notes rendered for reading; one standalone HTML export; print with page numbers; browser-tested | More styles, a style of your own, EPUB |
-| Simulated handwriting on a dot grid | Three open handwriting fonts with alternate letter forms, seeded wobbles, every line on a row of dots, printed pages of whole rows; browser-tested | Right-to-left and non-Latin hands, a hand of your own (a font from your writing), print proofs on paper |
 | Fuller formatting | Highlight, underline, superscript, footnotes, callouts and centred lines; tests pass | Definition lists, subscript once its syntax is settled |
-| Inline colors and handwritten print | Implemented: text ink, highlight, separate strike and underline colors; 71 reference colors in grouped menus and swatches, custom hex, selection apply/clear, nesting, undo and source persistence. Handwritten is the default for new workspace preferences, template Page previews and VS Code previews. Marker, brush and pencil highlights have seeded per-passage variation; Rewrite changes the strokes while preserving source. Browser tests cover print CSS, generated PDF and standalone HTML export | Physical color-print proofs and mobile print/download checks; underline style/thickness and richer typography remain planned |
-| Charts of tracked numbers | `:::record chart` drawn with bundled Chart.js on canvas per metric (gaps for empty days, a text summary and a table) in the workspace, the template editor's Page view and VS Code; tests pass | Month and year views, chosen daily aggregations (spec §5.2), charts printed from filled-in numbers |
 | Structured observations | Generic records and ordered fields implemented | Scales, units, profile constraints, missing-data validation |
-| Task migration and reviews | Task capture, calendar/CSV export, today insertion, task rollover and weekly reviews implemented and tested in parser/CLI; workspace controls exist | Durable task links, migration history and cross-document workflows |
-| Plain .jot and packaged .jotz | Plain .jot save; ZIP-based .jotz import/export, asset hashes/limits and browser asset persistence implemented | More recovery, quotas, corrupted-file and interop fixtures |
-| Your life online (data exports) | Implemented and tested on made-up samples: X/Twitter, Mastodon, Facebook, Instagram, Tumblr, Reddit and Google Keep/Blogger exports into one dated journal, on the command line (`converter/jot-archive.mjs`) and in the browser (`/import/`); own words by default, private, no counts | Checks against real exports; Bluesky, LinkedIn, chat exports, Google Photos and YouTube history |
-| Desktop and mobile app | First slice (Tauri v2, `desktop/`): the website's pages unchanged in the system web view, plus exports of any size read a file at a time from disk with guards against hostile ZIPs, native Save dialogs with atomic writes, a network locked to the listening services and web links opened in the person's browser; Linux debug build, `.deb` bundle and WebDriver suite pass | Open and save `.jot`, `.jotz` and `.jotlock` in place with file associations; keychain-held lock passphrases on request; macOS, Windows, Android and iOS builds; passkeys where the web view offers WebAuthn |
-| OCR and handwriting transcription | Planned | User-reviewed transcription linked to originals |
-| Local-first persistence | Journal text/cursor autosave and IndexedDB assets implemented; browser reload checks pass | Multiple journals, storage exhaustion, cross-tab conflicts and recovery |
-| Privacy and security | Client-side processing, safe DOM preview and automated privacy gate; locked documents (`.jotlock`, Jot Lock v1: PBKDF2-SHA-256 and AES-256-GCM from built-in Web Crypto) in the parser and `jot lock`/`jot unlock`, tested including independent Node and Python readers; the workspace locks, opens and downloads them, keeping only encrypted copies in browser storage and locking again after time away (browser-tested); ways in: passphrase, recovery code, and passkeys or security keys through WebAuthn PRF (tested on Chromium's virtual authenticator, not yet on real phones or keys) | Threat model, encrypted backups and export-redaction implementation |
-| Accessibility | Labels, focus styles and corner keyboard controls implemented; writer reduced-motion (setting and system) and higher-contrast preferences browser-tested | Mobile/screen-reader and stylus accessibility audit |
-| Round-trip editing | Original parser input preserved; textarea uses browser line endings | AST edits with lossless serialization and file conflict recovery |
-| Neurodivergent-friendly personalization | Partial: the writer's Preferences panel sets text size, line spacing, line length, density, higher contrast and reduced motion, and hides the preview, parser tabs, counts and decoration independently; a focus mode leaves with Escape or its button; choices stay in this browser; browser-tested | Ruling choices, deferred checking, the template editor and other surfaces, and testing with people who have different needs; no diagnosis-based preset forced on users |
-| One editor for every method | Partial (proposal: `docs/proposals/editor.md`): E0 done: a "My day starts at" preference used by Today, Quick note, Carry tasks forward and Week review; Morning pages, Day planner and Gratitude starters follow their guides, plus Gratitude, weekly; unit- and browser-tested. The writer and template editor are still separate | E1: a fill view with Skip |
-| Low-effort capture and re-entry | Partial: Quick note adds one line under today's entry as one undo step without moving the cursor; caret and scroll come back after a reload; an optional note for next time is offered on return with Back, Start at the end and Dismiss; browser-tested | Sketch or photo quick capture, multiple documents and prior-draft recovery |
-| Multilingual writing and interface | Planned; Unicode text already preserved | Separate interface/document/checking locales, RTL/mixed scripts, IME, translated prompts and script-aware tests |
 | Stable format | Draft specification | Reconcile grammar/Markdown precedences; independent reader; versioned conformance release |
 
-## Near-term order
+## Primary document completion: required for v1
 
-1. Deliver and test a first-entry path for people new to journaling: one optional concrete starting question, writing freely,
-   and no required method, syntax or setup. Follow `docs/proposals/first-journal-v1.md`; the existing writer starts blank.
-2. Stabilize saving and returning: clear browser/device save states, recovery under storage failure and cross-tab conflicts,
-   and safe reopen/continue behavior. Exercise the core flow on a real phone, including typing and downloads.
-3. Reconcile the Jot draft with the JavaScript implementation and expand the conformance suite, including multilingual and input-composition fixtures.
-4. Verify existing formatted output with physical color-print proofs and mobile print/PDF checks. Keep the unfinished
-   scanner hidden until its own checks pass. Further formatting controls follow the beginner and recovery priorities.
-5. Add composable content blocks with stable identity and source order, strengthening attachment bundles and recovery
-   before users rely on mixed-media journals.
-6. Add local diagram rendering and optional recognition/proofreading adapters without silent network uploads.
-7. Expand autocomplete in stages: schema/templates and explicitly selected local sources first, then opt-in public catalogs. Explore WriteFreely publishing separately from private drafting; neither requires replacing the Jot format.
+All unchecked items remain planned or unverified. These are format requirements; Writer implementation and platform acceptance are tracked separately in `WRITER-ROADMAP.md`.
 
-## Physical hardware and firmware: future exploration
+### D1. Finalize the document and source contract
 
-Status: **deferred; outside current delivery scope**. Physical hardware and firmware will be explored later. Current work
-focuses on the Jot format and Writer software, especially getting started, saving, recovery and returning to a journal.
+- [ ] Specify `.jotz` as the primary document to create, open, edit, keep and share; `.jot` is exact editable UTF-8 entry source, generally inside the package and also supported independently. Both target v1. Define supported open/edit/preview/save behavior across Writer, CLI and editor integrations, without claiming every application handles every feature.
+- [ ] Finalize the manifest schema: document ID, schema version, ordered entries, typed media, reference resolution, time metadata, encryption capabilities and index generation. Specify which statistics are optional/derived and prevent public statistics from disclosing private content.
+- [ ] Freeze Markdown/Jot precedence, canonical source rules, required/optional capabilities and conformance fixtures. Unknown required features must produce a clear unsupported/read-only result rather than a destructive save.
+- [ ] Define safe preservation of optional metadata/extensions and unknown members. Test lossless edits and refuse saves when required content or protection cannot be preserved.
 
-No dedicated device, component supplier, parts list, enclosure, hardware prototype or firmware target is selected.
-Hardware development and firmware ports are not prerequisites for Writer v1 and have no committed delivery date.
-When this track resumes, assess beginner-friendly assembly from off-the-shelf parts, affordability, reliable capture,
-local storage and interoperability with `.jot`, `.jotz` and Writer before selecting a device or publishing build instructions.
+### D2. Chronological organization with stable identity
 
-Existing software support for ordinary keyboards/styluses, handwriting assets, printing and files on existing computers
-and phones remains part of the software tracks; it does not require a Jot-specific physical product.
+- [ ] Design and implement public entry paths such as `entries/2026/11/2026-11-01_<id>.jot`, plus `entries/undated/<id>.jot`. Current UUID-only entry paths remain the prototype implementation until this is specified and tested. Internal entry files use `.jot`, not `.md`.
+- [ ] Keep identity independent of date/path and ordering explicit in the manifest. Cover multiple entries on one day, repeated dates, undated preambles, multi-day writing, reordered entries and changed dates without collisions or invented timestamps. Never require one entry or file per day.
+- [ ] Decide how chronological grouping applies to multi-day source and private entries. Document visible dates/paths and keep encrypted members opaque; do not introduce plaintext duplicates or disclose private titles through filenames.
+- [ ] Validate nested ZIP paths, duplicate names, case/normalization collisions, decompression limits, malformed descriptors and hostile references. Update recovery/extraction tools and conformance examples for the finalized layout.
 
-## Autocomplete and reference-source expansion
+### D3. Bundled media and relationships
 
-The ten general source tracks below are **planned**, not available integrations. The media expansion and optional outbound
-service actions are detailed in the following section. Existing current-journal suggestions, explicitly opened
-People/Places books and the optional MusicBrainz search remain the baseline. Imported sources supply suggestions; they do not
-establish that an event happened, add observations or change existing writing without selection.
+- [ ] Finalize stable media IDs, MIME types, readable source aliases and relative semantic links. Preserve audio, photos, sketches, editable ink and their originals when moving or saving the document.
+- [ ] Test missing, corrupt, shared and unused assets, attachment renames, undo and source/visual round trips. Report broken references without silently dropping data or fetching external content.
+- [ ] Define explicit source-only export and unpack/repack workflows with clear attachment/protection limits. Public extracted source can be diffed; the ZIP itself is not directly Git-diff-friendly. Private source must not be silently extracted.
 
-| Priority | Source | Suggestions and next acceptance milestone |
-| --- | --- | --- |
-| P1 | Jot schema and templates | Suggest applicable record types, canonical field names, allowed values, units and prompt snippets. Scope by record/profile; preserve unknown fields; never invent measurement values or answers. Validate accepted source and retain undo. |
-| P1 | Explicitly opened journal archives | Reuse tags, people/place/project references and entry links from selected `.jot` files or a future opened `.jotbook`. Qualify links by file/stable ID, exclude ambiguous targets, and unload/refresh indexes explicitly; never scan other files or silently persist vocabulary. |
-| P1 | Contacts imports (`.vcf`) | Preview names, nicknames, organizations and contact fields before importing into a separate People book. Handle encodings, repeated fields, stable IDs and duplicate people without overwriting records. Autocomplete identity references rather than exposing private contact details as generic suggestions. |
-| P1 | Calendar imports (`.ics`) | Suggest event titles, venues and source-event links from a chosen calendar file. Preserve UID/recurrence identity, timezone, all-day and cancellation distinctions. Bound recurrence expansion and let the writer choose whether an event is a plan or a journal reference; never infer attendance. |
-| P2 | Open Library | Look up books, authors, works, editions and ISBNs. Show edition distinctions, verify identity, and insert a named stable reference only after selection. Assess API terms, rate limits, attribution, caching and offline fallback. |
-| P2 | TMDB | Look up films, shows and episodes with year/type context. Retain verified IMDb IDs where supplied; otherwise keep the TMDB reference rather than inventing an IMDb mapping. Resolve credentials, attribution, quota and cross-origin behavior before shipping. |
-| P2 | YouTube Data API | Search video, channel and playlist titles, then review a chosen result. Preserve the selected entity type and stable ID; do not auto-load playback. Establish API credential/quota handling and recoverable unavailable/private/deleted-result behavior. |
-| P2 | Wikidata | Suggest public people, organizations, landmarks, artworks and other entities, with QID, type and multilingual labels for disambiguation. Keep public identity data separate from private People/Places records; names alone must not merge identities. |
-| P2 | Place search through Photon or Pelias | Search named places and addresses through an appropriate hosted or self-hosted service. Show provider, address context and coordinates for review before saving to a Places book. No automatic geolocation query, inferred location history or timezone change; verify provider usage terms and availability. |
-| P2 | Zotero/BibTeX imports and Crossref | Preview local bibliographic imports (including CSL JSON where supported) and optional DOI/title lookup. Preserve citation keys, DOI, title/authors and provenance; distinguish editions/versions and duplicates. Extend the same Zotero adapter with chosen library lookup and reviewed attachment of selected notes to source items. Never turn imported article text into unsupported journal claims. |
+### D3a. Whole-document offline completeness
 
-Shared acceptance: work locally for local sources; make every online provider independently opt-in with a dedicated lookup field
-and clear source labels. Send only the requested lookup/type, never surrounding writing or an entire archive. Debounce and bound
-requests, cancel stale searches, review attribution/retention requirements, and handle provider failures without blocking writing.
-Selecting a match inserts a readable name and stable reference as an undoable edit. Do not fetch remote images or load players
-merely to display a suggestion. Test keyboard, touch, IME, ambiguity, Unicode, malicious imported text and blocked browser storage.
+- [ ] Finalize the required contract in `Jot-Container-v1.md`: all saved content and supported presentation must remain readable without network, provider accounts/caches or AI. Include original selected media, ink components, included documents and integration snapshots; no thumbnail-only or URL-only substitutes presented as complete attachments.
+- [ ] Define local codec/rendering capability and explicit offline-readable derivative/fallback rules. Keep external citations optional; distinguish a reference from remotely hosted document content. No automatic crawling, streaming downloads or rights bypass is implied.
+- [ ] Define completeness/dependency validation and missing/oversize/unsupported-content reporting without destroying source or blocking recoverable draft saves. Add fresh-profile, network-disabled, complete-source/asset and protected local-unlock conformance cases; local source search must work without the cache.
 
-Use ordinary named links initially where existing syntax can express an identity. Evaluate new short-reference namespaces
-separately; adding a provider does not by itself change Jot v1. Remembering imported libraries stays optional and explicit.
+### D4. Entry protection and unlocking
 
-## Media autocomplete and connected service actions
+- [ ] Finalize the per-member authenticated-encryption contract and public/private metadata boundary. Independently review key derivation, key wrapping, nonce handling, manifest binding, recovery, passphrase changes and passkey behavior.
+- [ ] Keep the parameters and wrapped keys needed to unlock accessible without first decrypting the private catalog. An optional encrypted metadata/key file must have a defined purpose and unlock path; `keys.json.enc` is not an adopted requirement merely because it appeared in an example tree.
+- [ ] Verify no private source, attachment name, preview, thumbnail, statistic, search cache or temporary file leaks into public members or browser persistence. Preserve privacy choices when editing and exporting archives; explain intentionally visible dates and cryptographic metadata.
+- [ ] Verify recovery and failed-save behavior with users and real devices. Privacy changes must rebuild public caches, and documentation must distinguish removal from the current file from erasure of old copies/backups.
 
-Status: **planned**, beyond existing MusicBrainz lookup and listening capture. Expand Writer to movies, TV series and
-episodes, music, streaming availability, podcasts, video, books/audiobooks and games. The source assessment, interaction
-contract and acceptance cases are in [media-sources-and-service-actions.md](../docs/proposals/media-sources-and-service-actions.md).
+### D5. Portable search without source dependency
 
-1. Build a shared media picker/provider contract; preserve readable references and verified IDs with year, creator,
-   edition, platform and episode context. Online lookup sends only the explicit query, not journal prose.
-2. Add TMDB movie/TV lookup and optional country-specific streaming availability with required attribution. Availability
-   does not establish subscription access, account history or that an item was watched.
-3. Add Trakt OAuth connection and **Mark watched on Trakt** for a reviewed movie or episode, with the chosen event time.
-   Then evaluate watchlist and rating actions. A title mention or journal autosave never implies a watched event.
-4. Support selected history import and optional rules for explicitly confirmed activities. Separate lookup, import and
-   writes; preserve rewatches, prevent duplicates and import/export loops, reconcile uncertain sends, and show failures
-   without blocking the local journal. Keep tokens and delivery receipts outside portable journal content.
-5. Expand through the named integrations below. Each is **planned**, with authentication, API access and compatibility
-   verification required before release. Only advertise actions supported by current APIs and application access;
-   URL references/file imports remain fallbacks.
+- [ ] Finalize the public-only `index.sqlite` schema, FTS5 reader capability, generation/hash validation and rebuild rules. Opening a package must never execute document-supplied SQL.
+- [ ] Recover exact source when the index is missing, stale, unsupported or corrupt. Keep private search in unlocked memory, with no plaintext private index, WAL, temporary database or stale deleted pages.
+- [ ] Benchmark realistic multi-year journals, large attachments, repeated saves and mobile memory. Publish measured limits and results; do not promise instant ten-year search from SQLite's presence alone. Distinguish unchanged-ciphertext reuse from incremental filesystem writes.
 
-| Integration | Bring into Writer | Optional outbound action |
-| --- | --- | --- |
-| ListenBrainz | Selected listening history and track references | Submit a confirmed listen |
-| Last.fm | Selected listening history and track references | Submit a confirmed scrobble under the service's rules |
-| Jellyfin | References from the user's movie/TV library | Mark an item watched or favorite |
-| Audiobookshelf | Audiobook/podcast references and selected listening progress | Update confirmed progress or completion |
-| Raindrop.io | Saved bookmarks and article references | Save a selected link, tags and excerpt |
-| Readwise and Reader | Selected highlights and reading references | Save a selected article or highlight using the appropriate API |
-| Zotero | Bibliographic references through the existing Zotero track | Attach a selected note to its source item; extend that adapter rather than create a duplicate |
-| Steam | Game references and available activity/achievement data | Initially read-only; do not assume completion writes are available |
-| AniList | Anime/manga references and selected lists | Confirmed watching/reading status and episode/chapter/volume progress where supported |
-| Hardcover | Book/edition references and selected reading lists | Evaluate confirmed reading-status/progress updates against current API capabilities |
-| SIMKL | Movie, TV and anime references/history | Confirmed watched or watchlist actions, subject to access and licensing review |
-| Inoreader | Selected RSS articles and feeds | Reviewed read, star or tag actions |
-| OpenSubsonic-compatible servers | Personal music-library references | Favorite, rate or submit a confirmed listen where supported |
-| gPodder-compatible services | Selected subscriptions and episode activity | Confirmed episode progress or played-state submission |
-| Media URL resolution | Resolve a supported pasted URL into a readable title and verified media identity | Offer only the resolved provider's supported, separately chosen actions |
+### D6. Presentation and interoperability contract
 
-Retain TMDB, Trakt, Spotify, YouTube, Open Library and IGDB as planned providers alongside these additions. Resolve pasted
-URLs through known provider handlers; unsupported links remain ordinary links, without arbitrary server-side URL fetching.
+- [ ] Define source versus generated presentation, rendering profiles, reflow, reading order, font portability, pagination and accessible fallbacks. PDF/HTML exports are derived views, not a second authoritative source.
+- [ ] Specify optional previews/thumbnails, staleness and regeneration; protect private content in every derived member.
+- [ ] Define conformance capabilities for source readers, archive readers, editors and renderers, including safe handling of unsupported optional/required features and lossless save expectations. Actual editor integrations belong to the Writer/tooling roadmap.
 
-First implementation slice: movie/TV references, then reviewed Trakt watch-history writes. These require provider app
-configuration and live interoperability checks before release; no new service connection or account write is implemented.
-Next prioritize ListenBrainz, Raindrop.io and Audiobookshelf; retain the remaining integrations in the backlog. All sends
-remain optional and limited to chosen activity or excerpts. Physical hardware and firmware remain deferred.
+### D7. Format-v1 evidence and release gate
 
-## Smart journal: connected context and optional syntax
+- [ ] Publish versioned source/container/protection specifications, schemas, examples and conformance fixtures. Demonstrate an independent-reader round trip and public source recovery through ordinary ZIP tools.
+- [ ] Verify exact UTF-8/BOM/CRLF/unknown-field preservation, malformed archives, IDs/order/dates/timezones, media resolution, index fallback and public/private transitions in reusable fixtures.
+- [ ] Obtain independent cryptographic/container review and publish realistic limits and performance measurements.
+- [ ] Close required syntax, semantics, serialization, extension and interoperability decisions; record limitations and corresponding Writer support before finalizing **1.0.0**. Do not advance beyond v1 with required gates open.
 
-Status: **planned**, with source catalog, defaults, Home Assistant boundaries and illustrative syntax in
-[smart-journal-and-connected-data.md](../docs/proposals/smart-journal-and-connected-data.md). This is not a claim of
-implemented connections, contextual text analysis, a dashboard card or new semantic parser support.
+## Text, semantics and language foundations
 
-| Source group | Providers or sources to evaluate |
-| --- | --- |
-| Home context | Home Assistant, explicitly selected entities and available history; read-only |
-| Weather/environment | Open-Meteo and regional services; current/historical weather, forecasts, air quality, pollen, UV and marine conditions |
-| Astronomy/occasions | Sunrise/sunset, daylight, moon phases, public holidays and regional observances |
-| Calendars | Google Calendar, Microsoft 365, CalDAV and the existing chosen ICS-import track |
-| Tasks/projects | Todoist, Microsoft To Do, Notion |
-| Activity/sleep | Strava, Fitbit, Oura; supported Apple Health/Health Connect imports or native adapters |
-| Work/time | Toggl Track, Clockify, ActivityWatch, GitHub, GitLab |
-| Places/outings | OpenStreetMap-based services, event catalogs and regional transit sources; retain Photon/Pelias work |
-| Food/recipes | Open Food Facts, USDA FoodData Central, recipe managers |
-| Money | Public exchange rates, Actual Budget, Firefly III and selected financial-file imports |
-| Nature/knowledge | iNaturalist, eBird, Wikidata, museum collections |
-| Personal/custom | Chosen journal archives, contacts, files, RSS, CSV/JSON and supported automation bridges |
-
-Each source has independently verified lookup, import, insertion and outbound capabilities. All new providers are candidates
-requiring authentication, terms, pricing, attribution and platform checks. Extend existing weather, Todoist, webhook and
-health-import foundations rather than duplicate them. Preserve the existing media backlog and priorities.
-
-- Provide one searchable on-demand picker with favorites, filters, preview and undoable insertion. Use explicit query,
-  place/date/entity/file inputs without analyzing prose. Keep writing usable offline and retain snapshots with provenance.
-- **Contextual suggestions default off**, with a separate locally remembered setting. When enabled, analyze only the
-  active entry locally. Selection precedes external lookup and reviewed insertion; no journal prose leaves the device.
-  Disabling stops pending analysis and clears suggestions; entry changes/closing/locking cancel stale work.
-- **Home Assistant is read-only:** explicitly select an instance, entities and range; retrieve current state or available
-  history on demand. Preserve timestamps/units and missing/unavailable states. No service calls, scene/script triggers,
-  synthetic/device-state writes or background subscriptions. Verify authentication and actual browser/network reachability.
-- Explore an optional Home Assistant card separately: evaluate a Writer launcher with selected read-only context first;
-  embedded editing is a separate possibility. Check authentication, iframe/CSP and dashboard exposure before selecting
-  an implementation. No tokens or journal content in card configuration or URLs.
-- Plan **both concise inline references and structured records**: retain existing references; propose typed TMDB/Trakt
-  forms, media identity (`kind`, `title`, repeated `reference`), activity (`kind`, `item`, optional `date`/`at`) and shared
-  observation provenance. Reuse `measurement`/`observation`; distinguish observed, forecast, estimated and manual data.
-  Activities have identities distinct from their items to preserve rewatches and repeated listens.
-- Records are data, not instructions: opening/parsing/rendering never triggers network actions. Preserve partial/unknown
-  records and old files without automatic migration. New credentials and Writer delivery receipts stay outside portable
-  content; preserve existing `sync` records without treating them as authorization. Reconcile existing spec semantics
-  before a normative update. This draft does not bump the released format version or implement new syntax semantics.
-
-Within the context track, prioritize weather and read-only Home Assistant. Then implement the optional local-suggestions
-setting and wider catalog. Track canonical specification edits, parser/renderer support, conformance fixtures and Writer
-insertion controls as separate format milestones. Evaluate the card independently. Physical hardware and firmware remain
-deferred; no account access, live-data query, external write or deployment is performed by this roadmap update.
-
-## WriteFreely and ActivityPub exploration
-
-Status: **planned research and prototypes**, not an implemented editor replacement, publishing connection or federation service.
-The source-based comparison, pinned upstream revision, license notes and evidence are in
-`docs/proposals/writefreely-integration.md`. Upstream: https://github.com/writefreely/writefreely.
-
-1. Compare the main textarea writer and optional ProseMirror editor with Jot's source editing, records, attachments, autocomplete,
-   undo, IME, mobile layout and print/export. Independently implement useful workflow ideas; evaluate direct code reuse only after
-   license compatibility and source-preservation review. A richer view must preserve unsupported Jot syntax and original assets.
-2. Prototype an optional **Publish selected entry/selection to WriteFreely** adapter with a title, destination and exact output
-   review. Define Jot-to-Markdown/HTML fallbacks for custom records, media references and assets. Keep drafts local until an explicit
-   publication action; autosave must not publish. Private reference books and unselected entries are outside the publication payload.
-3. Use a separately deployed WriteFreely instance for accounts, posts and ActivityPub delivery. The current static Jot site cannot
-   host an ActivityPub inbox or hold actor signing keys. Verify authentication, browser CORS/session constraints and server/proxy
-   deployment before choosing an integration topology; do not place durable secrets in journal files or browser autosave.
-4. Test publication, updates and deletion with stable remote post IDs, retries and conflict handling. Review the actual instance's
-   federation and visibility settings: unlisted is not a private-draft guarantee, and remote deletion cannot guarantee recall of copies.
-   ActivityPub publishing is distinct from private journal backup, collaboration or document synchronization.
-5. Run interoperability checks on an isolated instance and a second ActivityPub implementation before offering live federation.
-   Evaluate actor identity, content representation, discovery, Follow/Undo, update/delete delivery, moderation, outbound-request
-   validation and operational maintenance. Do not assume WriteFreely provides a full reader, private messaging or all protocol features.
-
-First candidate: retain and enhance Jot's writer, then connect it to WriteFreely as an optional publishing service. A ProseMirror
-mode or combined Go application remains a separately evaluated option, with explicit Jot schema/round-trip and AGPL obligations.
-
-## Scope boundaries
-
-The web app is a working prototype. It is not a complete implementation of every profile or every clause in the specification. Diagram recognition is not rendering. Handwriting capture is not transcription. Pattern hints are not a full grammar engine. Physical page sizes do not guarantee successful scanning under every camera condition. No clinical effectiveness, diagnostic behavior or brand scanner compatibility is claimed.
-
-
-## Neurodivergent-friendly design track
-
-These are optional capabilities for varied preferences and access needs, not medical treatments, diagnostic features or a single ADHD/autism mode. Some people prefer more structure, reminders or color; others need less. Offer independent controls and test with people who have different needs. A person's diagnosis must not be required, inferred or attached to shared journal content.
-
-| Priority | Planned improvement | Acceptance criteria |
-| --- | --- | --- |
-| P1 | Focus and sensory controls | Hide the preview, parser, counters and decoration independently; adjustable font size, line spacing, line length, density and ruling; sufficient contrast and reduced motion; exit focus mode by keyboard; remember choices locally |
-| P1 | Quick capture with no setup | One sentence, a fragment, a sketch or a photo can be saved without choosing a method, date hierarchy, mood scale or completing a form; no minimum word count |
-| P1 | Gentle return after a gap | Restore the last document and position; optional last-next-step note; offer a blank start without making the user process missed days or an old backlog |
-| P1 | Quiet writing assistance | Pause/defer checks until requested, hide counts and suppress visual underlining when desired; suggestions never block save/export; do not correct dialect, identity terms or intentional fragments automatically |
-| P1 | Easy recovery and orientation | Clear save state, obvious download, keyboard actions with visible labels, optional entry outline and jump-to-current-section; recover a prior draft without overwriting the current draft |
-| P2 | Adjustable scaffolding and method blending | Save a small personal set of prompts; combine sections from different methods; hide/reorder optional fields; preserve all writing if the chosen template changes |
-| P2 | Separate planning, doing and capacity | Optional next tiny step, estimate versus actual, done list and energy/context notes; missing data is not failure; no required scores or comparison between people |
-| P2 | User-controlled cues | Optional explicit start/stop timer or reminder; no default countdowns, streak penalties, escalating notifications, surprise sounds or automatic backlog migration |
-| P2 | Alternative input and reading support | Keyboard, stylus, touch and browser/OS dictation pathways; optional read-aloud only where available and chosen; preserve handwritten originals without requiring recognition |
-
-Delivered so far (partial, browser-tested in `site/test-prefs-ui.cjs`, not yet validated with intended users): the first form of **Focus and sensory controls** (no ruling choice yet), **Quick capture** for one line of text (not sketches or photos), **Gentle return** (position, optional note, Start at the end; one document only) and part of **Quiet writing assistance** (hide counts and the parser/check tabs; Writing hints can already be turned off). **Easy recovery and orientation** is unchanged.
-
-Existing baseline: plain-text capture without a required method; 62 mixable invitations; a handwriting canvas; local text autosave; optional writing hints; a dot-grid toggle; reduced-motion CSS and keyboard-accessible scanner corners. The new track is not marked implemented merely because these related features exist.
-
-Suggested first delivery: a small writing-preferences panel, then quick capture and return-to-position, then recovery and saved blended templates. Validate each feature with its intended users before making it a default. Do not claim that any font, color, timer length or journal routine universally works for neurodivergent people.
-
-## One editor for every method track
-
-The proposal `docs/proposals/editor.md` reads all 52 method guides in `docs/methods/` for what an editor must do and avoid, and plans one editor that fits every method: the writer and the template editor become two modes of it, sharing one block kit, and every guide gets a layout built from that kit. The text stays the only document; the editor adds a fill view of it. No therapeutic or productivity effect is claimed for any of it.
-
-| Phase | Planned improvement | Acceptance criteria |
-| --- | --- | --- |
-| E0 (done) | Starter fixes and day start | Morning pages starter without prompts; Day planner hours asked or full day; one gratitude line; a "Day starts at" preference used by Today and Quick note |
-| E1 | Fill view with Skip | Form controls for the records at the cursor; Skip writes the format's `skipped`; only touched lines change; keyboard and screen-reader checks pass; nothing required |
-| E2 | One block kit | One registry for writer and template editor; three-state dots, ordered tasks, prompt pass line and weights, time grid options, sketch slot, plan pointer, silent timer, time stamp |
-| E3 | A layout for every guide | Each guide's layout builds from the kit or names its missing piece; layouts for methods with a health note are opt-in; a quiet note above seven blocks or five trackers |
-| E4 | Privacy in the editor | Per-block privacy defaults, discreet labels; private blocks absent from default exports; no network requests while editing |
-| E5 | Time and rereading | Shift-relative wording, re-plans kept visible, a week strip drawn from the week's source, an opt-in Look back panel that never opens by itself |
-| E6 | Useful friction | Carry, schedule or drop per task; a transfer-later list; nothing moves without the writer's action |
-| E7 | Groups | Side-by-side groups from the composable blocks track, collapsing to source order |
-| E8 | Testing with people | Each track tried with the people it is for; defaults change only on recorded findings |
-
-Never in any view: streaks, scores, missed-day counts, catch-up prompts, reminders or sounds, generated prompts or analysis of writing, risk ratings, automatic sending, colour as the only signal.
-
-## Multilingual and internationalization track
-
-Unicode preservation is a starting point, not complete language support. Keep interface language, journal language, proofreading language and display direction separate. Someone can use an English interface while writing Arabic and Spanish in the same entry. Do not silently translate, normalize, romanize or replace their source.
+- [ ] Reconcile Markdown/Jot precedence and freeze the source-preserving grammar and public parser/serializer API.
+- [ ] Complete profile contracts, measurement scales/units/missing-data rules, task identity/migration history, references and optional block/layout semantics without inventing observations.
+- [ ] Define readable fallbacks for unknown records, diagrams and optional renderers; preserve source without requiring a network, account or plugin.
+- [ ] Specify timezone, logical-date and known actual-time semantics without inferring missing historical timestamps.
 
 ### L1. Language-neutral format and parser foundations
 
@@ -286,41 +120,8 @@ Unicode preservation is a starting point, not complete language support. Keep in
 - Test scripts, accents, combining characters, emoji and bidirectional text for exact source preservation. Retain UTF-8 byte offsets for interchange and convert carefully for JavaScript UTF-16 editor selections and user-visible grapheme positions.
 - Exclude code, identifiers, measurements and diagram source from natural-language checking. Do not make ASCII-only spelling assumptions about prose or silently discard unknown languages.
 
-### L2. Editor, direction, fonts and keyboard input
 
-- Support right-to-left and mixed-direction writing with semantic `lang` and `dir` attributes, appropriate paragraph-level direction/isolation, and logical layout properties. Language tags and direction are distinct settings. Provide an override because Markdown headings or syntax characters can precede the first natural-language character.
-- Respect IME composition events: parsing, autosave and preview refresh must not interrupt an unfinished composition or move the cursor. Test Japanese/Chinese composition, Arabic input and mobile keyboards.
-- Use script-appropriate font fallbacks and test shaping, combining marks, line breaks, wrapping, selection and printing. Do not require Latin handwriting conventions or assume words are space-separated.
-- Use locale-aware segmentation where supported for word counts/search, and label fallbacks. Preserve original numerals and punctuation; localized date/calendar views must not change stored ISO dates or timestamps. Week starts and 12/24-hour display should be selectable.
-
-### L3. Interface and journal-method translations
-
-- Extract UI strings into versioned language bundles with a fallback language. Localize menus, validation messages, dates, numbers and accessibility labels without translating the journal itself.
-- Translate prompts and method explanations with native-speaker review and cultural adaptation. Retain the exact prompt text, language and template version used in an entry. A language switch must not rewrite past answers or questions.
-- Keep the original text available if a user explicitly requests translation; save translations as derived content. No automatic remote translation of private writing.
-
-### L4. Spelling, grammar and handwriting
-
-- Expose proofreading language separately from interface language. Respect regional dictionaries, personal vocabulary, dialects and code-switching. Unknown/unsupported languages should have checking disabled with an explanation, rather than receiving English corrections.
-- Integrate real language-specific checking adapters as optional capabilities, with declared coverage. The current English pattern hints are limited; they are not a multilingual grammar engine. Browser spelling capabilities depend on the browser and installed dictionaries.
-- Stroke capture is script-agnostic input and requires no transcription. Preserve images/strokes in every language. Any later handwriting recognition needs language-specific evaluation and user-reviewed output; recognition is not a prerequisite for multilingual handwriting.
-
-### L5. Acceptance and release gates
-
-Test English, accented Latin text, Arabic/Hebrew RTL and mixed-direction content, Chinese/Japanese text without spaces, and Devanagari/combining-mark examples. Include mixed-language paragraphs, IME entry, Unicode filenames, clipboard round trips, parser offsets, search/count fallbacks, proofreading exclusions, print output and handwriting asset references. These are coverage fixtures, not claims of completed translations. Prioritize actual translation languages with the user before selecting an initial language pack.
-
-## Design references
-
-These inform the proposed design, not a claim of WCAG certification or clinical effectiveness:
-
-- W3C WAI, Support Adaptation and Personalization: https://www.w3.org/WAI/WCAG2/supplemental/objectives/o8-personalization/
-- W3C WAI, Limit Interruptions: https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p01-minimal-interruptions/
-- W3C Internationalization, Structural markup and right-to-left text in HTML: https://www.w3.org/International/questions/qa-html-dir.en.html
-
-
-## Composable content blocks and layout track
-
-Jot v1 should support multiple kinds of content in the same entry and page. A method is a reusable arrangement of blocks and prompts, not an exclusive document mode. Writers can combine methods without converting all their content into one rigid form. Plain paragraphs remain valid without explicit block markup.
+## Composable content semantics
 
 ### B1. Block types
 
@@ -339,72 +140,35 @@ Jot v1 should support multiple kinds of content in the same entry and page. A me
 
 Audio/video attachments are a later extension under the asset system, not a reason to require media players or network embeds in the first release. Unknown block types must remain preserved and show a readable fallback.
 
-### B2. Layout composition
+## Connected-data syntax and provenance
 
-- Stack blocks in source order by default. Optional groups can present two columns, a sidebar/main area, a full-width block or a reusable section. Each block retains an independent type and identity.
-- Allow a short task list beside handwriting, or a photo above a reflection, without changing the meaning of either. A page can mix several journal methods.
-- Keep stable block IDs for attachment references, task links and later revisions. IDs should not depend on physical page numbers or current visual position.
-- Separate content properties (text, strokes, asset link, measurement) from presentation properties (width, alignment, spacing, grouping, border, background, ruling, page-break and keep-together preference).
-- Provide move-up/down and keyboard reordering alongside any drag-and-drop interaction. Show the resulting reading order; do not make color, position or pointer dragging the only way to understand or manipulate blocks.
-- Do not replace the readable `.jot` writing with an opaque JSON document. Optional layout hints reference blocks; binary images and stroke files live inside the same .jot container with readable internal links.
-- Treat reusable method layouts as editable starting points. Detaching/changing a method must retain every filled block and handwritten original. Changing one block type requires an explicit non-destructive operation, not automatic conversion or transcription.
+- [ ] Finalize both concise inline references and structured records for media identities, activities and observations. Reuse existing primitives where possible; preserve rewatches/repeated listens as distinct activity identities.
+- [ ] Retain provider references, timestamps, units, explicit missing values and provenance. Distinguish observed, forecast, estimated and manual data.
+- [ ] Keep records as data, never authority to execute actions or fetch remote content. Credentials and delivery receipts remain outside portable source. Preserve unknown/partial records.
+- [ ] Reconcile proposed syntax with current semantics, add conformance fixtures, and deliver parser/renderer and Writer insertion/editing support together. Provider selection, credentials, on-demand lookups, suggestions and outbound actions belong to the Writer roadmap.
 
-### B3. Responsive, multilingual and print behavior
+## Photo-library interoperability dependency
 
-- Columns collapse into an explicitly defined reading order on a narrow screen or in a plain-text view. Screen-reader traversal and keyboard order follow that same order.
-- Use logical start/end alignment and direction-aware layouts for mixed-language or RTL writing. Do not infer reading order solely from left/right coordinates.
-- Reflow text when paper size changes. Preserve a handwriting/image block's aspect ratio; do not distort strokes, silently crop content, or shrink writing below the chosen minimum to force a fixed page count.
-- Allow keep-together, break-before and continuation hints with overflow feedback. Content taller than a page must use an explicit scale, tile, continuation or alternate-page decision that the user can preview.
-- Give empty writing/handwriting areas physical dimensions for print templates where requested. A blank placeholder is not a missing observation, an unanswered mandatory form or a demand to fill every space.
+Immich, Google Photos and Apple Photos/iCloud Photos are planned Writer connectors, tracked in `WRITER-ROADMAP.md` and `docs/proposals/photo-library-integrations.md`. D3, D4 and D6 own the portable media, metadata/provenance, protection and derived-preview requirements. Imported originals must remain usable without their provider account; provider credentials and expiring URLs are not portable asset storage. Review multi-part media and original-versus-derived metadata semantics with conformance fixtures if the existing contract needs expansion. Deliver any resulting format changes and corresponding Writer support together; this roadmap addition does not change syntax/schema or implement connectors.
 
-### B4. Parser, assets and editing contract
+## Core finalization evidence (2 November 2026)
 
-Define optional block/group/layout syntax before making a stable grammar claim. The JavaScript AST needs stable IDs, type, source span, ordered children or references, and a readable fallback while preserving unknown fields. The existing parser's Markdown nodes and generic records are useful primitives; they are not yet a complete block-layout editor.
+The reader now refuses unknown structural fields rather than dropping them on resave, validates catalog identities/order/privacy and member encryption descriptors, and accepts an absent index descriptor with source-search fallback. The writer validates generated member identities/catalogs before emitting bytes. Custom JSON document metadata and unknown source fields remain preserved. Writer regression coverage exercises unsupported imports without replacing current writing and cacheless import/search/save. This closes concrete preservation/fallback gaps; it does not finalize the wider v1 schema/extension policy, chronological layout, independent security review or native/editor interoperability. See `docs/proposals/v1-core-finalization.md`.
 
-The editor must support inserting a handwriting block at the writing cursor, displaying its PNG fallback inline, and retaining editable strokes as a linked companion asset. The current integration includes single-file bundling and local asset persistence; broader recovery and visual missing-file handling need further testing. The handwriting canvas now inserts a PNG fallback plus editable stroke data into the journal. Both are packaged inside the same .jot document. Full visual block manipulation remains planned.
+## ESP32-family cryptographic compatibility target
 
-Editing through either source or a visual block view must not silently discard the other view's data. Prototype `stringify` currently returns the unmodified original source; serializing AST/block edits is a separate implementation milestone. Layout files must not change entry dates, task meaning, privacy labels or language metadata.
+The owner identified ESP32 as a target. Keep the core protection primitives compatible with supported ESP-IDF cryptography: AES-256-GCM, SHA-256/HMAC, PBKDF2-HMAC-SHA-256 and HKDF-SHA-256. Use maintained ESP-IDF/Mbed TLS or PSA Crypto interfaces appropriate to a pinned SDK/chip; do not implement our own cipher or reduce password work factors merely to make a benchmark faster. Primitive availability is not proof that the current JavaScript container/SQLite reader runs on a microcontroller.
 
-### B5. Suggested delivery and acceptance
+- [ ] Publish and cross-check browser/Node ↔ ESP-IDF vectors for key derivation, Unicode NFC passphrases, recovery-code normalization, exact AAD/framing, member encryption, wrong keys and tampering. Every supported implementation must derive the same keys and authenticate before releasing private content.
+- [ ] Benchmark the chosen ESP32 variant/SDK for current KDF settings, AES-GCM operations, RAM/flash/PSRAM, power and realistic entry/media sizes. Declare safe reader limits and refuse unsupported input without truncation or algorithm downgrade.
+- [ ] Design a bounded-storage/streaming archive profile with safe authenticated-plaintext release; streaming decryption must not display/act on plaintext before its tag is verified. Verify ZIP and catalog handling rather than loading desktop-sized archives into RAM. Any chunked-AEAD redesign needs its own established construction/review.
+- [ ] Keep source recoverable without SQLite/FTS5. Evaluate a constrained producer profile that can omit/rebuild the search cache on return to Writer; the current reference writer always builds the index. Specify this before claiming embedded write interoperability.
+- [ ] Define local offline unlock via passphrase/recovery on embedded readers. Browser/WebAuthn passkeys require a compatible host/authenticator integration; any trusted-host provisioning path needs authenticated pairing, explicit device trust and a reviewed key lifecycle, not a plaintext master-key transfer.
 
-1. Define stable content-block identity, readable source references and a default stacked layout; add a block insertion menu without requiring it for prose.
-2. Integrate images/scans and handwriting blocks with asset persistence and portable bundles.
-3. Add block grouping, accessible reordering and mixed-method reusable layouts.
-4. Add responsive columns/sidebars and predictable print layout with visible overflow.
-5. Extend the parser/serializer conformance suite and test source/visual round trips.
+No ESP-IDF toolchain or physical board was used for this assessment. Firmware/hardware product delivery remains deferred; this target constrains format/cryptography choices now and does not select a board or reopen an assembly project.
 
-Acceptance examples: a single day combining BuJo tasks, gratitude text and untranscribed handwriting; a photo with a caption beside a reflection; a tracker plus freewriting in another language; an unknown block opened without its plugin; a two-column screen layout becoming a one-column pocket print; a missing attachment; a very tall handwriting block; undoing a reorder; and extracting journal.txt from .jot and opening it in a plain-text editor with its reading order and asset labels understandable. All are planned checks until the corresponding implementation exists.
+## Reference implementation and coordinated delivery
 
+The canonical JavaScript parser/container/protection modules live in `parser/`. Shared browser and editor copies are generated. Writer currently defaults to `.jotz`, preserving ordered source, UUID media and optional per-member protection with a public-only SQLite index. Chronological directories and complete unknown-feature preservation remain planned above. CLI and independent-editor interoperability are release evidence, not consequences of choosing ZIP.
 
-## Self-contained document decision
-
-Jot v1 has two representations with the same writing (draft 3, 26 October 2026): plain `.jot`, readable and editable in any text editor, and packaged `.jotz`, one ZIP-based document with journal.txt, manifest.json and every included asset. Readers decide by content, so a mislabelled file still opens. Text-only tools list `.jot` and never save a package as text. The workspace saves plain `.jot` when a journal has no attachments and `.jotz` when it has. Provide writing-only export and keep editable handwriting originals without compulsory transcription.
-
-Implemented: JavaScript pack/unpack/readDocument APIs; safe paths and declared size limits; SHA-256 integrity checks; legacy text import; editor asset attachment/local preview; one-file import/export; IndexedDB asset persistence; handwriting image+stroke insertion; corrected scan insertion. Core tests include text and exact binary round trips, corrupt/missing/extra members, unsafe paths, directory records and hashing. Browser export reports a complete package with two handwriting assets and local reload restores them. The cloud download-event hook did not provide the exported file path and a file-picker import test stalled; browser end-to-end file-import/download verification remains incomplete. Exact byte verification is covered independently by module tests.
-
-Next: real-device download/import checks, storage exhaustion, cross-tab conflict/recovery, asset editing within visual blocks, stronger long-term archive interoperability and optional encryption. ZIP packaging alone is not encryption or PDF compatibility.
-
-
-## Optional BYOK AI companion (2026-11-01)
-
-Implemented in Writer: inline reviewed drafts and on-demand suggestions using OpenRouter or loopback OpenAI-compatible servers.
-AI and AI suggestions default off. Context is limited to explicitly chosen selected text; keys remain in session memory. Strict
-response-envelope and Jot parsing checks precede explicit undoable insertion. OpenRouter denies provider data collection and has
-an independent ZDR toggle, on by default. No silent policy downgrade, tools, containers, remote file uploads or cloud fallback.
-See `docs/guide/ai-companion.md`. Automated transport and browser checks use mocked models. Live-provider compatibility, native
-webview/CORS and physical-device checks remain release validation; complete profile-semantic validation remains separate work.
-
-
-## Everyday browser tools and manual nearby transfer
-
-Writer implements an optional offline PWA shell, local storage protection/usage, session wake lock, reviewed outgoing sharing and
-a separate local incoming inbox. Manual nearby transfers use WebRTC with local candidates, two-way invitation/response pairing,
-comparison codes, integrity verification and inbox review; no Bluetooth, STUN/TURN, internet signaling or automatic merge. Incoming
-OS share delivery requires browser support and an active controlling worker; file-picker import remains available.
-
-Inline annotation creates an immutable page snapshot with editable strokes and composed PNG; later text edits do not move its
-marks. Source uses existing image/link syntax and self-contained `.jotz` assets. Done/Cancel and source Undo are preserved. The
-hidden scanner remains hidden. See `docs/guide/browser-tools.md` for limitations and `specification/Jot-Container-v1.md` for the
-optional stroke background member. Automated tests cover Chromium and local browser-to-browser WebRTC. Native share registration,
-physical pen/palm behavior, real laptop/phone Wi-Fi or hotspot compatibility and native desktop-webview support remain release
-validation. Dedicated hardware/firmware, live text-anchored ink and ongoing synchronization remain deferred.
+Hardware/firmware is outside the format release scope; its deferral and future exploration are recorded in the Writer roadmap. Existing public source remains editable independently of any dedicated device.

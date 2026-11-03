@@ -1,0 +1,80 @@
+{
+  "format": "jot-archive-conformance",
+  "version": 1,
+  "cases": [
+    {
+      "id": "unsupported-manifest-feature",
+      "changes": [
+        {
+          "path": [
+            "requiredFeatures"
+          ],
+          "value": [
+            "future-layout"
+          ]
+        }
+      ],
+      "expectedError": "Unsupported archive manifest fields"
+    },
+    {
+      "id": "unsupported-catalog-feature",
+      "changes": [
+        {
+          "path": [
+            "catalogData",
+            "futureLayout"
+          ],
+          "value": {
+            "keep": true
+          }
+        }
+      ],
+      "expectedError": "Unsupported archive catalog fields"
+    },
+    {
+      "id": "unknown-entry-catalog-field",
+      "changes": [
+        {
+          "path": [
+            "catalogData",
+            "entries",
+            0,
+            "futureField"
+          ],
+          "value": "keep"
+        }
+      ],
+      "expectedError": "Invalid ordered entry catalog"
+    },
+    {
+      "id": "unknown-asset-catalog-field",
+      "changes": [
+        {
+          "path": [
+            "catalogData",
+            "assets",
+            0,
+            "futureField"
+          ],
+          "value": "keep"
+        }
+      ],
+      "expectedError": "Invalid ordered asset catalog"
+    },
+    {
+      "id": "catalog-entry-privacy-mismatch",
+      "changes": [
+        {
+          "path": [
+            "catalogData",
+            "entries",
+            0,
+            "private"
+          ],
+          "value": true
+        }
+      ],
+      "expectedError": "Invalid ordered entry catalog"
+    }
+  ]
+}

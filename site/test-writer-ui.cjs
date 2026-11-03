@@ -269,15 +269,15 @@ const server = http.createServer((req, res) => {
     await filePage.waitForFunction((expected) => document.getElementById('writing').value === expected, opened);
     const plainDownload = filePage.waitForEvent('download'); await command('Download journal', filePage);
     const plain = await plainDownload;
-    assert.equal(plain.suggestedFilename(), 'minimal-note.jot');
-    assert.equal(fs.readFileSync(await plain.path(), 'utf8'), opened);
+    assert.equal(plain.suggestedFilename(), 'minimal-note.jotz');
+    const plainDoc=await(await import('../parser/container.mjs')).readDocument(new Uint8Array(fs.readFileSync(await plain.path())));assert.equal(plainDoc.source,opened);plainDoc.index?.close();
     const attachChoice = filePage.waitForEvent('filechooser');
     await filePage.click('#writerCommandsBtn'); await filePage.fill('#writerCommandsSearch', 'Attach a file');
     assert.equal(await filePage.locator('#writerCommandsList button strong').first().textContent(), 'Attach a file', 'an exact tool name ranks before broader matches');
     await filePage.keyboard.press('Enter');
     await (await attachChoice).setFiles({ name: 'note.txt', mimeType: 'text/plain', buffer: Buffer.from('A local attachment.') });
     await filePage.waitForFunction(() => document.getElementById('docExt').textContent === '.jotz');
-    assert.ok(await filePage.isVisible('#writerAssetShelf'));
+    await filePage.waitForSelector('#writerAssetShelf:not([hidden])');assert.ok(await filePage.isVisible('#writerAssetShelf'));
     assert.match(await filePage.textContent('#assetList'), /note\.txt/);
     const withAttachment = await filePage.inputValue('#writing');
     await filePage.click('#writerAssetsClose'); assert.equal(await filePage.isVisible('#writerAssetShelf'), false);

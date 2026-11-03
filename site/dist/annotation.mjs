@@ -58,7 +58,7 @@ export function setupAnnotations(bridge) {
     try{
       if(pendingCommit){const ok=await bridge.addCapture(pendingCommit);if(!ok)throw Error('The drawing is still not saved completely. Download the journal or retry.');bridge.retireCapture(pendingCommit.id);reset();status('Saved the annotated copy.');return;}
       validateInk(draft);if(bridge.isLocked()||target.revision!==bridge.revision()||target.identity!==bridge.identity())throw Error('The document changed. Choose a new caret and Insert copy at current caret; your drawing is still here.');
-      const id=crypto.randomUUID(),base='assets/annotation-'+id,background=base+'-background.png',png=base+'.png',ink=base+'.jot-ink.json';
+      const id=crypto.randomUUID(),base='media/'+id,background=base+'-background.png',png=base+'.png',ink=base+'.jot-ink.json';
       const composed=document.createElement('canvas');composed.width=canvas.width;composed.height=canvas.height;const ctx=composed.getContext('2d');ctx.drawImage($('annotationBackground'),0,0,canvas.width,canvas.height);ctx.drawImage(canvas,0,0);
       const blob=await new Promise(resolve=>composed.toBlob(resolve,'image/png'));if(!blob)throw Error('Could not create this annotated image.');
       const value={...draft,background},label=$('annotationDescription').value.trim()||'Annotated page',safeLabel=label.replace(/[\[\]\\\r\n]/g,' ');

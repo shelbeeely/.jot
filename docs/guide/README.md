@@ -27,3 +27,5 @@ To see Jot at length, the [Examples](../../site/dist/examples/) page has whole p
 
 These guides are also pages on the site (`/guide/`), built from these files by `site/build-guides.mjs`. The full rules are in the
 [Jot specification](../../specification/Jot-Complete-Specification.md).
+
+- [Connected sources](connected-sources.md): on-demand weather snapshots, privacy and missing values.

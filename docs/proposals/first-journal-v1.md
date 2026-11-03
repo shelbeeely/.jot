@@ -24,7 +24,7 @@ never journaled. Do not promise improved mental health, productivity or a lastin
 The owner deferred all dedicated physical hardware and firmware work on 31 October 2026. Writer v1 focuses on the software
 experience using existing computers, phones and input devices. There is no selected device, parts list, enclosure,
 hardware prototype or firmware port in current scope. Physical hardware and firmware will be explored later, as recorded
-in the [roadmap](../../specification/ROADMAP.md#physical-hardware-and-firmware-future-exploration).
+in the [roadmap](../../WRITER-ROADMAP.md#physical-hardware-and-firmware-future-exploration).
 
 Paper writing is already a complete journal entry. Digitizing it is optional and can wait until after writing; never make
 someone transcribe an entry twice. Keep original handwriting, drawings and scans when adding reviewed text. Existing
@@ -71,7 +71,7 @@ a trustworthy first-entry and return experience. A simple writer can use the for
 - `site/dist/live-writer.mjs` offers "Start anywhere. A sentence is enough." Ordinary paragraphs are valid journal content.
 - The homepage explains formats, marks, methods and printing. The writer offers a large methods catalogue behind its tools.
 - Browser autosave, device saving where supported, downloads and reopening exist. Recovery conflicts, storage exhaustion and
-  real-device checks remain stabilization work in `specification/ROADMAP.md`.
+  real-device checks remain stabilization work in `WRITER-ROADMAP.md`.
 
 These observations come from source inspection, not an observed novice usability session. A blank page with reassurance
 still leaves the person to decide what to write. The proposed help addresses that uncertainty without requiring a method.

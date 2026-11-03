@@ -22,7 +22,10 @@ const server = http.createServer((req, res) => {
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url())&&!r.url().startsWith(origin))remote.push(r.url());});
   await page.addInitScript(()=>{window.wakeRequests=0;window.wakeReleases=0;Object.defineProperty(navigator,'wakeLock',{configurable:true,value:{request:async()=>{window.wakeRequests++;return Object.assign(new EventTarget(),{release:async()=>{window.wakeReleases++;}});}}});});
   await page.goto(origin+'/write/');await require('./test-source-workspace.cjs')(page);
-  await page.waitForFunction(async()=>!!(await navigator.serviceWorker.getRegistration())?.active && (await caches.keys()).length > 0);
+  // waitForFunction predicates are synchronous: a returned Promise is truthy before the worker is ready.
+  // Wait for the platform readiness promise before reloading; this app deliberately does not claim existing clients.
+  await page.evaluate(()=>{window.offlineWorkerReady=false;navigator.serviceWorker.ready.then(()=>{window.offlineWorkerReady=true;});});
+  await page.waitForFunction(()=>window.offlineWorkerReady===true);
   await page.reload();await require('./test-source-workspace.cjs')(page);await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
   await page.fill('#writing','# Original\n\nKeep this.');await page.locator('#writing').evaluate(e=>e.setSelectionRange(e.value.length,e.value.length));
   await page.click('#writerBrowserBtn');assert.equal(await page.isChecked('#browserWake'),false);assert.equal(await page.evaluate(()=>window.wakeRequests),0);
@@ -31,7 +34,7 @@ const server = http.createServer((req, res) => {
   assert.equal(await page.evaluate(()=>window.wakeReleases),1);
   await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,value:'visible'});document.dispatchEvent(new Event('visibilitychange'));});await page.waitForFunction(()=>window.wakeRequests===2);
   await page.click('#prepareShare');await page.waitForFunction(()=>!document.getElementById('shareDownload').disabled);assert.match(await page.inputValue('#shareReview'),/Keep this/);
-  const download=page.waitForEvent('download');await page.click('#shareDownload');assert.match((await download).suggestedFilename(),/\.jot$/);
+  const download=page.waitForEvent('download');await page.click('#shareDownload');assert.match((await download).suggestedFilename(),/\.jotz$/);
   const post=await page.evaluate(async()=>{const form=new FormData();form.append('files',new File(['Shared words.'],'incoming.jot',{type:'text/plain'}));const response=await fetch('../share/',{method:'POST',body:form});return{status:response.status,url:response.url};});assert.equal(post.status,200);assert.equal(await page.evaluate(async()=>(await(await import('/inbox.mjs')).inboxItems()).length),1);
   await page.click('#refreshInbox');await page.locator('#inboxList button').filter({hasText:'Review'}).first().click();await page.fill('#incomingText','Reviewed incoming words.');await page.click('#incomingAdd');
   await page.waitForFunction(()=>document.getElementById('inboxList').textContent.includes('empty'));
@@ -55,10 +58,12 @@ const server = http.createServer((req, res) => {
   await page.evaluate(()=>{Storage.prototype.setItem=window.restoreSetItem;});await page.click('#annotationDone');
   assert.equal(await page.inputValue('#writing'),inserted);
   await page.waitForFunction(()=>!document.getElementById('writerAnnotation')||document.getElementById('writerAnnotation').hidden);
-  const inkSource=await page.inputValue('#writing');assert.match(inkSource,/annotation-.*\.png/);assert.match(inkSource,/Editable handwriting strokes/);
+  const inkSource=await page.inputValue('#writing');assert.match(inkSource,/media\/[0-9a-f-]+\.png/);assert.match(inkSource,/Editable handwriting strokes/);
   await page.waitForSelector('.annotation-edit');await page.locator('.annotation-edit').first().click();await page.waitForFunction(()=>!document.getElementById('annotationDrawing').hidden);await page.click('#annotationCancel');assert.equal(await page.inputValue('#writing'),inkSource);
   const cache=await page.evaluate(async()=>{const keys=await caches.keys(),result=[];for(const key of keys)for(const request of await(await caches.open(key)).keys())result.push(request.url);return result;});assert.ok(cache.some(url=>url.endsWith('/studio.mjs')));assert.equal(cache.some(url=>/incoming\.jot|inbox=|annotation-/.test(url)),false);
-  await context.setOffline(true);await page.reload();await page.waitForFunction(()=>!!document.getElementById('writing')?.jotSetMode);assert.equal(await page.inputValue('#writing'),inkSource);
+  await context.setOffline(true);await page.reload();await page.waitForFunction(()=>!!document.getElementById('writing')?.jotSetMode&&document.documentElement.hasAttribute('data-archive-ready'));assert.equal(await page.inputValue('#writing'),inkSource);
+  await page.goto(origin+'/tools/');await page.getByRole('heading',{name:'A few useful tools.'}).waitFor();assert.deepEqual(await page.locator('header nav a').allTextContents(),['Write','Tools','Guides']);
+  await page.goto(origin+'/write/');await page.waitForFunction(()=>!!document.getElementById('writing')?.jotSetMode&&document.documentElement.hasAttribute('data-archive-ready'));assert.equal(await page.inputValue('#writing'),inkSource);
   await context.setOffline(false);await page.setViewportSize({width:390,height:844});await require('./test-source-workspace.cjs')(page);await page.click('#writerBrowserBtn');
   await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});const violations=await page.evaluate(async()=>(await axe.run(document.getElementById('browserTools'))).violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})));assert.deepEqual(violations,[]);
   assert.deepEqual(errors,[]);assert.deepEqual(remote,[]);console.log('PASS: offline cache/reload, opt-in wake lock, share-target inbox, reviewed/idempotent persistence, outgoing download, inline annotation/edit/cancel, mobile accessibility and no external requests.');

@@ -4,6 +4,8 @@ Jot's current renderer shows **local attached images and ordinary links**. A Spo
 reference becomes a link, not an automatically loaded player, poster or metadata card. Audio, video, PDFs and other
 files can travel in a `.jotz`, but the shared page preview exposes their explicit attachment links as downloads.
 
+Writer also has separate offline attachment viewers; see [site documentation](../../site/README.md). The shared preview described here does not supply those viewers.
+
 This is a developer reference checked against the repository on 3 November 2026. **Current** describes the JavaScript
 parser, shared preview and Writer. **Reader design** describes a proposed touch/button application; those actions are
 not shipped X4 firmware. The [e-paper pipeline](epaper.md) and [navigation reference](navigation.md) cover the surrounding
@@ -13,7 +15,7 @@ rendering and reading model. This document adds no syntax or integration to the 
 
 ```text
 Writing: a label, an image reference, a link, a record or an include
-Package: journal.txt + manifest.json + assets/ containing actual attachment bytes
+Package: manifest.json + ordered entries/ + media/ or private/ members + public index.sqlite
 Preview: DOM text, supported images, charts, palettes and local excerpts
 Action: follow a link, download an attachment, or invoke an explicitly supplied host callback
 ```

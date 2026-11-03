@@ -135,7 +135,7 @@
       const { doc, name } = current;
       const byPath = new Map(doc.assets.map(asset => [asset.path, asset]));
       const { files, problems } = await gather(doc.source, {
-        from: 'journal.txt',
+        from: 'journal.jot',
         read: path => {
           const asset = byPath.get(path);
           return asset && asset.data.length <= LIMITS.sourceBytes ? decoder.decode(asset.data) : null;
@@ -153,7 +153,7 @@
       };
       addChartStyles(document);
       renderPreview(parse(doc.source), paper, {
-        filename: name, from: 'journal.txt', asset, include: path => files[path] ?? null,
+        filename: name, from: 'journal.jot', asset, include: path => files[path] ?? null,
         hand: look.value === 'hand' ? hand : null, style: look.value === 'typed' ? 'plain' : null
       });
       if (problems.length || paper.querySelector('.jot-missing, .jot-include-missing')) {
@@ -187,6 +187,7 @@
     function openDocument(input, name) {
       return run(async ticket => {
         const doc = await readDocument(await input);
+        if (doc.partial) throw new Error("Protected archive: unlock locally in Writer and choose an explicit public export before using this example.");
         assertCurrent(ticket);
         current = { doc, name };
         await renderCurrent(ticket);

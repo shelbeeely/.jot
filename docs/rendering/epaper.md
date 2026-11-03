@@ -60,7 +60,7 @@ particular firmware's waveform.
 ```text
 chosen .jotz bytes
     ↓ verify package, extract source and assets
-journal.txt + validated attachments
+ordered entry source + validated catalogued attachments
     ↓ parse Jot; resolve only explicitly supplied local assets/includes
 Jot nodes and semantic values
     ↓ compose at the intended logical page size
@@ -114,6 +114,7 @@ import { readDocument } from './parser/container.mjs';
 import { parse } from './parser/jot.mjs';
 
 const doc = await readDocument(new Uint8Array(await file.arrayBuffer()));
+if (doc.partial) throw new Error("Unlock protected entries before rendering a complete journal.");
 const ast = parse(doc.source);
 // doc.assets: [{ path, mediaType, byteLength, sha256, data: Uint8Array }, ...]
 ```
@@ -126,15 +127,15 @@ declared sizes and asset hashes. Pass **source text** to `parse()`, not ZIP byte
 an annotation for viewing; retain editable stroke JSON without treating it as display pixels or automatically
 transcribing it.
 
-The current host limits include 64 MiB input/expanded size, 32 MiB per asset, 1 MiB source/manifest, and 256 directory
-entries. Those are host-reader limits, not appropriate allocation targets for the X4. The JavaScript reader eagerly
+The current host limits include 64 MiB input/expanded size, 32 MiB per asset and combined source, 1 MiB per entry, a 4 MiB manifest,
+a 16 MiB index and 12,000 ZIP directory entries. Those are host-reader limits, not appropriate allocation targets for the X4. The JavaScript reader eagerly
 extracts the listed assets into memory. Do that work on the host for the raster route.
 
 See the [container contract](../../specification/Jot-Container-v1.md) and [container implementation](../../parser/container.mjs).
 An MCU package reader would need its own bounded streaming design, STORE/DEFLATE support, integrity checks and
 explicit smaller limits. Silently skipping corrupt, missing or unsupported assets is not a compatible fallback.
-A `.jotlock` needs an explicit unlock step through the [lock API](../../parser/LOCK.md) before package parsing;
-the tutorial does not implement an unlock screen. A `.jotz` package itself is not encryption.
+A protected `.jotz` needs an explicit local unlock through the [protection API](../../parser/LOCK.md).
+The tutorial has no unlock screen and refuses partial protected documents. It accepts complete public archives or plain source.
 
 ## Compose with Jot's browser renderer
 
@@ -145,7 +146,7 @@ import { renderPreview, addChartStyles } from './parser/preview.mjs';
 
 addChartStyles(document);
 renderPreview(ast, paper, {
-  from: 'journal.txt',
+  from: 'journal.jot',
   filename: file.name,
   asset: path => localAssetUrls.get(path) ?? null,
   include: path => localIncludeSources[path] ?? null,
@@ -410,7 +411,7 @@ FreeInk is more than a low-level pixel driver:
   exposes `ChapterLayout::layoutPlainText()` and `PageRenderer::renderText()` without requiring a whole EPUB.
 
 Plain-text layout does not interpret Jot headings, tasks, records, colors, charts or embedded assets. Its single
-newlines become spaces and blank lines create paragraphs. Passing `journal.txt` directly therefore gives a text
+newlines become spaces and blank lines create paragraphs. Passing flattened `.jot` source directly therefore gives a text
 fallback, not a faithful Jot visual renderer.
 
 A native adapter should specify support for each construct before claiming compatibility:
@@ -432,7 +433,7 @@ recommendation. Evaluate the smaller configuration, peak allocations, fonts, ima
 available heap. A small fixture's memory result is not an upper bound for every journal.
 
 For EPUB, generate a valid EPUB package with its required metadata, navigation and content documents. FreeInkBook
-expects `META-INF/container.xml` and an OPF package, not Jot's `manifest.json` plus `journal.txt`. Browser CSS and Jot's
+expects `META-INF/container.xml` and an OPF package, not Jot's manifest and ordered entry members. Browser CSS and Jot's
 handwriting appearance will need a deliberate conversion policy. Keep the `.jotz` source independently; a derived
 EPUB need not be a lossless or editable replacement.
 

@@ -16,7 +16,7 @@ and reopen. Jot does not force an update while you write. An unsuccessful instal
 The desktop app already bundles its application files and does not install a web service worker.
 
 **Protect local storage** asks the browser to retain this site's storage and reports approximate usage. The browser can refuse;
-its storage is not a backup and can still be cleared. Keep downloaded `.jot`, `.jotz` or `.jotlock` copies.
+its storage is not a backup and can still be cleared. Keep downloaded `.jotz` copies.
 
 **Keep screen awake this session** starts off. If supported, it keeps the screen on while Writer is visible. Hiding the page
 releases the wake lock; returning tries again while the session option remains enabled. Locking/replacing the journal or leaving

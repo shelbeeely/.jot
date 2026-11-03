@@ -6,11 +6,11 @@ export function equalFileBytes(left, right) {
   for (let i = 0; i < left.length; i++) if (left[i] !== right[i]) return false;
   return true;
 }
-export function deviceFileName(name, packaged = false) {
+export function deviceFileName(name, packaged = true) {
   const stem = String(name || 'my-journal').replace(/\.(?:jotz?|md|txt)$/i, '').replace(/[\\/:*?"<>|\x00-\x1f]/g, '-').trim().replace(/[. ]+$/g, '').slice(0, 120) || 'my-journal';
   return stem + (packaged ? '.jotz' : '.jot');
 }
-const types = packaged => [{ description: packaged ? 'Jot document with attachments' : 'Jot plain text', accept: packaged ? { 'application/zip': ['.jotz'] } : { 'text/plain': ['.jot'] } }];
+const types = packaged => [{ description: packaged ? 'Jot archive' : 'Jot plain text', accept: packaged ? { 'application/zip': ['.jotz'] } : { 'text/plain': ['.jot'] } }];
 const resultError = error => ({ status: error?.name === 'AbortError' ? 'cancelled' : error?.name === 'NotAllowedError' || error?.name === 'SecurityError' ? 'denied' : 'error', message: String(error?.message || error || 'The device file operation failed.') });
 async function fileBytes(file) {
   if (file.size > DEVICE_FILE_LIMIT) throw new Error('This editor accepts device files up to 64 MiB.');
@@ -34,7 +34,7 @@ async function outputBytes(data) {
  * plus source/assets needed by serialize(snapshot). Snapshots are cloned before awaits.
  * open selects read-only; call adopt(result) only after successfully loading/validating it.
  */
-export function createDeviceFiles({ window: win = globalThis.window, getDocument, serialize }) {
+export function createDeviceFiles({ window: win = globalThis.window, getDocument, serialize, captureContext = () => null }) {
   const secure = win?.isSecureContext === true;
   const canOpen = secure && typeof win.showOpenFilePicker === 'function';
   const canSave = secure && typeof win.showSaveFilePicker === 'function';
@@ -77,7 +77,7 @@ export function createDeviceFiles({ window: win = globalThis.window, getDocument
   const save = ({ saveAs = false } = {}) => {
     if (!canSave) return Promise.resolve({ status: 'unsupported', message: 'Direct device saving needs a secure browser with the File System Access API. Download .jot keeps a file instead.' });
     return run(async () => {
-      const snapshot = structuredClone(getDocument());
+      const snapshot = structuredClone(getDocument()), context = captureContext();
       if (typeof snapshot.packaged !== 'boolean') throw new Error('The journal snapshot must declare whether it contains a .jotz package.');
       const atGeneration = generation, previous = active, extension = snapshot.packaged ? '.jotz' : '.jot';
       const choose = saveAs || !previous || previous.packaged !== snapshot.packaged || !previous.handle.name.toLowerCase().endsWith(extension);
@@ -95,7 +95,7 @@ export function createDeviceFiles({ window: win = globalThis.window, getDocument
         if (typeof target.requestPermission !== 'function' || await target.requestPermission({ mode: 'readwrite' }) !== 'granted') return { status: 'denied', message: 'Device write permission was not granted. Your writing is still in the editor.' };
       }
       if (generation !== atGeneration) return { status: 'stale', message: 'The active journal changed. Save the current journal again.' };
-      const bytes = await outputBytes(await serialize(snapshot));
+      const bytes = await outputBytes(await serialize(snapshot, context));
       if (signature(bytes) !== snapshot.packaged) return { status: 'error', message: 'The saved file bytes do not match the chosen .jot or .jotz format.' };
       if (generation !== atGeneration) return { status: 'stale', message: 'The active journal changed. Save the current journal again.' };
       const conflict = () => ({ status: 'conflict', message: 'This device file changed outside the editor. Open it to review those changes, or use Save as for a separate copy.', name: target.name });

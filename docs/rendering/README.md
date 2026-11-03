@@ -1,7 +1,7 @@
 # Jot rendering reference
 
 Start with [syntax](syntax.md#start-with-a-small-syntax) for writing or the [X4 example](epaper.md#run-the-local-reference-example) for device rendering.
-Existing journals remain compatible. These documents describe current host behavior and proposed device adapters;
+The text syntax is unchanged. These documents describe host rendering and proposed device adapters;
 they do not claim a shipped e-paper reader.
 
 | Reference | Use it for |
@@ -12,6 +12,18 @@ they do not claim a shipped e-paper reader.
 | [Profiles and records](profile-coverage.md) | Generated field reference for all 62 profiles and 27 record types |
 | [Navigation](navigation.md) | Touch/buttons, contents, media controls and reading position |
 | [E-paper implementation](epaper.md) | Package → page → pixels → FreeInk; runnable browser example |
+
+## Archive and host version
+
+The merged prototype uses [Jotz v1](../../specification/Jot-Container-v1.md) as its default archive, including text-only journals.
+It stores ordered `entries/<uuid>.jot`, catalogued media and optional protected members, with a public-only SQLite search index.
+[Protection](../../specification/Jot-Protection-v1.md) is inside `.jotz`; there is no separate encrypted extension or migration reader.
+A locked public projection is incomplete: explicitly unlock locally or report it as partial. Never render it as the complete journal.
+
+The syntax and provider inventories were reviewed before the latest Writer additions. For newer offline attachment viewers,
+voice writing and connected-source adapters, consult [site documentation](../../site/README.md), the
+[Writer roadmap](../../WRITER-ROADMAP.md) and canonical modules. Shared page-preview support and Writer viewer support are separate.
+Native X4 execution, protected-archive interoperability and full-device navigation remain unverified.
 
 ## Reader rules
 

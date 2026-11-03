@@ -1,6 +1,7 @@
 # Smart journal: connected sources and optional structured syntax
 
-Updated 1 November 2026. Status: **planned**, not implemented connections, settings, card or semantic parser support.
+Updated 1 November 2026. Status: **weather and read-only Home Assistant implemented**. Other connections, contextual settings,
+Home Assistant card and complete semantic parser support remain planned.
 The owner wants many optional data sources at a journal writer's fingertips, on-demand lookup, contextual suggestions
 behind a setting that defaults off, read-only Home Assistant, and both concise references and structured `.jot` records.
 This proposal extends the [media plan](media-sources-and-service-actions.md); it does not replace its provider backlog.
@@ -25,6 +26,7 @@ Verify authentication, terms, pricing, attribution, coverage, browser access and
 | Food and recipes | Open Food Facts, USDA FoodData Central, recipe managers | Foods, ingredients, recipes and source nutrition data; do not infer what was eaten from a lookup |
 | Money | Public exchange-rate sources, Actual Budget, Firefly III, selected financial-file imports | Rates and selected records; no bank connection or transaction upload by default |
 | Nature and knowledge | iNaturalist, eBird, Wikidata, museum collections | Species, observations, artworks and references; a species lookup is not a confirmed sighting |
+| Photo libraries | Immich, Google Photos Picker, Apple Photos/iCloud Photos native pickers and downloaded-file imports | Explicit selection and reviewed bundled assets; read-only access, no background library backup or journal upload |
 | Personal and custom data | Chosen journals, contacts, files, RSS, CSV/JSON, supported automation bridges | Explicitly selected local material first; no background archive scan or unrestricted remote URL fetching |
 
 Retain every planned media provider: TMDB, Trakt, Spotify, YouTube, Open Library, IGDB, ListenBrainz, Last.fm, Jellyfin,
@@ -183,3 +185,32 @@ records, code/escapes, no network side effects and byte-preserving round trips. 
 
 These are product boundaries informed by the guides and the owner's instructions, not evidence that connected sources
 improve journaling outcomes. No account was connected, sensor queried, external write performed or card deployed.
+
+
+## First delivery: on-demand weather
+
+Writer now has a shared Connected sources picker and provider capability catalog, initially Open-Meteo daily weather. Requests
+contain only explicitly entered coordinates, date and timezone; source text is not an adapter input. Historical archive output
+is labelled estimated and recent/future forecast output forecast. Null values stay missing rather than zero. Review shows exact
+Jot records, model provenance, retrieval time, units, coordinates and attribution before one undoable insertion. Source changes
+require a newly captured caret; closing/locking cancels pending lookup. Tests use mocked provider responses. Live provider terms,
+CORS and native platform compatibility require deployment checks; no unrestricted network proxy or embedded credentials exist.
+
+This first slice does not add prose analysis or enable contextual suggestions. Home Assistant now follows this flow with explicitly selected current states or bounded history; the optional card remains planned. Existing
+`measurement` and generic `observation` records carry snapshot provenance; no new short-reference namespace or automatic action
+semantics were added. Research: `docs/methods/digital-daily-notes.md, line 711` rejects cloud sync for journal content in that guide;
+explicitly sending lookup coordinates while retaining journal prose locally is an engineering choice, not a research finding.
+
+
+## Second delivery: read-only Home Assistant
+
+Implemented in the shared picker: explicit HTTPS/loopback instance, memory-only token, one to five selected entities, current state
+or a chosen past history interval (seven days/200 states/512 KiB per entity). Only state/history GET requests are issued; no device
+control, subscriptions or broad discovery. Preserve server timestamps/units, missing/unavailable data and a labelled boundary state
+before the history start. Missing history never falls back to current readings. Readable snapshot records retain only reviewed
+fields, `data-kind: reported`, instance and entity identity, and retrieval time. No account credential is included. Token clearing,
+redirect rejection, endpoint scoping, response limits and reviewed undoable insertion are covered by mocked tests. Live HA/CORS
+and native webview access remain unverified. Desktop support remains constrained by its existing loopback-only instance policy;
+no wildcard HTTPS permission was added. Contextual suggestions and the optional dashboard card remain separate milestones.
+
+Photo-library delivery is specified in [photo-library-integrations.md](photo-library-integrations.md) and the separate Writer roadmap. All three dedicated connectors remain planned; the format roadmap owns portable assets/protection rather than provider authentication.

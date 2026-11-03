@@ -3,7 +3,7 @@
 //!
 //! - archives of any size, read a file at a time from disk (archive.rs), with guards against hostile ZIPs;
 //! - native Save dialogs for every download (files.rs), written atomically;
-//! - .jot, .jotz and .jotlock files opened from the file manager straight into the writer (opened.rs);
+//! - .jotz archives and .jot source files opened from the file manager straight into the writer (opened.rs);
 //! - a network locked down by the content security policy in tauri.conf.json (only the listening tool's services), and
 //!   navigation kept inside the app: a link to the web opens in the person's own browser.
 //!

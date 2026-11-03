@@ -34,7 +34,7 @@ body: A quiet morning.
 ```
 
 The image needs a real package asset. Dates, metadata, records and `method:` profiles are optional. Provider references
-are conveniences; ordinary links remain valid. A plain file is `.jot`; use `.jotz` when it carries attachments.
+are conveniences; ordinary links remain valid. A plain source export is `.jot`; `.jotz` is the default archive, including text-only journals.
 
 The full inventory below preserves compatibility. No delimiter, alias or record field is removed by this cleanup.
 
@@ -55,7 +55,7 @@ Sources: [source parser](../../parser/jot.mjs), especially lines 138–177 and 2
 | Construct/source | Current host behavior | Support |
 | --- | --- | --- |
 | `.jot` UTF-8 source | `parse(text)` consumes writing, not package bytes. Source, Unicode and original newline sequences remain in `ast.source` and node `raw`. | H |
-| `.jotz` | The separate container reader verifies/extracts `journal.txt` and declared assets. The source parser does not unzip. | H |
+| `.jotz` | The container reader verifies ordered entry members and catalogued assets, returning flattened source; protected entries require local unlocking. The source parser does not unzip. | H |
 | BOM, LF/CRLF, missing final newline | Lossless source is retained. Markdown token text may normalize line endings while node spans refer to original UTF-8 bytes. | H |
 | Undated prose/preamble | Valid content. The derived `entries` list contains dated entries; a separate preamble entry object is not synthesized. | H/G |
 | Opening `---`, ordered `Key: value`, closing `---` | First-line metadata is parsed as trimmed string pairs, not YAML. Metadata is not printed by `renderPreview()`. | H/P |

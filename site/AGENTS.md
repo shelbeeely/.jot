@@ -2,6 +2,14 @@
 
 Rules for `site/`, on top of the repository's root `AGENTS.md`. `site/dist/` is published to GitHub Pages as is, so keep notes like this one outside it.
 
+## Keep Writer aligned with the format
+
+Every implemented `.jot`/`.jotz` format change must update Writer in the same change. Consume canonical shared modules and verify affected open/edit/preview/save, media/reference, privacy, search, persistence, sharing and import/export paths; include recovery/conflict behavior where affected. Keep the shared web implementation and desktop/mobile consumers compatible, updating platform bridges, MIME/file associations and CSP when needed. Run relevant browser checks and available native checks; report unsupported/unverified platforms honestly. Documentation-only proposals stay planned.
+
+Whole-document offline reading is required for v1: all saved content and supported rendering must work without provider requests or caches. Keep the offline shell/runtime local, validate imported asset completion, show missing/unsupported/pending content honestly and test network-disabled archive reading plus local unlock. Do not count source-provider URLs or preview-only placeholders as complete media.
+
+Use `WRITER-ROADMAP.md` for web, desktop/mobile, integrations and UI delivery; use `specification/ROADMAP.md` for normative format work. Cross-link dependencies and regenerate both published roadmaps with `node tools/sync-roadmap.mjs`.
+
 ## Running and testing
 
 Serve the site with `python3 -m http.server 8000 --directory site/dist`; open `/write/` or `/editor/`.
@@ -98,3 +106,14 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - `live-model.mjs` projects exact source offsets; `live-writer.mjs` edits source, never serializes rendered HTML. Preserve opaque blocks, composition, selection, undo and plain-text paste. Context-dependent blocks use source cards; full document preview computes their results. Relocking must clear the live DOM and undo history.
 - `device-files.mjs` uses explicit user-selected session handles only. Save is explicit and separate from browser autosave; detect changed files, cancel quietly, preserve newer edits and choose a new package destination when attachments are added. Locked journals must never enter its plain serialization path.
 - Run `node --test site/test-live-model.mjs site/test-device-files.mjs` and both corresponding `*-ui.cjs` suites. Browser file handles and composition are mocked/synthetic; report native-device limits. Source regression suites explicitly choose Source editing with `test-source-workspace.cjs`.
+
+Passkey changes require `node --test site/test-passkey-client.mjs` for mocked API-boundary failures and `node site/test-lock-ui.cjs` for Chromium virtual-authenticator PRF coverage. Distinguish these from real-device/provider/native-webview evidence. See `docs/security/README.md`; never claim that a passkey removes the need for portable offline recovery.
+
+
+## Voice writing (`voice-writing*.mjs`, `speech-*`)
+
+This is separate from the non-recording voice-practice tool. Voice writing uses explicit live microphone capture, local pinned Whistle/Needle WASM in a worker, and required prose cleanup before reviewed insertion (default: pinned embedded English SmolLM2 via local wllama; explicit server/BYOK alternatives remain). Optional audio/original-transcript retention starts off and must use the normal size-bounded capture/archive/protection path. Never save drafts/audio/keys in the public model or application caches. Pin and verify model bytes, preserve explicit download/import and offline cache choices, and retain local/default/no-cloud-fallback behavior plus explicit OpenRouter transcript consent/ZDR. No model-produced tool calls execute.
+
+Close/cancel/lock/new/open/page exit must stop tracks, abort provider requests, invalidate late work, terminate the worker and clear temporary transcript/recording/key data. Bound audio queues, recordings, outputs and downloads; do not claim universal device performance or cryptographic memory erasure. Keep cleanup mandatory, raw transcript available during review, source validation and stale-target checks intact. Run `npm run test:voice-writing`, affected locking/media/Writer/offline suites and the optional real-model variant documented in the security guide. Distinguish synthetic audio and mocked cleanup-provider coverage from physical microphone/real writing-model/native-webview evidence. Vendor binaries are pinned dependencies, not independently audited Jot security.
+
+Use `voice-backend.mjs` as the engine boundary. Keep all wllama compatibility assets local, disable native logging/prompt caching, preserve model SHA-256/size checks and English language/resource bounds, and do not interpret guard checks as factual verification. The optional complete real-model/offline suite is `site/test-voice-local-ui.cjs` with the two model-directory environment variables documented in the security guide. No native Rust backend exists until implemented and tested; avoid claiming an entire Python runtime rewrite is needed for voice.

@@ -1,5 +1,7 @@
 # Jot desktop (Tauri v2)
 
+App delivery is tracked in the [Writer roadmap](../WRITER-ROADMAP.md#desktop-application-track); the [format roadmap](../specification/ROADMAP.md) owns document contracts. Format changes must include corresponding Writer updates under root `AGENTS.md`.
+
 Jot for Linux, macOS and Windows, with Android and iOS build targets. It loads `site/dist/` and exposes native operations through
 `window.jotDesktop` (`src-tauri/src/bridge.js`). Platform differences and verification limits are listed below.
 
@@ -10,17 +12,17 @@ Jot for Linux, macOS and Windows, with Android and iOS build targets. It loads `
 | Data exports (Your life online) | Whole ZIPs load into memory: large ones need unzipping first | Any size, ZIP64 included: the app reads the ZIP's index, then one file at a time (`archive.rs`) |
 | Hostile archives | Names are never used as paths | Also refused: files over 1 GiB unpacked, ZIP bombs (over 200 times their packed size), names that escape the archive |
 | Downloads | The browser's download folder | A native Save dialog for every download on every page, written atomically (`files.rs`) |
-| Network | Whatever the browser allows | Locked by the content security policy (`tauri.conf.json`): the listening services, OpenRouter and loopback model servers (explicit optional requests). Links to the web open in your own browser, never inside the app |
-| Your journal files | Opened through the page's Open button | `.jot`, `.jotz` and `.jotlock` are Jot's file types: they show the iota in the file manager and a double-click opens them in the writer (`opened.rs`) |
+| Network | Whatever the browser allows | Locked by the content security policy (`tauri.conf.json`): the listening services, OpenRouter, explicit pinned model downloads from Hugging Face and loopback model servers (explicit optional requests). Links to the web open in your own browser, never inside the app |
+| Your journal files | Opened through the page's Open button | `.jotz` archives and `.jot` source are Jot's file types: they show the iota in the file manager and a double-click opens them in the writer (`opened.rs`) |
 | Code | Served from the website each visit | Inside the app, the same every time, and it works with no network |
 
 Files are read only after you pick them in a dialog or open them from the file manager, and written only where you choose: the
 pages cannot call a file-system, shell or HTTP plugin, because there is none (`capabilities/default.json`), and they can read an
 opened journal only once, by the number the app gave it.
 
-Installers register the three journal formats with document icons. Linux integration uses `linux/jot-mime.xml` and
+Installers register `.jotz` archives and `.jot` source with document icons. Linux integration uses `linux/jot-mime.xml` and
 `linux/jot.desktop`; installed MIME types, icons and default opening have been tested with the `.deb`.
-Each file opening starts another window on Windows and Linux. Locked files use the writer's normal unlock flow.
+Each file opening starts another window on Windows and Linux. Protected archives use the writer's normal unlock flow.
 
 Planned next: saving back to the file you opened (in place), one window for many files, and keeping a lock's passphrase in the
 operating system's keychain on request.
@@ -86,3 +88,14 @@ The CSP permits `https://openrouter.ai` and HTTP/HTTPS loopback hosts on user-se
 or HTTP proxy plugin is added. Local servers must allow the webview origin through CORS. The companion is tested in Chromium
 with mocked responses; native webview and live-model compatibility remain unverified. See the
 [AI companion guide](../docs/guide/ai-companion.md), including the OpenRouter ZDR toggle and privacy limits.
+
+The v2 archive replacement removes the obsolete encrypted-file association and bundles SQLite WASM with wasm-unsafe-eval enabled
+for local WebAssembly. Source/browser tests do not verify native webview execution or OS association installation. Rebuild and verify
+platform installers, native webview execution and file associations after container/WASM/CSP changes.
+
+
+## Voice writing
+
+Writer's voice-writing dialog uses the bundled CPU WebAssembly engine and worker in this wrapper too; it does not install Python, run a native model sidecar or bundle model weights. Users explicitly download/import the size/SHA-256-pinned Whistle and Needle files, with opt-in public-weight caching. Local model imports work without Hugging Face connectivity. The CSP permits the model host and its CDN for explicit downloads; it does not send journal/audio data there. Required prose cleanup now defaults to a pinned embedded English SmolLM2 model through bundled CPU wllama WASM. After explicit model download/import it runs without an API key or separate server, including offline. Explicitly selected loopback writing servers and consented BYOK OpenRouter connections remain alternatives. No Python or new native inference bridge is required; native Rust acceleration remains future work.
+
+Microphone, AudioWorklet, MediaRecorder, local-origin/CORS and wasm compatibility need physical platform checks. This change has browser/synthetic-microphone evidence; native builds were not available in the implementation environment. macOS microphone usage/entitlement metadata is supplied for builds; that alone does not establish macOS, iOS or Android microphone permission/recording support. Mobile platform permission integration remains a release check. Keep the existing voice-practice tool separate from transcription/optional recording.

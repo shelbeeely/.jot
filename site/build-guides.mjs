@@ -1,3 +1,4 @@
+import {siteNavigation,navigationStyles} from '../tools/sync-navigation.mjs';
 // Builds the guides (docs/guide/*.md) into pages on the site (dist/guide/*.html), with the same Markdown library the Jot parser uses.
 //   node build-guides.mjs           write the pages
 //   node build-guides.mjs --check   exit 1 when a page is out of date (test-guides.mjs runs this)
@@ -42,12 +43,13 @@ export function buildPage(file, md) {
 <link rel="stylesheet" href="../editor/editor.css">
 <link rel="stylesheet" href="guide.css">
 <link id="jot-hand-css" rel="stylesheet" href="../jot/handwriting.css">
+${navigationStyles('../')}
 </head>
 <body class="jot-site">
 <a class="skip" href="#guide">Skip to the guide</a>
 <header class="top">
   ${brandLink('../')}
-  <nav aria-label="Jot tools"><a href="../write/">Write</a><a href="../editor/">Template editor</a><a href="../convert/">Converter</a><a href="./"${file === 'README.md' ? ' aria-current="page"' : ''}>Guides</a><a href="../examples/">Examples</a><a href="../fonts/">Typefaces</a></nav>
+  ${siteNavigation('../','guide',file === 'README.md')}
 </header>
 <main>
 <div class="guide-wrap" id="guide">${h1}${nav}<article class="guide">

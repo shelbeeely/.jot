@@ -12,21 +12,22 @@
     "security": {
       "csp": {
         "default-src": "'self'",
-        "script-src": "'self'",
+        "script-src": "'self' 'wasm-unsafe-eval'",
         "style-src": "'self' 'unsafe-inline'",
         "img-src": "'self' blob: data:",
         "media-src": "'self' blob:",
         "font-src": "'self' data:",
         "worker-src": "'self' blob:",
-        "connect-src": "'self' ipc: http://ipc.localhost blob: data: https://api.spotify.com https://accounts.spotify.com https://ws.audioscrobbler.com https://api.listenbrainz.org https://openrouter.ai http://localhost:* http://127.0.0.1:* http://[::1]:* https://localhost:* https://127.0.0.1:* https://[::1]:*",
+        "connect-src": "'self' ipc: http://ipc.localhost blob: data: https://api.spotify.com https://accounts.spotify.com https://ws.audioscrobbler.com https://api.listenbrainz.org https://openrouter.ai https://huggingface.co https://*.cdn.hf.co https://api.open-meteo.com https://archive-api.open-meteo.com http://localhost:* http://127.0.0.1:* http://[::1]:* https://localhost:* https://127.0.0.1:* https://[::1]:*",
         "object-src": "'none'",
         "base-uri": "'self'",
         "form-action": "'none'",
-        "frame-src": "'none'"
+        "frame-src": "blob:"
       }
     }
   },
   "bundle": {
+    "macOS": {"infoPlist": "Info.plist", "entitlements": "Entitlements.plist"},
     "active": true,
     "targets": "all",
     "category": "Productivity",
@@ -42,26 +43,10 @@
     "fileAssociations": [
       {
         "ext": [
-          "jot"
-        ],
-        "name": "Jot journal",
-        "description": "Jot journal",
-        "role": "Editor",
-        "rank": "Owner",
-        "mimeType": "text/x-jot",
-        "exportedType": {
-          "identifier": "io.github.shelbeeely.jot.journal",
-          "conformsTo": [
-            "public.plain-text"
-          ]
-        }
-      },
-      {
-        "ext": [
           "jotz"
         ],
-        "name": "Jot journal with attachments",
-        "description": "Jot journal with attachments",
+        "name": "Jot journal archive",
+        "description": "Jotz v1 journal archive",
         "role": "Editor",
         "rank": "Owner",
         "mimeType": "application/x-jotz",
@@ -74,17 +59,17 @@
       },
       {
         "ext": [
-          "jotlock"
+          "jot"
         ],
-        "name": "Locked Jot journal",
-        "description": "Locked Jot journal",
+        "name": "Jot journal",
+        "description": "Jot journal",
         "role": "Editor",
         "rank": "Owner",
-        "mimeType": "application/x-jotlock",
+        "mimeType": "text/x-jot",
         "exportedType": {
-          "identifier": "io.github.shelbeeely.jot.locked",
+          "identifier": "io.github.shelbeeely.jot.journal",
           "conformsTo": [
-            "public.data"
+            "public.plain-text"
           ]
         }
       }
