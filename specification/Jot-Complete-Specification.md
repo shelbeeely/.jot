@@ -498,7 +498,7 @@ Prompt records declare `question`, optional `prompt-id`, `prompt-version`, `sour
 
 ### 8.1 Content and layout separation
 
-`@layout:`, `@spread:` and `@grid:` directives are presentation hints, scoped from their position to the next directive of the same name or EOF. Values are strings. They do not alter data, privacy or entry membership. Recognized values are `@layout: dot-grid-5mm`, `@layout: lined`, `@layout: blank`; `@spread: single-page` or `two-page`; and `@grid: normal`, `hidden` or `blackout`. Blackout is a dark visual background, never redaction. A renderer that cannot honor it MUST warn. Unknown values survive round trips.
+`@layout:`, `@spread:` and `@grid:` directives are presentation hints, scoped from their position to the next directive of the same name or EOF. `@hand:` and `@ink:` choose an entry's handwriting pen and ink (§8.3.1). Values are strings. They do not alter data, privacy or entry membership. Recognized values are `@layout: dot-grid-5mm`, `@layout: lined`, `@layout: blank`; `@spread: single-page` or `two-page`; and `@grid: normal`, `hidden` or `blackout`. Blackout is a dark visual background, never redaction. A renderer that cannot honor it MUST warn. Unknown values survive round trips.
 
 More precise layouts use a `layout` record with `target`, `paper`, `orientation`, `margin-mm`, `grid-mm`, `gutter-mm`, `font-pt`, `palette` and repeated `panel` fields. Supported initial targets are `screen`, `print` and `eink`. Named and custom paper dimensions follow section 8.1.1. All lengths are positive decimal millimeters, except margins and gutter MAY be zero. Unsupported values produce a warning and an explicit fallback preview.
 
@@ -607,6 +607,21 @@ A renderer SHOULD present Jot's own constructs as a reader expects, without chan
 ### 8.3.1 Simulated handwriting
 
 A renderer MAY present typed writing as handwriting: a handwriting font, alternate letter forms, small per-word rotation and offset, and ink colour. It is presentation only. It MUST NOT change the text, its order, selection, copying or accessible text, and SHOULD be deterministic for the same text and seed so a reprint matches. Real handwriting (section 8.3) and simulated handwriting are never confused: simulation creates no attachment or stroke data.
+
+#### Per-entry pen and ink
+
+An entry can choose its own handwriting pen and ink without changing how earlier entries look:
+
+```jot
+### 2026-11-03 | Tuesday
+
+@hand: script10
+@ink: green
+
+Today in the broad pen.
+```
+
+`@hand:` names a pen (`script05`, `script07`, `script10`, `pen`, `print` or `marker`; case, spaces, hyphens and underscores are ignored, so `Script-10` is `script10`). `@ink:` names an ink (`blue`, `black`, `green`, `purple`, `brown`) or a six-digit `#rrggbb` colour. `default` returns to the reader's own choice. Unlike the page directives of §8.1, which apply from their position, a `@hand:` or `@ink:` directive applies to the **whole entry that contains it**, its dated heading included, and to the entries after it, until another directive of the same name; directives in the writing before the first dated heading apply from the start. Entries before it are never restyled, so a later change of pen leaves the journal's past as it was drawn. An unrecognized value is kept as written and changes nothing. Pen and ink are presentation only: they apply when writing is presented as handwriting, never change the text, its order, selection, copying or accessible text, and carry no meaning a reader needs (§8.1: colour is never the only carrier).
 
 A dot-grid presentation puts every line of writing on a row of dots: line height equals the dot pitch, block spacing and block heights are whole rows, larger text spans whole rows with its baseline on a row, and a printed page's writing area is a whole number of rows so pages stay aligned. The reference implementation snaps the pitch to the layout engine's unit (1/64 CSS px) so long documents do not drift.
 

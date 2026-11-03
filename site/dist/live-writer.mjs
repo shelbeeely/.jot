@@ -1,7 +1,7 @@
 import { projectSource } from './live-model.mjs';
 import { parse } from './jot/jot.mjs';
 import { renderPreview } from './jot/preview.mjs';
-import { highlightSVG } from './jot/handwriting.mjs';
+import { highlightSVG, HANDS, INKS, handOf, inkOf } from './jot/handwriting.mjs';
 import { writingEdit, continueListEdit } from './writing-tools.mjs';
 import { completionIndex, localSuggestions } from './local-autocomplete.mjs';
 import { setupWriterFonts } from './writer-fonts.mjs';
@@ -117,6 +117,23 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
     blocks = projectSource(editor.value); textLeaves = []; wrappers = [];
     const fragment = doc.createDocumentFragment(); let currentList = null;
     for (const block of blocks) {
+      if (block.kind === 'opaque' && block.sourceType === 'directive' && /^@(?:hand|ink):/.test(block.raw)) {
+        // An entry's pen or ink reads as a small labelled chip; Change opens the dialog for that entry.
+        currentList = null;
+        const [, name, value] = block.raw.match(/^@(hand|ink):\s*(.*?)\s*$/s) || [];
+        const known = name === 'hand' ? handOf(value) : inkOf(value);
+        const chip = node('div'); chip.className = 'live-pen'; chip.contentEditable = 'false';
+        const label = known === null ? 'page setting' : known === undefined ? value + ' (not recognised, so nothing changes)' : name === 'hand' ? HANDS[known].name : known;
+        if (name === 'ink' && known) { const swatch = node('span'); swatch.className = 'live-pen-swatch'; swatch.setAttribute('aria-hidden', 'true'); swatch.style.background = INKS[known] || known; chip.append(swatch); }
+        chip.title = 'This entry’s ' + (name === 'hand' ? 'pen' : 'ink') + '. Earlier entries are not affected.';
+        chip.append(node('span', (name === 'hand' ? 'Pen: ' : 'Ink: ') + label));
+        const change = node('button', 'Change'); change.type = 'button'; change.className = 'live-source-button';
+        change.setAttribute('aria-label', 'Change pen and ink for this entry');
+        change.onclick = () => { selectSource(block.from, block.from); doc.getElementById('entryPenBtn')?.click(); };
+        // One Change button for each run of these lines.
+        if (blocks[blocks.indexOf(block) - 1]?.sourceType !== 'directive' || !/^@(?:hand|ink):/.test(blocks[blocks.indexOf(block) - 1].raw)) chip.append(change);
+        fragment.append(chip); wrappers.push({ node: chip, from: block.from, to: block.to, editable: false }); continue;
+      }
       if (block.kind === 'opaque') {
         currentList = null;
         const card = node('section'); card.className = 'live-opaque'; card.contentEditable = 'false';

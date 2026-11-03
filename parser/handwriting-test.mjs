@@ -110,3 +110,22 @@ test('the site and standalone renderer use the exact same generated stylesheet',
   assert.match(generated, /prefers-color-scheme:dark/);
   assert.match(generated, /body\.jot-site/);
 });
+
+test('per-entry pen and ink: loose names, default, unknown values change nothing', async () => {
+  const { handOf, inkOf } = await import('./handwriting.mjs');
+  assert.equal(handOf('Script-10'), 'script10'); assert.equal(handOf(' script_05 '), 'script05'); assert.equal(handOf('default'), null); assert.equal(handOf('quill'), undefined);
+  assert.equal(inkOf('Green'), 'green'); assert.equal(inkOf('#8A2D1A'), '#8a2d1a'); assert.equal(inkOf('default'), null);
+  assert.equal(inkOf('#abc'), undefined); assert.equal(inkOf('red; color:x'), undefined);
+});
+
+test('a pen or ink directive styles its whole entry and later ones, never earlier entries', async () => {
+  const { entryPens } = await import('./handwriting.mjs'), { parse } = await import('./jot.mjs');
+  const ast = parse('Before.\n\n### 2026-11-01\n\nOne\n\n### 2026-11-02\n\nTwo\n\n@hand: script10\n@ink: green\n\n### 2026-11-03\n\n@ink: quill\n\nThree\n\n### 2026-11-04\n\n@hand: default\n\nFour\n');
+  const pens = entryPens(ast), at = i => pens[ast.entries[i].startNode];
+  assert.deepEqual(pens[0], { hand: null, ink: null });
+  assert.deepEqual(at(0), { hand: null, ink: null });
+  assert.deepEqual(at(1), { hand: 'script10', ink: 'green' }, 'the heading takes the pen chosen later in its entry');
+  assert.deepEqual(at(2), { hand: 'script10', ink: 'green' }, 'an unknown ink keeps the earlier choice');
+  assert.deepEqual(at(3), { hand: null, ink: 'green' });
+  assert.equal(pens.length, ast.nodes.length);
+});

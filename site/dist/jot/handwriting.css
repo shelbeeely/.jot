@@ -119,6 +119,17 @@ body.jot-site{--hw-family:'Jot Script 07';--hw-pitch:18.890625px;--sans:'Jot San
 :root[data-theme=dark] .jot-hand.jot-hand{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}
 :root[data-theme=dark] .jot-hand.jot-hand .jot-colors[data-ink]{color:color-mix(in srgb,var(--jot-source-ink) var(--jot-ink-ratio),#e1e5fa)!important}
 
+/* An entry's own pen and ink (@hand:, @ink:). Headings keep their relative sizes. The attribute is doubled so these
+   win over the rules that make tasks, records and charts inherit the page's pen. */
+.jot-hand.jot-hand [data-hw-hand][data-hw-hand]{font-family:var(--hw-family),cursive}
+.jot-hand.jot-hand [data-hw-hand][data-hw-hand]:not(h1,h2,h3,h4,h5,h6){font-size:calc(var(--hw-pitch)*var(--hw-size))}
+.jot-hand.jot-hand :is(h1,h2)[data-hw-hand][data-hw-hand]{font-size:calc(var(--hw-pitch)*var(--hw-size)*1.7)}
+.jot-hand.jot-hand h3[data-hw-hand][data-hw-hand]{font-size:calc(var(--hw-pitch)*var(--hw-size)*1.35)}
+.jot-hand.jot-hand :is(h4,h5,h6)[data-hw-hand][data-hw-hand]{font-size:calc(var(--hw-pitch)*var(--hw-size))}
+.jot-hand.jot-hand [data-hw-ink][data-hw-ink]{color:var(--hw-ink)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .jot-hand.jot-hand [data-hw-ink][data-hw-ink]{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}}
+:root[data-theme=dark] .jot-hand.jot-hand [data-hw-ink][data-hw-ink]{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}
+@media print{.jot-hand.jot-hand [data-hw-ink][data-hw-ink]{color:var(--hw-ink)!important}}
 @media print{.jot-hand.jot-hand{color:var(--hw-ink)!important}.jot-hand.jot-hand .hw-page-edge{display:none}.jot-hand.jot-hand .jot-colors[data-ink]{color:var(--jot-source-ink)!important}}
 .hw-box{display:inline-block;width:1.1em;height:1.1em;overflow:visible;vertical-align:-.2em;color:inherit;flex:none}
 .hw-box .hw-square{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}

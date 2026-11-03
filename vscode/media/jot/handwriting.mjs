@@ -23,6 +23,37 @@ export const HANDS = {
 export const DEFAULT_HAND = 'script07';
 export const SANS_FAMILY = 'Jot Sans';
 export const INKS = { blue: '#1f3a8a', black: '#22262a', green: '#1d5c3a', purple: '#4c2a85', brown: '#5b3a1e' };
+// Per-entry pen and ink (spec 8.3.1): `@hand:` and `@ink:` lines. Values are matched loosely ("script-10", "Script10");
+// `default` returns to the reader's own choice. Unknown values return undefined, so a renderer keeps the reader's choice.
+export function handOf(value) {
+  const v = String(value ?? '').trim().toLowerCase().replace(/[\s_-]+/g, '');
+  if (v === 'default') return null;
+  return Object.hasOwn(HANDS, v) ? v : undefined;
+}
+export function inkOf(value) {
+  const v = String(value ?? '').trim().toLowerCase();
+  if (v === 'default') return null;
+  return Object.hasOwn(INKS, v) || /^#[0-9a-f]{6}$/.test(v) ? v : undefined;
+}
+/** The pen and ink each top-level node is drawn with. A directive applies to the whole entry that contains it
+ *  (its dated heading included) and to the entries after it, until another directive of the same name. */
+export function entryPens(ast) {
+  const pens = new Array(ast.nodes.length).fill(null);
+  let state = { hand: null, ink: null };
+  const take = (from, to) => {
+    for (let i = from; i < to; i++) {
+      const n = ast.nodes[i];
+      if (n.type !== 'directive') continue;
+      if (n.name === 'hand') { const h = handOf(n.value); if (h !== undefined) state = { ...state, hand: h }; }
+      if (n.name === 'ink') { const k = inkOf(n.value); if (k !== undefined) state = { ...state, ink: k }; }
+    }
+    for (let i = from; i < to; i++) pens[i] = state;
+  };
+  const first = ast.entries.length ? ast.entries[0].startNode : ast.nodes.length;
+  take(0, first);
+  for (const entry of ast.entries) take(entry.startNode, Math.min(entry.endNode, ast.nodes.length));
+  return pens;
+}
 export const PITCHES = [4, 5, 6, 7]; // mm between dots; 5 mm is the usual dot-grid notebook
 const LATIN = 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
 const LATIN_EXT = 'U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF';
@@ -181,6 +212,17 @@ ${paperCSS()}
 :root[data-theme=dark] .jot-hand{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}
 :root[data-theme=dark] .jot-hand .jot-colors[data-ink]{color:color-mix(in srgb,var(--jot-source-ink) var(--jot-ink-ratio),#e1e5fa)!important}
 
+/* An entry's own pen and ink (@hand:, @ink:). Headings keep their relative sizes. The attribute is doubled so these
+   win over the rules that make tasks, records and charts inherit the page's pen. */
+.jot-hand [data-hw-hand][data-hw-hand]{font-family:var(--hw-family),cursive}
+.jot-hand [data-hw-hand][data-hw-hand]:not(h1,h2,h3,h4,h5,h6){font-size:calc(var(--hw-pitch)*var(--hw-size))}
+.jot-hand :is(h1,h2)[data-hw-hand][data-hw-hand]{font-size:calc(var(--hw-pitch)*var(--hw-size)*1.7)}
+.jot-hand h3[data-hw-hand][data-hw-hand]{font-size:calc(var(--hw-pitch)*var(--hw-size)*1.35)}
+.jot-hand :is(h4,h5,h6)[data-hw-hand][data-hw-hand]{font-size:calc(var(--hw-pitch)*var(--hw-size))}
+.jot-hand [data-hw-ink][data-hw-ink]{color:var(--hw-ink)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .jot-hand [data-hw-ink][data-hw-ink]{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}}
+:root[data-theme=dark] .jot-hand [data-hw-ink][data-hw-ink]{color:color-mix(in srgb,var(--hw-ink) var(--jot-ink-ratio),#e1e5fa)}
+@media print{.jot-hand [data-hw-ink][data-hw-ink]{color:var(--hw-ink)!important}}
 @media print{.jot-hand{color:var(--hw-ink)!important}.jot-hand .hw-page-edge{display:none}.jot-hand .jot-colors[data-ink]{color:var(--jot-source-ink)!important}}
 ${BOX_CSS}`.replace(/\.jot-hand(?![\w-])/g, '.jot-hand.jot-hand'); // doubled: the hand's rules win over a page's own typed styles
 }
@@ -307,11 +349,18 @@ export function paintHighlights(page, { seed = 1 } = {}) {
 const SKIP = new Set(['SCRIPT', 'STYLE', 'CANVAS', 'SVG', 'svg', 'INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'IMG', 'SUMMARY']);
 /** Turns every word on the page into handwriting. Safe to call again after a new render (it starts from the page as rendered). */
 export function handwrite(page, { hand = DEFAULT_HAND, ink = 'blue', seed = 1 } = {}) {
-  const H = HANDS[hand] || HANDS[DEFAULT_HAND], doc = page.ownerDocument;
+  const PAGE_HAND = HANDS[hand] || HANDS[DEFAULT_HAND], H = PAGE_HAND, doc = page.ownerDocument;
   page.classList.add('jot-hand');
   page.style.setProperty('--hw-family', `'${H.family}'`);
   page.style.setProperty('--hw-size', String(H.size));
   page.style.setProperty('--hw-ink', INKS[ink] || (/^#[0-9a-f]{6}$/i.test(ink) ? ink : INKS.blue));
+  // Entries with their own pen or ink (data-hw-hand / data-hw-ink from @hand: and @ink:) override the page's.
+  for (const block of page.querySelectorAll('[data-hw-hand],[data-hw-ink]')) {
+    const own = HANDS[block.dataset.hwHand];
+    if (own) { block.style.setProperty('--hw-family', `'${own.family}'`); block.style.setProperty('--hw-size', String(own.size)); }
+    const color = INKS[block.dataset.hwInk] || (/^#[0-9a-f]{6}$/i.test(block.dataset.hwInk || '') ? block.dataset.hwInk : '');
+    if (color) block.style.setProperty('--hw-ink', color);
+  }
   // task boxes and empty lines drawn as a pen would
   let boxes = 0, last = null;
   const pencil = (done) => { const sd = seed * 101 + (boxes++), kinds = boxKinds(sd, last); last = kinds; return boxSVG(doc, { done, seed: sd, kinds, label: done ? 'done' : 'to do', drawn: done }); };
@@ -328,6 +377,7 @@ export function handwrite(page, { hand = DEFAULT_HAND, ink = 'blue', seed = 1 } 
   const texts = []; for (let n = walker.nextNode(); n; n = walker.nextNode()) texts.push(n);
   let k = 0;
   for (const node of texts) {
+    const H = HANDS[node.parentElement?.closest('[data-hw-hand]')?.dataset.hwHand] || PAGE_HAND;
     const frag = doc.createDocumentFragment(), parts = node.nodeValue.split(/(\s+)/);
     for (const part of parts) {
       if (!part) continue;
@@ -368,29 +418,33 @@ export function alignToGrid(page, { pitchMm = 5, dots = true, pageRows = 0 } = {
   // Measure the font's visible ink, rather than centring its em box (the handwriting fonts have different ascenders).
   const canvas = doc.createElement('canvas'), context = canvas.getContext('2d');
   // Font metrics for body text and every heading level, measured together: one layout pass instead of seven.
+  // Each pen used by an entry (data-hw-hand) is measured too, so its words sit on the same rows.
   const TAGS = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-  const probes = TAGS.map((tag) => {
+  const pens = ['', ...new Set([...page.querySelectorAll('[data-hw-hand]')].map((el) => el.dataset.hwHand).filter((h) => HANDS[h]))];
+  const probes = pens.flatMap((pen) => TAGS.map((tag) => {
     const probe = doc.createElement(tag), mark = doc.createElement('span');
     mark.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
     probe.style.cssText = 'margin:0;padding:0;border:0;position:absolute;visibility:hidden;left:0;top:0;';
-    probe.append('Hx', mark); page.append(probe); return { probe, mark };
-  });
+    if (pen) { probe.dataset.hwHand = pen; probe.style.setProperty('--hw-family', `'${HANDS[pen].family}'`); probe.style.setProperty('--hw-size', String(HANDS[pen].size)); }
+    probe.append('Hx', mark); page.append(probe); return { probe, mark, key: pen + ':' + tag };
+  }));
   const measured = probes.map(({ probe, mark }) => ({ baseline: mark.getBoundingClientRect().top - probe.getBoundingClientRect().top, style: doc.defaultView.getComputedStyle(probe) }));
   const metrics = new Map(measured.map(({ baseline, style }, i) => {
     context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
     const ink = context.measureText('Hx');
     const ascent = ink.actualBoundingBoxAscent, descent = ink.actualBoundingBoxDescent;
-    return [TAGS[i], { baseline, shift: snap(parseFloat(style.lineHeight) / 2 - baseline + (ascent - descent) / 2) }];
+    return [probes[i].key, { baseline, shift: snap(parseFloat(style.lineHeight) / 2 - baseline + (ascent - descent) / 2) }];
   }));
   for (const { probe } of probes) probe.remove();
-  const metricsOf = (tag) => metrics.get(tag);
+  const metricsOf = (tag, pen = '') => metrics.get(pen + ':' + tag) || metrics.get(':' + tag);
+  const penOf = (el) => { const h = el.closest('[data-hw-hand]')?.dataset.hwHand; return HANDS[h] ? h : ''; };
   const body = metricsOf('p'), base = body.baseline;
   page.style.setProperty('--hw-text-shift', `${body.shift}px`);
   page.style.setProperty('--hw-dx', `${-p / 2}px`);
   page.style.setProperty('--hw-dy', `${-p / 2}px`); // dots at the cell boundaries, text in the space between them
+  for (const el of page.querySelectorAll('[data-hw-hand]')) if (!/^H[1-6]$/.test(el.tagName) && HANDS[el.dataset.hwHand]) el.style.setProperty('--hw-text-shift', `${metricsOf('p', el.dataset.hwHand).shift}px`);
   for (const tag of ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) {
-    const { shift } = metricsOf(tag);
-    for (const h of page.querySelectorAll(tag)) { h.style.top = ''; h.style.setProperty('--hw-text-shift', `${shift}px`); }
+    for (const h of page.querySelectorAll(tag)) { h.style.top = ''; h.style.setProperty('--hw-text-shift', `${metricsOf(tag, penOf(h)).shift}px`); }
   }
   const groups = [...page.querySelectorAll(':scope > .jot-layout-block')];
   for (const group of groups) {

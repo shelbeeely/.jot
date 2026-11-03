@@ -756,6 +756,30 @@ plain text, not encrypted. An OpenStreetMap link appears for valid coordinates, 
 A place's `timezone` describes that place. It does not change entry times or override the document's `Timezone` metadata.
 Person/place numeric fields, such as coordinates or postal codes, are not treated as measurement/chart data.
 
+## A pen and ink for one entry
+
+When the page is handwritten, an entry can have its own pen and ink. Put the cursor in the entry and choose
+**Pen and ink for this entry** (under **Tools**, or in the **Format** menu). Writer adds two plain lines under the date:
+
+```jot
+### 2026-11-03 | Tuesday
+
+@hand: script10
+@ink: green
+
+Today in the broad pen.
+```
+
+Pens are `script05`, `script07`, `script10`, `pen`, `print` and `marker`; inks are `blue`, `black`, `green`, `purple`,
+`brown` or a colour such as `#8a2d1a`. `default` goes back to your page settings.
+
+- **Earlier entries never change.** The lines style their own entry, its date included, and nothing before it.
+- **Only this entry** (the default) keeps the next entry looking as it did: if needed, Writer adds `@hand: default`
+  lines there. **This entry and the ones after it** lets later entries follow until one chooses its own.
+- In live editing the lines show as small **Pen** and **Ink** chips; **Change** opens the same dialog.
+- Pen and ink only change how the handwritten page looks. The typed look, copying, search and screen readers get the
+  same text. Choose a dark ink so the writing stays easy to read.
+
 ## Entry timezone overrides
 
 Declare a document default in the optional top metadata, then override a particular dated entry with `@timezone:`:

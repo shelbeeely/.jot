@@ -114,7 +114,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
-  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
+  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
     if (name !== 'write' && name !== 'map') showPreview();
@@ -243,6 +243,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     const format = action => () => { showWriting(); tools.run(action); };
     const hint = action => { const shortcut = SHORTCUTS.find(entry => entry.action === action); return shortcut ? keyLabel(shortcut.keys[0]) : ''; };
     for (const [label, action] of [['Bold', 'bold'], ['Italic', 'italic'], ['Underline', 'underline'], ['Highlight', 'highlight'], ['Strikethrough', 'strike'], ['Superscript', 'superscript'], ['Heading 1', 'heading1'], ['Heading 2', 'heading2'], ['Heading 3', 'heading3'], ['Normal text', 'paragraph'], ['Center the line', 'center'], ['Task', 'task'], ['Bulleted list', 'bullet'], ['Numbered list', 'number'], ['Quote', 'quote'], ['Link', 'link'], ['Code', 'code'], ['Indent', 'indent'], ['Outdent', 'outdent'], ['Clear formatting', 'clear']]) item(label, hint(action), format(action));
+    item('Pen and ink for this entry…', '', () => { showWriting(); $('entryPenBtn').click(); });
     item('Keyboard shortcuts…', keyLabel('Ctrl+/'), () => openShortcuts());
     item('Colors and highlights…', '', () => { showWriting(); const panel = doc.querySelector('.writer-format'); panel.hidden = false; colorsExpanded = true; disclosures(); panel.scrollIntoView({ block: 'nearest' }); });
     menu.append(element('div', undefined, { role: 'separator', class: 'writer-menu-divider' }));
@@ -374,7 +375,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['methodsBtn', 'Writing invitations', 'Templates and journal methods'], ['rolloverBtn', 'Carry tasks forward', 'Move earlier open tasks to today'],
     ['reviewBtn', 'Week review', 'Summarize tasks and numbers'], ['referenceBooksBtn', 'People and Places', 'Address and location books'],
     ['currentTimeBtn', 'Insert current time', 'Manual timestamp'], ['locationCaptureBtn', 'Capture location', 'Request and review location'],
-    ['entryTimezoneBtn', 'Entry timezone', 'Override this dated entry'], ['focusBtn', 'Focus mode', 'Keep the writing in view'],
+    ['entryTimezoneBtn', 'Entry timezone', 'Override this dated entry'], ['entryPenBtn', 'Pen and ink for this entry', 'Handwriting pen and ink for this dated entry; earlier entries stay as they are'], ['focusBtn', 'Focus mode', 'Keep the writing in view'],
     ['prefsBtn', 'Writing preferences', 'Size, spacing, contrast and layout'], ['musicBtn', 'Music and background media', 'Attach tracks, albums, playlists, IMDb or YouTube references'],
     ['musicPlayerBtn', 'Music player', 'Load a persistent Spotify player'], ['voiceBtn', 'Voice practice', 'Optional pitch tool'],
     ['importHealthBtn', 'Import health data', 'Review daily measurements'], ['attachBtn', 'Attach a file', 'Keep files in a .jotz'],

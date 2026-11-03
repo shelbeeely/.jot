@@ -10,6 +10,7 @@ import { setupLiveWriter } from './live-writer.mjs';
 import { createDeviceFiles } from './device-files.mjs';
 import { setupEditorCapture } from './editor-capture.mjs';
 import { setupEntryTimezone } from './entry-timezone.mjs';
+import { setupEntryPen } from './entry-pen.mjs';
 import { setupReferenceBooks } from './reference-books-ui.mjs';
 import { setupLocalAutocomplete } from './local-autocomplete.mjs';
 import { setupWriterWorkspace } from './writer-workspace.mjs';
@@ -368,6 +369,7 @@ const writerWorkspace = setupWriterWorkspace({ editor, status, showPreview: () =
 } });
 setupMusicPlayer();
 setupEntryTimezone({ editor, rewrite, status });
+setupEntryPen({ editor, rewrite, status, defaults: () => ({ hand: $('hand').value, ink: $('ink').value }) });
 setupEditorCapture({ editor, status, referenceBooks });
 
 // Writing preferences, focus mode, quick notes and return to your place. Per-viewer conveniences: kept in this browser only (never in

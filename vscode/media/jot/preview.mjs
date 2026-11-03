@@ -30,7 +30,7 @@
 import { charts, chartConfig, summaryText, fmt, CHART_CSS, metricLabel } from './charts.mjs';
 import { Chart } from './vendor/chart.mjs';
 import { queries, TAGGED } from './query.mjs';
-import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFromComment, paintHighlights } from './handwriting.mjs';
+import { HANDS, handwrite, alignToGrid, handwritingCSS, pitchPx, blockLayoutFromComment, paintHighlights, entryPens } from './handwriting.mjs';
 import { parse, mediaURL } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
 import { includeLines, excerpt, notice, MAX_DEPTH } from './include.mjs';
@@ -103,6 +103,7 @@ export function documentFilename(value) {
 }
 
 export function renderPreview(ast, target, opts = {}) {
+  let pens = [];
   let filename = documentFilename(opts.filename ?? opts.from);
   const doc = target.ownerDocument, asset = opts.asset || (() => null);
   const el = (tag, text, cls) => { const n = doc.createElement(tag); if (text !== undefined) n.textContent = text; if (cls) n.className = cls; return n; };
@@ -334,8 +335,16 @@ export function renderPreview(ast, target, opts = {}) {
   function draw(list, root, at) {
     let frag = root;
     for (const [j, n] of list.entries()) {
-      const before = frag.lastChild, top = !at.level;
+      const before = frag.lastChild, top = !at.level, into = frag;
       drawOne(n, top ? j : -1);
+      // An entry's own pen and ink (@hand:, @ink:) mark the elements its nodes produced; past entries are untouched.
+      const pen = top ? pens[j] : null;
+      if (pen && (pen.hand || pen.ink)) {
+        for (let child = frag === into && before ? before.nextSibling : frag === into ? frag.firstChild : frag; child; child = child.nextSibling) {
+          if (child.nodeType !== 1 || child.classList.contains('jot-layout-block')) continue;
+          if (pen.hand) child.dataset.hwHand = pen.hand; if (pen.ink) child.dataset.hwInk = pen.ink;
+        }
+      }
       if (!top || !n.anchor || !frag.lastChild || frag.lastChild === before || !frag.lastChild.setAttribute) continue; // only this page's own targets carry ids
       frag.lastChild.id = `${anchors.prefix}${n.anchor}`;
       const back = linkedFrom.has(j) && backlinks(j); if (back) frag.append(back);
@@ -421,6 +430,7 @@ export function renderPreview(ast, target, opts = {}) {
       sec.append(ol); frag.append(sec);
     }
   }
+  pens = entryPens(ast);
   draw(ast.nodes, root, { level: 0, stack: [String(opts.from || '')], from: String(opts.from || '') });
   footnotes(root);
   for (const c of target.querySelectorAll('canvas')) { const old = Chart.getChart(c); if (old) old.destroy(); } // the last drawing's charts
