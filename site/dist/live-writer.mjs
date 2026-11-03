@@ -281,14 +281,14 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
     if (composing) return;
     const range = active ? readIntoSource() : sourceRange(); active = mode !== 'source'; closeSuggestions();
     root.setAttribute('data-editor-mode', active ? 'live' : 'source');
-    if (active) { editor.jotApplyEdit = apply; render(range); surface.focus(); select(range.start, range.end, range.direction); }
-    else { delete editor.jotApplyEdit; focusSource(); selectSource(range.start, range.end, range.direction); }
+    if (active) { editor.jotApplyEdit = apply; editor.jotUndo = undo; render(range); surface.focus(); select(range.start, range.end, range.direction); }
+    else { delete editor.jotApplyEdit; delete editor.jotUndo; focusSource(); selectSource(range.start, range.end, range.direction); }
     editor.dispatchEvent(new win.CustomEvent('jotmodechange', { detail: active ? 'live' : 'source' }));
   }
   function syncFromSource() {
     if (composing || internal || source === editor.value) return;
     source = editor.value; remember(source, editor.selectionStart, editor.selectionEnd); render();
   }
-  editor.jotApplyEdit = apply; editor.jotSetMode = setMode; root.setAttribute('data-editor-mode', 'live'); render();
+  editor.jotApplyEdit = apply; editor.jotUndo = undo; editor.jotSetMode = setMode; root.setAttribute('data-editor-mode', 'live'); render();
   return { surface, setMode, syncFromSource, mountInline(element, position) { const item = wrappers.find(item => item.node.parentNode === surface && item.to >= position); if (item) item.node.after(element); else surface.append(element); }, get composing() { return composing; }, reset() { composing = false; composition = null; closeSuggestions(); source = editor.value; history = [{ text: source, start: editor.selectionStart, end: editor.selectionEnd }]; at = 0; lastGroup = ''; render(); } };
 }

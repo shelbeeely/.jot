@@ -101,6 +101,32 @@ html[data-pref-motion] .jot-site *,html[data-pref-motion] .jot-site *::before,ht
 .writer-voice-mic svg{width:24px;height:24px}
 body #writerVoiceMic{background:var(--writer-ink,var(--jot-ink));color:var(--writer-bg,var(--jot-paper))}
 html[data-writer-view=preview]:not([data-focus]) .writer-voice-mic{display:none}
+.writer-voice-mic-label{display:none}
+html[data-writer-empty] .writer-voice-mic{width:auto;display:flex;gap:10px;padding:0 20px 0 16px}
+html[data-writer-empty] .writer-voice-mic-label{display:inline;font:600 15px/1 "Jot Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:.2px}
+/* The empty-journal welcome: four ways in, all optional. */
+@media screen{html[data-writer-empty]:not([data-focus]) body.jot-site.jot-writer :is(#writing,.live-writing){min-height:7em;padding-bottom:12px}html[data-writer-empty] .writer-welcome:not([hidden])~.writing-footer{margin-top:0}}
+.writer-welcome{margin-bottom:24px!important}
+.writer-welcome{box-sizing:border-box;width:100%;max-width:76ch;margin:8px auto 0;padding:20px;border:1px solid var(--writer-border,var(--jot-edge));border-radius:16px;background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 3%,var(--writer-bg,var(--jot-paper)));color:var(--writer-ink,var(--jot-ink));font-family:"Jot Sans",ui-sans-serif,system-ui,sans-serif}
+.writer-welcome[hidden]{display:none}
+.writer-welcome-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+body .writer-welcome h2{margin:0;font-size:24px;line-height:1.25;letter-spacing:normal}
+.writer-welcome-intro{margin:6px 0 16px;font-size:15px;line-height:1.5;color:var(--writer-muted,var(--jot-ink))}
+.writer-welcome-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+body .writer-welcome-choice{display:flex;align-items:flex-start;gap:14px;min-height:72px;padding:14px 16px;text-align:left;font:inherit;border:1px solid var(--writer-border,var(--jot-edge));border-radius:12px;background:var(--writer-bg,var(--jot-paper));color:var(--writer-ink,var(--jot-ink));cursor:pointer;transition:none}
+body .writer-welcome-choice:hover{border-color:var(--writer-ink,var(--jot-ink))}
+.writer-welcome-choice:focus-visible,.writer-welcome :is(.writer-welcome-close,.writer-welcome-link):focus-visible{outline:2px solid var(--writer-ink,var(--jot-ink));outline-offset:2px}
+.writer-welcome-icon{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 10%,var(--writer-bg,var(--jot-paper)))}
+.writer-welcome-words{display:grid;gap:3px;min-width:0}.writer-welcome-words strong{font-size:16px;font-weight:650}
+.writer-welcome-words span{font-size:14px;line-height:1.45;color:var(--writer-muted,var(--jot-ink))}
+body .writer-welcome-close{flex:none;min-width:44px;min-height:44px;font-size:18px;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer}
+.writer-welcome-foot{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:10px}
+body .writer-welcome-link{min-height:44px;padding:0 4px;font:inherit;font-size:14px;border:0;background:transparent;color:var(--writer-ink,var(--jot-ink));text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.writer-welcome-note{margin:6px 0 0;font-size:13px;line-height:1.5;color:var(--writer-muted,var(--jot-ink))}
+html[data-pref-contrast] .writer-welcome :is(.writer-welcome-intro,.writer-welcome-words span,.writer-welcome-note){color:var(--writer-ink,var(--jot-ink))}
+@media screen and (max-width:700px){.writer-welcome{padding:16px;margin-top:4px}body .writer-welcome h2{font-size:20px}}
+@media print{.writer-welcome{display:none!important}}
+html[data-focus] .writer-welcome{display:none}
 /* Material 3 style navigation bar and tool sheet, phones only. */
 .writer-nav{display:none}
 @media screen and (max-width:700px){
@@ -115,19 +141,40 @@ html[data-writer-view=preview]:not([data-focus]) .writer-voice-mic{display:none}
  .writer-nav button:focus-visible{outline:none}.writer-nav button:focus-visible .writer-nav-indicator{outline:2px solid var(--writer-ink,var(--jot-ink));outline-offset:2px}
  /* Header action the bar replaces. */
  .jot-site.jot-writer .writer-file-actions #writerPreviewToggle{display:none}
- /* The tool row becomes a bottom sheet above the bar. */
- html:not([data-focus]) .jot-site.jot-writer .tool-row[data-sheet]:not([hidden]){position:fixed;z-index:18;left:0;right:0;bottom:var(--writer-nav-height);max-height:min(60vh,520px);max-height:min(60dvh,520px);overflow:auto;overscroll-behavior:contain;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin:0;padding:12px 16px 16px;background:var(--writer-bg,var(--jot-paper));border-radius:28px 28px 0 0;border:1px solid var(--writer-border,var(--jot-edge));border-bottom:0;box-shadow:0 -6px 24px #0002}
- html:not([data-focus]) .jot-site.jot-writer .tool-row[data-sheet]:not([hidden])::before{content:"";grid-column:1/-1;justify-self:center;width:32px;height:4px;border-radius:2px;background:var(--writer-muted,var(--jot-edge));margin:-4px 0 6px}
- .jot-site.jot-writer .tool-row[data-sheet]:not([hidden]) :is(.eyebrow,.tool-sep){display:none}
- .jot-site.jot-writer .tool-row[data-sheet]:not([hidden]) button{width:100%;min-height:48px;text-align:left;padding:10px 12px;border-radius:12px;white-space:normal}
- .jot-site.jot-writer .tool-row[data-sheet]:not([hidden]) #writerToolsToggle{grid-column:1/-1;text-align:center;font-weight:600}
  .jot-site.jot-writer #writing{padding-bottom:96px}
  body .writer-nav button{color:var(--writer-muted,var(--jot-ink))}
  body .writer-nav button:is([aria-current=page],[aria-expanded=true]){color:var(--writer-ink,var(--jot-ink))}
- html:has(.tool-row[data-sheet]:not([hidden])):not([data-focus]) .writer-voice-mic{display:none}
- .jot-site.jot-writer .tool-row[data-sheet]:not([hidden]) button:not(#writerToolsToggle){background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 5%,var(--writer-bg,var(--jot-paper)))}
 }
 @media print{.writer-nav{display:none!important}}
+/* Undo and redo beside the brand. */
+.writer-history{display:flex;gap:2px;margin-right:auto}
+body .writer-history button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--writer-ink,var(--jot-ink));cursor:pointer;transition:none}
+body .writer-history button:hover{background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 8%,transparent)}
+.writer-history button:focus-visible{outline:2px solid var(--writer-ink,var(--jot-ink));outline-offset:1px}
+@media print{.writer-history{display:none!important}}
+/* Grouped tool list. */
+.writer-choice-list .writer-choice-group{margin:14px 0 2px;font-size:13px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--writer-muted,var(--jot-ink))}
+.writer-choice-list .writer-choice-group:first-child{margin-top:0}
+@media screen and (max-width:700px){
+ .jot-site.jot-writer .studio-bar{grid-template-columns:auto 1fr}
+ .jot-site.jot-writer .writer-history{grid-column:2;grid-row:1;justify-self:end;margin:0}
+ .jot-site.jot-writer .writer-fonts>span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ /* Formatting strip: one row that scrolls sideways and stays at the top while writing. */
+ .jot-site.jot-writer .writer-format:not([hidden]){position:sticky;top:0;z-index:6;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:6px 16px;background:var(--writer-bg,var(--jot-paper));border-bottom:1px solid var(--writer-border,var(--jot-edge))}
+ .jot-site.jot-writer .writer-format::-webkit-scrollbar{display:none}
+ .jot-site.jot-writer .writer-format:not([hidden]) button{flex:none;min-height:40px;padding:6px 12px;border-radius:20px}
+ .jot-site.jot-writer .writer-format:not([hidden]) label{flex:none;flex-basis:auto;white-space:nowrap}
+ /* A compact document name: the label stays for screen readers, the two save notes share a line. */
+ html body.jot-site.jot-writer .writer-document-heading{flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:10px;padding:8px 0 4px}
+ .jot-site.jot-writer .writer-document-heading .document-name-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ .jot-site.jot-writer .writer-document-heading .document-name-row{flex-basis:100%}
+ .jot-site.jot-writer .writer-document-heading #documentName{font-size:22px;height:44px}
+ #writerCommandsDialog .writer-choice-list button{padding-top:10px;padding-bottom:10px}
+ /* The tool list opens as a bottom sheet. */
+ #writerCommandsDialog{width:100%;max-width:100%;max-height:88dvh;margin:auto 0 0;border:0;border-radius:28px 28px 0 0;padding:12px 16px calc(16px + env(safe-area-inset-bottom))}
+ #writerCommandsDialog .writer-choice-list{max-height:none}
+}
+
 #voiceWriting{width:min(640px,calc(100vw - 24px));max-height:90vh;max-height:90dvh;overflow:auto;box-sizing:border-box;padding:20px}
 #voiceWriting .vw-head{display:flex;align-items:center;justify-content:space-between;gap:12px}#voiceWriting h2{margin:0}
 #voiceWriting .vw-close{min-width:44px;font-size:20px;border:0;background:transparent;color:inherit;cursor:pointer;border-radius:50%}

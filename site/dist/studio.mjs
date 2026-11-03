@@ -1,4 +1,5 @@
 import { setupVoiceWriting } from './voice-writing.mjs';
+import { setupWriterWelcome } from './writer-welcome.mjs';
 import { setupAttachmentViewer, attachmentKind } from './attachment-viewer.mjs';
 import { setupArchiveTools } from './archive-tools.mjs';
 import { setupConnectedSources } from './connected-sources-ui.mjs';
@@ -336,6 +337,7 @@ const browserBridge = {
  lookupAsset:path=>assets.find(a=>a.path===path),assetFromURL:url=>assets.find(a=>assetUrls.get(a.path)===url)
 };
 voiceWriting = setupVoiceWriting({ editor, status, getRevision: () => fileRevision, getIdentity: () => assetKey, addCapture: capture => browserBridge.addCapture(capture) });
+setupWriterWelcome({ editor, openVoice: () => voiceWriting.open(), openMethods: () => $('methodsBtn').click(), openTools: () => $('writerCommandsBtn').click(), addToday: () => $('todayBtn').click(), insertText: text => { const start = editor.selectionStart, end = editor.selectionEnd; editor.focus(); if (editor.jotApplyEdit) editor.jotApplyEdit({ start, end, text }); else if (!document.execCommand('insertText', false, text)) { editor.setRangeText(text, start, end, 'end'); editor.dispatchEvent(new Event('input', { bubbles: true })); } } });
 browserTools=setupBrowserTools(browserBridge);annotations=setupAnnotations(browserBridge);connectedSources=setupConnectedSources(browserBridge);
 archiveTools=setupArchiveTools({...browserBridge,hasSession:()=>!!lockKey,publicAvailable:()=>!!archiveState?.partial,entries:()=>lockWaiting?archiveState?.entries||[]:currentEntries(),async setPrivacy(ids){if(!lockKey)throw Error('Set up a passphrase first.');currentEntries();archiveEntries=archiveEntries.map(entry=>({...entry,private:ids.includes(entry.id),revision:entry.revision+(entry.private!==ids.includes(entry.id)?1:0)}));fileRevision++;dirty=true;return save();},async search(criteria){if(lockWaiting)return searchArchive(archiveState,criteria);await save();const state=archiveState&&archiveState.source===editor.value?archiveState:{entries:currentEntries(),index:null,indexBytes:null};return searchArchive(state,criteria);}});
 const writerWorkspace = setupWriterWorkspace({ editor, status, showPreview: () => {

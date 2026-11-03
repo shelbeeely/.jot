@@ -9,7 +9,7 @@ export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdenti
   const MIC='<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 15a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 15Zm6.5-3.5a.75.75 0 0 0-1.5 0 5 5 0 0 1-10 0 .75.75 0 0 0-1.5 0 6.5 6.5 0 0 0 5.75 6.46V20.5H8.5a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-2.75v-2.54a6.5 6.5 0 0 0 5.75-6.46Z"/></svg>';
   const button=doc.createElement('button');button.id='writerVoiceWritingBtn';button.type='button';button.className='quiet';button.textContent='Voice typing';doc.querySelector('.tool-row')?.append(button);
   // Always-visible entry point, including on phones where the tool row is collapsed.
-  const fab=doc.createElement('button');fab.id='writerVoiceMic';fab.type='button';fab.className='writer-voice-mic';fab.setAttribute('aria-label','Voice typing');fab.title='Voice typing';fab.innerHTML=MIC;(doc.querySelector('.writing-pane')||doc.body).append(fab);
+  const fab=doc.createElement('button');fab.id='writerVoiceMic';fab.type='button';fab.className='writer-voice-mic';fab.setAttribute('aria-label','Speak (voice typing)');fab.title='Speak (voice typing)';fab.innerHTML=MIC+'<span class="writer-voice-mic-label">Speak</span>';(doc.querySelector('.writing-pane')||doc.body).append(fab);
   const viewport=win.visualViewport;if(viewport){const place=()=>{fab.style.setProperty('--vw-keyboard',Math.max(0,Math.round(win.innerHeight-viewport.height-viewport.offsetTop))+'px');};viewport.addEventListener('resize',place);viewport.addEventListener('scroll',place);place();}
   const dialog=doc.createElement('dialog');dialog.id='voiceWriting';dialog.setAttribute('aria-labelledby','voiceWritingTitle');
   // Static markup only. Audio, model output and filenames never enter innerHTML.
@@ -162,5 +162,5 @@ export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdenti
       }else{reset();editor.focus();editor.setSelectionRange(change.start,change.end);if(editor.jotApplyEdit)editor.jotApplyEdit({start:change.start,end:change.end,text});else if(!doc.execCommand('insertText',false,text)){editor.setRangeText(text,change.start,change.end,'end');editor.dispatchEvent(new Event('input',{bubbles:true}));}status('Inserted reviewed voice writing. Undo removes this change.');}}catch(e){if(dialog.open){state='review';controls();message(e.message);}}
   };
   editor.addEventListener('input',()=>{if(dialog.open&&!current())reset();});win.addEventListener('pagehide',reset);doc.addEventListener('visibilitychange',()=>{if(doc.hidden&&['starting','listening'].includes(state)){if(state==='listening')finish().catch(e=>failCapture(e,generation));else reset();}});
-  $('vwProvider').onchange();controls();return {reset};
+  $('vwProvider').onchange();controls();return {reset,open};
 }

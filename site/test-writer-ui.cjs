@@ -225,14 +225,14 @@ const server = http.createServer((req, res) => {
     assert.ok(mobileName.y < 200 && mobileWriting.y >= mobileName.y + mobileName.height && mobileWriting.y < 360, 'writing follows the editable document name on mobile');
     assert.ok(await phone.isVisible('#writerCommandsBtn'));
     assert.equal(await phone.isVisible('.tool-row'), false, 'secondary tools collapse by default');
-    assert.equal(await phone.isVisible('.writer-format'), false, 'formatting controls collapse by default');
+    assert.ok(await phone.isVisible('.writer-format'), 'on a phone the formatting strip starts visible');
     assert.equal(await phone.isVisible('.format-tools'), false, 'color tools collapse by default');
     await command('Journal tools', phone); assert.ok(await phone.isVisible('#voiceBtn'));
     await phone.click('#writerToolsToggle'); assert.equal(await phone.isVisible('.tool-row'), false);
-    await command('Formatting controls', phone);
     await phone.click('#writerColorsToggle'); assert.ok(await phone.isVisible('.format-tools'));
     await phone.click('#writerColorsToggle');
-    await command('Formatting controls', phone);
+    await command('Formatting controls', phone); assert.equal(await phone.isVisible('.writer-format'), false, 'the strip can be hidden');
+    await command('Formatting controls', phone); assert.ok(await phone.isVisible('.writer-format'));
     await command('Page preview', phone); assert.ok(await phone.isVisible('.preview-pane'));
     await command('Write only', phone); assert.ok(await phone.isVisible('#writing'));
     await phone.fill('#writing', 'Mobile words.');

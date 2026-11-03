@@ -13,6 +13,16 @@ export function outlineItems(source) {
   });
 }
 
+const TOOL_GROUPS = [
+  ['Start writing', ['Today', 'Quick note', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
+  ['Find your way', ['Find and replace', 'Outline', 'Page preview', 'Write only', 'Side by side', 'Focus mode']],
+  ['Add to an entry', ['Insert current time', 'Capture location', 'Attach a file', 'People and Places', 'Music and background media', 'Voice practice', 'Carry tasks forward', 'Week review', 'Annotate page', 'Connected sources', 'Import health data', 'Import numbers CSV', 'Entry timezone']],
+  ['Save, open and share', ['Save', 'Save as', 'Open a journal', 'New journal', 'Download journal', 'Print or PDF', 'Download page', 'Export Markdown', 'Export Jot source', 'Export calendar', 'Export numbers', 'Export tasks', 'Open imported file', 'Attached files', 'Rename document']],
+  ['Privacy', ['Journal lock and ways in', 'Entries, privacy and search', 'Offline, sharing and nearby transfer']],
+  ['Look and feel', ['Writing preferences', 'Live editing', 'Source editing', 'Formatting controls', 'Writing options', 'Journal tools', 'Music player', 'Copy palette CSS', 'Copy palette JSON']],
+  ['Formatting', ['Bold', 'Italic', 'Heading', 'Jot task', 'Bullet list', 'Numbered list', 'Quote', 'Link', 'Inline code', 'Indent', 'Outdent']],
+];
+
 export function setupWriterWorkspace({ editor, status, showPreview }) {
   const doc = editor.ownerDocument, win = doc.defaultView, root = doc.documentElement, $ = id => doc.getElementById(id);
   const tools = setupWritingTools({ editor, status }), search = setupWriterSearch({ editor, status }), templates = setupWriterTemplates({ editor, status });
@@ -56,8 +66,6 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     $('writerToolsToggle').textContent = toolsExpanded ? 'Close journal tools' : 'Journal tools';
     doc.querySelector('.format-tools').hidden = !colorsExpanded || doc.querySelector('.writer-format').hidden;
     $('writerColorsToggle').setAttribute('aria-expanded', String(colorsExpanded));
-    if (!toolsExpanded) delete row.dataset.sheet;
-    doc.querySelector('.writer-nav [data-nav="tools"]')?.setAttribute('aria-expanded', String(toolsExpanded && 'sheet' in row.dataset));
   }
   $('writerToolsToggle').onclick = () => { toolsExpanded = !toolsExpanded; disclosures(); };
   $('writerColorsToggle').onclick = () => { colorsExpanded = !colorsExpanded; disclosures(); };
@@ -67,7 +75,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   bottomNavigation();
   view('write'); disclosures();
 
-  // Phones get a Material 3 style navigation bar; the tool row opens above it as a bottom sheet.
+  // Phones get a Material 3 style navigation bar; Tools opens the grouped tool list as a bottom sheet.
   function bottomNavigation() {
     const phone = win.matchMedia('(max-width: 700px)');
     const nav = doc.createElement('nav');
@@ -77,7 +85,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
       ['write', 'Write', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>', () => selectView('write')],
       ['preview', 'Preview', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>', () => selectView('preview')],
       ['find', 'Find', '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>', () => $('writerFindBtn').click()],
-      ['tools', 'More', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>', () => { const sheet = doc.querySelector('.tool-row'); if (toolsExpanded && 'sheet' in sheet.dataset) toolsExpanded = false; else { sheet.dataset.sheet = ''; toolsExpanded = true; } disclosures(); if (toolsExpanded) sheet.querySelector('button:not([hidden])')?.focus(); }],
+      ['tools', 'Tools', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>', () => $('writerCommandsBtn').click()],
     ];
     for (const [name, label, path, run] of items) {
       const item = doc.createElement('button');
@@ -85,25 +93,42 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
       // Icons are static markup; the label is text.
       item.innerHTML = '<span class="writer-nav-indicator">' + shape(path) + '</span>';
       const text = doc.createElement('span'); text.className = 'writer-nav-label'; text.textContent = label; item.append(text);
-      if (name === 'tools') item.setAttribute('aria-controls', 'writerToolSheet');
+      if (name === 'tools') item.setAttribute('aria-haspopup', 'dialog');
       item.onclick = run; nav.append(item);
     }
     (doc.querySelector('.studio-workspace') || doc.body).append(nav);
-    const row = doc.querySelector('.tool-row');
-    row.id ||= 'writerToolSheet';
-    // A tool chosen from the sheet closes it, so the dialog or writing it opens is not covered.
-    row.addEventListener('click', event => {
-      const button = event.target.closest('button');
-      if (phone.matches && button && button.id !== 'writerToolsToggle' && 'sheet' in row.dataset) { toolsExpanded = false; disclosures(); }
-    });
-    const sheetOpen = () => phone.matches && toolsExpanded && 'sheet' in row.dataset;
-    // Like a modal bottom sheet: a tap outside it, or Escape, closes it.
-    doc.addEventListener('pointerdown', event => {
-      if (sheetOpen() && !row.contains(event.target) && !nav.contains(event.target)) { toolsExpanded = false; disclosures(); }
-    });
-    doc.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && sheetOpen() && !doc.querySelector('dialog[open]')) { toolsExpanded = false; disclosures(); doc.querySelector('.writer-nav [data-nav="tools"]').focus(); }
-    });
+    historyButtons();
+    formattingStrip(phone);
+  }
+
+  // Undo and redo, always in view: in live editing they use its own history, in source editing the browser's.
+  function historyButtons() {
+    const bar = doc.querySelector('.studio-bar');
+    if (!bar || $('writerUndo')) return;
+    const group = element('div', undefined, { class: 'writer-history', role: 'group', 'aria-label': 'Undo and redo' });
+    const make = (id, label, keys, path, redo) => {
+      const button = element('button', undefined, { id, type: 'button', 'aria-label': label, title: label + ' (' + keys + ')', 'aria-keyshortcuts': keys });
+      button.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>';
+      // Keep the caret where it is: the button must not take focus from the writing.
+      button.addEventListener('pointerdown', event => event.preventDefault());
+      button.onclick = () => {
+        showWriting();
+        if (editor.jotUndo) editor.jotUndo(redo);
+        else { editor.focus(); doc.execCommand(redo ? 'redo' : 'undo'); }
+      };
+      group.append(button);
+    };
+    make('writerUndo', 'Undo', 'Control+Z Meta+Z', '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>', false);
+    make('writerRedo', 'Redo', 'Control+Shift+Z Meta+Shift+Z', '<path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>', true);
+    bar.querySelector('.writer-brand')?.after(group);
+  }
+
+  // On phones the formatting buttons start visible, as a strip that scrolls sideways above the writing.
+  function formattingStrip(phone) {
+    const panel = doc.querySelector('.writer-format');
+    if (!panel) return;
+    for (const button of panel.querySelectorAll('button')) button.addEventListener('pointerdown', event => event.preventDefault());
+    if (phone.matches) { panel.hidden = false; disclosures(); }
   }
 
   function element(tag, text, attributes = {}) {
@@ -148,7 +173,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     };
   }
 
-  const commands = chooser('writerCommands', 'Tools', 'Find a writing tool, journal action or setting.', 'Find a tool');
+  const commands = chooser('writerCommands', 'Tools', 'Everything Writer can do, in groups. Type to search.', 'Search tools');
   const formatting = [
     ['Bold', 'bold', 'Control+B · Command+B'], ['Italic', 'italic', 'Control+I · Command+I'], ['Inline code', 'code'],
     ['Link', 'link'], ['Heading', 'heading'], ['Bullet list', 'bullet'], ['Numbered list', 'number'],
@@ -159,7 +184,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['writerSourcesBtn', 'Connected sources', 'Look up and review weather; no journal prose sent'],
     ['writerBrowserBtn', 'Offline, sharing and nearby transfer', 'Install, protect storage, share, review incoming items and pair devices'],
     ['writerAnnotateBtn', 'Annotate page', 'Write over a frozen page copy and keep editable strokes'],
-    ['writerVoiceWritingBtn', 'Voice typing', 'Dictate on this device (voice writing): live Whistle transcription, Needle organization and required prose cleanup'],
+    ['writerVoiceWritingBtn', 'Voice typing', 'Speak an entry. It is transcribed and tidied on this device, then you check it (voice writing)'],
     ['writerAIBtn', 'AI companion', 'Optional BYOK drafts and suggestions; OpenRouter or local models'],
     ['lockBtn', 'Journal lock and ways in', 'Encrypt this journal or manage its unlock methods'],
     ['saveDevice', 'Save', 'Save directly to the connected device file'], ['saveDeviceAs', 'Save as', 'Choose a new device file'], ['openImportedBtn', 'Open imported file', 'Use the browser file input without connecting a device file'],
@@ -202,11 +227,22 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     const rank = item => { const label = item.label.toLocaleLowerCase(); return label === query ? 0 : label.startsWith(query) ? 1 : 2; };
     const matches = allCommands.filter(item => terms.every(term => (item.label + ' ' + detailOf(item)).toLocaleLowerCase().includes(term))).sort((a, b) => rank(a) - rank(b));
     commands.list.replaceChildren(); commands.count.textContent = matches.length + (matches.length === 1 ? ' command' : ' commands');
-    for (const item of matches) {
+    const add = item => {
       const button = element('button', undefined, { type: 'button' });
       button.append(element('strong', item.label), element('span', detailOf(item)));
       button.onclick = () => commands.choose(item.run); commands.list.append(button);
+    };
+    if (query) { for (const item of matches) add(item); return; }
+    // Browsing: the same tools, grouped by what they help with, most useful first.
+    const placed = new Set();
+    for (const [title, labels] of TOOL_GROUPS) {
+      const items = labels.map(label => matches.find(item => item.label === label)).filter(Boolean);
+      if (!items.length) continue;
+      commands.list.append(element('h3', title, { class: 'writer-choice-group' }));
+      for (const item of items) { add(item); placed.add(item); }
     }
+    const rest = matches.filter(item => !placed.has(item));
+    if (rest.length) { commands.list.append(element('h3', 'Everything else', { class: 'writer-choice-group' })); for (const item of rest) add(item); }
   }
   commands.input.oninput = renderCommands;
   $('writerCommandsBtn').onclick = () => { commands.open(); renderCommands(); };
