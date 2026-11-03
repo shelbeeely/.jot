@@ -83,6 +83,28 @@ function combine(source, start, end, changes) {
   return edit(from, to, text, mappedPosition(start, changes), mappedPosition(end, changes));
 }
 
+// Removes inline formatting marks inside the selection (and marks wrapped directly around it); the words stay.
+const WRAPS = ['**', '__', '~~', '==', '++', '*', '_', '^', '`'];
+function clearEdit(source, start, end) {
+  if (start === end) return null;
+  let from = start, to = end, grew = true;
+  while (grew) {
+    grew = false;
+    for (const mark of WRAPS) if (source.slice(from - mark.length, from) === mark && source.slice(to, to + mark.length) === mark) { from -= mark.length; to += mark.length; grew = true; break; }
+  }
+  const selected = source.slice(from, to);
+  const text = selected
+    .replace(/\[([^\]\r\n]*)\]\{(?:(?:ink|highlight|strike|underline)=#[0-9a-fA-F]{6}[ ]?)+\}/g, '$1')
+    .replace(/(\*\*|~~|==|\+\+)(?=\S)([^\r\n]*?\S)\1/g, '$2')
+    .replace(/(^|[^\w])__(?=\S)([^\r\n]*?\S)__(?!\w)/g, '$1$2')
+    .replace(/\*(?=[^\s*])([^*\r\n]*?[^\s*])\*/g, '$1')
+    .replace(/(^|[^\w])_(?=[^\s_])([^_\r\n]*?[^\s_])_(?!\w)/g, '$1$2')
+    .replace(/\^([^\s^[\]]+)\^/g, '$1')
+    .replace(/`([^`\r\n]+)`/g, '$1')
+    .replace(/^(\*\*|__|~~|==|\+\+|\*|_|\^|`)([\s\S]*)\1$/, '$2');
+  return text === selected ? null : edit(from, to, text, from, from + text.length);
+}
+
 /** A minimal replacement plus absolute final selection; null means no change. */
 export function writingEdit(source, start, end, action) {
   [start, end] = bounds(source, start, end);
@@ -103,6 +125,17 @@ export function writingEdit(source, start, end, action) {
     const pad = selected.startsWith('`') || selected.endsWith('`') || (/^ .* $/.test(selected) && selected.trim()) ? ' ' : '';
     return edit(start, end, marker + pad + selected + pad + marker, start + marker.length + pad.length, end + marker.length + pad.length);
   }
+  // Jot's fuller formatting (specification 4.2.1): underline ++, highlight ==, superscript ^word^, GFM strikethrough ~~.
+  if (action === 'underline') return inlineEdit(source, start, end, '++');
+  if (action === 'highlight') return inlineEdit(source, start, end, '==');
+  if (action === 'strike') return inlineEdit(source, start, end, '~~');
+  if (action === 'superscript') {
+    const selected = source.slice(start, end);
+    // Superscript is one word: no whitespace, carets or brackets.
+    if (!selected || /[\s^[\]]/.test(selected.replace(/^\^(.*)\^$/, '$1'))) return null;
+    return inlineEdit(source, start, end, '^');
+  }
+  if (action === 'clear') return clearEdit(source, start, end);
   if (action === 'link') {
     const selected = source.slice(start, end);
     if (/[\r\n]/.test(selected)) return null;
@@ -115,6 +148,21 @@ export function writingEdit(source, start, end, action) {
     for (const line of lines) {
       if (action === 'indent') changes.push(edit(line.start, line.start, '  '));
       else { const match = /^(?: {1,2}|\t)/.exec(line.text); if (match) changes.push(edit(line.start, line.start + match[0].length, '')); }
+    }
+    return combine(source, start, end, changes);
+  }
+  if (action === 'center' || action === 'left' || action === 'paragraph') {
+    // A centred line is "-> text <-" alone on its line; "paragraph" also drops heading marks.
+    const centred = /^([ \t]*)->[ \t]*(.*?)[ \t]*<-[ \t]*$/;
+    const nonempty = lines.filter(line => line.text.trim());
+    const allCentred = nonempty.length > 0 && nonempty.every(line => centred.test(line.text));
+    for (const line of nonempty) {
+      let text = line.text;
+      if (action === 'paragraph') text = text.replace(/^([ \t]*)#{1,6}[ \t]+/, '$1');
+      const match = centred.exec(text);
+      if (match && (action !== 'center' || allCentred)) text = match[1] + match[2];
+      else if (!match && action === 'center') text = text.replace(/^([ \t]*)(.*?)[ \t]*$/, '$1-> $2 <-');
+      if (text !== line.text) changes.push(edit(line.start, line.start + line.text.length, text));
     }
     return combine(source, start, end, changes);
   }
@@ -183,6 +231,11 @@ export function setupWritingTools({ editor, status = () => {} }) {
       status('Select text on one line to add a link.'); return false;
     }
     const replacement = writingEdit(editor.value, editor.selectionStart, editor.selectionEnd, action);
+    if (!replacement) {
+      if (action === 'superscript') status('Select one word, with no spaces, to make it superscript.');
+      else if (action === 'clear') status('Select formatted words to clear their formatting.');
+      return false;
+    }
     if (!applyWritingEdit(editor, replacement)) return false;
     status('Applied ' + action.replace(/heading[1-6]/, 'heading') + '. Undo restores the previous writing.');
     return true;

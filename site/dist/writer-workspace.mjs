@@ -15,6 +15,64 @@ export function outlineItems(source) {
 
 const GRID = '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>';
 
+// Keyboard shortcuts. Ctrl means Command on a Mac. Browsers keep some keys for themselves (new window, close tab,
+// switch tab), so those actions also have a Ctrl+Alt form that works everywhere.
+export const SHORTCUTS = [
+  { group: 'Files', keys: ['Ctrl+Alt+N', 'Ctrl+N'], label: 'New journal', target: 'newBtn', scope: 'any', note: 'Ctrl+N works where the browser allows it, such as the desktop app' },
+  { group: 'Files', keys: ['Ctrl+O'], label: 'Open a journal', target: 'openBtn', scope: 'any' },
+  { group: 'Files', keys: ['Ctrl+S'], label: 'Save', builtin: true },
+  { group: 'Files', keys: ['Ctrl+P'], label: 'Print or PDF', target: 'printBtn', scope: 'any' },
+  { group: 'Find and tools', keys: ['Ctrl+K'], label: 'Search all tools', builtin: true },
+  { group: 'Find and tools', keys: ['Ctrl+/'], label: 'Keyboard shortcuts', run: 'shortcuts', scope: 'any' },
+  { group: 'Find and tools', keys: ['Ctrl+F'], label: 'Find', builtin: true },
+  { group: 'Find and tools', keys: ['Ctrl+H'], label: 'Find and replace', run: 'replace', scope: 'any' },
+  { group: 'Editing', keys: ['Ctrl+Z'], label: 'Undo', builtin: true },
+  { group: 'Editing', keys: ['Ctrl+Y', 'Ctrl+Shift+Z'], label: 'Redo', run: 'redo', scope: 'edit' },
+  { group: 'Editing', keys: ['Ctrl+A'], label: 'Select all', builtin: true },
+  { group: 'Editing', keys: ['Ctrl+C', 'Ctrl+X', 'Ctrl+V'], label: 'Copy, cut and paste', builtin: true },
+  { group: 'Editing', keys: ['Ctrl+Shift+V'], label: 'Paste as plain text', builtin: true, note: 'Live editing always pastes plain text' },
+  { group: 'Formatting', keys: ['Ctrl+B'], label: 'Bold', builtin: true, action: 'bold' },
+  { group: 'Formatting', keys: ['Ctrl+I'], label: 'Italic', builtin: true, action: 'italic' },
+  { group: 'Formatting', keys: ['Ctrl+U'], label: 'Underline', action: 'underline', scope: 'edit' },
+  { group: 'Formatting', keys: ['Ctrl+Shift+H'], label: 'Highlight', action: 'highlight', scope: 'edit' },
+  { group: 'Formatting', keys: ['Ctrl+Shift+X'], label: 'Strikethrough', action: 'strike', scope: 'edit' },
+  { group: 'Formatting', keys: ['Ctrl+Shift+P', 'Ctrl+.'], label: 'Superscript', action: 'superscript', scope: 'edit', note: 'One word at a time' },
+  { group: 'Formatting', keys: ['Ctrl+Shift+Space', 'Ctrl+\\'], label: 'Clear formatting', action: 'clear', scope: 'edit' },
+  { group: 'Formatting', keys: ['Ctrl+Shift+K'], label: 'Link', action: 'link', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Alt+0', 'Ctrl+0'], label: 'Normal text', action: 'paragraph', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Alt+1', 'Ctrl+1'], label: 'Heading 1', action: 'heading1', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Alt+2', 'Ctrl+2'], label: 'Heading 2', action: 'heading2', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Alt+3', 'Ctrl+3'], label: 'Heading 3', action: 'heading3', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+E'], label: 'Center the line', action: 'center', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+L'], label: 'Align left (remove centering)', action: 'left', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Shift+7'], label: 'Numbered list', action: 'number', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Shift+8'], label: 'Bulleted list', action: 'bullet', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Shift+9'], label: 'Task', action: 'task', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Shift+.'], label: 'Quote', action: 'quote', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+]'], label: 'Indent', action: 'indent', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+['], label: 'Outdent', action: 'outdent', scope: 'edit' },
+];
+// Familiar from word processors, but not part of a plain-text journal, or kept by the browser.
+export const UNAVAILABLE_SHORTCUTS = [
+  ['Ctrl+D', 'Double underline', 'Jot has one underline, ++like this++.'],
+  ['Ctrl+Shift+B', 'Subscript', 'Not in the Jot format yet; its syntax is still being settled.'],
+  ['Ctrl+R, Ctrl+J', 'Align right or justify', 'Journal pages are left-aligned; a centred line is the one alternative.'],
+  ['Ctrl+W, Ctrl+F4, Ctrl+Q', 'Close or quit', 'The browser or the desktop app window handles these. Writing is saved in the browser as you go.'],
+];
+const IS_MAC = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || '');
+export function keyLabel(combo, mac = IS_MAC) {
+  if (!mac) return combo;
+  return combo.split('+').map(part => ({ Ctrl: '⌘', Shift: '⇧', Alt: '⌥', Space: 'Space' }[part] || part)).join('');
+}
+// "Ctrl+Shift+7" -> a matcher on a keydown event. Digits and Space use the physical key so Shift and Alt layouts still match.
+export function shortcutMatcher(combo) {
+  const parts = combo.split('+'), key = parts.at(-1), shift = parts.includes('Shift'), alt = parts.includes('Alt');
+  const codes = { Space: 'Space', '.': 'Period', '/': 'Slash', '\\': 'Backslash', '[': 'BracketLeft', ']': 'BracketRight' };
+  const code = /^\d$/.test(key) ? 'Digit' + key : codes[key] || (/^[A-Z]$/.test(key) ? 'Key' + key : null);
+  return event => (event.ctrlKey || event.metaKey) && event.shiftKey === shift && event.altKey === alt
+    && (event.key.toLowerCase() === key.toLowerCase() || (code && event.code === code));
+}
+
 const TOOL_GROUPS = [
   ['Start writing', ['Today', 'Quick note', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
   ['Find your way', ['Find and replace', 'Outline', 'Page preview', 'Write only', 'Side by side', 'Focus mode']],
@@ -22,7 +80,8 @@ const TOOL_GROUPS = [
   ['Save, open and share', ['Save', 'Save as', 'Open a journal', 'New journal', 'Download journal', 'Print or PDF', 'Download page', 'Export Markdown', 'Export Jot source', 'Export calendar', 'Export numbers', 'Export tasks', 'Open imported file', 'Attached files', 'Rename document']],
   ['Privacy', ['Journal lock and ways in', 'Entries, privacy and search', 'Offline, sharing and nearby transfer']],
   ['Look and feel', ['Writing preferences', 'Live editing', 'Source editing', 'Formatting controls', 'Writing options', 'Journal tools', 'Music player', 'Copy palette CSS', 'Copy palette JSON']],
-  ['Formatting', ['Bold', 'Italic', 'Heading', 'Jot task', 'Bullet list', 'Numbered list', 'Quote', 'Link', 'Inline code', 'Indent', 'Outdent']],
+  ['Formatting', ['Bold', 'Italic', 'Underline', 'Highlight', 'Strikethrough', 'Superscript', 'Clear formatting', 'Heading', 'Heading 1', 'Heading 2', 'Heading 3', 'Normal text', 'Center the line', 'Jot task', 'Bullet list', 'Numbered list', 'Quote', 'Link', 'Inline code', 'Indent', 'Outdent']],
+  ['Help', ['Keyboard shortcuts']],
 ];
 
 export function setupWriterWorkspace({ editor, status, showPreview }) {
@@ -170,7 +229,9 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
       menu.append(entry); return entry;
     };
     const format = action => () => { showWriting(); tools.run(action); };
-    for (const [label, action, hint] of [['Bold', 'bold', 'Ctrl/⌘ B'], ['Italic', 'italic', 'Ctrl/⌘ I'], ['Heading', 'heading'], ['Task', 'task', '[ ]'], ['Bulleted list', 'bullet'], ['Numbered list', 'number'], ['Quote', 'quote'], ['Link', 'link'], ['Code', 'code'], ['Indent', 'indent'], ['Outdent', 'outdent']]) item(label, hint, format(action));
+    const hint = action => { const shortcut = SHORTCUTS.find(entry => entry.action === action); return shortcut ? keyLabel(shortcut.keys[0]) : ''; };
+    for (const [label, action] of [['Bold', 'bold'], ['Italic', 'italic'], ['Underline', 'underline'], ['Highlight', 'highlight'], ['Strikethrough', 'strike'], ['Superscript', 'superscript'], ['Heading 1', 'heading1'], ['Heading 2', 'heading2'], ['Heading 3', 'heading3'], ['Normal text', 'paragraph'], ['Center the line', 'center'], ['Task', 'task'], ['Bulleted list', 'bullet'], ['Numbered list', 'number'], ['Quote', 'quote'], ['Link', 'link'], ['Code', 'code'], ['Indent', 'indent'], ['Outdent', 'outdent'], ['Clear formatting', 'clear']]) item(label, hint(action), format(action));
+    item('Keyboard shortcuts…', keyLabel('Ctrl+/'), () => openShortcuts());
     item('Colors and highlights…', '', () => { showWriting(); const panel = doc.querySelector('.writer-format'); panel.hidden = false; colorsExpanded = true; disclosures(); panel.scrollIntoView({ block: 'nearest' }); });
     menu.append(element('div', undefined, { role: 'separator', class: 'writer-menu-divider' }));
     menu.append(element('p', 'Writing font (this browser only)', { class: 'writer-menu-heading', 'aria-hidden': 'true' }));
@@ -264,7 +325,9 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['Bold', 'bold', 'Control+B · Command+B'], ['Italic', 'italic', 'Control+I · Command+I'], ['Inline code', 'code'],
     ['Link', 'link'], ['Heading', 'heading'], ['Bullet list', 'bullet'], ['Numbered list', 'number'],
     ['Jot task', 'task'], ['Quote', 'quote'], ['Indent', 'indent'], ['Outdent', 'outdent'],
-  ].map(([label, action, hint]) => ({ label, detail: hint || 'Format writing', run: () => { showWriting(); tools.run(action); } }));
+    ['Underline', 'underline'], ['Highlight', 'highlight'], ['Strikethrough', 'strike'], ['Superscript', 'superscript'], ['Clear formatting', 'clear'],
+    ['Heading 1', 'heading1'], ['Heading 2', 'heading2'], ['Heading 3', 'heading3'], ['Normal text', 'paragraph'], ['Center the line', 'center'],
+  ].map(([label, action]) => ({ label, detail: 'Format writing', run: () => { showWriting(); tools.run(action); } }));
   const targets = [
     ['writerArchiveBtn', 'Entries, privacy and search', 'Choose protected entries and search the local archive'],
     ['writerSourcesBtn', 'Connected sources', 'Look up and review weather; no journal prose sent'],
@@ -307,15 +370,84 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ...[...doc.querySelectorAll('.resource-links a')].map(link => ({ label: link.textContent.replace(/\s*[↗↓]\s*$/, ''), detail: 'Reference and downloads', run: () => link.click() })),
   ];
   const allCommands = [...formatting, { label: 'Entry templates', detail: 'Review daily, weekly, monthly, meeting or freewriting prompts', run: () => { showWriting(); templates.open(); } }, ...panels, ...targets];
+  allCommands.push({ label: 'Keyboard shortcuts', detail: 'Every shortcut, searchable (Ctrl/⌘ /)', run: () => openShortcuts() });
+  // Show each command's shortcut beside it, and let a search for "ctrl b" find it.
+  const aliases = { 'Bullet list': 'Bulleted list', 'Jot task': 'Task', 'Find and replace': 'Find and replace' };
+  const ariaKeys = combos => combos.flatMap(combo => { const aria = combo.replace('Ctrl', 'Control').replace('Space', 'Space'); return [aria, aria.replace('Control', 'Meta')]; }).join(' ');
+  for (const item of allCommands) {
+    const shortcut = SHORTCUTS.find(entry => entry.label === (aliases[item.label] || item.label));
+    if (shortcut) { item.keys = keyLabel(shortcut.keys[0]); item.ariaKeys = ariaKeys(shortcut.keys); }
+  }
+
+  // A searchable list of every shortcut, opened with Ctrl/⌘ / or from Tools.
+  const shortcutsDialog = element('dialog', undefined, { id: 'writerShortcutsDialog', class: 'writer-dialog writer-shortcuts', 'aria-labelledby': 'writerShortcutsHeading' });
+  {
+    const header = element('div', undefined, { class: 'dialog-header' });
+    const close = element('button', 'Close', { type: 'button', class: 'button', 'aria-label': 'Close keyboard shortcuts' });
+    close.onclick = () => shortcutsDialog.close();
+    header.append(element('h2', 'Keyboard shortcuts', { id: 'writerShortcutsHeading' }), close);
+    const search = element('input', undefined, { id: 'writerShortcutsSearch', type: 'search', placeholder: 'Search shortcuts', 'aria-label': 'Search shortcuts', autocomplete: 'off' });
+    const body = element('div', undefined, { id: 'writerShortcutsList' });
+    shortcutsDialog.append(header, element('p', (IS_MAC ? '⌘ is Command, ⌥ Option, ⇧ Shift. ' : '') + 'Ctrl/⌘ K searches every tool, with or without a shortcut.', { class: 'small' }), search, body);
+    const render = () => {
+      const terms = search.value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+      const hit = text => terms.every(term => text.toLocaleLowerCase().includes(term));
+      body.replaceChildren();
+      const groups = [...new Set(SHORTCUTS.map(entry => entry.group))];
+      for (const group of groups) {
+        const rows = SHORTCUTS.filter(entry => entry.group === group && hit(entry.label + ' ' + entry.keys.join(' ') + ' ' + entry.keys.map(k => keyLabel(k)).join(' ') + ' ' + group));
+        if (!rows.length) continue;
+        body.append(element('h3', group, { class: 'writer-choice-group' }));
+        const list = element('dl', undefined, { class: 'writer-shortcut-list' });
+        for (const entry of rows) {
+          const keys = element('dd');
+          entry.keys.forEach((combo, index) => { if (index) keys.append(' or '); keys.append(element('kbd', keyLabel(combo))); });
+          list.append(element('dt', entry.label + (entry.note ? ' · ' + entry.note : '')), keys);
+        }
+        body.append(list);
+      }
+      const missing = UNAVAILABLE_SHORTCUTS.filter(([keys, label, why]) => hit(keys + ' ' + label + ' ' + why));
+      if (missing.length) {
+        body.append(element('h3', 'Not in Writer', { class: 'writer-choice-group' }));
+        const list = element('dl', undefined, { class: 'writer-shortcut-list' });
+        for (const [keys, label, why] of missing) list.append(element('dt', label + ' · ' + why), element('dd', keyLabel(keys)));
+        body.append(list);
+      }
+      if (!body.childNodes.length) body.append(element('p', 'No shortcut matches. Try Ctrl/⌘ K to search every tool.', { class: 'small' }));
+    };
+    search.oninput = render;
+    shortcutsDialog.jotRender = render;
+    doc.body.append(shortcutsDialog);
+  }
+  function openShortcuts() { if (shortcutsDialog.open) return; shortcutsDialog.querySelector('input').value = ''; shortcutsDialog.jotRender(); shortcutsDialog.showModal(); shortcutsDialog.querySelector('input').focus(); }
+
+  // The shortcut handler runs after the editors' own handlers (bold, italic, undo, find), which mark events they used.
+  const matchers = SHORTCUTS.filter(entry => !entry.builtin).map(entry => ({ entry, tests: entry.keys.map(shortcutMatcher) }));
+  const inWriting = target => target === editor || !!target?.closest?.('#liveWriting');
+  doc.addEventListener('keydown', event => {
+    if (event.defaultPrevented || event.isComposing || !(event.ctrlKey || event.metaKey)) return;
+    const found = matchers.find(({ tests }) => tests.some(test => test(event)));
+    if (!found) return;
+    const { entry } = found;
+    if (entry.scope === 'edit' && !inWriting(event.target)) return;
+    if (entry.scope === 'any' && doc.querySelector('dialog[open]') && !(entry.run === 'shortcuts' && shortcutsDialog.open)) return;
+    event.preventDefault();
+    if (entry.action) { showWriting(); tools.run(entry.action); }
+    else if (entry.target) $(entry.target)?.click();
+    else if (entry.run === 'shortcuts') { if (shortcutsDialog.open) shortcutsDialog.close(); else openShortcuts(); }
+    else if (entry.run === 'replace') { showWriting(); search.open(); const find = $('writerSearchQuery'); (find?.value ? $('writerSearchReplacement') : find)?.focus(); }
+    else if (entry.run === 'redo') { if (editor.jotUndo) editor.jotUndo(true); else { editor.focus(); doc.execCommand('redo'); } }
+  });
   const detailOf = item => typeof item.detail === 'function' ? item.detail() : item.detail;
   function renderCommands() {
     const query = commands.input.value.trim().toLocaleLowerCase(), terms = query.split(/\s+/).filter(Boolean);
     const rank = item => { const label = item.label.toLocaleLowerCase(); return label === query ? 0 : label.startsWith(query) ? 1 : 2; };
-    const matches = allCommands.filter(item => terms.every(term => (item.label + ' ' + detailOf(item)).toLocaleLowerCase().includes(term))).sort((a, b) => rank(a) - rank(b));
+    const matches = allCommands.filter(item => terms.every(term => (item.label + ' ' + detailOf(item) + ' ' + (item.keys || '')).toLocaleLowerCase().includes(term))).sort((a, b) => rank(a) - rank(b));
     commands.list.replaceChildren(); commands.count.textContent = matches.length + (matches.length === 1 ? ' command' : ' commands');
     const add = item => {
       const button = element('button', undefined, { type: 'button' });
       button.append(element('strong', item.label), element('span', detailOf(item)));
+      if (item.keys) { const kbd = element('kbd', item.keys, { class: 'writer-choice-keys' }); button.querySelector('span').append(' ', kbd); button.setAttribute('aria-keyshortcuts', item.ariaKeys); }
       button.onclick = () => commands.choose(item.run); commands.list.append(button);
     };
     if (query) { for (const item of matches) add(item); return; }
@@ -334,7 +466,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   $('writerCommandsBtn').onclick = () => { commands.open(); renderCommands(); };
   doc.addEventListener('keydown', event => {
     if (event.defaultPrevented || event.isComposing || !(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey || event.key.toLowerCase() !== 'k' || doc.querySelector('dialog[open]')) return;
-    if (event.target !== editor && event.target.closest('input,textarea,[contenteditable=true]')) return;
+    if (event.target !== editor && !event.target.closest?.('#liveWriting') && event.target.closest('input,textarea,[contenteditable=true]')) return;
     event.preventDefault(); $('writerCommandsBtn').click();
   });
 

@@ -40,14 +40,25 @@ Once Writer is prepared for offline use, attached files need no provider connect
 
 - **Bold**, **Italic**, **Code** and **Link** edit the selected source. **Heading**, **Task**, **Bullets**, **Numbers** and **Quote**
   format the selected lines. **Indent** and **Outdent** move those lines by two spaces. The text remains ordinary Jot/Markdown.
-- **Ctrl+B / Cmd+B** and **Ctrl+I / Cmd+I** format words. Tab and Shift+Tab indent lists or multiple selected lines;
-  Tab in ordinary prose continues keyboard navigation.
+- The **Format** menu (the Tt button beside undo and redo) holds every formatting choice and the writing font, with its
+  shortcut beside each. **Ctrl+B / Cmd+B** bold, **Ctrl+I** italic, **Ctrl+U** underline (`++text++`), **Ctrl+Shift+H**
+  highlight (`==text==`), **Ctrl+Shift+X** strikethrough, **Ctrl+Shift+P** superscript (one word, `^2^`),
+  **Ctrl+Shift+Space** clears formatting from the selection. **Ctrl+Alt+1** to **3** make a heading and **Ctrl+Alt+0** normal
+  text (Ctrl+1 to 3 also work where the browser does not keep them for switching tabs). **Ctrl+E** centres a line
+  (`-> text <-`) and **Ctrl+L** removes the centring. **Ctrl+Shift+7**, **8** and **9** make numbered, bulleted and task lines.
+  On a Mac, use Cmd for Ctrl.
+- **Ctrl+/ / Cmd+/** opens **Keyboard shortcuts**, a searchable list of all of them. It also lists word-processor shortcuts
+  Jot leaves out, and why: there is no double underline, subscript, right alignment or justification in a plain-text
+  journal, and closing or quitting belongs to the browser or app window.
+- **Ctrl+O** opens a journal, **Ctrl+P** prints the formatted pages, **Ctrl+H** opens find and replace, and **Ctrl+Alt+N**
+  starts a new journal (Ctrl+N where the browser allows it, such as the desktop app). Tab and Shift+Tab indent lists or
+  multiple selected lines; Tab in ordinary prose continues keyboard navigation.
 - **Continue lists on Enter** continues bullets, numbering, quotes and tasks. New tasks start unchecked. Enter on an empty item
   leaves the list; Shift+Enter inserts an ordinary newline. Turn the option off for manual line breaks. It is remembered locally.
 - **Find & replace** (**Ctrl+F / Cmd+F** while writing) searches literal text in this journal, with match-case and whole-word
   options. Next and Previous wrap around. Replace and Replace all are explicit; replacement text is literal, including `$`.
 - **Outline** jumps to a dated entry or heading. Headings inside code and comments stay out of the outline.
-- **Tools** (**Ctrl+K / Cmd+K**) searches writing tools and journal workflows. Type a command, then choose it or press Enter.
+- **Tools** (**Ctrl+K / Cmd+K**) lists every writing tool and journal workflow in groups, with shortcuts beside them. Type to search, including by key ("ctrl u"), then choose a tool or press Enter.
   Arrow keys move through results and Escape closes the menu. Searching alone does not edit the journal.
 - **Entry templates**, available in Tools, offers daily reflections, weekly and monthly recaps, meetings and freewriting.
   Choose a template, edit its blank prompts in the review field, then Insert. It inserts after your selection without replacing

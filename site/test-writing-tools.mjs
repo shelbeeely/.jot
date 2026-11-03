@@ -133,3 +133,25 @@ test('mobile line-break beforeinput continues lists without intercepting composi
   handlers.get('keydown')({ key: 'Enter', shiftKey: true }); beforeinput(); assert.equal(editor.value, '- mobile');
   assert.equal(beforeinput().defaultPrevented, true); assert.equal(editor.value, '- mobile\n- ');
 });
+
+test('fuller formatting actions write and remove the Jot syntax for underline, highlight, strikethrough and superscript', () => {
+  const run = (source, start, end, action) => { const r = writingEdit(source, start, end, action); return r && source.slice(0, r.start) + r.text + source.slice(r.end); };
+  assert.equal(run('a word b', 2, 6, 'underline'), 'a ++word++ b');
+  assert.equal(run('a ++word++ b', 4, 8, 'underline'), 'a word b');
+  assert.equal(run('a word b', 2, 6, 'highlight'), 'a ==word== b');
+  assert.equal(run('a word b', 2, 6, 'strike'), 'a ~~word~~ b');
+  assert.equal(run('x2 m', 1, 2, 'superscript'), 'x^2^ m');
+  assert.equal(writingEdit('two words', 0, 9, 'superscript'), null, 'superscript is one word');
+});
+
+test('centred lines, normal text and clear formatting keep the words', () => {
+  const run = (source, start, end, action) => { const r = writingEdit(source, start, end, action); return r && source.slice(0, r.start) + r.text + source.slice(r.end); };
+  assert.equal(run('Title\nnext', 0, 5, 'center'), '-> Title <-\nnext');
+  assert.equal(run('-> Title <-', 0, 11, 'center'), 'Title');
+  assert.equal(run('-> Title <-', 3, 8, 'left'), 'Title');
+  assert.equal(run('## Title', 3, 8, 'paragraph'), 'Title');
+  assert.equal(run('Title', 0, 5, 'heading1'), '# Title');
+  assert.equal(run('**bold** [red]{ink=#ff0000} ==hi== snake_case_name', 0, 50, 'clear'), 'bold red hi snake_case_name');
+  assert.equal(run('a **bold** b', 4, 8, 'clear'), 'a bold b', 'marks just outside the selection are cleared too');
+  assert.equal(writingEdit('plain words', 0, 11, 'clear'), null);
+});

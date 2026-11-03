@@ -147,7 +147,7 @@ export function setupLocalAutocomplete({ editor, getAst, getReferences = () => [
   editor.addEventListener('compositionend', () => { composing = false; schedule(); });
   editor.addEventListener('keydown', (event) => {
     if (event.isComposing || composing) return;
-    if ((event.ctrlKey || event.metaKey) && event.code === 'Space') { event.preventDefault(); refresh(); return; }
+    if ((event.ctrlKey || event.metaKey) && !event.shiftKey && event.code === 'Space') { event.preventDefault(); refresh(); return; }
     if (box.hidden) return;
     if (event.key === 'Escape') { event.preventDefault(); close(); }
     else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); selected = selected < 0 ? (event.key === 'ArrowDown' ? 0 : result.items.length - 1) : (selected + (event.key === 'ArrowDown' ? 1 : -1) + result.items.length) % result.items.length; highlight(); }

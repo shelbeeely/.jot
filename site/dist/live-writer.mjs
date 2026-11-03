@@ -245,7 +245,7 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
       if (['Enter', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(event.key)) closeSuggestions();
     }
     if ((event.ctrlKey || event.metaKey) && !event.altKey) {
-      if (event.code === 'Space') { event.preventDefault(); complete(); return; }
+      if (event.code === 'Space' && !event.shiftKey) { event.preventDefault(); complete(); return; }
       if (event.key.toLowerCase() === 'z' || event.key.toLowerCase() === 'y') { event.preventDefault(); undo(event.shiftKey || event.key.toLowerCase() === 'y'); return; }
       if (['b', 'i'].includes(event.key.toLowerCase())) { event.preventDefault(); const range = readSelection(); const edit = writingEdit(editor.value, range.start, range.end, event.key.toLowerCase() === 'b' ? 'bold' : 'italic'); apply(edit); return; }
       if (event.key.toLowerCase() === 'f') { event.preventDefault(); readIntoSource(); doc.getElementById('writerFindBtn').click(); return; }

@@ -21,6 +21,7 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 
 - Writer preferences, focus mode, quick notes and return to position: `node site/test-prefs-ui.cjs`.
 - The empty-journal welcome (`writer-welcome.mjs`), the phone navigation bar and the voice typing button: `node site/test-writer-welcome-ui.cjs` and `node site/test-writer-ui.cjs`. Keep the welcome optional, shown only while the writing is empty, with no counts, streaks or reminders.
+- Keyboard shortcuts (`SHORTCUTS` in `writer-workspace.mjs`) and the formatting actions in `writing-tools.mjs`: `node site/test-writer-shortcuts-ui.cjs` and `node --test site/test-writing-tools.mjs`. Formatting shortcuts write only syntax the Jot specification defines; list word-processor shortcuts Jot cannot express under "Not in Writer" rather than inventing syntax.
 - Your life online (`import/`, `jot/archive.mjs` from `converter/archive.mjs`): `node site/test-import-ui.cjs`; changes to `import/engine.mjs` or `import/app.mjs` also run the desktop suite (`desktop/README.md`) when it can be built.
 - Locking (`jot/lock.mjs`, `jot/passkey.mjs`, the writer's lock, unlock, ways in, autosave and Download locked): `node site/test-lock-ui.cjs` (passkeys on Chromium's virtual authenticator).
 
