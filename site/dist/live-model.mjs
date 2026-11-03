@@ -139,8 +139,9 @@ function simpleBlock(source, from, to, node) {
 }
 function listBlocks(source, from, to, node) {
   const raw = source.slice(from, to), body = withoutEnding(raw), lines = [...body.matchAll(/[^\r\n]*(?:\r\n|\r|\n|$)/g)].filter(match => match[0]);
-  const items = node.markdown?.items || [];
-  if (lines.length !== items.length || items.some(item => item.loose || item.tokens?.length > 1 || item.tokens?.length === 1 && !['text', 'paragraph'].includes(item.tokens[0].type))) return null;
+  // A task item's checkbox is its own token; the source prefix below carries its state.
+  const items = (node.markdown?.items || []).map(item => ({ ...item, tokens: (item.tokens || []).filter(token => token.type !== 'checkbox') }));
+  if (lines.length !== items.length || items.some(item => item.loose || item.tokens.length > 1 || item.tokens.length === 1 && !['text', 'paragraph'].includes(item.tokens[0].type))) return null;
   const blocks = [];
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i][0], body = withoutEnding(line), item = items[i];

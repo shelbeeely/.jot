@@ -132,7 +132,9 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
       }
       const tag = block.kind === 'heading' ? 'h' + Math.min(6, Math.max(1, block.level || 2)) : block.kind === 'quote' ? 'blockquote' : block.kind === 'list' ? 'li' : 'div';
       const line = node(tag); line.className = 'live-block live-' + block.kind;
-      if (block.kind === 'task') line.setAttribute('data-marker', /^\s*\[[xX]\]/.test(block.prefix || '') ? '☑' : '☐');
+      // Blank lines between blocks stay in the source but read as ordinary paragraph spacing.
+      if (block.kind === 'paragraph' && !block.virtual && block.contentTo > block.contentFrom && !/\S/.test(editor.value.slice(block.contentFrom, block.contentTo))) line.classList.add('live-gap');
+      if (block.kind === 'task') line.setAttribute('data-marker', /\[[xX]\]/.test(block.prefix || '') ? '☑' : '☐');
       wrappers.push({ ...block, node: line, editable: true });
       for (const part of block.parts || []) inline(part, line);
       if (!line.childNodes.length) { const text = doc.createTextNode(''); line.append(text, node('br')); textLeaves.push({ node: text, from: block.contentFrom, to: block.contentFrom }); }

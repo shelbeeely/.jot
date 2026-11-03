@@ -22,7 +22,6 @@
  .jot-site.jot-writer .live-source-button{font:13px/1.5 ui-sans-serif,system-ui,sans-serif;min-height:44px;padding:8px 12px;border:1px solid var(--writer-border);border-radius:4px;background:var(--writer-bg);color:var(--writer-ink);cursor:pointer}
  .jot-site.jot-writer #deviceFileState{display:block;font-size:12px;color:var(--writer-muted)}
  .jot-site.jot-writer .writer-file-actions #saveDevice{background:var(--writer-ink);color:var(--writer-bg)}
- .jot-site.jot-writer #writerPreviewToggle{display:none}
  html[data-pref-size=s] .jot-site.jot-writer .live-writing{font-size:18px}html[data-pref-size=l] .jot-site.jot-writer .live-writing{font-size:26px}html[data-pref-size=xl] .jot-site.jot-writer .live-writing{font-size:30px}
  .jot-site.jot-writer #writing{font-family:'Jot Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
  html[data-pref-spacing=tight] .jot-site.jot-writer .live-writing{line-height:1.4}html[data-pref-spacing=roomy] .jot-site.jot-writer .live-writing{line-height:2}html[data-pref-spacing=roomier] .jot-site.jot-writer .live-writing{line-height:2.3}
@@ -36,3 +35,4 @@
 @media screen {
  .jot-site.jot-writer :is(#lockDialog,#unlockDialog,#codeDialog,#waysDialog) button.primary{background:var(--writer-ink);color:var(--writer-bg)}
 }
+.jot-site.jot-writer .live-writing .live-block.live-gap{white-space:normal;min-height:0;height:.35em;margin:0;overflow:hidden;line-height:.35em;font-size:inherit}

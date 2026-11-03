@@ -1,10 +1,10 @@
 // A writing look is a browser preference, never a change to journal source.
 export const WRITER_FONTS = [
-  { value: 'script-05', label: '0.5 mm' },
-  { value: 'script-07', label: '0.7 mm' },
-  { value: 'script-10', label: '1.0 mm' },
-  { value: 'sans', label: 'Sans' },
-  { value: 'mono', label: 'Mono' },
+  { value: 'script-05', label: 'Handwriting · fine' },
+  { value: 'script-07', label: 'Handwriting · medium' },
+  { value: 'script-10', label: 'Handwriting · bold' },
+  { value: 'sans', label: 'Plain sans' },
+  { value: 'mono', label: 'Typewriter (mono)' },
 ];
 const STORAGE_KEY = 'jot-writing-font-v1';
 
@@ -23,7 +23,7 @@ export function setupWriterFonts({ editor, surface }) {
   const existing = doc.getElementById('writerFont');
   if (existing) return existing;
   const label = doc.createElement('label'); label.className = 'writer-fonts'; label.htmlFor = 'writerFont';
-  const caption = doc.createElement('span'); caption.textContent = 'Pen'; label.append(caption);
+  const caption = doc.createElement('span'); caption.textContent = 'Font'; label.append(caption);
   const select = doc.createElement('select'); select.id = 'writerFont'; select.setAttribute('aria-label', 'Writing font');
   select.setAttribute('aria-controls', surface.id);
   for (const font of WRITER_FONTS) {

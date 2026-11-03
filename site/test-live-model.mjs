@@ -108,3 +108,10 @@ test('source edits clamp only the edit boundaries, preserve surrounding unknown 
   assert.equal(applySourceEdit('abc', { from: -5, to: 999, text: 'x' }).source, 'x');
   assert.throws(() => applySourceEdit('abc', { from: NaN, text: 'x' }), /finite/);
 });
+
+test('Markdown-style task items stay editable tasks instead of an opaque card', () => {
+  const source = '- [ ] Call Sam\n- [x] Return books\n';
+  const blocks = projectSource(source);
+  assert.deepEqual(blocks.filter(block => block.kind !== 'paragraph').map(block => [block.kind, source.slice(block.contentFrom, block.contentTo)]), [['task', 'Call Sam'], ['task', 'Return books']]);
+  assert.match(blocks[1].prefix, /\[x\]/);
+});

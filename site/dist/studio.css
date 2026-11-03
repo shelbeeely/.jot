@@ -221,3 +221,36 @@ body .writer-history button:hover{background:color-mix(in srgb,var(--writer-ink,
 .voice-writing-actions,.voice-model-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.voice-model-row>label{flex:1 1 220px}
 #voiceWriting [hidden]{display:none!important}#voiceWriting::backdrop{background:#0009}
 @media print{#voiceWriting,.writer-voice-mic{display:none!important}}
+/* Narrow screens see the whole handwritten page, scaled after layout (studio.mjs fitPaper). */
+@media screen{.paper-preview.jot-hand{zoom:var(--jot-fit,1)}}
+/* Preview tabs stay on one line. */
+.jot-site.jot-writer .pane-tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.jot-site.jot-writer .pane-tabs button{white-space:nowrap;flex:none}
+.paper-settings-toggle{display:none}
+@media screen and (max-width:700px){
+ .jot-site.jot-writer .paper-tools .paper-settings-toggle{display:inline-flex;align-items:center;min-height:44px}
+ .jot-site.jot-writer .paper-tools:not([data-open])>:not(.paper-settings-toggle):not(#printBtn):not(#exportPage){display:none!important}
+ .jot-site.jot-writer .preview-note{font-size:13px;line-height:1.5;color:var(--writer-muted,var(--jot-ink))}
+ /* One consistent set of header buttons: Save filled, the rest outlined. */
+ .jot-site.jot-writer .writer-file-actions :is(#openBtn,#writerCommandsBtn){border:1px solid var(--writer-border,var(--jot-edge))}
+}
+/* Format menu: a Material 3 menu surface under its button. */
+.writer-menu{position:fixed;z-index:30;box-sizing:border-box;overflow:auto;padding:8px 0;border-radius:4px;background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 6%,var(--writer-bg,var(--jot-paper)));color:var(--writer-ink,var(--jot-ink));box-shadow:0 2px 6px #0003,0 1px 2px #0004;font:400 15px/20px "Jot Sans",ui-sans-serif,system-ui,sans-serif}
+.writer-menu[hidden]{display:none}
+body .writer-menu button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;padding:0 16px;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:none}
+body .writer-menu button:hover{background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 8%,transparent)}
+body .writer-menu button:focus-visible{outline:none;background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 10%,transparent)}
+.writer-menu-hint{color:var(--writer-muted,var(--jot-ink));font-size:13px}
+.writer-menu [role=menuitemradio]::after{content:"";width:18px;height:18px;flex:none}
+.writer-menu [role=menuitemradio][aria-checked=true]::after{content:"✓";text-align:center;font-weight:700}
+.writer-menu-divider{height:1px;margin:8px 0;background:var(--writer-border,var(--jot-edge))}
+.writer-menu-heading{margin:4px 16px 4px;font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--writer-muted,var(--jot-ink))}
+@media print{.writer-menu{display:none!important}}
+/* The Tools button carries a bar icon that only shows inside the bar. */
+.writer-file-actions #writerCommandsBtn .writer-nav-indicator{display:none}
+@media screen and (max-width:700px){
+ /* The font choice moves into the Format menu on phones. */
+ .jot-site.jot-writer .writer-file-actions .writer-fonts{display:none}
+ body .writer-nav #writerCommandsBtn{border:0;min-height:64px}
+}
+

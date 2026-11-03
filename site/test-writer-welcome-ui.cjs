@@ -50,21 +50,40 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decode
    await page.fill('#writerCommandsSearch','voice typing');assert.equal(await page.locator('#writerCommandsList .writer-choice-group').count(),0,'searching shows a flat list');await page.keyboard.press('Escape');
    await page.click('#welcomeTools');await page.waitForFunction(()=>document.getElementById('writerCommandsDialog').open);await page.keyboard.press('Escape');
    // The formatting strip is visible on a phone and formats in live editing; undo and redo work there and in source editing.
-   assert.ok(await page.isVisible('.writer-format [data-write-action=bold]'));assert.ok(await page.isVisible('#writerUndo'));
+   assert.equal(await page.isVisible('.writer-format'),false,'formatting lives in a menu, not a strip');assert.ok(await page.isVisible('#writerUndo'));
+   assert.equal(await page.locator('#writerCommandsBtn:visible, .writer-nav [data-nav=tools]:visible').count(),1,'one Tools button');assert.equal(await page.locator('.writer-nav #writerCommandsBtn').count(),1,'it is in the bar on a phone');
+   assert.equal(await page.isVisible('#writerFont'),false,'the font choice is not in the phone header');
    await page.click('#welcomeToday');await page.waitForFunction(()=>/\S/.test(document.getElementById('writing').value));await page.keyboard.type('quiet day');
    await page.locator('#writing').evaluate(e=>{const at=e.value.indexOf('quiet');e.setSelectionRange(at,at+5);});await page.evaluate(()=>{const s=document.querySelector('[contenteditable=true]');s&&s.focus();});
    const live=await page.evaluate(()=>document.documentElement.getAttribute('data-editor-mode'));
-   await page.click('.writer-format [data-write-action=bold]');await page.waitForFunction(()=>document.getElementById('writing').value.includes('**'));
+   await page.click('#writerFormatTop');await page.waitForSelector('#writerFormatMenu:not([hidden])');await page.getByRole('menuitem',{name:/^Bold/}).click();await page.waitForFunction(()=>document.getElementById('writing').value.includes('**'));assert.equal(await page.isVisible('#writerFormatMenu'),false);
    const bolded=await text();await page.click('#writerUndo');await page.waitForFunction(b=>document.getElementById('writing').value!==b,bolded);assert.equal((await text()).includes('**'),false,'undo in '+live+' editing');
    await page.click('#writerRedo');await page.waitForFunction(()=>document.getElementById('writing').value.includes('**'));
+   // The writing font is chosen from the same menu, with plain names, and the keyboard can drive it.
+   await page.click('#writerFormatTop');await page.getByRole('menuitemradio',{name:'Handwriting · bold'}).click();assert.equal(await page.evaluate(()=>document.documentElement.dataset.writerFont),'script-10');
+   await page.focus('#writerFormatTop');await page.keyboard.press('Enter');await page.waitForFunction(()=>document.activeElement?.closest('#writerFormatMenu'));await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.activeElement.id),'writerFormatTop');
+   await page.click('#writerFormatTop');await page.getByRole('menuitemradio',{name:'Handwriting · medium'}).click();
+   await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')}).catch(()=>{});await page.click('#writerFormatTop');assert.deepEqual(await page.evaluate(async()=>(await axe.run(document.getElementById('writerFormatMenu'))).violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>v.id)),[]);await page.keyboard.press('Escape');
    await page.evaluate(()=>document.getElementById('writing').jotSetMode?.('source'));await page.locator('#writing').evaluate(e=>{e.focus();e.setSelectionRange(e.value.length,e.value.length);});await page.keyboard.type(' more');
    await page.click('#writerUndo');await page.waitForFunction(()=>!document.getElementById('writing').value.endsWith(' more'));
    await page.evaluate(()=>{const e=document.getElementById('writing');e.jotSetMode?.('live');e.value='';e.dispatchEvent(new Event('input',{bubbles:true}));});await page.waitForSelector('.writer-welcome',{state:'visible'});
+   // A written journal: blank lines read as normal spacing, tasks edit inline, and the handwritten page fits the phone.
+   await page.evaluate(()=>{const e=document.getElementById('writing');e.jotSetMode?.('live');e.value='### 2026-11-02\n\nRain all morning.\n\n- [ ] Call Sam\n- [x] Return books\n\nThe tea.\n';e.dispatchEvent(new Event('input',{bubbles:true}));});
+   await page.waitForSelector('#liveWriting .live-task');
+   assert.equal(await page.locator('#liveWriting .live-opaque').count(),0,'tasks are not an opaque card');
+   assert.ok(await page.locator('#liveWriting .live-gap').first().evaluate(n=>n.getBoundingClientRect().height<16),'blank lines are short');
+   assert.equal(await page.locator('#liveWriting .live-task').nth(1).getAttribute('data-marker'),'☑');
+   await page.click('.writer-nav [data-nav=preview]');await page.waitForFunction(()=>getComputedStyle(document.getElementById('paperPreview')).getPropertyValue('--jot-fit')||document.getElementById('paperPreview').style.getPropertyValue('--jot-fit'),null,{timeout:15000});
+   assert.ok(await page.locator('#paperPreview').evaluate(n=>n.getBoundingClientRect().right<=innerWidth+1),'the handwritten page fits the screen');
+   assert.equal(await page.isVisible('#journalPaper'),false,'paper settings start folded on a phone');
+   await page.click('#paperSettingsToggle');assert.ok(await page.isVisible('#journalPaper'));await page.click('#paperSettingsToggle');assert.equal(await page.isVisible('#journalPaper'),false);
+   await page.click('.writer-nav [data-nav=write]');
+   await page.evaluate(()=>{const e=document.getElementById('writing');e.value='';e.dispatchEvent(new Event('input',{bubbles:true}));});await page.waitForSelector('.writer-welcome',{state:'visible'});
    // Close hides it for this visit; "Don't show this again" is remembered.
    await page.click('.writer-welcome-close');assert.equal(await visible(),false);await page.reload();await page.waitForFunction(()=>document.documentElement.hasAttribute('data-archive-ready'));await page.waitForSelector('.writer-welcome',{state:'visible'});
    await page.getByRole('button',{name:"Don't show this again"}).click();assert.equal(await visible(),false);await page.reload();await page.waitForFunction(()=>document.documentElement.hasAttribute('data-archive-ready'));await page.waitForTimeout(1000);assert.equal(await visible(),false);
    assert.deepEqual(errors,[]);await context.close();
   }
-  console.log('PASS: empty-journal welcome in light and dark, all four ways in, grouped tools, formatting strip, undo/redo in live and source editing, dismissal and accessibility.');
+  console.log('PASS: empty-journal welcome in light and dark, all four ways in, grouped tools, one Tools button, Format menu with writing font, undo/redo in live and source editing, dismissal and accessibility.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

@@ -13,6 +13,8 @@ export function outlineItems(source) {
   });
 }
 
+const GRID = '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>';
+
 const TOOL_GROUPS = [
   ['Start writing', ['Today', 'Quick note', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
   ['Find your way', ['Find and replace', 'Outline', 'Page preview', 'Write only', 'Side by side', 'Focus mode']],
@@ -85,7 +87,6 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     const items = [
       ['write', 'Write', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4" stroke="var(--writer-nav-indicator)"/>', 'write'],
       ['preview', 'Preview', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3" fill="var(--writer-nav-indicator)" stroke="var(--writer-nav-indicator)"/>', 'preview'],
-      ['tools', 'Tools', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>', null, null],
     ];
     for (const [name, label, outlined, filled, destination] of items) {
       const item = doc.createElement('button');
@@ -99,16 +100,21 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
           if (item.getAttribute('aria-current') === 'page') { win.scrollTo({ top: 0, behavior: win.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
           selectView(destination);
         };
-      } else {
-        item.setAttribute('aria-haspopup', 'dialog');
-        item.setAttribute('aria-label', 'Tools: every Writer tool');
-        item.onclick = () => $('writerCommandsBtn').click();
       }
       nav.append(item);
     }
+    // One Tools button: the header's, which moves into the bar on phones and back on wider screens.
+    const toolsButton = $('writerCommandsBtn'), toolsHome = toolsButton.parentElement, toolsNext = toolsButton.nextElementSibling;
+    toolsButton.dataset.nav = 'tools'; toolsButton.setAttribute('aria-haspopup', 'dialog');
+    toolsButton.innerHTML = '<span class="writer-nav-indicator">' + svg(GRID, false) + '</span>';
+    const toolsLabel = doc.createElement('span'); toolsLabel.className = 'writer-nav-label'; toolsLabel.textContent = 'Tools'; toolsButton.append(toolsLabel);
+    const placeTools = () => { if (phone.matches) nav.append(toolsButton); else if (toolsButton.parentElement !== toolsHome) toolsHome.insertBefore(toolsButton, toolsNext && toolsNext.parentElement === toolsHome ? toolsNext : null); };
+    phone.addEventListener('change', placeTools);
     (doc.querySelector('.studio-workspace') || doc.body).append(nav);
+    placeTools();
     historyButtons();
-    formattingStrip(phone);
+    formatMenu();
+    pageSettings();
   }
 
   // Undo and redo, always in view: in live editing they use its own history, in source editing the browser's.
@@ -137,12 +143,78 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     bar.querySelector('.writer-brand')?.after(group);
   }
 
-  // On phones the formatting buttons start visible, as a strip that scrolls sideways above the writing.
-  function formattingStrip(phone) {
-    const panel = doc.querySelector('.writer-format');
-    if (!panel) return;
-    for (const button of panel.querySelectorAll('button')) button.addEventListener('pointerdown', event => event.preventDefault());
-    if (phone.matches) { panel.hidden = false; disclosures(); }
+  // On phones the paper settings fold behind one button, so the page itself is in view.
+  function pageSettings() {
+    const tools = doc.querySelector('.paper-tools');
+    if (!tools || $('paperSettingsToggle')) return;
+    const toggle = element('button', 'Page settings', { id: 'paperSettingsToggle', type: 'button', class: 'quiet paper-settings-toggle', 'aria-expanded': 'false' });
+    toggle.onclick = () => { const open = !tools.hasAttribute('data-open'); tools.toggleAttribute('data-open', open); toggle.setAttribute('aria-expanded', String(open)); };
+    tools.prepend(toggle);
+  }
+
+  // Formatting and the writing font live in one menu beside undo and redo (Material 3 menu pattern).
+  function formatMenu() {
+    const group = doc.querySelector('.writer-history');
+    if (!group || $('writerFormatTop')) return;
+    const button = element('button', undefined, { id: 'writerFormatTop', type: 'button', 'aria-haspopup': 'menu', 'aria-expanded': 'false', 'aria-controls': 'writerFormatMenu', 'aria-label': 'Format', title: 'Format and font' });
+    button.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h11v2"/><path d="M9.5 5v14"/><path d="M7 19h5"/><path d="M14 13v-1.5h7V13"/><path d="M17.5 11.5V19"/><path d="M16 19h3"/></svg>';
+    group.insertBefore(button, $('writerFindTop'));
+    const menu = element('div', undefined, { id: 'writerFormatMenu', class: 'writer-menu', role: 'menu', 'aria-label': 'Format' });
+    menu.hidden = true;
+    const item = (label, hint, run, role = 'menuitem') => {
+      const entry = element('button', undefined, { type: 'button', role, tabindex: '-1' });
+      entry.append(element('span', label), ...(hint ? [element('span', hint, { class: 'writer-menu-hint' })] : []));
+      // Keep the writing's selection: menu items never take focus on press.
+      entry.addEventListener('pointerdown', event => event.preventDefault());
+      entry.onclick = () => { close(); run(); };
+      menu.append(entry); return entry;
+    };
+    const format = action => () => { showWriting(); tools.run(action); };
+    for (const [label, action, hint] of [['Bold', 'bold', 'Ctrl/⌘ B'], ['Italic', 'italic', 'Ctrl/⌘ I'], ['Heading', 'heading'], ['Task', 'task', '[ ]'], ['Bulleted list', 'bullet'], ['Numbered list', 'number'], ['Quote', 'quote'], ['Link', 'link'], ['Code', 'code'], ['Indent', 'indent'], ['Outdent', 'outdent']]) item(label, hint, format(action));
+    item('Colors and highlights…', '', () => { showWriting(); const panel = doc.querySelector('.writer-format'); panel.hidden = false; colorsExpanded = true; disclosures(); panel.scrollIntoView({ block: 'nearest' }); });
+    menu.append(element('div', undefined, { role: 'separator', class: 'writer-menu-divider' }));
+    menu.append(element('p', 'Writing font (this browser only)', { class: 'writer-menu-heading', 'aria-hidden': 'true' }));
+    const fonts = $('writerFont'), radios = [];
+    for (const option of fonts ? [...fonts.options] : []) {
+      const radio = item(option.textContent, '', () => { fonts.value = option.value; fonts.dispatchEvent(new Event('change', { bubbles: true })); }, 'menuitemradio');
+      radio.dataset.font = option.value; radios.push(radio);
+    }
+    const sync = () => { for (const radio of radios) radio.setAttribute('aria-checked', String(radio.dataset.font === fonts.value)); };
+    doc.body.append(menu);
+    const entries = () => [...menu.querySelectorAll('[role^=menuitem]')];
+    function place() {
+      const rect = button.getBoundingClientRect(), width = Math.min(280, win.innerWidth - 16);
+      menu.style.width = width + 'px';
+      menu.style.left = Math.max(8, Math.min(win.innerWidth - width - 8, rect.right - width)) + 'px';
+      menu.style.top = (rect.bottom + 4) + 'px';
+      menu.style.maxHeight = Math.max(160, win.innerHeight - rect.bottom - 16) + 'px';
+    }
+    function open(focusFirst) {
+      sync(); menu.hidden = false; place(); button.setAttribute('aria-expanded', 'true');
+      if (focusFirst) entries()[0]?.focus();
+    }
+    function close(returnFocus) {
+      if (menu.hidden) return;
+      menu.hidden = true; button.setAttribute('aria-expanded', 'false');
+      if (returnFocus) button.focus();
+    }
+    button.addEventListener('pointerdown', event => event.preventDefault());
+    button.onclick = event => { if (menu.hidden) open(event.detail === 0); else close(); };
+    button.addEventListener('keydown', event => { if (['ArrowDown', 'Enter', ' '].includes(event.key) && menu.hidden) { event.preventDefault(); open(true); } });
+    menu.addEventListener('keydown', event => {
+      const list = entries(), at = list.indexOf(doc.activeElement);
+      if (event.key === 'Escape') { event.preventDefault(); close(true); }
+      else if (event.key === 'Tab') close();
+      else if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+        event.preventDefault();
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? list.length - 1 : (at + (event.key === 'ArrowDown' ? 1 : -1) + list.length) % list.length;
+        list[next]?.focus();
+      }
+    });
+    doc.addEventListener('pointerdown', event => { if (!menu.hidden && !menu.contains(event.target) && !button.contains(event.target)) close(); });
+    doc.addEventListener('keydown', event => { if (event.key === 'Escape' && !menu.hidden && !menu.contains(doc.activeElement)) close(); });
+    win.addEventListener('resize', () => { if (!menu.hidden) place(); });
+    win.addEventListener('scroll', () => { if (!menu.hidden) place(); }, { passive: true });
   }
 
   function element(tag, text, attributes = {}) {
