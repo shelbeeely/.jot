@@ -15,6 +15,7 @@ const XML=`<?xml version="1.0" encoding="UTF-8"?>\n<HealthData locale="en_US">\n
    const context=await browser.newContext({viewport:{width:390,height:844},colorScheme:scheme}),page=await context.newPage(),errors=[],remote=[];
    page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith(base))remote.push(r.url());});
    await page.goto(base+'/write/');
+   await require('./test-source-workspace.cjs')(page); // these checks edit the plain Jot source
    const original='# Notebook\n\n### 2026-10-26 | Monday\n\n:::record measurement #sleep-2026-10-26\nmetric: sleep\nunit: h\nvalue:\n:::\n';
    await page.fill('#writing',original);
    await page.click('#importHealthBtn');assert.ok(await page.$eval('#healthDialog',d=>d.open));

@@ -78,3 +78,11 @@ test('typed text cannot inject Jot structure, and recordings must be attached fi
   assert.ok(isRecording({ path: 'assets/a.bin', mediaType: 'audio/mpeg' })); assert.ok(isRecording({ path: 'assets/a.M4A', mediaType: '' }));
   assert.ok(!isRecording({ path: 'assets/a.png', mediaType: 'image/png' }));
 });
+
+test('recordings attached as media/<uuid> are accepted and linked with their file name', () => {
+  const path = 'media/565b273b-a472-49e7-b1a4-a34792d6e7bf';
+  assert.equal(recordingPath(path), path);
+  const text = voiceNote({ minutes: '5', recording: path, recordingName: 'take 1.m4a' });
+  assert.match(text, /Recording: \[take 1\.m4a\]\(media\/565b273b-a472-49e7-b1a4-a34792d6e7bf\)/);
+  assert.match(voiceNote({ minutes: '5', recording: path, recordingName: 'a [b] c' }), /Recording: \[a {2}b {2}c\]/, 'brackets cannot break the link');
+});

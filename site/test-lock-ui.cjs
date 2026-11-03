@@ -14,7 +14,12 @@ const PASS='correct horse battery',SECRET='Secret rain on the window.',MARK='ATT
 const stored=page=>page.evaluate(async()=>{const parts=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);parts.push(k+'='+localStorage.getItem(k));}
   const db=await new Promise((ok,no)=>{const r=indexedDB.open('jot-documents-v1');r.onupgradeneeded=()=>{for(const s of ['assets','handoff'])if(!r.result.objectStoreNames.contains(s))r.result.createObjectStore(s);};r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error);});
   const flat=v=>v instanceof Uint8Array?Array.from(v,c=>String.fromCharCode(c)).join(''):Array.isArray(v)?v.map(flat).join('|'):v&&typeof v==='object'?Object.values(v).map(flat).join('|'):String(v);
-  for(const s of [...db.objectStoreNames])parts.push(await new Promise(ok=>{const r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(flat(r.result));}));db.close();return parts.join('\n');});
+  const rows=[];for(const s of [...db.objectStoreNames])rows.push(await new Promise(ok=>{const r=db.transaction(s).objectStore(s).getAll();r.onsuccess=()=>ok(r.result);}));db.close();
+  for(const row of rows)parts.push(flat(row));
+  // Archive members are DEFLATE-compressed, so also search every member decompressed: plain text must not hide inside a ZIP.
+  await import('/jot/vendor/jszip.mjs');const zips=[];const find=v=>{if(v instanceof Uint8Array){if(v[0]===0x50&&v[1]===0x4b)zips.push(v);}else if(Array.isArray(v))v.forEach(find);else if(v&&typeof v==='object')Object.values(v).forEach(find);};rows.forEach(find);
+  for(const bytes of zips){try{const zip=await globalThis.JSZip.loadAsync(bytes);for(const name of Object.keys(zip.files))parts.push(name+'='+flat(await zip.files[name].async('uint8array')));}catch{/* not an archive */}}
+  return parts.join('\n');});
 (async()=>{
  const {unlock,kindOf}=await import('../parser/lock.mjs'),{readDocument}=await import('../parser/container.mjs');
  await new Promise(r=>server.listen(0,'localhost',r));const base=`http://localhost:${server.address().port}`,browser=await chromium.launch();

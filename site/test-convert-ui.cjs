@@ -114,6 +114,7 @@ const cli = (args, input) => { const dir = fs.mkdtempSync(path.join(os.tmpdir(),
   await p.fill('#url', `http://127.0.0.1:${port(open)}/blunt-1901.txt`); await p.click('#fetch'); await settle();
   ok(/3 entries from 1901-01-23 to 1901-02-06/.test(await check()), 'From a web address: fetches a plain-text file from a site that allows it');
   await p.fill('#url', `http://127.0.0.1:${port(closed)}/blunt-1901.txt`); await p.click('#fetch'); await settle();
+  await p.waitForFunction(() => /Could not fetch it/.test(document.getElementById('check').textContent), null, { timeout: 10000 }).catch(() => {}); // a refused request takes a moment to fail
   ok(/does not let other pages read its files/.test(await check()) && /Open a text file/.test(await check()), 'a site that does not allow it: the page says to download the file and open it');
   await p.fill('#url', 'javascript:alert(1)'); await p.click('#fetch');
   ok(/starts with https/.test(await p.textContent('#toast')), 'only http(s) addresses are fetched');

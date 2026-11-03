@@ -18,15 +18,15 @@ test('unsupported manifest or catalog features are refused rather than discarded
  }
 });
 test('catalog identity/order and public/protected catalog boundaries are validated before opening',async()=>{
- const bytes=await pack({source:'### 2026-11-01\nFirst\n### 2026-11-01\nSecond',assets:[{path:'media/a',data:'a'}]});
+ const bytes=await pack({source:'### 2026-11-01\nFirst\n### 2026-11-01\nSecond',assets:[{path:'media/a',data:'a'}],index:'always'});
  for(const change of [m=>m.catalogData.entries.reverse(),m=>m.catalogData.assets=[],m=>m.catalogData.entries[0].private=true,m=>m.catalogData.entries.push({...m.catalogData.entries[0]}),m=>m.catalog={...m.entries[0]},m=>m.index.encryption={cipher:'future'}]){
   await assert.rejects(unpack(await changedManifest(bytes,change)),/catalog|encryption|index/i);
  }
 });
 test('an omitted optional index descriptor and payload retain local source search and can be saved again',async()=>{
- const source='### 2026-11-01\n\nAn offline #walk.',bytes=await pack({source}),withoutDescriptor=await changedManifest(bytes,m=>delete m.index),zip=await globalThis.JSZip.loadAsync(withoutDescriptor);zip.remove('index.sqlite');
- const doc=await unpack(await zip.generateAsync({type:'uint8array'}));assert.equal(doc.source,source);assert.equal(doc.index,null);assert.match(doc.indexError,/missing/);assert.equal((await(await import('./container.mjs')).searchArchive(doc,{tag:'walk'})).length,1);
- const saved=await unpack(await pack({source:doc.source,entries:doc.entries,assets:doc.assets,previous:doc}));try{assert.equal(saved.source,source);assert.equal(saved.indexError,null);}finally{saved.index?.close();}
+ const source='### 2026-11-01\n\nAn offline #walk.',bytes=await pack({source,index:'always'}),withoutDescriptor=await changedManifest(bytes,m=>delete m.index),zip=await globalThis.JSZip.loadAsync(withoutDescriptor);zip.remove('index.sqlite');
+ const doc=await unpack(await zip.generateAsync({type:'uint8array'}));assert.equal(doc.source,source);assert.equal(doc.index,null);assert.equal(doc.indexError,null,'no descriptor means the writer chose source search');assert.equal((await(await import('./container.mjs')).searchArchive(doc,{tag:'walk'})).length,1);
+ const saved=await unpack(await pack({source:doc.source,entries:doc.entries,assets:doc.assets,previous:doc,index:'always'}));try{assert.equal(saved.source,source);assert.equal(saved.indexError,null);assert.ok(saved.index);}finally{saved.index?.close();}
 });
 test('duplicate member identities are rejected before producing an archive',async()=>{
  const id=crypto.randomUUID();await assert.rejects(pack({source:'Original',assets:[{id,path:'media/a',data:'a'},{id,path:'media/b',data:'b'}]}),/Duplicate archive member/);
@@ -40,3 +40,22 @@ test('versioned archive conformance fixtures reject unsupported features and inc
  const {readFileSync}=await import('node:fs'),fixtures=JSON.parse(readFileSync(new URL('./archive-conformance.json',import.meta.url),'utf8')).cases,bytes=await pack({source:'Exact source.',assets:[{path:'media/a',data:'original'}]});
  for(const fixture of fixtures){const changed=await changedManifest(bytes,manifest=>{for(const change of fixture.changes){let parent=manifest;for(const key of change.path.slice(0,-1))parent=parent[key];parent[change.path.at(-1)]=change.value;}});await assert.rejects(unpack(changed),new RegExp(fixture.expectedError),fixture.id);}
 });
+
+test('small archives omit the search index; larger public source or an explicit request includes it',async()=>{
+ const {INDEX_MIN_SOURCE_BYTES,searchArchive,readArchiveHeader}=await import('./container.mjs'),enc=text=>new TextEncoder().encode(text).length;
+ const small='### 2026-11-01\n\nA short walk. #outside\n',smallBytes=await pack({source:small}),smallZip=await globalThis.JSZip.loadAsync(smallBytes);
+ assert.equal(readArchiveHeader(smallBytes).index,undefined);assert.equal(smallZip.file('index.sqlite'),null);
+ const doc=await unpack(smallBytes);assert.equal(doc.index,null);assert.equal(doc.indexError,null);assert.equal((await searchArchive(doc,{tag:'outside'})).length,1);
+ assert.ok(smallBytes.length<4096,'a two-line journal stays a few KiB, not ~100 KiB');
+ const day=(n,text)=>'### 2026-'+String(1+Math.floor(n/28)).padStart(2,'0')+'-'+String(1+n%28).padStart(2,'0')+'\n\n'+text+'\n\n';
+ let large='';for(let n=0;enc(large)<INDEX_MIN_SOURCE_BYTES;n++)large+=day(n%300,'A long day of writing about the garden. #garden '.repeat(40));
+ const largeBytes=await pack({source:large}),header=readArchiveHeader(largeBytes);assert.equal(header.index.kind,'index');
+ const opened=await unpack(largeBytes);try{assert.ok(opened.index);assert.equal(opened.indexError,null);assert.ok((await searchArchive(opened,{tag:'garden'})).length>0);}finally{opened.index?.close();}
+ assert.equal(readArchiveHeader(await pack({source:large,index:'never'})).index,undefined);
+ assert.equal(readArchiveHeader(await pack({source:small,index:'always'})).index.kind,'index');
+ await assert.rejects(pack({source:small,index:'sometimes'}),/Index mode/);
+ // A listed index whose payload is gone is still reported, and source search still works.
+ const listed=await pack({source:small,index:'always'}),zip=await globalThis.JSZip.loadAsync(listed);zip.remove('index.sqlite');
+ const missing=await unpack(await zip.generateAsync({type:'uint8array'}));assert.ok(missing.indexError);assert.equal((await searchArchive(missing,{tag:'outside'})).length,1);
+});
+

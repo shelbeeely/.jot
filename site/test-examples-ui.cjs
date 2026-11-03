@@ -43,7 +43,9 @@ const srv = http.createServer((q, r) => {
   ok(/166 dated sections/.test(await p.textContent('#structureSummary')), 'the workspace reads 166 dated entries');
 
   // writing of your own: it asks, and Cancel keeps it
-  await p.fill('#writing', 'My own words.'); await p.dispatchEvent('#writing', 'input'); await p.waitForTimeout(400);
+  await require('./test-source-workspace.cjs')(p); // this check types into the plain Jot source
+  await p.fill('#writing', 'My own words.'); await p.dispatchEvent('#writing', 'input');
+  await p.waitForFunction(() => /Saved in this browser/.test(document.getElementById('saveState').textContent)); // otherwise the browser asks before leaving
   await p.goto(BASE + 'write/?open=examples/diaries/pepys/pepys-1660.jot'); await p.waitForTimeout(500);
   ok(asked === 1 && await p.inputValue('#writing') === 'My own words.', 'with writing of your own, it asks first, and Cancel keeps your writing');
   p.removeAllListeners('dialog'); p.on('dialog', (d) => d.accept());

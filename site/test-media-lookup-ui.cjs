@@ -27,7 +27,10 @@ const server = http.createServer((req, res) => {
       await route.fulfill({ headers: { 'Access-Control-Allow-Origin': '*' }, json: { recordings: [{ id: uuid, title: query === 'New' ? 'New result' : '<img src=x onerror=alert(1)> Song', 'artist-credit': [{ name: 'An artist' }], 'first-release-date': '2000', disambiguation: 'live', length: 123000 }] } }).catch(() => {});
     });
     await page.goto(`http://127.0.0.1:${server.address().port}/write/`);
-    await page.waitForFunction(() => document.getElementById('writing').value.length > 0);
+    // New journals start empty; give these checks some writing that must stay untouched.
+    await require('./test-source-workspace.cjs')(page);
+    await page.fill('#writing', '### 2026-11-03 | Tuesday\n\nA quiet evening.\n');
+    await require('./test-source-workspace.cjs').command(page, 'Side by side'); // the pages are checked too
     const original = await page.inputValue('#writing');
     await page.click('#musicBtn'); await page.click('#mediaLookup summary');
     assert.equal(calls.length, 0); assert.equal(await page.isDisabled('#mediaLookupQuery'), true);

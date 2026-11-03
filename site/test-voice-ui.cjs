@@ -14,6 +14,7 @@ function toneWav(file,hz,seconds=3,rate=48000){const n=rate*seconds,data=Buffer.
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith(base)&&!r.url().startsWith('data:')&&!r.url().startsWith('blob:'))remote.push(r.url());});
   await page.addInitScript(()=>{window.__mic={calls:0,streams:[]};const md=navigator.mediaDevices,orig=md.getUserMedia.bind(md);md.getUserMedia=async c=>{window.__mic.calls++;window.__mic.constraints=c;const s=await orig(c);window.__mic.streams.push(s);return s;};});
   await page.goto(base+'/write/');
+  await require('./test-source-workspace.cjs')(page); // these checks edit the plain Jot source
   const original='### 2026-10-27 | Tuesday\n\nBefore.\n\nAfter.';await page.fill('#writing',original);
   await page.$eval('#writing',e=>{const p=e.value.indexOf('Before.')+7;e.setSelectionRange(p,p);});
   await page.click('#voiceBtn');assert.equal(await page.evaluate(()=>document.getElementById('voiceDialog').open),true);
@@ -40,14 +41,14 @@ function toneWav(file,hz,seconds=3,rate=48000){const n=rate*seconds,data=Buffer.
   await page.fill('#voiceMinutes','12');await page.fill('#voiceExercise','Sirens');await page.selectOption('#voiceFelt','4');await page.selectOption('#voiceStrain','1');await page.fill('#voiceNote','Easier after humming.');
   // A recording made elsewhere is attached to the document, and linked only on Add
   await page.setInputFiles('#voiceRecordingFile',{name:'take 1.m4a',mimeType:'audio/mp4',buffer:Buffer.from('not really audio')});
-  await page.waitForFunction(()=>document.getElementById('voiceRecording').value==='assets/take-1.m4a');
+  await page.waitForFunction(()=>/^media\/[0-9a-f-]{36}$/.test(document.getElementById('voiceRecording').value));assert.equal(await page.$eval('#voiceRecording',s=>s.selectedOptions[0].textContent),'take 1.m4a','the recording is listed by its own name');assert.match(await page.textContent('#voiceStatus'),/Attached take 1\.m4a/);
   assert.equal(await page.inputValue('#writing'),original,'attaching a recording does not change the writing');
-  assert.match(await page.textContent('#assetList'),/assets\/take-1\.m4a/);
+  assert.match(await page.textContent('#assetList'),/take 1\.m4a/);
   await page.click('#voiceAdd');
   const writing=await page.inputValue('#writing');
   assert.ok(writing.indexOf('Before.')<writing.indexOf('#### Voice practice')&&writing.indexOf('After.')>writing.indexOf('#### Voice practice'));
   assert.match(writing,/metric: pitch-hz\nunit: Hz\nvalue: 2[12]\d/);assert.match(writing,/metric: voice-minutes\nunit: min\nvalue: 12/);
-  assert.match(writing,/method: voice-practice@1\nexercise: Sirens\nstrain: 1\nfelt-like-me: 4\nrecording: assets\/take-1\.m4a/);
+  assert.match(writing,/method: voice-practice@1\nexercise: Sirens\nstrain: 1\nfelt-like-me: 4\nrecording: media\/[0-9a-f-]{36}\n/);assert.match(writing,/Recording: \[take 1\.m4a\]\(media\/[0-9a-f-]{36}\)/,'the link reads with the file name');
   assert.equal(await page.evaluate(()=>document.activeElement.id),'writing');assert.equal(await page.evaluate(()=>document.getElementById('voiceDialog').open),false);
   const diagnostics=await page.evaluate(async()=>{const {parse}=await import('../jot/jot.mjs');return parse(document.getElementById('writing').value).diagnostics;});assert.deepEqual(diagnostics,[]);
   // Closing the dialog while listening also releases the microphone

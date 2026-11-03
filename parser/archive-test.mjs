@@ -23,7 +23,7 @@ test('private search exists only after unlock; wrong secrets, substituted entry 
 test('unchanged private entries retain ciphertext; public-to-private rebuilds a fresh index without deleted text',async()=>{
  const doc=await unpack(mixed,{secret:secret.session});const edited=source.replace('Public #walk','Public #walk changed');const newer=await pack({source:edited,entries:doc.entries,previous:doc,secret:secret.session});const zip1=await globalThis.JSZip.loadAsync(mixed),zip2=await globalThis.JSZip.loadAsync(newer),path=doc.archive.entries.at(-1).path;
  assert.deepEqual(await zip1.file(path).async('uint8array'),await zip2.file(path).async('uint8array'));doc.index?.close();
- const all=await pack({source,entries:initial.entries,privateEntries:'all',secret:secret.session,previous:initial});const zip=await globalThis.JSZip.loadAsync(all),db=await zip.file('index.sqlite').async('uint8array');assert.doesNotMatch(new TextDecoder().decode(db),/Public|walk|PRIVATE_UNIQUE/);
+ const all=await pack({source,entries:initial.entries,privateEntries:'all',secret:secret.session,previous:initial,index:'always'});const zip=await globalThis.JSZip.loadAsync(all),db=await zip.file('index.sqlite').async('uint8array');assert.doesNotMatch(new TextDecoder().decode(db),/Public|walk|PRIVATE_UNIQUE/);
 });
 test('recovery and passphrase replacement retain member protection without re-encrypting unchanged entries',async()=>{
  const recovered=await unpack(mixed,{secret:{recoveryCode:secret.recoveryCode}});recovered.index?.close();const session=await changePassphrase(secret.session,'archive-test-password','new-archive-password',{iterations:100000});const doc=await unpack(mixed,{secret:secret.session});const bytes=await pack({source:doc.source,entries:doc.entries,assets:doc.assets,secret:session,previous:doc});doc.index?.close();await assert.rejects(unpack(bytes,{secret:'archive-test-password'}));const opened=await unpack(bytes,{secret:'new-archive-password'});assert.equal(opened.source,source);opened.index?.close();
@@ -35,7 +35,7 @@ test('date/tag/metric search works, stale SQLite safely falls back, and loaded i
 test.after(()=>initial.index?.close());
 
 test('missing/corrupt cache payloads retain verified source and source-search filters',async()=>{
- const source='### 2026-11-01\n\nA calm day. #calm\n\n:::record measurement\nmetric: mood\nvalue: 3\n:::\n';const bytes=await pack({source});
+ const source='### 2026-11-01\n\nA calm day. #calm\n\n:::record measurement\nmetric: mood\nvalue: 3\n:::\n';const bytes=await pack({source,index:'always'});
  for(const change of [zip=>zip.remove('index.sqlite'),zip=>zip.file('index.sqlite','broken')]){
   const zip=await globalThis.JSZip.loadAsync(bytes);change(zip);const doc=await unpack(await zip.generateAsync({type:'uint8array'}));assert.equal(doc.source,source);assert.ok(doc.indexError);assert.equal((await searchArchive(doc,{tag:'calm',metric:'mood',min:2,max:4})).length,1);assert.equal((await searchArchive(doc,{metric:'mood',min:4})).length,0);
  }
@@ -44,6 +44,6 @@ test('private entry source is framed data, not limited by the 64 KiB metadata he
  const source='A long private entry. '.repeat(5000),bytes=await pack({source,secret:secret.session,privateEntries:'all'}),doc=await unpack(bytes,{secret:secret.session});try{assert.equal(doc.source,source);assert.equal(doc.indexError,null);}finally{doc.index?.close();}
 });
 test('an externally supplied index is rebuilt before export so unreachable bytes cannot survive',async()=>{
- const bytes=await pack({source:'Public only.'}),zip=await globalThis.JSZip.loadAsync(bytes),manifest=readArchiveHeader(bytes),original=await zip.file('index.sqlite').async('uint8array'),marker=new TextEncoder().encode('OLD_PRIVATE_UNUSED_PAGE_834788ec'),changed=new Uint8Array(original.length+marker.length);changed.set(original);changed.set(marker,original.length);zip.file('index.sqlite',changed);manifest.index.byteLength=changed.length;manifest.index.sha256=await(await import('./container.mjs')).sha256(changed);zip.file('manifest.json',JSON.stringify(manifest),{compression:'STORE'});
- const doc=await unpack(await zip.generateAsync({type:'uint8array'}));const safe=await pack({source:doc.source,entries:doc.entries,previous:doc});doc.index?.close();const clean=await globalThis.JSZip.loadAsync(safe);assert.doesNotMatch(await clean.file('index.sqlite').async('string'),/OLD_PRIVATE_UNUSED_PAGE/);
+ const bytes=await pack({source:'Public only.',index:'always'}),zip=await globalThis.JSZip.loadAsync(bytes),manifest=readArchiveHeader(bytes),original=await zip.file('index.sqlite').async('uint8array'),marker=new TextEncoder().encode('OLD_PRIVATE_UNUSED_PAGE_834788ec'),changed=new Uint8Array(original.length+marker.length);changed.set(original);changed.set(marker,original.length);zip.file('index.sqlite',changed);manifest.index.byteLength=changed.length;manifest.index.sha256=await(await import('./container.mjs')).sha256(changed);zip.file('manifest.json',JSON.stringify(manifest),{compression:'STORE'});
+ const doc=await unpack(await zip.generateAsync({type:'uint8array'}));const safe=await pack({source:doc.source,entries:doc.entries,previous:doc,index:'always'});doc.index?.close();const clean=await globalThis.JSZip.loadAsync(safe);assert.doesNotMatch(await clean.file('index.sqlite').async('string'),/OLD_PRIVATE_UNUSED_PAGE/);
 });

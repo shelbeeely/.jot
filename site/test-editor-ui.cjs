@@ -227,7 +227,10 @@ const srv = http.createServer((q, r) => {
     ok(/avg 7\.5 h/.test(await w.textContent('#paperPreview .jot-chart')) && ws.filter((v) => v !== null).join() === '7,8', 'workspace: a chart record in the writing is drawn in the page preview (its week, from the entry it is in)');
     await w.fill('#writing', '### 2026-10-26 | Monday\n\nA plain day.\n');
     const d1p = w.waitForEvent('download'); await command(w, 'Download journal'); const d1 = await d1p, t1 = fs.readFileSync(await d1.path());
-    ok(/\.jot$/.test(d1.suggestedFilename()) && t1[0] !== 0x50 && /A plain day/.test(t1.toString()) && (await w.textContent('#docExt')) === '.jot', `workspace: no attachments, Download .jot saves plain text (${d1.suggestedFilename()})`);
+    const { readDocument } = await import('../parser/container.mjs'); const d1doc = await readDocument(new Uint8Array(t1));
+    ok(/\.jotz$/.test(d1.suggestedFilename()) && t1[0] === 0x50 && /A plain day/.test(d1doc.source) && (await w.textContent('#docExt')) === '.jotz', `workspace: Download journal saves a .jotz even without attachments (${d1.suggestedFilename()})`);
+    const s1p = w.waitForEvent('download'); await command(w, 'Export Jot source'); const s1 = await s1p, st1 = fs.readFileSync(await s1.path());
+    ok(/\.jot$/.test(s1.suggestedFilename()) && st1[0] !== 0x50 && /A plain day/.test(st1.toString()), `workspace: Export Jot source saves plain text (${s1.suggestedFilename()})`);
     const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
     await w.setInputFiles('#attachFile', { name: 'dot.png', mimeType: 'image/png', buffer: png });
     await w.waitForFunction(() => document.querySelector('#docExt').textContent === '.jotz', null, { timeout: 8000 });

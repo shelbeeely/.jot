@@ -28,11 +28,17 @@ export class NearbySession {
     this.pc.onconnectionstatechange = () => { if (['failed', 'disconnected'].includes(this.pc.connectionState)) this.fail('The local connection was interrupted. Your originals are unchanged.'); };
   }
   async gather() {
+    // Only local (host) addresses are used, with no STUN or TURN. Some systems never report gathering as complete
+    // (VPN or virtual adapters), so once a local address is known and gathering has been quiet briefly, use it.
     if (this.pc.iceGatheringState !== 'complete') await new Promise((resolve, reject) => {
-      const timer = setTimeout(() => { clean(); reject(Error('Local connection discovery timed out.')); }, 15000);
-      const changed = () => { if (this.pc.iceGatheringState === 'complete') { clean(); resolve(); } };
-      const clean = () => { clearTimeout(timer); this.pc.removeEventListener('icegatheringstatechange', changed); };
-      this.pc.addEventListener('icegatheringstatechange', changed); changed();
+      let found = 0, quiet = 0;
+      const timer = setTimeout(() => { clean(); if (found) resolve(); else reject(Error('Local connection discovery timed out.')); }, 15000);
+      const done = () => { clean(); resolve(); };
+      const changed = () => { if (this.pc.iceGatheringState === 'complete') done(); };
+      const candidate = event => { if (!event.candidate) return; found++; clearTimeout(quiet); quiet = setTimeout(done, 1500); };
+      const clean = () => { clearTimeout(timer); clearTimeout(quiet); this.pc.removeEventListener('icegatheringstatechange', changed); this.pc.removeEventListener('icecandidate', candidate); };
+      this.pc.addEventListener('icegatheringstatechange', changed); this.pc.addEventListener('icecandidate', candidate); changed();
+      if (/\na=candidate:/.test(this.pc.localDescription?.sdp || '')) { found++; quiet = setTimeout(done, 1500); } // gathered before we listened
     });
     if (this.closed) throw Error('Pairing cancelled.');
     return this.pc.localDescription.toJSON();

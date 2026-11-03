@@ -69,7 +69,10 @@ export function readArchiveHeader(input) {
 }
 const frame=(metadata,bytes=new Uint8Array())=>{const h=enc.encode(JSON.stringify(metadata));check(h.length<=65536,'Member metadata is too large.');const out=new Uint8Array(4+h.length+bytes.length);new DataView(out.buffer).setUint32(0,h.length);out.set(h,4);out.set(bytes,4+h.length);return out;};
 function unframe(bytes){check(bytes.length>=4,'Truncated member.');const n=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength).getUint32(0);check(n<=65536&&n+4<=bytes.length,'Invalid member metadata.');return {metadata:JSON.parse(dec.decode(bytes.subarray(4,4+n))),data:bytes.slice(4+n)};}
-export async function pack({source,assets=[],metadata={},entries=null,previous=null,secret=null,privateEntries=null,id=null,now=null}={}) {
+/** Below this much public entry source, a search index costs more than it saves (SQLite+FTS5 alone is ~100 KiB), so writers omit it and readers search source. */
+export const INDEX_MIN_SOURCE_BYTES=256*1024;
+export async function pack({source,assets=[],metadata={},entries=null,previous=null,secret=null,privateEntries=null,id=null,now=null,index:indexMode='auto'}={}) {
+  check(['auto','always','never'].includes(indexMode),'Index mode must be auto, always or never.');
   check(!previous?.partial,'Unlock every protected entry before rewriting this archive.');
   check(metadata&&typeof metadata==='object'&&!Array.isArray(metadata),'Document metadata must be an object.');
   check(typeof source==='string','Journal source must be text.');check(Array.isArray(assets)&&assets.length<=1000,'Too many assets.');
@@ -102,9 +105,15 @@ export async function pack({source,assets=[],metadata={},entries=null,previous=n
     assetMetadata.push({id:assetId,revision,...info});materializedAssets.push({id:assetId,revision,...info,data:bytes});check(item.byteLength<=LIMITS.assetBytes+65536,'Encrypted asset exceeds the size limit.');
   }
   const publicEntries=await Promise.all(logical.filter(e=>!e.private).map(async e=>({...e,hash:await sha256(e.source)})));
-  const generation=await sha256(JSON.stringify(publicEntries.map(e=>[e.id,e.date,e.timezone,e.hash]))),indexBytes=indexOwners.has(previous)&&previous?.indexBytes&&old?.index?.generation===generation?previous.indexBytes:await buildIndex(publicEntries,generation);
-  const index={id:old?.index?.id||uuid(),kind:'index',revision:1,date:null,path:'index.sqlite',byteLength:indexBytes.length,sha256:await sha256(indexBytes),generation};descriptor(index);files.set(index.path,indexBytes);
-  const manifest={format:'jot',version:'1.0',id:archiveId,entries:members.filter(m=>m.kind==='entry'),assets:members.filter(m=>m.kind==='asset'),index};
+  const generation=await sha256(JSON.stringify(publicEntries.map(e=>[e.id,e.date,e.timezone,e.hash])));
+  const publicBytes=publicEntries.reduce((sum,e)=>sum+enc.encode(e.source).length,0);
+  const wantIndex=indexMode==='always'||indexMode==='auto'&&publicBytes>=INDEX_MIN_SOURCE_BYTES;
+  let index=null,indexBytes=null;
+  if(wantIndex){
+    indexBytes=indexOwners.has(previous)&&previous?.indexBytes&&old?.index?.generation===generation?previous.indexBytes:await buildIndex(publicEntries,generation);
+    index={id:old?.index?.id||uuid(),kind:'index',revision:1,date:null,path:'index.sqlite',byteLength:indexBytes.length,sha256:await sha256(indexBytes),generation};descriptor(index);files.set(index.path,indexBytes);
+  }
+  const manifest={format:'jot',version:'1.0',id:archiveId,entries:members.filter(m=>m.kind==='entry'),assets:members.filter(m=>m.kind==='asset'),...(index?{index}:{})};
   const catalog={entries:logical.map(entry=>Object.fromEntries(Object.entries(entry).filter(([key])=>key!=='source'))),assets:assetMetadata,metadata};
   if(session){
     manifest.keys=clone(validateKeys(session.keys));
@@ -157,7 +166,8 @@ export async function unpack(input,{secret=null}={}) {
   check(new Set(assets.map(a=>a.path)).size===assets.length,'Duplicate asset aliases.');
   const publicEntries=entries.filter(e=>!e.private),generation=await sha256(JSON.stringify(publicEntries.map(e=>[e.id,e.date,e.timezone,e.hash])));
   let index=null,indexBytes=null,indexError=null;
-  try{check(header.index,'Search index missing; using source search.');indexBytes=await get(header.index);check(header.index.generation===generation,'Stale index generation.');index=await openIndex(indexBytes,publicEntries,generation);}catch(error){indexError=error.message;}
+  // No descriptor means the writer chose source search (small archives); a listed but unusable index is reported.
+  if(header.index)try{indexBytes=await get(header.index);check(header.index.generation===generation,'Stale index generation.');index=await openIndex(indexBytes,publicEntries,generation);}catch(error){indexError=error.message;}
   const doc={source:entries.filter(e=>e.source!==null).map(e=>e.source).join(''),assets,entries,manifest:header,archive:header,metadata:catalog?.metadata||{},session,packaged:true,partial:protectedArchive&&!session,protected:protectedArchive,index,indexBytes,indexError};
   caches.set(doc,saved);return doc;
 }

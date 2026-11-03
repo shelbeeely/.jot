@@ -24,7 +24,10 @@ const server = http.createServer((req, res) => {
     page.on('pageerror', (e) => errors.push(e.message));
     await context.route('https://open.spotify.com/**', (route) => { calls.push(route.request().url()); return route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Mock Spotify</title><button>Play</button>' }); });
     await page.goto(`http://127.0.0.1:${server.address().port}/write/`);
-    await page.waitForFunction(() => document.getElementById('writing').value.length > 0);
+    // New journals start empty; give these checks some writing that must stay untouched.
+    await require('./test-source-workspace.cjs')(page);
+    await page.fill('#writing', '### 2026-11-03 | Tuesday\n\nA quiet evening.\n');
+    await require('./test-source-workspace.cjs').command(page, 'Side by side'); // the pages are checked too
     const original = await page.inputValue('#writing');
     assert.equal(calls.length, 0);
     await page.click('#musicPlayerBtn'); assert.equal(calls.length, 0);
@@ -38,7 +41,7 @@ const server = http.createServer((req, res) => {
     assert.equal(await page.inputValue('#writing'), original);
     await page.evaluate(() => { window.originalMusicFrame = document.querySelector('#musicPlayerFrame iframe'); });
     await page.fill('#writing', original + '\nA new sentence.'); await page.click('#structureTab'); await page.click('#previewTab');
-    await page.click('#focusBtn');
+    await require('./test-source-workspace.cjs').command(page, 'Focus mode');
     assert.equal(await page.isVisible('#musicPlayer'), true);
     assert.equal(await page.evaluate(() => window.originalMusicFrame === document.querySelector('#musicPlayerFrame iframe')), true);
     assert.equal(calls.length, 1);
@@ -57,6 +60,7 @@ const server = http.createServer((req, res) => {
     await page.emulateMedia({ media: 'print' }); assert.equal(await page.isVisible('#musicPlayer'), false);
     await page.emulateMedia({ media: 'screen' });
     const beforeReload = calls.length; await page.reload();
+    await require('./test-source-workspace.cjs')(page);
     assert.equal(await page.locator('#musicPlayerFrame iframe').count(), 0); assert.equal(calls.length, beforeReload);
     assert.equal(await page.inputValue('#writing'), original + '\nA new sentence.');
     await page.click('#musicBtn');
@@ -66,7 +70,7 @@ const server = http.createServer((req, res) => {
     await page.click('#musicAdd');
     assert.match(await page.inputValue('#writing'), /\[Album\]\(spotify:album:4aawyAB9vmqN3uQ7FjRGTy\)/);
     const album = page.locator('#paperPreview a[href="https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy"]');
-    await album.waitFor(); assert.equal(await album.textContent(), 'Album');
+    await album.waitFor({ state: 'attached' }); assert.equal(await album.textContent(), 'Album'); // the pages render while the writing is in view
     assert.equal(await page.locator('#paperPreview a[href="https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"]').count(), 1);
     for (const [href, label] of [['https://www.imdb.com/title/tt0133093/', 'Film'], ['https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'Video'], ['https://www.youtube.com/playlist?list=PL1234567890abcdef', 'Videos']]) {
       const link = page.locator('#paperPreview a').filter({ hasText: label });
@@ -74,6 +78,7 @@ const server = http.createServer((req, res) => {
       assert.ok(await link.count() >= 1);
     }
     assert.equal(calls.length, beforeReload, 'reading references never fetches Spotify');
+    await require('./test-source-workspace.cjs').command(page, 'Page preview');
     const download = page.waitForEvent('download'); await page.click('#exportPage');
     const html = fs.readFileSync(await (await download).path(), 'utf8');
     assert.ok(html.includes('https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy'));

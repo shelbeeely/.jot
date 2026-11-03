@@ -27,7 +27,7 @@ manifest.json                  # FIRST member, STORE, UTF-8 JSON; version 1.0
 entries/<uuid>.jot             # public writing, exact UTF-8 bytes
 media/<uuid>                   # public attachment bytes
 private/<uuid>.enc             # protected entry, attachment or catalog
-index.sqlite                   # public-only SQLite database, FTS5 included
+index.sqlite                   # public-only SQLite database, FTS5 included; omitted for small archives
 ```
 
 Public writing is human-readable after extracting the ZIP. Protected writing/media is not. Public entries, their tags and
@@ -41,8 +41,8 @@ reject traversal/absolute/backslash/duplicate/symlink paths and extra members, e
 lengths and SHA-256. Empty directories under entries/, media/ and private/ are allowed. Member timestamps are fixed at
 2000-01-01T00:00:00Z; actual journal times belong in entry metadata, not ZIP timestamps.
 
-`manifest.json` has `format: "jot"`, `version: "1.0"`, archive UUID `id`, ordered `entries`, ordered `assets`, `index`, and either
-`catalogData` (unprotected archive) or `keys` plus encrypted `catalog` (protection enabled). The two catalog forms MUST NOT coexist. The index descriptor is optional for readers; writers generate it. A missing descriptor/payload or unusable cache must leave verified source available for local search. UUIDs are random v4 identifiers,
+`manifest.json` has `format: "jot"`, `version: "1.0"`, archive UUID `id`, ordered `entries`, ordered `assets`, an optional `index`, and either
+`catalogData` (unprotected archive) or `keys` plus encrypted `catalog` (protection enabled). The two catalog forms MUST NOT coexist. The index descriptor is optional. Writers include it when the public entries' source totals at least 256 KiB (262,144 UTF-8 bytes) and omit both the descriptor and `index.sqlite` below that, where scanning source is fast and the SQLite/FTS5 file (about 100 KiB even when nearly empty) would dominate the archive; a writer MAY include an index for a smaller archive when asked. An omitted descriptor is a normal archive, not an error. A listed but missing, stale or unusable index is reported, and in every case verified source remains available for local search. UUIDs are random v4 identifiers,
 independent of dates or content. Member descriptors have `id`, `kind` (`entry`, `asset`, `catalog`, `index`), positive `revision`,
 `date` (logical entry day or null), `path`, `byteLength` and lowercase SHA-256 of stored member bytes. Public entry descriptors
 also contain `timezone`, `createdAt` and `updatedAt`; protected descriptors MUST NOT expose these or plaintext hashes/titles/tags.
@@ -85,7 +85,7 @@ Writer says the previous browser copy may remain public. Portable Save/Download 
 
 ## Search index
 
-Writers embed `index.sqlite` as a STORE member. It is a cache, not source of truth or executable journal content. SQLite tables:
+When public entry source reaches the 256 KiB threshold above, writers embed `index.sqlite` as a STORE member. It is a cache, not source of truth or executable journal content. SQLite tables:
 
 - `meta(version INTEGER, generation TEXT)` — one row, schema version 1;
 - `entries(id TEXT PRIMARY KEY, date TEXT, timezone TEXT, hash TEXT)` — public entries only;
@@ -123,7 +123,8 @@ doc.index?.close();
 ```
 
 `pack` accepts `entries`, `previous` (unlocked document/packed state), optional `secret` (passphrase/session), `privateEntries`
-(`"all"` or UUID list), asset bytes, metadata and archive ID. `packedState(bytes)` returns this process's in-memory save state for
+(`"all"` or UUID list), asset bytes, metadata, archive ID and `index` (`"auto"`, the default, applies the threshold;
+`"always"` or `"never"` override it; `INDEX_MIN_SOURCE_BYTES` exports the threshold). `packedState(bytes)` returns this process's in-memory save state for
 subsequent saves/ciphertext reuse. It is not a plaintext sidecar and must not be persisted outside the archive. `readDocument(bytes,
 {secret})` returns source, entries, assets, metadata, session and index; without a secret, protected entries have null source and
 `partial: true`. A partial document MUST NOT be rewritten or treated as a complete export. `pack` rejects partial `previous`.

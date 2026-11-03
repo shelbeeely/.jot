@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 110242,
-      "sha256": "60e7815094b5f78efe5de11bd14e8d1a859ce04bf3180608e8ef73ae7409d3c1"
+      "byteLength": 112170,
+      "sha256": "94e5f21943b5f2b4f68239576089d7df1c3c309e38a2e5c35a4444fa4cf70980"
     },
     {
       "path": "README.md",
@@ -129,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 70508,
-      "sha256": "23bea79b45836c00da1075c6bfe8d25a97bbe42d05d84801c38207a8774cb187"
+      "byteLength": 70554,
+      "sha256": "2c83fe8154884fe7038df888c773099f4b1558a9637607c1eb54be7bf1508e38"
     },
     {
       "path": "cli/README.md",
@@ -894,8 +894,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 50434,
-      "sha256": "71f90ebf533e9ed6fa8fcf8dcd2a87d0e0bbb8da8df9d119a1679fce3acc8c90"
+      "byteLength": 50524,
+      "sha256": "788051e33d44242e9e7c87fc0eacc7421b9ac63a5d6adc5e060e622fc9ac6b09"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -1284,8 +1284,8 @@
     },
     {
       "path": "examples/packaged.jotz",
-      "byteLength": 110854,
-      "sha256": "c225062ad8a614dee020ff809746e883134924fc5215d8ac96c3566ae9b30d49"
+      "byteLength": 3966,
+      "sha256": "4c31bcfcc32f6c216f768c2686a6d386601e77d97955f0b2b2d98617da4d2139"
     },
     {
       "path": "examples/plain-text.jot",
@@ -22154,8 +22154,8 @@
     },
     {
       "path": "parser/CONTAINER.md",
-      "byteLength": 13141,
-      "sha256": "9255fb4bd3969faad617d8832261a44292d551e706382ecf412ab2e2e1b6a394"
+      "byteLength": 13778,
+      "sha256": "56db1a164111f0b1f7ae9b03aaba5da13612c43e413dee66b51879894dee0ad1"
     },
     {
       "path": "parser/LOCK.md",
@@ -22169,8 +22169,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 23416,
-      "sha256": "335655977debb3f36c39caaf5fed3260de111e121ea447664f364427991f9cd8"
+      "byteLength": 23560,
+      "sha256": "d9b640c2f8f73919b916249102276e65c534283f62eed59fcb6f5f8a59928a8e"
     },
     {
       "path": "parser/archive-common.mjs",
@@ -22199,8 +22199,8 @@
     },
     {
       "path": "parser/archive-test.mjs",
-      "byteLength": 7911,
-      "sha256": "3f39e4ac56648fcdb29eb948dc42427ae6f71b435b06363c731c1dee5a088729"
+      "byteLength": 7971,
+      "sha256": "8db63ea01f69e86dcbcb4489b283dffc78a4db6b7935a96ceace8ee2a0718fa2"
     },
     {
       "path": "parser/archive-zip.mjs",
@@ -22234,13 +22234,13 @@
     },
     {
       "path": "parser/container-test.mjs",
-      "byteLength": 6839,
-      "sha256": "a97d3b78b78a479924c3c90448ac645e6218c8e59a833ea8881e56b8f4455a0a"
+      "byteLength": 8993,
+      "sha256": "aef61e24b049a863eb88092562f15a2cd10dfd31f753f03b7fd9bfdf35209b94"
     },
     {
       "path": "parser/container.mjs",
-      "byteLength": 23351,
-      "sha256": "036a85ac2005f59e5fb12417c8a077705433b256a607e5f1d7d5e257670665bf"
+      "byteLength": 24004,
+      "sha256": "68cf31f6ce0f60c6d0355f0d119fe2d929f3b30df09537a89f1d971b597259d3"
     },
     {
       "path": "parser/example-source.txt",
@@ -22589,8 +22589,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 13312,
-      "sha256": "0b4de1685818a43e80e4d4cad17b40fae15587a890056e18719df4f121308a05"
+      "byteLength": 13488,
+      "sha256": "e4ff9722e8b7ff1b98df3780db282a740d2df7ea44db3e2552ad67a644c56a40"
     },
     {
       "path": "site/CLAUDE.md",
@@ -22609,13 +22609,13 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 23411,
-      "sha256": "a17f3d7b8715ac2a0939c3bf95a2973813e38d659432316592305f92237f8b8c"
+      "byteLength": 23555,
+      "sha256": "f50655e60190b70a9ea64ef395eda8e38f2476a068705f105499d5537c7fbe6d"
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 70534,
-      "sha256": "63ebd7c09d6f6533299fee8ea48b40916ecba6e6a4c680edb36772b1427740bf"
+      "byteLength": 70580,
+      "sha256": "c7883a51b2aa89a15dda0959ee039447bef6e6e22263ba53b0557a324346be9b"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -22649,8 +22649,8 @@
     },
     {
       "path": "site/dist/archive-tools.mjs",
-      "byteLength": 6040,
-      "sha256": "8a8fe1dbc19918182b86f83e58fd516a865aaed8dfc1234d9960cd4ee094b40b"
+      "byteLength": 6148,
+      "sha256": "9255fda79656d484d2744b68d51efc3253eb763a7686e72c10f39df2c033292a"
     },
     {
       "path": "site/dist/attachment-viewer.mjs",
@@ -22719,8 +22719,8 @@
     },
     {
       "path": "site/dist/docs/Jot-Container-v1.md",
-      "byteLength": 13154,
-      "sha256": "42988ab4a0666cbc8f769261536f0cdc2d023d394d02586a088249890817bd14"
+      "byteLength": 13791,
+      "sha256": "5f5b205616514a3a83884cc9a42e556243973f338ac1eb751596054b54427a4b"
     },
     {
       "path": "site/dist/docs/Jot-Protection-v1.md",
@@ -22729,13 +22729,13 @@
     },
     {
       "path": "site/dist/docs/example.jotz",
-      "byteLength": 110854,
-      "sha256": "c225062ad8a614dee020ff809746e883134924fc5215d8ac96c3566ae9b30d49"
+      "byteLength": 3966,
+      "sha256": "4c31bcfcc32f6c216f768c2686a6d386601e77d97955f0b2b2d98617da4d2139"
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1958072,
-      "sha256": "5327a83ecde99dd4433209f961c066559e615e6d655db9729df9bf4c25e96b0e"
+      "byteLength": 1959312,
+      "sha256": "f472f9e3e912f33fc87ed9acb99e27cb64aad5e80bc40a6651c6e2796e89945a"
     },
     {
       "path": "site/dist/docs/security-testing.md",
@@ -23049,8 +23049,8 @@
     },
     {
       "path": "site/dist/examples/packaged.jotz",
-      "byteLength": 110854,
-      "sha256": "c225062ad8a614dee020ff809746e883134924fc5215d8ac96c3566ae9b30d49"
+      "byteLength": 3966,
+      "sha256": "4c31bcfcc32f6c216f768c2686a6d386601e77d97955f0b2b2d98617da4d2139"
     },
     {
       "path": "site/dist/examples/plain-text.jot",
@@ -23144,8 +23144,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 66620,
-      "sha256": "7f6c42e80f0b96c43c1f70f8f847955c89441f7d98bcfbcafc2d4cb70ccd0f3a"
+      "byteLength": 66710,
+      "sha256": "d6876d8afbbea5c0cae011696f067346ed9a9a1a748c970658461d39f79ff80e"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -23254,8 +23254,8 @@
     },
     {
       "path": "site/dist/jot/container.mjs",
-      "byteLength": 23351,
-      "sha256": "036a85ac2005f59e5fb12417c8a077705433b256a607e5f1d7d5e257670665bf"
+      "byteLength": 24004,
+      "sha256": "68cf31f6ce0f60c6d0355f0d119fe2d929f3b30df09537a89f1d971b597259d3"
     },
     {
       "path": "site/dist/jot/convert.mjs",
@@ -23574,8 +23574,8 @@
     },
     {
       "path": "site/dist/jot/voice.mjs",
-      "byteLength": 18410,
-      "sha256": "c84ea9f69979173d3ec52eee5d4f49afc8fdea81a30b7c9dfd676141a1838482"
+      "byteLength": 18831,
+      "sha256": "b89a5cfe2795231040e3553bd01dc349a4977f1af7028f79b8146aa6d76179e5"
     },
     {
       "path": "site/dist/live-model.mjs",
@@ -23624,13 +23624,13 @@
     },
     {
       "path": "site/dist/nearby.mjs",
-      "byteLength": 11818,
-      "sha256": "0182ded6cbb9a76df6e87acf83d6f0259012b15c2b0661a8e3ee4a5ae7e5756b"
+      "byteLength": 12545,
+      "sha256": "9205562e65f15cc9936a7df83c34f69a425a87d29614b603efc0d5e1d030ccc7"
     },
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 4865,
-      "sha256": "df1f2068135e5ea674d1cb7eeb825826638c472f15d1d7b0571e45499db3a494"
+      "sha256": "d9fd59af51726b45924cde994ce0ef44409687fc05cf968e7b94f74aa2496d2e"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23714,8 +23714,8 @@
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 81392,
-      "sha256": "348467564e16f1cf627667eabb674c5e2fad7c923dfaff6e3af41a585f1f816c"
+      "byteLength": 83033,
+      "sha256": "caa285d01c7b62a7bd2d619f1cb4e8c10e7b57fe7dbec0d20f6ef822010c7f72"
     },
     {
       "path": "site/dist/sw.mjs",
@@ -23879,8 +23879,8 @@
     },
     {
       "path": "site/dist/writer-workspace.css",
-      "byteLength": 13945,
-      "sha256": "0fe5c345a71210a4e8d11621bfe562367b63c09cf5963dc1e4fdf6829f95795c"
+      "byteLength": 14010,
+      "sha256": "1d22c9887015ee01c366a71859d60aabe0de0b43ad7669fc6becb979c4ac9063"
     },
     {
       "path": "site/dist/writer-workspace.mjs",
@@ -23909,8 +23909,8 @@
     },
     {
       "path": "site/test-archive-ui.cjs",
-      "byteLength": 8739,
-      "sha256": "f3d0541a3971983ff67509ed37fe44b6bec455578c9197dfd2d7ce5e9b9745f6"
+      "byteLength": 8930,
+      "sha256": "a2c38a4df645a7f0fdb5c109c2f3d7e8806b9a184c0360063da85bb4287a89db"
     },
     {
       "path": "site/test-attachment-viewer-ui.cjs",
@@ -23954,8 +23954,8 @@
     },
     {
       "path": "site/test-convert-ui.cjs",
-      "byteLength": 13563,
-      "sha256": "5ccc84f475613f80488bc882361a5a39ce1eb6b51c6b6830b215db99fe17ce54"
+      "byteLength": 13755,
+      "sha256": "85bf544143b8541bc46ea9b1d4b63aec9438cc3b08513ecb8c4ed11c025b4676"
     },
     {
       "path": "site/test-core.cjs",
@@ -23989,8 +23989,8 @@
     },
     {
       "path": "site/test-editor-ui.cjs",
-      "byteLength": 41172,
-      "sha256": "4fb02312582ee7c128842bccedfbce507b10c136dc3f962ee1bd8c08cf9437f0"
+      "byteLength": 41632,
+      "sha256": "7285f1157ac588f6122b40762183643904b13d54d2cbed734591c275760d56df"
     },
     {
       "path": "site/test-editor.mjs",
@@ -24004,8 +24004,8 @@
     },
     {
       "path": "site/test-examples-ui.cjs",
-      "byteLength": 6421,
-      "sha256": "9c54c5364ab31b5e9fa2a4260eefa2feff1cca61115c59a034f18f5190635337"
+      "byteLength": 6647,
+      "sha256": "5c049f2b5b091c7f2517e091d30f5360e415f8d8d9886b68652e84b077c9b64c"
     },
     {
       "path": "site/test-font-inspector-ui.cjs",
@@ -24019,8 +24019,8 @@
     },
     {
       "path": "site/test-health-ui.cjs",
-      "byteLength": 7500,
-      "sha256": "8a0623ff8bcfc6e7e2a54f98120c50b58d3eead01715d5c830663158612880ce"
+      "byteLength": 7597,
+      "sha256": "d2fa68f0edb7cbb12532d1466413da6cbb939cd4c2820fbde5a7aa1b20df6ae0"
     },
     {
       "path": "site/test-highlight-blend-ui.cjs",
@@ -24064,23 +24064,23 @@
     },
     {
       "path": "site/test-lock-ui.cjs",
-      "byteLength": 18511,
-      "sha256": "6304366f8f0ef82c652219603332a557879d65c0fb0419031c118cac1ba1f72f"
+      "byteLength": 19179,
+      "sha256": "e5c16cd8d7cd763603db4c0b824830991c910a5efa91f4635a9fd7f97d096bd3"
     },
     {
       "path": "site/test-media-lookup-ui.cjs",
-      "byteLength": 6048,
-      "sha256": "91e2b6297547e9f2410f53d3a6eb76cc92e799d3fc59544087483eea7fa58c87"
+      "byteLength": 6295,
+      "sha256": "0ffd75023d07c35fdc3b7a0ccb67efc70a3d2ecde3a68deec138a3a1371a4a5d"
     },
     {
       "path": "site/test-music-player-ui.cjs",
-      "byteLength": 7797,
-      "sha256": "187306c566cfc990c016909a1ffc14c6170c7207d04867e2c82092f2dc390632"
+      "byteLength": 8293,
+      "sha256": "9f52b0e086d05a0c703f58867390dda7fcc11929779f850967f48b80dc884bd0"
     },
     {
       "path": "site/test-music-ui.cjs",
-      "byteLength": 13455,
-      "sha256": "e909e2732715da6f6d6ab0651ce9ba709486bd1afe88c8487a868b39a66f21f1"
+      "byteLength": 13602,
+      "sha256": "9330f8d2b80ff5d050f026ebaa58e7d5f4e3df42a16f35ba53857df464ce53c4"
     },
     {
       "path": "site/test-music.mjs",
@@ -24099,8 +24099,8 @@
     },
     {
       "path": "site/test-palette-ui.cjs",
-      "byteLength": 9021,
-      "sha256": "49ad7cb993549cf79b36982e91a2893d2a601fe6f9b9f26856759ffe91897ee4"
+      "byteLength": 9991,
+      "sha256": "0b973aaa2ec4326a16aa4cf4276efc99392fb79db6455fcf6e9aaae91a90428d"
     },
     {
       "path": "site/test-paper-ui.cjs",
@@ -24144,8 +24144,8 @@
     },
     {
       "path": "site/test-voice-ui.cjs",
-      "byteLength": 9244,
-      "sha256": "8605f6a4c2a6be3644453cb62774a04863e4a313406a8f52038abe1e5d2d92c0"
+      "byteLength": 9672,
+      "sha256": "24d8db1422de080b14265a23d34f034c377f6d614825005d8724ba21db88b41b"
     },
     {
       "path": "site/test-voice-writing-ui.cjs",
@@ -24159,13 +24159,18 @@
     },
     {
       "path": "site/test-voice.mjs",
-      "byteLength": 6165,
-      "sha256": "053b2792b768be740b0c046fbbea30c9341c0aa54fad6e34351976cbf93aa4b3"
+      "byteLength": 6712,
+      "sha256": "17490528284e522c6a6939f291e51739b7e731148771b9732e45568f73b5a6ed"
     },
     {
       "path": "site/test-writer-fonts-ui.cjs",
       "byteLength": 9746,
       "sha256": "6e87d7e05e7cf10acb3a7d460dbfef53b8009bb49a546dcb4de9fb3dcf741b77"
+    },
+    {
+      "path": "site/test-writer-recovery-ui.cjs",
+      "byteLength": 3855,
+      "sha256": "261a682d17e1b9bdde18d7babefae6ac415e46e62db5323fe8444bb676c61085"
     },
     {
       "path": "site/test-writer-search.mjs",
@@ -24174,8 +24179,8 @@
     },
     {
       "path": "site/test-writer-shortcuts-ui.cjs",
-      "byteLength": 6178,
-      "sha256": "c097c65d91bce448841ffdffea1278d33428e1c3964a2ebf6d3ee30a36489126"
+      "byteLength": 5785,
+      "sha256": "59a2116f4eddaeaaaea2f02e7a38d7500454350eae3053ff791100d09fc6e930"
     },
     {
       "path": "site/test-writer-templates.mjs",
@@ -24209,8 +24214,8 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 153264,
-      "sha256": "b62270f04de527b831b00c9726a423ee836fa723df9951eedd33e2562ed93175"
+      "byteLength": 153434,
+      "sha256": "673b24f2223fa69ed3e330087d4331131cea54f31a85812dbfbea0ac7ce21889"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
@@ -24219,8 +24224,8 @@
     },
     {
       "path": "specification/Jot-Container-v1.md",
-      "byteLength": 13154,
-      "sha256": "42988ab4a0666cbc8f769261536f0cdc2d023d394d02586a088249890817bd14"
+      "byteLength": 13791,
+      "sha256": "5f5b205616514a3a83884cc9a42e556243973f338ac1eb751596054b54427a4b"
     },
     {
       "path": "specification/Jot-Protection-v1.md",
@@ -24234,8 +24239,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 23416,
-      "sha256": "335655977debb3f36c39caaf5fed3260de111e121ea447664f364427991f9cd8"
+      "byteLength": 23560,
+      "sha256": "d9b640c2f8f73919b916249102276e65c534283f62eed59fcb6f5f8a59928a8e"
     },
     {
       "path": "specification/conformance.json",
@@ -24254,8 +24259,8 @@
     },
     {
       "path": "specification/example.jotz",
-      "byteLength": 110854,
-      "sha256": "c225062ad8a614dee020ff809746e883134924fc5215d8ac96c3566ae9b30d49"
+      "byteLength": 3966,
+      "sha256": "4c31bcfcc32f6c216f768c2686a6d386601e77d97955f0b2b2d98617da4d2139"
     },
     {
       "path": "specification/examples-methods.txt",

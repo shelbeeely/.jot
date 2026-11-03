@@ -9,12 +9,10 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decode
   await page.goto(origin+'/write/');await page.waitForFunction(()=>document.documentElement.hasAttribute('data-archive-ready'));
   const text=()=>page.inputValue('#writing');
   const set=async(value,from,to,mode)=>{await page.evaluate(([value,mode])=>{const e=document.getElementById('writing');e.jotSetMode?.(mode);e.value=value;e.dispatchEvent(new Event('input',{bubbles:true}));},[value,mode]);
-   if(mode==='live'){await page.waitForSelector('#liveWriting');await page.locator('#writing').evaluate((e,[a,b])=>e.setSelectionRange(a,b),[from,to]);await page.evaluate(()=>document.getElementById('liveWriting').focus());await page.locator('#writing').evaluate((e,[a,b])=>{e.jotApplyEdit&&0;},[from,to]);}
+   if(mode==='live'){await page.waitForSelector('#liveWriting');await page.locator('#writing').evaluate((e,[a,b])=>e.setSelectionRange(a,b),[from,to]);await page.evaluate(()=>document.getElementById('liveWriting').focus());}
    else{await page.locator('#writing').evaluate((e,[a,b])=>{e.focus();e.setSelectionRange(a,b);},[from,to]);}};
   for(const mode of ['source','live']){
-   const focus=mode==='live'?'#liveWriting':'#writing';
-   const select=async(a,b)=>{await page.locator('#writing').evaluate((e,[a,b])=>e.setSelectionRange(a,b),[a,b]);if(mode==='live'){await page.evaluate(([a,b])=>{const s=document.getElementById('liveWriting');s.focus();},[a,b]);}};
-   const apply=async(value,a,b,keys)=>{await set(value,a,b,mode);if(mode==='live'){await page.evaluate(([a,b])=>{const e=document.getElementById('writing');e.jotSetMode('live');},[a,b]);}
+   const apply=async(value,a,b,keys)=>{await set(value,a,b,mode);if(mode==='live'){await page.evaluate(()=>document.getElementById('writing').jotSetMode('live'));}
      // Place the live selection over the same words through the source mapping.
      if(mode==='live')await page.evaluate(([a,b])=>{const e=document.getElementById('writing');e.jotSetMode('source');e.setSelectionRange(a,b);e.jotSetMode('live');},[a,b]);
      await page.keyboard.press(keys);return text();};
@@ -30,8 +28,8 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decode
    assert.equal(await apply('one',0,3,'Control+Shift+8'),'- one',mode+' bullets');
    assert.equal(await apply('one',0,3,'Control+Shift+9'),'[ ] one',mode+' task');
    // Undo, then redo with Ctrl+Y.
-   await apply('a word b',2,6,'Control+u');await page.keyboard.press('Control+z');await page.waitForFunction(()=>document.getElementById('writing').value==='a word b',null,{timeout:5000}).catch(async e=>{throw Error(mode+' undo: '+await text());});
-   await page.keyboard.press('Control+y');await page.waitForFunction(()=>document.getElementById('writing').value==='a ++word++ b',null,{timeout:5000}).catch(async e=>{throw Error(mode+' redo: '+await text());});
+   await apply('a word b',2,6,'Control+u');await page.keyboard.press('Control+z');await page.waitForFunction(()=>document.getElementById('writing').value==='a word b',null,{timeout:5000}).catch(async()=>{throw Error(mode+' undo: '+await text());});
+   await page.keyboard.press('Control+y');await page.waitForFunction(()=>document.getElementById('writing').value==='a ++word++ b',null,{timeout:5000}).catch(async()=>{throw Error(mode+' redo: '+await text());});
   }
   // File and finder shortcuts.
   await page.keyboard.press('Control+/');await page.waitForFunction(()=>document.getElementById('writerShortcutsDialog').open);

@@ -51,9 +51,12 @@ body: Grey and wet.
     const page = await ctx.newPage(), errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(url);
+    await require('./test-source-workspace.cjs')(page); // these checks edit the plain Jot source
     await page.setInputFiles('#attachFile', { name: 'dot.png', mimeType: 'image/png', buffer: PNG });
     await page.waitForFunction(() => /1 asset/.test(document.getElementById('assetCount').textContent));
-    await page.fill('#writing', SOURCE); await page.waitForTimeout(450);
+    // New attachments get a media/<uuid> path; the journal refers to the picture by that path.
+    const dotPath = (await page.inputValue('#writing')).match(/media\/[0-9a-f-]{36}/)?.[0]; assert.ok(dotPath, 'attaching inserts a link to the picture');
+    await page.fill('#writing', SOURCE.replaceAll('assets/dot.png', dotPath)); await page.waitForTimeout(450);
     const check = async (label) => {
       const chips = await page.$$eval('#paperPreview .jot-palette .jot-swatch', (els) => els.map((e) => ({ text: e.textContent, bg: getComputedStyle(e).backgroundColor, ink: getComputedStyle(e).color, hex: e.dataset.hex, visible: e.getBoundingClientRect().height > 20 })));
       assert.equal(chips.length, 4, label);
@@ -72,6 +75,8 @@ body: Grey and wet.
       assert.equal(await page.locator('#paperPreview div.jot-mood-grid[aria-label="Pictures"] figure').count(), 2);
     };
     // Handwritten (the default look)
+    // Writing and pages side by side, so the page settings are on screen.
+    await require('./test-source-workspace.cjs').command(page, 'Side by side');
     await page.evaluate(() => document.querySelector('#paperPreview').jotReady);
     assert.ok(await page.locator('#paperPreview').evaluate((e) => e.classList.contains('jot-hand')));
     await check('handwritten');
@@ -98,6 +103,7 @@ body: Grey and wet.
     await caret('body: Grey'); await page.click('#paletteJsonBtn');
     assert.deepEqual(JSON.parse(await page.evaluate(() => navigator.clipboard.readText())), { name: 'Rain study', colors: [{ name: 'ink blue', hex: '#1f3a8a', variable: '--ink-blue' }] });
     // Add to palette: the chosen reference color, before the closing :::
+    if (!await page.isVisible('#formatPreset')) { if (!await page.isVisible('.writer-format')) await require('./test-source-workspace.cjs').command(page, 'Formatting controls'); await page.click('#writerColorsToggle'); }
     await caret('color: brick'); await page.selectOption('#formatPreset', '#fddd13'); await page.click('#addSwatch');
     const text = await page.inputValue('#writing');
     assert.ok(/color: brick\ncolor: #fddd13 [^\n]+\n:::\n\n:::record moodboard/.test(text), text.slice(0, 300));
@@ -108,9 +114,11 @@ body: Grey and wet.
       const m = await ctx.newPage(); await m.setViewportSize({ width: 390, height: 844 }); await m.emulateMedia({ colorScheme: scheme });
       await m.goto(url); await m.waitForTimeout(500);
       assert.ok(await m.evaluate(() => document.documentElement.scrollWidth <= 390), `390 px ${scheme}: no sideways scroll`);
+      await m.click('.writer-nav [data-nav=preview]'); await m.evaluate(() => document.querySelector('#paperPreview').jotReady);
       await m.locator('#paperPreview .jot-palette').scrollIntoViewIfNeeded();
       await m.locator('#paperPreview .jot-palette').screenshot({ path: path.join(shots, `palette-390-${scheme}.png`) });
       await m.locator('#paperPreview .jot-moodboard').screenshot({ path: path.join(shots, `moodboard-390-${scheme}.png`) });
+      if (!await m.isVisible('#look')) await m.click('#paperSettingsToggle');
       await m.selectOption('#look', 'hand'); await m.evaluate(() => document.querySelector('#paperPreview').jotReady);
       await m.locator('#paperPreview .jot-palette').screenshot({ path: path.join(shots, `palette-hand-390-${scheme}.png`) });
       if (fs.existsSync(AXE)) {

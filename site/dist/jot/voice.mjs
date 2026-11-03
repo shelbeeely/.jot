@@ -66,17 +66,17 @@ const rating = (value, lo, hi, label) => {
   if (!/^[0-9]+$/.test(v) || Number(v) < lo || Number(v) > hi) throw new Error(`${label} is a whole number from ${lo} to ${hi}, or empty.`);
   return v;
 };
-/** A recording attached to the document: a relative path inside assets/, on one line, with no '..' segments. */
+/** A recording attached to the document: a relative path inside media/ (new attachments) or assets/, on one line, with no '..' segments. */
 export function recordingPath(value) {
   const v = String(value ?? '').trim(); if (!v) return '';
-  if (!/^assets\/[^\u0000-\u001f\u007f\\:*?"<>|]+$/.test(v) || v.split('/').some((part) => part === '..' || part === '.' || part === '')) throw new Error('Choose a recording attached to this journal.');
+  if (!/^(?:assets|media)\/[^\u0000-\u001f\u007f\\:*?"<>|]+$/.test(v) || v.split('/').some((part) => part === '..' || part === '.' || part === '')) throw new Error('Choose a recording attached to this journal.');
   return v;
 }
-const linkable = (path) => /^assets\/[\p{L}\p{N}._/-]+$/u.test(path);
+const linkable = (path) => /^(?:assets|media)\/[\p{L}\p{N}._/-]+$/u.test(path);
 
 /** The plain-text note the Add button inserts: a short section with prose, a pitch measurement (when measured), a minutes
  *  measurement and a voice-practice observation. Charts read pitch-hz and voice-minutes; any text editor can write the same. */
-export function voiceNote({ minutes = '', exercise = '', resonance = '', strain = '', feltLikeMe = '', note = '', recording = '', pitch = null, voicedSeconds = 0 } = {}) {
+export function voiceNote({ minutes = '', exercise = '', resonance = '', strain = '', feltLikeMe = '', note = '', recording = '', recordingName = '', pitch = null, voicedSeconds = 0 } = {}) {
   const mins = String(minutes ?? '').trim();
   if (mins && (!NUMBER.test(mins) || Number(mins) < 0 || Number(mins) > 1440)) throw new Error('Minutes is a number from 0 to 1440, or empty.');
   const fields = { exercise: one(exercise), resonance: rating(resonance, 1, 5, 'Resonance'), strain: rating(strain, 0, 5, 'Strain'), 'felt-like-me': rating(feltLikeMe, 1, 5, 'Felt like me'), recording: recordingPath(recording) };
@@ -86,7 +86,9 @@ export function voiceNote({ minutes = '', exercise = '', resonance = '', strain 
   const lines = ['#### Voice practice', ''];
   if (measured) lines.push(`Pitch, measured on this device: median ${pitch.median} Hz, most of the time between ${pitch.low} and ${pitch.high} Hz, over ${duration(voicedSeconds)} of voiced sound. No audio was recorded.`, '');
   if (text) lines.push(text.split('\n').map(proseLine).join('\n'), '');
-  if (fields.recording && linkable(fields.recording)) lines.push(`Recording: [${fields.recording.split('/').pop()}](${fields.recording})`, '');
+  // New attachments live at media/<uuid>; their link reads with the file's own name.
+  const label = String(recordingName || '').replace(/[\[\]\\\r\n]/g, ' ').trim().slice(0, 200) || fields.recording.split('/').pop();
+  if (fields.recording && linkable(fields.recording)) lines.push(`Recording: [${label}](${fields.recording})`, '');
   if (measured) lines.push(':::record measurement', 'metric: pitch-hz', 'unit: Hz', `value: ${pitch.median}`, `low: ${pitch.low}`, `high: ${pitch.high}`, ':::', '');
   if (mins) lines.push(':::record measurement', 'metric: voice-minutes', 'unit: min', `value: ${Number(mins)}`, ':::', '');
   const kept = Object.entries(fields).filter(([, v]) => v);
@@ -199,13 +201,13 @@ export function setupVoicePractice({ insert, recordings = () => [], attach = asy
   const fillRecordings = (choose) => {
     const select = $('voiceRecording'), keep = choose ?? select.value, none = document.createElement('option');
     none.value = ''; none.textContent = 'None';
-    select.replaceChildren(none, ...recordings().filter((a) => isRecording(a) && (() => { try { return !!recordingPath(a.path); } catch { return false; } })()).map((a) => { const o = document.createElement('option'); o.value = a.path; o.textContent = a.path.split('/').pop(); return o; }));
+    select.replaceChildren(none, ...recordings().filter((a) => isRecording(a) && (() => { try { return !!recordingPath(a.path); } catch { return false; } })()).map((a) => { const o = document.createElement('option'); o.value = a.path; o.textContent = a.name || a.path.split('/').pop(); return o; }));
     select.value = [...select.options].some((o) => o.value === keep) ? keep : '';
   };
   $('voiceAttach').onclick = () => $('voiceRecordingFile').click();
   $('voiceRecordingFile').onchange = async (e) => {
     const files = [...e.target.files]; e.target.value = ''; if (!files.length) return;
-    try { const paths = await attach(files); fillRecordings(paths[0] || ''); say(paths.length ? 'Attached ' + paths[0].split('/').pop() + ' to this journal. It is linked when you add the note.' : 'Nothing was attached.'); }
+    try { const paths = await attach(files); fillRecordings(paths[0] || ''); const added = recordings().find((a) => a.path === paths[0]); say(paths.length ? 'Attached ' + (added?.name || paths[0].split('/').pop()) + ' to this journal. It is linked when you add the note.' : 'Nothing was attached.'); }
     catch (err) { say(err?.message || 'The recording could not be attached.'); }
   };
 
@@ -219,7 +221,7 @@ export function setupVoicePractice({ insert, recordings = () => [], attach = asy
     try {
       const include = $('voiceIncludePitch').checked;
       const text = voiceNote({ minutes: $('voiceMinutes').value, exercise: $('voiceExercise').value, resonance: $('voiceResonance').value, strain: $('voiceStrain').value,
-        feltLikeMe: $('voiceFelt').value, note: $('voiceNote').value, recording: $('voiceRecording').value, pitch: include ? pitchSummary(hz) : null, voicedSeconds: voiced });
+        feltLikeMe: $('voiceFelt').value, note: $('voiceNote').value, recording: $('voiceRecording').value, recordingName: $('voiceRecording').selectedOptions[0]?.textContent || '', pitch: include ? pitchSummary(hz) : null, voicedSeconds: voiced });
       dialog.close(); insert(text);
       for (const id of ['voiceMinutes', 'voiceExercise', 'voiceNote']) $(id).value = '';
       for (const id of ['voiceResonance', 'voiceStrain', 'voiceFelt', 'voiceRecording']) $(id).value = '';
