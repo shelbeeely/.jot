@@ -75,26 +75,36 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   bottomNavigation();
   view('write'); disclosures();
 
-  // Phones get a Material 3 style navigation bar; Tools opens the grouped tool list as a bottom sheet.
+  // Phones get a Material 3 flexible navigation bar; Tools opens the grouped tool list as a bottom sheet.
   function bottomNavigation() {
     const phone = win.matchMedia('(max-width: 700px)');
     const nav = doc.createElement('nav');
     nav.className = 'writer-nav'; nav.setAttribute('aria-label', 'Writer');
-    const shape = path => '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>';
+    // Material 3 flexible navigation bar: three destinations, outlined icons when inactive and filled when active.
+    const svg = (path, filled) => '<svg class="writer-nav-icon ' + (filled ? 'is-filled' : 'is-outlined') + '" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false" fill="' + (filled ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>';
     const items = [
-      ['write', 'Write', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>', () => selectView('write')],
-      ['preview', 'Preview', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>', () => selectView('preview')],
-      ['find', 'Find', '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>', () => $('writerFindBtn').click()],
-      ['tools', 'Tools', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>', () => $('writerCommandsBtn').click()],
+      ['write', 'Write', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4" stroke="var(--writer-nav-indicator)"/>', 'write'],
+      ['preview', 'Preview', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3" fill="var(--writer-nav-indicator)" stroke="var(--writer-nav-indicator)"/>', 'preview'],
+      ['tools', 'Tools', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>', null, null],
     ];
-    for (const [name, label, path, run] of items) {
+    for (const [name, label, outlined, filled, destination] of items) {
       const item = doc.createElement('button');
       item.type = 'button'; item.dataset.nav = name;
       // Icons are static markup; the label is text.
-      item.innerHTML = '<span class="writer-nav-indicator">' + shape(path) + '</span>';
+      item.innerHTML = '<span class="writer-nav-indicator">' + svg(outlined, false) + svg(filled || outlined, true) + '</span>';
       const text = doc.createElement('span'); text.className = 'writer-nav-label'; text.textContent = label; item.append(text);
-      if (name === 'tools') item.setAttribute('aria-haspopup', 'dialog');
-      item.onclick = run; nav.append(item);
+      if (destination) {
+        item.onclick = () => {
+          // Choosing the destination you are on returns to the top of it.
+          if (item.getAttribute('aria-current') === 'page') { win.scrollTo({ top: 0, behavior: win.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+          selectView(destination);
+        };
+      } else {
+        item.setAttribute('aria-haspopup', 'dialog');
+        item.setAttribute('aria-label', 'Tools: every Writer tool');
+        item.onclick = () => $('writerCommandsBtn').click();
+      }
+      nav.append(item);
     }
     (doc.querySelector('.studio-workspace') || doc.body).append(nav);
     historyButtons();
@@ -105,7 +115,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   function historyButtons() {
     const bar = doc.querySelector('.studio-bar');
     if (!bar || $('writerUndo')) return;
-    const group = element('div', undefined, { class: 'writer-history', role: 'group', 'aria-label': 'Undo and redo' });
+    const group = element('div', undefined, { class: 'writer-history', role: 'group', 'aria-label': 'Editing' });
     const make = (id, label, keys, path, redo) => {
       const button = element('button', undefined, { id, type: 'button', 'aria-label': label, title: label + ' (' + keys + ')', 'aria-keyshortcuts': keys });
       button.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>';
@@ -120,6 +130,10 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     };
     make('writerUndo', 'Undo', 'Control+Z Meta+Z', '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>', false);
     make('writerRedo', 'Redo', 'Control+Shift+Z Meta+Shift+Z', '<path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>', true);
+    const find = element('button', undefined, { id: 'writerFindTop', type: 'button', 'aria-label': 'Find and replace', title: 'Find and replace (Ctrl/Cmd F)', 'aria-keyshortcuts': 'Control+f Meta+f' });
+    find.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+    find.onclick = () => $('writerFindBtn').click();
+    group.append(find);
     bar.querySelector('.writer-brand')?.after(group);
   }
 

@@ -127,24 +127,48 @@ html[data-pref-contrast] .writer-welcome :is(.writer-welcome-intro,.writer-welco
 @media screen and (max-width:700px){.writer-welcome{padding:16px;margin-top:4px}body .writer-welcome h2{font-size:20px}}
 @media print{.writer-welcome{display:none!important}}
 html[data-focus] .writer-welcome{display:none}
-/* Material 3 style navigation bar and tool sheet, phones only. */
+/* Material 3 flexible navigation bar, compact and medium windows up to 700px.
+   Roles map onto the writer palette: surface container, secondary container (indicator),
+   on-secondary-container (active icon), secondary (active label), on-surface-variant (inactive). */
 .writer-nav{display:none}
 @media screen and (max-width:700px){
- html:not([data-focus]){--writer-nav-height:calc(80px + env(safe-area-inset-bottom))}
+ html:not([data-focus]){--writer-nav-height:calc(64px + env(safe-area-inset-bottom))}
  html:not([data-focus]) .jot-site.jot-writer main{padding-bottom:var(--writer-nav-height)}
- html:not([data-focus]) .writer-nav{position:fixed;z-index:19;left:0;right:0;bottom:0;display:flex;justify-content:space-around;height:80px;padding:0 max(8px,env(safe-area-inset-right)) env(safe-area-inset-bottom) max(8px,env(safe-area-inset-left));background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 6%,var(--writer-bg,var(--jot-paper)));border-top:1px solid var(--writer-border,var(--jot-edge))}
- .writer-nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;max-width:120px;padding:12px 0 16px;border:0;background:transparent;color:var(--writer-muted,var(--jot-ink));font:500 12px/16px "Jot Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:.5px;cursor:pointer}
- .writer-nav-indicator{display:grid;place-items:center;width:64px;height:32px;border-radius:16px}
- .writer-nav button:hover .writer-nav-indicator{background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 8%,transparent)}
- .writer-nav button:is([aria-current=page],[aria-expanded=true]){color:var(--writer-ink,var(--jot-ink));font-weight:700}
- .writer-nav button:is([aria-current=page],[aria-expanded=true]) .writer-nav-indicator{background:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 16%,var(--writer-bg,var(--jot-paper)))}
+ .writer-nav{--writer-nav-surface:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 6%,var(--writer-bg,var(--jot-paper)));--writer-nav-indicator:color-mix(in srgb,var(--writer-ink,var(--jot-ink)) 16%,var(--writer-bg,var(--jot-paper)));--writer-nav-on-indicator:var(--writer-ink,var(--jot-ink));--writer-nav-active-label:var(--writer-ink,var(--jot-ink));--writer-nav-inactive:var(--writer-muted,var(--jot-ink))}
+ html[data-pref-contrast] .writer-nav{--writer-nav-inactive:var(--writer-ink,var(--jot-ink))}
+ /* Grows with larger text instead of clipping labels. */
+ html:not([data-focus]) .writer-nav{position:fixed;z-index:19;left:0;right:0;bottom:0;display:flex;justify-content:space-around;min-height:64px;box-sizing:border-box;padding:0 max(8px,env(safe-area-inset-right)) env(safe-area-inset-bottom) max(8px,env(safe-area-inset-left));background:var(--writer-nav-surface)}
+ body .writer-nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;min-height:64px;padding:6px 0;border:0;background:transparent;color:var(--writer-nav-inactive);font:500 12px/16px "Jot Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:.5px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:none}
+ .writer-nav-label{text-align:center;overflow-wrap:anywhere}
+ .writer-nav-indicator{position:relative;display:grid;place-items:center;width:56px;height:32px;border-radius:16px;isolation:isolate}
+ /* The active indicator expands from the center of the icon, on one axis only. */
+ .writer-nav-indicator::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--writer-nav-indicator);transform:scaleX(0);transition:transform .2s cubic-bezier(.2,0,0,1)}
+ /* State layers: hover 8%, focus and press 10%. */
+ .writer-nav-indicator::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:currentColor;opacity:0}
+ .writer-nav button:hover .writer-nav-indicator::after{opacity:.08}
+ .writer-nav button:is(:focus-visible,:active) .writer-nav-indicator::after{opacity:.1}
  .writer-nav button:focus-visible{outline:none}.writer-nav button:focus-visible .writer-nav-indicator{outline:2px solid var(--writer-ink,var(--jot-ink));outline-offset:2px}
+ .writer-nav .writer-nav-icon{grid-area:1/1}.writer-nav .is-filled{display:none}
+ body .writer-nav button[aria-current=page]{color:var(--writer-nav-active-label);font-weight:700}
+ .writer-nav button[aria-current=page] .writer-nav-indicator{color:var(--writer-nav-on-indicator)}
+ .writer-nav button[aria-current=page] .writer-nav-indicator::before{transform:scaleX(1)}
+ .writer-nav button[aria-current=page] .is-filled{display:block}.writer-nav button[aria-current=page] .is-outlined{display:none}
  /* Header action the bar replaces. */
  .jot-site.jot-writer .writer-file-actions #writerPreviewToggle{display:none}
  .jot-site.jot-writer #writing{padding-bottom:96px}
- body .writer-nav button{color:var(--writer-muted,var(--jot-ink))}
- body .writer-nav button:is([aria-current=page],[aria-expanded=true]){color:var(--writer-ink,var(--jot-ink))}
 }
+/* Medium windows: horizontal items, centered, the indicator holding icon and label together. */
+@media screen and (min-width:600px) and (max-width:700px){
+ html:not([data-focus]) .writer-nav{justify-content:center;gap:8px}
+ body .writer-nav button{flex:0 0 auto;flex-direction:row;gap:4px;min-height:40px;margin:12px 0;padding:0 16px;border-radius:20px;position:relative;isolation:isolate}
+ .writer-nav button .writer-nav-indicator{position:static;width:24px;height:24px}
+ .writer-nav button .writer-nav-indicator::before,.writer-nav button .writer-nav-indicator::after{border-radius:20px}
+ .writer-nav button::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--writer-nav-indicator);transform:scaleX(0);transition:transform .2s cubic-bezier(.2,0,0,1)}
+ .writer-nav button[aria-current=page]::before{transform:scaleX(1)}
+ .writer-nav button .writer-nav-indicator::before{display:none}
+ .writer-nav button:focus-visible .writer-nav-indicator{outline:none}.writer-nav button:focus-visible{outline:2px solid var(--writer-ink,var(--jot-ink));outline-offset:2px}
+}
+@media(prefers-reduced-motion:reduce){.writer-nav-indicator::before,.writer-nav button::before{transition:none}}
 @media print{.writer-nav{display:none!important}}
 /* Undo and redo beside the brand. */
 .writer-history{display:flex;gap:2px;margin-right:auto}

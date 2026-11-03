@@ -34,6 +34,16 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decode
    await page.click('#welcomeMethods');await page.waitForFunction(()=>document.getElementById('methodsDialog').open);await page.click('#closeMethods');
    // The labeled mic opens voice typing too.
    await page.click('#writerVoiceMic');await page.waitForFunction(()=>document.getElementById('voiceWriting').open);await page.click('#vwClose');
+   // Material 3 flexible navigation bar: three destinations, one active with a filled icon, the FAB above the bar.
+   assert.deepEqual(await page.locator('.writer-nav button .writer-nav-label').allTextContents(),['Write','Preview','Tools']);
+   assert.equal(await page.getAttribute('.writer-nav [data-nav=write]','aria-current'),'page');
+   assert.ok(await page.isVisible('.writer-nav [data-nav=write] .is-filled'));assert.ok(await page.isVisible('.writer-nav [data-nav=preview] .is-outlined'));
+   const bar=await page.locator('.writer-nav').boundingBox(),fab=await page.locator('#writerVoiceMic').boundingBox();assert.ok(bar.height>=64&&fab.y+fab.height<=bar.y,'the FAB sits above the bar');
+   await page.click('.writer-nav [data-nav=preview]');assert.equal(await page.getAttribute('.writer-nav [data-nav=preview]','aria-current'),'page');assert.equal(await page.getAttribute('.writer-nav [data-nav=write]','aria-current'),null);
+   await page.evaluate(()=>scrollTo(0,400));await page.click('.writer-nav [data-nav=preview]');await page.waitForFunction(()=>scrollY===0,null,{timeout:5000});
+   await page.click('.writer-nav [data-nav=write]');
+   // Find lives in the top bar.
+   await page.click('#writerFindTop');await page.waitForFunction(()=>document.getElementById('writerSearchDialog')?.open);await page.keyboard.press('Escape');
    // Every tool is one tap away: the nav's Tools and the welcome's link open the grouped list.
    await page.click('.writer-nav [data-nav=tools]');await page.waitForFunction(()=>document.getElementById('writerCommandsDialog').open);
    const groups=await page.locator('#writerCommandsList .writer-choice-group').allTextContents();assert.deepEqual(groups.slice(0,3),['Start writing','Find your way','Add to an entry']);
