@@ -1,7 +1,7 @@
 import { safePath } from './jot/container.mjs';
 export function validateInk(value) {
   if (!value || value.format !== 'jot-ink' || value.version !== 1 || value.coordinates !== 'normalized' || !Number.isFinite(value.page?.widthMm) || !Number.isFinite(value.page?.heightMm) || value.page.widthMm <= 0 || value.page.heightMm <= 0 || value.page.widthMm > 5000 || value.page.heightMm > 5000 || !Array.isArray(value.strokes) || value.strokes.length > 10000) throw Error('Invalid or unsupported handwriting data.');
-  if (value.background && (!safePath(value.background) || !value.background.startsWith('assets/'))) throw Error('Unsafe handwriting background path.');
+  if (value.background && (!safePath(value.background) || !/^(assets|media)\//.test(value.background))) throw Error('Unsafe handwriting background path.');
   let count = 0;
   for (const stroke of value.strokes) {
     if (!['pen','eraser'].includes(stroke.tool) || !/^#[a-f\d]{6}$/i.test(stroke.color) || !Number.isFinite(stroke.widthMm) || stroke.widthMm <= 0 || stroke.widthMm > 10 || !Array.isArray(stroke.points) || !stroke.points.length) throw Error('Invalid handwriting stroke.');

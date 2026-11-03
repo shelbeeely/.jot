@@ -887,3 +887,172 @@ letter's gap and advance instead of silently reconnecting them. Optional ss02
 restores the connected contextual forms; the inspector provides Connect letters.
 No user text, source offsets or export dependency changes. Tests retain optional
 join checks and add default separation checks across every lowercase pair.
+
+## 2026-11-01: Versioned `.jotz` archive proposal
+
+The owner proposed per-entry encryption, portable SQLite FTS5 search and UUID asset links, then clarified that the extension
+is `.jotz`, not `.jotx`. Integrations come first. Record the design in
+`docs/proposals/jotz-archive.md` as a future container version without silently changing `.jotz` v1 or claiming an implemented archive. Existing packaging and
+whole-document encryption remain supported. A public index must never contain private prose, tags, moods, thumbnails or media;
+privacy transitions rebuild it from public source rather than relying on row deletion. Keep private search in memory after
+unlock. Encryption mode/key management, safe SQLite reading, archive limits and performance need specification and tests.
+`docs/methods/expressive-writing.md, line 443` ("Keep it private") and `docs/methods/digital-daily-notes.md, line 711` (no cloud sync
+for journal content in that guide) inform the exposure boundary, not the cryptographic design. This is an engineering proposal,
+not a guarantee of secure implementation or instant multi-year search.
+
+
+## 2026-11-01: First connected-source delivery is explicit weather lookup
+
+Follow the accepted context roadmap with a shared provider capability catalog and review flow, initially Open-Meteo daily
+weather. Explicit coordinates/date/timezone are the only request inputs; no prose, geolocation permission, background requests
+or provider writes. Label historical model output estimated and recent/future daily model output forecast; keep null distinct
+from zero, preserve units and retrieval time, and include attribution. Requests omit credentials/referrer, reject redirects,
+bound response bytes, time out and cancel on close/lock. An explicit reviewed insertion is undoable and source-revision guarded.
+Public endpoint terms and CC BY attribution are shown; no commercial-account access is claimed. Desktop CSP adds only the two
+named weather origins. Transport/browser tests are mocked, not live provider or native webview verification. Read-only Home
+Assistant and the separate default-off contextual suggestions setting remain next; no active-entry analyzer is installed.
+`docs/methods/digital-daily-notes.md, line 711` rejects cloud content sync in that guide's context; `docs/methods/expressive-writing.md,
+line 443` says keep writing private. The provider architecture and forecast labeling are engineering choices, not study findings.
+
+
+## 2026-11-01: Read-only Home Assistant snapshots in Connected sources
+
+The owner asked to finish the next integration after committing weather. Use explicit instance/token/entity inputs and GET-only
+state/history endpoints; no whole-instance state listing, services, events, scripts, scenes, state writes or subscriptions. HTTPS
+or loopback is required. Tokens stay in page memory, clear on close/lock/instance changes and never enter portable content or
+browser storage. Limit requests to five entity IDs, history to seven past days/200 total states and each response to 512 KiB.
+Retain reported state, units, server timestamps, instance/entity identity and retrieval time; missing history remains missing.
+A pre-start history boundary row keeps its original timestamp and explicit boundary marker. Server state is labelled reported,
+not a claim about the writer's activity. Review precedes insertion, with stale-source guards, source/live undo and save retries.
+Reject redirects, unselected entities, malformed timestamps and credential echoes; sanitize provider labels/fields. Actual token
+permissions may exceed the adapter's reads. Existing desktop CSP permits loopback instances; no wildcard permission was added
+for arbitrary HTTPS hosts. Home Assistant CORS and private-network access remain deployment requirements, not something a local
+proxy bypasses. Tests mock providers and browser requests; no live account or native-webview verification is claimed. The card
+and contextual suggestions remain planned. `docs/methods/expressive-writing.md, line 443` (keep it private by choice) and
+`docs/methods/digital-daily-notes.md, line 711` (no cloud journal-content sync in that guide) inform the boundary. The endpoint,
+limit and timestamp decisions are engineering choices; those guides do not establish them as research findings.
+
+Regression checks also exposed unreadable lock/unlock action colors in dark mode. Those dialog buttons now use the same themed
+ink and paper colors as their surrounding controls; encryption behavior is unchanged.
+
+
+## 2026-11-01: Replace storage formats with default Jotz v2, without migration
+
+The owner requested replacing both the old `.jotz` container and separate `.jotlock` encryption, clarified this is a fresh project
+with no migration requirement, and explicitly made `.jotz` the default. This supersedes earlier container/lock decisions. Every
+journal Save/Download is now a v2 archive. Plain Jot and Markdown are explicit source import/export. Entries retain stable UUIDs,
+exact source, logical dates/timezones and known actual creation/update instants. Private member keys and a protected catalog bind
+identity, revision, date, ordered manifest and key slots. Passphrase/recovery/passkey slots remain available. All attachments are
+protected whenever protection is enabled, including shared/unused assets and annotated backgrounds. Dates and slot metadata are
+public; a mixed archive is not fully encrypted. A public-only SQLite/FTS5 cache is rebuilt on privacy transitions, while private
+search stays in memory. No OPFS/WAL or plaintext sidecar exists. Browser content persists as the archive in IndexedDB documents;
+localStorage is only a pointer. Device saves preserve conflict/atomic-write guards. Old copies cannot be retroactively erased.
+
+New source fixtures, default downloads, entry controls, public locked reading, recovery/passkeys, indexes, stale/corrupt-cache
+fallback and ciphertext reuse are tested. An independent Node crypto implementation verifies key-slot and member decryption.
+SQLite WASM is vendored with upstream notices/licenses; desktop CSP allows wasm-unsafe-eval for local WASM, not JavaScript eval.
+Independent cryptographic review, cross-app/native-device checks and large-journal/mobile benchmarks remain release work.
+`docs/methods/expressive-writing.md, line 443` (privacy by choice) and `docs/methods/digital-daily-notes.md, line 711` (no cloud journal
+sync in that guide) inform the exposure boundary. The algorithms, container layout and index limits are engineering choices.
+
+
+## 2026-11-01: Jot v1 uses a primary Jotz document with Jot entry source
+
+The owner clarified that `.jotz` is the primary document, analogous to keeping and sharing a PDF, and `.jot` source generally lives inside it. Both remain Jot v1. Correct the premature v2 archive naming, manifest version and cryptographic version domains to v1; no migration is required for these unreleased prototypes. A public entry is exact `.jot` source; a private entry encrypts that source without a plaintext duplicate. Standalone `.jot` remains useful and editable, but is not the complete document when assets or protection are needed. Writer retains default archive saving.
+
+The PDF analogy does not require fixed layout or imply ordinary text editors can read ZIP files. Editor integrations need archive support and lossless saves; the current VS Code extension still handles standalone source only. Record this limitation rather than claim compatibility. The supplied format comparison informs the document model, but unmeasured search performance, exclusive security advantages and ZIP diffability are not established facts. This is a document/versioning decision, not a change to journaling methods or privacy policy.
+
+Primary-specification research is recorded in `docs/proposals/document-format-research.md`, including inspection of generated DOCX/ODT/EPUB packages. It supports the package model without claiming partial encryption is unique, that PDF is read-only, or that an embedded index proves search speed. Further layout changes remain recommendations pending conformance/interoperability design.
+
+
+## 2026-11-01: Treat current work as 0.1.0 and finish v1 before moving beyond it
+
+The owner requested adding the proposed document structure and researched format improvements to a complete-v1 roadmap, with no move beyond v1 before finalization. The current project is a 0.1.0 prototype; v1 specification names and archive schema 1.0 designate the intended contract, not a stable-release claim. Keep the existing wire-format identifiers and package versions; this documentation update does not change stored bytes or add migration.
+
+The canonical roadmap now records D1–D7: primary archive/source contract, chronological paths plus independent identity, media relationships, protected members and unlocking metadata, rebuildable public search, rendering/previews and direct editor integrations, and evidence-based release gates. Proposed paths and Obsidian/VS Code archive support remain unchecked. Finalizing v1 requires closing its required gates; unfinished requirements must not silently become v2. Existing integrations and the explicit hardware/firmware deferral remain as recorded. These are release/engineering decisions, not new journaling-method or privacy-policy findings.
+
+
+## 2026-11-01: Separate format and Writer roadmaps; require coordinated format changes
+
+The owner requested separate roadmaps for the Jot format and Writer web plus desktop/mobile apps, then required agent instructions to keep Writer updated whenever the format changes. `specification/ROADMAP.md` now owns the format, archive, protection, semantics, conformance and reference implementation; `WRITER-ROADMAP.md` owns application/platform/editor delivery and retains the integration backlog. Format dependencies are linked rather than treated as a separate Writer grammar. Both remain 0.1.0 prototypes targeting complete v1, with required gates before any move beyond v1.
+
+Root, parser, site, VS Code and specification AGENTS.md instructions require corresponding Writer support in the same implemented format change, generated-copy updates and relevant format/Writer checks, with available native validation and explicit limits. Proposals stay planned. The existing sync tool publishes two distinct roadmaps and the site links to each. This does not implement chronological archive paths or direct editor support and does not change stored format bytes.
+
+
+## 2026-11-01: Plan Immich, Google Photos and iCloud Photos without excluding Apple
+
+The owner requested Immich (clarifying “this” with the upstream feature link), Google Photos and iCloud Photos, including the Apple ecosystem even though the owner does not use it. Add dedicated planned Writer tracks and a researched photo-library proposal; do not claim connectors are implemented. Prefer a first read-only Immich connector, current Google Picker selection rather than removed broad Library API access, and Apple native picker access plus selected downloaded-file imports on other platforms. Keep all earlier integrations in the backlog.
+
+The source/asset contract stays provider-independent: selected media is bundled in `.jotz`, with reviewed provenance and private-safe metadata/previews, not temporary URLs or tokens. Format dependencies are cross-linked; any future normative changes require Writer updates in the same change. These are engineering/platform choices informed by primary provider documentation, not claims of live-account interoperability. `docs/methods/digital-daily-notes.md, line 459` reports limited photo-trigger findings; `docs/methods/expressive-writing.md, line 443` supports privacy by choice; `docs/methods/digital-daily-notes.md, line 711` rejects journal-content cloud sync in that guide's context. Chosen photo import does not authorize background library sync, journal upload or unsolicited memory prompts.
+
+
+## 2026-11-01: Require the entire Jotz document to remain readable offline
+
+The owner explicitly required the entire file to be readable offline. Record this as a complete-v1 format and Writer acceptance contract, covering all saved entries, media/originals, ink components, included documents, integration snapshots and supported presentation, with local unlocking for protected content and no provider-account/cache/server/AI dependency. A local compatible reader remains necessary; fonts/renderers and supported codec paths must be locally available. External citations remain optional references, not a requirement to copy arbitrary websites or licensed streams.
+
+Import completion must follow selected-byte download and validation, not temporary URL or thumbnail receipt. Missing/oversize/unsupported content needs an honest incomplete state and recoverable draft preservation. Both roadmaps include fresh-profile, network-disabled read/edit/save/reopen gates. The prototype already bundles assets and an offline web shell, but full dependency/completeness validation, universal media decoding, native/device evidence and proposed provider connectors are not claimed implemented. Root/site agent instructions enforce the requirement for future changes. This is an explicit user requirement and technical acceptance decision; no new journaling-method or security-effect claim is made.
+
+The existing offline browser check exposed a worker-lifecycle test race: an async waitForFunction predicate returned a truthy Promise before service-worker readiness. Resolve navigator.serviceWorker.ready into a test flag and poll it synchronously before reloading, consistent with the deliberate no-clients.claim update policy. A minimal browser check reproduced async-false returning immediately versus synchronous-false timing out; no runtime worker behavior was changed.
+
+
+## 2026-11-02: Encryption is core to Jot and Writer v1
+
+The owner explicitly stated encryption is core to the journaling experience. Elevate it in both roadmaps, protection guidance and agent instructions as required v1 capability across private entries, media, ink, included documents, snapshots, private metadata and derivatives, with local unlocking/recovery and protection-preserving edits/exports. Preserve public-content and plain-source choices; this requirement does not authorize inventing a password, changing new-document defaults or claiming all existing browser data is encrypted.
+
+Current all-media protection after setup remains conservative; finer per-attachment controls, shared-asset privacy rules, discoverable status/recovery workflows, independent review and actual-device evidence remain planned/unverified. Dates/IDs/sizes/key-slot metadata remain visible. This is an acceptance/prioritization change with no wire/cipher/version/runtime-default change. `docs/methods/expressive-writing.md, line 443` supports deliberate privacy; `docs/methods/digital-daily-notes.md, lines 434–446` distinguishes plaintext local storage, encrypted sync and metadata/export exposure. Cryptographic/UI decisions are engineering choices, not therapeutic or certified-security findings.
+
+
+## 2026-11-02: Finalize the implemented archive reader contract and core Writer handling
+
+The owner selected format/core Writer finalization while keeping the complete-v1 gates open. A baseline run passed 290 tests. Inspection found unknown structural fields could be accepted then discarded on resave, malformed/conflicting catalogs were not consistently rejected, duplicate supplied member IDs could produce unreadable output, and an absent index descriptor prevented otherwise recoverable source reading. Close these gaps in the shared container implementation and verify corresponding Writer failed-import preservation and cacheless search/save. Retain arbitrary JSON document metadata and exact unknown source. Document the supported closed structural profile without claiming general extension preservation or stable-v1 completion. This is data-preservation/validation engineering with no new cryptographic algorithm, exposure policy or journaling-method choice.
+
+
+## 2026-11-02: Consolidate secondary pages under Tools while finalizing core workflows
+
+The owner described the website as cluttered with too many equal-priority pages and asked for a Tools page. Screenshots of the current home desktop/mobile navigation showed six links, with mobile navigation wrapping across two rows; Writer's default writing surface was already quiet. Use Write / Tools / Guides as the shared primary menu, a Tools hub for templates/imports/conversion/examples/typefaces, and a collapsed section for technical downloads/roadmaps. Preserve existing routes and Writer commands, including its Roadmap action. Keep layout and shared brand/fonts local and verify mobile/keyboard/light-dark behavior. This is information architecture and implementation verification, not a claim of user-study validation or WCAG certification.
+
+During regeneration the full examples builder attempted a network source rebuild and removed its own tracked Pepys output before a failed fetch. Restored that committed output, verified every diary hash, and added an index-only rebuild for future navigation-only edits. No diary content change is intended. Generate a self-contained archive conformance fixture copy for the parser download rather than leaving its new archive test dependent on the repository's parent specification directory.
+
+
+## 2026-11-02: Make security verification repeatable and harden passkey PRF boundaries
+
+The owner asked how to test the format's security and requested passkeys. The prototype already has local WebAuthn PRF-based unlocking and Chromium virtual-authenticator tests; verify that implementation rather than call it new or universally supported. Require exact 32-byte PRF outputs at browser and HKDF-wrap boundaries, reject unexpected/duplicate credential IDs, wrong-RP input and malformed/missing responses, preserve user-verification requirements and local passphrase/recovery fallback. This tightens validation of the existing W3C PRF contract without changing the key hierarchy or file version.
+
+Add a mocked client failure suite to CI, repeatable security test commands and `docs/security/README.md` covering threats, evidence levels, fuzzing work, real-device/provider/native matrices and independent review. Passkeys remain domain-scoped; another device or synced provider may need connectivity. A stable production origin/native association and portable recovery are required, and an alternate weak passphrase remains attackable offline. No external audit, fuzz campaign or physical-device passkey interoperability is claimed. `docs/methods/expressive-writing.md, line 443` and `docs/methods/digital-daily-notes.md, lines 434–446` inform privacy disclosure; technical requirements derive from W3C/OWASP and engineering review, not therapeutic findings.
+
+
+## 2026-11-02: Prefer proven primitives and simple loss-tolerant recovery over mandatory multikey
+
+The owner requested proven cryptography, then clarified the goal: secure crypto for nontechnical writers without losing a journal when one key is lost. Revise the earlier suggested 2-of-2 default: the ordinary target is an everyday passkey plus an independent offline recovery code, with either able to unlock. Keep optional strict threshold policy as a separately reviewed advanced track, not mandatory setup. Existing alternative slots fit that architecture; passkey-first onboarding, backup confirmation, preventing single-method access and guided key replacement remain planned. No runtime, cipher, wire version or dependency is changed here.
+
+Keep standard Web Crypto/WebAuthn primitives and independent review of their Jot composition. Research found a candidate secret-sharing library with two published audits, but revision scope, reconstruction integrity and JavaScript timing limitations require further evaluation; do not install or endorse it as proven Jot multikey crypto from audit labels alone. The simple recovery profile needs no new dependency. `docs/methods/expressive-writing.md, line 443` supports deliberate privacy; `docs/methods/digital-daily-notes.md, lines 434–446` distinguishes storage/encryption/recovery limitations. These inform plain disclosure, while the cryptographic/profile choice is an engineering decision driven by the owner's clarified requirements.
+
+
+## 2026-11-02: Keep ESP32 crypto compatibility while deferring firmware delivery
+
+The owner identified ESP32 as a target when choosing proven encryption. Keep the existing AES-256-GCM and compatible SHA-256/HMAC/PBKDF2/HKDF primitives rather than introducing a browser-only or memory-heavy baseline. Espressif documents Mbed TLS integration and a PSA Crypto migration; pin the actual SDK/chip and test exact vectors, passphrase normalization, AAD/framing, authenticated release and resource costs. This is a compatibility constraint now, not a renewed hardware assembly/firmware implementation commitment or a claim that the current JS ZIP/SQLite code runs on ESP32.
+
+Do not silently lower KDF parameters. Define bounded archive/media handling and a constrained producer/index contract before promising embedded write support. Passkeys need a compatible host/authenticator integration; keep portable offline passphrase/recovery access and explicitly review any trusted-host provisioning. No ESP toolchain/board was available, no algorithm/file schema/runtime default changed, and no hardware benchmark is claimed. These are user-directed engineering requirements; no new journaling-method or therapeutic finding is asserted.
+
+
+## 2026-11-02: Open attached media locally in Writer
+
+The owner requested offline image, audio, video and PDF viewers first. Add an on-demand attachment dialog and route existing preview attachment links to it, retaining original source syntax, attachment bytes and archive protection. Use browser-native media controls without autoplay, and the browser's native PDF viewer when available; unsupported decoders/PDF environments retain a download fallback. No runtime dependency or cloud viewer is introduced. Whitelist passive image/media MIME types, require a PDF header before embedding, leave HTML/SVG as downloads, and revoke viewer URLs/stop playback when closing, replacing or locking the journal. The desktop CSP permits only blob frames for this viewer; actual native-webview/PDF visual compatibility remains unverified. This is the owner's offline-reader implementation request, with no new format or cryptographic contract and no therapeutic claim.
+
+
+## 2026-11-02: Integrate live dictation, organization and mandatory cleanup
+
+The owner requested Whistle live mode, Needle organization and writing-model cleanup together, then made cleanup mandatory and requested optional recording retention. Use an on-demand, review-first voice-writing dialog separate from voice practice. Vendor-pin the Apache-2.0 WASM runtime and verify optional model imports/downloads by exact size/SHA-256. Run microphone resampling and one-second live inference in AudioWorklet/worker paths. Keep unstable words separate, flush on stop, and route only transcript plus proposed organization to the chosen cleanup model. Local cleanup is the default; explicit OpenRouter consent and ZDR policy apply when selected. Insertion requires successful cleanup and the existing strict Jot fragment/destination checks; model JSON grammar is not factual verification. No model-produced external tool call executes, including low-confidence withheld organization proposals.
+
+Audio retention starts off. When explicitly enabled, keep the recording in memory and attach audio plus original UTF-8 transcript only with reviewed insertion, using the existing capture/size/protection/save path. Closing/discarding/locking/replacing clears temporary speech, stops microphone tracks, cancels requests and terminates the inference worker; public model weights alone may enter an opt-in separate IndexedDB cache. No Python runtime/telemetry package is installed and no model weights are included in journal files. Existing attachment protection applies, with no automatic new-journal encryption claim.
+
+`docs/methods/expressive-writing.md, line 443` supports private writing by choice, and line 458 explicitly treats dictated audio as sensitive; `docs/methods/digital-daily-notes.md, lines 434–446` distinguishes local plaintext, encrypted storage and export exposure. Those guide privacy/disclosure, while model choice, queue bounds and lifecycle controls are user-directed engineering decisions, not therapeutic or performance findings. Runtime provenance and platform/resource limits remain explicit; native webview/physical microphone/provider checks are separate from synthetic browser tests. ESP32 deployment remains unimplemented.
+
+
+## 2026-11-03: Complete voice typing with a thin adapter and embedded cleanup
+
+The owner requested building the voice feature after choosing a thin adapter and discussing a smaller bundled cleanup model. Keep live Whistle/Needle inference and the review/protection/optional-recording workflow; add a named capability adapter around loading/transcription/flush/organization/cleanup/close. Default cleanup to English SmolLM2-360M Q4_K_M through pinned, self-hosted wllama/llama.cpp CPU WASM, with both normal and compatibility assets. Public model weights remain explicit download/import with opt-in separate storage, not a silent first-visit transfer or journal attachment. An optional one-action package loads all three pinned models. Preserve local-server/BYOK alternatives and explicit OpenRouter consent/ZDR; no automatic cloud handoff, Python runtime or unsupported native-Rust inference bridge is introduced.
+
+Real-model evaluation found the tiny model copied input when forced to emit a JSON envelope. Narrow its task to plain copy-editing, create the candidate structure in app code and validate passive Jot/destination before reviewed insertion. Bound context/chunks/output and reject detected digit or negation-count changes, while disclosing that these checks cannot establish factual fidelity. Preserve original transcript and optional original audio; Needle remains a separate structured review aid and no model tool call executes integrations. English-only default cleanup does not silently translate other recognized languages.
+
+`docs/methods/expressive-writing.md, lines 443 and 458` inform deliberate privacy and sensitive dictated audio; `docs/methods/digital-daily-notes.md, lines 434–446` distinguishes local plaintext, encryption and export exposure. Adapter/runtime/prompt/guard choices are implementation decisions rather than journaling-effect findings. Vendor/model hashes and licenses are recorded; browser/synthetic/offline evidence is separate from physical-device/native/large-resource and independent security review. Python build tools stay Python; the voice path already runs without them.

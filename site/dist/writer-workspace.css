@@ -107,3 +107,4 @@ body.jot-site.jot-writer{--writer-bg:#fff;--writer-ink:#24272b;--writer-muted:#6
 }
 @media(max-width:850px){.jot-site.jot-writer .writer-document-heading{padding:18px 0 10px}.jot-site.jot-writer .writer-document-heading #documentName{font-size:24px}.jot-site.jot-writer .document-name-row{flex-wrap:wrap}.jot-site.jot-writer .writer-document-heading #documentName{flex-basis:55%}}
 @media print{.writer-document-heading{display:none!important}}
+@media screen{html[data-writer-view=preview] .jot-site.jot-writer .preview-pane,html[data-writer-view=split] .jot-site.jot-writer .preview-pane{min-width:0;max-width:100%;overflow-x:auto}}

@@ -1,4 +1,4 @@
-//! Saving: every download on every page (a .jot, a .jotz, a .jotlock, an export) goes through a native Save dialog, and is written
+//! Saving: every download on every page (a .jotz archive or a source export) goes through a native Save dialog, and is written
 //! to a temporary file beside the target and then renamed over it, so a crash or a full disk never leaves half a journal.
 
 use std::path::{Path, PathBuf};

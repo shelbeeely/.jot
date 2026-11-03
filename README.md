@@ -4,20 +4,28 @@
 
 **Jot things down. Get beautiful pages back.**
 
+**Development status: 0.1.0 prototype, working toward Jot v1.** The format and Writer are not finalized. See the
+[format roadmap](specification/ROADMAP.md) and separate [Writer roadmap](WRITER-ROADMAP.md) for web, desktop and mobile; required v1 work will be completed before moving beyond v1.
+
+The website keeps **Write, Tools and Guides** in its main menu. Templates, imports, conversion, examples and typefaces live under Tools.
+
 Read the name as *just one thought*: whatever is on your mind, one thought at a time, as brief or as detailed as it needs to be.
 
 Jot Writer is being built first for people who have never journaled and want help getting started. Its v1 goal is to help you write
 a small first entry, keep it safely and return whenever you choose. See the [first-journal brief](docs/proposals/first-journal-v1.md)
 for the planned beginner experience and its release criteria.
 
-Dedicated physical hardware and firmware are deferred to [future exploration](specification/ROADMAP.md#physical-hardware-and-firmware-future-exploration).
+**Encryption is core to Jot’s v1 journaling experience.** Protected `.jotz` documents must keep private writing, media and metadata safe through editing, saving and offline unlocking. The prototype supports protection after setup; independent review and the remaining protection/recovery workflows are required v1 work, not a completed-security claim.
+
+Dedicated physical hardware and firmware are deferred to [future exploration](WRITER-ROADMAP.md#physical-hardware-and-firmware-future-exploration).
 Current delivery focuses on the Jot format and Writer software.
 
 Jot is a plain-text journal format that combines Markdown with simple marks for tasks, events, questions and ideas. Keep a moment,
 a day, a month or an ongoing journal in one file, then read it as formatted pages, handwritten notes or a dashboard of your numbers.
 
-Your writing stays in files you can open in a text editor. The browser workspace, command-line tools and VS Code extension share
-one parser and page renderer.
+Jot v1 uses `.jotz` as its primary journal document. It carries `.jot` entry source, media and optional entry protection in one
+portable archive. Standalone `.jot` source stays readable and editable in ordinary text editors. The browser workspace,
+command-line tools and VS Code extension share one parser and page renderer.
 
 - **Write your way:** mobile and desktop writing, formatting shortcuts, find/replace, an outline, reusable templates, tasks and measurements.
 - **Make it yours:** handwritten fonts, dot grids, inline colors and Journal, Notes or Plain page styles.
@@ -97,13 +105,11 @@ For an editor with a live preview, see [Jot for VS Code](#jot-for-vs-code).
 | Format | Contents | Best for |
 | --- | --- | --- |
 | `.jot` | Plain UTF-8 text | Writing in any text editor, templates and e-ink devices |
-| `.jotz` | A ZIP-based package with writing and assets | Keeping images, scans and editable ink with a journal |
-| `.jotlock` | A `.jot` or `.jotz`, encrypted ([Jot Lock v1](specification/Jot-Lock-v1.md)) | Keeping a journal private on a shared computer or in a backup |
+| `.jotz` | Primary v1 ZIP document: entries, media, public-only SQLite search and optional per-entry encryption | Every journal, including text-only and protected journals |
 | Exported `.html` | A standalone formatted page with its assets included | Sharing or reading without the workspace |
 | Printed PDF | Pages produced through the browser's **Print / PDF** action | Printing and fixed-layout copies |
 
-The workspace opens `.jot`, `.jotz`, `.jotlock`, `.md` and `.txt`. It downloads plain `.jot` when there are no attachments and `.jotz` when there
-are. A repository ZIP contains the project itself; it is a different download from a journal package. Packaging does not encrypt a file; locking does (below).
+Writer saves and downloads `.jotz` by default. Plain `.jot` and Markdown are source import/export options. Public entries remain readable inside the ZIP; protected entries and attachments use AES-256-GCM. Dates and encryption metadata remain visible. [Container](specification/Jot-Container-v1.md) · [Protection](specification/Jot-Protection-v1.md). There is no separate `.jotlock` format or migration layer.
 
 ## Features
 
@@ -156,10 +162,10 @@ VS Code all use the same code. Guide: [Automation and connections](docs/guide/au
 ### Locked journals
 
 **Write → Lock with a passphrase** encrypts the journal with the browser's built-in Web Crypto (AES-256-GCM, keys from PBKDF2-SHA-256);
-the browser then keeps only an encrypted copy, **Download locked** saves a `.jotlock`, and the page locks again after time away.
-**Ways in** adds a recovery code or a passkey or security key (WebAuthn PRF), and changes or removes them. Nobody can reset a
-forgotten passphrase. The command line has `jot lock`, `jot unlock` and `jot lock-info`. Format: [Jot Lock v1](specification/Jot-Lock-v1.md);
-guide: [Locking a journal](docs/guide/writing-jot.md#locking-a-journal).
+the browser then keeps only an encrypted copy, **Download journal** saves a protected `.jotz`, and the page locks again after time away.
+**Entries, privacy and search** makes chosen entries public and searches the local archive. **Ways in** adds a recovery code or a passkey or security key (WebAuthn PRF), and changes or removes them. Nobody can reset a
+forgotten passphrase. The command line has `jot lock`, `jot unlock` and `jot lock-info`. Format: [Jotz v1 protection](specification/Jot-Protection-v1.md);
+guide: [Locking a journal](docs/guide/writing-jot.md#protect-selected-entries).
 
 ## Your life online: data exports into a journal
 
@@ -239,7 +245,7 @@ Linux. Details and differences from the site (no passkeys in Linux's web view): 
 | --- | --- |
 | [`specification/`](specification/) | Jot v1 (1.0.0-draft.3): the full specification (Markdown and PDF), AST schema, profiles, paper sizes, conformance fixtures |
 | [`DECISIONS.md`](DECISIONS.md) | The latest decisions. Read this before older specification text |
-| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), locked documents (`lock.mjs`: `.jotlock`), automation (`automation.mjs`, `connect.mjs`), proofreading hints, tests |
+| [`parser/`](parser/) | JavaScript parser (`jot.mjs`, with fuller formatting), container (`container.mjs`: packaged `.jotz`), charts (`charts.mjs`), the page preview (`preview.mjs`), page styles (`styles.mjs`) and the standalone export (`export.mjs`), handwritten pages on a dot grid (`handwriting.mjs`, fonts in `fonts/`), archive protection (`lock.mjs`), automation (`automation.mjs`, `connect.mjs`), proofreading hints, tests |
 | [`fonts/`](fonts/) | Original Jot Sans, Jot Script and Jot Mono sources, deterministic Python generators, bundled WOFF2 fonts, glyph outlines and catalog |
 | [`site/`](site/) | The site (`site/dist/`, static): the home page (why Jot), the writing workspace (`/write/`), the template editor (`/editor/`), the diary converter (`/convert/`), Your life online (`/import/`); the scanner (`/scan/`) is unfinished and not linked |
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colors and a live page preview with charts, from the same renderer as the site |
@@ -333,7 +339,7 @@ of commits. Calendars (`*.ics`) are git-ignored. The publishing privacy check sc
 ## Status and licences
 
 Jot v1 is a draft (spec 1.0.0-draft.3, parser 0.1.0). See [DECISIONS.md](DECISIONS.md) and the
-[roadmap](specification/ROADMAP.md) for current boundaries. The page scanner at `/scan/` is unfinished and hidden from site navigation;
+[Writer roadmap](WRITER-ROADMAP.md) and [format roadmap](specification/ROADMAP.md) for current boundaries. The page scanner at `/scan/` is unfinished and hidden from site navigation;
 diagram rendering and handwriting OCR are not implemented. The parser's vendored libraries (Marked,
 Chart.js, JSZip, hash.js) carry their own notices in `parser/vendor/`; the handwriting fonts (Caveat, Playpen Sans, Shantell Sans) are
 under the SIL Open Font License, with their licences in `parser/fonts/`. The original Jot Sans, Jot Script and Jot Mono fonts use SIL OFL 1.1;
@@ -354,3 +360,5 @@ limitations, pairing steps and what has been tested. Bluetooth and automatic syn
 Jot Mono regular and bold bring the G2 pen style to fixed-width source editing
 and code. Choose Mono in Write or the typeface inspector. Font design rules
 are recorded in [fonts/AGENTS.md](fonts/AGENTS.md).
+
+Security verification and passkey compatibility: [testing plan and current limits](docs/security/README.md). Run `npm run test:security`; browser checks use `npm run test:security:browser` with Playwright/Chromium available. Automated checks are not an independent security audit.

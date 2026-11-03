@@ -44,6 +44,10 @@ jobs:
 
       - name: The site is built from the current sources
         run: |
+          node tools/sync-navigation.mjs --check
+          node tools/sync-parser.mjs --check
+          node tools/sync-archive-specs.mjs --check
+          node tools/build-archive-examples.mjs --check
           node tools/build-handwriting-css.mjs --check
           node tools/sync-roadmap.mjs --check
           node tools/build-methods-index.mjs --check
@@ -64,7 +68,7 @@ jobs:
 
       - name: Tests
         run: |
-          node --test tools/test-privacy.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/lock-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/palette-test.mjs parser/automation-test.mjs parser/include-test.mjs parser/links-test.mjs parser/query-test.mjs parser/health-test.mjs cli/test.mjs site/test-editor.mjs site/test-ai-client.mjs site/test-browser-tools.mjs site/test-autocomplete.mjs site/test-device-files.mjs site/test-editor-capture.mjs site/test-live-model.mjs site/test-reference-books.mjs site/test-writer-search.mjs site/test-writer-templates.mjs site/test-writer-workspace.mjs site/test-writing-tools.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
+          node --test tools/test-privacy.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/test.mjs parser/proofread-test.mjs parser/container-test.mjs parser/archive-test.mjs parser/lock-test.mjs parser/charts-test.mjs parser/formatting-test.mjs parser/handwriting-test.mjs parser/styles-test.mjs parser/palette-test.mjs parser/automation-test.mjs parser/include-test.mjs parser/links-test.mjs parser/query-test.mjs parser/health-test.mjs cli/test.mjs site/test-editor.mjs site/test-ai-client.mjs site/test-voice-writing.mjs site/test-passkey-client.mjs site/test-browser-tools.mjs site/test-connected-sources.mjs site/test-home-assistant-source.mjs site/test-autocomplete.mjs site/test-device-files.mjs site/test-editor-capture.mjs site/test-live-model.mjs site/test-reference-books.mjs site/test-writer-search.mjs site/test-writer-templates.mjs site/test-writer-workspace.mjs site/test-writing-tools.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
           node site/test-core.cjs
 
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

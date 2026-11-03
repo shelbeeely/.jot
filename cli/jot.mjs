@@ -5,7 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from '../parser/jot.mjs';
-import { readDocument } from '../parser/container.mjs';
+import { readDocument, pack } from '../parser/container.mjs';
 import A from '../parser/automation.mjs';
 import Q from '../parser/query.mjs';
 
@@ -47,14 +47,14 @@ Writing (one journal; --dry-run prints the new text instead):
   jot review <journal.jot> [--date DATE]                 a review of the week: done, open, the numbers, a chart
 
 Locking (a passphrase, from a hidden prompt or JOT_PASSPHRASE; never on the command line):
-  jot lock <journal.jot|.jotz> [-o out.jotlock] [--iterations N] [--recovery-code]
+  jot lock <journal.jot|.jotz> [-o out.jotz] [--iterations N] [--recovery-code]
                                                          an encrypted copy that unlocks to the same bytes; the journal itself is
                                                          left as it is. --recovery-code also makes a code that opens it, shown
                                                          once. Without one of them nobody can unlock it, you included
-  jot unlock <journal.jotlock> [-o out | -o -] [--recovery]
+  jot unlock <journal.jotz> [-o out | -o -] [--recovery]
                                                          the journal back (.jot or .jotz, by content); never over an existing file.
                                                          --recovery: with the recovery code (hidden prompt or JOT_RECOVERY_CODE)
-  jot lock-info <journal.jotlock>                        its ways in: passphrase, recovery code, passkeys (which open it only on
+  jot lock-info <journal.jotz>                        its ways in: passphrase, recovery code, passkeys (which open it only on
                                                          the site they were added on)
 
 Connections (only when you run them):
@@ -68,8 +68,9 @@ const args = process.argv.slice(2), cmd = ((c) => (c === '--flatten' ? 'flatten'
 const opt = (name, def = null) => { const i = args.indexOf(name); if (i < 0) return def; const v = args[i + 1]; args.splice(i, 2); return v; };
 const flag = (name) => { const i = args.indexOf(name); if (i < 0) return false; args.splice(i, 1); return true; };
 const fail = (msg) => { process.stderr.write(`jot: ${msg}\n`); process.exit(1); };
-const read = (f) => { if (!fs.existsSync(f)) fail(`no such file: ${f}`); const b = fs.readFileSync(f); if (isLocked(b)) fail(`${f} is locked; unlock it first (jot unlock)`); if (b[0] === 0x50 && b[1] === 0x4b) fail(`${f} is a packaged .jotz; open it in the workspace, or use its journal.txt`); return b.toString('utf8'); };
-const writeBack = (file, text, said, dry) => { if (dry) { process.stdout.write(text); return; } fs.writeFileSync(file, text); process.stderr.write(`${said}\n`); };
+const openedDocuments=new Map();
+const read=async f=>{if(!fs.existsSync(f))fail(`no such file: ${f}`);const bytes=fs.readFileSync(f);if(isLocked(bytes))fail(`${f} is locked; unlock it first (jot unlock)`);if(bytes[0]===80&&bytes[1]===75&&bytes[2]===3&&bytes[3]===4){const doc=await readDocument(bytes);doc.index?.close();doc.index=null;openedDocuments.set(path.resolve(f),{doc,bytes});return doc.source;}return bytes.toString('utf8');};
+const writeBack=async(file,text,said,dry)=>{if(dry){process.stdout.write(text);return;}const opened=openedDocuments.get(path.resolve(file));const bytes=opened?await pack({source:text,assets:opened.doc.assets,entries:opened.doc.entries,previous:opened.doc,metadata:opened.doc.metadata}):file.endsWith('.jotz')?await pack({source:text}):text;if(opened&&!fs.readFileSync(file).equals(opened.bytes))throw Error('The journal changed outside this command; nothing was overwritten.');const temp=file+'.tmp-'+process.pid;try{fs.writeFileSync(temp,bytes,{flag:'wx'});fs.renameSync(temp,file);}finally{if(fs.existsSync(temp))fs.unlinkSync(temp);}process.stderr.write(`${said}\n`);};
 const date = (v, what = '--date') => { const d = v || A.localToday(); if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) fail(`${what} must look like 2026-10-26`); return d; };
 const out = (s) => process.stdout.write(s.endsWith('\n') ? s : `${s}\n`);
 
@@ -87,7 +88,7 @@ async function main() {
     const json = flag('--json'), done = flag('--done'), asEvents = flag('--tasks-as-events'), open = flag('--open');
     if (since && !/^\d{4}-\d{2}-\d{2}$/.test(since)) fail('--since must look like 2026-10-26');
     const files = args.filter((a) => !a.startsWith('--')); if (!files.length) fail(`${cmd}: which .jot files?`);
-    const docs = files.map((f) => ({ file: f, ast: parse(read(f)) }));
+    const docs = await Promise.all(files.map(async f => ({file:f,ast:parse(await read(f))})));
     const all = (key) => docs.flatMap(({ file, ast }) => A.extract(ast)[key].map((x) => ({ ...x, file })));
     const keep = (d) => !since || (d && d >= since);
     if (cmd === 'tasks') {
@@ -131,9 +132,9 @@ async function main() {
     for (let m; (m = opt('--metric'));) only.push(m);
     if (!csv || !into) fail('import <numbers.csv> --into <journal.jot>');
     if (!['sum', 'mean', 'last'].includes(combine)) fail('--combine is sum, mean or last');
-    const r = A.readCSV(read(csv), { combine, dayFirst: dayFirst || null, only: only.length ? only : null });
+    const r = A.readCSV(await read(csv), { combine, dayFirst: dayFirst || null, only: only.length ? only : null });
     if (r.ambiguous) process.stderr.write(`${r.ambiguous} rows have dates like 03/04/2026 that could be either way round: add --day-first if the day comes first\n`);
-    const w = A.addNumbers(fs.existsSync(into) ? read(into) : '', r.numbers, { source: from || path.basename(csv) });
+    const w = A.addNumbers(fs.existsSync(into) ? await read(into) : '', r.numbers, { source: from || path.basename(csv) });
     return writeBack(into, w.text, `${into}: ${w.filled} blanks filled, ${w.added} numbers added, ${w.kept} already there (${r.metrics.join(', ') || 'no numbers'}; ${r.rows} rows${r.skipped ? `, ${r.skipped} without a date` : ''})`, dry);
   }
   if (cmd === 'import-health') {
@@ -146,7 +147,7 @@ async function main() {
     const kind = H.healthKind(input, start.toString('utf8')); if (kind instanceof Error) fail(kind.message);
     let s;
     if (kind === 'apple') { if (fs.statSync(input).size > H.LIMITS.xmlBytes) fail(`${input} is larger than ${H.LIMITS.xmlBytes / 1024 ** 3} GB, more than Jot reads at once`); const sc = H.appleHealthScanner(); for await (const chunk of fs.createReadStream(input, { encoding: 'utf8', highWaterMark: 1 << 20 })) sc.push(chunk); s = sc.end(); }
-    else { if (fs.statSync(input).size > H.LIMITS.csvBytes) fail(`${input} is larger than ${H.LIMITS.csvBytes / 1024 ** 2} MB; export a shorter date range`); s = H.readHealthCSV(read(input), { dayFirst: dayFirst || null }); }
+    else { if (fs.statSync(input).size > H.LIMITS.csvBytes) fail(`${input} is larger than ${H.LIMITS.csvBytes / 1024 ** 2} MB; export a shorter date range`); s = H.readHealthCSV(await read(input), { dayFirst: dayFirst || null }); }
     if (list || !s.metrics.length) {
       out(`${s.name}${s.preset === 'generic' ? ' (columns read as they are)' : ''}: ${s.metrics.length ? `${s.first} to ${s.last}` : 'no numbers Jot reads'}`);
       for (const m of s.metrics) out(`  ${m.metric.padEnd(24)} ${String(m.days).padStart(5)} days  ${m.first} to ${m.last}  ${m.aggregation}${m.unit ? `, ${m.unit}` : ''}${m.optional ? '  (only with --metric)' : ''}`);
@@ -158,7 +159,7 @@ async function main() {
     const unknown = only.filter((m) => !s.metrics.some((x) => x.metric === m)); if (unknown.length) fail(`not in this file: ${unknown.join(', ')} (--list shows what is)`);
     if (s.ambiguous) process.stderr.write(`${s.ambiguous} rows have dates like 03/04/2026 that could be either way round: add --day-first if the day comes first\n`);
     const numbers = s.numbers({ metrics: only.length ? only : null, since, until });
-    const w = A.addNumbers(fs.existsSync(into) ? read(into) : '', numbers, { source: from || (kind === 'apple' ? `Apple Health ${path.basename(input)}` : `${s.name} ${path.basename(input)}`.replace(/^(CSV|Health app) /, '')) });
+    const w = A.addNumbers(fs.existsSync(into) ? await read(into) : '', numbers, { source: from || (kind === 'apple' ? `Apple Health ${path.basename(input)}` : `${s.name} ${path.basename(input)}`.replace(/^(CSV|Health app) /, '')) });
     return writeBack(into, w.text, `${into}: ${w.filled} blanks filled, ${w.added} numbers added, ${w.kept} already there${w.skipped ? `, ${w.skipped} blanks left empty (a different unit)` : ''} (${[...new Set(numbers.map((n) => n.metric))].join(', ') || 'no numbers in that range'})`, dry);
   }
   const file = args.shift(); if (!file) fail(`${cmd}: which journal?`);
@@ -166,15 +167,15 @@ async function main() {
   if (cmd === 'today') {
     const at = opt('--weather'); let extra = '';
     if (at) { const [lat, lon] = at.split(',').map(Number); extra = (await weather(lat, lon, d)).record; }
-    const src = fs.existsSync(file) ? read(file) : '', r = A.todayEntry(src, d, { extra });
+    const src = fs.existsSync(file) ? await read(file) : '', r = A.todayEntry(src, d, { extra });
     if (!r.added) { process.stderr.write(`${file} already has ${d}\n`); return; }
     return writeBack(file, r.text, `${file}: added ${d}${extra ? ' with its weather' : ''}`, dry);
   }
-  if (cmd === 'rollover') { const r = A.rollover(read(file), d); return r.moved ? writeBack(file, r.text, `${file}: ${r.moved} open ${r.moved === 1 ? 'task' : 'tasks'} carried to ${d}`, dry) : process.stderr.write('no open tasks from earlier days\n'); }
-  if (cmd === 'review') { const r = A.weekReview(read(file), d); return writeBack(file, r.text, `${file}: review of ${r.week.start} to ${r.week.end} (${r.week.done} done, ${r.week.open} open)`, dry); }
+  if (cmd === 'rollover') { const r = A.rollover(await read(file), d); return r.moved ? writeBack(file, r.text, `${file}: ${r.moved} open ${r.moved === 1 ? 'task' : 'tasks'} carried to ${d}`, dry) : process.stderr.write('no open tasks from earlier days\n'); }
+  if (cmd === 'review') { const r = A.weekReview(await read(file), d); return writeBack(file, r.text, `${file}: review of ${r.week.start} to ${r.week.end} (${r.week.done} done, ${r.week.open} open)`, dry); }
   if (cmd === 'todoist') {
     const token = process.env.TODOIST_TOKEN; if (!token && !dry) fail('set TODOIST_TOKEN to your Todoist API token (Todoist: Settings → Integrations → Developer)');
-    const src = read(file), todo = A.pendingSync(parse(src), 'todoist').map((t) => ({ ...t, key: A.taskKey(t) }));
+    const src = await read(file), todo = A.pendingSync(parse(src), 'todoist').map((t) => ({ ...t, key: A.taskKey(t) }));
     if (!todo.length) { process.stderr.write('nothing new to send\n'); return; }
     if (dry) { out(todo.map((t) => `${t.date || ''} ${t.text}`).join('\n')); return; }
     const sent = await todoistAdd(todo, token);
@@ -193,7 +194,7 @@ function readInside(root, rel) {
 }
 async function flattenCmd() {
   const o = opt('-o'), rootOpt = opt('--root'), file = args.find((a) => !a.startsWith('--')); if (!file) fail('flatten: which journal?');
-  const src = read(file), root = path.resolve(rootOpt || path.dirname(file)), from = path.relative(root, path.resolve(file)).split(path.sep).join('/');
+  const src = await read(file), root = path.resolve(rootOpt || path.dirname(file)), from = path.relative(root, path.resolve(file)).split(path.sep).join('/');
   if (!from || from.startsWith('..') || path.isAbsolute(from)) fail('flatten: the journal must be inside --root');
   if (o && path.resolve(o) === path.resolve(file)) fail('flatten writes a copy: give -o another name than the journal');
   const r = await flatten(src, { from, read: (rel) => readInside(root, rel) });
@@ -201,7 +202,7 @@ async function flattenCmd() {
   if (o) { fs.writeFileSync(o, r.text); process.stderr.write(`wrote ${o}: ${r.expanded} ${r.expanded === 1 ? 'include' : 'includes'} written out${r.problems.length ? `, ${r.problems.length} left as they were` : ''}\n`); } else process.stdout.write(r.text);
 }
 // A query is the same whether written in a journal or typed here (query.mjs); a problem with it is an error, never an empty answer.
-function query() {
+async function query() {
   const json = flag('--json'), anchor = opt('--date'), fields = [];
   for (const name of ['show', 'status', 'priority', 'tag', 'context', 'text', 'metric', 'period', 'start', 'end', 'stat', 'limit']) {
     const v = opt(`--${name}`); if (v === null) continue;
@@ -215,10 +216,10 @@ function query() {
   if (fields.length) {
     if (!fields.some((f) => f.name === 'show')) fail('query: say what to show (--show tasks, events, entries or numbers)');
     const d = date(anchor); // each file on its own, so one file's dates and open blocks never run into the next
-    results = files.map((file) => ({ file, model: Q.runQuery(parse(read(file)), fields, { date: d }) }));
+    results = await Promise.all(files.map(async file => ({file,model:Q.runQuery(parse(await read(file)),fields,{date:d})})));
   } else {
     if (anchor) fail('query: --date anchors --period; a query record counts from its own entry');
-    results = files.flatMap((file) => Q.queries(parse(read(file))).map(({ model }) => ({ file, model })));
+    results = (await Promise.all(files.map(async file => Q.queries(parse(await read(file))).map(({model})=>({file,model}))))).flat();
     if (!results.length) fail(`query: no query records in ${files.join(', ')} (write :::record query, or ask with --show)`);
   }
   const problems = results.filter((r) => r.model.problems.length);
@@ -278,7 +279,7 @@ async function passphrase(twice, what = 'Passphrase', env = 'JOT_PASSPHRASE') {
 }
 
 async function lockCmd() {
-  const o = opt('-o'), iterations = Number(opt('--iterations', DEFAULT_ITERATIONS)), withCode = flag('--recovery-code'), byCode = flag('--recovery');
+  const o = opt('-o'), iterations = Number(opt('--iterations', DEFAULT_ITERATIONS)), withCode = flag('--recovery-code'), byCode = flag('--recovery'), sourceOnly = flag('--source') || !!o?.endsWith('.jot');
   const unknown = args.find((a) => a.startsWith('--')); if (unknown) fail(`${cmd}: unknown option ${unknown}`);
   const file = args.shift(); if (!file || args.length) fail(`${cmd}: one journal, please`);
   if (!fs.existsSync(file)) fail(`no such file: ${file}`);
@@ -296,15 +297,16 @@ async function lockCmd() {
     const locked = await lock(raw, session);
     fs.writeFileSync(target, locked, { flag: 'wx' });
     if (recoveryCode) process.stderr.write(`Recovery code, shown this once: ${recoveryCode}\nIt opens the journal like the passphrase. Keep it apart from the journal (a password manager, or on paper somewhere safe).\n`);
-    process.stderr.write(`${file}: locked to ${target} (checked: it unlocks to the same bytes).\n` +
+    process.stderr.write(`${file}: locked to ${target} (checked: writing and assets round-trip).\n` +
       `The unlocked ${path.basename(file)} is still there; delete it if you want only the locked copy (a deleted file can stay on a disk).\n` +
       (recoveryCode ? 'Without the passphrase or the recovery code' : 'Without the passphrase') + ' nobody can unlock it, you included: keep it in a password manager.\n');
     return;
   }
   if (!isLocked(raw)) fail(`${file} is not locked`);
-  const plain = await unlock(raw, byCode ? { recoveryCode: await passphrase(false, 'Recovery code', 'JOT_RECOVERY_CODE') } : await passphrase(false));
+  let plain = await unlock(raw, byCode ? { recoveryCode: await passphrase(false, 'Recovery code', 'JOT_RECOVERY_CODE') } : await passphrase(false));
+  if(sourceOnly){const doc=await readDocument(plain);plain=Buffer.from(doc.source);doc.index?.close();}
   if (o === '-') { process.stdout.write(plain); return; }
-  const target = o || base + '.' + kindOf(plain); if (fs.existsSync(target)) fail(`${target} exists; choose another name with -o`);
+  const target = o || base + '.public.' + kindOf(plain); if (fs.existsSync(target)) fail(`${target} exists; choose another name with -o`);
   fs.writeFileSync(target, plain, { flag: 'wx' });
   process.stderr.write(`${file}: unlocked to ${target}. That copy is not encrypted.\n`);
 }

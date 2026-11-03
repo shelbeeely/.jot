@@ -1,4 +1,4 @@
-//! Opening journals from the file manager: a double-clicked .jot, .jotz or .jotlock starts the app with its path (Windows and
+//! Opening journals from the file manager: a double-clicked .jotz archive or .jot source starts the app with its path (Windows and
 //! Linux pass it as an argument; macOS, iOS and Android send RunEvent::Opened). The paths wait here until the writer takes them
 //! (bridge.js), and the writer can read only those files, once each: the page never names a path of its own.
 
@@ -11,7 +11,7 @@ use tauri::State;
 
 /// The largest journal the writer opens (as on the website).
 const MAX_BYTES: u64 = 64 * 1024 * 1024;
-const KINDS: [&str; 3] = ["jot", "jotz", "jotlock"];
+const KINDS: [&str; 2] = ["jotz", "jot"];
 
 #[derive(Default)]
 pub struct Opened {
@@ -92,6 +92,9 @@ mod tests {
         let (jot, txt, gone) = (dir.join("a.JOT"), dir.join("b.txt"), dir.join("c.jotz"));
         std::fs::write(&jot, "### 2026-10-29").unwrap();
         std::fs::write(&txt, "not a journal").unwrap();
+        let obsolete = dir.join("old.jotlock");
+        std::fs::write(&obsolete, "not a supported file type").unwrap();
+        assert!(!is_journal(&obsolete));
         let opened = Opened::default();
         assert_eq!(opened.add([jot.clone(), txt, gone, dir.clone()]), 1);
         assert_eq!(opened.waiting.lock().unwrap().as_slice(), [jot]);

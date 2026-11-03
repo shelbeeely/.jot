@@ -1,0 +1,5 @@
+/* Keep the three primary destinations together; tool-specific controls keep their own layout. */
+@media(max-width:600px){
+  .jot-site header nav[aria-label="Jot tools"]{flex-basis:auto;gap:2px}
+  .jot-site header nav[aria-label="Jot tools"] a{font-size:15px;padding:6px 8px;min-height:44px}
+}

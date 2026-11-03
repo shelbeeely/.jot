@@ -1,5 +1,9 @@
 # Jot site
 
+Product milestones: [Writer roadmap](../WRITER-ROADMAP.md), with web, desktop and mobile tracks. Format dependencies: [Jot format roadmap](../specification/ROADMAP.md).
+
+Primary navigation is **Write, Tools, Guides**. `/tools/` groups templates, imports, conversion, examples, typefaces and technical downloads; existing tool URLs remain valid. `tools/sync-navigation.mjs` owns the menu across source pages and generated guides/examples.
+
 The site: the home page, the writing workspace (`/write/`), the template editor (`/editor/`), the converter (`/convert/`), Your life
 online (`/import/`), the guides and the examples. The desktop app (`../desktop/`) loads these same pages. Details of each are below.
 
@@ -103,9 +107,9 @@ converter page.
 
 ## Locked journals (`dist/jot/lock.mjs`, `dist/jot/passkey.mjs`)
 
-The writer's **Lock with a passphrase** and **Ways in** use `lock.mjs` (a copy of `parser/lock.mjs`, [Jot Lock
-v1](dist/docs/Jot-Lock-v1.md)) with the browser's built-in Web Crypto, and `passkey.mjs` for passkeys and security keys (WebAuthn
-PRF). Once locked, local storage keeps only encrypted copies; the page locks again after time away.
+The writer's **Lock with a passphrase** and **Ways in** use `lock.mjs` (a copy of `parser/lock.mjs`, [Jotz v1
+protection](../specification/Jot-Protection-v1.md)) with the browser's built-in Web Crypto, and `passkey.mjs` for passkeys and security keys (WebAuthn
+PRF). Protected entries, media and settings are encrypted in the persisted archive; public entries stay public; the page locks again after time away.
 
     node test-lock-ui.cjs            # lock, unlock, ways in, autosave, Download locked; passkeys on a virtual authenticator
 
@@ -188,3 +192,18 @@ After changing published resources or guides, run `node tools/build-offline.mjs`
 manifest generator last. Run `node --test site/test-browser-tools.mjs`, `node site/test-browser-tools-ui.cjs` and
 `node site/test-nearby-ui.cjs`; the latter establishes a real local WebRTC connection in Chromium. Native OS sharing and physical
 devices remain separate checks. See [Browser tools](../docs/guide/browser-tools.md).
+
+
+Connected source adapters live in `dist/connected-sources.mjs`, with explicit capabilities and bounded on-demand requests;
+`connected-sources-ui.mjs` provides the shared review/insertion UI. Providers: Open-Meteo daily weather and selected read-only Home Assistant states/history. Run
+`node --test site/test-connected-sources.mjs site/test-home-assistant-source.mjs`, `node site/test-connected-sources-ui.cjs`
+and `node site/test-home-assistant-ui.cjs`; provider responses are mocked.
+Native webview/CORS and live account checks remain separate. No contextual prose analysis is enabled.
+
+
+Writer now saves Jotz v1 archives by default, including text-only journals. `archive-tools.mjs` provides entry privacy/local search;
+`jot/archive-*.mjs` and bundled SQLite WASM implement ordered source, independent member encryption, protected media/catalog and
+public-only FTS5. All durable workspace content is a single archive in IndexedDB `documents`; localStorage holds only a pointer.
+Regenerate canonical modules with `node tools/sync-parser.mjs` and specs with `node tools/sync-archive-specs.mjs`. Run
+`node --test parser/archive-test.mjs parser/container-test.mjs parser/lock-test.mjs` and `node site/test-archive-ui.cjs`, plus locking,
+file-saving, annotation, sharing and AI regressions. Independent crypto review and real-device/large-file benchmarks remain open.

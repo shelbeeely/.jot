@@ -20,7 +20,7 @@ function installFileAccessMock() {
   const state = window.jotDeviceMock = {
     records: {
       opened: { name: 'device-note.jot', bytes: [...encoder.encode('# Device note\n\nOriginal.')], modified: 1, permission: 'granted', writes: 0, aborts: 0 },
-      saved: { name: 'saved-note.jot', bytes: [], modified: 1, permission: 'granted', writes: 0, aborts: 0 },
+      saved: { name: 'saved-note.jotz', bytes: [], modified: 1, permission: 'granted', writes: 0, aborts: 0 },
       packaged: { name: 'packaged-note.jotz', bytes: [], modified: 1, permission: 'granted', writes: 0, aborts: 0 },
       bad: { name: 'broken.jotz', bytes: [80, 75, 3, 4], modified: 1, permission: 'granted', writes: 0, aborts: 0 },
     },
@@ -83,11 +83,12 @@ function installFileAccessMock() {
       await page.click('#writerCommandsBtn'); await page.fill('#writerCommandsSearch', label);
       await page.locator('#writerCommandsList button').filter({ has: page.locator('strong').filter({ hasText: new RegExp('^' + label + '$', 'i') }) }).click();
     };
-    const text = (page, key) => page.evaluate((name) => new TextDecoder().decode(Uint8Array.from(window.jotDeviceMock.records[name].bytes)), key);
+    const text = (page,key) => page.evaluate(async name=>{const bytes=Uint8Array.from(window.jotDeviceMock.records[name].bytes);if(bytes[0]===80&&bytes[1]===75){const doc=await(await import('/jot/container.mjs')).readDocument(bytes);const source=doc.source;doc.index?.close();return source;}return new TextDecoder().decode(bytes);},key);
     const waitSource = (page, expected) => page.waitForFunction((value) => document.getElementById('writing').value === value, expected);
     const sourceMode = async (page) => { if (!await page.isVisible('#writing')) await command(page, 'Source editing'); };
 
     const { context, page } = await create();
+    await page.evaluate(async()=>{const state=window.jotDeviceMock;state.records.opened.name='device-note.jotz';state.records.opened.bytes=[...await(await import('/jot/container.mjs')).pack({source:'# Device note\n\nOriginal.'})];});
     assert.equal(await page.evaluate(() => window.jotDeviceMock.openCalls + window.jotDeviceMock.saveCalls), 0, 'opening the editor never opens or saves a device file');
     await page.click('#openBtn'); await waitSource(page, '# Device note\n\nOriginal.');
     await sourceMode(page); await page.fill('#writing', '# Device note\n\nEdited on this device.');
@@ -154,7 +155,7 @@ function installFileAccessMock() {
     // Rename at the document heading uses Save as, preserves the original and never rewrites variables.
     const renamed = await create();
     const renameSource = '# {{document.filename}}\n\nKeep this writing.';
-    await renamed.page.evaluate(source => { window.jotDeviceMock.records.opened.bytes = [...new TextEncoder().encode(source)]; window.jotDeviceMock.records.saved.name = 'renamed.jot'; }, renameSource);
+    await renamed.page.evaluate(source => { window.jotDeviceMock.records.opened.bytes = [...new TextEncoder().encode(source)]; window.jotDeviceMock.records.saved.name = 'renamed.jotz'; }, renameSource);
     await renamed.page.click('#openBtn'); await waitSource(renamed.page, renameSource);
     await renamed.page.fill('#documentName', 'renamed');
     assert.equal(await renamed.page.isVisible('#documentRenameSave'), true);
@@ -168,7 +169,7 @@ function installFileAccessMock() {
     await renamed.page.click('#documentRenameSave');
     await renamed.page.waitForFunction(() => window.jotDeviceMock.records.saved.writes === 1 && document.getElementById('documentRenameSave').hidden);
     assert.equal(await text(renamed.page, 'opened'), renameSource); assert.equal(await text(renamed.page, 'saved'), renameSource);
-    assert.match(await renamed.page.textContent('#paperPreview'), /renamed\.jot/);
+    assert.match(await renamed.page.textContent('#paperPreview'), /renamed\.jotz/);
     await renamed.page.fill('#documentName', 'discard-this'); await renamed.page.press('#documentName', 'Escape');
     assert.equal(await renamed.page.inputValue('#documentName'), 'renamed');
     assert.equal(await renamed.page.evaluate(() => window.jotDeviceMock.saveCalls), 2);
@@ -179,8 +180,8 @@ function installFileAccessMock() {
     await sourceMode(fallback.page); await fallback.page.fill('#writing', 'A portable plain journal.');
     const download = fallback.page.waitForEvent('download'); await fallback.page.click('#saveDevice');
     const result = await download;
-    assert.match(result.suggestedFilename(), /\.jot$/);
-    assert.equal(fs.readFileSync(await result.path(), 'utf8'), 'A portable plain journal.');
+    assert.match(result.suggestedFilename(), /\.jotz$/);
+    const fallbackDoc=await(await import('../parser/container.mjs')).readDocument(new Uint8Array(fs.readFileSync(await result.path())));assert.equal(fallbackDoc.source,'A portable plain journal.');fallbackDoc.index?.close();
     await fallback.context.close();
     assert.deepEqual(errors, []); assert.deepEqual(remote, []);
     console.log('PASS: mocked File System Access open/adopt, explicit direct Save, Save as cancellation, permissions, external-byte conflict, failed-open isolation, saved-snapshot race, package destination, unsupported download fallback; no real native picker or disk permission verification.');

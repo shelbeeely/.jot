@@ -37,7 +37,7 @@ const COPIES = {
   'desktop/src-tauri/linux/jot-document.svg': 'jot-document.svg',
   'vscode/media/icon.png': 'vscode-icon.png', 'vscode/media/jot-file-light.svg': 'jot-file-light.svg', 'vscode/media/jot-file-dark.svg': 'jot-file-dark.svg',
 };
-const PAGES = { 'index.html': {}, 'write/index.html': {}, 'editor/index.html': {}, 'convert/index.html': {}, 'import/index.html': {}, 'scan/index.html': { sub: '/ SCAN' } };
+const PAGES = { 'index.html': {}, 'tools/index.html': {}, 'write/index.html': {}, 'editor/index.html': {}, 'convert/index.html': {}, 'import/index.html': {}, 'scan/index.html': { sub: '/ SCAN' } };
 
 function page(rel, opts) {
   const text = fs.readFileSync(path.join(DIST, rel), 'utf8'), root = rel.includes('/') ? '../' : './';

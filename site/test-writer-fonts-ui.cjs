@@ -110,7 +110,9 @@ async function checkFontLoads(page, family) {
         assert.equal(await source(), fixture, 'font selection leaves journal source untouched');
       }
       await font.selectOption('script-05');
+      await page.waitForFunction(() => document.getElementById('saveState').textContent === 'Saved in this browser');
       await page.reload(); await page.locator('#liveWriting').waitFor();
+      await page.waitForFunction(() => document.documentElement.hasAttribute('data-archive-ready'));
       assert.equal(await font.inputValue(), 'script-05'); assert.equal(await source(), fixture);
       await page.locator('#writing').evaluate(editor => editor.jotSetMode('source'));
       assert.ok(await font.isDisabled());

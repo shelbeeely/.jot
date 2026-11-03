@@ -42,7 +42,7 @@ const server = http.createServer((req, res) => {
     assert.equal(rendered.first.unchanged, true); assert.equal(rendered.safe, true); assert.equal(rendered.missing, '{{document.filename}}'); assert.equal(rendered.exported, true);
     const source = '# {{document.filename}}\n\nFrom {{document.filename}}.\n';
     await page.fill('#writing', source); await page.fill('#documentName', 'travel');
-    await page.waitForFunction(() => document.querySelector('#paperPreview h1')?.textContent === 'travel.jot');
+    await page.waitForFunction(() => document.querySelector('#paperPreview h1')?.textContent === 'travel.jotz');
     assert.equal(await page.inputValue('#writing'), source);
     page.once('dialog', dialog => dialog.accept());
     await page.setInputFiles('#openFile', { name: 'My notes.jot', mimeType: 'text/plain', buffer: Buffer.from(source) });
@@ -52,7 +52,7 @@ const server = http.createServer((req, res) => {
     assert.equal(await page.locator('.studio-bar #documentName').count(), 0);
     await page.fill('#documentName', 'renamed.jot'); await page.press('#documentName', 'Enter');
     assert.equal(await page.inputValue('#documentName'), 'renamed');
-    await page.waitForFunction(() => document.querySelector('#paperPreview h1')?.textContent === 'renamed.jot');
+    await page.waitForFunction(() => document.querySelector('#paperPreview h1')?.textContent === 'renamed.jotz');
     await page.fill('#documentName', 'cancelled'); await page.press('#documentName', 'Escape');
     assert.equal(await page.inputValue('#documentName'), 'renamed');
     await require('./test-source-workspace.cjs').command(page, 'Rename document');

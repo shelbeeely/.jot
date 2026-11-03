@@ -2,7 +2,7 @@
 
 Status: design draft and roadmap. Phase E0 is implemented (`DECISIONS.md`, 28 October 2026); the rest is not. It covers the writer, Jot Writer
 (`site/dist/write/`), and the template editor (`site/dist/editor/`), and builds on the composable blocks track in
-`specification/ROADMAP.md` and on [notes-sharing-collaboration.md](notes-sharing-collaboration.md).
+`WRITER-ROADMAP.md` and on [notes-sharing-collaboration.md](notes-sharing-collaboration.md).
 
 Research basis: all 52 guides in `docs/methods/`. For each guide, sections 15 (digital and hybrid versions), 18
 (pitfalls), 19 (accessibility and adaptations) and 25 (for Journalwright Studio) were read in full, and the health or
