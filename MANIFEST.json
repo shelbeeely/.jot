@@ -23630,7 +23630,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 4865,
-      "sha256": "8fb12ae8bb040629a3ead3ca88dc12df612f64fe3096d3f78b4b20f1bf665eb1"
+      "sha256": "df1f2068135e5ea674d1cb7eeb825826638c472f15d1d7b0571e45499db3a494"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23884,8 +23884,8 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 42987,
-      "sha256": "2998dc8b142b8b249961d8ce363dceafb02bcf7c60aefd885e22399fe33c8d3d"
+      "byteLength": 43597,
+      "sha256": "00992388f0764d0b1b81288322a5ef5778bcbb2c8307d9b48d9a0b555713b93c"
     },
     {
       "path": "site/dist/writing-tools.mjs",

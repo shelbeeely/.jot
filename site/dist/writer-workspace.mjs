@@ -278,6 +278,12 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     win.addEventListener('scroll', () => { if (!menu.hidden) place(); }, { passive: true });
   }
 
+  // Live editing shows its own surface while the source textarea is hidden; focus whichever is on screen.
+  function returnToWriting() {
+    const live = doc.getElementById('liveWriting');
+    (live && live.getClientRects().length && root.getAttribute('data-editor-mode') === 'live' ? live : editor).focus({ preventScroll: true });
+  }
+
   function element(tag, text, attributes = {}) {
     const node = doc.createElement(tag);
     if (text !== undefined) node.textContent = text;
@@ -298,7 +304,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     dialog.addEventListener('keydown', event => {
       if (event.key === 'Escape' && !event.isComposing && !event.defaultPrevented) { event.preventDefault(); dialog.close(); }
     });
-    dialog.addEventListener('close', () => { const active = doc.activeElement; if (!doc.querySelector('dialog[open]') && (dialog.contains(active) || !active?.matches('input,textarea,[contenteditable=true]'))) editor.focus({ preventScroll: true }); });
+    dialog.addEventListener('close', () => { const active = doc.activeElement; if (!doc.querySelector('dialog[open]') && (dialog.contains(active) || !active?.matches('input,textarea,[contenteditable=true]'))) returnToWriting(); });
     input.onkeydown = event => {
       if (!event.isComposing && event.key === 'ArrowDown') { const first = list.querySelector('button'); if (first) { event.preventDefault(); first.focus(); } }
       else if (!event.isComposing && event.key === 'Enter') { const first = list.querySelector('button'); if (first) { event.preventDefault(); first.click(); } }
@@ -417,6 +423,8 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     };
     search.oninput = render;
     shortcutsDialog.jotRender = render;
+    // Closing returns the keyboard to the writing, so the next shortcut works.
+    shortcutsDialog.addEventListener('close', () => { const active = doc.activeElement; if (!doc.querySelector('dialog[open]') && (shortcutsDialog.contains(active) || active === doc.body)) returnToWriting(); });
     doc.body.append(shortcutsDialog);
   }
   function openShortcuts() { if (shortcutsDialog.open) return; shortcutsDialog.querySelector('input').value = ''; shortcutsDialog.jotRender(); shortcutsDialog.showModal(); shortcutsDialog.querySelector('input').focus(); }
