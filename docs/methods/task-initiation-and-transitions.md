@@ -1,9 +1,10 @@
 ---
 title: "Task initiation and transitions (AuDHD)"
+summary: "Record a small next step, transition cue and optional task support."
 slug: task-initiation-and-transitions
 category: neurodivergent-and-creative
 evidenceLevel: some
-lastReviewed: 2026-10-27
+lastReviewed: 2026-11-02
 status: draft
 licence: CC0-1.0
 contributors:
@@ -12,7 +13,7 @@ contributors:
 
 # Task initiation and transitions (AuDHD)
 
-A small log for getting from one activity to the next: what you are leaving, the next tiny step, the cue that marks the switch, whether someone is body doubling, and how long you guessed it would take beside how long it took. Written for AuDHD people (autistic and ADHD), who often find both starting and stopping hard. Sources checked 2026-10-27; anything not confirmed from a primary source is marked **(unconfirmed)**.
+A small log for getting from one activity to the next: what you are leaving, the next tiny step, the cue that marks the switch, whether someone is body doubling, and how long you guessed it would take beside how long it took. Written for AuDHD people (autistic and ADHD), who often find both starting and stopping hard. The original bibliography was recorded on 2026-10-27. A focused update on 2026-11-02 checked the evidence scope in [3], [4] and [6]; section 28 states what was accessible.
 
 > This is a planning aid, not a treatment. No diagnosis is needed to use it, and nothing in the log is a measure of effort or worth.
 
@@ -60,8 +61,8 @@ There is no single origin. The ideas come from several places:
 
 ## 4. Philosophy and principles
 
-- **Both directions are hard.** ADHD-style difficulty starting and autistic-style difficulty leaving a deep focus can happen in the same person on the same afternoon. The log treats leaving as a task too.
-- **Make the step smaller, not the person try harder.** If the step did not happen, the next record makes it smaller.
+- **Both directions can be hard.** Starting and leaving deep focus can be difficult for the same person on the same afternoon. The log treats leaving as a task too; a diagnosis does not determine which difficulty someone has.
+- **Look for the barrier.** A smaller step is one option. Missing information, inaccessible tools, pain, overload or lack of time may call for support, a different plan or rest instead.
 - **Cues outside the head.** A cue you can hear or see does the remembering [3, 4].
 - **Time is learnt, not judged.** Estimate and actual sit side by side; no score.
 - **No streaks, no debt.** Unlogged transitions are fine.
@@ -85,15 +86,20 @@ There is no single origin. The ideas come from several places:
 1. Pick the one or two transitions that most often go wrong (leaving the house, starting work after lunch, stopping a game for dinner).
 2. For each, write a reusable cue and warning once.
 3. Keep a short list of "tiny first steps" you can copy (section 22).
+4. For a task that is hard to leave, add a plain note about where to resume: "next stitch is row 8" or "read from the highlighted paragraph". This is a proposed adaptation, not a tested intervention.
+5. If you want to time the transition, decide what counts. "From the cue to opening the file" is different from "until the work is finished". Use the same meaning when comparing entries.
 
 ## 7. Daily practice
 
-Before the switch: write `from`, `next-step`, `cue`. After: `started` and, if you timed it, `actual-min`. Ten seconds each.
+Before the switch: write `next-step` and any useful `from` or `cue`. After: add `started` and, if you timed it, `actual-min`. A short entry is the aim, not a time requirement.
+
+If the cue arrives at a poor moment, you can choose another stopping point. A cue is an invitation to check the plan, not an instruction that overrides hunger, safety or concentration. If you are stuck, ask whether you need a clearer action, help, equipment, a quieter setting or a break.
 
 ## 8. Rhythms
 
 - **Weekly:** reread the records for one kind of task and compare each estimate with its actual. If "5 minutes" is usually 15, plan 15.
 - **When you miss days:** nothing to fill in. Start again with the next transition.
+- **Monthly, optional:** keep one reusable card for a transition that still matters and retire cards that add work. Check whether timing or body doubling feels useful; neither needs to stay.
 
 ## 9. Page anatomy
 
@@ -105,7 +111,7 @@ guess 5 min · took 15 min · started: yes
 
 ## 10. Worked examples
 
-A day with two transitions, charted:
+All examples in this section are invented. A day with two transitions, with an optional chart:
 
 ```jot
 ### 2026-10-27 | Tuesday
@@ -144,11 +150,14 @@ style: bars
 :::
 ```
 
+A month: four leaving-home notes include waiting for a lift, while two do not. Instead of averaging all six as a personal speed score, the writer notes "allow waiting time when booking the lift". Their next card can name an accessible departure step. Nothing in the log shows why another unrecorded day was difficult.
+
 ## 11. Variations and offshoots
 
 - **Transition card:** a paper card by the door with `from`, `next-step`, `cue` printed.
 - **Leaving-the-house list:** a `:::record collection` (or a plain list) of tiny steps in order.
-- **Body-double only:** log `body-double` and `started`, nothing else.
+- **Body-double emphasis:** keep the required `next-step`; add `body-double` and `started` if useful.
+- **Exit-only card:** name the small action for leaving a task, such as saving the file, and keep a plain-language note about where to resume.
 
 ## 12. Community practice
 
@@ -168,22 +177,35 @@ In Jot the record is plain text. The workspace charts `estimate-min` and `actual
 
 ## 16. Evidence and research
 
-- **Visual activity schedules** meet evidence-based practice criteria for autistic people in single-case research [3].
-- **Implementation intentions** ("when X, I will Y") showed a medium-to-large effect on goal attainment across 94 tests [4].
-- **Time perception** differs on average in children and adolescents with ADHD [5]; adult and AuDHD-specific evidence is thinner.
-- **Body doubling** is supported by survey data only [6].
-- **Monotropism** is a theory of autistic attention, not a tested intervention [2].
-- No study tests this combined log. Evidence level **some** applies to the parts.
+**Level: some for related components; no direct test of this combined log in the sources reviewed.** The studies below concern different populations, procedures and outcomes. Their results cannot be added together as evidence that the card works for AuDHD adults.
+
+| Source | Design and finding | Limit for this guide |
+| --- | --- | --- |
+| Visual activity schedules [3] | Review of 31 studies published 1993–2013; 16 met acceptable-quality criteria. The review judged schedules an evidence-based practice, particularly with systematic instructional procedures | A short self-directed transition note is not the same procedure. The abstract covers students from preschool through adulthood, rather than an AuDHD adult sample |
+| Implementation intentions [4] | Meta-analysis of 94 independent tests of if-then planning found a medium-to-large overall effect on goal attainment | The result concerns specific planning interventions across varied settings, not a diagnosis-specific transition log or a promise that any cue will work |
+| Time perception [5] | Meta-analysis concerning children and adolescents with ADHD | Group differences on timing tasks cannot explain one adult's delayed start, or validate estimates in this log |
+| Body doubling [6] | Survey of 220 adults, 198 identifying as neurodivergent, describing how and why they use other people's presence | Self-selected, predominantly ADHD-influenced accounts; no randomized comparison, and no causal estimate of improved initiation |
+| Monotropism [2] | Theory of autistic attention | A possible framing of switching costs, not a tested treatment or a universal explanation |
+
+The body-doubling authors describe variation in preferences and social pressure. Some respondents found company distracting or stressful [6]. A willing partner, quiet company or no company are all possible choices; the survey does not establish which is best for an individual.
+
+The 2026-11-02 update checked the full text of [4] and [6] and the indexed abstract of [3]. It did not conduct a systematic search or re-audit [1], [2] and [5]. The card's field names, optional timing, neutral completion values and stop/resume notes are design choices.
 
 ## 17. Benefits
 
-- Fewer stuck starts when the step is tiny and the cue is external (practitioner report, consistent with [3, 4]).
-- A personal record of how long things take (practitioner report).
-- Less shame: "not yet" and "chose not to" are ordinary values.
+These are intended uses rather than measured outcomes of the combined card:
+
+- Put a first action and a stopping cue somewhere you can refer to them.
+- Keep comparable personal estimates beside what happened.
+- Describe "not yet" and "chose not to" without a failure score.
+
+Some body-doubling respondents reported easier initiation [6]; this does not show that the log itself reduces stuck starts or shame.
 
 ## 18. Pitfalls
 
-- **Steps too big.** Halve them until they are physical and under a minute.
+- **Steps too big.** Try a smaller concrete action. If the barrier is access, uncertainty or exhaustion, address that rather than repeatedly shrinking the task.
+- **Timing unlike things.** Record the same start and end points when comparing estimates. Missing `actual-min` is unknown, not zero. Compare paired records before looking at daily averages.
+- **Company becomes surveillance.** Agree what a body double will do, whether cameras are on and when to stop. No one needs to see the journal or a screen. A one-way recording is not permission to record another person.
 - **Logging every switch.** Log only the hard ones.
 - **Using actual time as a verdict.** It is information for the next estimate.
 
@@ -193,6 +215,9 @@ In Jot the record is plain text. The workspace charts `estimate-min` and `actual
 - **Writing is hard:** speak the step aloud to a body double instead; log afterwards or never.
 - **Sensory load:** choose cues that are not aversive (a song you like, a gentle vibration).
 - **Demand sensitivity:** phrase steps as options ("could stand up") if direct instructions feel like pressure.
+- **Mobility or pain:** choose an action within reach, such as opening a document by switch control; "stand up" is an example, not a required first step.
+- **Vision or hearing:** use a cue you can perceive. Pair an icon with text; offer a visible cue instead of sound or vibration instead of a visual timer.
+- **Communication:** a prewritten card or pointing to an option can replace explaining a stuck transition. Nobody has to justify a `chose not to` entry.
 
 ## 20. Comparison
 
@@ -228,7 +253,7 @@ In Jot the record is plain text. The workspace charts `estimate-min` and `actual
 
 **Do I need a diagnosis?** No.
 
-**What if I never start?** Write `started: not yet` and make the next step smaller, or decide not to: `chose not to` is a valid answer.
+**What if I never start?** You can write `started: not yet`, ask for support, change the plan or leave it. `chose not to` is a valid answer; making the step smaller is only one option.
 
 **Is this the same as ADHD journaling?** It focuses on the switch between activities, especially leaving one, which matters a lot when autistic focus and ADHD initiation meet.
 
@@ -247,11 +272,11 @@ Adopt: a transition card layout, a tiny-steps bank, an estimate-versus-actual ch
 
 ## 28. Sources
 
-All checked 2026-10-27.
+Original bibliography recorded as checked 2026-10-27. Focused update on 2026-11-02: [4] and [6] were consulted in full text; [3] was checked through its Europe PMC abstract. The linked full-text copy of [3] returned HTTP 403. [1], [2] and [5] were retained without an independent recheck. No systematic search was performed.
 
 1. Rong Y, Yang CJ, Jin Y, Wang Y. "Prevalence of attention-deficit/hyperactivity disorder in individuals with autism spectrum disorder: a meta-analysis". *Research in Autism Spectrum Disorders* 83:101759, 2021. https://pure.ecnu.edu.cn/en/publications/prevalence-of-attention-deficithyperactivity-disorder-in-individu/
 2. Murray D, Lesser M, Lawson W. "Attention, monotropism and the diagnostic criteria for autism". *Autism* 9(2):139–156, 2005. doi:10.1177/1362361305051398. https://pubmed.ncbi.nlm.nih.gov/15857859/
-3. Knight V, Sartini E, Spriggs AD. "Evaluating visual activity schedules as evidence-based practice for individuals with autism spectrum disorders". *Journal of Autism and Developmental Disorders* 45(1):157–178, 2015. doi:10.1007/s10803-014-2201-z. https://cbmt.franciscan.edu/wp-content/uploads/sites/32/2021/07/Knight-et-al.-2015_Visual-Schedules.pdf
+3. Knight V, Sartini E, Spriggs AD. "Evaluating visual activity schedules as evidence-based practice for individuals with autism spectrum disorders". *Journal of Autism and Developmental Disorders* 45(1):157–178, 2015. doi:10.1007/s10803-014-2201-z. https://europepmc.org/article/MED/25081593
 4. Gollwitzer PM, Sheeran P. "Implementation intentions and goal achievement: a meta-analysis of effects and processes". *Advances in Experimental Social Psychology* 38:69–119, 2006. https://www.socmot.uni-konstanz.de/publications/implementation-intentions-and-goal-achievement-meta-analysis-effects-and-processes
 5. Zheng Q, Wang X, Chiu KY, Shum KK. "Time perception deficits in children and adolescents with ADHD: a meta-analysis". *Journal of Attention Disorders*, 2022. doi:10.1177/1087054720978557 (as cited and checked in [adhd-journaling.md](adhd-journaling.md))
 6. Eagle T, Baltaxe-Admony LB, Ringland KE. "'It Was Something I Naturally Found Worked and Heard About Later': An Investigation of Body Doubling with Neurodivergent Participants". *ACM Transactions on Accessible Computing*, 2024. https://leyabreanna.com/papers/body_double_taccess.pdf

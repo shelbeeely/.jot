@@ -1,5 +1,6 @@
 ---
 title: "Interstitial journaling"
+summary: "Write short timestamped notes between tasks about what happened and what follows."
 slug: interstitial-journaling
 category: productivity
 evidenceLevel: some

@@ -1,9 +1,10 @@
 ---
 title: "Voice practice and voice training log"
+summary: "A record of voice practice, personal impressions and optional measurements."
 slug: voice-practice
 category: productivity
 evidenceLevel: some
-lastReviewed: 2026-10-27
+lastReviewed: 2026-11-02
 status: draft
 licence: CC0-1.0
 contributors:
@@ -12,9 +13,9 @@ contributors:
 
 # Voice practice and voice training log
 
-A short practice log for anyone working on their voice: gender-affirming voice training (feminizing, masculinizing, androgynous or simply "more like me"), singing, speech after illness, or an accent or presentation goal of the writer's own. It records what was practised, for how long, how the voice felt and, only if the writer wants, a pitch figure and the name of a recording. Sources checked 2026-10-27; anything not confirmed from a primary source is marked **(unconfirmed)**.
+A short practice log for anyone working on their voice: gender-affirming voice training (feminizing, masculinizing, androgynous or simply "more like me"), singing, speech after illness, or an accent or presentation goal of the writer's own. It records what was practised, for how long, how the voice felt and, only if the writer wants, a pitch figure and the name of a recording. The original source pass was 2026-10-27. A targeted update on 2026-11-02 checked the review, vocal-care guidance and pitch-analysis documentation; section 28 records its limits. Anything not confirmed from a primary source is marked **(unconfirmed)**.
 
-> **Not medical advice and not an assessment.** This log does not tell anyone what their voice should sound like. Pain, hoarseness that lasts, or a voice that tires quickly are reasons to rest and to see a voice clinician (a speech-language pathologist or laryngologist), not to practise harder.
+> **Not medical advice and not an assessment.** This log does not tell anyone what their voice should sound like. Stop practice that hurts or makes the voice hoarse or tired. Recurring discomfort or a change that concerns you is a reason to consult a doctor or voice clinician [9]. This page records practice; it does not prescribe exercises or a safe training dose.
 
 ## 1. At a glance
 
@@ -24,8 +25,8 @@ A short practice log for anyone working on their voice: gender-affirming voice t
 | Year | 2026 (this profile) |
 | Type | Practice log with optional numbers |
 | Time per day | 1 to 2 minutes of writing after practice |
-| Time per week | 5 to 10 minutes for a weekly listen-back |
-| Cost | Free. Optional: a drinking straw, a pitch app |
+| Time per week | Optional review; a short note is enough, with no listening required |
+| Cost | The log is free. Equipment and clinician costs vary |
 | Formats | Paper, `.jot`, `.jotz` with clips attached |
 | Best for | People practising voice on their own or between clinician sessions who want to see patterns over weeks |
 | Not ideal for | Days when listening to your own voice is distressing (skip the numbers and recordings; the log still works) |
@@ -37,14 +38,14 @@ A short practice log for anyone working on their voice: gender-affirming voice t
 ## 2. Summary
 
 - One short record after each practice: `minutes` and `exercise` are enough.
-- Optional numbers (`pitch-hz`, `resonance`, `felt-like-me`) chart over weeks, so slow change becomes visible.
+- Optional numbers (`pitch-hz`, `resonance`, `felt-like-me`) can be reviewed over weeks; their meaning depends on the task and the writer's scale.
 - `strain` is logged every time it shows up, because strain is the signal to stop.
-- Recordings are named, not required. Listen back weekly rather than after every session.
+- Recordings are named, not required. Listen back only if useful; a weekly review is an option, not a tested schedule.
 - The writer sets the goal. There is no built-in target voice, "passing" score or comparison with anyone else.
 
 ## 3. History and origin
 
-Practice logs are as old as music teaching. Gender-affirming voice work became a named clinical area over the last few decades, and the WPATH Standards of Care added a voice and communication chapter (it appeared in version 7 in 2012 and was expanded in version 8 in 2022 [1]). Clinician questionnaires such as the Transsexual Voice Questionnaire (TVQ<sup>MtF</sup>, 30 items, 4-point scale; Dacakis et al. 2013 [2]) measure how people feel about their voice; a journal does not need a validated instrument and uses a single daily "felt like me" rating instead, as the gender euphoria log already suggests.
+A practice log is a general recording tool rather than a named clinical intervention. Gender-affirming voice work has a clinical literature, and the WPATH Standards of Care added a voice and communication chapter (it appeared in version 7 in 2012 and was expanded in version 8 in 2022 [1]). Clinician questionnaires such as the Transsexual Voice Questionnaire (TVQ<sup>MtF</sup>, 30 items, 4-point scale; Dacakis et al. 2013 [2]) measure how people feel about their voice; a journal does not need a validated instrument and uses a single daily "felt like me" rating instead, as the gender euphoria log already suggests.
 
 | Date | Event |
 | --- | --- |
@@ -72,9 +73,9 @@ Practice logs are as old as music teaching. Gender-affirming voice work became a
 | `minutes` | Practice length | Number. Required |
 | `exercise` | What you did | Required. e.g. resonance, pitch glides, reading, straw phonation, humming, conversation |
 | `pitch-hz` | Median speaking pitch in hertz | Optional number. Different apps report differently; compare only with the same app and task |
-| `resonance` | Your own ordinal rating | Optional number on a scale you define, e.g. 1 darker to 5 brighter |
-| `strain` | none / some / a lot | Optional. "A lot" means stop for the day |
-| `felt-like-me` | 1 to 5 | Optional number |
+| `resonance` | Your own ordinal rating | Optional number on a scale you define, e.g. 1 darker to 5 brighter. A felt rating is not an acoustic measurement of resonance |
+| `strain` | none / some / a lot | Optional description, not a safety threshold. Stop for pain or strain; do not wait for "a lot" [9] |
+| `felt-like-me` | 1 to 5 | Optional personal rating. It does not replace a validated clinical questionnaire |
 | `recording` | Clip name or path | Optional. A clip attached to a `.jotz`, or a file kept elsewhere |
 | `goal` | Your words | Optional |
 | `at` | Time | Optional |
@@ -89,13 +90,14 @@ Practice logs are as old as music teaching. Gender-affirming voice work became a
 
 ## 7. Daily practice
 
-- 5 to 20 minutes of practice, as you or your clinician planned.
+- Use the exercise and duration agreed with your clinician or teacher, if you have one. This log sets no daily practice target.
 - Straight after: one record. Under a minute.
-- If you used a pitch app, copy its median for the reading or speaking task. Use the same passage each time if you want the figures to be comparable.
+- If you used a pitch app, copy its median for the reading or speaking task. Note the app and task in `body:`. Keep reading, sustained-vowel and conversation samples separate: the review found that sample type changed reported pitch gains [5].
+- If the voice becomes uncomfortable, stop rather than finishing a timed session [9]. A rest day can be a sentence in the diary; no session record is required.
 
 ## 8. Rhythms
 
-- **Weekly:** listen to one or two clips from the start and end of the week. Write a sentence. Look at the chart if you keep numbers.
+- **Weekly, optional:** compare one or two clips made with the same task, if listening feels useful. Or write a sentence without listening. Look at the chart only if you want to.
 - **Monthly:** reread the `goal:` lines; change them if they no longer fit.
 - **Missed days:** nothing to catch up. A gap in the chart is a gap, not a zero.
 
@@ -176,7 +178,16 @@ end: 2026-11-01
 :::
 ```
 
-A month: four weekly listen-back notes and a chart over the month (`start:` and `end:` covering the month) are usually enough.
+A week, with invented content and no implied training schedule:
+
+| Day | Entry | What the writer keeps from it |
+| --- | --- | --- |
+| Monday | Reading passage, 6 minutes; no numbers | The exercise name is enough to find the session again |
+| Wednesday | Stopped when the throat felt tight; 2 minutes | A short session does not need extending to match Monday |
+| Friday | Rest; no session record | A gap is not zero practice entered retrospectively |
+| Sunday | "I liked how my greeting felt in a call" | A useful reflection can be about ease or expression rather than pitch |
+
+A month: an optional review note can name what felt comfortable, what the writer wants to keep and what they want to ask a clinician. A chart over the month (`start:` and `end:` covering it) is optional. Neither a rising pitch curve nor more minutes is a universal sign of improvement.
 
 ## 11. Variations and offshoots
 
@@ -195,41 +206,57 @@ Not applicable: there is no official voice practice journal. Clinic-provided hom
 
 ## 14. Tools and supplies
 
-- A drinking straw (straw phonation) or a cup of water and a straw (water-resistance variant).
+- A pen or text editor is enough for the log. If a clinician or teacher has selected straw exercises, use the equipment and instructions they supplied; this guide does not choose straw dimensions, water depth or resistance.
 - A recorder: any phone voice memo app.
-- A pitch analyser: Praat (free, desktop, research-grade) [8] or a phone app. Copy the median, not the momentary reading.
+- An optional pitch analyser: Praat (free, desktop) [8] or a phone app. A tool used in research still needs suitable settings; pitch extraction can produce octave errors and mistaken voiced/unvoiced decisions [10]. A median is a summary, not proof that the estimate is correct.
 - Headphones for listen-back.
 
 ## 15. Digital and hybrid versions
 
-In Jot the record is plain text, so it opens in any editor. The workspace and the VS Code extension draw charts from `minutes`, `pitch-hz`, `resonance` and `felt-like-me`. Clips can travel inside a `.jotz`. Nothing is uploaded: Jot does not analyse audio or send recordings anywhere.
+In Jot the record is plain text, so it opens in any editor. The profile's session records can hold `minutes`, `pitch-hz`, `resonance` and `felt-like-me`; clips can travel inside a `.jotz`.
+
+**Current Jot implementation, checked against the repository on 2026-11-02:** Writer also has an optional local pitch meter. It opens the microphone only after Start and estimates pitch in page memory without recording or sending audio. Add inserts a summary as `pitch-hz` and `voice-minutes` measurement records, plus a `voice-practice@1` observation. These are different record shapes from the hand-written session examples above. The tool's optional 0–5 strain rating is also different from the session example's words; do not silently convert or combine those scales. See [Voice practice](../guide/voice-practice.md) and `site/dist/jot/voice.mjs` for product behavior, not clinical evidence.
+
+A self-entered target band is a preference, not an assessment or a validated training prescription. No study cited here validates Jot's meter. An attached clip is separate from the live meter, which does not make recordings. Before sharing, inspect the exported writing and attachments: a file name, quoted speech or audio can identify the speaker even if pitch figures are removed.
 
 ## 16. Evidence and research
 
-- **Voice training works for some outcomes.** Schwarz et al. (2023) pooled studies of speech therapy for trans women and found average gains in fundamental frequency of roughly 25 to 39 Hz depending on the speaking task; the authors rate the evidence as low quality (no randomized trials, small samples) [5]. SOC-8 recommends that voice and communication support be available [1].
+**Evidence scope: some for related voice interventions; no direct evidence for this log.** The reviewed intervention is voice training or therapy, not keeping a daily record. The findings below cannot establish that a journal improves outcomes or prevents injury.
+
+| Source and design | What it supports | What it does not establish |
+| --- | --- | --- |
+| Schwarz et al. 2023 systematic review and meta-analysis [5] | Reported pitch and satisfaction changes after interventions for trans women; the importance of specifying the speaking task | An optimal home-practice dose, effects for every voice goal, or a benefit from logging |
+| Titze 2006 physiological modelling/rationale [4] | A rationale for semi-occluded vocal tract exercises | The effect of this log or an individualized exercise prescription |
+| NIDCD clinical public guidance [9] | Resting a hoarse or tired voice and seeking assessment for voice problems | A diagnosis from a journal field or a strain score |
+| Praat technical documentation [10] | Pitch estimates depend on the analysis method and can contain errors | Accuracy of an unspecified phone app or the Jot meter |
+
+- **Voice training findings have limits.** Schwarz et al. (2023) included 16 studies: six of speech therapy and ten of phonosurgery. Average pitch gains after speech therapy were about 27 Hz for a sustained vowel, 39 Hz for reading and 25 Hz for spontaneous speech. The authors rated the evidence low quality because of small samples, no randomized controlled trials and different collection methods [5]. These are group findings, not targets or predictions for an individual. SOC-8 recommends that voice and communication support be available [1].
 - **Semi-occluded vocal tract exercises** (straws, lip trills, humming) have a modelling rationale [4] and are widely used; this doc makes no claim about their size of effect for gender-affirming goals.
-- **Transmasculine voice:** research on voice training is thin [7].
-- **Journaling the practice:** no study tests a voice practice journal. Evidence level is **some** because the practice being logged has evidence; the log itself is anecdotal.
+- **Applicability is limited.** This 2023 review concerns trans women and pitch-raising interventions [5]. It cannot establish effects for transmasculine or nonbinary goals, singing, accent work or rehabilitation after illness. The transmasculine review cited here dates from 2015 [7]; it does not establish the state of the literature in 2026.
+- **Journaling the practice:** none of the sources checked here tests this voice practice journal. This targeted update is not a systematic search for every logging study. Evidence level is **some** because related voice interventions have research; benefits of the log remain untested.
 
 ## 17. Benefits
 
-- Slow change becomes visible over weeks (practitioner report).
-- Strain is noticed early and rest is taken (practitioner report; consistent with clinical advice to avoid vocal damage [3]).
+- Earlier exercise names and personal impressions are available to reread. This is a use of the record, not a tested outcome.
+- A place to note discomfort and a decision to stop or seek advice. This is a proposed use of the log, consistent with vocal-care guidance [9], not evidence that logging prevents harm.
 - A record to bring to a clinician, if wanted.
 
 ## 18. Pitfalls
 
 - **Chasing a number.** Pitch alone does not make a voice feel right. Recover: hide `pitch-hz` for a week and rate `felt-like-me` only.
-- **Listening every day.** Daily listen-back can amplify distress. Weekly is enough.
+- **Listening becomes distressing.** There is no required listening interval. Skip playback, remove recordings or stop the log if it is making practice harder.
 - **Pushing through strain.** Stop, note it, and rest. Persistent strain is a reason to see a clinician.
-- **Comparing with others.** Voices differ; the log has no comparison view on purpose.
+- **Comparing with others.** Voices and goals differ. This guide proposes personal comparison only, and a number need not be compared at all.
+- **Treating app output as ground truth.** A sudden doubling or halving may be a pitch-extraction error [10]. Note uncertainty or leave the number out; do not change vocal effort to chase the display.
 
 ## 19. Accessibility and adaptations
 
 - **Dysphoria-heavy days:** skip recordings and numbers; `minutes` and `exercise` are complete.
-- **Hearing differences:** rely on felt sensations (`body:`) and the chart rather than listen-back.
+- **Hearing differences:** a written description or agreed visual cue may be more useful than playback. A pitch chart covers only part of the voice and does not replace accessible feedback from a clinician or teacher.
 - **Motor or energy limits:** shorter sessions; `minutes: 3` counts.
 - **Screen readers:** charts have a text alternative and a table of numbers.
+- **Low energy or limited writing:** keep a reusable exercise name and one word such as "easy" or "stopped". A prose note is valid even when no session fields are filled.
+- **Sensory needs:** headphones and playback are optional. Choose a quiet setting if measuring, but comfort takes priority over producing a comparable sample.
 
 ## 20. Comparison
 
@@ -275,14 +302,18 @@ In Jot the record is plain text, so it opens in any editor. The workspace and th
 
 **Is this therapy?** No. It is a log you may keep alongside self-guided practice or clinician sessions.
 
+**Should I keep practicing until the number improves?** No. The number may be uncertain, and pitch is only one aspect of voice. Stop for discomfort; discuss recurring problems with a clinician [9].
+
+**Can a "felt like me" score be used as a clinical result?** It is a personal rating with no validated cutoff. Keep its meaning in your own words; do not substitute it for a clinician's assessment or questionnaire.
+
 ## 25. For Journalwright Studio
 
-Adopt: the profile's record, scale records for `resonance` and `felt-like-me`, a weekly chart, and an export option that leaves out `recording` and `pitch-hz`. Do not adopt: gendered target bands, "passing" meters, automatic audio upload or analysis, or streaks.
+Adopt: the profile's record, scale records for `resonance` and `felt-like-me`, a weekly chart, and an export option that leaves out `recording` and `pitch-hz`. Do not adopt: gendered target bands, "passing" meters, automatic audio upload, background audio analysis, or streaks. The optional local meter in section 15 is an implementation choice, not a benefit established by the voice-training studies.
 
 ## 26. Open questions
 
 - Whether a journal log changes practice consistency or outcomes is untested.
-- Pitch apps disagree with each other; how much is not documented for consumer apps **(unconfirmed)**.
+- The accuracy of consumer apps and Jot's meter for different voices, devices and environments is not established by the sources checked here. Praat documents algorithmic error mechanisms [10]; this is not a validation of either tool.
 - The best rating for "felt like me" is unknown; a 1–5 scale is a convenience, not a validated measure.
 
 ## 27. Further reading
@@ -292,13 +323,15 @@ Adopt: the profile's record, scale records for `resonance` and `felt-like-me`, a
 
 ## 28. Sources
 
-All checked 2026-10-27.
+Original source pass: 2026-10-27. Targeted check on 2026-11-02: [5] was read in full at the publisher, [8] on its official site, and new sources [9] and [10] on their official sites. The PMC copy of [5] returned a challenge page, so the publisher copy was used. ASHA [3] returned HTTP 403 and was not reverified. The rest of the original bibliography was not rechecked in this pass. This remains a draft, not an independent clinical review.
 
 1. Coleman E et al. "Standards of Care for the Health of Transgender and Gender Diverse People, Version 8". *International Journal of Transgender Health* 23(S1), 2022. doi:10.1080/26895269.2022.2100644. https://pubmed.ncbi.nlm.nih.gov/36238954/
 2. Dacakis G, Davies S, Oates JM, Douglas JM, Johnston JR. "Development and preliminary evaluation of the Transsexual Voice Questionnaire for Male-to-Female Transsexuals". *Journal of Voice* 27(3):312–320, 2013. https://blog.sac-oac.ca/sac-clinical-research-grant-in-action-developing-the-transsexual-voice-questionnaire-male-to-female/
 3. "Gender Affirming Voice and Communication" (Practice Portal). American Speech-Language-Hearing Association. https://www.asha.org/practice-portal/professional-issues/gender-affirming-voice-and-communication/
 4. Titze IR. "Voice training and therapy with a semi-occluded vocal tract: rationale and scientific underpinnings". *Journal of Speech, Language, and Hearing Research* 49(2):448–459, 2006. doi:10.1044/1092-4388(2006/035). https://pubs.asha.org/doi/10.1044/1092-4388(2006/035)
-5. Schwarz K et al. "Speech therapy for transgender women: an updated systematic review and meta-analysis". *Systematic Reviews* 12:128, 2023. doi:10.1186/s13643-023-02267-5. https://pmc.ncbi.nlm.nih.gov/articles/PMC10363306/
+5. Schwarz K et al. "Speech therapy for transgender women: an updated systematic review and meta-analysis". *Systematic Reviews* 12:128, 2023. doi:10.1186/s13643-023-02267-5. https://link.springer.com/article/10.1186/s13643-023-02267-5
 6. Davies S, Johnston JR. "Exploring the validity of the Transsexual Voice Questionnaire for male-to-female transsexuals". *Canadian Journal of Speech-Language Pathology and Audiology* 39(1), 2015. https://cjslpa.ca/files/2015_CJSLPA_Vol_39/No_01/CJSLPA_Spring_2015_Vol_39_No_1_Davies-Johnston.pdf
 7. Azul D. "Transmasculine people's vocal situations: a critical review of gender-related discourses and empirical data". *International Journal of Language & Communication Disorders* 50(1):31–47, 2015. doi:10.1111/1460-6984.12121. https://apps.asha.org/EvidenceMaps/Articles/ArticleSummary/235f3784-b01e-4782-88ee-b132a597b2a1
 8. Boersma P, Weenink D. "Praat: doing phonetics by computer". University of Amsterdam. https://www.fon.hum.uva.nl/praat/
+9. "Taking Care of Your Voice". National Institute on Deafness and Other Communication Disorders, National Institutes of Health. https://www.nidcd.nih.gov/health/taking-care-your-voice
+10. Boersma P. "How to choose a pitch analysis method". Praat manual, 2023–2024. https://www.fon.hum.uva.nl/praat/manual/how_to_choose_a_pitch_analysis_method.html

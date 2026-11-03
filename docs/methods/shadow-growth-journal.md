@@ -1,5 +1,6 @@
 ---
 title: "Shadow growth journal"
+summary: "Explore reflective prompts inspired by shadow concepts, with explicit evidence limits."
 slug: shadow-growth-journal
 category: reflective-writing
 evidenceLevel: none

@@ -34,4 +34,4 @@ Vendored JSZip 3.10.1 handles ZIP, with its included MIT/GPL notice; hash.js and
 
 Attach files in the Jot editor. Included raster images preview locally; other assets have download links. Writing uses local text autosave and assets use IndexedDB. Failed asset persistence must prompt a portable `.jotz` download. The handwriting canvas can send both image and strokes to the editor; the scanner can send its corrected image. Downloading a journal with attachments saves a `.jotz` that includes all current attached assets, including unused ones, so review the asset list before sharing.
 
-Draft 3 (26 October 2026) gives the package its own extension, `.jotz`; plain writing stays `.jot`. No companion folder is used. Format stays Jot v1. Parser implementation versions are independent. Full visual block composition, encrypted storage and recognition remain separate roadmap work.
+For encrypted journals, see [Jot Lock](LOCK.md).

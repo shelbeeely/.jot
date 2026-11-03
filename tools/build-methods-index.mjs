@@ -3,6 +3,7 @@
 //   node tools/build-methods-index.mjs           rewrite the catalogue
 //   node tools/build-methods-index.mjs --check   exit 1 if it is stale
 import fs from 'node:fs';
+import { metadata } from './check-methods.mjs';
 
 const dir = new URL('../docs/methods/', import.meta.url);
 const readme = new URL('README.md', dir);
@@ -16,30 +17,28 @@ const NAMES = {
 
 function guide(file) {
   const text = fs.readFileSync(new URL(file, dir), 'utf8');
-  const front = /^---\n([\s\S]*?)\n---\n/.exec(text);
-  if (!front) throw Error(`docs/methods/${file} has no front matter`);
-  const meta = Object.fromEntries(front[1].split('\n').map((l) => /^(\w+):\s*"?(.*?)"?$/.exec(l)).filter(Boolean).map((m) => [m[1], m[2]]));
-  for (const key of ['title', 'category', 'evidenceLevel', 'status'])
+  const meta = metadata(text);
+  if (!meta) throw Error(`docs/methods/${file} has no front matter`);
+  for (const key of ['title', 'summary', 'category', 'evidenceLevel', 'status', 'lastReviewed'])
     if (!meta[key]) throw Error(`docs/methods/${file} front matter lacks ${key}`);
   if (!NAMES[meta.category]) throw Error(`docs/methods/${file}: unknown category ${meta.category}`);
-  // The first descriptive paragraph after the title, cut to its first sentence; else the "Type" row of the at-a-glance table.
-  const rest = text.slice(front[0].length);
-  const intro = (rest.split(/\n## /)[0].split(/\n# /)[1] || '').split(/\n\s*\n/).slice(1).map((p) => p.replace(/\s+/g, ' ').trim());
-  const para = intro.find((p) => /^[A-Z]/.test(p) && !/^(last |research |sources )?checked\b|^research doc\b/i.test(p));
-  const type = /^\|\s*(?:\*\*)?Type(?:\*\*)?\s*\|\s*(.+?)\s*\|\s*$/m.exec(rest)?.[1];
-  const summary = (para ? para.replace(/^(.*?[a-z0-9)*"”'][.!?])\s+[A-Z*"(].*$/, '$1') : type || '').replace(/\|/g, '\\|');
+  const rest = text.replace(/^---\n[\s\S]*?\n---\n/, '');
+  const summary = meta.summary.replace(/\|/g, '\\|');
   // Guides that open with a health, safety or "not medical advice" note.
-  const care = /not medical advice|health note|if you are in crisis/i.test(rest.split(/\n## /)[0]) ? 'yes' : '';
+  const care = /not medical advice|(?:health|care|safety) note|if you are in crisis/i.test(rest.split(/\n## /)[0]) ? 'yes' : '';
   return { file, ...meta, summary, care };
 }
 
 const guides = fs.readdirSync(dir).filter((f) => f.endsWith('.md') && f !== 'README.md' && f !== 'TEMPLATE.md').sort().map(guide);
-const lines = [START, '', `${guides.length} guides. Evidence levels are the guides' own (see each guide's section on evidence). "Health note" marks guides that open with a health, safety or crisis note: read it before designing for that method.`, ''];
+const profiles = JSON.parse(fs.readFileSync(new URL('../specification/profiles.json', import.meta.url), 'utf8')).profiles;
+const missing = profiles.filter((profile) => !guides.some((g) => g.slug === profile.id));
+if (missing.length) throw Error(`Method profiles without research guides: ${missing.map((p) => p.id).join(', ')}`);
+const lines = [START, '', `${guides.length} guides covering all ${profiles.length} method profiles. Evidence labels describe each guide's research scope, which may be a related intervention rather than the exact journal format. "Health note" marks an opening health, safety or crisis note: read it before designing for that method. Review dates can reflect a targeted source check; see section 28 for its scope.`, ''];
 for (const category of ORDER) {
   const group = guides.filter((g) => g.category === category);
   if (!group.length) continue;
-  lines.push(`### ${NAMES[category]}`, '', '| Guide | Evidence | Status | Health note | What it covers |', '| --- | --- | --- | --- | --- |');
-  for (const g of group) lines.push(`| [${g.title.replace(/\|/g, '\\|')}](${g.file}) | ${g.evidenceLevel} | ${g.status} | ${g.care} | ${g.summary} |`);
+  lines.push(`### ${NAMES[category]}`, '', '| Guide | Evidence | Status | Last source review | Health note | What it covers |', '| --- | --- | --- | --- | --- | --- |');
+  for (const g of group) lines.push(`| [${g.title.replace(/\|/g, '\\|')}](${g.file}) | ${g.evidenceLevel} | ${g.status} | ${g.lastReviewed} | ${g.care} | ${g.summary} |`);
   lines.push('');
 }
 lines.push(END);

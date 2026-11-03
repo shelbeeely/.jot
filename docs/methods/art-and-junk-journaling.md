@@ -1,5 +1,6 @@
 ---
 title: "Art journaling and junk journaling"
+summary: "Combine drawing, collage, collected materials and words on a page."
 slug: art-and-junk-journaling
 category: neurodivergent-and-creative
 evidenceLevel: some

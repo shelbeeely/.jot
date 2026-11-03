@@ -1,9 +1,10 @@
 ---
 title: "Drawing practice log"
+summary: "A short record of a drawing session, its skill focus, references and a possible next attempt."
 slug: drawing-practice
 category: neurodivergent-and-creative
 evidenceLevel: some
-lastReviewed: 2026-10-27
+lastReviewed: 2026-11-02
 status: draft
 licence: CC0-1.0
 contributors:
@@ -12,7 +13,7 @@ contributors:
 
 # Drawing practice log
 
-A drawing practice log is a short record kept after each practice session: what you drew, with what, for how long, which skill you were working on, what worked and what you will try next. It is the first slice of the "Drawing practice" plan in [art-and-junk-journaling.md](art-and-junk-journaling.md) (section 25, d2). It turns a sketchbook into something you can look back through by skill, without streaks or scores. Sources were checked on 2026-10-27. Anything not confirmed from a primary source is marked **(unconfirmed)**.
+A drawing practice log is a short record kept after each practice session: what you drew, with what, for how long, which skill you were working on, what worked and what you will try next. It is the first slice of the "Drawing practice" plan in [art-and-junk-journaling.md](art-and-junk-journaling.md) (section 25, d2). It turns a sketchbook into something you can look back through by skill, without streaks or scores. A focused evidence and practice update was made on 2026-11-02; section 28 records which sources were rechecked. Anything not confirmed from a primary source is marked **(unconfirmed)**.
 
 ## 1. At a glance
 
@@ -36,15 +37,15 @@ A drawing practice log is a short record kept after each practice session: what 
 
 - One short record per practice session, kept beside the drawing rather than replacing it.
 - Each record names the **subject**, **medium** and **focus** (gesture, contour, value, proportion, perspective, form, colour, composition and so on), and optionally the minutes spent, the reference, what worked and what to try next.
-- The `next-try` line of one session becomes the starting point of the next, which is the core of deliberate practice: a specific target and feedback.
+- The `next-try` line of one session can become the starting point of the next. It makes a practice intention visible; the line alone does not establish deliberate practice or useful feedback.
 - References made by other people are credited.
 - No streaks, grades or "days missed" counters.
 
 ## 3. History and origin
 
 - **1941**: Kimon Nicolaïdes' *The Natural Way to Draw* is published after his death, organised as a schedule of timed exercises (gesture, contour, weight) to be done in order [1].
-- **1979**: Betty Edwards publishes *Drawing on the Right Side of the Brain*, built around exercises such as upside-down copying and pre- and post-course self-portraits as a baseline [2]. Its brain-hemisphere framing is not supported by later neuroscience; the exercises and the before-and-after comparison remain widely used.
-- **1993**: Ericsson, Krampe and Tesch-Römer describe "deliberate practice": effortful practice aimed at a specific weakness, with feedback [3]. A 2019 replication found the effect real but much smaller than first reported [4].
+- **1979**: Betty Edwards publishes *Drawing on the Right Side of the Brain*, built around exercises such as upside-down copying and pre- and post-course self-portraits as a baseline [2]. A later resting-state imaging study did not support a whole-person "left-brained" or "right-brained" network phenotype [9]; that study did not evaluate her drawing exercises.
+- **1993**: Ericsson, Krampe and Tesch-Römer describe "deliberate practice": effortful practice aimed at a specific weakness, with feedback [3]. A 2019 replication in student violinists found a substantial but smaller overall association and did not reproduce the original ordering of practice amounts across every skill group [4]. This is not a drawing-log trial.
 - **2016**: Chamberlain and Wagemans review why most adults draw inaccurately and conclude that what you choose to look at and how you segment a scene matters more than raw perception or motor skill [5].
 - **2026**: Jot adds a `drawing-practice` profile so a session can be logged as plain text.
 
@@ -75,6 +76,8 @@ A drawing practice log is a short record kept after each practice session: what 
 3. Make a short list of focus words you care about (see section 22). You can add more any time.
 4. Optionally make a baseline: draw your hand, a mug and a chair from life, ten minutes each, and log them. These are the drawings you will revisit.
 
+For a smaller start, choose one subject and one question: "Can I place the mug's widest point before adding detail?" A line such as "mug, proportion, place the widest point first" is enough for a first capture. The baseline subjects and timings here are suggested exercises, not research-established requirements.
+
 ## 7. Daily practice
 
 There is no required daily rhythm. After any session:
@@ -87,7 +90,7 @@ There is no required daily rhythm. After any session:
 ## 8. Rhythms
 
 - **Weekly**: read the week's `next-try` lines. Pick one to be next week's focus.
-- **Monthly**: gather the month's records by focus and lay the drawings side by side.
+- **Monthly, if useful**: gather records by focus and lay a few drawings side by side. Note changes in reference, medium, viewpoint and session length before interpreting differences as progress.
 - **Quarterly**: redraw the baseline subjects and compare.
 - **Missed days**: nothing is recorded. Pick up from the last `next-try`.
 
@@ -148,7 +151,17 @@ relation: continues #draw-2026-10-27
 
 A week: five records with focus `gesture` on three days and `value` on two; the weekly review notes that every gesture `next-try` mentioned starting with the largest shape, and makes that next week's focus.
 
-A month: the four quarterly-baseline drawings of a mug, side by side, each with its record.
+A month: keep the first mug study and one later study from the same viewpoint. The review says, "The handle joins are easier to place now; the later drawing also had better light and twice as much time." Decide whether to repeat the same setup next month. A monthly comparison does not need to wait for the optional quarterly baseline.
+
+A next-session note can separate observation from a test:
+
+```text
+Observation: The mug looks tilted; its rim and base have different angles.
+Next test: Mark the vertical centerline and both ellipse axes before shading.
+Feedback: Compare those guides with the reference, or ask a tutor about them.
+```
+
+This gives a specific question to return to. It is an invented learning example, not a validated assessment of drawing skill.
 
 ## 11. Variations and offshoots
 
@@ -181,14 +194,23 @@ Not applicable: there is no official drawing practice log product. Commercial "s
 
 ## 16. Evidence and research
 
-- **Deliberate practice** [3]: practice aimed at a specific weakness, with feedback, is associated with skill. The 2019 replication [4] found a substantial but much smaller effect, and talent and other factors matter too. Evidence level for this part: some.
-- **Drawing accuracy** [5]: errors in drawing come largely from representational decisions (how a scene is segmented, reliance on schemas), which suggests practising specific ways of looking. This supports logging a named `focus`.
-- **Drawing and memory** [6]: drawing something improves memory for it compared with writing it, across ages and regardless of drawing ability. This is about learning content, not about drawing skill.
-- No study was found on drawing practice logs themselves. Overall evidence level: **some**, for the parts, not the format.
+Overall evidence level: **some**, for related practice and drawing research. The sources in this guide do not establish that keeping this log improves drawing more than the same practice without logging.
+
+| Evidence | What it supports | What it does not establish |
+| --- | --- | --- |
+| Ericsson et al. [3], with the Macnamara and Maitra replication [4] | A research framework for studying focused practice and its association with expertise | A causal effect of this journal, a required number of hours, or equal results across skills |
+| Chamberlain and Wagemans [5], a review of drawing research | Attention, scene segmentation and pictorial schemas are relevant to representational drawing | That writing a `focus` field changes those processes or that realism is every artist's goal |
+| Fernandes et al. [6], a review of drawing-to-remember studies | Drawing can support memory for material under the studied learning conditions | Better drawing skill, or a memory benefit from filling in a practice log |
+
+The 2019 replication [4] recruited 39 student violinists in three skill groups. Its retrospective practice estimates were associated with skill overall, but did not reproduce all of the original group differences. Teacher-designed practice did not explain more performance variance than practice alone. These findings qualify the strong version of the deliberate-practice account; they do not show that practice is unimportant, prove a role for any one alternative explanation, or test visual art.
+
+The drawing review [5] places accurate perception at the center of drawing proficiency, while emphasizing flexible control of visual attention rather than a wholesale change in basic vision. Naming a focus is a reasonable way to organize a notebook around those questions. That is a design inference, not a tested intervention from the review.
+
+No systematic search of all drawing-log studies was undertaken for this update. "No study found" here means no direct evaluation was identified in the sources consulted, rather than a claim that none exists.
 
 ## 17. Benefits
 
-- A named focus makes practice deliberate (supported in general by [3], [4]).
+- A named focus records what the session intended to work on (a property of the format). Specific practice and feedback are relevant to the research framework in [3], [4]; the label by itself does not improve skill.
 - A `next-try` line gives the next session a starting point (practitioner report).
 - Grouping by focus makes progress visible without numbers (practitioner report).
 - Credits keep track of what you learned from (good practice, see [7]).
@@ -200,6 +222,8 @@ Not applicable: there is no official drawing practice log product. Commercial "s
 - **Streak pressure.** The profile has no streak field on purpose.
 - **Vague focus.** "Got better" is not a focus. Use one of the bank words.
 - **Uncredited references.** Add `credit` as you go; it is hard to find later.
+- **Mistaking more minutes for better practice.** Duration records exposure, not the quality of feedback or the difficulty of the task. Leave it out when it invites comparison rather than answering a question.
+- **Unfair before-and-after comparisons.** Keep the reference and conditions with the drawing. A copied photograph, a drawing from life and a drawing from memory ask different things of the artist.
 
 ## 19. Accessibility and adaptations
 
@@ -209,6 +233,8 @@ Not applicable: there is no official drawing practice log product. Commercial "s
 - **Energy**: a one-line record (`subject` and `focus`) is a valid partial capture.
 - **Sensory**: medium is free text, so dry or quiet media can be preferred without comment.
 - **Colour blindness**: value and colour studies can name hues in words.
+- **Pain or variable motor control**: record a change in grip, tool, support or session length if it helps interpret the work. Do not use the log to prescribe more repetitions or to push through pain.
+- **Limited or changing vision**: tactile drawing materials, raised lines or a trusted person's description may fit some practices. A text description can identify the piece and its purpose without claiming to replace its whole sensory experience [8].
 
 ## 20. Comparison
 
@@ -252,7 +278,7 @@ Baseline set: your hand, a mug, a chair, a view from a window, a self-portrait. 
 
 - **Do I have to log every drawing?** No. Log the sessions you want to learn from.
 - **Should I give myself a score?** The profile has no score field. Compare drawings instead.
-- **Can I use photos from the internet as references?** For private practice, often yes; always credit the creator, and check the licence before sharing the result.
+- **Can I use photos from the internet as references?** Check the rights or permission for your intended use. Credit identifies the source; it does not itself grant permission to copy or share it. Private use is not a blanket copyright exception.
 - **Does `minutes` have to be exact?** No. An honest estimate is fine; leave it out if unsure.
 
 ## 25. For Journalwright Studio
@@ -274,12 +300,14 @@ Baseline set: your hand, a mug, a chair, a view from a window, a self-portrait. 
 
 ## 28. Sources
 
-All checked 2026-10-27.
+Original source pass: 2026-10-27. Focused update on 2026-11-02: the full text of [4] was consulted through Europe PMC for its abstract, sample and practice-measurement methods; [5] and new source [9] were checked against their indexed abstracts and [6] against its publisher-deposited Crossref abstract, not their full texts; [8] was opened for its guidance on sensory experiences and text alternatives. The original paper [3], the book sources and the attribution page were not rechecked in full. The remaining entries retain the earlier source-pass date. This guide remains a draft.
 
 1. "The Natural Way to Draw". Kimon Nicolaïdes. Houghton Mifflin, 1941. https://openlibrary.org/works/OL7111787W
 2. "Drawing on the Right Side of the Brain". Betty Edwards. Tarcher, 1979. https://www.drawright.com/
 3. "The role of deliberate practice in the acquisition of expert performance". K. A. Ericsson, R. T. Krampe, C. Tesch-Römer. Psychological Review 100(3), 1993. https://doi.org/10.1037/0033-295X.100.3.363
-4. "The role of deliberate practice in expert performance: revisiting Ericsson, Krampe & Tesch-Römer (1993)". B. N. Macnamara, M. Maitra. Royal Society Open Science, 2019. https://doi.org/10.1098/rsos.190327
+4. "The role of deliberate practice in expert performance: revisiting Ericsson, Krampe & Tesch-Römer (1993)". B. N. Macnamara, M. Maitra. Royal Society Open Science, 2019. https://doi.org/10.1098/rsos.190327 (open full text: https://europepmc.org/articles/PMC6731745)
 5. "The genesis of errors in drawing". R. Chamberlain, J. Wagemans. Neuroscience and Biobehavioral Reviews 65, 2016. https://doi.org/10.1016/j.neubiorev.2016.04.002
 6. "The Surprisingly Powerful Influence of Drawing on Memory". M. A. Fernandes, J. D. Wammes, M. E. Meade. Current Directions in Psychological Science 27(5), 2018. https://doi.org/10.1177/0963721418755385
 7. "Recommended practices for attribution". Creative Commons. https://wiki.creativecommons.org/wiki/Best_practices_for_attribution
+8. "Understanding Success Criterion 1.1.1: Non-text Content". W3C Web Accessibility Initiative. https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
+9. "An evaluation of the left-brain vs. right-brain hypothesis with resting state functional connectivity magnetic resonance imaging". J. A. Nielsen, B. A. Zielinski, M. A. Ferguson, J. E. Lainhart, J. S. Anderson. PLOS ONE 8(8):e71275, 2013. Indexed abstract checked 2026-11-02. https://europepmc.org/article/MED/23967180

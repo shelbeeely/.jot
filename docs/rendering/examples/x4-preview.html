@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jot e-paper rendering tutorial</title>
+  <style>
+    html,body{margin:0;background:#fff;color:#222;color-scheme:light;font:16px/1.5 system-ui,sans-serif}
+    body{padding:20px}header{max-width:65rem}h1{font-size:1.5rem}p{max-width:65ch}
+    .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:20px 0}
+    button,input,select{font:inherit}button,select{padding:6px 10px}
+    #status{min-height:3em}figure{margin:0}figcaption{margin-bottom:8px}
+    .previews{display:flex;flex-wrap:wrap;gap:28px;align-items:start}
+    .scroll{max-width:100%;overflow:auto;border:1px solid #aaa}
+    #paper{box-sizing:border-box;width:480px;min-height:800px;padding:16px;background:#fff!important;background-image:none!important;--jot-paper:#fff;--jot-texture:none}
+    #paper img{max-width:100%;max-height:300px;width:auto;height:auto;object-fit:contain}
+    .hw-box.drawn .hw-tick{animation:none!important}
+    #mono{display:block;width:480px;height:800px;background:#fff}
+    #mono[hidden]{display:none}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jot on a 480×800 page</h1>
+    <p>A runnable browser tutorial, not a hardware preview. Open one page of writing or use the invented sample. Writing stays in this page's memory; it is not saved or uploaded.</p>
+    <p>The 1-bit preview shows the exact download pixels in portrait orientation. The raw file is rotated once into native 800×480 order: 48,000 bytes, 100 bytes per row, MSB first, white 1 and black 0, with no header.</p>
+    <div class="controls">
+      <label>Document <input id="open" type="file" accept=".jot,.jotz"></label>
+      <label>Look <select id="look"><option value="hand">Handwritten</option><option value="typed">Typed</option></select></label>
+      <button id="sample" type="button">Use invented sample</button>
+      <button id="download" type="button" disabled>Download 1-bit frame</button>
+    </div>
+    <p id="status" role="status">Loading the invented sample…</p>
+    <p>There is no paginator here. If the selected writing exceeds one page, export stops. Images are scaled intact to at most 300 pixels high. Choose a shorter document or prepare a separate one-page excerpt.</p>
+  </header>
+  <div class="previews">
+    <figure><figcaption>Canonical Jot rendering</figcaption><div class="scroll"><main id="paper" aria-label="Rendered journal"></main></div></figure>
+    <figure><figcaption>1-bit download pixels, shown in portrait</figcaption><div class="scroll"><canvas id="mono" width="480" height="800" hidden aria-label="Monochrome rendering of the selected journal"></canvas></div></figure>
+  </div>
+  <script type="module">
+    import { readDocument, pack, LIMITS } from '../../../parser/container.mjs';
+    import { parse } from '../../../parser/jot.mjs';
+    import { renderPreview, addChartStyles } from '../../../parser/preview.mjs';
+    import { alignToGrid } from '../../../parser/handwriting.mjs';
+    import { gather } from '../../../parser/include.mjs';
+    import { Chart } from '../../../parser/vendor/chart.mjs';
+    import { toCanvas } from '../../../site/dist/vendor/browser/tools.mjs';
+    import { packX4 } from './x4-pixels.mjs';
+
+    const paper = document.querySelector('#paper');
+    const mono = document.querySelector('#mono');
+    const status = document.querySelector('#status');
+    const look = document.querySelector('#look');
+    const download = document.querySelector('#download');
+    const hand = { hand: 'script07', ink: 'black', pitchMm: 5, dots: false, seed: 1, pageRows: 0 };
+    const decoder = new TextDecoder('utf-8', { fatal: true });
+    let revision = 0, current = null, readyRevision = -1, urls = new Map();
+
+    function releaseAssets() {
+      for (const item of urls.values()) URL.revokeObjectURL(item.url);
+      urls = new Map();
+    }
+    function assertCurrent(ticket) {
+      if (ticket !== revision) throw new Error('The document changed. Wait for its new preview.');
+    }
+    function assertGeometry() {
+      const bounds = paper.getBoundingClientRect();
+      if (Math.abs(bounds.width - 480) > 0.01 || Math.abs(bounds.height - 800) > 0.01
+        || paper.scrollWidth > 480 || paper.scrollHeight > 800) {
+        throw new Error('This selection exceeds one 480×800 page. Choose a shorter document or a separate one-page excerpt.');
+      }
+    }
+    const nextPaint = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+    async function settle(ticket) {
+      for (const image of paper.querySelectorAll('img')) image.loading = 'eager';
+      await Promise.all([...paper.querySelectorAll('img')].map(image => image.decode()));
+      if (look.value === 'hand') {
+        // The renderer's jotReady catches font-load failures; this tutorial rejects them.
+        await Promise.all([document.fonts.load('400 16px "Jot Script 07"'), document.fonts.load('700 16px "Jot Script 07"')]);
+      }
+      await document.fonts.ready;
+      await paper.jotReady;
+      assertCurrent(ticket);
+      if (look.value === 'hand') paper.jotGrid = alignToGrid(paper, hand);
+      for (const canvas of paper.querySelectorAll('.jot-chart canvas')) {
+        const chart = Chart.getChart(canvas);
+        chart?.resize();
+        chart?.update('none');
+      }
+      await nextPaint();
+      assertCurrent(ticket);
+      assertGeometry();
+    }
+
+    function showPackedFrame(frame) {
+      const context = mono.getContext('2d');
+      const image = context.createImageData(480, 800);
+      for (let y = 0; y < 800; y++) for (let x = 0; x < 480; x++) {
+        // Invert the packing coordinates for display only. The file stays native.
+        const white = frame[(479 - x) * 100 + (y >> 3)] & (0x80 >> (y & 7));
+        const offset = (y * 480 + x) * 4;
+        image.data[offset] = image.data[offset + 1] = image.data[offset + 2] = white ? 255 : 0;
+        image.data[offset + 3] = 255;
+      }
+      context.putImageData(image, 0, 0);
+      mono.hidden = false;
+    }
+
+    async function capture(ticket) {
+      await settle(ticket);
+      const renderedRevision = paper.jotRevision;
+      // Preserve the canonical SVG checkbox paint in html-to-image's serialized clone.
+      // Without explicit path paint, its capture can turn an outlined box solid.
+      for (const path of paper.querySelectorAll('.hw-box path')) {
+        const paint = getComputedStyle(path);
+        for (const property of ['fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'visibility']) {
+          path.style.setProperty(property, paint.getPropertyValue(property));
+        }
+      }
+      // Preserve canonical fonts: leaving fontEmbedCSS unspecified embeds them.
+      const canvas = await toCanvas(paper, { width: 480, height: 800, pixelRatio: 1, backgroundColor: '#fff' });
+      assertCurrent(ticket);
+      assertGeometry();
+      if (paper.jotRevision !== renderedRevision || canvas.width !== 480 || canvas.height !== 800) {
+        throw new Error('The rendering changed or the capture has the wrong dimensions. Prepare the preview again.');
+      }
+      const rgba = canvas.getContext('2d').getImageData(0, 0, 480, 800).data;
+      const frame = packX4(rgba); // Alpha on white, threshold 160, then rotate once.
+      showPackedFrame(frame);
+      return frame;
+    }
+
+    async function renderCurrent(ticket) {
+      const { doc, name } = current;
+      const byPath = new Map(doc.assets.map(asset => [asset.path, asset]));
+      const { files, problems } = await gather(doc.source, {
+        from: 'journal.txt',
+        read: path => {
+          const asset = byPath.get(path);
+          return asset && asset.data.length <= LIMITS.sourceBytes ? decoder.decode(asset.data) : null;
+        }
+      });
+      assertCurrent(ticket);
+      releaseAssets();
+      const asset = path => {
+        const item = byPath.get(path);
+        if (!item) return null;
+        if (!urls.has(path)) urls.set(path, {
+          url: URL.createObjectURL(new Blob([item.data], { type: item.mediaType })), mediaType: item.mediaType
+        });
+        return urls.get(path);
+      };
+      addChartStyles(document);
+      renderPreview(parse(doc.source), paper, {
+        filename: name, from: 'journal.txt', asset, include: path => files[path] ?? null,
+        hand: look.value === 'hand' ? hand : null, style: look.value === 'typed' ? 'plain' : null
+      });
+      if (problems.length || paper.querySelector('.jot-missing, .jot-include-missing')) {
+        throw new Error('The preview has missing or unsupported images or includes. Review those notices before exporting. Only embedded package assets are available.');
+      }
+      await capture(ticket);
+      assertCurrent(ticket);
+      readyRevision = ticket;
+      status.textContent = `${name}: one page is ready. The 1-bit preview uses the captured pixels at threshold 160.`;
+    }
+
+    function run(work) {
+      const ticket = ++revision;
+      readyRevision = -1;
+      download.disabled = true;
+      look.disabled = true;
+      mono.hidden = true;
+      status.textContent = 'Preparing the local preview…';
+      const pending = work(ticket).catch(error => {
+        if (ticket === revision) status.textContent = error.message;
+      }).finally(() => {
+        if (ticket === revision) {
+          download.disabled = readyRevision !== ticket;
+          look.disabled = false;
+        }
+      });
+      window.jotEpaperReady = pending;
+      return pending;
+    }
+
+    function openDocument(input, name) {
+      return run(async ticket => {
+        const doc = await readDocument(await input);
+        assertCurrent(ticket);
+        current = { doc, name };
+        await renderCurrent(ticket);
+      });
+    }
+
+    async function sampleBytes() {
+      const response = await fetch('../../../examples/packaged.jotz');
+      if (!response.ok) throw new Error(`Could not open the bundled fictional example: ${response.status}`);
+      const fixture = await readDocument(new Uint8Array(await response.arrayBuffer()));
+      const source = '# A quiet morning\n\n### 2026-11-03\n\nA sentence is enough. The window is open, and the notebook is here.\n\n[x] Open the notebook\n[ ] Make a cup of tea\n\n![Fictional handwritten mark](assets/sample-ink.png)\n';
+      return pack({ source, assets: fixture.assets.filter(asset => asset.path === 'assets/sample-ink.png') });
+    }
+
+    document.querySelector('#open').addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (file) openDocument(file, file.name);
+    });
+    document.querySelector('#sample').addEventListener('click', () => openDocument(sampleBytes(), 'invented-sample.jotz'));
+    look.addEventListener('change', () => { if (current) run(renderCurrent); });
+    download.addEventListener('click', () => {
+      if (readyRevision !== revision) return;
+      const ticket = revision;
+      download.disabled = true;
+      const pending = capture(ticket).then(frame => {
+        assertCurrent(ticket);
+        const url = URL.createObjectURL(new Blob([frame], { type: 'application/octet-stream' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'page-0001.bin';
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        status.textContent = 'Downloaded page-0001.bin: 48,000 native frame bytes. No file was sent to a device.';
+      }).catch(error => {
+        if (ticket === revision) { readyRevision = -1; mono.hidden = true; status.textContent = error.message; }
+      }).finally(() => {
+        if (ticket === revision) download.disabled = readyRevision !== ticket;
+      });
+      window.jotEpaperReady = pending;
+    });
+    window.addEventListener('pagehide', releaseAssets);
+    openDocument(sampleBytes(), 'invented-sample.jotz');
+  </script>
+</body>
+</html>

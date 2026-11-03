@@ -1,5 +1,6 @@
 ---
 title: Five-Year Diary
+summary: "Keep short entries for the same calendar date across several years."
 slug: five-year-diary
 category: reflective-writing
 evidenceLevel: some

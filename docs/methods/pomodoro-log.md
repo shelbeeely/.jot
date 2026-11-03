@@ -1,5 +1,6 @@
 ---
 title: "Pomodoro log (the Pomodoro Technique on paper)"
+summary: "Record timed work rounds, breaks, estimates and interruptions."
 slug: pomodoro-log
 category: productivity
 evidenceLevel: some

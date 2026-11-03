@@ -1,5 +1,6 @@
 ---
 title: "Jibun Techo (KOKUYO)"
+summary: "Combine long-term reference, dated planning and grid-note booklets."
 slug: jibun-techo
 category: japanese
 evidenceLevel: anecdotal

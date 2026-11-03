@@ -1,5 +1,6 @@
 ---
 title: "Progoff Intensive Journal"
+summary: "Use structured journal sections, written dialogues and guided reflection."
 slug: progoff-intensive-journal
 category: reflective-writing
 evidenceLevel: anecdotal

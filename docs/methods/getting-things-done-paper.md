@@ -1,5 +1,6 @@
 ---
 title: Getting Things Done on paper (David Allen)
+summary: "Capture, clarify, organize, review and act using paper-based lists."
 slug: getting-things-done-paper
 category: productivity
 evidenceLevel: some

@@ -1,5 +1,6 @@
 ---
 title: Expressive writing (the Pennebaker paradigm)
+summary: "Use a bounded research writing protocol with attention to its clinical limits."
 slug: expressive-writing
 category: reflective-writing
 evidenceLevel: some

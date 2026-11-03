@@ -1,5 +1,6 @@
 ---
 title: "Paper and Grids (page ruling as a method)"
+summary: "Choose page ruling and paper properties for the intended writing or drawing."
 slug: paper-and-grids
 category: paper-and-hybrid
 evidenceLevel: some

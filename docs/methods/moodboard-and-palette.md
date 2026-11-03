@@ -1,9 +1,10 @@
 ---
 title: "Moodboards and colour palettes"
+summary: "A collection of project references, mood words and named colors, with credits and intended color roles."
 slug: moodboard-and-palette
 category: neurodivergent-and-creative
 evidenceLevel: anecdotal
-lastReviewed: 2026-10-27
+lastReviewed: 2026-11-02
 status: draft
 licence: CC0-1.0
 contributors:
@@ -12,7 +13,7 @@ contributors:
 
 # Moodboards and colour palettes
 
-A moodboard gathers images, materials, words and colours that together describe the feel of a project before it is made. A palette is the set of colours chosen from it. This doc covers keeping both in a journal as plain text: a theme, mood words, references with alt text and credits, and named colours written as `#RRGGBB name`. Sources were checked on 2026-10-27. Anything not confirmed from a primary source is marked **(unconfirmed)**.
+A moodboard gathers images, materials, words and colours that together describe the feel of a project before it is made. A palette is the set of colours chosen from it. This doc covers keeping both in a journal as plain text: a theme, mood words, references with alt text and credits, and named colours written as `#RRGGBB name`. A focused evidence and accessibility update was made on 2026-11-02; section 28 records which sources were rechecked. Anything not confirmed from a primary source is marked **(unconfirmed)**.
 
 ## 1. At a glance
 
@@ -30,7 +31,7 @@ A moodboard gathers images, materials, words and colours that together describe 
 | **Learning curve** | Low |
 | **Supplies** | Images and a way to note colours |
 | **Official site** | None |
-| **Evidence level** | Anecdotal (qualitative studies of designers' practice; no trials) |
+| **Evidence level** | Anecdotal for this journal format; published qualitative studies describe professional use without establishing its effect on design outcomes |
 
 ## 2. Summary
 
@@ -49,7 +50,7 @@ A moodboard gathers images, materials, words and colours that together describe 
 ## 4. Philosophy and principles
 
 - **A board is for a purpose.** The theme says what the board is deciding.
-- **Edit down.** A board with fewer, stronger references directs better than a dump.
+- **Edit for the decision.** Keep references you can explain. A small board is a studio convention, not a proven optimum.
 - **Colours have names.** Hex values are for machines; names are for people, including people who do not perceive colour the same way.
 - **Credit sources.** Every reference not made by you names its creator and where it was found.
 - **Meaning in words.** If a colour has a role (background, accent, warning), the role is written in its name.
@@ -70,6 +71,10 @@ A moodboard gathers images, materials, words and colours that together describe 
 3. In `/write/`, open Methods, search "palette" and insert the invitation with its record.
 4. Attach reference images with the Attach button; for each, add `asset`, `alt` and `credit` lines in the record.
 5. Pick three to seven colours. For each, write its hex value and a name that describes it ("lamplight", not "colour 2").
+
+The suggested counts are starting points, not requirements. A word-only board or a single reference can be enough. Beside each reference, note what you want to learn from it: its spacing, texture, contrast or composition. This keeps "I like this" separate from "we should copy this".
+
+If the board is for other people, write the intended audience and the decision to be made in the surrounding note. Ask collaborators what each reference means to them before treating a shared board as agreement. This is a suggested working process, not a tested collaboration intervention.
 
 ## 7. Daily practice
 
@@ -125,6 +130,25 @@ A week: the board starts with twelve references and nine colours; the weekly edi
 
 A month: three boards for three projects; each project's first design iteration links back to its board.
 
+A palette check for the example above, using the WCAG sRGB contrast calculation [6]:
+
+| Text | Background | Calculated ratio | Ordinary web text at WCAG AA |
+| --- | --- | --- | --- |
+| Paper `#E9E2D3` | Slate night `#2E3A46` | About 9.00:1 | Passes 4.5:1 |
+| Lamplight `#C8A165` | Slate night `#2E3A46` | About 4.83:1 | Passes 4.5:1 |
+| Lamplight `#C8A165` | Paper `#E9E2D3` | About 1.86:1 | Does not pass 4.5:1 |
+
+The board can keep all three colours. The failed pairing means "do not use lamplight for ordinary text on paper," rather than "discard lamplight." Use it as an accent only where the actual use meets the relevant requirements. Ratios above describe opaque, solid screen colours; opacity, images and gradients need checking in their final context. A passing pair does not establish accessibility of the whole page.
+
+An invented review note:
+
+```text
+Keep: the dark background and quiet spacing from reference 1.
+Leave: the tiny gold labels; they are hard to read on cream.
+Try next: cream body text on slate, with gold as a separate accent.
+Open question: does the same direction work on the printed poster?
+```
+
 ## 11. Variations and offshoots
 
 - **Palette only**: a `palette` record with just colours, for a sketchbook or a brand.
@@ -155,16 +179,24 @@ Not applicable: no official moodboard product. Many apps offer boards; this prof
 
 ## 16. Evidence and research
 
-- Cassidy [1] and Lucero [2] are qualitative studies of designers' practice (observation, think-aloud, interviews). They describe how boards are used; they do not measure outcomes.
-- No controlled study was found on whether moodboards improve design results.
-- Evidence level: **anecdotal**, supported by qualitative research on professional practice.
+The catalogue's **anecdotal** level refers to the outcomes of this journal format. Qualitative research is evidence about practice in its own right; it should not be confused with an informal testimonial or asked to establish a causal effect it did not test.
+
+| Source | What it supports | Limit for this guide |
+| --- | --- | --- |
+| Cassidy [1] | A qualitative account and model of the moodboard process in design practice | A process model does not establish that a board improves the final design or that a journal implementation works the same way |
+| Lucero [2] | Designers use boards to frame, align, explore tensions, abstract and direct | Described roles do not establish that every collaborator reads a reference the same way, or quantify outcome improvement |
+| W3C [4], [5], [6] | Accessibility requirements and guidance for alternatives, colour meaning and text contrast | These are standards and implementation guidance, not evidence that moodboards improve creative work |
+
+The original source pass identified no controlled evaluation of this particular format. This update did not conduct a systematic search for all moodboard outcome studies, and access to the full papers [1], [2] was unavailable. It therefore retains the bounded process claims rather than declaring that no controlled research exists anywhere.
+
+Board-size limits, a weekly edit and three to seven colours are suggested workflow choices. They are not findings from these studies. Hex values and colour names make the chosen palette recordable; their presence alone does not demonstrate accessible contrast, successful communication or print accuracy.
 
 ## 17. Benefits
 
 - Framing a task and aligning people on a direction (reported by designers in [2]).
 - Making implicit taste explicit and shareable (practitioner report).
 - Credits make it possible to trace and acknowledge influences later [3].
-- Named colours make a palette usable with screen readers and in plain text.
+- Named colours preserve a text description of a palette. Screen-reader access also depends on how the page exposes that text; a name alone does not make every use of a swatch accessible [4], [5].
 
 ## 18. Pitfalls
 
@@ -173,14 +205,18 @@ Not applicable: no official moodboard product. Many apps offer boards; this prof
 - **Uncredited images.** Add credit at the moment of saving; it is hard to find later.
 - **Colour-only meaning.** Do not use red for "no" without the word "no". Write the role in the name.
 - **Treating hex as truth for print.** Screens and paper differ.
+- **Assuming shared taste means shared understanding.** Ask what each reference contributes. Record a disagreement in words rather than choosing a board by a show of hands.
+- **Treating attribution as permission.** A credit helps trace an image; permission or a suitable licence is a separate question. Check it before distributing a board or reusing a reference in finished work.
+- **Declaring a palette accessible.** Check the actual text/background pair, text size and use. A list of individually pleasing colours is not an accessibility check [5], [6].
 
 ## 19. Accessibility and adaptations
 
 - **Vision**: every asset has alt text [4]; every colour has a name. A swatch is never the only description.
-- **Colour vision differences**: colour roles are in words, never colour alone (WCAG 1.4.1 [5]). If a palette is for text, note the contrast ratio.
+- **Colour vision differences**: colour roles are in words, never colour alone (WCAG 1.4.1 [5]). For ordinary web text, WCAG 1.4.3 requires at least 4.5:1 contrast; large text uses 3:1, with the criterion's definitions and exceptions [6]. Record the pair and role beside the ratio. A descriptive colour name and sufficient contrast solve different problems.
 - **Cognitive**: a board with three mood words and three colours is complete; references are optional.
 - **Motor**: digital boards avoid cutting and gluing; voice dictation works for every field.
 - **Sensory**: boards can be calm. Fewer references, muted colours and no animation are valid choices.
+- **Nonvisual review**: describe the relevant relationship, not only the objects: "warm light against a dark surround; generous space around the title." Complex boards may need a short overall description plus descriptions of the references that carry separate meaning [4].
 
 ## 20. Comparison
 
@@ -223,8 +259,9 @@ Credit pattern (after [3]): title, creator, source link, licence. For your own p
 
 - **Can I write colours in lowercase hex?** The profile uses `#RRGGBB`; either case is the same colour, but uppercase is the documented form.
 - **Do I need images?** No. Theme and colours make a complete board.
-- **Can I use images from the internet?** For a private board, many people do. Always credit them, and check the licence before sharing or publishing.
+- **Can I use images from the internet?** Check the rights or permission for your intended use, and keep a credit. Private use is not a blanket copyright exception, and a credit does not itself grant permission to distribute the board or copy an image into finished work.
 - **Why must colours have names?** So the palette makes sense without seeing it, and so the role of each colour is clear.
+- **Does a contrast ratio certify my palette?** No. It checks a specific pair under stated conditions. Test the colours where they will actually be used; other accessibility requirements still apply [5], [6].
 
 ## 25. For Journalwright Studio
 
@@ -245,10 +282,11 @@ Credit pattern (after [3]): title, creator, source link, licence. For your own p
 
 ## 28. Sources
 
-All checked 2026-10-27.
+Original source pass: 2026-10-27. Focused update on 2026-11-02: W3C guidance [4], [5], [6] was opened and its relevant requirements and intent checked. Publisher/repository access to [1], [2] returned access errors, and [3] could not be reopened; those entries retain the earlier source-pass date. Bibliographic identifiers for [1], [2] were cross-checked through Crossref, which does not substitute for reading their full text. This guide remains a draft.
 
 1. "The Mood Board Process Modeled and Understood as a Qualitative Design Research Tool". Tracy Cassidy. Fashion Practice 3(2), 2011. https://pure.hud.ac.uk/en/publications/the-mood-board-process-modeled-and-understood-as-a-qualitative-de/
 2. "Framing, Aligning, Paradoxing, Abstracting, and Directing: How Design Mood Boards Work". Andrés Lucero. Proceedings of DIS 2012, ACM. https://doi.org/10.1145/2317956.2318021
 3. "Recommended practices for attribution". Creative Commons. https://wiki.creativecommons.org/wiki/Best_practices_for_attribution
 4. "Understanding Success Criterion 1.1.1: Non-text Content". W3C Web Accessibility Initiative. https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
 5. "Understanding Success Criterion 1.4.1: Use of Color". W3C Web Accessibility Initiative. https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html
+6. "Understanding Success Criterion 1.4.3: Contrast (Minimum)". W3C Web Accessibility Initiative. https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html

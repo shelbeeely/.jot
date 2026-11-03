@@ -1,5 +1,6 @@
 ---
 title: "Passion Planner"
+summary: "Connect longer-term aspirations with dated steps, weekly plans and reflection."
 slug: passion-planner
 category: planner
 evidenceLevel: anecdotal

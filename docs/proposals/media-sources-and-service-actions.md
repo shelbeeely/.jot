@@ -151,8 +151,8 @@ Use mocked API tests separately from explicit live-account verification. No inte
 - [OpenSubsonic media annotation](https://opensubsonic.netlify.app/categories/media-annotation/): per-server capabilities.
 - [gPodder client/API documentation](https://github.com/gpodder/mygpoclient): episode-action synchronization.
 
-Research basis: `docs/methods/digital-daily-notes.md, line 711` rejects third-party journal-content sync and accounts;
+Research basis: `docs/methods/digital-daily-notes.md, line 712` rejects third-party journal-content sync and accounts;
 the chosen activity-only export keeps journal content local, while adding the owner's explicitly requested optional
 service connection. The same guide's objection to activity-based suggestions is not evidence against a user-requested
-lookup: this proposal avoids background collection. `docs/methods/expressive-writing.md, line 443` supports private writing
+lookup: this proposal avoids background collection. `docs/methods/expressive-writing.md, line 444` supports private writing
 unless the person chooses sharing. These inform the boundary; neither guide establishes media integration efficacy.

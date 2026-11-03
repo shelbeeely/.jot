@@ -1,9 +1,10 @@
 ---
 title: "Study and note taking (Cornell notes, retrieval practice, spaced review, flash cards)"
+summary: "Notes, questions, recall attempts and checked answers, with optional spaced review."
 slug: study-and-note-taking
 category: productivity
 evidenceLevel: some
-lastReviewed: 2026-10-20
+lastReviewed: 2026-11-02
 status: draft
 licence: CC0-1.0
 contributors: ['Journalwright Studio contributors']
@@ -11,7 +12,7 @@ contributors: ['Journalwright Studio contributors']
 
 # Study and note taking (Cornell notes, retrieval practice, spaced review, flash cards)
 
-How to set up paper for learning something on purpose: the Cornell note page, a concept map, questions to answer, a summary box, fold-over flash cards and a spaced-review tracker. This doc separates what the research supports from what is only commonly claimed. Research and sources checked 2026-10-20; anything not confirmed from a primary source is marked **(unconfirmed)**.
+How to set up paper for learning something on purpose: the Cornell note page, a concept map, questions to answer, a summary box, fold-over flash cards and a spaced-review tracker. This doc separates what the research supports from what is only commonly claimed. Original research check: 2026-10-20. Focused evidence and practical-guidance update: 2026-11-02 (scope in section 28). Anything not confirmed from a primary source is marked **(unconfirmed)**.
 
 ## 1. At a glance
 
@@ -38,15 +39,15 @@ How to set up paper for learning something on purpose: the Cornell note page, a 
 
 ## 3. History and origin
 
-- **Cornell notes.** Walter Pauk, an education professor at Cornell University, devised the system in the 1950s (Wikipedia, "Cornell Notes"). Cornell's own Learning Strategies Center credits Pauk and his book *How to Study in College* (chapter "The Cornell System: Take Effective Notes").
+- **Cornell notes.** Walter Pauk, an education professor at Cornell University, devised the system in the 1950s (Wikipedia, "Cornell Notes"; exact decade **unconfirmed from a primary source**). Cornell's own Learning Strategies Center credits Pauk and his book *How to Study in College* (chapter "The Cornell System: Take Effective Notes").
 - **Flash card boxes.** The German science journalist Sebastian Leitner described a box system in his 1972 book *So lernt man lernen* (Wikipedia, "Leitner system"): cards you get right move to a box you open less often, cards you get wrong go back.
 - **Testing and spacing research.** Roediger and Karpicke published their testing-effect experiments in 2006; Cepeda and colleagues reviewed 317 spacing experiments the same year (sources 3 and 4).
 
 ## 4. Philosophy and principles
 
-1. **Recall beats rereading.** Trying to remember strengthens memory more than looking at the page again.
-2. **Spread it out.** The same time spread over days beats one long session.
-3. **Your own words.** Producing an answer, a question or a summary yourself is remembered better than copying.
+1. **Try to recall, then check.** Attempt an answer before uncovering the notes. Retrieval often improves delayed retention compared with restudying [3, 12]; an answer still needs checking.
+2. **Spread it out.** Return after a gap. Effective gaps depend on the material and how long it needs to be remembered [4].
+3. **Make an answer, not a copy.** Generate a response you can compare with a reliable source. The generation-effect literature supports particular generation tasks [8], not every kind of paraphrasing.
 4. **A page is a prompt.** Notes are for returning to, so leave room to add questions and a summary later.
 5. **No shame in forgetting.** A card you miss is information about what to review next, not a score.
 
@@ -64,20 +65,25 @@ How to set up paper for learning something on purpose: the Cornell note page, a 
 1. Pick one topic and one page.
 2. Draw or print the Cornell layout: cue column about a third of the width, a summary strip at the bottom.
 3. Write the date and the topic at the top.
-4. Decide your review times now (see section 8) and put the first one in your calendar.
+4. Pick one thing you want to be able to do: name a fact, explain a relationship, or solve a problem. Write a cue that asks for that action.
+5. Choose a reliable answer source (course text, worked solution or teacher feedback). Leave room to correct a mistaken answer.
+6. Choose a first review time if a reminder helps (section 8). The layout and schedule are choices; neither is a test of commitment.
 
 ## 7. Daily practice
 
 1. During the class or reading, write short notes in the wide column, in your own words.
 2. Soon after, write questions or keywords in the cue column (questions work better than labels).
-3. Cover the notes column and answer each cue from memory. Tick what you could say.
-4. Write the summary strip in two or three sentences, without looking.
+3. Cover the notes column and answer a cue from memory, in writing, aloud or with a diagram.
+4. Uncover and compare. Mark "recalled", "partly recalled" or "needs another look" and correct a missing or mistaken point. Familiarity after reading the answer is not the same as recalling it.
+5. Try one application or explanation where the topic needs it. Knowing the name of a formula is different from using it.
+6. Write a short summary without looking, then check it too. A single cue is a complete review when that is all you have time for.
 
 ## 8. Rhythms
 
 - **Spaced review.** A common starting rhythm is 1, 3, 7 and 21 days after you learn something. This is a rule of thumb, not a prescription: the research says the best gap grows with how long you need to remember (source 4), and it gives no single schedule.
-- **Weekly.** Pick the topics with the most unticked reviews and test yourself on those first.
-- **Missed days.** Skip a review and do the next one. Nothing is lost; a late review is still a review.
+- **Weekly.** Choose a useful topic that still needs work. If many reviews have accumulated, keep a small set that matters now rather than building a catch-up queue.
+- **Missed days.** Start with a useful cue today. A late attempt can show what needs relearning; there is no requirement to reconstruct the missed sessions.
+- **Adjusting the plan.** If answers are effortless, consider a longer gap or a question that asks for more explanation. If little comes back, revisit the source and use a smaller cue. These are practical choices, not a validated scheduling algorithm.
 
 ## 9. Page anatomy
 
@@ -102,7 +108,17 @@ All content is invented.
 
 - **A day.** Notes on how the heart pumps blood. Cue column: "Which chamber sends blood to the body?" Cover the notes, answer, tick.
 - **A week.** Day 1 notes and cues. Day 2 answer the cues. Day 4 (3 days later) answer again and mark which you missed. Day 8 (7 days later) the same.
-- **A month.** Day 22: a last review. Missed cues go on a flash strip for the next topic's page.
+- **A month.** Day 22: review the topics still relevant. Move a difficult cue to a flash strip, or retire it if it is no longer useful.
+
+A more detailed review entry (invented; no score is required):
+
+| Cue | Attempt before looking | Check and correction | Next action |
+| --- | --- | --- | --- |
+| Which chamber sends blood to the body? | Left ventricle | Matches the course diagram | Ask again after a gap |
+| Why is its wall thicker than the right ventricle? | "It holds more blood" | Course text: it generates pressure for systemic circulation | Explain that relationship again, then check |
+| Trace the path through the lungs | Not attempted today | No answer recorded | Optional next session |
+
+The last row is a gap, not evidence that the learner does not know the answer. A log describes this attempt; it does not measure general ability.
 
 ## 11. Variations and offshoots
 
@@ -128,25 +144,33 @@ Apps schedule spaced review for you. On paper you choose the dates. A hybrid is 
 
 ## 16. Evidence and research
 
-**Level: some.** Strong for two parts, thin for the layout.
+**Level: some for this combined method.** Retrieval practice and spacing have substantial supporting research. That evidence does not validate this page layout, the proposed intervals, or a journal as a whole.
+
+| Part of this guide | What the cited evidence concerns | What it does not establish |
+| --- | --- | --- |
+| Answering before looking | Retention after retrieval compared with other study activities [3, 5, 12] | That every quiz, cue or learner benefits equally |
+| Returning after a gap | Distributed verbal-learning practice and retention intervals [4] | A universal 1/3/7/21-day schedule |
+| Cornell page | A university's account of the system and its use [1] | An independent test of this layout against an equally active alternative |
+| Writing or typing | A lecture-note experiment and its replication [9, 10] | A universal best medium, or an accessibility requirement to handwrite |
 
 - **Practice testing and distributed practice rated high utility.** Dunlosky and colleagues reviewed ten learning techniques. Practice testing and distributed practice received high utility ratings; elaborative interrogation, self-explanation and interleaving moderate; summarization, highlighting, the keyword mnemonic, imagery use and rereading low (source 6).
 - **Testing effect.** In two experiments students who took free-recall tests remembered substantially more after two days and a week than students who restudied, though restudying looked better after five minutes and made students feel more confident (source 3).
 - **Spacing.** A review of 839 assessments in 317 experiments found that the gap that gave the best retention grew as the time to the final test grew (source 4).
 - **Retrieval versus concept maps.** Retrieval practice produced more learning than elaborative study with concept mapping (source 5).
 - **Generation.** A meta-analysis of 86 studies found an average generation effect of about 0.40, nearly half a standard deviation (source 8).
-- **Cornell layout.** Evidence is inconclusive per the Wikipedia summary, with some small studies positive and others finding no difference in achievement (source 2). **(unconfirmed from the primary studies; the doc has not read them.)** The honest reading: the layout is a convenient place to put recall and summary habits; the habits carry the evidence, not the lines.
-- **Handwriting versus typing.** Mueller and Oppenheimer (2014) found laptop note takers did worse on conceptual questions (source 9). A direct replication with 142 students found laptop users wrote more words, including more verbatim, but did not perform worse on the quiz (source 10). Cornell's own page states handwriting is more effective (source 1). Because the result did not reliably replicate, **no Journalwright copy claims that handwriting beats typing.**
+- **Classroom retrieval.** Agarwal, Nunes and Blunt reviewed 50 applied school/classroom experiments (total n = 5,374). The publisher abstract reports benefits across varied educational levels, subjects and test formats, while noting that only 6% of experiments took place outside Western, educated, industrialized, rich and democratic (WEIRD) countries [12]. This broadens the setting beyond the early laboratory experiments; it does not test the Cornell page or this log.
+- **Cornell layout.** Cornell documents the system [1]. No independent primary evaluation of the layout was checked for this guide. The encyclopedia summary [2] is a lead to further research, not enough to establish layout efficacy. The page is a practical place for recall and summary; the evidence for those activities should not be assigned to the lines.
+- **Handwriting versus typing.** Mueller and Oppenheimer (2014) found laptop note takers did worse on conceptual questions (source 9). A direct replication with 142 students found laptop users wrote more words, including more verbatim, but did not perform worse on the quiz (source 10). Cornell's own page states handwriting is more effective (source 1). The replication concerns immediate quiz performance after a lecture, not every form of later study. **No Journalwright copy claims that handwriting always beats typing.** Use a medium that the learner can access and review.
 
 ## 17. Benefits
 
 - Recall practice and spaced review improve later retention (sources 3, 4, 6, 7).
-- Writing in your own words helps (source 8).
+- Generating an answer can improve memory compared with reading in the tasks studied [8]. This does not establish that rewriting all notes is useful.
 - A page you can return to is cheap, offline and easy to carry (practitioner reports).
 
 ## 18. Pitfalls
 
-- **Copying instead of thinking.** Transcribing everything feels productive and teaches less.
+- **Copying instead of checking understanding.** A complete transcript can still be useful for access. Add a question or explanation when you review it; the transcript alone does not show what you understand.
 - **Rereading as the only review.** Rated low utility (source 6).
 - **Cue words that are labels.** "Heart" is a worse cue than a question.
 - **Treating the intervals as law.** They are a starting point.
@@ -154,10 +178,12 @@ Apps schedule spaced review for you. On paper you choose the dates. A hybrid is 
 
 ## 19. Accessibility and adaptations
 
-- **Vision.** Large print and high contrast versions keep the same lines; larger rows.
-- **Motor.** Dot or blank paper for loose handwriting; fewer, larger cards.
-- **Cognitive and energy.** Use three cues, not ten. One review a day is enough. Skip the map.
-- **Sensory.** Plain layouts without colour; no required timing.
+- **Vision.** Use large print and high contrast. A linear text version can use "question / attempt / checked answer" headings instead of a visual two-column layout.
+- **Motor.** Type, dictate, point to cards or answer aloud. Handwriting is optional; the recall attempt can use the medium that works.
+- **Cognitive and energy.** Use one to three cues. Keep a worked example nearby when learning something new, then cover only the part you want to try. Skip the map or schedule if they add work.
+- **Sensory.** Plain layouts without color; no required timer.
+- **Language.** Write cues in the language that helps you understand. Where the exact technical term matters, keep it next to a plain-language explanation.
+- **Anxiety or test pressure.** Keep practice private and ungraded. Answer by explanation or sketch if quiz language is unhelpful. These are access choices, not claims of an anxiety treatment.
 
 ## 20. Comparison
 
@@ -209,7 +235,7 @@ Cornell notes for the first pass, flash strips for facts that stay hard, a revie
 
 ## 28. Sources
 
-All checked 2026-10-20.
+Original bibliography check recorded 2026-10-20. Focused recheck on 2026-11-02: the Cornell page [1], published abstracts for [3], [4], [5] and [10] through Europe PMC, and the publisher abstract for new source [12]. Full texts of those research papers were not re-audited in this update; the remaining bibliography retains its earlier check date. The Cornell primary studies mentioned in [2] remain unconfirmed.
 
 1. "Cornell Note-taking System", Learning Strategies Center, Cornell University. https://lsc.cornell.edu/how-to-study/taking-notes/cornell-note-taking-system/
 2. "Cornell Notes", Wikipedia. https://en.wikipedia.org/wiki/Cornell_Notes
@@ -222,3 +248,4 @@ All checked 2026-10-20.
 9. Pam A. Mueller and Daniel M. Oppenheimer, "The pen is mightier than the keyboard: advantages of longhand over laptop note taking", *Psychological Science* 25(6):1159-1168, 2014. https://europepmc.org/article/MED/24760141
 10. Heather L. Urry and colleagues, "Don't ditch the laptop just yet: a direct replication of Mueller and Oppenheimer's (2014) Study 1 plus mini meta-analyses across similar studies", *Psychological Science*, 2021. https://europepmc.org/article/MED/33539228
 11. "Leitner system", Wikipedia. https://en.wikipedia.org/wiki/Leitner_system
+12. Pooja K. Agarwal, Ludmila D. Nunes and Janell R. Blunt, "Retrieval Practice Consistently Benefits Student Learning: a Systematic Review of Applied Research in Schools and Classrooms", *Educational Psychology Review* 33:1409–1453, 2021. Publisher abstract checked 2026-11-02. https://doi.org/10.1007/s10648-021-09595-9

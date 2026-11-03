@@ -1,5 +1,6 @@
 ---
 title: "Stoic journaling"
+summary: "Reflect on judgments and actions using practices drawn from Stoic writers."
 slug: stoic-journaling
 category: reflective-writing
 evidenceLevel: some

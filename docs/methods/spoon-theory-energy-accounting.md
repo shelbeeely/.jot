@@ -1,5 +1,6 @@
 ---
 title: "Spoon theory and energy accounting"
+summary: "Use a personal energy metaphor to consider activities and available capacity."
 slug: spoon-theory-energy-accounting
 category: neurodivergent-and-creative
 evidenceLevel: anecdotal

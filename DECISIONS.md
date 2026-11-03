@@ -1,5 +1,76 @@
 # Latest Jot v1 decisions
 
+## Shorter rendering documentation and a small authoring path (3 November 2026)
+
+The owner found the documentation and syntax bloated. The rendering index now supplies shared reader rules and
+acceptance checks; individual references link there instead of repeating them. Syntax begins with prose/Markdown,
+optional dates/tasks/assets and one generic record form. Exhaustive host behavior and known limits remain available,
+with repetitive device-target columns removed. Navigation uses one concise touch/button mapping. Provider and profile
+inventories remain complete. This is a documentation simplification: no parser grammar, alias, field, profile or saved
+file is removed or migrated. Changing the language itself would require a separately specified compatibility change.
+
+## Whole-syntax, media and integration rendering coverage (3 November 2026)
+
+The owner requested coverage of the whole syntax and integrations, including how media and links work. The rendering
+reference now separates syntax, media/links, integrations, profile/record coverage, navigation and pixel output. Each
+construct has a documented presentation, interaction or preservation fallback. Current host behavior, CLI/local
+features, planned provider connections and proposed e-paper behavior are labelled separately.
+
+The generated ledger covers all 62 profiles, 27 standard record types, 12 declared parser extensions and the canonical
+archive-import registry. It is checked for freshness in CI. It does not certify complete Markdown compatibility,
+provider availability or native hardware support. Full-field inspection remains a device requirement where the host
+condenses measurements, hides definitions/bookkeeping or leaves chart tables collapsed. Known chart/query, layout,
+include and malformed-input limits remain explicit rather than being presented as complete implementation.
+
+Media references remain readable without becoming automatic artwork fetches or players. Saved integration data does
+not authorize a service action. Both touch and button routes reach the same proposed details, links and media views.
+Research basis: private writing is shared by choice (`docs/methods/expressive-writing.md, line 444`); cloud journal
+sync is rejected by the inherited guide (`docs/methods/digital-daily-notes.md, line 712`). Existing optional host
+integrations retain their documented boundaries; this pass adds no service execution or firmware behavior.
+
+## E-paper rendering reference with touch and button navigation (3 November 2026)
+
+The owner requested documentation for rendering `.jotz` with FreeInk on a device such as the Xteink X4, then specified
+both touch and non-touch navigation. `docs/rendering/` documents browser-composed raster pages, native Jot adapters,
+and real EPUB conversion as separate paths. The local tutorial renders a verified package with canonical Jot modules,
+checks visual readiness/overflow, and produces a 48,000-byte original-X4 frame with explicit rotation and bit packing.
+The FreeInk SDK reference is pinned to `0dbf8cc5c32e3d3672365e497d6ee9163ac6b120`.
+
+Navigation uses one document/action model with distinct input mappings. Touch has visible controls plus optional gestures;
+buttons reach page turns, contents, links, attachments, search, bookmarks and settings through focus/confirm/back.
+Positions are tied to source locators and revisions, then resolved into current pages. A raster cache needs a semantic
+index/hit map; its pixels alone do not provide links, search or repagination. Ordinary reading does not change task state.
+
+Research basis: `docs/methods/e-ink-templates.md, line 305` describes portrait page anatomy, line 548 recommends large
+type and heavier lines for low vision, and line 719 recommends paging rather than continuous scrolling. These are
+design guidance, not tested accessibility outcomes or current Jot firmware claims. Current SDK sources establish
+four-tone API support; their contract does not establish physical tone separation, refresh timing or readability.
+
+The tutorial was exercised in Chromium, including checkboxes, fonts, embedded images/includes, charts, overflow refusal,
+stale-export cancellation and byte-level packing. C++ APIs/configuration and navigation were source-reviewed, not
+compiled or tested on hardware. This adds documentation and a host example; dedicated hardware/firmware remains
+deferred. No new format syntax, shipped X4 reader, touch firmware, automatic device transfer or synchronization is claimed.
+## Complete method coverage and scoped research (2 November 2026)
+
+The owner requested expanded, cleaner research covering every method. All 62 current profiles now have corresponding
+28-section guides, including ten new guides for the previously uncovered complementary profiles. The eight existing
+drafts received practical and evidence expansions. Every guide has a concise catalogue summary; the generated index
+shows evidence scope, editorial state and the latest documented source-review date. The source register records the
+46-guide upstream snapshot, the 16 original Jot guides and the limits of this targeted review.
+
+Evidence labels describe the literature reviewed, which may concern a related treatment or component. They do not
+establish effectiveness of the exact Jot layout: `docs/methods/cbt-thought-record.md, line 528` makes that distinction
+for CBT, and `docs/methods/low-demand-check-in.md, line 192` corrects the earlier EMA burden inference. New guides
+preserve existing profile semantics, including `share-with` being a note rather than access control
+(`docs/methods/access-needs-and-scripts.md, line 81`). Inherited Journalwright/X4 implementation tables remain source
+context, not Jot feature claims. No profile contract, parser behavior or hardware direction changes here.
+
+New and previously draft guides remain drafts. Source access dates and abstract-only or failed checks are explicit;
+the pass is not an exhaustive literature search or an independent review of every inherited reference. A local checker
+and CI now verify profile coverage, numbered sections, metadata, numeric citations and local links. Example tests parse
+related Jot samples together. These checks establish document consistency, not evidence quality or clinical safety.
+Existing decision and proposal citations were refreshed to the revised guide locations.
+
 ## Smart journal sources and optional syntax (1 November 2026)
 
 The owner approved a broad smart-journal source catalog and both concise references and structured records. The roadmap,
@@ -20,10 +91,10 @@ the existing record grammar. Generic preservation is not semantic support. Canon
 fixtures, parser/renderer behavior and Writer controls are later milestones. No automatic migration or released-version
 bump occurs here; existing `sync` records remain preservable and never authorize requests.
 
-Research basis: `docs/methods/digital-daily-notes.md, line 711` rejects journal-content cloud sync. Its objection to
-activity-based suggestions at line 712 is narrowed by the owner's explicit optional-setting request, with local analysis
-and no unselected external lookup. `docs/methods/expressive-writing.md, line 443` supports private writing unless sharing
-is chosen; `docs/methods/symptom-tracking.md, line 686` rejects symptom-data cloud sync. These guide boundaries, not a
+Research basis: `docs/methods/digital-daily-notes.md, line 712` rejects journal-content cloud sync. Its objection to
+activity-based suggestions at line 713 is narrowed by the owner's explicit optional-setting request, with local analysis
+and no unselected external lookup. `docs/methods/expressive-writing.md, line 444` supports private writing unless sharing
+is chosen; `docs/methods/symptom-tracking.md, line 687` rejects symptom-data cloud sync. These guide boundaries, not a
 claim that integrations improve journaling outcomes. No live connection, provider write, semantic parser change or card
 deployment is implemented in this documentation update.
 
@@ -38,8 +109,8 @@ A media reference is not evidence of watching/listening. Outbound actions requir
 optional future rules are explicitly enabled and do not interpret prose or trigger on autosave. Send selected activity
 metadata, not the private entry. Preserve rewatches and prevent duplicate writes, uncertain retries and import/export loops.
 Provider credentials and local delivery receipts stay outside portable journal content. No account was connected or write
-performed. Research basis: `docs/methods/digital-daily-notes.md, line 711` (avoid third-party journal-content sync) and
-`docs/methods/expressive-writing.md, line 443` (sharing is chosen). No format syntax change is established by this plan.
+performed. Research basis: `docs/methods/digital-daily-notes.md, line 712` (avoid third-party journal-content sync) and
+`docs/methods/expressive-writing.md, line 444` (sharing is chosen). No format syntax change is established by this plan.
 
 ## Physical hardware and firmware deferred (31 October 2026)
 
@@ -56,8 +127,8 @@ The physical/digital bridge remains possible through existing software capabilit
 printing and retaining handwriting originals. Those capabilities do not commit Jot to developing a physical product.
 
 Paper entries count before digitizing; capture can happen later and retains originals (`docs/methods/rocketbook-and-scan-systems.md,
-line 538`; `docs/methods/digital-daily-notes.md, line 420`). Keep navigation and setup small (`docs/methods/e-ink-templates.md,
-line 519`). Reduced distraction is **plausible by design**, not directly tested for journaling (same guide, line 501);
+line 539`; `docs/methods/digital-daily-notes.md, line 421`). Keep navigation and setup small (`docs/methods/e-ink-templates.md,
+line 520`). Reduced distraction is **plausible by design**, not directly tested for journaling (same guide, line 501);
 reduced social-media use remains a product goal, not an established outcome.
 
 ## Jot Writer v1 starts with people who have never journaled (30 October 2026)
@@ -76,11 +147,11 @@ writer already starts blank and supports ordinary writing. The next slice should
 question, with a clear way to write freely, before introducing methods, formatting or file-format details. Saving, recovery
 and reopening remain release priorities because a beginner must be able to trust the first entry they make.
 
-Research basis: short, concrete prompts with an exit (`docs/methods/prompt-journaling.md, line 435`); avoid template bloat
-(`docs/methods/digital-daily-notes.md, line 488`); no catch-up or missed-day counts (`docs/methods/low-demand-check-in.md,
-line 236`). These guide the design, not a claim of demonstrated onboarding effectiveness: "Prompts help people start writing"
-is explicitly **claimed**, not studied as such (`docs/methods/prompt-journaling.md, line 405`), and the low-demand format's
-evidence is **anecdotal** (`docs/methods/low-demand-check-in.md, line 173`). Test the experience with first-time journalers.
+Research basis: short, concrete prompts with an exit (`docs/methods/prompt-journaling.md, line 436`); avoid template bloat
+(`docs/methods/digital-daily-notes.md, line 489`); no catch-up or missed-day counts (`docs/methods/low-demand-check-in.md,
+line 259`). These guide the design, not a claim of demonstrated onboarding effectiveness: "Prompts help people start writing"
+is explicitly **claimed**, not studied as such (`docs/methods/prompt-journaling.md, line 406`), and the low-demand format's
+evidence is **anecdotal** (`docs/methods/low-demand-check-in.md, line 179`). Test the experience with first-time journalers.
 
 ## The brand book (30 October 2026)
 
@@ -107,7 +178,7 @@ logo's 1 and 0, used on the homepage's fifth reason, under the README's tagline 
 
 - **Focus, not size.** It never limits length ("keep it short") or sets a target ("one a day", streaks): Jot entries run from a
   word to pages, and the method guides that track entries avoid streaks and missed-day counts
-  (docs/methods/low-demand-check-in.md, line 15).
+  (docs/methods/low-demand-check-in.md, line 16).
 - **Honest about evidence.** The methods research does not test a framing like this; it is a choice about tone, not a finding.
 
 ## The Jot logo: a hand-written iota (29 October 2026)
@@ -160,17 +231,17 @@ the data exports of X/Twitter, Mastodon, Facebook and Instagram (JSON), Tumblr (
 Takeout (Keep, Blogger), any number at once, and write one dated journal: a `.jot` a year by default, each post as
 `#### HH:MM · Service` under its day, with its original link; photos as margin notes saying where they are in the export, or packed
 into a `.jotz` a year (60 MB budget). Exports leave services' formats for plain text, as the research recommends for data trapped in
-an app (docs/methods/digital-daily-notes.md, line 495), and rereading ordinary records has value (docs/methods/five-year-diary.md,
-line 50).
+an app (docs/methods/digital-daily-notes.md, line 496), and rereading ordinary records has value (docs/methods/five-year-diary.md,
+line 51).
 
 - **Your own words by default.** Reposts, comments, stories and place names are opt-in; other people's words in a personal journal
-  can be shared later (docs/methods/design-iteration-and-critique.md, line 178). Messages, contacts, friends lists, logins, IP
+  can be shared later (docs/methods/design-iteration-and-critique.md, line 214). Messages, contacts, friends lists, logins, IP
   addresses, ads data and coordinates are never read.
-- **Private and quiet.** Every file says `Privacy: private` (docs/methods/expressive-writing.md, line 443). Like and share counts are
-  never written (docs/methods/e-ink-templates.md, line 742). Nothing resurfaces by itself: old posts can hurt
-  (docs/methods/digital-daily-notes.md, line 493); people choose dates and categories before converting.
+- **Private and quiet.** Every file says `Privacy: private` (docs/methods/expressive-writing.md, line 444). Like and share counts are
+  never written (docs/methods/e-ink-templates.md, line 743). Nothing resurfaces by itself: old posts can hurt
+  (docs/methods/digital-daily-notes.md, line 494); people choose dates and categories before converting.
 - **Nothing invented.** A post without a readable time is left out and counted, never given a guessed date (as for missing data:
-  docs/methods/symptom-tracking.md, line 596). Dates use one chosen IANA time zone, stated in `Timezone:`; Tumblr's wall-clock
+  docs/methods/symptom-tracking.md, line 597). Dates use one chosen IANA time zone, stated in `Timezone:`; Tumblr's wall-clock
   times are read in that zone. Meta's double-encoded text is repaired only when it decodes cleanly.
 - **Honest about formats.** The readers follow the services' documented formats as this project knows them and are tested on
   made-up samples (`converter/fixtures/archives/`), not yet on many real exports; an unknown layout shows as "nothing this can read
@@ -191,12 +262,12 @@ wrapper, and the one exception to "readable in any text editor".
   it. The format is published with short Python and Node recipes, so a locked journal opens without Jot; the tests open Jot's
   output with the Node recipe, and the Python recipe was checked by hand.
 - **No recovery, said plainly.** Lost keys make encrypted journals "encrypted and unusable forever"
-  (docs/methods/digital-daily-notes.md, line 438); the guide's answer is a hint kept safe and a password manager (line 492).
+  (docs/methods/digital-daily-notes.md, line 439); the guide's answer is a hint kept safe and a password manager (line 493).
   Jot never stores or sends a passphrase; `jot lock` asks twice and unlocks the result before writing it.
 - **Honest limits.** Exports are usually unencrypted and encryption still exposes metadata (docs/methods/digital-daily-notes.md,
-  lines 445–446): a locked file's name, size and dates show, and locking leaves the unlocked original in place. The spec lists
+  lines 446–447): a locked file's name, size and dates show, and locking leaves the unlocked original in place. The spec lists
   what a lock does not protect against, including being made to give up the passphrase; the guides' threat is a journal that is
-  found (docs/methods/gender-euphoria-and-hrt-log.md, lines 606 and 690–694), which a lock answers only for the file itself.
+  found (docs/methods/gender-euphoria-and-hrt-log.md, lines 607 and 691–695), which a lock answers only for the file itself.
 - **Passphrases** are NFC-normalized UTF-8, never taken as a command-line argument (a hidden prompt, or `JOT_PASSPHRASE` for
   scripts), and never stored.
 - **In the workspace** (added the same day): Lock with a passphrase, Download locked, opening `.jotlock`, and Ways in (below). The
@@ -211,9 +282,9 @@ wrapper, and the one exception to "readable in any text editor".
   the PRF answer). The format keeps the name v1 because it is still a draft; draft-1 files open and are rewritten on the next
   save. Rules that answer the risks raised: a passphrase or recovery code always stays (a passkey is tied to the site's address,
   and support for PRF varies by browser and key); changes ask for a current way in; the writer offers a recovery code by default,
-  because a lost passphrase otherwise loses the journal (docs/methods/digital-daily-notes.md, lines 438 and 492); and the ways-in
+  because a lost passphrase otherwise loses the journal (docs/methods/digital-daily-notes.md, lines 439 and 493); and the ways-in
   dialog says plainly that a synced passkey is as safe as its account and that a face or finger can be easier to force than a
-  passphrase (docs/methods/gender-euphoria-and-hrt-log.md, lines 690–694). Passkey labels and the site show in the header; the
+  passphrase (docs/methods/gender-euphoria-and-hrt-log.md, lines 691–695). Passkey labels and the site show in the header; the
   label is optional. Password managers can save the passphrase under the journal's name, and **Lock again** (Writing
   preferences: never, 5, 15 or 60 minutes; 15 by default) saves the journal encrypted, drops the key and shows the locked panel
   after that long with no typing or clicking. "Remember on this device" is still left out: it would let anyone using the browser
@@ -231,14 +302,14 @@ First phase (E0) of `docs/proposals/editor.md`.
   for Today ＋, Quick note ＋, Carry tasks forward and Week review, so a night shift stays one entry. It is a preference in this
   browser, not a document field: dates in the file stay ordinary ISO dates and the format is unchanged. `localToday(now, dayStart)`
   in `parser/automation.mjs` does the arithmetic. Back to standard settings keeps it, as it keeps the note. Guides: "define the
-  'day' by sleep, not midnight" (docs/methods/digital-daily-notes.md, line 518); "Date each Daily Log by **your** day, not
-  midnight" (docs/methods/bullet-journal.md, line 627). Whether it should also be a document field for shared journals is open.
+  'day' by sleep, not midnight" (docs/methods/digital-daily-notes.md, line 519); "Date each Daily Log by **your** day, not
+  midnight" (docs/methods/bullet-journal.md, line 628). Whether it should also be a document field for shared journals is open.
 - **Template starters:** Morning pages has no prompt on the days, since "Prompts defeat the method"
-  (docs/methods/morning-pages.md, line 663); a few starters wait after the days for stuck mornings, phrased after the guide's
+  (docs/methods/morning-pages.md, line 664); a few starters wait after the days for stuck mornings, phrased after the guide's
   own (lines 205–212, 497–503). Day planner's time blocks cover the whole day (narrowed in Plan), since "8:00–22:00 timelines ...
-  drop night shifts" (docs/methods/travelers-notebook.md, line 663). Gratitude asks for one okay thing a day plus the best of the
+  drop night shifts" (docs/methods/travelers-notebook.md, line 664). Gratitude asks for one okay thing a day plus the best of the
   week, and a new Gratitude, weekly starter asks only once a week: more daily lines are not supported by the evidence and weekly
-  gratitude lives on the weekly review (docs/methods/gratitude-journaling.md, lines 589, 593, 599). These are design readings
+  gratitude lives on the weekly review (docs/methods/gratitude-journaling.md, lines 590, 594, 600). These are design readings
   of the guides; none of them tested a template editor.
 
 ## Links between days and records (27 October 2026)
@@ -708,8 +779,8 @@ Secure Chromium File System Access connects only explicitly chosen files, with e
 ## 2026-11-01: Optional BYOK AI writing companion
 
 The owner explicitly requested OpenRouter and local-model BYOK drafts and suggestions with strict Jot output, then a separate
-OpenRouter ZDR toggle. This is a scoped change from `docs/methods/digital-daily-notes.md, line 714` (no generative AI summaries)
-and `docs/methods/prompt-journaling.md, line 623` (AI prompts excluded). Those guides do not establish benefits of AI journaling;
+OpenRouter ZDR toggle. This is a scoped change from `docs/methods/digital-daily-notes.md, line 715` (no generative AI summaries)
+and `docs/methods/prompt-journaling.md, line 624` (AI prompts excluded). Those guides do not establish benefits of AI journaling;
 this is an owner-requested optional tool, not an evidence-backed default or a replacement for the existing local invitations.
 Jot's to-jot guidance shapes the prompt: preserve uncertainty and avoid invented facts, dates or measurements.
 
@@ -757,8 +828,8 @@ transfers are in a review inbox, not merged journals. No STUN/TURN/signaling ser
 Incoming OS share delivery needs a controlling service worker; its manifest is only advertised in that state. If a worker is
 removed, browser POST delivery can reach the host; the local file-picker inbox is the alternative for strict local-only intake.
 
-Research basis: `docs/methods/digital-daily-notes.md, line 711` avoids third-party journal-content sync;
-`docs/methods/expressive-writing.md, line 443` supports keeping writing private unless sharing is chosen. The locally retained
+Research basis: `docs/methods/digital-daily-notes.md, line 712` avoids third-party journal-content sync;
+`docs/methods/expressive-writing.md, line 444` supports keeping writing private unless sharing is chosen. The locally retained
 unencrypted pending inbox is the owner's explicit choice and is labelled separately from a locked journal. Ink retains originals
 and editable strokes, without OCR or automatic transcription. Native share sheets, physical pens and cross-device network behavior
 remain device validation, not claims established by synthetic Chromium tests.
@@ -788,9 +859,9 @@ ink fading. The reference palette and source ink/highlight values stay unchanged
 Live writing uses the shared stroke generator while creating mapped text leaves, preserving selection and source-based editing.
 
 Research supports the reading direction, without establishing these exact font designs or stroke values:
-`docs/methods/digital-daily-notes.md, line 511` recommends readable fonts when handwriting is a barrier; line 513 names system text
-size and high-contrast themes (its specific VoiceOver details remain uncertain). `docs/methods/moodboard-and-palette.md, line 179`
-requires named colors alongside swatches, and line 180 calls for words for color roles and contrast ratios for text palettes.
+`docs/methods/digital-daily-notes.md, line 512` recommends readable fonts when handwriting is a barrier; line 514 names system text
+size and high-contrast themes (its specific VoiceOver details remain uncertain). `docs/methods/moodboard-and-palette.md, line 214`
+requires named colors alongside swatches, and line 215 calls for words for color roles and contrast ratios for text palettes.
 The precise typography and compositing choices respond to the owner's request and are checked in font, renderer and browser
 regressions; they are not claimed as tested therapeutic or productivity benefits.
 

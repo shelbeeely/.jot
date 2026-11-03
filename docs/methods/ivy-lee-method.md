@@ -1,5 +1,6 @@
 ---
 title: "The Ivy Lee Method"
+summary: "Rank a short task list and work through it one item at a time."
 slug: ivy-lee-method
 category: productivity
 evidenceLevel: anecdotal

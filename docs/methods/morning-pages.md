@@ -1,5 +1,6 @@
 ---
 title: "Morning Pages"
+summary: "Write three longhand pages in the morning following Julia Cameron’s practice."
 slug: morning-pages
 category: reflective-writing
 evidenceLevel: anecdotal

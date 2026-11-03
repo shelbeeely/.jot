@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const checks = [
   { command: 'python3', args: ['fonts/build.py', '--check'], label: 'python3 fonts/build.py --check' },
-  ...['tools/sync-fonts.mjs', 'vscode/sync.mjs', 'tools/build-handwriting-css.mjs', 'site/build-guides.mjs', 'tools/sync-roadmap.mjs', 'tools/build-methods-index.mjs', 'tools/sync-brand.mjs', 'tools/build-offline.mjs', 'tools/manifest.cjs']
+  ...['tools/sync-fonts.mjs', 'vscode/sync.mjs', 'tools/build-handwriting-css.mjs', 'site/build-guides.mjs', 'tools/sync-roadmap.mjs', 'tools/build-methods-index.mjs', 'tools/build-rendering-profiles.mjs', 'tools/sync-brand.mjs', 'tools/build-offline.mjs', 'tools/manifest.cjs']
     .map((script) => ({ command: process.execPath, args: [script, '--check'], label: `node ${script} --check` }))
 ];
 const failed = checks.map((check) => [check, spawnSync(check.command, check.args, { cwd: ROOT, encoding: 'utf8' })]).filter(([, result]) => result.status !== 0);

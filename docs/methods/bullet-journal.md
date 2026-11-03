@@ -1,5 +1,6 @@
 ---
 title: "The Bullet Journal Method"
+summary: "Capture tasks, events and notes, then review and migrate what matters."
 slug: bullet-journal
 category: bujo-family
 evidenceLevel: anecdotal

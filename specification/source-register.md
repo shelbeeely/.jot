@@ -1,61 +1,89 @@
 # Jot source register
 
-Method coverage snapshot: the Journalwright methods library, [shelbeeely/Journaling `docs/journaling/methods`](https://github.com/shelbeeely/Journaling/tree/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods), snapshot `f67a54dd20c9` (copied into this repository as `docs/methods/`), retrieved 25 October 2026. Rechecked 28 October 2026: that snapshot is still the latest upstream commit; the 46 upstream guides are unchanged here apart from cross-links to guides added in this repository. Reviewed the first 150 lines of every method guide (overview, summary and available component descriptions), rather than independently auditing their full research bibliographies. The catalogue is an original format adaptation based on those overviews. No repository files were changed. The notes, sharing and collaboration proposal (`docs/proposals/notes-sharing-collaboration.md`) searched the full guides for those topics and cites them by file and line.
+## Origin and review scope
 
-Primary inspiration: [Fountain repository README](https://github.com/nyousefi/Fountain/blob/master/README.markdown), read 25 October 2026. Its writing-first, readable plain-text approach informs Jot. The repository is a Fountain implementation; Jot is a separate proposed journaling format, not a Fountain-compatible screenplay dialect. No source code was copied. The original attached Jot Complete Specification v1.0 PDF is the baseline design.
+The upstream methods library is [shelbeeely/Journaling `docs/journaling/methods`](https://github.com/shelbeeely/Journaling/tree/f67a54dd20c907c6f239a65342f6ca8568f462d2/docs/journaling/methods),
+snapshot `f67a54dd20c907c6f239a65342f6ca8568f462d2`, retrieved 25 October 2026. It supplied 46 CC0 guides. The upstream
+head was rechecked on 28 October 2026; that historical check is not a claim about today's upstream head.
 
-## Additional profiles
+The initial catalogue adaptation reviewed the first 150 lines of each imported guide, not its entire bibliography.
+The copies now include local cross-links, Jot-specific additions, catalogue summaries and targeted corrections. They
+must not be described as unchanged upstream files. Original source-check dates and inherited editorial states remain
+where no new source review was performed. A `reviewed` state from upstream is not an independent Jot audit.
 
-free-diary, shared-journal, travel-field-log, reading-media-journal, decision-journal, project-lab-log, food-cooking-journal, spiritual-reflection, memory-life-story and access-needs-and-scripts are original complementary Jot profiles. Their presence does not imply a corresponding guide in the linked directory. voice-practice, task-initiation-and-transitions and low-demand-check-in (added 27 October 2026) are original Jot profiles with guides of their own in `docs/methods/`. The data model specifies recording behavior and makes no independent therapeutic effectiveness claims.
+Primary inspiration: [Fountain repository README](https://github.com/nyousefi/Fountain/blob/master/README.markdown), read
+25 October 2026. Its writing-first, readable plain-text approach informs Jot. Jot is a separate journaling format, not a
+Fountain-compatible screenplay dialect. No source code was copied. The original attached Jot Complete Specification
+v1.0 PDF is the baseline design.
 
-## Repository guide mapping
+## Method coverage
 
-1. [adhd-journaling.md](../docs/methods/adhd-journaling.md)
-2. [alastair-method.md](../docs/methods/alastair-method.md)
-3. [art-and-junk-journaling.md](../docs/methods/art-and-junk-journaling.md)
-4. [autistic-sensory-journaling.md](../docs/methods/autistic-sensory-journaling.md)
-5. [bullet-journal.md](../docs/methods/bullet-journal.md)
-6. [cbt-thought-record.md](../docs/methods/cbt-thought-record.md)
-7. [commonplace-book.md](../docs/methods/commonplace-book.md)
-8. [dbt-diary-card.md](../docs/methods/dbt-diary-card.md)
-9. [digital-daily-notes.md](../docs/methods/digital-daily-notes.md)
-10. [dream-journal.md](../docs/methods/dream-journal.md)
-11. [dutch-door-method.md](../docs/methods/dutch-door-method.md)
-12. [e-ink-templates.md](../docs/methods/e-ink-templates.md)
-13. [eisenhower-matrix.md](../docs/methods/eisenhower-matrix.md)
-14. [emergent-task-planner.md](../docs/methods/emergent-task-planner.md)
-15. [expressive-writing.md](../docs/methods/expressive-writing.md)
-16. [five-minute-journal.md](../docs/methods/five-minute-journal.md)
-17. [five-year-diary.md](../docs/methods/five-year-diary.md)
-18. [full-focus-planner.md](../docs/methods/full-focus-planner.md)
-19. [gender-euphoria-and-hrt-log.md](../docs/methods/gender-euphoria-and-hrt-log.md)
-20. [getting-things-done-paper.md](../docs/methods/getting-things-done-paper.md)
-21. [gratitude-journaling.md](../docs/methods/gratitude-journaling.md)
-22. [habit-tracking.md](../docs/methods/habit-tracking.md)
-23. [hobonichi-techo.md](../docs/methods/hobonichi-techo.md)
-24. [interstitial-journaling.md](../docs/methods/interstitial-journaling.md)
-25. [ivy-lee-method.md](../docs/methods/ivy-lee-method.md)
-26. [jibun-techo.md](../docs/methods/jibun-techo.md)
-27. [mood-tracking-year-in-pixels.md](../docs/methods/mood-tracking-year-in-pixels.md)
-28. [morning-pages.md](../docs/methods/morning-pages.md)
-29. [paper-and-grids.md](../docs/methods/paper-and-grids.md)
-30. [passion-planner.md](../docs/methods/passion-planner.md)
-31. [planner-sticker-and-deco-culture.md](../docs/methods/planner-sticker-and-deco-culture.md)
-32. [pomodoro-log.md](../docs/methods/pomodoro-log.md)
-33. [progoff-intensive-journal.md](../docs/methods/progoff-intensive-journal.md)
-34. [prompt-journaling.md](../docs/methods/prompt-journaling.md)
-35. [rocketbook-and-scan-systems.md](../docs/methods/rocketbook-and-scan-systems.md)
-36. [safety-planning.md](../docs/methods/safety-planning.md)
-37. [shadow-growth-journal.md](../docs/methods/shadow-growth-journal.md)
-38. [spoon-theory-energy-accounting.md](../docs/methods/spoon-theory-energy-accounting.md)
-39. [stimming-and-self-regulation.md](../docs/methods/stimming-and-self-regulation.md)
-40. [stoic-journaling.md](../docs/methods/stoic-journaling.md)
-41. [study-and-note-taking.md](../docs/methods/study-and-note-taking.md)
-42. [symptom-tracking.md](../docs/methods/symptom-tracking.md)
-43. [theme-system-journal.md](../docs/methods/theme-system-journal.md)
-44. [time-block-planner.md](../docs/methods/time-block-planner.md)
-45. [time-logging-lifelog.md](../docs/methods/time-logging-lifelog.md)
-46. [travelers-notebook.md](../docs/methods/travelers-notebook.md)
-47. [voice-practice.md](../docs/methods/voice-practice.md)
-48. [task-initiation-and-transitions.md](../docs/methods/task-initiation-and-transitions.md)
-49. [low-demand-check-in.md](../docs/methods/low-demand-check-in.md)
+As of 2 November 2026, all 62 profiles in `specification/profiles.json` have corresponding research guides. A profile
+`<id>@1` maps to `docs/methods/<id>.md`. The generated [catalogue](../docs/methods/README.md#catalogue) links every guide
+and records its evidence level, editorial state and latest documented source-review date. `node tools/check-methods.mjs`
+checks profile coverage, guide structure, numeric citations and local links; it cannot verify scientific claims or live
+external sources.
+
+The library contains the 46 imported guides and 16 original Jot guides. Original profiles and adaptations do not imply
+an established named method, an inventor, a validated instrument or therapeutic effectiveness.
+
+### Original Jot guides
+
+The six guides already present before this expansion:
+
+- [Voice practice](../docs/methods/voice-practice.md), [task initiation and transitions](../docs/methods/task-initiation-and-transitions.md) and [low-demand check-in](../docs/methods/low-demand-check-in.md): profiles and guides added 27 October 2026.
+- [Drawing practice](../docs/methods/drawing-practice.md), [design iteration and critique](../docs/methods/design-iteration-and-critique.md) and [moodboards and palettes](../docs/methods/moodboard-and-palette.md): original guides omitted from the old 49-entry mapping; now included in the complete catalogue.
+
+Ten guides added 2 November 2026 for existing complementary profiles:
+
+- [Free diary](../docs/methods/free-diary.md)
+- [Shared and dialogue journals](../docs/methods/shared-journal.md)
+- [Travel and field observations](../docs/methods/travel-field-log.md)
+- [Reading and media](../docs/methods/reading-media-journal.md)
+- [Decision journals](../docs/methods/decision-journal.md)
+- [Project and lab notebooks](../docs/methods/project-lab-log.md)
+- [Food and cooking](../docs/methods/food-cooking-journal.md)
+- [Spiritual reflection](../docs/methods/spiritual-reflection.md)
+- [Memory and life stories](../docs/methods/memory-life-story.md)
+- [Access needs and scripts](../docs/methods/access-needs-and-scripts.md)
+
+These guides preserve the existing profiles' required and optional fields. Their suggested routines and examples are
+adaptations, not tested Jot interventions. All new guides remain drafts pending editorial review.
+
+## Local research pass: 2 November 2026
+
+The full library was checked for numbered-section coverage, local links, numeric source references and profile mapping.
+Every guide received a concise catalogue summary. The work below was a targeted source and content review, not an
+exhaustive literature search or an all-source recheck of the inherited library. Each changed guide's section 28 gives
+the actual access scope, including abstract-only checks and failed requests.
+
+| Guides | Substantive changes and source-check scope |
+| --- | --- |
+| Low-demand check-in; task initiation; stimming; new access-needs guide | Expanded examples and adaptations. Corrected the EMA burden claim using Wrzus and Neubauer's findings and limitations; distinguished exploratory frequency results from the main analysis and from once-daily diaries. Qualified the body-doubling survey. Checked autistic-led burnout, stimming and masking research, implementation-intention material, NICE, W3C and EEOC guidance as documented per guide. |
+| Drawing; design critique; moodboards; study notes | Expanded practical review and learning guidance. Separated logs and worksheets from evidence for drawing, feedback, retrieval and spacing. Added scoped study details and accessibility references. Publisher access failures and indexed-abstract checks remain explicit. |
+| Voice practice | Expanded comfort, accessibility and measurement limits; reconciled the guide with the current optional local pitch meter. Checked the 2023 voice review, NIDCD and Praat sources; retained ASHA access limits and unrechecked older references. |
+| ADHD; habit tracking; CBT; DBT | Clarified that the strongest evidence concerns related interventions, treatment packages or components, not the exact Jot profile. Targeted primary-abstract checks do not replace the inherited bibliographies' earlier review dates. |
+| Gratitude; safety planning; e-ink; scan systems | Removed unsupported low-risk assurances and narrowed platform, power and recognition claims. This is a targeted correction of inference and wording, not a new full bibliography audit. |
+| Ten new guides listed above | Added complete 28-section references with setup, routines, invented examples, comparisons, adaptations, privacy, evidence limits and checked sources. Source types include primary studies and official practice, accessibility, field-recording, research-integrity, food-safety and spiritual-care guidance; exact-format efficacy is not inferred. |
+
+Inherited section 25 headings and implementation tables refer to Journalwright Studio or X4. They are source-project
+context, not verified Jot features. New guides use "For Jot" and separate proposed design from existing behavior.
+Hardware remains deferred. The research does not itself change profiles, the file format or Writer behavior.
+
+Local corrections have not been published back to the upstream library as part of this pass. Upstream contribution and
+an independent editorial review of the new drafts remain separate work.
+
+## Device-rendering references: 3 November 2026
+
+`docs/rendering/epaper.md` and `docs/rendering/navigation.md` use FreeInk SDK source snapshot
+`0dbf8cc5c32e3d3672365e497d6ee9163ac6b120`, primary X4/panel documentation and the existing Jot implementation.
+Their source lists record exact paths and check limits. The browser tutorial was exercised locally; the native C++
+example and input mappings were source-reviewed without firmware compilation, flashing or hardware testing.
+Navigation policies and cache/index examples are proposed application behavior, not Jot format extensions or SDK
+features automatically obtained from a raster image. This work does not change the 62-method research catalogue.
+
+The expanded syntax, media/link and integration references were checked against the canonical parser/preview,
+container, data modules, host interfaces, converter registries and current proposals/roadmap. They record current
+implementation limits and distinguish planned providers from implemented connections. The generated rendering ledger
+covers profiles, standard record names, declared parser extensions and registered archive sources. These are source
+and registry checks, not live-provider or physical-device verification.

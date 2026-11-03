@@ -1,5 +1,6 @@
 ---
 title: "Planner, sticker and deco culture"
+summary: "Use decorative materials and community planner practices alongside scheduling."
 slug: planner-sticker-and-deco-culture
 category: planner
 evidenceLevel: anecdotal

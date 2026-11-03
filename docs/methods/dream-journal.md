@@ -1,5 +1,6 @@
 ---
 title: "Dream journal"
+summary: "Record remembered dreams, with optional reflection and clearly bounded clinical uses."
 slug: dream-journal
 category: reflective-writing
 evidenceLevel: some
