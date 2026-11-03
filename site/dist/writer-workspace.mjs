@@ -30,6 +30,10 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     for (const name of ['write', 'preview', 'split']) $('writerView' + name[0].toUpperCase() + name.slice(1)).setAttribute('aria-pressed', String(name === active));
     $('writerPreviewToggle').setAttribute('aria-pressed', String(active !== 'write'));
     $('writerPreviewToggle').textContent = active === 'preview' ? 'Write' : 'Preview';
+    for (const name of ['write', 'preview']) {
+      const item = doc.querySelector('.writer-nav [data-nav="' + name + '"]');
+      if (item) { if (name === active) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current'); }
+    }
   }
   function showWriting() {
     if (root.getAttribute('data-writer-view') === 'preview') { chosenView = 'write'; view(chosenView); }
@@ -52,13 +56,55 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     $('writerToolsToggle').textContent = toolsExpanded ? 'Close journal tools' : 'Journal tools';
     doc.querySelector('.format-tools').hidden = !colorsExpanded || doc.querySelector('.writer-format').hidden;
     $('writerColorsToggle').setAttribute('aria-expanded', String(colorsExpanded));
+    if (!toolsExpanded) delete row.dataset.sheet;
+    doc.querySelector('.writer-nav [data-nav="tools"]')?.setAttribute('aria-expanded', String(toolsExpanded && 'sheet' in row.dataset));
   }
   $('writerToolsToggle').onclick = () => { toolsExpanded = !toolsExpanded; disclosures(); };
   $('writerColorsToggle').onclick = () => { colorsExpanded = !colorsExpanded; disclosures(); };
   narrow.addEventListener('change', () => {
     view(chosenView || 'write');
   });
+  bottomNavigation();
   view('write'); disclosures();
+
+  // Phones get a Material 3 style navigation bar; the tool row opens above it as a bottom sheet.
+  function bottomNavigation() {
+    const phone = win.matchMedia('(max-width: 700px)');
+    const nav = doc.createElement('nav');
+    nav.className = 'writer-nav'; nav.setAttribute('aria-label', 'Writer');
+    const shape = path => '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>';
+    const items = [
+      ['write', 'Write', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>', () => selectView('write')],
+      ['preview', 'Preview', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>', () => selectView('preview')],
+      ['find', 'Find', '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>', () => $('writerFindBtn').click()],
+      ['tools', 'More', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>', () => { const sheet = doc.querySelector('.tool-row'); if (toolsExpanded && 'sheet' in sheet.dataset) toolsExpanded = false; else { sheet.dataset.sheet = ''; toolsExpanded = true; } disclosures(); if (toolsExpanded) sheet.querySelector('button:not([hidden])')?.focus(); }],
+    ];
+    for (const [name, label, path, run] of items) {
+      const item = doc.createElement('button');
+      item.type = 'button'; item.dataset.nav = name;
+      // Icons are static markup; the label is text.
+      item.innerHTML = '<span class="writer-nav-indicator">' + shape(path) + '</span>';
+      const text = doc.createElement('span'); text.className = 'writer-nav-label'; text.textContent = label; item.append(text);
+      if (name === 'tools') item.setAttribute('aria-controls', 'writerToolSheet');
+      item.onclick = run; nav.append(item);
+    }
+    (doc.querySelector('.studio-workspace') || doc.body).append(nav);
+    const row = doc.querySelector('.tool-row');
+    row.id ||= 'writerToolSheet';
+    // A tool chosen from the sheet closes it, so the dialog or writing it opens is not covered.
+    row.addEventListener('click', event => {
+      const button = event.target.closest('button');
+      if (phone.matches && button && button.id !== 'writerToolsToggle' && 'sheet' in row.dataset) { toolsExpanded = false; disclosures(); }
+    });
+    const sheetOpen = () => phone.matches && toolsExpanded && 'sheet' in row.dataset;
+    // Like a modal bottom sheet: a tap outside it, or Escape, closes it.
+    doc.addEventListener('pointerdown', event => {
+      if (sheetOpen() && !row.contains(event.target) && !nav.contains(event.target)) { toolsExpanded = false; disclosures(); }
+    });
+    doc.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && sheetOpen() && !doc.querySelector('dialog[open]')) { toolsExpanded = false; disclosures(); doc.querySelector('.writer-nav [data-nav="tools"]').focus(); }
+    });
+  }
 
   function element(tag, text, attributes = {}) {
     const node = doc.createElement(tag);
@@ -113,7 +159,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['writerSourcesBtn', 'Connected sources', 'Look up and review weather; no journal prose sent'],
     ['writerBrowserBtn', 'Offline, sharing and nearby transfer', 'Install, protect storage, share, review incoming items and pair devices'],
     ['writerAnnotateBtn', 'Annotate page', 'Write over a frozen page copy and keep editable strokes'],
-    ['writerVoiceWritingBtn', 'Voice writing', 'Live local Whistle dictation, Needle organization and required prose cleanup'],
+    ['writerVoiceWritingBtn', 'Voice typing', 'Dictate on this device (voice writing): live Whistle transcription, Needle organization and required prose cleanup'],
     ['writerAIBtn', 'AI companion', 'Optional BYOK drafts and suggestions; OpenRouter or local models'],
     ['lockBtn', 'Journal lock and ways in', 'Encrypt this journal or manage its unlock methods'],
     ['saveDevice', 'Save', 'Save directly to the connected device file'], ['saveDeviceAs', 'Save as', 'Choose a new device file'], ['openImportedBtn', 'Open imported file', 'Use the browser file input without connecting a device file'],

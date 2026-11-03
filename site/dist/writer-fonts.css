@@ -7,5 +7,5 @@ html[data-writer-font=sans]{--writer-writing-family:'Jot Sans',ui-sans-serif,sys
 .jot-site.jot-writer .writer-fonts select{width:auto;max-width:100px;min-height:44px;padding:6px 20px 6px 8px;border:1px solid var(--writer-border);border-radius:5px;background-color:var(--writer-bg);color:var(--writer-ink);font:14px/1.5 'Jot Sans',ui-sans-serif,system-ui,sans-serif;letter-spacing:normal}
 .jot-site.jot-writer .writer-fonts select:disabled{opacity:.7}
 html[data-focus] .jot-site.jot-writer .writer-fonts{display:none}
-@media(max-width:700px){.jot-site.jot-writer .writer-fonts{gap:4px;margin:0}.jot-site.jot-writer .writer-fonts select{max-width:90px}}
+@media(max-width:700px){.jot-site.jot-writer .writer-fonts{gap:4px;margin:0}.jot-site.jot-writer .writer-fonts select{max-width:none}}
 @media print{.writer-fonts{display:none!important}}

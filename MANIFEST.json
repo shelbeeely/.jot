@@ -849,8 +849,8 @@
     },
     {
       "path": "docs/guide/ai-companion.md",
-      "byteLength": 12783,
-      "sha256": "41771aac94975f1f5aaba8ead8653f07f1f7e17610576bec47d2687a8ff179fc"
+      "byteLength": 13326,
+      "sha256": "f3788461132a8a69dad15a8f0f282ab27f753a65645080cb2da103ffcc3a00e9"
     },
     {
       "path": "docs/guide/automation.md",
@@ -23089,8 +23089,8 @@
     },
     {
       "path": "site/dist/guide/ai-companion.html",
-      "byteLength": 17734,
-      "sha256": "f5db4049b4e8a8031d0ceb72fa96a05e9acfbeef7b4f098aae4cacc48fc712a9"
+      "byteLength": 18290,
+      "sha256": "9a5a97a89589601e398a54dff71b90c6b6be24b9c99c0ec81c256b72393a4e86"
     },
     {
       "path": "site/dist/guide/automation.html",
@@ -23630,7 +23630,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 4841,
-      "sha256": "2bef2c32a42814edee940c78525b4927ebad462315a43cbdd8a52fff24ce5e38"
+      "sha256": "2437145d97679a1bd25701a62260a4c0a648e9baacc86a1df7ffd1f527a50bd1"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23699,8 +23699,8 @@
     },
     {
       "path": "site/dist/speech-models.mjs",
-      "byteLength": 3317,
-      "sha256": "1453fefa8460c3455c0c8e04a42a81d30134411f283fbe050642fb34b2df37c8"
+      "byteLength": 4791,
+      "sha256": "169115f144f4b90fbac9656f29a607c61f93482047b448a96bb5850f1635bc36"
     },
     {
       "path": "site/dist/speech-worker.js",
@@ -23709,8 +23709,8 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 28356,
-      "sha256": "4d0a0fe736fac01f2e07ec570e46c6e09ce89ae3811329ffba3474767ac5ee18"
+      "byteLength": 34975,
+      "sha256": "6380e572a1c915f26b3993ded4ea4993bfa2843bff791884fba72dcb11b1090e"
     },
     {
       "path": "site/dist/studio.mjs",
@@ -23839,8 +23839,8 @@
     },
     {
       "path": "site/dist/voice-writing.mjs",
-      "byteLength": 21621,
-      "sha256": "34bb9c6c194e40aeb4e5de6363e399be6302ed030dcb136f8dd0e90b16f03e2a"
+      "byteLength": 25648,
+      "sha256": "f26c23836ea259318ec88001312d4335a28c3010b74653f537f605d1e3f36704"
     },
     {
       "path": "site/dist/write/index.html",
@@ -23855,7 +23855,7 @@
     {
       "path": "site/dist/writer-fonts.css",
       "byteLength": 1359,
-      "sha256": "c751f50f986fd1f37763b2ffd1ad441e70317e8c1b98ebf78b7153987bf63f30"
+      "sha256": "0d96a0336a28abd6290774f320d25ab6cf0bbf9e51af9e8f5a3abf85755571b1"
     },
     {
       "path": "site/dist/writer-fonts.mjs",
@@ -23879,8 +23879,8 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 17555,
-      "sha256": "722e80ef27761ba6c129f990b52c2c2af816fc74c0c005d425a09aa537c31ac4"
+      "byteLength": 21185,
+      "sha256": "a9d72ed0d724c248a5b1ff26c1b0072190ef7456db4767862df626e1a41a841b"
     },
     {
       "path": "site/dist/writing-tools.mjs",
@@ -24134,8 +24134,8 @@
     },
     {
       "path": "site/test-voice-local-ui.cjs",
-      "byteLength": 8119,
-      "sha256": "8cb76c27b872dcd624517b92241f32c3722c320067b649b0d46a31c97dc875b9"
+      "byteLength": 8364,
+      "sha256": "a927ba547c24e6e92dbad501b9a51381369c7faa0b2c1019ab70fc608e25291c"
     },
     {
       "path": "site/test-voice-ui.cjs",
@@ -24144,8 +24144,8 @@
     },
     {
       "path": "site/test-voice-writing-ui.cjs",
-      "byteLength": 14011,
-      "sha256": "26b1e623255a4d481d5d78d9c09ad2939165d1c048eb181e23451f90922d86d2"
+      "byteLength": 14192,
+      "sha256": "62bd8bd8486f1518d1e87fd32807c5d3e2393c152ec12f6e8cdaa30f1b210263"
     },
     {
       "path": "site/test-voice-writing.mjs",

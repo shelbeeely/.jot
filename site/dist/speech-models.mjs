@@ -19,11 +19,29 @@ export async function downloadSpeechModel(name,{signal,progress=()=>{},fetcher=f
   try{while(true){const {value,done}=await reader.read();if(done)break;if(offset+value.length>bytes.length)throw Error('Model download exceeds the expected size.');bytes.set(value,offset);offset+=value.length;progress(offset,bytes.length);}}finally{await reader.cancel().catch(()=>{});}
   return verifySpeechModel(name,bytes.subarray(0,offset));
 }
+// Large weights are stored in chunks: some Chromium profiles refuse single IndexedDB values above ~133 MB.
+const CHUNK=32*1024*1024;
 export async function speechModelCache(action,name,bytes) {
   if(!globalThis.indexedDB)throw Error('Model storage is unavailable. Use session-only model loading.');
   const db=await new Promise((resolve,reject)=>{const request=indexedDB.open('jot-public-speech-models',1);request.onupgradeneeded=()=>request.result.createObjectStore('models');request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(Error('Could not open model storage.'));});
-  try{return await new Promise((resolve,reject)=>{const tx=db.transaction('models',action==='get'?'readonly':'readwrite'),store=tx.objectStore('models');let result;
-    const req=action==='get'?store.get(name):action==='put'?store.put(bytes,name):store.clear();req.onsuccess=()=>{result=req.result;};
-    tx.oncomplete=()=>resolve(result);tx.onerror=tx.onabort=()=>reject(Error('Could not update model storage. Use session-only loading or free device storage.'));
-  });}finally{db.close();}
+  const run=(mode,work)=>new Promise((resolve,reject)=>{const tx=db.transaction('models',mode),store=tx.objectStore('models');let result;Promise.resolve(work(store,value=>{result=value;})).catch(reject);tx.oncomplete=()=>resolve(result);tx.onerror=tx.onabort=()=>reject(Error('Could not update model storage. Use session-only loading or free device storage.'));});
+  const read=(store,key)=>new Promise(resolve=>{const req=store.get(key);req.onsuccess=()=>resolve(req.result);req.onerror=()=>resolve(undefined);});
+  try{
+    if(action==='clear')return await run('readwrite',store=>{store.clear();});
+    if(action==='put'){
+      const view=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);
+      for(let offset=0,i=0;offset<view.length;offset+=CHUNK,i++){const part=view.slice(offset,offset+CHUNK);await run('readwrite',store=>{store.put(part,name+'#'+i);});}
+      return await run('readwrite',store=>{store.put({chunks:Math.ceil(view.length/CHUNK),bytes:view.length},name);});
+    }
+    if(action==='get')return await run('readonly',async(store,done)=>{
+      const meta=await read(store,name);if(!meta)return done(undefined);
+      if(meta instanceof ArrayBuffer||ArrayBuffer.isView(meta))return done(meta);
+      if(!Number.isInteger(meta.chunks)||!Number.isInteger(meta.bytes))return done(undefined);
+      const parts=await Promise.all(Array.from({length:meta.chunks},(_,i)=>read(store,name+'#'+i)));
+      if(parts.some(part=>!part))return done(undefined);
+      const all=new Uint8Array(meta.bytes);let offset=0;for(const part of parts){const piece=new Uint8Array(part.buffer||part);if(offset+piece.length>all.length)return done(undefined);all.set(piece,offset);offset+=piece.length;}
+      done(offset===meta.bytes?all:undefined);
+    });
+    throw Error('Unknown model storage action.');
+  }finally{db.close();}
 }
