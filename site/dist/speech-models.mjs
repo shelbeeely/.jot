@@ -1,5 +1,6 @@
 // Public model weights only. No microphone audio, transcripts or journal data belong in this database.
 export const SPEECH_MODELS = Object.freeze({
+  cleanup: {name:'SmolLM2 cleanup',file:'SmolLM2-360M-Instruct-Q4_K_M.gguf',bytes:270590880,sha256:'2fa3f013dcdd7b99f9b237717fa0b12d75bbb89984cc1274be1471a465bac9c2',url:'https://huggingface.co/bartowski/SmolLM2-360M-Instruct-GGUF/resolve/7be6f65f1db715fe5dc5a4634c0d459b4eed42ec/SmolLM2-360M-Instruct-Q4_K_M.gguf'},
   whistle: {name:'Whistle',file:'whistle.cact',bytes:16919407,sha256:'b6e02f048568ac5d01a2042556c658061e699acbc0aa2a1439f52f3d461dffeb',url:'https://huggingface.co/Cactus-Compute/whistle/resolve/741118687e1f008f06d1351a402a731274789790/whistle.cact'},
   needle3: {name:'Needle',file:'needle3.cact',bytes:35335380,sha256:'c9d915eca282ed42d1a09b143b592adb4cc6744ffe2d294adf5cfc5548170c38',url:'https://huggingface.co/Cactus-Compute/needle3/resolve/d6c7d6a2e9655505e0f8e23339356dd1705900eb/needle3.cact'}
 });

@@ -7,7 +7,7 @@
     "fonts:build": "python3 fonts/build.py && node tools/sync-fonts.mjs",
     "fonts:check": "python3 fonts/build.py --check && node tools/sync-fonts.mjs --check",
     "fonts:test": "python3 fonts/test.py",
-    "test:voice-writing": "node --test site/test-voice-writing.mjs && node site/test-voice-writing-ui.cjs",
+    "test:voice-writing": "node --test site/test-voice-writing.mjs && node site/test-voice-writing-ui.cjs && node site/test-voice-local-ui.cjs",
     "test:media": "node site/test-attachment-viewer-ui.cjs",
     "test:security": "node --test parser/container-test.mjs parser/archive-test.mjs parser/lock-test.mjs site/test-passkey-client.mjs tools/test-privacy.mjs",
     "test:security:browser": "node site/test-lock-ui.cjs && node site/test-archive-ui.cjs && node site/test-browser-tools-ui.cjs"
