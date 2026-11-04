@@ -56,7 +56,7 @@ export function setupWriterWelcome({ editor, openVoice, openMethods, openTools =
   };
   const svg = path => '<svg viewBox="0 0 24 24" width="24" height="24" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>';
   choice('welcomeToday', svg('<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>'), 'Write about today', "Adds today's date. Then write whatever comes.", () => { addToday(); });
-  choice('welcomeSpeak', svg('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>'), 'Say it out loud', 'Speak, then check the words before they go in.', () => { openVoice(); });
+  choice('welcomeSpeak', svg('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>'), 'Say it out loud', 'Talk, and every word goes into today’s entry as you say it.', () => { openVoice(); });
   const questionChoice = choice('welcomeQuestion', svg('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14"/><path d="M12 17h.01"/>'), 'Answer a small question', '', () => {
     addToday();
     insertText('> ' + STARTER_QUESTIONS[question] + '\n\n');

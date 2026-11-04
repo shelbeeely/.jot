@@ -75,13 +75,13 @@ export function shortcutMatcher(combo) {
 }
 
 const TOOL_GROUPS = [
-  ['Start writing', ['Today', 'Quick note', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
+  ['Start writing', ['Today', 'Quick note', 'Stenographer', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
   ['Find your way', ['Find and replace', 'Outline', 'Journal map', 'Page preview', 'Write only', 'Side by side', 'Focus mode']],
   ['Add to an entry', ['Insert current time', 'Capture location', 'Attach a file', 'People and Places', 'Music and background media', 'Voice practice', 'Carry tasks forward', 'Week review', 'Annotate page', 'Connected sources', 'Import health data', 'Import numbers CSV', 'Entry timezone']],
   ['Save, open and share', ['Save', 'Save as', 'Open a journal', 'New journal', 'Download journal', 'Print or PDF', 'Download page', 'Export Markdown', 'Export Jot source', 'Export calendar', 'Export numbers', 'Export tasks', 'Open imported file', 'Attached files', 'Rename document']],
   ['Privacy', ['Journal lock and ways in', 'Entries, privacy and search', 'Offline, sharing and nearby transfer']],
   ['Look and feel', ['Writing preferences', 'Live editing', 'Source editing', 'Formatting controls', 'Writing options', 'Journal tools', 'Music player', 'Copy palette CSS', 'Copy palette JSON']],
-  ['Formatting', ['Bold', 'Italic', 'Underline', 'Highlight', 'Strikethrough', 'Superscript', 'Clear formatting', 'Heading', 'Heading 1', 'Heading 2', 'Heading 3', 'Normal text', 'Center the line', 'Jot task', 'Bullet list', 'Numbered list', 'Quote', 'Link', 'Inline code', 'Indent', 'Outdent']],
+  ['Formatting', ['Bold', 'Italic', 'Underline', 'Highlight', 'Strikethrough', 'Superscript', 'Clear formatting', 'Clear formatting in this entry', 'Pen and ink for this entry', 'Heading', 'Heading 1', 'Heading 2', 'Heading 3', 'Normal text', 'Center the line', 'Jot task', 'Bullet list', 'Numbered list', 'Quote', 'Link', 'Inline code', 'Indent', 'Outdent']],
   ['Help', ['Keyboard shortcuts']],
 ];
 
@@ -114,7 +114,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
-  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
+  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'stenographerBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
     if (name !== 'write' && name !== 'map') showPreview();
@@ -365,6 +365,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['writerSourcesBtn', 'Connected sources', 'Look up and review weather; no journal prose sent'],
     ['writerBrowserBtn', 'Offline, sharing and nearby transfer', 'Install, protect storage, share, review incoming items and pair devices'],
     ['writerAnnotateBtn', 'Annotate page', 'Write over a frozen page copy and keep editable strokes'],
+    ['stenographerBtn', 'Stenographer', 'Talk hands-free; every word goes into today’s entry as you say it, with optional questions when you pause'],
     ['writerVoiceWritingBtn', 'Voice typing', 'Speak an entry. It is transcribed and tidied on this device, then you check it (voice writing)'],
     ['writerAIBtn', 'AI companion', 'Optional BYOK drafts and suggestions; OpenRouter or local models'],
     ['lockBtn', 'Journal lock and ways in', 'Encrypt this journal or manage its unlock methods'],

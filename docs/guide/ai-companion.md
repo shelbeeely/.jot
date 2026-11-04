@@ -70,9 +70,47 @@ Requests are single-shot, cancellable, limited to 60 seconds, 4,000 instruction 
 2,048 requested output tokens and a bounded response. There is no conversation history sent implicitly. A rejection leaves your
 journal unchanged; revise the instruction, select a smaller passage or choose a compatible model.
 
+## Stenographer
+
+The stenographer is for talking your journal. Press the microphone button at the bottom right of the writing (**Speak**),
+choose **Say it out loud** on an empty page, or open **Tools → Stenographer**. On phones the button sits above the
+navigation bar, and above the on-screen keyboard when it is open.
+
+- **Every word goes in as you say it**, at the end of today's entry, exactly as the speech model heard it. There is no
+  cleanup model and no rewriting. If there is no entry for today yet, it adds one. Earlier entries are never touched,
+  and the words go in without moving your own cursor.
+- **It keeps listening** between thoughts. It stops when you press **Stop** (the Speak button turns into a Stop button
+  while it listens), say **"stop listening"**, close it, lock the journal, hide or leave the page, or after five quiet
+  minutes.
+- **When you pause, it may ask one short question**, such as "What helped today, even a bit?". It is read aloud with a
+  voice that runs on this device; if the browser only has online voices, the question is shown but not spoken. Answer
+  it and the question goes in above your answer as a quote. Or say **"skip"**, or just keep talking. Say **"another
+  question"** to hear a different one. The questions come from a short fixed list written for Jot; no AI writes them.
+  It asks at most once every 45 seconds, never twice without an answer in between, and you can turn questions or
+  reading aloud off under **What you can say, and settings**.
+- **Say a command on its own**, with a short pause before and after:
+
+| Say | What happens |
+| --- | --- |
+| "New paragraph", "new line" | The next words start a new paragraph or line |
+| "Scratch that", "undo" | Removes the last thing it wrote (the **Scratch that** button does the same) |
+| "New task call Sam" | `[ ] Call Sam` |
+| "New note the bus was late" | `- The bus was late.` |
+| "New heading Evening" | `#### Evening` |
+| "Tag work", "tag work and family" | `#work`, `#work #family` |
+| "Skip", "another question" | Skips or changes the question |
+| "Stop listening" | Turns the microphone off |
+
+Commands said in the middle of a sentence are written as words. Undo and redo work on everything it wrote.
+
+It needs the Whistle speech model once (16.9 MB, the same pinned file voice typing uses). Keep it on this device and the
+stenographer starts offline. Listening and transcription run in the page: nothing you say is recorded, stored or sent,
+and only the words go into the journal, which saves and protects them like anything you type. Speech recognition makes
+mistakes, so read it back later; for a tidied draft you check before it goes in, use voice typing.
+
 ## Live voice writing
 
-Press the microphone button at the bottom right of the writing (labeled **Speak** while the page is empty; it starts listening straight away once the models are saved), choose **Say it out loud** on an empty page, or open **Tools → Voice typing** to speak an entry. On phones it sits above the navigation bar; when the on-screen keyboard is open it moves above the keyboard. This is separate from the voice-practice tool, which measures pitch and does not transcribe.
+Open **Tools → Voice typing** to speak an entry and review a cleaned-up draft before it goes in. (The microphone button at the bottom right of the writing, and **Say it out loud** on an empty page, open the [stenographer](#stenographer) instead, which writes your words as you say them.) This is separate from the voice-practice tool, which measures pitch and does not transcribe.
 
 1. The first time, choose **Download voice typing · 323 MB**. Under **Settings and models** you can instead download or import the models individually: Whistle (16.9 MB), Needle (35.3 MB) and the pinned SmolLM2-360M cleanup GGUF (270.6 MB). Writer checks each file's size and SHA-256 before loading. The runtime is included with Writer, while these public model weights require an explicit first download or local-file import; they are not embedded in a journal or the app installer.
 2. **Keep the models on this device** is selected by default and can be cleared before downloading. Only public model weights enter this separate IndexedDB cache, stored in 32 MB pieces so browsers that limit single stored values can still keep the 271 MB cleanup model. If the browser cannot store them (storage full, private browsing), the models still load for this session and Writer says they were not kept. Next time, opening voice typing loads the saved models from the device without a network request. **Load saved models** does the same on demand; **Remove saved models** deletes saved copies. Closing the tool releases loaded models. Uninserted drafts are session-only.
@@ -88,7 +126,6 @@ Press the microphone button at the bottom right of the writing (labeled **Speak*
    - **Discard** asks once more (**Discard what you said?**) when there are words to lose.
    - While listening, **Stop** shows how long the microphone has been on.
 
-The **Speak** button is one tap: when the models are saved on this device, it loads them and starts listening. **Tools → Voice typing** opens the dialog without starting the microphone.
 
 Needle's low-confidence withheld calls may be displayed as proposals; no generated call executes. If no valid organization is available, Writer says so and cleanup still uses the original transcript. Embedded cleanup rejects detected changes to digit sequences or negation counts, unsupported active content and excessive expansion. These are conservative checks, not proof of preserving names, facts or meaning; they can also reject a legitimate paraphrase. Required cleanup can return unchanged text. Always compare and review, especially names, dates, dosages and uncertainty. Integration lookups and writes still use their existing explicit tools/review flows; voice output does not execute them automatically.
 

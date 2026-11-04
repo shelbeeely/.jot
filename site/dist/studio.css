@@ -225,7 +225,26 @@ body .writer-history button:hover{background:color-mix(in srgb,var(--writer-ink,
 @media(max-width:480px){#voiceWriting #vwReview .voice-writing-actions button{flex:1 1 calc(50% - 4px)}#voiceWriting #vwReview .voice-writing-actions .vw-primary{flex-basis:100%}}
 .voice-writing-actions,.voice-model-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.voice-model-row>label{flex:1 1 220px}
 #voiceWriting [hidden]{display:none!important}#voiceWriting::backdrop{background:#0009}
-@media print{#voiceWriting,.writer-voice-mic{display:none!important}}
+.steno{position:fixed;z-index:21;right:max(16px,env(safe-area-inset-right));bottom:calc(88px + max(var(--vw-keyboard,0px),var(--writer-nav-height,0px)));width:min(380px,calc(100vw - 32px));max-height:min(60vh,520px);overflow:auto;box-sizing:border-box;padding:14px 16px;background:var(--jot-paper);color:var(--jot-ink);border:1px solid var(--jot-edge);border-radius:16px;box-shadow:0 6px 20px #0003;font:15px/1.45 "Jot Sans",ui-sans-serif,system-ui,sans-serif}
+.steno[hidden],.steno [hidden]{display:none!important}
+/* While the stenographer is open, the writing can scroll clear of it, so new words are not hidden behind it. */
+html[data-steno-open] .writing-pane{padding-bottom:calc(var(--steno-height,0px) + 24px)}
+.steno-head{display:flex;align-items:center;gap:8px}.steno-head h2,#stenographer .steno-head h2{margin:0;font:700 17px/1.2 "Jot Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:0}.steno-state{font-size:13px;font-weight:600;color:#b42318}@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .steno-state{color:#ff8a7a}}:root[data-theme=dark] .steno-state{color:#ff8a7a}
+.steno-close{margin-left:auto;min-width:44px;min-height:44px;border:0;background:none;color:inherit;font-size:18px;cursor:pointer;border-radius:8px}
+.steno-status{margin:6px 0 8px}.steno-hearing{margin:0 0 8px;font-style:italic;overflow-wrap:anywhere}.steno-label{font-style:normal;font-weight:600}
+.steno-question{margin:8px 0;padding:10px 12px;border-left:4px solid currentColor;border-radius:6px;background:color-mix(in srgb,var(--jot-ink) 6%,var(--jot-paper))}.steno-question p{margin:0 0 6px;font-size:17px}
+.steno-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.steno button,.steno .steno-file{min-height:44px;padding:8px 14px;font:inherit;border:1px solid var(--jot-edge);border-radius:999px;background:var(--jot-paper);color:var(--jot-ink);cursor:pointer;box-sizing:border-box}
+.steno .steno-close{border:0;padding:0}.steno .steno-primary{background:var(--jot-ink);color:var(--jot-paper);border-color:var(--jot-ink);font-weight:600}
+.steno .steno-stop{display:inline-flex;align-items:center;gap:8px;background:#b42318;color:#fff;border-color:#b42318;font-weight:600}.steno-stop span:last-child{font-variant-numeric:tabular-nums;font-weight:500}
+.steno-dot{width:12px;height:12px;border-radius:50%;background:currentColor;animation:vw-pulse 1.2s ease-in-out infinite}@media(prefers-reduced-motion:reduce){.steno-dot{animation:none}}
+.steno button:disabled{opacity:.55;cursor:default}.steno-file{display:inline-flex;align-items:center}.steno-file input{position:absolute;width:1px;height:1px;opacity:0}.steno-file:focus-within{outline:2px solid var(--jot-ink);outline-offset:2px}
+.steno-more{margin-top:10px}.steno-more summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600}
+.steno-commands{margin:4px 0 8px;padding-left:20px}.steno-commands li{margin:2px 0}.steno-small{font-size:13px;margin:6px 0}
+.steno label{display:block;margin:8px 0}.steno .steno-check{display:flex;gap:10px;align-items:flex-start}.steno-check input{flex:none;width:20px;height:20px;margin:1px 0 0}
+.steno select{display:block;width:100%;min-height:44px;margin-top:4px;padding:8px;font:inherit;background:var(--jot-paper);color:var(--jot-ink);border:1px solid var(--jot-edge);border-radius:8px}
+body #writerVoiceMic.vw-on{background:#b42318;color:#fff}
+@media print{#voiceWriting,.writer-voice-mic,.steno{display:none!important}}
 /* Narrow screens see the whole handwritten page, scaled after layout (studio.mjs fitPaper). */
 @media screen{.paper-preview.jot-hand{zoom:var(--jot-fit,1)}}
 /* Preview tabs stay on one line. */

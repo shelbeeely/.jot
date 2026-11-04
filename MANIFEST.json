@@ -99,8 +99,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 4288,
-      "sha256": "aa2f5aa7146baa5d9b1f2f192350da1d70ee4893588f650e02ecdbd0f4803f09"
+      "byteLength": 4315,
+      "sha256": "ca1a2ef76f4f8a959d3df1339ed9b66352db0a0c4383f7a8c4e1ba1d6c38ac9c"
     },
     {
       "path": ".gitignore",
@@ -109,8 +109,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 11225,
-      "sha256": "6e15330152fd042fa5e77615a4cb443e03d06d0875845dd98be3fe8c72dca85d"
+      "byteLength": 11252,
+      "sha256": "794253f58c0732388dbdacb28cccf96796da987ed93b0cc5f449cf2953e89291"
     },
     {
       "path": "CLAUDE.md",
@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 120876,
-      "sha256": "ad94c9e25eba253990533e15dfcf0b2a5c64dcc5a1b372fab4bc64c8491b2bcf"
+      "byteLength": 123751,
+      "sha256": "c953cc6a7f70f6ba958282b801600eab3c3bae7dddd76cc37921fc8a8d33a93c"
     },
     {
       "path": "README.md",
@@ -129,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 70671,
-      "sha256": "815048901e4dfc13f60f9a15caaa432b819f901a7ed855d71ddb425f68ac1f59"
+      "byteLength": 71279,
+      "sha256": "017773d7bc34e0b9f7fdf18df75a2ad77499f970417854d140d5eedc06658a37"
     },
     {
       "path": "cli/README.md",
@@ -849,8 +849,8 @@
     },
     {
       "path": "docs/guide/ai-companion.md",
-      "byteLength": 14369,
-      "sha256": "30b500e16f719a6bfc263d6dec8f938c6a562a1c14c0849211aada4fe224846f"
+      "byteLength": 16778,
+      "sha256": "cd83f346c825ed016846f9a8a8d99444eae1cb46ccf497058981bb6a4997eb53"
     },
     {
       "path": "docs/guide/automation.md",
@@ -22589,8 +22589,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 14059,
-      "sha256": "1b4fe3bee002df39eeb2dd458fc7caaceffb15b4dc646116ca3bda9899a72fcf"
+      "byteLength": 15199,
+      "sha256": "6afce9ed03549db13550350ca9f1579c6d6c1fb778b67726bbb004c98333ff3b"
     },
     {
       "path": "site/CLAUDE.md",
@@ -22614,8 +22614,8 @@
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 70697,
-      "sha256": "bcd00b8110d049f78f1b66b0610898cdc4a1cb8dc72d943c9fc4d7f60d604677"
+      "byteLength": 71305,
+      "sha256": "18e88f1d9eb8eb7db7a8df3b727647c837e5c00f31ab1064706ee5a880c2eb03"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -23094,8 +23094,8 @@
     },
     {
       "path": "site/dist/guide/ai-companion.html",
-      "byteLength": 19536,
-      "sha256": "a0c00533e6accb153028faa63be18ed9c950ad3df6dbd0a85a0f61960fd1084f"
+      "byteLength": 22662,
+      "sha256": "32ff27f3686a9bda096e0280c896079f643f24280f684f220809b529b87e09e7"
     },
     {
       "path": "site/dist/guide/automation.html",
@@ -23634,8 +23634,8 @@
     },
     {
       "path": "site/dist/offline-files.mjs",
-      "byteLength": 4931,
-      "sha256": "66c42bc9bf153265955b9ba2a49c95d8033cda1de766e5fa053de39b690a1985"
+      "byteLength": 4980,
+      "sha256": "a76eb5ce057283b3c09052adb35120ae2a3433c2e7eb6c23ba99d79ef8599f1f"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23713,14 +23713,24 @@
       "sha256": "938a6de7b69e24bcc5021e49b055f73442d0387bf790e6f4b97ee3d4f60bd7f2"
     },
     {
+      "path": "site/dist/stenographer-core.mjs",
+      "byteLength": 5109,
+      "sha256": "e331b42e1a784acc3d6ca4e40d50244f002f97cb251b3d683fa819397ca6aeca"
+    },
+    {
+      "path": "site/dist/stenographer.mjs",
+      "byteLength": 22967,
+      "sha256": "4b184bc39b4ff63a3f3daa48bb38c75f6a4deff7ddcc76cbec42b45fc4651b48"
+    },
+    {
       "path": "site/dist/studio.css",
-      "byteLength": 52716,
-      "sha256": "b30ffc9ad830f4a698eb4707737f7171ffc6fd92e194f96f92160743f50ac71e"
+      "byteLength": 56111,
+      "sha256": "fa89e7fd718a2a29a090d19c46206d3ec4f28123c4892ce8f09a3a302c46f832"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 83417,
-      "sha256": "0f3241598c472145bf380b952d366c712798bec84bd538f487cea931ec340409"
+      "byteLength": 84067,
+      "sha256": "d48559982f0f8f6ec33a9c73fe47613754d4a1809f41e28bd7eee080dcfbdfde"
     },
     {
       "path": "site/dist/sw.mjs",
@@ -23889,8 +23899,8 @@
     },
     {
       "path": "site/dist/writer-welcome.mjs",
-      "byteLength": 6413,
-      "sha256": "1e4475a8b113865e06a4ffe4d1f27666aa5e023c57e16ae5d673ed5cf0dd7940"
+      "byteLength": 6428,
+      "sha256": "4cb86b09dc18807f25b130fd8b448089584ff9434133e5c72113d1068304c226"
     },
     {
       "path": "site/dist/writer-workspace.css",
@@ -23899,8 +23909,8 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 45607,
-      "sha256": "ffd2656ff0b9738c542391f8fdac4488713bd4b6c004b4f5dbf06dab2c7d57aa"
+      "byteLength": 45858,
+      "sha256": "59e288667d8cc291249e1e45eeaf25309dffac60f7406d26528b50f5fdae91e6"
     },
     {
       "path": "site/dist/writing-tools.mjs",
@@ -24163,6 +24173,16 @@
       "sha256": "716737f4931091716e7ccbc06d9932c990749491e2bcb391225209f90bc35a18"
     },
     {
+      "path": "site/test-stenographer-ui.cjs",
+      "byteLength": 10819,
+      "sha256": "c088c29c8d404de5dfb9f85acbff8a3e38477858424437250b6a361e126898be"
+    },
+    {
+      "path": "site/test-stenographer.mjs",
+      "byteLength": 4194,
+      "sha256": "0332dd48a466a25e3517b2dbd8ac8c0a308f811aea03d7bb28a9e02dfdf04e33"
+    },
+    {
       "path": "site/test-voice-local-ui.cjs",
       "byteLength": 8364,
       "sha256": "a927ba547c24e6e92dbad501b9a51381369c7faa0b2c1019ab70fc608e25291c"
@@ -24174,8 +24194,8 @@
     },
     {
       "path": "site/test-voice-writing-ui.cjs",
-      "byteLength": 18092,
-      "sha256": "8c540c8742c079cc932ad4d1f27fc9d93c7d8b5122158187d5e0b52b60a6daaf"
+      "byteLength": 17582,
+      "sha256": "31127bdf2b17c68effba7f3e2829229bba8faadcf88d6ee9d15447bb213ab49d"
     },
     {
       "path": "site/test-voice-writing.mjs",
@@ -24229,8 +24249,8 @@
     },
     {
       "path": "site/test-writer-welcome-ui.cjs",
-      "byteLength": 12921,
-      "sha256": "628869348d15d54affa420ba7492d29aae5b160a55ec0586e3e84eaf2e4eae7d"
+      "byteLength": 12933,
+      "sha256": "55dcc58078d3806b3834d381ca515ee4839743dde7b9325a9f1ed3446f2d16a1"
     },
     {
       "path": "site/test-writer-workspace.mjs",
