@@ -15,6 +15,7 @@ test('spoken commands are whole sentences; anything else is written as said', ()
   assert.deepEqual(readCommand('Add a to-do buy milk'), { kind: 'task', text: 'Buy milk' });
   assert.deepEqual(readCommand('New note: the bus was late.'), { kind: 'note', text: 'The bus was late.' });
   assert.deepEqual(readCommand('New heading Evening.'), { kind: 'heading', text: 'Evening' });
+  assert.deepEqual(readCommand('New task.'), { kind: 'task', text: '' }, 'the next sentence becomes the task');
   assert.deepEqual(readCommand('Tag work and family.'), { kind: 'tag', text: '#work #family' });
   assert.deepEqual(readCommand('Tag garden party.'), { kind: 'tag', text: '#garden-party' });
   assert.equal(readCommand('I said stop to the dog.').kind, 'text');

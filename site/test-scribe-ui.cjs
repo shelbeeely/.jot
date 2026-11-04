@@ -22,9 +22,9 @@ const server = http.createServer((req, res) => {
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('request', (r) => { if (/^https?:/.test(r.url()) && !r.url().startsWith(origin)) external.push(r.url()); });
     await page.addInitScript(() => {
-      // A silent microphone, so pauses are real pauses; every stream is kept to check it is released.
+      // A microphone that plays a tone while there is something to say and is silent otherwise, so pauses are real pauses; every stream is kept to check it is released.
       window.mics = [];
-      navigator.mediaDevices.getUserMedia = async () => { const ctx = new AudioContext(), osc = ctx.createOscillator(), gain = ctx.createGain(), out = ctx.createMediaStreamDestination(); gain.gain.value = 0; osc.connect(gain).connect(out); osc.start(); window.mics.push(out.stream); return out.stream; };
+      navigator.mediaDevices.getUserMedia = async () => { const ctx = new AudioContext(), osc = ctx.createOscillator(), gain = ctx.createGain(), out = ctx.createMediaStreamDestination(); gain.gain.value = 0; osc.connect(gain).connect(out); osc.start(); setInterval(() => { gain.gain.value = (window.scribeSay.length || window.scribeTail) ? 0.3 : 0; }, 50); window.mics.push(out.stream); return out.stream; };
       // On-device and network voices: only the on-device one may be used.
       window.spoken = [];
       class Utterance { constructor(text) { this.text = text; } }

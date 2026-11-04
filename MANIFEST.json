@@ -103,16 +103,6 @@
       "sha256": "fadf1611fa3726080aaace9b7012876cc066a66c82dcd0e321c8caca6e4433ec"
     },
     {
-      "path": ".github/workflows/pages.yml",
-      "byteLength": 4476,
-      "sha256": "fadf1611fa3726080aaace9b7012876cc066a66c82dcd0e321c8caca6e4433ec"
-    },
-    {
-      "path": ".github/workflows/pages.yml",
-      "byteLength": 4476,
-      "sha256": "fadf1611fa3726080aaace9b7012876cc066a66c82dcd0e321c8caca6e4433ec"
-    },
-    {
       "path": ".gitignore",
       "byteLength": 314,
       "sha256": "d5d3ed48ac3f18331d586b4ebb8ee81b552bf1a88b36372fcec3d6cfac901be2"
@@ -129,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 133415,
-      "sha256": "93b00c3dc4d7e8c81cc4f2a0de87377edab8f552171b509d9d9aa286cb7b1b2c"
+      "byteLength": 134395,
+      "sha256": "28ad1f312cd73e6fce02e9dbac077da4426a6732f795da7b7d6b4cb1d7f60141"
     },
     {
       "path": "README.md",
@@ -139,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 71649,
-      "sha256": "b01e99b4cc8f9841a6dd976de06abb96c6c298f218256ffd2376d80e829aa731"
+      "byteLength": 71900,
+      "sha256": "3005f719d4d444afc0d37ebb45c3ceb73c580dd7c791752b9b36477d855d533f"
     },
     {
       "path": "cli/README.md",
@@ -1354,8 +1344,8 @@
     },
     {
       "path": "docs/security/README.md",
-      "byteLength": 21394,
-      "sha256": "4b4fb0a7b0c828dad26ed66b72cdd6b9e71b0c7b83a7e34c0cf85b849771bf56"
+      "byteLength": 23484,
+      "sha256": "007236528370b8d3d3f63cdce43745c0a4b94425dd0e3cf75f26e92d48bb7899"
     },
     {
       "path": "docs/vendor/needle/needle.h",
@@ -22249,8 +22239,8 @@
     },
     {
       "path": "package.json",
-      "byteLength": 1073,
-      "sha256": "7acd348aa560ea2266b6e442da6ea9a341e9e4c92c27ff933acc5d0be47271d5"
+      "byteLength": 1197,
+      "sha256": "ddcebc0573f07a467a890503cfedc2652df5291db4b2b9ff9651722a6d2ecf3b"
     },
     {
       "path": "parser/AGENTS.md",
@@ -22699,8 +22689,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 15955,
-      "sha256": "78240360227c1ce0989412ef5eca5169b8c100b8ba8dbca2d717f488d400ddc7"
+      "byteLength": 16297,
+      "sha256": "df48202a82e1dcbad55df45c46e401c868fc337d714ba71c9b3d82cad8c88f18"
     },
     {
       "path": "site/CLAUDE.md",
@@ -22724,8 +22714,8 @@
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 71675,
-      "sha256": "26a95ed5757ef350ae886f4461ca005ca3d6c7fdd0a6207b6bea67034390c8f7"
+      "byteLength": 71926,
+      "sha256": "050cb79815a0534941bd367029c61b5c9db78b88dfd8608dfbe05fed86df202f"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -22849,8 +22839,8 @@
     },
     {
       "path": "site/dist/docs/security-testing.md",
-      "byteLength": 21394,
-      "sha256": "4b4fb0a7b0c828dad26ed66b72cdd6b9e71b0c7b83a7e34c0cf85b849771bf56"
+      "byteLength": 23484,
+      "sha256": "007236528370b8d3d3f63cdce43745c0a4b94425dd0e3cf75f26e92d48bb7899"
     },
     {
       "path": "site/dist/editor-capture.mjs",
@@ -23750,7 +23740,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5035,
-      "sha256": "0e7a479e646dde59952def5388fb3a30946378f325f382e3d1fe68b94f1dbe15"
+      "sha256": "07bd53c8f50fe19971b81537302396c5779486392280d113a8f2cd97019027f3"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23799,13 +23789,13 @@
     },
     {
       "path": "site/dist/scribe-core.mjs",
-      "byteLength": 5098,
-      "sha256": "d43a106b7d229ef4938d46eb57d89916753e1f3c794f2f9ea48b1f7605efa104"
+      "byteLength": 5203,
+      "sha256": "5a277b31a7bbd158e4dbbfbcc38e6da24bb845e0ee4e22ecd06da9ee217a13c6"
     },
     {
       "path": "site/dist/scribe.mjs",
-      "byteLength": 25435,
-      "sha256": "a059fcba4779c845e45b6a930adbcc3e1eb395c96919c2c1d6a40f5847a89531"
+      "byteLength": 26978,
+      "sha256": "b5cd15b4fdb7d5c95198a70d8577150d9bf099e8206535d3ff98dfceb7b9c8be"
     },
     {
       "path": "site/dist/share/index.html",
@@ -23979,8 +23969,8 @@
     },
     {
       "path": "site/dist/voice-writing.mjs",
-      "byteLength": 30029,
-      "sha256": "32b9166cdf797e93b6405b773bedde5cfadd792773b4432133945d72c1573296"
+      "byteLength": 30783,
+      "sha256": "69545ca0aa272a3b3bb8d689f9d0b5c34b90f2e1da41a9faff52fe633a39b901"
     },
     {
       "path": "site/dist/write/index.html",
@@ -24303,14 +24293,19 @@
       "sha256": "4392ba73d7c37c619396c8c95f8b3b44b0e33541e66fe086d3f1eeb48633d2f8"
     },
     {
+      "path": "site/test-scribe-real-ui.cjs",
+      "byteLength": 6094,
+      "sha256": "6acb2db48e9ba3860fb6f6f14f15500a5c8584803c155b420bcd563fac39872c"
+    },
+    {
       "path": "site/test-scribe-ui.cjs",
-      "byteLength": 11856,
-      "sha256": "a4047559d83f2049bf77af64335da2d079a35b9744248e77949ba74746613791"
+      "byteLength": 12027,
+      "sha256": "8a458acb49f1702bdedbf8931f6b1fa0c190804b6b4ca9d9f2386ffbc24a39c0"
     },
     {
       "path": "site/test-scribe.mjs",
-      "byteLength": 4179,
-      "sha256": "9846bf09426a2085920cd714a9ef23a5b79b6ef1d88aeac7671a9e73168d1002"
+      "byteLength": 4291,
+      "sha256": "7ac5d40751c320288cbc6ba6444b5c1f8a57932a3f45e1bd52e93fe3d81afc7b"
     },
     {
       "path": "site/test-source-workspace.cjs",

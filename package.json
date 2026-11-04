@@ -10,7 +10,8 @@
     "test:voice-writing": "node --test site/test-voice-writing.mjs && node site/test-voice-writing-ui.cjs && node site/test-voice-local-ui.cjs",
     "test:media": "node site/test-attachment-viewer-ui.cjs",
     "test:security": "node --test parser/container-test.mjs parser/archive-test.mjs parser/lock-test.mjs site/test-passkey-client.mjs tools/test-privacy.mjs",
-    "test:security:browser": "node site/test-lock-ui.cjs && node site/test-archive-ui.cjs && node site/test-browser-tools-ui.cjs"
+    "test:security:browser": "node site/test-lock-ui.cjs && node site/test-archive-ui.cjs && node site/test-browser-tools-ui.cjs",
+    "test:scribe": "node --test site/test-scribe.mjs && node site/test-scribe-ui.cjs && node site/test-scribe-real-ui.cjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -13,6 +13,10 @@ const PAUSE_MS = 1200;          // a pause this long finishes the sentence you w
 const QUESTION_MS = 7000;       // after this much quiet, one optional question
 const QUESTION_GAP_MS = 45000;  // and never more often than this
 const IDLE_MS = 5 * 60 * 1000;  // the microphone turns itself off after five quiet minutes
+// Whistle re-reads the whole open phrase on every second of audio, so a long phrase gets slower than real time
+// (measured: 0.4 s per second at the start, 2.4 s after 12 s). Phrases are finished at pauses, and at a soft gap
+// once they are this long, or at most this long.
+const PHRASE_SOFT_S = 4, PHRASE_MAX_S = 6;
 const PREF = 'jot-scribe-v1';
 
 export function setupScribe({ editor, today, todayEntry, status = () => {}, beforeOpen = () => {} }) {
@@ -51,7 +55,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
   $('scribeQuestions').checked = prefs.questions; $('scribeAloud').checked = prefs.aloud; $('scribeRemember').checked = prefs.remember; $('scribeLanguage').value = prefs.language; $('scribeTarget').value = prefs.target === 'draft' ? 'draft' : 'entry';
 
   let engine = null, whistle = false, generation = 0, controller = null, stopMic = null, queue = Promise.resolve(), audio = new Float32Array(0), buffered = 0;
-  let state = 'idle', buffer = '', heard = false, lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * SCRIBE_QUESTIONS.length);
+  let state = 'idle', buffer = '', heard = false, phraseSeconds = 0, awaiting = '', lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * SCRIBE_QUESTIONS.length);
   let written = { lastEnd: -1, lastKind: '', separator: null }, history = [];
   const say = text => { $('scribeStatus').textContent = text; };
 
@@ -146,6 +150,10 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     if (item.kind === 'stop') { stop('Stopped when you said so. Microphone off.'); return; }
     if (item.kind === 'skip') { clearQuestion(); say('Skipped. Keep talking whenever you like.'); return; }
     if (item.kind === 'another') { ask(true); return; }
+    // "New task." on its own: the next sentence is the task.
+    if (['task', 'note', 'heading'].includes(item.kind) && !item.text) { awaiting = item.kind; say('New ' + item.kind + ': say it now.'); return; }
+    if (awaiting && item.kind === 'text') Object.assign(item, { kind: awaiting, text: awaiting === 'note' ? item.text : item.text.replace(/[.!?]+$/, '') });
+    awaiting = '';
     spokeSinceQuestion = true;
     write(item);
     say(item.kind === 'text' ? 'Writing. Pause whenever you like.' : 'Added a ' + item.kind + '.');
@@ -200,9 +208,11 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     $('scribePending').textContent = [buffer, result.pending].filter(Boolean).join(' ');
     $('scribeHearing').hidden = state !== 'listening' || !$('scribePending').textContent.trim();
   }
-  function finishPhrase(ticket) {
+  // A pause ends the sentence too; a split in the middle of speech keeps the unfinished sentence open for the next words.
+  function finishPhrase(ticket, pause = true) {
     // Whistle keeps the last words open until it is told the phrase is over.
-    queue = queue.then(async () => { if (ticket !== generation) return; const result = await engine.finish(); if (ticket === generation) { take(result); flushRest(); $('scribePending').textContent = ''; $('scribeHearing').hidden = true; } }).catch(error => fail(error, ticket));
+    phraseSeconds = 0;
+    queue = queue.then(async () => { if (ticket !== generation) return; const result = await engine.finish(); if (ticket === generation) { take(result); if (pause) flushRest(); $('scribePending').textContent = ''; $('scribeHearing').hidden = true; } }).catch(error => fail(error, ticket));
     return queue;
   }
   function tick(ticket) {
@@ -210,7 +220,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     const now = Date.now(), seconds = Math.floor((now - startedAt) / 1000);
     $('scribeElapsed').textContent = Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2, '0');
     const quiet = now - Math.max(lastLoud, speakingUntil);
-    if (heard && quiet > PAUSE_MS && now - lastWords > 600) { heard = false; finishPhrase(ticket); }
+    if ((heard || phraseSeconds > 0) && quiet > PAUSE_MS && now - lastWords > 600) { heard = false; finishPhrase(ticket); }
     if (quiet > QUESTION_MS && !speaking) ask();
     if (quiet > IDLE_MS) stop('Five quiet minutes, so the microphone turned off. Start listening to carry on.');
   }
@@ -241,7 +251,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     if (editor.readOnly) { say('Unlock this journal to use the scribe.'); return; }
     if (!whistle) { say('Loading the speech model…'); try { if (!(await ensureWhistle(false))) { say('Download the speech model once to start. After that it works offline.'); controls(); return; } } catch (e) { say(e.message); controls(); return; } }
     state = 'starting'; const ticket = generation; controller = new AbortController();
-    audio = new Float32Array(0); buffered = 0; buffer = ''; heard = false; queue = Promise.resolve(); controls(); say('Starting the microphone…');
+    audio = new Float32Array(0); buffered = 0; buffer = ''; heard = false; phraseSeconds = 0; awaiting = ''; queue = Promise.resolve(); controls(); say('Starting the microphone…');
     try {
       const stopNow = await captureSpeech({
         signal: controller.signal,
@@ -253,7 +263,15 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
           let sum = 0; for (let i = 0; i < chunk.length; i++) sum += chunk[i] * chunk[i];
           if (chunk.length && Math.sqrt(sum / chunk.length) > QUIET_LEVEL) lastLoud = Date.now();
           const all = new Float32Array(audio.length + chunk.length); all.set(audio); all.set(chunk, audio.length); audio = all;
-          while (audio.length >= 16000) { const piece = audio.slice(0, 16000); audio = audio.slice(16000); enqueue(piece, ticket); }
+          while (audio.length >= 16000) {
+            const piece = audio.slice(0, 16000); audio = audio.slice(16000);
+            let energy = 0; for (let i = 0; i < piece.length; i++) energy += piece[i] * piece[i];
+            const level = Math.sqrt(energy / piece.length);
+            // Silence between phrases is not sent: it costs time and speech models tend to invent words in it ("Thank you.").
+            if (!phraseSeconds && level <= QUIET_LEVEL) continue;
+            enqueue(piece, ticket); phraseSeconds++;
+            if ((phraseSeconds >= PHRASE_SOFT_S && level <= QUIET_LEVEL * 3) || phraseSeconds >= PHRASE_MAX_S) finishPhrase(ticket, false);
+          }
         }
       });
       if (ticket !== generation) { await stopNow(); return; }
@@ -279,7 +297,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
   }
   function reset() {
     generation++; controller?.abort(); controller = null; stopMic?.(); stopMic = null; win.clearInterval(ticker); ticker = null;
-    win.speechSynthesis?.cancel(); speaking = false; question = ''; buffer = ''; history = []; written = { lastEnd: -1, lastKind: '', separator: null };
+    win.speechSynthesis?.cancel(); speaking = false; question = ''; buffer = ''; phraseSeconds = 0; awaiting = ''; history = []; written = { lastEnd: -1, lastKind: '', separator: null };
     engine?.close(); engine = null; whistle = false; state = 'idle'; panel.hidden = true; root.removeAttribute('data-scribe-open'); $('scribePending').textContent = '';
     say('Microphone off.'); controls();
   }

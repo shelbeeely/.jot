@@ -37,6 +37,7 @@ export function readCommand(sentence) {
   const words = plain(said);
   if (EDITS.has(words)) return { kind: EDITS.get(words) };
   let m = /^(?:new|add(?: a)?) (task|to-?do|note|heading)\b[\s,:-]*(.*)$/i.exec(said.replace(/^[\s"“]+/, ''));
+  if (m && !tidy(m[2])) return { kind: /^to-?do$/i.test(m[1]) ? 'task' : m[1].toLowerCase(), text: '' };
   if (m && tidy(m[2])) {
     const kind = /^to-?do$/i.test(m[1]) ? 'task' : m[1].toLowerCase();
     const text = capital(tidy(m[2]));

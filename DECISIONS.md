@@ -1224,3 +1224,15 @@ Research basis:
 ## 2026-11-04: The stenographer is called Scribe
 
 The owner chose **Scribe** for the hands-free, word-for-word dictation tool (entries above say "stenographer"). It follows the brand book's rule of naming tools by what they do (`docs/brand/voice.md`, "The tools by what they do"): one plain word, short enough for a button, that says it writes down what you say. It is "Scribe" on buttons and in Tools, and "the scribe" in running text. Its files, element IDs and tests are renamed to match (`scribe.mjs`, `scribe-core.mjs`, `site/test-scribe*.mjs`/`.cjs`). The bring-your-own-key **AI companion** keeps its name, so it stays clear which tool uses a language model and which does not.
+
+## 2026-11-04: Shorter phrases for live transcription
+
+Running the scribe with the real Whistle model and synthetic speech showed two problems. First, the time to transcribe one second of audio grew with the length of the open phrase: about 0.4 s at first, 2.4 s after 12 seconds. So live dictation fell behind and stopped with "This device cannot keep up". Second, silence came out as invented words ("Thank you.").
+
+The scribe and voice typing now behave differently:
+- They do not send silent audio between phrases.
+- They finish a phrase at a pause, at a quiet moment after 4 seconds, or at 6 seconds at most. The slowest second then took about 1.3 s on a 4-core container.
+- In the scribe, a sentence cut by a forced split stays open for the next words.
+- In the scribe, "New task." said on its own makes the next sentence the task.
+
+These are measurements with synthetic speech on one machine. They are not evidence about real voices or phones (`docs/security/README.md`).
