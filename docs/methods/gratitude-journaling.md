@@ -1,5 +1,6 @@
 ---
 title: Gratitude journaling
+summary: "Record specific things appreciated, with optional reflection on their sources."
 slug: gratitude-journaling
 category: reflective-writing
 evidenceLevel: some
@@ -399,7 +400,7 @@ itself; the research used plain forms.
 - Something to write on a day you don't want to write. **Claimed.**
 - Records good moments you'd forget; useful on Looking back. **Claimed.**
 - Gratitude letters strengthen ties and help therapy clients. **Evidenced (one RCT) / claimed.**
-- Cheap, fast, low-risk. **Evidenced** (no harms reported in trials; harms not well measured).
+- Low cost and brief by design. Harm outcomes were not well measured in the reviewed trials, so their absence from reports does not establish low risk for every writer.
 - Better sleep. **Claimed / limited evidence.**
 
 ## 18. Pitfalls

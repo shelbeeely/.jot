@@ -1,5 +1,6 @@
 ---
 title: "Autistic sensory journaling"
+summary: "Record sensory experiences, context and supports in a personal log."
 slug: autistic-sensory-journaling
 category: neurodivergent-and-creative
 evidenceLevel: some

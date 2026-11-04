@@ -1,5 +1,6 @@
 ---
 title: Full Focus Planner (Michael Hyatt)
+summary: "Connect goals, weekly reviews and a small daily priority list."
 slug: full-focus-planner
 category: planner
 evidenceLevel: anecdotal

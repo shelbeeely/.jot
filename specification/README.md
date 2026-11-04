@@ -14,7 +14,7 @@ The .jot file holds the writing: one moment, a day, a month or an ongoing journa
 - `profiles.json`: descriptive profile contracts; not an executable clinical validator.
 - `jot-ast.schema.json`: JSON Schema for the source-preserving AST envelope.
 - `example-ast.json`: minimal structurally valid interchange example.
-- `conformance.json`: input/expected-behavior fixtures for a future parser.
+- `conformance.json`: input/expected-behavior fixtures; file cases run in `tools/test-files.mjs`.
 - `source-register.md`: method coverage and review scope.
 
 Status: 1.0.0-draft.3, 26 October 2026. This folder specifies the format; the implementation lives beside it. All examples are fictional.

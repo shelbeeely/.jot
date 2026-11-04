@@ -151,9 +151,9 @@ Editor migration and bundled inference should remain independently reviewable: n
 ## Evidence and upstream references
 
 These are engineering recommendations. No methods guide establishes that a particular editor or local model improves journaling
-outcomes. Private writing and explicit sharing follow `docs/methods/digital-daily-notes.md, line 711` and
-`docs/methods/expressive-writing.md, line 443`. Optional AI remains the owner's explicit exception to
-`docs/methods/digital-daily-notes.md, line 714` and `docs/methods/prompt-journaling.md, line 623`, already recorded in `DECISIONS.md`.
+outcomes. Private writing and explicit sharing follow `docs/methods/digital-daily-notes.md, line 712` and
+`docs/methods/expressive-writing.md, line 444`. Optional AI remains the owner's explicit exception to
+`docs/methods/digital-daily-notes.md, line 715` and `docs/methods/prompt-journaling.md, line 624`, already recorded in `DECISIONS.md`.
 
 - [CodeMirror guide](https://codemirror.net/docs/guide/) and [reference](https://codemirror.net/docs/ref/): text state, transactions,
   line separators and decorations.

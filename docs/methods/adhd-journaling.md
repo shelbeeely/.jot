@@ -1,9 +1,10 @@
 ---
 title: "ADHD Journaling and Planning"
+summary: "Externalize plans, time estimates and task support around variable attention."
 slug: adhd-journaling
 category: neurodivergent-and-creative
 evidenceLevel: strong
-lastReviewed: 2026-09-30
+lastReviewed: 2026-11-02
 status: reviewed
 licence: CC0-1.0
 contributors:
@@ -445,6 +446,12 @@ Release cycle: undated planners are sold all year. Dated planners follow academi
 
 ## 16. Evidence and research
 
+**Scope of the evidence label.** **Strong** describes the trial literature for structured adult ADHD CBT, including
+programmes that teach calendar and task-list use. It is not a rating for this journal layout. Safren et al. tested
+12 clinician-led sessions in adults already taking medication [3]; they did not compare a planner alone with no
+planner. Related planning and monitoring experiments often involved people without ADHD [11, 13]. A printable
+page, a done list or a body double does not inherit the treatment package's effect size.
+
 | Study | Sample | Finding | Strength and limits |
 |---|---|---|---|
 | Barkley 1997, *Psychological Bulletin* | Theory review | Inhibition deficit disrupts four executive functions | Influential theory. Not every person with ADHD shows EF deficits on tests; the model is debated |
@@ -464,7 +471,7 @@ Release cycle: undated planners are sold all year. Dated planners follow academi
 | Dodson, *ADDitude* | Clinical observation | Interest, competition, novelty, urgency drive ADHD attention | **Not peer-reviewed.** A useful description, not an established neural model |
 
 **Claimed vs supported:**
-- *Supported:* structured CBT that teaches a calendar + task list + daily routine reduces symptoms and improves functioning. Writing plans down reduces mental load. Recording progress helps goals.
+- *Supported:* structured CBT packages that include calendar and task-list training improve adult ADHD symptoms [3–7]. In separate, largely non-ADHD research, specific plans reduced interference from unfinished goals [11], and progress-monitoring interventions improved goal attainment [13]. Those findings do not isolate the effect of an ADHD journal.
 - *Plausible, partly supported:* visual timers and time estimates (time perception deficits are real; the tool is untested).
 - *Claimed only:* body doubling effectiveness, done lists for ADHD, the Wall of Awful as a mechanism, the interest-based nervous system as biology, novelty rotation.
 
@@ -472,9 +479,9 @@ Release cycle: undated planners are sold all year. Dated planners follow academi
 
 ## 17. Benefits
 
-- Fewer forgotten appointments and tasks — **evidenced** (CBT trials include organisation outcomes).
+- Better organisation within structured ADHD CBT programmes: **supported**; fewer forgotten appointments from a stand-alone journal is not established.
 - Lower ADHD symptom ratings when planner use is part of CBT — **evidenced**.
-- Better work functioning — **evidenced** (López-Pinar 2026).
+- Better work functioning with CBT programmes: **evidenced** (López-Pinar 2026), not an isolated planner effect.
 - Less racing mind at bedtime with a specific to-do list — **evidenced** in general adults.
 - Better time estimates over weeks — **claimed**.
 - Less shame, more sense of progress from a done list — **claimed** (related progress research).
@@ -741,7 +748,10 @@ Shift-day variant: swap 5 for `shift` (Work shift) and set `timeline` from the s
 
 ## 28. Sources
 
-All checked 2026-09-28. Each URL was opened once. Europe PMC API records were used where PubMed and publisher pages blocked automated access; the DOI is given for each paper.
+Original bibliography check: 2026-09-28. Europe PMC API records were used where PubMed and publisher pages blocked automated access; the DOI is given for each paper.
+
+Targeted evidence-scope check, 2026-11-02: the abstracts for Safren et al. [3] and Harkin et al. [13] were reread through
+Europe PMC. The remaining bibliography was not independently rechecked in this pass.
 
 1. Barkley RA. "Behavioral inhibition, sustained attention, and executive functions: constructing a unifying theory of ADHD". *Psychological Bulletin*, 1997. doi:10.1037/0033-2909.121.1.65. Europe PMC record: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:20736470%20OR%20EXT_ID:20231319%20OR%20EXT_ID:15896285%20OR%20EXT_ID:9000892&resultType=core&format=json
 2. Barkley RA. "The Important Role of Executive Functioning and Self-Regulation in ADHD" (fact sheet). russellbarkley.org. https://www.russellbarkley.org/factsheets/ADHD_EF_and_SR.pdf
@@ -755,7 +765,7 @@ All checked 2026-09-28. Each URL was opened once. Europe PMC API records were us
 10. Sonuga-Barke EJ. "Psychological heterogeneity in AD/HD — a dual pathway model of behaviour and cognition". *Behavioural Brain Research*, 2002. doi:10.1016/s0166-4328(01)00432-6. Europe PMC record: same as source 9.
 11. Masicampo EJ, Baumeister RF. "Consider it done! Plan making can eliminate the cognitive effects of unfulfilled goals". *Journal of Personality and Social Psychology*, 2011. doi:10.1037/a0024192. Europe PMC record: same as source 9.
 12. Scullin MK et al. "The effects of bedtime writing on difficulty falling asleep: A polysomnographic study comparing to-do lists and completed activity lists". *Journal of Experimental Psychology: General*, 2018 (online 2017). https://pmc.ncbi.nlm.nih.gov/articles/PMC5758411/
-13. Harkin B et al. "Does Monitoring Goal Progress Promote Goal Attainment? A Meta-Analysis of the Experimental Evidence". *Psychological Bulletin*, 2016. doi:10.1037/bul0000025. Europe PMC record: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(TITLE:%22How%20are%20habits%20formed%22%20AND%20AUTH:Lally)%20OR%20(TITLE:%22A%20new%20look%20at%20habits%22%20AND%20AUTH:Wood)%20OR%20(TITLE:%22Implementation%20intentions%22%20AND%20AUTH:Gollwitzer%20AND%20PUB_YEAR:1999)%20OR%20(TITLE:%22monitoring%20goal%20progress%22%20AND%20AUTH:Harkin)%20OR%20(TITLE:%22Time%20to%20Form%20a%20Habit%22)%20OR%20(TITLE:%22Psychology%20of%20Habit%22%20AND%20AUTH:Wood%20AND%20PUB_YEAR:2016)&resultType=core&format=json
+13. Harkin B et al. "Does Monitoring Goal Progress Promote Goal Attainment? A Meta-Analysis of the Experimental Evidence". *Psychological Bulletin*, 2016. doi:10.1037/bul0000025. Europe PMC record: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:26479070&resultType=core&format=json
 14. Eagle T, Baltaxe-Admony LB, Ringland KE. "'It Was Something I Naturally Found Worked and Heard About Later': An Investigation of Body Doubling with Neurodivergent Participants". *ACM Transactions on Accessible Computing*, 2024. Author PDF: https://leyabreanna.com/papers/body_double_taccess.pdf
 15. Gollwitzer PM, Sheeran P. "Implementation intentions and goal achievement: a meta-analysis of effects and processes". *Advances in Experimental Social Psychology*, 2006. KOPS (Konstanz): https://kops.uni-konstanz.de/handle/123456789/10973
 16. Dodson W. "ADHD & the Interest-Based Nervous System" (updated 9 May 2025). ADDitude. https://www.additudemag.com/adhd-brain-chemistry-video/

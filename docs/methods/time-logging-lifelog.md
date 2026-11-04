@@ -1,5 +1,6 @@
 ---
 title: "Time logging and lifelogging"
+summary: "Record how time was spent with optional context and review."
 slug: time-logging-lifelog
 category: productivity
 evidenceLevel: some

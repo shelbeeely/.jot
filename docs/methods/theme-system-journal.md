@@ -1,5 +1,6 @@
 ---
 title: "Theme System journal"
+summary: "Use a broad seasonal or yearly theme with brief reflection."
 slug: theme-system-journal
 category: productivity
 evidenceLevel: anecdotal

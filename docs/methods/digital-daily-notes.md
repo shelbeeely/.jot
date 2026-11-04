@@ -1,5 +1,6 @@
 ---
 title: "Digital daily notes"
+summary: "Keep dated notes in software while considering storage, search and privacy."
 slug: digital-daily-notes
 category: paper-and-hybrid
 evidenceLevel: some

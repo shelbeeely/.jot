@@ -1,5 +1,6 @@
 ---
 title: "Dutch door spread"
+summary: "Cut or fold pages to keep part of a spread visible."
 slug: dutch-door-method
 category: bujo-family
 evidenceLevel: none

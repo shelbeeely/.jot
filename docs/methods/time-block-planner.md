@@ -1,5 +1,6 @@
 ---
 title: "Time-Block Planner"
+summary: "Allocate time to activities and revise the plan when circumstances change."
 slug: time-block-planner
 category: planner
 evidenceLevel: some

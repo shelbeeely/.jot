@@ -31,10 +31,10 @@ someone transcribe an entry twice. Keep original handwriting, drawings and scans
 software can support deliberate import, backup, search and optional printing. Beginning a journal must not require
 purchasing or assembling a dedicated device.
 
-These are product choices informed by `docs/methods/rocketbook-and-scan-systems.md, line 538` (optional later capture),
-`docs/methods/digital-daily-notes.md, line 420` (hybrid handwriting), and `docs/methods/e-ink-templates.md, line 519`
+These are product choices informed by `docs/methods/rocketbook-and-scan-systems.md, line 539` (optional later capture),
+`docs/methods/digital-daily-notes.md, line 421` (hybrid handwriting), and `docs/methods/e-ink-templates.md, line 520`
 (navigation, lock-in and setup pitfalls). The guide calls reduced distraction **plausible by design**, not tested directly
-for journaling (`docs/methods/e-ink-templates.md, line 501`); reduced social-media use is a goal to evaluate, not a proven effect.
+for journaling (`docs/methods/e-ink-templates.md, line 502`); reduced social-media use is a goal to evaluate, not a proven effect.
 
 ## The format and Jot Writer
 
@@ -92,7 +92,7 @@ still leaves the person to decide what to write. The proposed help addresses tha
 6. Returning restores existing writing and offers an obvious way to continue or write something new. Do not cover restored
    or opened journals with first-visit onboarding. After a gap, there is no backlog, missed-day count or catch-up request.
 
-The example question comes from the light prompt bank in `docs/methods/prompt-journaling.md, line 478`. Wording and the
+The example question comes from the light prompt bank in `docs/methods/prompt-journaling.md, line 479`. Wording and the
 number of alternative questions are implementation choices to test, not settled research findings. Keep help accessible
 in both live and Source editing, outside print/export, and absent while a journal is locked.
 
@@ -120,14 +120,14 @@ these outcomes. No user sessions have been conducted for this proposal.
 
 ## Research and limits
 
-- Concrete wording, short answers, choice and no required disclosure: `docs/methods/prompt-journaling.md, line 435`.
-- Optional prompts and free-writing space: `docs/methods/prompt-journaling.md, line 429`.
+- Concrete wording, short answers, choice and no required disclosure: `docs/methods/prompt-journaling.md, line 436`.
+- Optional prompts and free-writing space: `docs/methods/prompt-journaling.md, line 430`.
 - Prompt-based help with starting is **claimed**, not studied as such:
-  `docs/methods/prompt-journaling.md, line 405`. Test the novice experience rather than claiming proven effectiveness.
+  `docs/methods/prompt-journaling.md, line 406`. Test the novice experience rather than claiming proven effectiveness.
 - Shorter check-ins are a reasonable design choice, not a proven benefit; the specific format has **anecdotal** evidence:
-  `docs/methods/low-demand-check-in.md, line 173`. This brief borrows its low-pressure approach, not its three-number form.
-- No streaks, catch-up prompts or missed-day counts: `docs/methods/low-demand-check-in.md, line 236`.
-- Avoid growing templates and turning setup into the task: `docs/methods/digital-daily-notes.md, line 488`.
+  `docs/methods/low-demand-check-in.md, line 179`. This brief borrows its low-pressure approach, not its three-number form.
+- No streaks, catch-up prompts or missed-day counts: `docs/methods/low-demand-check-in.md, line 259`.
+- Avoid growing templates and turning setup into the task: `docs/methods/digital-daily-notes.md, line 489`.
 
 The guides do not establish which first-visit layout, action label or saving explanation works best for new journalers.
 Those require implementation checks and observation with the intended audience.

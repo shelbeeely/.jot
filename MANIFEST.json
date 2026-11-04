@@ -9,8 +9,8 @@
     },
     {
       "path": ".agents/skills/methods-research/SKILL.md",
-      "byteLength": 3390,
-      "sha256": "c5e531ec3d5b12409560751b71485d5417bdfe1840e8049d75a399e60c386263"
+      "byteLength": 4030,
+      "sha256": "a3d5fb54d0395cfb95a4d598558d6d1049634a55efe5e044348ae87314dd932b"
     },
     {
       "path": ".agents/skills/to-jot/SKILL.md",
@@ -99,8 +99,18 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 4334,
-      "sha256": "032af0ff9fdeaf32d128e992eb5c7110791bcacef7383e3478e9448805ca843c"
+      "byteLength": 4476,
+      "sha256": "fadf1611fa3726080aaace9b7012876cc066a66c82dcd0e321c8caca6e4433ec"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "byteLength": 4476,
+      "sha256": "fadf1611fa3726080aaace9b7012876cc066a66c82dcd0e321c8caca6e4433ec"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "byteLength": 4476,
+      "sha256": "fadf1611fa3726080aaace9b7012876cc066a66c82dcd0e321c8caca6e4433ec"
     },
     {
       "path": ".gitignore",
@@ -109,23 +119,23 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 11271,
-      "sha256": "201a5e2f856371c1b0e99d8895d842c7f3ed1db38dc0dd36f78f3bd9f9ea720a"
+      "byteLength": 11649,
+      "sha256": "a684b38677155ec317fb3fda4584e3b44166305622594578d550d6a4a74dfc4a"
     },
     {
       "path": "CLAUDE.md",
-      "byteLength": 2106,
-      "sha256": "903b72158a1e88eb8f38b03310a901594b2254c3ad30175dd55d90fa8c2d9f76"
+      "byteLength": 1423,
+      "sha256": "bec3eb6198c1e317aef8f608982fe1fe93a6c2730f01244ae24b16fac0ee11f3"
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 127062,
-      "sha256": "909d419efd2865a76804660f23e75e4840ec43274a88ad6e48516d31f7f051fa"
+      "byteLength": 133415,
+      "sha256": "93b00c3dc4d7e8c81cc4f2a0de87377edab8f552171b509d9d9aa286cb7b1b2c"
     },
     {
       "path": "README.md",
-      "byteLength": 26657,
-      "sha256": "f0bc89f5935fe2379eaaff7adffee0ffb39fb83a4ec7098b6b92aab312bf95b0"
+      "byteLength": 14656,
+      "sha256": "c201d73d4552d04d5996ab581eb50e79cec6aa98abb91ae1f0f537c5767e0f85"
     },
     {
       "path": "WRITER-ROADMAP.md",
@@ -329,8 +339,8 @@
     },
     {
       "path": "desktop/README.md",
-      "byteLength": 9001,
-      "sha256": "b554899e1d6a12c8a34b183d0698356909a87fc705c914e5903b0e6ffe1f13e2"
+      "byteLength": 8329,
+      "sha256": "605310aa23b453cce82c39d60a76d9e85bdb5052adb1b046814f9c1ca3d12666"
     },
     {
       "path": "desktop/app-icon.png",
@@ -904,273 +914,323 @@
     },
     {
       "path": "docs/methods/README.md",
-      "byteLength": 16940,
-      "sha256": "a13e3c7183f3573ddc6f12e4a3e64709f0d3204163319027d3bc011ad40fbc20"
+      "byteLength": 22031,
+      "sha256": "2b9aa6446c6408879666566a3eeaa01b9685f03cfa7cd190d6248e2a9bd4eac1"
     },
     {
       "path": "docs/methods/TEMPLATE.md",
-      "byteLength": 4557,
-      "sha256": "7bc7e2a72da1fbf14588ed33b3beac0dfb07d77f280dfb556e6ef4375fbe0114"
+      "byteLength": 6372,
+      "sha256": "12a193d952ff545a7469509b6dc7dd0987efd289cc77f4449341982d20eb0a58"
+    },
+    {
+      "path": "docs/methods/access-needs-and-scripts.md",
+      "byteLength": 20460,
+      "sha256": "cbb89d7861f250fbbdc6b525e682429d8dc30ebffe7c42d01c506df3590924a6"
     },
     {
       "path": "docs/methods/adhd-journaling.md",
-      "byteLength": 60298,
-      "sha256": "3e9268bb7756742b37165f0c922705dd2ef1ad0a4061befbdd588d9257671f70"
+      "byteLength": 60972,
+      "sha256": "e728fa3497a4b09049628a28054415fe3da5c427290318303e146cf3808a1e59"
     },
     {
       "path": "docs/methods/alastair-method.md",
-      "byteLength": 36464,
-      "sha256": "ff5ed691120270417f6c1174832bf54b7211dffb07511bfb962cf75453e7240b"
+      "byteLength": 36532,
+      "sha256": "cdbd399c17bb6ecc6a03b46b6a67514cf8fce108ef025be344ac63f046d3f984"
     },
     {
       "path": "docs/methods/art-and-junk-journaling.md",
-      "byteLength": 45683,
-      "sha256": "1fc6ee562cc0deecb755d7cb18f7a68fac7ab331388a6f25988e6b64891ae6e8"
+      "byteLength": 45761,
+      "sha256": "585f1852a06bac8d6e8ea3c58904f02654c463e813b1c40249995c46592427e8"
     },
     {
       "path": "docs/methods/autistic-sensory-journaling.md",
-      "byteLength": 49955,
-      "sha256": "f3e8a8e7964b5e59cfe238dcb9fc1ceec693ab5c88f3f61b860e5c49badbfa2a"
+      "byteLength": 50034,
+      "sha256": "11877988bde9923c450fe594c9e9e6bc418ab2875f8f448d285da6a2fe1acfca"
     },
     {
       "path": "docs/methods/bullet-journal.md",
-      "byteLength": 58655,
-      "sha256": "b7cd53955f07caee7daab2cd63bd457c602ee5350037ffd1143b20660180a45b"
+      "byteLength": 58737,
+      "sha256": "186a4ff13ddf2c23b9e2c02c6e82443a73c04c61c610dc580647a5a99f55e258"
     },
     {
       "path": "docs/methods/cbt-thought-record.md",
-      "byteLength": 58930,
-      "sha256": "6cd260c51cfc881c1835435c7c0f6e6621f6ea711e603f4309ee1cc531ed0b35"
+      "byteLength": 59937,
+      "sha256": "3fb7fa5ce687221efc8b76be34cad2a10d70a58f55e6d3c9e2762d70e51acbba"
     },
     {
       "path": "docs/methods/commonplace-book.md",
-      "byteLength": 57258,
-      "sha256": "fb5386262880e2343e3b81130042d429366d534b28b6b3b56c305fbcb6e3a9bd"
+      "byteLength": 57339,
+      "sha256": "dacbc78fbc881d98a080384d96fc44bcc5c9ade3f93ac0101b16f0cbaea448fa"
     },
     {
       "path": "docs/methods/dbt-diary-card.md",
-      "byteLength": 60464,
-      "sha256": "ec62fb01ecb8f84907c12f0d05892b3da9233c1d0c33832a96fb0e250a68f257"
+      "byteLength": 61983,
+      "sha256": "20451aea5028c5f27310cae3125a876a2790e5e5d919db3b8e959a6fede4ccb0"
+    },
+    {
+      "path": "docs/methods/decision-journal.md",
+      "byteLength": 18177,
+      "sha256": "78dc33481653f7d1eaa21249307ecce4e5e2b89e945bbb4b365fca7f06586483"
     },
     {
       "path": "docs/methods/design-iteration-and-critique.md",
-      "byteLength": 14781,
-      "sha256": "f5e8b11756f4f886a1e10090b62dd182b24687d64263baec3e008d560e493674"
+      "byteLength": 20171,
+      "sha256": "fc6c4494011fc53f9cbf27d2d8f396b42c989e22c0598a5befd09a0fd9cf3c73"
     },
     {
       "path": "docs/methods/digital-daily-notes.md",
-      "byteLength": 41026,
-      "sha256": "8f3a456aa81798d7462146406dd8068c1c3e74c7847f61c499d9d5141112ec3d"
+      "byteLength": 41113,
+      "sha256": "0cb7363345b8234ebfde62efcbc92790aeb6e9786a68491de439c81694e5e161"
     },
     {
       "path": "docs/methods/drawing-practice.md",
-      "byteLength": 16277,
-      "sha256": "44b48d13b6fdc515a21d247803a19421a0eef5566c186c4bc5b09d3f2e5451c0"
+      "byteLength": 21211,
+      "sha256": "119263ed7303263b2f15a0e0ddb0187614bf160090b6df385dc99a49b5823c83"
     },
     {
       "path": "docs/methods/dream-journal.md",
-      "byteLength": 53463,
-      "sha256": "ab28e912020d283edf6a0b37d0f10b9cd42c3b31d1511a984b2c0328670aac89"
+      "byteLength": 53560,
+      "sha256": "646fd9c8a00e411d6b37df002ec98ed557430abc024ba7d217732a48ccb9efc1"
     },
     {
       "path": "docs/methods/dutch-door-method.md",
-      "byteLength": 50108,
-      "sha256": "a4807467f2837c5162ca98f059a2886b42272f26e7d6ce7fd5a9f82172ef6e3d"
+      "byteLength": 50171,
+      "sha256": "74f57a56f7f2e7122a7181b7f2cecb8dbabc4ef4b55c1bfe8c02bf14f74bcff9"
     },
     {
       "path": "docs/methods/e-ink-templates.md",
-      "byteLength": 52416,
-      "sha256": "f6317f414fe29ad4e9d69ecdcf11be3840c5a5ce39c6167df71e860530652bf4"
+      "byteLength": 52717,
+      "sha256": "6622b3d94c7bd7f17f6dfcbf1cda91e618187e71d7b1906e73bfccb3ebdd99f3"
     },
     {
       "path": "docs/methods/eisenhower-matrix.md",
-      "byteLength": 49076,
-      "sha256": "733f76e8be501e9ec36d9d54f9b4e66c31fd10e3879e67e43997ea22b60aa97b"
+      "byteLength": 49155,
+      "sha256": "093e923d55bc03b52b5b57207a54228e1dff316c8c1f2ca10b594a4463e2a95e"
     },
     {
       "path": "docs/methods/emergent-task-planner.md",
-      "byteLength": 45634,
-      "sha256": "d19357f213f72f85520b2e8021753f2a7fe23e75e62fa20b745d7fe17bd46428"
+      "byteLength": 45718,
+      "sha256": "7d78a4a4fc777d74de2ee3009bb4cc8d6ba1ea18d6bc23cea354671abb7d3f91"
     },
     {
       "path": "docs/methods/expressive-writing.md",
-      "byteLength": 59231,
-      "sha256": "e7fdf6dec5b7c60229a203b3cbff1b65eb873b58353fbb6507e2afd62693479f"
+      "byteLength": 59321,
+      "sha256": "ef528eba4dd61c27676475c0fc6506a9eb668322bbb6077cfeb7bfef15b6fed7"
     },
     {
       "path": "docs/methods/five-minute-journal.md",
-      "byteLength": 48697,
-      "sha256": "b446dfec4a6f215786284b007a57aab9df14ad127dd8e4de6c03692bc531a8e5"
+      "byteLength": 48774,
+      "sha256": "fb3b3e90fc2c88a842ecf307919b35bb5f11a91e846cd094cd1290edc99529fd"
     },
     {
       "path": "docs/methods/five-year-diary.md",
-      "byteLength": 38916,
-      "sha256": "1a20fc2a1d9dd672d4185245772b4062c0a574946a0ac8d794c14fd2a3ce3217"
+      "byteLength": 38995,
+      "sha256": "794c3f0feef6fd58d97c80658340194a944c72a02d0c62db0a5bd8022cf48866"
+    },
+    {
+      "path": "docs/methods/food-cooking-journal.md",
+      "byteLength": 18137,
+      "sha256": "d608ec5f9c036eb507b7af731713724ac41deab77e9ea8d5e15c183fbeb6a6d5"
+    },
+    {
+      "path": "docs/methods/free-diary.md",
+      "byteLength": 16222,
+      "sha256": "0b0df5d91f9ced5228d385d5263f1c4413b3cd44530f988b06e35edf8e11eb59"
     },
     {
       "path": "docs/methods/full-focus-planner.md",
-      "byteLength": 56574,
-      "sha256": "7cafd8285d4da31dbf5c31d6788c0737a3cca9459669b9bdeaabc26cc8a973c0"
+      "byteLength": 56648,
+      "sha256": "3a24b1e9f8f34aa75d6aeff61561cd26e7888895f4853e83add954be0c157e36"
     },
     {
       "path": "docs/methods/gender-euphoria-and-hrt-log.md",
-      "byteLength": 49473,
-      "sha256": "95cae6fe230841d051f80871017aae6bd3801947380414d6f1663592ebf1addd"
+      "byteLength": 49576,
+      "sha256": "ac7ff89c2ee42ffc330cdb174e361d0545ac7bea8cd73a1e3964510917caadd6"
     },
     {
       "path": "docs/methods/getting-things-done-paper.md",
-      "byteLength": 58508,
-      "sha256": "590200394ba657030b85318ec4b110435e555bf7f76f17ac992dbeaf4ab870ed"
+      "byteLength": 58587,
+      "sha256": "800f0df2a4bc30a65eafe30a43a3160334a4f79f77a1eed491968443d71e8943"
     },
     {
       "path": "docs/methods/gratitude-journaling.md",
-      "byteLength": 43401,
-      "sha256": "8bec389eeb73ca5614c6ed6b7c3cabdef9706c047a19a728c3a5cbf5e290ed1c"
+      "byteLength": 43565,
+      "sha256": "fe028fcccc3044d209471a6da85326623bd5909ed8ecc49eecb9db9b2294a88f"
     },
     {
       "path": "docs/methods/habit-tracking.md",
-      "byteLength": 46236,
-      "sha256": "83f35f151e02ff803fcae277e907ade47981d17c26389de0e62faf211dc5ab36"
+      "byteLength": 47608,
+      "sha256": "b9d0e4f087da3cf4e1181c89e82343942a61c847ff76c7c2097bb52ce5b1c1a9"
     },
     {
       "path": "docs/methods/hobonichi-techo.md",
-      "byteLength": 53986,
-      "sha256": "2f8bbd78d7db7c5916ed46f729480d8e152f33cab15ab7f12749f979c02f01c9"
+      "byteLength": 54079,
+      "sha256": "d769ec57f06b9acf4d47232cb90d3b2de5a33614d7bcae57e79220103d8bfbcb"
     },
     {
       "path": "docs/methods/interstitial-journaling.md",
-      "byteLength": 52542,
-      "sha256": "45aa2cd5aa2e95fb21cd064cc2303c89b930b95391363a1064cd1000a28b7459"
+      "byteLength": 52635,
+      "sha256": "90d61c0df11edf410498beb29a08501412c2c23848ade927306738628290df5b"
     },
     {
       "path": "docs/methods/ivy-lee-method.md",
-      "byteLength": 46451,
-      "sha256": "70f6d2265dfafae7a348c5449b11dfcf04f6c4aeda6f54ec8d537a1b79f74743"
+      "byteLength": 46525,
+      "sha256": "dfffa809612080aa207741f20d9bfc79f5285ba3a3477b4bd1a2fbb7f82cc502"
     },
     {
       "path": "docs/methods/jibun-techo.md",
-      "byteLength": 48130,
-      "sha256": "d55ad7e5a67ec3ff35000d7315444060f2b859f6ec7875f61ce7f4ebbb4d3545"
+      "byteLength": 48209,
+      "sha256": "f0565201af86b9982fb34bbc31095c705d8468ca32d7aa1a114195ff4f801648"
     },
     {
       "path": "docs/methods/low-demand-check-in.md",
-      "byteLength": 10735,
-      "sha256": "9e7371622f11c3cb1ffa0eacf582f9b4eb86e28e28f9ae4d6c4c0b32d62f487a"
+      "byteLength": 14963,
+      "sha256": "b27b95bbdf0239279d5534e08d78e12446f726d502bd718c770b5a8f53f4c9cb"
+    },
+    {
+      "path": "docs/methods/memory-life-story.md",
+      "byteLength": 19202,
+      "sha256": "cf393290873c9048ddd8531347f1938f8e7fb1a44a6e1bbd7c1cbdc043e8148e"
     },
     {
       "path": "docs/methods/mood-tracking-year-in-pixels.md",
-      "byteLength": 62142,
-      "sha256": "bcfab078b989e236a406bcaf9fcf9a46d1f766c01b22c65cc9f6031a94fb0b54"
+      "byteLength": 62220,
+      "sha256": "44e5e85b2c22e578fd25ce68707269fc578b3adb2379bb5c27204ebdd1855fcc"
     },
     {
       "path": "docs/methods/moodboard-and-palette.md",
-      "byteLength": 13594,
-      "sha256": "bed5b4393f57aa9e5571c295498d491d54f64cd854897a8b0c5e68acbf2d53bd"
+      "byteLength": 18979,
+      "sha256": "053f7a17e7204729910f4b5809bfbd8f3e6ea4826f9106842b0de0c3f8f3c08a"
     },
     {
       "path": "docs/methods/morning-pages.md",
-      "byteLength": 53808,
-      "sha256": "023a22f37ea7a22c7a3cc36b554a5f8467d9bf43b3d93a6f1130158ba1728437"
+      "byteLength": 53899,
+      "sha256": "e1d963a89198b9f52dd47380b771f949f2759ddf896c1bc3f2c58f3ddc33a9a7"
     },
     {
       "path": "docs/methods/paper-and-grids.md",
-      "byteLength": 60114,
-      "sha256": "407539826f313760f3c32235c69d9570b49e8ef9095b0e0cebb684c9e205d0f3"
+      "byteLength": 60202,
+      "sha256": "6736e9b829f9acd93b7bc6386a7127e9c37d9adeb0c0ec1b586a540f0e5dbc52"
     },
     {
       "path": "docs/methods/passion-planner.md",
-      "byteLength": 64390,
-      "sha256": "8475fb8533b47ea3939d3fbdc416c000de3c99f4a0489505e432a2ea88ad6e3b"
+      "byteLength": 64480,
+      "sha256": "ce9cc52f64fcab4b0fefa33dac805a0a0c4f8a2307836c59e2ad29161c2d19ab"
     },
     {
       "path": "docs/methods/planner-sticker-and-deco-culture.md",
-      "byteLength": 35433,
-      "sha256": "88fbd92513ea783b840c6f0eaf24f594d6abb19cd643e84460c0f7be620ec53d"
+      "byteLength": 35523,
+      "sha256": "fa29a714a695a3dbec7cdc50e5ec7806fd8ad81b872a7f0b47ffe241c85eea67"
     },
     {
       "path": "docs/methods/pomodoro-log.md",
-      "byteLength": 64833,
-      "sha256": "019da3a7521a79d885e293bfaa0c1a6b6386b4bb7987477c3e65cd04128c6458"
+      "byteLength": 64907,
+      "sha256": "920dbe499cfde40ddfe4a244a8f00f5e6c1e11dfc1b15f3ad73640b76b61bd36"
     },
     {
       "path": "docs/methods/progoff-intensive-journal.md",
-      "byteLength": 57969,
-      "sha256": "e9a553cfc9c9f9d52590c88869eda19941dc840a2918584b2193da32b50b4806"
+      "byteLength": 58054,
+      "sha256": "0c7478f4598f3398194ec9242f08de00d658587e0bdded6a590bae07e7a10fe7"
+    },
+    {
+      "path": "docs/methods/project-lab-log.md",
+      "byteLength": 20077,
+      "sha256": "f6a30ad3bbe19074235d208ce1e06bb2165c772506f69e760c4d7fbb16955739"
     },
     {
       "path": "docs/methods/prompt-journaling.md",
-      "byteLength": 40589,
-      "sha256": "873643a73cccc67e284ed69667d9fd7a7f9cecd5a411624ad0819b462af09dab"
+      "byteLength": 40655,
+      "sha256": "54d958afa264d3d0ee0e39fb2e94fecdb2facdd9387ed0bd0d82291036a966e7"
+    },
+    {
+      "path": "docs/methods/reading-media-journal.md",
+      "byteLength": 17822,
+      "sha256": "2d8e289a677a659db9f3f763a4523e77614bf0888f7255f7873fbc6ab2118aea"
     },
     {
       "path": "docs/methods/rocketbook-and-scan-systems.md",
-      "byteLength": 55249,
-      "sha256": "52640309890a38bdf39ffc6eb37268fb86efd8148414e4ed0f6c47b38db0c227"
+      "byteLength": 55633,
+      "sha256": "f43cc16e37baab1a6f32b6a1db97f449023f7889f11d9642eed22f59ffa852ca"
     },
     {
       "path": "docs/methods/safety-planning.md",
-      "byteLength": 49781,
-      "sha256": "e81e482ab2d594216f0713e7a377017f6ccf27409d5cdff27c11bf57b052f153"
+      "byteLength": 49888,
+      "sha256": "173cecb5a08e3ace8a39317e011def7ed6c8f9fb3fe063a7646ee90fbd9ab15a"
     },
     {
       "path": "docs/methods/shadow-growth-journal.md",
-      "byteLength": 55215,
-      "sha256": "6c7fcdba11f391be8f926977bf0026523d3fa43e935da67a8566a6802263c13e"
+      "byteLength": 55313,
+      "sha256": "037a3ed2df6e653d778e70b11345ca88eafd7ad0c80cf75293511749cb3e96ae"
+    },
+    {
+      "path": "docs/methods/shared-journal.md",
+      "byteLength": 17338,
+      "sha256": "203a81df27b62cd92ba7016f65123f3d13983d4624240a89eed16efd077b5090"
+    },
+    {
+      "path": "docs/methods/spiritual-reflection.md",
+      "byteLength": 19306,
+      "sha256": "407353854935ad20a6167c727db63a530b7c10d54985985167e8bfe445724ac7"
     },
     {
       "path": "docs/methods/spoon-theory-energy-accounting.md",
-      "byteLength": 57515,
-      "sha256": "0709720a0bf90073bc851afdb683e6c9d9aff6da26bc28cbf0c839f4f1886a95"
+      "byteLength": 57604,
+      "sha256": "00f51e86f4166e55cd064cf3e89db3a91f86ac15a5727c7607f426381335842d"
     },
     {
       "path": "docs/methods/stimming-and-self-regulation.md",
-      "byteLength": 12334,
-      "sha256": "1a69ddee65f1bcb8ab02bc415b05c5eba00f957763b1e0cc33a3c7136d5816c0"
+      "byteLength": 17584,
+      "sha256": "b342ba682bca9dfaaebc64b8ea2c027567a5cd7dd00fe8e179a0687b5b1c4db8"
     },
     {
       "path": "docs/methods/stoic-journaling.md",
-      "byteLength": 56826,
-      "sha256": "615e8e8006e5a2be5f38a67e8a71ce5d616f5dc6a2f15d6ce6a26dc9aed2dee7"
+      "byteLength": 56912,
+      "sha256": "b5248683621cab2d9e21f2ff8a89b003207ac365a4a20adac33896af14764a53"
     },
     {
       "path": "docs/methods/study-and-note-taking.md",
-      "byteLength": 14917,
-      "sha256": "a9d8681f16353beebab9284ddedf86fc267474d3d27c025dc4c942c153416a41"
+      "byteLength": 20117,
+      "sha256": "9a79a655d5069fdd2d49bea610def06a11fcb04ecd68ac8335d34449079e6dfe"
     },
     {
       "path": "docs/methods/symptom-tracking.md",
-      "byteLength": 51274,
-      "sha256": "7a6f3075fcd1bba08e9cdc8b2c357ff0f36e15d21c5db64e4c62ea16e89bb9d3"
+      "byteLength": 51349,
+      "sha256": "689957b12b14e3070a950279aa232398b99d53ff86325ec26b6e303cfe010586"
     },
     {
       "path": "docs/methods/task-initiation-and-transitions.md",
-      "byteLength": 12854,
-      "sha256": "e8db49faa3fab83bebcd34b3eb799a1ec68a8048f46d9087c10fe839941c04af"
+      "byteLength": 17566,
+      "sha256": "904c3d75f79c55cead6e3f44896ed7673d16291d02bb1e87cbabdd9c3961356f"
     },
     {
       "path": "docs/methods/theme-system-journal.md",
-      "byteLength": 57178,
-      "sha256": "3644333ab0b40f23767dfbbf4d96c5ba7ad473a68683b6dac851998b9210458e"
+      "byteLength": 57249,
+      "sha256": "5ce0059a320f020f77320ddb475a8e11c9b545ac03a6500d6d916061312e80d8"
     },
     {
       "path": "docs/methods/time-block-planner.md",
-      "byteLength": 46030,
-      "sha256": "aa3f3ed29705117a8d3c73fa598ed10e6e9cc092b36bbd7e215f080cd965c243"
+      "byteLength": 46116,
+      "sha256": "a0b99293fcdb2fdb75686676803bbeb282b474bd60630742a311f6b8188443a6"
     },
     {
       "path": "docs/methods/time-logging-lifelog.md",
-      "byteLength": 48346,
-      "sha256": "41f4dab5598fb3a492f29e4e1b832b17fbf213d76579d7f6bc89ade2bde1e62f"
+      "byteLength": 48417,
+      "sha256": "e06c66785a41e22422e6f690ca253728d4e822127d48a6a6340959f4717efe4e"
+    },
+    {
+      "path": "docs/methods/travel-field-log.md",
+      "byteLength": 17616,
+      "sha256": "9a3873c91941b42a864cd9ebccbe3620e8ddea137a74addfa7066833348bb0cc"
     },
     {
       "path": "docs/methods/travelers-notebook.md",
-      "byteLength": 41219,
-      "sha256": "5a86157090edbc0c2ba6f8f3cdd94e9470640b227fc8cf307a092cdef27db0e9"
+      "byteLength": 41292,
+      "sha256": "70b71716a7260a5889b28d049c9b38cc8a5e86430d9363f58596a629959ea1e0"
     },
     {
       "path": "docs/methods/voice-practice.md",
-      "byteLength": 16385,
-      "sha256": "ba0c867890bea6c153d14d32a7ac2a25a885bbdd6f701578897794a99fa06481"
+      "byteLength": 23423,
+      "sha256": "1953b70c380f16d2fae5eeb5a63ee122229739ed9f3d8389fbd393e54d8fc261"
     },
     {
       "path": "docs/proposals/document-format-research.md",
@@ -1180,7 +1240,7 @@
     {
       "path": "docs/proposals/editor-and-local-inference.md",
       "byteLength": 15220,
-      "sha256": "f05f5aa9e29eef596234393686a00703966db6929075ed97e45247d1c3c431eb"
+      "sha256": "19b8ed369fdcdb6f5c319b549a710c78c7f5e4c93ff1d964b140b5671b1f7482"
     },
     {
       "path": "docs/proposals/editor-probe-results.json",
@@ -1195,7 +1255,7 @@
     {
       "path": "docs/proposals/first-journal-v1.md",
       "byteLength": 10463,
-      "sha256": "b48cfdcb280de49693920ef1f2e14dbc73c80a2db4aa15d1fab2a11260c43eae"
+      "sha256": "b3837d2ccecd2bf7b952708336e6f6a928f9f0df3c7113cb28355c649a80a191"
     },
     {
       "path": "docs/proposals/jot-books.md",
@@ -1215,12 +1275,12 @@
     {
       "path": "docs/proposals/media-sources-and-service-actions.md",
       "byteLength": 16252,
-      "sha256": "8b7f4ae76a2e14c863f0ebeb2c77e1ae9d927c867d5eef68d6a0e0c53207ae4a"
+      "sha256": "4ec6242b217c6e5ab4e738c8b9c752aeccbbb1af3e64a9575829f7d918ef1488"
     },
     {
       "path": "docs/proposals/notes-sharing-collaboration.md",
-      "byteLength": 17260,
-      "sha256": "61c7d0ea7d525e95e20df3bdb15fdd4d4ce49db89b08f5b7f23b13cef150a50b"
+      "byteLength": 17450,
+      "sha256": "4799380383fc663506f3e9adb8d0b8751b8cf8ddd2e301e4132a764006eab6d9"
     },
     {
       "path": "docs/proposals/photo-library-integrations.md",
@@ -1230,7 +1290,7 @@
     {
       "path": "docs/proposals/smart-journal-and-connected-data.md",
       "byteLength": 17665,
-      "sha256": "684c16369c80d4e8a8b5a1455143cda746e4c48f137cc26c7d32cc101be83173"
+      "sha256": "164c7393592d2a0576d64a8c0d9ec0a777d2138cd53879001a867ee71ea73afb"
     },
     {
       "path": "docs/proposals/v1-core-finalization.md",
@@ -1241,6 +1301,56 @@
       "path": "docs/proposals/writefreely-integration.md",
       "byteLength": 12714,
       "sha256": "6213b4d9caa84c5ab13a23b58480d82ec593c137a1e1ace95f4f9b4b104ea372"
+    },
+    {
+      "path": "docs/rendering/README.md",
+      "byteLength": 3746,
+      "sha256": "a365e3bfdd6f7ee06a8754171d1247a3985344e9429e6b26b44609572976956f"
+    },
+    {
+      "path": "docs/rendering/epaper.md",
+      "byteLength": 29769,
+      "sha256": "078ca4f9fd2849fe0cd0df76adb38a21ec9960413bfe94ae4db24438ffbba48d"
+    },
+    {
+      "path": "docs/rendering/examples/x4-monochrome.png",
+      "byteLength": 7995,
+      "sha256": "915939a0f25c1b46d1f562488eaecf3fd01a12edea54d09a9d211e780c4ba80d"
+    },
+    {
+      "path": "docs/rendering/examples/x4-pixels.mjs",
+      "byteLength": 1516,
+      "sha256": "4962ead4a3d7ba29ef00e24c75633cc3264a5b2b2e569a130d4e18a13eae8d65"
+    },
+    {
+      "path": "docs/rendering/examples/x4-preview.html",
+      "byteLength": 12128,
+      "sha256": "8a753c32fde87e8dd9aea87206aa9cf2d7613e704b6eb669718aade0a8c21e7a"
+    },
+    {
+      "path": "docs/rendering/integrations.md",
+      "byteLength": 46124,
+      "sha256": "aac493721c1023d030dc8e14f804a7070edb88de2127300f97e459bde123a251"
+    },
+    {
+      "path": "docs/rendering/media-and-links.md",
+      "byteLength": 24840,
+      "sha256": "3e24b441669c5b47fa0bfc22d0b1aabd74fe8b6f1eb72af8ad2c9fd1f027a8b9"
+    },
+    {
+      "path": "docs/rendering/navigation.md",
+      "byteLength": 8383,
+      "sha256": "4d629309a3a145e7d2ad4db8f4a9328077e75818127c9837151deaa622b83131"
+    },
+    {
+      "path": "docs/rendering/profile-coverage.md",
+      "byteLength": 23939,
+      "sha256": "3b98caaba402c50a679545d3a007d4833fa88b983be3babb45fba342fcfc9be4"
+    },
+    {
+      "path": "docs/rendering/syntax.md",
+      "byteLength": 42137,
+      "sha256": "9a68358edc9937669187e869399178597342431edf83855498d843b922d19a18"
     },
     {
       "path": "docs/security/README.md",
@@ -22599,8 +22709,8 @@
     },
     {
       "path": "site/README.md",
-      "byteLength": 17640,
-      "sha256": "97c98e2726dc7f3fbbe18591387eb7e2e9efd19b27d4cb96f25db0d7122f42e2"
+      "byteLength": 12552,
+      "sha256": "2ea5a906d89767818868ebb06270e1af77790eb5a8ba940c46b58ee03796eba9"
     },
     {
       "path": "site/build-guides.mjs",
@@ -22714,8 +22824,8 @@
     },
     {
       "path": "site/dist/docs/Jot-Complete-Specification.pdf",
-      "byteLength": 307961,
-      "sha256": "04680fc1135749e2cd3d66688399d1cb1b55a01a121270f737dc055a2251c2e1"
+      "byteLength": 308354,
+      "sha256": "413bc96df282471b72e8d965ee0bc160babc05b31a952a4704e7da22a3d01f11"
     },
     {
       "path": "site/dist/docs/Jot-Container-v1.md",
@@ -24294,13 +24404,13 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 156241,
-      "sha256": "a74d35be1e8e5e791fbc94053f174d9ee87f3ba84279c182cde3cc264c47c45a"
+      "byteLength": 151156,
+      "sha256": "e9264589d07f1e8e916b101cdbf18cb94eeaa999162a7f4fa8f5030f8d1c868e"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
-      "byteLength": 307961,
-      "sha256": "04680fc1135749e2cd3d66688399d1cb1b55a01a121270f737dc055a2251c2e1"
+      "byteLength": 308354,
+      "sha256": "413bc96df282471b72e8d965ee0bc160babc05b31a952a4704e7da22a3d01f11"
     },
     {
       "path": "specification/Jot-Container-v1.md",
@@ -24314,8 +24424,8 @@
     },
     {
       "path": "specification/README.md",
-      "byteLength": 2477,
-      "sha256": "d8ccce3ede6636a02ba79c4d1b29efa7bf0b39e679f2f9601519115219bc6e0b"
+      "byteLength": 2499,
+      "sha256": "aa9de8e8b23914e712965cd55b46241d5027f81f0476a9dbc3a0a97e92b0e358"
     },
     {
       "path": "specification/ROADMAP.md",
@@ -24364,8 +24474,8 @@
     },
     {
       "path": "specification/source-register.md",
-      "byteLength": 5448,
-      "sha256": "a1ecc40f1f09ecbad2330e35f18a218f116a30d16b9e67e2d27cd594f122df81"
+      "byteLength": 7881,
+      "sha256": "fc4a5e82955744372b8ef03dcb652e22619fde22509129ecad470b40e3e6add0"
     },
     {
       "path": "tools/build-agent-skill.py",
@@ -24389,8 +24499,8 @@
     },
     {
       "path": "tools/build-methods-index.mjs",
-      "byteLength": 4070,
-      "sha256": "a18ff180db8a92fb6d1b8bd23ac6d554672c7a9576ca7556e431117493cf8411"
+      "byteLength": 4014,
+      "sha256": "781124a5d62d519f24412e541d2e65f478740885688d0878b6eb6c95fe95298c"
     },
     {
       "path": "tools/build-offline.mjs",
@@ -24403,14 +24513,24 @@
       "sha256": "a691dfee46ce4cf235ce1979eaaf9938d56ac6d56aeb79ca03499dc73a05e07a"
     },
     {
+      "path": "tools/build-rendering-profiles.mjs",
+      "byteLength": 11189,
+      "sha256": "a8dc451b749a6d13f47d7e1ed7dd16b3af35cce9d721d9f444981f9793329798"
+    },
+    {
       "path": "tools/build-spec-pdf.cjs",
       "byteLength": 2775,
       "sha256": "d84fc3995ada67ce7bfba1927f3f568efddd2652dc04df7e6418250d3f23f136"
     },
     {
       "path": "tools/check-generated.mjs",
-      "byteLength": 1657,
-      "sha256": "a547e3dc7cffd59bcd6c0f089097fe617e12f92b5e4390f3628edce4834e8c0c"
+      "byteLength": 1695,
+      "sha256": "48565e803128643ce0f836b3f16ed5811d59e66e573afd2d7e13d2c78cd7b2db"
+    },
+    {
+      "path": "tools/check-methods.mjs",
+      "byteLength": 6596,
+      "sha256": "6ba3634463b3714731f194fe8acb65178ccc1ee7eebad4c538bd5ec340178d9b"
     },
     {
       "path": "tools/editor-probe/README.md",
@@ -24471,6 +24591,11 @@
       "path": "tools/test-files.mjs",
       "byteLength": 1967,
       "sha256": "c4630c66d17faf2de0f0e14b8abd1c64f29c8adef03d07087bb78bebdfb544b7"
+    },
+    {
+      "path": "tools/test-methods.mjs",
+      "byteLength": 3816,
+      "sha256": "2f45264ad322840c1e30991bf178c8941632effff7040c0913a0df9a6f1c8de8"
     },
     {
       "path": "tools/test-privacy.mjs",

@@ -1,5 +1,6 @@
 ---
 title: "Hobonichi Techo"
+summary: "Use a dated Japanese planner for diary writing, schedules and collected memories."
 slug: hobonichi-techo
 category: japanese
 evidenceLevel: anecdotal

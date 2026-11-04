@@ -1,9 +1,10 @@
 ---
 title: "CBT thought record"
+summary: "Record situations, thoughts and alternative perspectives within a CBT practice."
 slug: cbt-thought-record
 category: mental-health
 evidenceLevel: strong
-lastReviewed: 2026-09-30
+lastReviewed: 2026-11-02
 status: reviewed
 licence: CC0-1.0
 contributors:
@@ -279,7 +280,7 @@ the week, look for patterns: same situations, same thoughts, same times of day.
 4. **Evidence for**: facts, not feelings or interpretations.
 5. **Evidence against**: use the evidence questions.
 6. **Balanced thought**: often "Even though… also…" Rate belief 0–100%.
-7. **Re-rate moods.** A drop of 10–20 points is a useful change; zero change is also data (the hot thought may be
+7. **Re-rate moods.** Record any change without setting a required drop or treating the rating as a clinical threshold. Zero change is also data (the hot thought may be
    elsewhere, or the problem may be real and need action).
 8. **Next step:** if the problem is real, write one action (problem-solving, ask for help, an experiment).
 
@@ -524,9 +525,15 @@ No release cycle; editions every decade or two.
 
 ## 16. Evidence and research
 
+**Scope of the evidence label.** **Strong** refers to CBT and behavioural activation as treatments, not to a
+stand-alone seven-column page. Evidence for thought records is narrower: a single-session non-clinical experiment
+found benefits [16], while another laboratory study found no between-group affect difference [17]. Neither
+establishes long-term clinical benefit from a self-guided journal. Homework-outcome associations [15] also do not
+show that completing more records causes recovery; engagement and symptom change can influence each other.
+
 | Study | Sample | Finding | Strength and limits |
 |---|---|---|---|
-| Hofmann et al., 2012, *Cognit Ther Res* (review of meta-analyses) | 269 meta-analyses | Strongest support for anxiety disorders, somatoform disorders, bulimia, anger and general stress; depression results mixed vs other active therapies | Broad; publication bias possible; few studies in low-income and minority groups |
+| Hofmann et al., 2012, *Cognit Ther Res* (review of meta-analyses) | 269 identified; representative sample of 106 reviewed | Strongest support for anxiety disorders, somatoform disorders, bulimia, anger and general stress; depression results mixed vs other active therapies | Broad; publication bias possible; few studies in low-income and minority groups |
 | Jacobson et al., 1996, *J Consult Clin Psychol* | 150 depressed outpatients; three conditions | BA alone as effective as full CT, maintained at follow-up | Classic; challenged the need for cognitive work |
 | Dimidjian et al., 2006, *J Consult Clin Psychol* | 241 adults with major depression | In more severe depression, BA comparable to medication; both beat CT | Single trial; later work mixed on CT vs BA |
 | Cuijpers, van Straten and Warmerdam, 2007, *Clin Psychol Rev* | 16 RCTs, 780 people | Activity scheduling vs control: effect size 0.87; vs CT: 0.02 (no difference) | Small trials |
@@ -701,7 +708,7 @@ No release cycle; editions every decade or two.
 ## 24. FAQ
 
 **5 or 7 columns?**
-Seven while learning, because splitting evidence into for and against is where the change happens. Five or three once
+Seven while learning can make evidence for and against easier to inspect. This does not establish that the split is the active treatment ingredient. Five or three once
 it's familiar.
 
 **How many should I do?**
@@ -843,7 +850,10 @@ Neither layout is in the editor's "Start from a method" list yet (planned).
 
 ## 28. Sources
 
-All checked 2026-09-28. PubMed pages showed a captcha, so abstracts were read through PMC, publisher pages or the
+Targeted evidence-scope check, 2026-11-02: Europe PMC abstracts for Hofmann et al. [9], McManus et al. [16] and
+Rozek et al. [17] were reread. Other references were not independently rechecked in this pass.
+
+Original bibliography check: 2026-09-28. PubMed pages showed a captcha, so abstracts were read through PMC, publisher pages or the
 Europe PMC REST service.
 
 1. Beck Institute. "Dr. Aaron T. Beck." https://beckinstitute.org/about/dr-aaron-t-beck/

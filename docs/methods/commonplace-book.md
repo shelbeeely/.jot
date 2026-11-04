@@ -1,5 +1,6 @@
 ---
 title: "Commonplace book"
+summary: "Collect attributed quotations and ideas with ways to find them again."
 slug: commonplace-book
 category: reflective-writing
 evidenceLevel: some

@@ -1,5 +1,6 @@
 ---
 title: "Rocketbook and scan systems"
+summary: "Capture handwritten pages digitally while considering recognition, storage and privacy."
 slug: rocketbook-and-scan-systems
 category: paper-and-hybrid
 evidenceLevel: none
@@ -495,7 +496,7 @@ Decision for Nov: map air to "Travel notes" or ignore it
 - **Handwriting versus typing (note-taking):**
   - Mueller & Oppenheimer (2014), *Psychological Science*: longhand note-takers did better on conceptual questions in lab studies with students. (Journal page blocked automated access.)
   - Morehead, Dunlosky & Rawson (2019), *Educational Psychology Review*: direct replication plus eWriter and no-notes groups; "performance did not consistently differ between any groups"; meta-analysis showed "small (nonsignificant) effects favoring longhand". [ERIC] Limits: lecture recall, students, not journaling.
-  - Relevance: smartpens and eWriters were tested in Morehead et al. and did about as well as paper.
+  - Relevance: the study included an eWriter condition. It does not establish the effects of every smartpen feature, cloud OCR or audio-synchronised note system.
 - **Codes and OCR:** engineering standards (ISO/IEC 16022, 18004) specify error correction and quiet zones; these are tested and certified, not studied as behaviour.
 - **Handwriting OCR accuracy:** no vendor-neutral, published accuracy figures for these consumer apps were found.
 
@@ -503,8 +504,8 @@ Decision for Nov: map air to "Travel notes" or ignore it
 |---|---|
 | "The best of physical and digital" | Marketing |
 | Handwriting helps memory | Mixed; small effects |
-| Data Matrix can rebuild data after ~30% damage | Standard property (ECC 200) |
-| QR level H recovers ~30% | Standard property |
+| Data Matrix ECC 200 includes error correction | Engineering property; recovery depends on symbol size and the type and position of damage, not a universal percentage of page area |
+| QR level H restores about 30% of total codewords | Denso's codeword-based rating, not a guarantee that any 30% of the visible symbol can be removed |
 | Reusable pages save paper | Plausible; no lifecycle study found |
 
 ---
@@ -516,7 +517,7 @@ Decision for Nov: map air to "Travel notes" or ignore it
 - Routing by symbol saves steps. **Claimed**.
 - Codes survive smudges and damage. **Evidenced** (standard error correction).
 - Filled bubbles give data without writing. **Claimed** (OMR is long-proven for exams; no journaling studies).
-- Audio sync helps lecture review. **Claimed** (Morehead et al. found eWriters roughly equal to paper, not better).
+- Audio sync helps lecture review. **Claimed**; the cited eWriter comparison does not test the benefit of synchronised audio playback.
 - Scans make it easy to share pages with a care team. **Claimed**.
 
 ---

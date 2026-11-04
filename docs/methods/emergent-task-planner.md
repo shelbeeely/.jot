@@ -1,5 +1,6 @@
 ---
 title: Emergent Task Planner
+summary: "Plan a few important tasks alongside time estimates and unexpected work."
 slug: emergent-task-planner
 category: planner
 evidenceLevel: anecdotal

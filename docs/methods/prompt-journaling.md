@@ -1,5 +1,6 @@
 ---
 title: "Prompt journaling"
+summary: "Begin writing from an optional question or invitation."
 slug: prompt-journaling
 category: reflective-writing
 evidenceLevel: some

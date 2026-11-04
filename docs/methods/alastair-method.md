@@ -1,5 +1,6 @@
 ---
 title: "The Alastair Method"
+summary: "Use columns and dots to organize tasks or future events."
 slug: alastair-method
 category: bujo-family
 evidenceLevel: none

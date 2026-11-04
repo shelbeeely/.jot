@@ -176,11 +176,11 @@ records, code/escapes, no network side effects and byte-preserving round trips. 
 - [Open-Meteo historical weather](https://open-meteo.com/en/docs/historical-weather-api),
   [air quality](https://open-meteo.com/en/docs/air-quality-api) and [pricing](https://open-meteo.com/en/pricing):
   distinguish estimated data, coverage, attribution and commercial-use terms.
-- `docs/methods/digital-daily-notes.md, line 711` rejects third-party journal-content sync; the plan keeps prose local.
+- `docs/methods/digital-daily-notes.md, line 712` rejects third-party journal-content sync; the plan keeps prose local.
   Its objection to activity-based suggestions at line 712 is deliberately narrowed by the owner's explicit request for
   an optional setting: active-entry analysis is local, off by default and does not initiate provider requests.
-- `docs/methods/expressive-writing.md, line 443` supports private writing unless sharing is chosen.
-- `docs/methods/symptom-tracking.md, line 686` rejects cloud symptom-data sync; optional chosen data imports must not become
+- `docs/methods/expressive-writing.md, line 444` supports private writing unless sharing is chosen.
+- `docs/methods/symptom-tracking.md, line 687` rejects cloud symptom-data sync; optional chosen data imports must not become
   journal uploads, diagnostic inference or automatic clinical-data collection.
 
 These are product boundaries informed by the guides and the owner's instructions, not evidence that connected sources

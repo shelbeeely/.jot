@@ -1,5 +1,6 @@
 ---
 title: "Name of the method"
+summary: "One short sentence describing the practice."
 slug: name-of-the-method
 category: productivity
 evidenceLevel: anecdotal
@@ -11,16 +12,19 @@ contributors:
 ---
 
 <!--
-Copy this file to docs/journaling/methods/<slug>.md. The slug must equal the file name (lowercase words joined by hyphens).
+Copy this file to docs/methods/<slug>.md. The slug must equal the file name (lowercase words joined by hyphens).
+summary:       a concise catalogue description, not a benefit claim or product roadmap.
 category:      bujo-family | japanese | mental-health | neurodivergent-and-creative | paper-and-hybrid | planner | productivity | reflective-writing
 evidenceLevel: strong (several trials or systematic reviews) | some (a few studies, or good evidence for a close relative)
                | anecdotal (practitioner reports, little formal research) | none (no research on the method; say what is known about its parts)
 status:        draft | reviewed | needs-update        (reviewers set "reviewed")
-lastReviewed:  the date a person last checked the sources, YYYY-MM-DD
+lastReviewed:  the latest documented substantive source review, YYYY-MM-DD; describe its scope in section 28.
 contributors:  how you want to be credited, with your consent. Leave it as a handle if you like.
 licence:       CC0-1.0 (required; all docs are a public domain dedication, see LICENSE in this folder)
 Keep all 28 sections below, numbered, in this order. Write "Not applicable" and one line of why if a section truly has nothing.
-Check with: node site/tools/lint-docs.mjs
+Check with: node tools/check-methods.mjs
+Then regenerate the catalogue: node tools/build-methods-index.mjs
+Record additions and local changes in specification/source-register.md; regenerate MANIFEST.json last.
 -->
 
 # Name of the method (creator, if any)
@@ -91,6 +95,15 @@ Apps, e-ink, scanning, and what is lost or gained.
 
 What studies exist, what they found, how strong they are. Name the evidence level and say why. Health claims need peer-reviewed or clinical sources.
 
+Separate evidence for the exact method or log from related treatments, learning techniques, mechanisms or community accounts.
+For key findings, give the studied population, intervention, outcome and limitation on applying it here. Qualitative evidence
+can support descriptions of experience; it is not an outcome trial. A creator's instructions establish method details, not
+efficacy. Label original Jot adaptations and design choices explicitly. Do not infer that an untested practice is low risk.
+
+| Claim | Source and what was studied | What it does not establish |
+| --- | --- | --- |
+| A specific, limited finding | [1], population, intervention and measured outcome | Limits of applying it to this journal format |
+
 ## 17. Benefits
 
 Benefits that the sources support, each tied to a source or marked as reported by practitioners.
@@ -123,9 +136,12 @@ Terms in alphabetical order.
 
 Real questions, short answers.
 
-## 25. For Journalwright Studio
+## 25. For Jot
 
-What a printed book, the e-ink companion and the editor blocks can take from it. Say what to adopt and what not to.
+What the text format, Writer, template editor and paper export can take from the method. Distinguish suggested design from
+verified implementation. Check current Jot guides before describing a feature as available. Dedicated hardware is deferred.
+For an existing profile, preserve its fields and semantics from specification/profiles.json; examples must parse as Jot.
+Inherited guides may retain their original "For Journalwright Studio" heading; its product plans are not Jot feature claims.
 
 ## 26. Open questions
 
@@ -137,7 +153,12 @@ Books and articles that were not used as sources but are worth a look.
 
 ## 28. Sources
 
-All checked 2026-01-01. Replace this with the real date. Then a numbered list, one source per line: title, author or publisher, date, URL. Open every source yourself before you list it.
+Checked YYYY-MM-DD: name the sources and claims actually reviewed. For an inherited bibliography, preserve its earlier date
+and identify the subset rechecked. Say when only an abstract or bibliographic record was accessible, or when access failed.
+Do not claim an exhaustive search or an all-source check after a targeted update.
+
+Then a numbered list, one source per line: title, author or publisher, publication date, URL. Open every new source before
+you list it. Keep reference numbers unique and cite them beside the claim. Date prices, software features and compatibility.
 
 1. "Title of a page". Publisher or author. https://example.org/one
 2. "Title of another page". Publisher or author. https://example.org/two

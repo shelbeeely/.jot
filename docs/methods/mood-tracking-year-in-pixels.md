@@ -1,5 +1,6 @@
 ---
 title: "Mood tracking and Year in Pixels"
+summary: "Record personal mood ratings and view them across a month or year."
 slug: mood-tracking-year-in-pixels
 category: mental-health
 evidenceLevel: some

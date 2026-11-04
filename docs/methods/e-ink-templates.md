@@ -1,5 +1,6 @@
 ---
 title: E-ink journaling and templates
+summary: "Adapt journal pages to e-paper devices and their display constraints."
 slug: e-ink-templates
 category: paper-and-hybrid
 evidenceLevel: some
@@ -185,7 +186,7 @@ are slower in the cold, with many panels rated down to about 0°C.
 
 ### 5.5 Sleep screen
 
-Because e-ink is bistable, whatever is on screen when the device sleeps stays there at zero power. Readers
+Because e-ink is bistable, an unchanged image can remain without power to refresh the display. The rest of a device may still draw power. Readers
 use this for covers or art. The X4 companion uses it for today's page.
 
 ### 5.6 Export and sync
@@ -499,7 +500,7 @@ durable copy.
 - "Writing on e-ink is as good as paper for memory": not settled. Umejima suggests paper wins over tablet
   writing; Morehead found no clear eWriter penalty.
 - "E-ink reduces distraction": plausible by design (no notifications), not directly tested for journaling.
-- "E-ink journaling improves wellbeing": no direct evidence. Benefits come from the journaling method used.
+- "E-ink journaling improves wellbeing": no direct evidence here. Any proposed benefit needs evidence for the particular practice, population and setting; the display does not establish it.
 
 ## 17. Benefits
 
@@ -508,7 +509,7 @@ durable copy.
 - Fewer distractions than a phone or iPad. **claimed**
 - Search and backup (when text-converted or exported). **claimed**
 - Long battery, readable in sunlight (reflective screen). **evidenced by physics (bistable, reflective)**
-- Sleep screen shows useful information at zero power. **evidenced by physics**
+- An unchanged sleep-screen image can remain without display-refresh power. **Physical property**; whole-device standby consumption depends on its electronics, lights and radios.
 - Cheaper than buying many paper planners over years. **claimed (depends on device cost)**
 - One object instead of a stack of notebooks. **claimed**
 

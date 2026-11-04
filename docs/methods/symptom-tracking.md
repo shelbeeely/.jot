@@ -1,5 +1,6 @@
 ---
 title: "Symptom tracking"
+summary: "Record observations and context for a specific health question."
 slug: symptom-tracking
 category: mental-health
 evidenceLevel: some

@@ -1,9 +1,10 @@
 ---
 title: "Stimming and self-regulation (stim log, stim menu, quiet patterns)"
+summary: "Record chosen stims, context and supports without treating harmless stimming as a problem."
 slug: stimming-and-self-regulation
 category: neurodivergent-and-creative
 evidenceLevel: some
-lastReviewed: 2026-10-20
+lastReviewed: 2026-11-02
 status: draft
 licence: CC0-1.0
 contributors: ['Journalwright Studio contributors']
@@ -11,7 +12,9 @@ contributors: ['Journalwright Studio contributors']
 
 # Stimming and self-regulation (stim log, stim menu, quiet patterns)
 
-How to keep a paper record of the repetitive movements, sounds and sensations people use to settle, focus or feel good, from a stance that treats stimming as valid self-regulation. This doc says what the research and autistic adults' own accounts support, and what a page must never claim. Research and sources checked 2026-10-20; anything not confirmed from a primary source is marked **(unconfirmed)**.
+How to keep a paper record of the repetitive movements, sounds and sensations people use to settle, focus or feel good, from a stance that treats stimming as valid self-regulation. This doc says what the research and autistic adults' own accounts support, and what a page must never claim. The original bibliography was recorded on 2026-10-20. A focused update on 2026-11-02 revisited the full-text accounts in sources 1 and 4 and expanded the practical guidance; section 28 records the scope.
+
+> A personal support menu is optional. A visible movement is not a reason to make someone keep a log, and a log cannot decide whether a movement needs clinical support.
 
 ## 1. At a glance
 
@@ -41,15 +44,15 @@ How to keep a paper record of the repetitive movements, sounds and sensations pe
 
 ## 4. Philosophy and principles
 
-1. **Stimming is self-regulation.** The page says so in its own words.
-2. **Notice, do not judge.** There is no good or bad stim and no right amount.
+1. **Stimming can be self-regulation.** The page respects the function it has for the person; it does not assume every repeated action has the same meaning.
+2. **Notice, do not judge.** Social acceptability is not a measure of a stim's value. Safety and comfort can still matter to the person; neither needs a moral label.
 3. **Your list, your words.** Examples are optional and blank boxes are the default.
 4. **Masking costs something.** Hiding stims is one of the camouflaging techniques autistic adults describe, with consequences such as exhaustion (source 4). A page never encourages hiding.
-5. **Safety is separate.** A movement that hurts someone is a reason for support from a person they trust, not for shame. Paper cannot assess that **(practitioner view; no source checked)**.
+5. **Safety is separate.** A movement that hurts someone is a reason for support from a person they trust, not for shame. Paper cannot assess that **(support principle, not a tested journal intervention)**.
 
 ## 5. Core components
 
-- **Stim log.** When, what felt good, where it helped, optional before and after settledness and how much.
+- **Stim log.** When, what you used, the setting and any words you want for how it felt. A personal note is enough; no frequency count or numeric rating is needed.
 - **Stim menu.** Your favourites by sense (touch, movement, sound, sight, taste and chew, deep pressure) with room for new ideas.
 - **Quiet pattern to trace.** Waves, zigzags, loops, spirals or grid lines to follow slowly with a pen or finger.
 
@@ -57,15 +60,23 @@ How to keep a paper record of the repetitive movements, sounds and sensations pe
 
 1. Start with the menu. Tick or write what you already do. Leave senses blank if they do not fit.
 2. Add the log only if you are curious about patterns.
-3. Keep a tracing page for moments when you want something calm to do with your hands.
+3. If you enjoy tracing, keep a pattern nearby. Leave it out if tracing is tiring, visually uncomfortable or simply uninteresting.
+4. Write where a preferred support lives: "fabric square in the front pocket". A menu can help locate a support without becoming a tracking routine.
+5. Review access before adding objects: whether you can handle them comfortably, whether they cause pain, and whether the setting allows the sound, light or space you want. These are practical choices, not a test of a person's stims.
 
 ## 7. Daily practice
 
-There is none required. When you notice a stim helped, a line in the log takes seconds. When you are overloaded, the menu is a reminder of what has worked.
+There is none required. If you want to remember something, note the support and any context. When overloaded, you may prefer to use the support immediately and write nothing. The page is not a step you must complete before getting what you need.
+
+A word such as "pleasant", "no change", "too much" or "unsure" can describe an experience. It is also fine for a movement to be enjoyable without having a measurable calming effect.
 
 ## 8. Rhythms
 
-Look back when you choose to: after a hard week, to see what helped. There is no review schedule, no streak and no goal. Missed days mean nothing.
+Look back when you choose to. There is no review schedule, no streak and no goal. Missed days mean nothing.
+
+- **A week:** check whether a support you want is actually available where you need it. Restocking a bag can be more useful than analyzing entries.
+- **A month:** remove an unwanted suggestion or change the menu's wording. Preferences can change; you do not need to explain why.
+- **After a gap:** use the menu as it is, change it or leave it closed. No reconstruction is needed.
 
 ## 9. Page anatomy
 
@@ -79,11 +90,24 @@ STIM MENU            Stimming is self-regulation / My stims are valid.
 
 ## 10. Worked examples
 
-All invented.
+All examples are invented and show possible entries, not outcomes to expect.
 
-- **A day.** Log: "3 pm, humming, felt good, in the car, settled 2 then 4."
-- **A week.** The menu shows "weighted blanket" ticked four times; a note says it is good after a loud day.
-- **A month.** Looking back, mornings with a chew toy had calmer starts; the person keeps it in the kit.
+| Period | Example | What it does not establish |
+| --- | --- | --- |
+| Day | "3 pm, humming in the car; felt pleasant. I would like to do that again" | That humming improves attention or reduces distress |
+| Week | "Smooth fabric was already in my pocket on the bus. Keep another piece in the coat" | That all bus journeys need a support or that a missing note means none was used |
+| Month | "The bright tracing sheet is uncomfortable now. Put it away; keep the plain menu" | A loss of progress or a need to tolerate the sheet |
+
+For Jot's existing `stimming-and-self-regulation@1` profile, the required field is `support`. Optional fields are `context`, `effect`, `preference` and a longer `body`. For example:
+
+```text
+support: Smooth fabric in a pocket
+context: Waiting for the bus
+effect: Pleasant to hold
+preference: Keep one in the coat
+```
+
+A static menu can use one such observation per support, without daily entries. An effect can be "unsure" or omitted; the record is not a clinical assessment.
 
 ## 11. Variations and offshoots
 
@@ -105,11 +129,13 @@ A pen, a finger, textures you already like. Low cost: a smooth stone or a piece 
 
 ## 15. Digital and hybrid versions
 
-Phone apps exist for mood tracking; a stim record on a phone can feel more exposed. The Journalwright blocks are paper only: no upload, no storage, no sensor, no audio and no camera.
+Paper can keep a support menu close at hand; a phone or plain-text file may be easier to search, enlarge or read aloud. Neither medium is automatically private. Shared screens, cloud backups and a found notebook can expose the writing.
+
+Jot's existing profile stores an optional personal account, not a sensor-based assessment. The paper-only blocks described by the original Journalwright design are upstream context, not a claim about Jot's current features. The method needs no camera, audio recording, activity count or upload.
 
 ## 16. Evidence and research
 
-**Level: some.** There are no trials of stim journaling. The support is for the underlying claim that stimming serves the person.
+**Level: some for the related research; direct evidence for the journal is absent from the cited sources.** This is not a systematic review or proof that no trial exists. The strongest match here is qualitative research on what stimming means to autistic adults, not research testing a menu or log.
 
 - **Autistic adults' accounts.** Interviews and focus groups with 32 autistic adults found two themes: stimming as a self-regulatory mechanism, and stimming as lacking social acceptance but able to become accepted through understanding. Participants described stimming as an adaptive mechanism that helps soothe or communicate intense emotions or thoughts, and objected to treatment that aims to eliminate it (source 1).
 - **Function, not form.** Cunningham and Schreibman argue that repetitive behaviours should be described by their function, with evidence of both automatic sensory and socially mediated functions, and that they are heterogeneous (source 2).
@@ -118,27 +144,33 @@ Phone apps exist for mood tracking; a stim record on a phone can feel more expos
 - **Masking.** Ninety-two adults described camouflaging; consequences included exhaustion and threats to self-perception (source 4).
 - **Paradigm.** Pellicano and den Houting describe the move from a deficit view to a neurodiversity view of autism science (source 6).
 
+**Scope and representation.** Source 1 used interviews and focus groups with 32 autistic adults. The authors describe a sample whose members could articulate their experiences; these accounts cannot represent every autistic person, including those with substantial communication support needs. Source 4 is a qualitative study of 92 adults about camouflaging broadly. It does not isolate the effect of hiding stims or show that keeping a menu reduces exhaustion. Both are valuable first-person evidence with those limits.
+
 **What not to claim.** That every stim is regulating, that stimming helps everyone, that stimming predicts any outcome, or that a log improves anything.
 
 ## 17. Benefits
 
 - Autistic adults report stimming helps them regulate (source 1).
-- Having your own menu can make it easier to reach for what works (practitioner reports).
-- Not being asked to hide a stim is itself a relief (source 4 describes the cost of hiding).
+- A menu can hold the names and locations of supports you want nearby (intended use; no measured journal outcome).
+- Respecting the writer's own choices fits the accounts in sources 1 and 4. Whether this page feels affirming or useful is the writer's judgment, not a demonstrated effect.
 
 ## 18. Pitfalls
 
 - **Turning it into a target.** Counting stims or rating them invites judgement. The blocks have no scores.
 - **Using a log to change someone else's behaviour.** The log is for the person who stims.
-- **Words that imply a problem.** No block uses reduce, stop, suppress, control or fix; a test scans for them.
+- **Words that imply a problem.** Avoid making reduction or suppression the page's purpose. The original upstream guide described a wording test; this research guide does not verify a corresponding Jot implementation.
+- **Treating a comparison as a cause.** A before/after note cannot show that the support caused a change; time, setting and other events may matter.
+- **Making a kit into a shopping task.** Nothing needs to be bought, and another person's favorite tool need not suit you.
 - **Ignoring pain.** A movement that causes injury deserves support, not just a log.
 
 ## 19. Accessibility and adaptations
 
 - **Motor.** The menu uses ticks and short lines; the tracing page can be a finger on the printed pattern.
 - **Cognitive and energy.** Use only the menu, with one row per sense.
-- **Sensory.** Plain pages, no colour, no sound. Tracing patterns are simple and low contrast grey so the page itself is calm.
-- **Vision.** Large print and high contrast keep the same rows.
+- **Sensory.** Offer a plain page and a menu without decorative patterns. Contrast, color and texture preferences vary; low-contrast gray is not automatically calming or accessible.
+- **Vision.** Large print and high contrast can keep the same rows. Put a written label beside every icon; a tracing page need not be used.
+- **Communication.** A writer can point to a support, use AAC or choose a photo or object cue. No spoken explanation is required. Another person can help record the writer's choices without deciding what those choices mean.
+- **Privacy and control.** Keep the full log private unless the writer chooses otherwise. Sharing "soft fabric helps while waiting" does not require sharing overload notes or a diagnosis.
 
 ## 20. Comparison
 
@@ -155,7 +187,9 @@ Pair the menu with the sensory section of [autistic sensory journaling](autistic
 
 - "What felt good?"
 - "Where did it help?"
-- "How settled did I feel before and after?"
+- "How did it feel, if I want to say?"
+- "Where can I keep this so I can reach it?"
+- "Would I like this available again?"
 - Optional examples a menu may print (original to this project): smooth stone, soft fabric, rocking, humming, a song on repeat, lava lamp, chewy sweets, a heavy blanket.
 
 ## 23. Glossary
@@ -172,13 +206,16 @@ Pair the menu with the sensory section of [autistic sensory journaling](autistic
 
 ## 25. For Journalwright Studio
 
-**Adopt:** the stim log, the stim menu (with an optional setting that prints a few examples per sense, off by default, boxes blank) and a tracing page, all paper only. Every block says stimming is self-regulation in its copy and the stim menu says "My stims are valid."
+**Upstream context:** this section originally described Journalwright paper blocks. For Jot, these are design recommendations, not implemented-feature or effectiveness claims.
+
+**Adopt:** a static menu first, an optional log, blank examples by default, and a tracing page only when wanted. Preserve the writer's language for supports. The existing Jot profile requires `support` and leaves effects optional; no daily monitoring is necessary.
 
 **Do not adopt:** any counts, scores, streaks, targets or reduction wording; any claim that stimming journaling improves outcomes; camera, audio or sensor input.
 
 ## 26. Open questions
 
-- No trials of stim journaling exist **(unconfirmed that none are in progress)**.
+- The cited sources do not test stim journaling, a tracing page or a static menu. A systematic search would be needed before making a broader claim about the literature.
+- Whether labels, rows or example objects fit people with different communication, vision, motor and sensory needs needs evaluation with those writers.
 - How to tell when a movement needs support is a clinical question this doc does not answer.
 
 ## 27. Further reading
@@ -187,7 +224,7 @@ Pair the menu with the sensory section of [autistic sensory journaling](autistic
 
 ## 28. Sources
 
-All checked 2026-10-20.
+Original bibliography recorded as checked 2026-10-20. Focused update on 2026-11-02: full-text methods, findings and limitations in sources 1 and 4 were consulted through Europe PMC. Sources 2, 3, 5 and 6 were retained without an independent recheck. No systematic search was performed.
 
 1. Steven K. Kapp, Robyn Steward, Laura Crane, Daisy Elliott, Chris Elphick, Elizabeth Pellicano and Ginny Russell, "'People should be allowed to do what they like': Autistic adults' views and experiences of stimming", *Autism* 23(7):1782-1792, 2019. https://europepmc.org/article/MED/30818970
 2. Amy B. Cunningham and Laura Schreibman, "Stereotypy in autism: the importance of function", *Research in Autism Spectrum Disorders* 2(3):469-479, 2008. https://europepmc.org/article/MED/19122856

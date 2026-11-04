@@ -1,5 +1,6 @@
 ---
 title: Gender euphoria journal and HRT log
+summary: "Record personally meaningful experiences, treatment facts and optional health observations."
 slug: gender-euphoria-and-hrt-log
 category: mental-health
 evidenceLevel: some

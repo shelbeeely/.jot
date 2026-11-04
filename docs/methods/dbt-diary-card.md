@@ -1,9 +1,10 @@
 ---
 title: "DBT diary card"
+summary: "Monitor agreed treatment targets and skills within a DBT program."
 slug: dbt-diary-card
 category: mental-health
 evidenceLevel: strong
-lastReviewed: 2026-09-30
+lastReviewed: 2026-11-02
 status: reviewed
 licence: CC0-1.0
 contributors:
@@ -492,6 +493,13 @@ Release cycle: none; editions every decade or two.
 
 ## 16. Evidence and research
 
+**Scope of the evidence label.** **Strong** is this library's label for an established treatment literature; it
+must not be read as a high-certainty GRADE rating for DBT or for diary cards. Storebø et al. [9] rated the DBT findings
+low quality. Most trials compare whole programmes rather than card use with no card use. The direct diary-card
+trial [10] involved 15 individually supported sessions over 16 weeks and women with binge-eating-related disorders;
+it does not validate an unsupported card for other conditions or for crisis care. Observational associations between
+skill marks and symptoms do not by themselves show that marking a card causes the change.
+
 | Study | Sample | Finding | Strength and limits |
 |---|---|---|---|
 | Linehan et al., 1991, *Arch Gen Psychiatry* | Women with BPD and repeated self-harm; 1 year DBT vs usual care | Fewer and less severe self-harm episodes, better retention, fewer inpatient days | First RCT; small; women only |
@@ -505,9 +513,8 @@ Release cycle: none; editions every decade or two.
 | Bitran et al., 2025, *Cogn Ther Res* | 95 adults with BPD, 6 months DBT | Daily joy rose; rises predicted later drops in BPD severity | Diary-card data; observational |
 
 **Claimed vs supported:**
-- *Supported:* DBT (with the card) reduces self-harm and suicidal behaviour in BPD; skills use is a mechanism;
-  diary-card data track skill use and daily states well enough for research.
-- *Partly supported:* the card as a self-help tool (only one small clinician-supported trial).
+- *Supported with limits:* DBT programmes can reduce some BPD outcomes compared with usual care; the Cochrane DBT subgroup findings were low quality [9]. Skills use is a candidate mechanism supported by mediation research, not proof that the diary card is the active ingredient. Diary-card data have been used to study daily states and skill use.
+- *Preliminary direct evidence:* individually supported diary-card self-monitoring for binge eating [10]. This was a clinician-supported intervention, not a trial of an unsupported self-help form.
 - *Claimed, not isolated in trials:* that the card by itself improves outcomes, strengthens alliance, or reduces
   shame. These are clinical rationale **(uncertain)**.
 - Completion is a known issue: in McCool et al. about 28% of possible urge ratings were missing.
@@ -517,7 +524,7 @@ Release cycle: none; editions every decade or two.
 - Fewer self-harm and suicidal behaviours when used within DBT: **evidenced** (for DBT as a package).
 - Makes skills use visible and trackable: **evidenced** (used as a research measure).
 - Links skill use to lower same-day distress: **evidenced** (observational).
-- Supported diary-card self-monitoring helps binge eating: **evidenced** (one small trial).
+- Supported diary-card self-monitoring was associated with improved binge-eating symptoms: **preliminary trial evidence** from one small active-comparator study, not evidence for an unsupported card or other conditions.
 - Joy ratings show progress that distress numbers miss: **evidenced** (one study).
 - Faster, more focused therapy sessions: **claimed**.
 - Notices patterns (shifts, sleep, pain) that trigger urges: **claimed**, widely reported.
@@ -808,7 +815,10 @@ On pages printed from this layout, the skills key and chain analysis sheets go i
 
 ## 28. Sources
 
-All checked 2026-09-28. PubMed article pages showed a captcha, so journal abstracts were read through PMC or the
+Targeted evidence-scope check, 2026-11-02: Europe PMC abstracts for Storebø et al. [9] and Klein et al. [10] were
+reread. Other references, product prices and service hours were not independently rechecked in this pass.
+
+Original bibliography check: 2026-09-28. PubMed article pages showed a captcha, so journal abstracts were read through PMC or the
 Europe PMC REST service.
 
 1. UW Behavioral Research & Therapy Clinics. "Assessment Instruments" (NIMH S-DBT, NIDA and CARES diary cards; terms
@@ -833,6 +843,7 @@ Europe PMC REST service.
 9. Storebø OJ, Stoffers-Winterling JM, Völlm BA, et al. "Psychological therapies for people with borderline
    personality disorder." Cochrane Database Syst Rev 2020, CD012955.pub2 (plain-language summary).
    https://www.cochrane.org/evidence/CD012955_psychological-therapies-people-borderline-personality-disorder
+   Abstract recheck: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1002/14651858.CD012955.pub2&resultType=core&format=json
 10. Klein AS, Skinner JB, Hawley KM. "Targeting binge eating through components of dialectical behavior therapy:
     preliminary outcomes for individually supported diary card self-monitoring versus group-based DBT."
     *Psychotherapy* 2013. PMID 24295464. Europe PMC record:

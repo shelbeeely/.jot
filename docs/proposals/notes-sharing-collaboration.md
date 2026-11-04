@@ -113,9 +113,9 @@ attachments: no
   paragraph or list item containing a chosen tag; a share never cuts a sentence in half.
 - `notes`: `none`, `mine` or `all` (other people's notes need their consent, below). Margin notes follow `notes`; hidden
   comments are never included.
-- Typical audiences from the guides: a **therapist** (DBT card, thought records, mood chart; dbt-diary-card.md 215),
-  a **doctor** (an appointment summary; symptom-tracking.md 318), a **partner** (chosen entries, a shared plan),
-  a **friend** (one entry or a gratitude list), a **housemate** (a sensory profile; autistic-sensory-journaling.md 198).
+- Typical audiences from the guides: a **therapist** (DBT card, thought records, mood chart; docs/methods/dbt-diary-card.md, line 216),
+  a **doctor** (an appointment summary; docs/methods/symptom-tracking.md, line 319), a **partner** (chosen entries, a shared plan),
+  a **friend** (one entry or a gratitude list), a **housemate** (a sensory profile; docs/methods/autistic-sensory-journaling.md, line 199).
   These are suggestions in the writer, not built-in roles.
 
 ### 4.2 Making the copy
@@ -132,8 +132,8 @@ attachments: no
    renderings, not share copies.)
 5. **Formats.** `.jot` (or `.jotz` with chosen attachments), standalone HTML, or PDF via print. Summaries, charts and
    queries are rendered into the copy as text and tables, so a reader needs no Jot software
-   (mood-tracking-year-in-pixels.md 586; autistic-sensory-journaling.md 691).
-6. **Code words stay code words.** The copy never expands abbreviations or code words (dbt-diary-card.md 684).
+   (docs/methods/mood-tracking-year-in-pixels.md, line 587; docs/methods/autistic-sensory-journaling.md, line 692).
+6. **Code words stay code words.** The copy never expands abbreviations or code words (docs/methods/dbt-diary-card.md, line 691).
 7. **Optional share log.** If the writer wants to remember what a reader has seen, the writer adds a record like the
    existing `sync` record: `:::record share-log #share-therapist` with `audience:`, `on:` dates and `sent:` IDs. It is
    off by default and never displayed in renders.
@@ -141,12 +141,12 @@ attachments: no
 ### 4.3 Protections
 
 - **Only the writer starts a share.** No "request access", read receipts, "last shared" indicators or reminders to share.
-  This guards against pressure from a partner or anyone else (gratitude-journaling.md 602).
+  This guards against pressure from a partner or anyone else (docs/methods/gratitude-journaling.md, line 603).
 - **Not a crisis channel.** A shared journal is not monitored. The share dialog and a shared safety plan say who to
-  contact instead, following the plan's own steps (safety-planning.md 207).
+  contact instead, following the plan's own steps (docs/methods/safety-planning.md, line 208).
 - **Files are readable by anyone holding them.** The dialog says so plainly; Jot does not claim encryption (§9).
 - **No inference.** Share copies, like the journal, contain no scores, diagnoses or interpretations Jot computed beyond the
-  existing charts and queries (symptom-tracking.md 683).
+  existing charts and queries (docs/methods/symptom-tracking.md, line 684).
 
 ## 5. Collaborative journaling
 
@@ -219,7 +219,7 @@ audience: #therapist
 :::
 ```
 
-Roles instead of names remain available in every copy (design-iteration-and-critique.md 178).
+Roles instead of names remain available in every copy (docs/methods/design-iteration-and-critique.md, line 214).
 
 ## 6. Changes this needs
 

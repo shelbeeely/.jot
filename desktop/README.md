@@ -2,10 +2,8 @@
 
 App delivery is tracked in the [Writer roadmap](../WRITER-ROADMAP.md#desktop-application-track); the [format roadmap](../specification/ROADMAP.md) owns document contracts. Format changes must include corresponding Writer updates under root `AGENTS.md`.
 
-Jot as an app for Linux, macOS and Windows, set up to build for Android and iOS too. The pages are the website's own
-(`site/dist/`), loaded unchanged, so the app has the website's features; the app adds what a web page cannot have, through a small
-bridge injected into every page as `window.jotDesktop` (`src-tauri/src/bridge.js`). On the website the bridge does not exist and
-the pages behave as they always have.
+Jot for Linux, macOS and Windows, with Android and iOS build targets. It loads `site/dist/` and exposes native operations through
+`window.jotDesktop` (`src-tauri/src/bridge.js`). Platform differences and verification limits are listed below.
 
 ## What the app adds
 
@@ -22,13 +20,9 @@ Files are read only after you pick them in a dialog or open them from the file m
 pages cannot call a file-system, shell or HTTP plugin, because there is none (`capabilities/default.json`), and they can read an
 opened journal only once, by the number the app gave it.
 
-**Jot's file types.** The installers register `.jotz` (the default v1 draft archive, with optional entry protection) and `.jot` (source import/export) with the app.
-Windows shows them with the app's icon; macOS draws a document with the app icon on it; the Linux package installs their MIME
-types (`linux/jot-mime.xml`) with a document icon, a cream page with the iota (`linux/jot-document.svg`, from `docs/brand/`), and
-its desktop entry passes the files on (`linux/jot.desktop`). A double-click starts the app with the file (an argument on Windows and
-Linux, an event on macOS); the writer opens it through its own Open path, so a locked one asks for a way in. Tested on Linux
-(the `.deb` installed: `.jot` is `text/x-jot`, with the iota icon and Jot as its default app). Each double-click on Windows and
-Linux starts another window for now.
+Installers register `.jotz` archives and `.jot` source with document icons. Linux integration uses `linux/jot-mime.xml` and
+`linux/jot.desktop`; installed MIME types, icons and default opening have been tested with the `.deb`.
+Each file opening starts another window on Windows and Linux. Protected archives use the writer's normal unlock flow.
 
 Planned next: saving back to the file you opened (in place), one window for many files, and keeping a lock's passphrase in the
 operating system's keychain on request.

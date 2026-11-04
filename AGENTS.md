@@ -12,6 +12,7 @@ Jot is a plain-text journal format with a JavaScript parser, CLI, static website
 - `desktop/`: the Tauri v2 app around `site/dist/` (Rust in `src-tauri/`, its own `npm install` and Cargo dependencies; see `desktop/README.md`). Its tests: `cargo test` in `desktop/src-tauri` and `xvfb-run -a npm test` in `desktop/`.
 - `.github/workflows/pages.yml`: required checks and publication from `main`.
 - `docs/methods/`: the journaling methods research behind profiles and design decisions; start from its `README.md` (rules: "Research and decisions" below).
+- `docs/rendering/`: syntax, media/link, integration and e-paper rendering contracts; distinguish current host behavior from proposed device support. Regenerate `profile-coverage.md` with `tools/build-rendering-profiles.mjs`.
 - `.agents/skills/to-jot/`: the agent skill for generating, converting and validating journals and templates (Codex reads it here; `.claude/skills/to-jot` is a symlink to it). Use it whenever you are asked to make a `.jot` from other material, and validate with `node cli/jot.mjs check --strict`.
 
 ## Local development
@@ -63,6 +64,7 @@ node tools/build-handwriting-css.mjs
 node site/build-guides.mjs
 node tools/sync-roadmap.mjs
 node tools/build-methods-index.mjs
+node tools/build-rendering-profiles.mjs
 node tools/sync-brand.mjs
 node tools/build-offline.mjs
 python3 tools/build-parser-zip.py
@@ -88,6 +90,9 @@ node tools/privacy-check.mjs site/dist
 node tools/build-handwriting-css.mjs --check
 node tools/sync-roadmap.mjs --check
 node tools/build-methods-index.mjs --check
+node tools/build-rendering-profiles.mjs --check
+node tools/check-methods.mjs
+node --test tools/test-methods.mjs
 node tools/sync-brand.mjs --check
 node site/build-guides.mjs --check
 node tools/build-examples.mjs --check

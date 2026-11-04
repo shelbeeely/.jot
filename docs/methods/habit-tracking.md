@@ -1,9 +1,10 @@
 ---
 title: Habit Tracking
+summary: "Record chosen behaviors while considering context, measurement and gaps."
 slug: habit-tracking
 category: productivity
 evidenceLevel: strong
-lastReviewed: 2026-09-30
+lastReviewed: 2026-11-02
 status: reviewed
 licence: CC0-1.0
 contributors:
@@ -40,7 +41,7 @@ Checked against sources on 2026-09-28. Where a detail couldn't be confirmed from
 
 ## 2. Summary
 
-A habit is a behaviour that runs on autopilot when a familiar context cues it. Research says habits form through **repetition in a stable context**, not through willpower, and that it takes longer than people think: in Lally's 2010 study, a median of 66 days, with a range of 18 to 254. Missing a single day didn't derail the process. Tracking helps because recording progress, especially on paper, improves goal attainment. Linking a new behaviour to a clear cue ("after I pour coffee, I take my meds") helps more than reminders, which can support repetition while slowing true habit formation. The popular books (*Atomic Habits*, *Tiny Habits*) package these ideas well but go beyond the evidence in places. The main design risk is the streak: an intact streak motivates, but a visibly broken one can lower engagement, especially when people blame themselves. Good trackers count what you did, allow partial credit, and make restarting the normal path.
+A habit is a behaviour that runs on autopilot when a familiar context cues it. Research says habits form through **repetition in a stable context**, not through willpower, and that it takes longer than people think: in Lally's 2010 study, a median of 66 days, with a range of 18 to 254. Missing a single day didn't derail the process. Monitoring interventions improve goal attainment on average; effects were larger in studies where progress was physically recorded. That does not establish that paper beats digital recording, or that filling in a grid creates a habit. A clear event cue can support repetition. One small app study raises questions about reminder dependence; keep reminders that you need for medication or other important tasks. The popular books (*Atomic Habits*, *Tiny Habits*) package these ideas well but go beyond the evidence in places. The main design risk is the streak: an intact streak motivates, but a visibly broken one can lower engagement, especially when people blame themselves. Good trackers count what you did, allow partial credit, and make restarting the normal path.
 
 ---
 
@@ -386,6 +387,13 @@ Not applicable as a single method. Examples on the market (prices change often):
 
 ## 16. Evidence and research
 
+**Scope of the evidence label.** **Strong** applies to progress-monitoring and implementation-intention research,
+not to every habit tracker or to automaticity from tracking alone. Harkin et al. [6] found a mean effect on goal
+attainment of d = 0.40 across 138 experiments. The larger effects with physical recording and public reporting were
+moderator findings across studies, not a direct paper-versus-app trial or a reason to require sharing. Completing a
+chosen action, reaching a goal and doing it automatically are different outcomes. A tracker can record the first
+without demonstrating the others.
+
 | Study | Sample | Finding | Strength and limits |
 |---|---|---|---|
 | Lally et al. 2010, *Eur J Soc Psychol* | About 96 volunteers **(unconfirmed)**, 12 weeks, one self-chosen eating, drinking or activity behaviour in a daily context | Automaticity rose in a curve that flattened. Median 66 days to 95% of plateau; range 18–254. Missing one opportunity did not materially affect the process | Classic, real-world. Self-report; the curve fit only part of the sample (**about 39 of 82, unconfirmed**); many were extrapolated beyond 84 days |
@@ -403,7 +411,7 @@ Not applicable as a single method. Examples on the market (prices change often):
 | Dai, Milkman and Riis 2014, *Management Science* | Archival field data | Goal behaviours rise after temporal landmarks (new week, month, year) | Field data; correlational |
 
 **Claimed vs supported:**
-- *Supported:* context-linked repetition forms habits; it takes weeks to months with wide variation; one miss isn't a reset; if-then plans work; writing progress down helps.
+- *Supported:* context-linked repetition is associated with increasing automaticity; formation times vary widely. One missed opportunity did not materially affect the modelled formation process in Lally's study. If-then plans and monitoring interventions improve goal attainment on average, which is a different outcome from habit automaticity.
 - *Partly supported:* streak displays motivate while intact; broken streaks can demotivate; repair options soften this.
 - *Claimed:* "never miss twice" as a rule; "21 days" (contradicted); "1% better every day" compounding (a metaphor, not data); identity-based habits; celebration wiring in habits (Fogg) **(no trial found)**.
 
@@ -411,7 +419,7 @@ Not applicable as a single method. Examples on the market (prices change often):
 
 ## 17. Benefits
 
-- Better follow-through on goals when progress is written down — **evidenced**.
+- Better goal attainment from progress-monitoring interventions: **evidenced** on average [6]. This does not establish an effect for a particular grid or for every person.
 - Faster start from if-then plans — **evidenced**.
 - Behaviours that become automatic cost less effort — **evidenced** (theory and field data).
 - Seeing patterns (days that drop off, links to sleep or shifts) — **claimed**, plausible.
@@ -665,14 +673,17 @@ Monthly-tracker columns aren't a day block, so they'd be a book option: `tracker
 
 ## 28. Sources
 
-All checked 2026-09-28. Each URL was opened once. Europe PMC API records were used where PubMed and publisher pages blocked automated access; the DOI is given for each paper.
+Original bibliography check: 2026-09-28. Europe PMC API records were used where PubMed and publisher pages blocked automated access; the DOI is given for each paper.
+
+Targeted evidence-scope check, 2026-11-02: Harkin et al.'s abstract [6] was reread through Europe PMC. This pass did
+not independently recheck the other sources or compare tracker products.
 
 1. Lally P, van Jaarsveld CHM, Potts HWW, Wardle J. "How are habits formed: Modelling habit formation in the real world". *European Journal of Social Psychology*, 2010. doi:10.1002/ejsp.674. Semantic Scholar record: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1002/ejsp.674?fields=title,authors,year,venue,abstract,url (study figures confirmed through sources 2 and 3)
 2. Gardner B, Lally P, Wardle J. "Making health habitual: the psychology of 'habit-formation' and general practice". *British Journal of General Practice*, 2012. https://pmc.ncbi.nlm.nih.gov/articles/PMC3505409/
 3. Singh B, Murphy A, Maher C, Smith AE. "Time to Form a Habit: A Systematic Review and Meta-Analysis of Health Behaviour Habit Formation and Its Determinants". *Healthcare*, 2024. https://pmc.ncbi.nlm.nih.gov/articles/PMC11641623/
 4. Wood W, Neal DT. "A New Look at Habits and the Habit-Goal Interface". *Psychological Review*, 2007. doi:10.1037/0033-295X.114.4.843. Europe PMC record: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(TITLE:%22How%20are%20habits%20formed%22%20AND%20AUTH:Lally)%20OR%20(TITLE:%22A%20new%20look%20at%20habits%22%20AND%20AUTH:Wood)%20OR%20(TITLE:%22Implementation%20intentions%22%20AND%20AUTH:Gollwitzer%20AND%20PUB_YEAR:1999)%20OR%20(TITLE:%22monitoring%20goal%20progress%22%20AND%20AUTH:Harkin)%20OR%20(TITLE:%22Time%20to%20Form%20a%20Habit%22)%20OR%20(TITLE:%22Psychology%20of%20Habit%22%20AND%20AUTH:Wood%20AND%20PUB_YEAR:2016)&resultType=core&format=json
 5. Wood W, Rünger D. "Psychology of Habit". *Annual Review of Psychology*, 2016. doi:10.1146/annurev-psych-122414-033417. Europe PMC record: same as source 4.
-6. Harkin B et al. "Does Monitoring Goal Progress Promote Goal Attainment? A Meta-Analysis of the Experimental Evidence". *Psychological Bulletin*, 2016. doi:10.1037/bul0000025. Europe PMC record: same as source 4.
+6. Harkin B et al. "Does Monitoring Goal Progress Promote Goal Attainment? A Meta-Analysis of the Experimental Evidence". *Psychological Bulletin*, 2016. doi:10.1037/bul0000025. Europe PMC record: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:26479070&resultType=core&format=json
 7. Gollwitzer PM. "Implementation intentions: Strong effects of simple plans". *American Psychologist*, 1999. PDF: https://www.prospectivepsych.org/sites/default/files/pictures/Gollwitzer_Implementation-intentions-1999.pdf
 8. Gollwitzer PM. "Implementation intentions: Strong effects of simple plans" (publication page). University of Konstanz, Social Psychology and Motivation. https://www.socmot.uni-konstanz.de/publications/implementation-intentions-strong-effects-simple-plans
 9. Gollwitzer PM, Sheeran P. "Implementation intentions and goal achievement: a meta-analysis of effects and processes". *Advances in Experimental Social Psychology*, 2006. https://kops.uni-konstanz.de/handle/123456789/10973

@@ -1,5 +1,6 @@
 ---
 title: "Traveler's Notebook"
+summary: "Combine interchangeable notebook inserts in a portable cover."
 slug: travelers-notebook
 category: paper-and-hybrid
 evidenceLevel: none

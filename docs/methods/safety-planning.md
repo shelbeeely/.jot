@@ -1,5 +1,6 @@
 ---
 title: "Safety planning"
+summary: "Develop an accessible, individualized crisis plan with appropriate support."
 slug: safety-planning
 category: mental-health
 evidenceLevel: some
@@ -431,8 +432,8 @@ and writes "reviewed 1 Nov" at the top. The X4 file is updated from the Wi-Fi pa
 - *Supported:* safety planning-type interventions reduce suicidal behaviour (meta-analysis), and safety planning with
   follow-up increases treatment engagement.
 - *Not supported:* that a plan reduces suicidal thoughts on its own (no significant effect in the meta-analysis).
-- *Not studied well:* self-made plans with no clinician, and journal-integrated plans like the Studio's. They are
-  reasonable and low risk, but the evidence is for the clinician-guided intervention **(uncertain)**.
+- *Not studied well:* self-made plans with no clinician, and journal-integrated plans like the Studio's. The clinical
+  intervention evidence does not establish their effectiveness or safety as standalone journal pages **(uncertain)**.
 
 ## 17. Benefits
 

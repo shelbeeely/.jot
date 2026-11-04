@@ -58,8 +58,7 @@ A `.jot` file can also be nothing but sentences. Dates, marks and formatting are
 
 ### Use it online
 
-Jot runs in your browser at **https://shelbeeely.github.io/.jot/**: open **Write** and start. Nothing is uploaded: your writing
-stays on your device.
+Jot runs in your browser at **https://shelbeeely.github.io/.jot/**: open **Write** and start. Writing is local by default; optional connected tools explain what they send before you use them.
 
 ### Run the browser workspace
 
@@ -113,131 +112,27 @@ Writer saves and downloads `.jotz` by default. Plain `.jot` and Markdown are sou
 
 ## Features
 
-The site uses Jot Sans for reading and controls, with system fonts as a fallback and monospace for source and code. Handwriting
-belongs to rendered journal pages. The shared page stylesheet keeps cream paper in light mode and charcoal paper in dark mode.
-The homepage demonstrates ink colors, highlights and other Jot marks, including all 25 Mildliner colors (the picker in **Write** has 71 reference colors: those 25, 36 soft reference colors and 10 pastels), without a writing editor; open **Write** to make your own page.
+Writer supports formatted and handwritten pages, tasks, measurements and charts, reusable templates, print and standalone HTML export.
+The detailed instructions live in the guides:
 
+| Use | Guide |
+| --- | --- |
+| Writing, colors, page styles and locking | [Writing Jot](docs/guide/writing-jot.md) |
+| Daily, weekly and monthly templates | [Template editor](docs/guide/template-editor.md) |
+| CSV, calendars, service connections and listening capture | [Automation](docs/guide/automation.md) |
+| Old diaries and social-data exports | [Converting](docs/guide/converting.md) |
+| Optional OpenRouter or local-model drafts | [AI companion](docs/guide/ai-companion.md) |
+| Offline use, sharing, nearby transfer and annotations | [Browser tools](docs/guide/browser-tools.md) |
+| Syntax, media, integrations and e-paper readers | [Rendering](docs/rendering/README.md) |
 
-### Numbers, charts and the weekly dashboard
+### Jot for VS Code
 
-Numbers you write (sleep hours, steps, a 1–5 mood) are `measurement` records; a `:::record chart` asks for them to be drawn, one small
-chart per metric (spec §5.2.1). The workspace, the template editor's **Page** view and the VS Code extension draw the same charts with
-the same code: `parser/charts.mjs` reads the numbers and makes each chart's configuration, [Chart.js](https://www.chartjs.org) 4.6.1
-(`parser/vendor/chart.mjs`, bundled, nothing fetched) draws it, and `parser/preview.mjs` lays out the page. The template editor's
-**Weekly dashboard** starter sets up a week page of six widgets (the "rule of 7"). Guide:
-[Numbers and charts](docs/guide/template-editor.md#numbers-and-charts).
+For syntax highlighting, live preview and HTML export, follow [extension setup](vscode/README.md).
 
-### Beautiful formatted pages
+### Desktop app (Tauri v2)
 
-Jot things down; the workspace (**Write**) shows them as formatted pages: dates in words, task states, signs for events, questions and
-ideas, tags and places, margin notes beside the text. **Style** picks **Journal** (a book page), **Notes** (clean and modern) or
-**Plain** (`parser/styles.mjs`). **Print / PDF** prints them with book margins and page numbers; **Download page ↓** saves one
-standalone `.html` with everything inside (`parser/export.mjs`). VS Code has the same styles and **Jot: Export as HTML**. Guide:
-[Beautiful pages](docs/guide/writing-jot.md#beautiful-pages-styles-printing-and-sharing).
-
-### Inline colors
-
-Select words in the workspace and apply text ink, highlight, strikethrough or underline colors, using a palette or custom hex. Colors persist in `.jot` source and appear in preview, print and standalone HTML export. Translucent highlighter strokes blend over the ink, with lighter coverage in dark mode so the writing stays readable. Handwritten is the default for new preview preferences; saved choices are kept. See [Color in handwritten pages](docs/guide/writing-jot.md#color-in-handwritten-pages). Browser regression check: `node site/test-colors-ui.cjs` (Playwright and Chromium).
-
-### Handwritten pages on a dot grid
-
-In the workspace (**Write**), **Look → Handwritten** writes the journal in Jot Script, an original gel-pen-inspired hand in 0.5,
-0.7 and 1.0 stroke styles. New previews use 0.7; existing Pen, Neat print and Marker choices remain available. These numbers name
-visual stroke styles, not physical pen widths. Handwriting puts every line on a row of a dot grid (4 to 7 mm). **Print / PDF** prints the dots and the
-writing together, page after page, on A5, A4, Letter, pocket or your own paper. The template editor's Page view and VS Code show it
-too. Guide: [Handwritten pages on a dot grid](docs/guide/writing-jot.md#handwritten-pages-on-a-dot-grid). Fuller formatting
-(`==highlight==`, `++underline++`, `^sup^`, footnotes, callouts, centred lines): [More ways to mark words](docs/guide/writing-jot.md#more-ways-to-mark-words).
-
-### Automation and connections
-
-`parser/automation.mjs` reads a journal's tasks, events and numbers and writes back to it: calendar (`.ics`) and CSV out, numbers from a
-fitness app's CSV in (into their days, blanks filled first, never twice), today's entry, carrying open tasks forward, a week review.
-`parser/connect.mjs` handles optional service calls for webhooks (Zapier, Make, n8n), Todoist and the
-weather (Open-Meteo). The workspace's **Tools** row, the `jot` command line (`cli/jot.mjs`, [cli/README.md](cli/README.md)) and
-VS Code all use the same code. Guide: [Automation and connections](docs/guide/automation.md).
-
-    node cli/jot.mjs help
-    node --test parser/automation-test.mjs cli/test.mjs
-
-### Locked journals
-
-**Write → Lock with a passphrase** encrypts the journal with the browser's built-in Web Crypto (AES-256-GCM, keys from PBKDF2-SHA-256);
-the browser then keeps only an encrypted copy, **Download journal** saves a protected `.jotz`, and the page locks again after time away.
-**Entries, privacy and search** makes chosen entries public and searches the local archive. **Ways in** adds a recovery code or a passkey or security key (WebAuthn PRF), and changes or removes them. Nobody can reset a
-forgotten passphrase. The command line has `jot lock`, `jot unlock` and `jot lock-info`. Format: [Jotz v1 protection](specification/Jot-Protection-v1.md);
-guide: [Locking a journal](docs/guide/writing-jot.md#protect-selected-entries).
-
-## Your life online: data exports into a journal
-
-The **Your life online** page (`/import/`) and `converter/jot-archive.mjs` read the data exports of X/Twitter, Mastodon, Facebook,
-Instagram, Tumblr, Reddit and Google Takeout (Keep, Blogger), several at once, and write one dated journal, a `.jot` (or a `.jotz`
-with photos) a year. Your own words by default, every file private, no like counts, nothing invented: a post without a readable
-time is left out. Tested on made-up samples, not yet on many real exports. Guide:
-[Your life online](docs/guide/converting.md#your-life-online).
-
-## Music with an entry
-
-In **Write → Listening ♫**, add a song title, artist, Spotify or YouTube Music link, and a note about the setting. Spotify's optional
-**Fetch currently playing** fills the fields for review before insertion. The saved note is ordinary Jot/Markdown and stays useful
-in any text editor. Live Spotify capture requires a registered app's public Client ID; [setup instructions](docs/guide/automation.md#spotify-setup)
-cover configuration and Spotify's access limits. **Last.fm / ListenBrainz** can also fetch public current/recent listening activity
-for review, with source and listen-time labels. ListenBrainz needs only a username; Last.fm needs an application API key.
-[Scrobbler setup](docs/guide/automation.md#scrobbling-services) includes Android options and Libre.fm's current limitation.
-Tokens and API keys stay in page memory; music capture never uploads journal writing.
-
-## Optional AI companion
-
-Writer offers reviewed inline drafts and on-demand suggestions using your own OpenRouter key or a loopback OpenAI-compatible
-model server. AI and AI suggestions start off. Requests send only your instruction and explicitly chosen selection, with no
-automatic text processing. Keys stay in session memory. OpenRouter ZDR is a separate toggle, on by default; provider data collection
-is always denied. Local requests never fall back to the cloud. Responses must pass local Jot validation before an explicit,
-undoable Apply. See the [AI companion guide](docs/guide/ai-companion.md) for setup, privacy boundaries and validation limits.
-
-## Jot for VS Code
-
-From the project root:
-
-```sh
-node vscode/sync.mjs
-(cd vscode && npx @vscode/vsce package)
-```
-
-In VS Code, choose **Extensions → … → Install from VSIX** and select the generated package.
-
-Details: [vscode/README.md](vscode/README.md).
-
-## Template editor: a journal's shape as a .jot
-
-A separate editor just for Jot, in the site at `/editor/`: put together what each day, week and month asks (writing space, prompts,
-checkboxes, scales, blanks, time blocks ...), then download a plain-text `.jot` to fill in, one file for the month or smaller weekly
-or daily files. The handwritten Page view shows paper, grid rows and page boundaries. Reserve a minimum number of rows per block,
-set gaps and page starts, or drag a block’s bottom handle to resize it. Full-width blocks expand with longer writing. Undo, drag to
-reorder, charts, and reopen any downloaded `.jot` to get
-its template back. Details: [site/README.md](site/README.md#template-editor-disteditor).
-
-    python3 -m http.server 8000 --bind 127.0.0.1 --directory site/dist      # http://localhost:8000/editor/
-    node --test site/test-editor.mjs
-    node site/test-editor-ui.cjs
-
-## Converter: old diaries into Jot
-
-`jot-convert` turns a diary kept as plain text into `.jot`: a dated entry for each day, the original date kept after the `|`, Old
-Style dates converted (`--calendar julian`), split by year when it is too big. Tested on Pepys, *The Diary of a Nobody* and Blunt's
-*My Diaries* from Project Gutenberg. The same converter runs in the browser at `/convert/`, with every option of the command line
-and the same files. The converted diaries are the site's examples (`/examples/`): read them in the workspace or download them.
-Details: [converter/README.md](converter/README.md).
-
-    node tools/build-examples.mjs --check
-
-    curl -sL https://www.gutenberg.org/cache/epub/1026/pg1026.txt | node converter/jot-convert.mjs - --year 1888 > nobody.jot
-    node --test converter/test.mjs && node site/test-convert-ui.cjs
-
-## Desktop app (Tauri v2)
-
-`desktop/` runs the site's own pages as an app (Linux, macOS, Windows; set up for Android and iOS) and adds what a web page cannot
-have: exports of any size read a file at a time from disk with guards against hostile ZIPs, native Save dialogs with atomic
-writes, a network limited to the listening services, and web links opened in your own browser. Built from source for now; tested on
-Linux. Details and differences from the site (no passkeys in Linux's web view): [desktop/README.md](desktop/README.md).
+The app wraps the site with native file opening, Save dialogs and streamed archive reading. Built from source and tested on Linux;
+see [desktop setup and platform limits](desktop/README.md).
 
 ## Repository map
 
@@ -251,73 +146,35 @@ Linux. Details and differences from the site (no passkeys in Linux's web view): 
 | [`vscode/`](vscode/) | **Jot for VS Code**: `.jot` syntax colors and a live page preview with charts, from the same renderer as the site |
 | [`desktop/`](desktop/) | **The desktop app** (Tauri v2): the site's pages plus large exports, Save dialogs and a locked-down network; its own Rust and npm dependencies |
 | [`docs/guide/`](docs/guide/) | **User guides** ([index](docs/guide/README.md)): writing, the template editor, automation, your own manual, voice practice, converting diaries and data exports, turning anything into Jot (also pages on the site, `/guide/`) |
+| [`docs/rendering/`](docs/rendering/) | **Rendering contracts**: full syntax, media/links, integrations, all 62 profiles, touch/button navigation, and a FreeInk/X4 browser-to-frame example |
 | [`docs/brand/`](docs/brand/) | **The brand book**: the iota and the "ιot" wordmark, colors, type, [voice](docs/brand/voice.md), [messaging](docs/brand/messaging.md), icons and the pen that draws the logo |
 | [`docs/proposals/`](docs/proposals/) | Design proposals: one editor for every method, Jot books, sharing and collaboration |
 | [`cli/`](cli/) | `jot`, the command line: tasks, events, numbers, calendar and CSV out, numbers in, today, rollover, review, lock and unlock, check, webhooks, Todoist |
 | [`converter/`](converter/) | `jot-convert`: plain-text diaries (your own, or Project Gutenberg's) to dated `.jot` entries; `jot-archive`: social and blog data exports to a journal |
-| [`docs/methods/`](docs/methods/) | The journaling methods library the spec's profiles cover (52 guides, CC0) |
+| [`docs/methods/`](docs/methods/) | Research for all 62 method profiles: 28 sections per guide, practical examples and scoped evidence (CC0) |
 | [`examples/`](examples/) | A plain `.jot` and a packaged `.jotz`. Whole diaries as Jot (Pepys, *The Diary of a Nobody*, Blunt) are on the site's Examples page, [`site/dist/examples/`](site/dist/examples/) |
 | [`references/`](references/) | The historical DotJot document (background only) |
 | `tools/` | `privacy-check.mjs` (the gate before the site is published; `test-privacy.mjs` tests it), `build-examples.mjs` (the site's example diaries, converted from Project Gutenberg; `--check` verifies them), `manifest.cjs` (rewrites or checks [`MANIFEST.json`](MANIFEST.json): size and SHA-256 of every file), `build-spec-pdf.cjs` (the spec PDF from its Markdown), `build-parser-zip.py` (the site's parser download), `test-files.mjs` (plain `.jot` vs packaged `.jotz`, by content) and `test-profiles.mjs` (the method catalogue and its site copy match, and every profile example parses as a complete record) |
 
 ## Development and validation
 
-Run commands from the project root. Use Node.js 22 to match CI; Python 3 supports the local server and archive checks.
-Regenerating the original fonts uses Python 3.12 and the pinned packages in `fonts/requirements.txt`.
-The publishing privacy check also needs `pdftotext` (provided by Poppler).
+Use Node.js 22 to match CI. The site and CLI run without npm dependencies; lint and browser tests need `npm ci`.
+Browser suites also need Playwright and Chromium. Font regeneration uses Python 3.12 and `fonts/requirements.txt`;
+the publishing privacy check needs Poppler's `pdftotext`.
 
 ```sh
-# Parser, automation and CLI tests
+npm run lint
 node --test parser/*test.mjs cli/test.mjs
-
-# Site, converter, file handling and extension tests
-node --test site/test-editor.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs tools/test-privacy.mjs vscode/test-extension.mjs
-node site/test-core.cjs
-
-# Verify the published site and tracked file manifest
-node tools/privacy-check.mjs site/dist
-node tools/manifest.cjs --check
-node tools/build-handwriting-css.mjs --check
+node tools/check-generated.mjs
 ```
 
-Browser regression checks require Playwright, Chromium and the root `axe-core` dependency. With Playwright available, run
-`npm install`, then `node site/test-editor-ui.cjs` and `node site/test-colors-ui.cjs`.
-Run `node site/test-layout-ui.cjs` for grid sizing, page starts, save/reopen, overflow and HTML export checks.
-Run `node site/test-paper-ui.cjs` to check shared styling, paper modes, homepage examples and accessibility across the site.
-Run `node site/test-highlight-blend-ui.cjs` for pixel checks of highlights over ink, including HTML export, print and PDF.
-Run `node site/test-music-ui.cjs` for manual listening notes and Spotify connection/capture checks with stubbed service responses.
-Run `node site/test-lock-ui.cjs` for locking and ways in, and `node site/test-import-ui.cjs` for Your life online; `site/AGENTS.md` lists every suite.
-These browser checks are separate from the Node.js tests above. The desktop app has its own tests ([desktop/README.md](desktop/README.md#tests)).
+[AGENTS.md](AGENTS.md) contains contributor rules, generation commands and the full verification list.
+Check [DECISIONS.md](DECISIONS.md) before changing behavior. The [Pages workflow](.github/workflows/pages.yml) defines publishing checks.
 
 ### Original font sources
 
-Jot Sans has regular and bold faces. Jot Script has 0.5, 0.7 and 1.0 stroke styles, each in regular and bold. The original fonts
-are built from the sources in [`fonts/`](fonts/) and ship under the SIL Open Font License 1.1. The older bundled hands keep their
-own licenses. No font service is contacted when using the site or exporting a page.
-
-With a Python 3.12 virtual environment activated:
-
-```sh
-python3 -m pip install -r fonts/requirements.txt
-npm run fonts:build
-npm run fonts:check
-npm run fonts:test
-```
-
-The build writes the WOFF2 faces, glyph SVGs and catalog to `fonts/generated/`. The check verifies those artifacts against the
-sources without rewriting them; tests validate font structure and shaping. Run the font build before syncing renderer copies
-and generating `MANIFEST.json`. CI checks the fonts before checking those copies. The ordinary site remains static HTML, CSS and
-JavaScript: serving its committed files needs no font build or Python packages.
-
-The site's `/fonts/` page has editable samples, regular/bold and stroke controls, ligature/contextual-form toggles, a searchable
-glyph grid, and glyph outlines with spacing and alignment guides. Inspector text stays in page memory. Writer font preferences
-stay in this browser and do not change the journal's source.
-
-Contributors and coding agents: [AGENTS.md](AGENTS.md) holds the working rules (with more in `parser/`, `site/` and `vscode/`).
-Before changing behavior, read [DECISIONS.md](DECISIONS.md) and the relevant component README. Parser code is copied into the site and
-VS Code extension; keep those copies in sync when editing shared modules. After changing tracked files, regenerate the manifest with
-`node tools/manifest.cjs` and commit it alongside the changes. The complete publishing checks are in
-[the Pages workflow](.github/workflows/pages.yml).
+[Fonts](fonts/) contains the Jot Sans, Script and Mono sources, generators and SIL OFL 1.1 license.
+The site's `/fonts/` page provides samples and a glyph inspector; serving committed files needs no font build.
 
 ## The site (GitHub Pages)
 
@@ -346,19 +203,4 @@ under the SIL Open Font License, with their licences in `parser/fonts/`. The ori
 their sources and license are in `fonts/`. No project-wide licence is asserted for the Jot specification,
 the parser or the VS Code extension yet.
 
-The print engine that made KDP books from `.jot` writing (`journal/`) has been removed from this repository; it lives on in its
-history and in the Journaling repository.
-
-
-## Browser tools
-
-Writer can prepare its application files for offline use, request persistent local storage and optionally keep the screen awake.
-Reviewed sharing, a separate local incoming inbox, local-network WebRTC transfers and editable annotated page copies are available
-through Tools. Downloads remain the fallback. See [Browser tools](docs/guide/browser-tools.md) for privacy boundaries, browser
-limitations, pairing steps and what has been tested. Bluetooth and automatic synchronization are not part of nearby transfer.
-
-Jot Mono regular and bold bring the G2 pen style to fixed-width source editing
-and code. Choose Mono in Write or the typeface inspector. Font design rules
-are recorded in [fonts/AGENTS.md](fonts/AGENTS.md).
-
-Security verification and passkey compatibility: [testing plan and current limits](docs/security/README.md). Run `npm run test:security`; browser checks use `npm run test:security:browser` with Playwright/Chromium available. Automated checks are not an independent security audit.
+Security verification: [testing plan and current limits](docs/security/README.md). Automated checks are not an independent security audit.

@@ -1,5 +1,6 @@
 ---
 title: The Five Minute Journal
+summary: "Use a branded morning and evening set of short gratitude prompts."
 slug: five-minute-journal
 category: reflective-writing
 evidenceLevel: some
