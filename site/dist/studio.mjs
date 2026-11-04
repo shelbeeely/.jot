@@ -1,5 +1,7 @@
 import { setupVoiceWriting } from './voice-writing.mjs';
 import { setupStenographer } from './stenographer.mjs';
+import { setupScratchpad } from './scratchpad.mjs';
+import { setupMarginNotes } from './margin-notes.mjs';
 import { setupWriterWelcome } from './writer-welcome.mjs';
 import { setupAttachmentViewer, attachmentKind } from './attachment-viewer.mjs';
 import { setupArchiveTools } from './archive-tools.mjs';
@@ -37,7 +39,7 @@ import A from './jot/automation.mjs';
 import {queryDiagnostics} from './jot/query.mjs';
 import {isPaletteRecord,paletteOf,moodboardOf,paletteCSS,paletteJSON,contrast} from './jot/palette.mjs';
 addChartStyles(document);
-let referenceBooks, liveWriter, deviceFiles, aiCompanion, voiceWriting, stenographer, browserTools, annotations, connectedSources, archiveTools;
+let referenceBooks, liveWriter, deviceFiles, aiCompanion, voiceWriting, stenographer, scratchpad, browserTools, annotations, connectedSources, archiveTools;
 let captureReceipts=[], captureBusy=false;
 let loadedFilename='',archiveState=null,archiveEntries=[],archiveId=crypto.randomUUID();
 let fileRevision=0, savedFileRevision=-1, durableRevision=-1, recoveringAssets=true;
@@ -158,7 +160,7 @@ for(const [title,state,description] of roadmap){const row=el('article',undefined
 window.addEventListener('pagehide',()=>{if(dirty)save();});
 
 const attachmentViewer=setupAttachmentViewer({document,lookupURL:url=>assets.find(a=>assetUrls.get(a.path)===url)});
-function setAssets(next){voiceWriting?.reset();stenographer?.reset();attachmentViewer.close();fileRevision++;deviceState();for(const u of assetUrls.values())URL.revokeObjectURL(u);assetUrls.clear();assets=next;for(const a of assets)assetUrls.set(a.path,URL.createObjectURL(new Blob([a.data],{type:a.mediaType})));renderAssets();}
+function setAssets(next){voiceWriting?.reset();stenographer?.reset();scratchpad?.reset();attachmentViewer.close();fileRevision++;deviceState();for(const u of assetUrls.values())URL.revokeObjectURL(u);assetUrls.clear();assets=next;for(const a of assets)assetUrls.set(a.path,URL.createObjectURL(new Blob([a.data],{type:a.mediaType})));renderAssets();}
 function renderAssets(){$('writerAssetShelf').hidden=!assets.length;const list=$('assetList');list.replaceChildren();$('docExt').textContent='.jotz';$('assetCount').textContent=assets.length+' assets';if(!assets.length)list.append(el('li','No assets attached yet. Writing-only journals still download as one .jot document.'));for(const a of assets){const li=el('li'),label=el('span',(a.name||a.path)+' · '+Math.ceil(a.data.length/1024)+' KB'),get=el('a','Download','quiet');get.href=assetUrls.get(a.path);get.download=a.name||a.path.split('/').pop();const remove=el('button','Remove','quiet');remove.onclick=async()=>{if(!confirm('Remove this file from the document? Existing text references will be left visible.'))return;setAssets(assets.filter(x=>x.path!==a.path));dirty=true;update();save();await persistAssets();};li.append(label);if(attachmentKind(a)){const view=el('button','View','quiet');view.type='button';view.setAttribute('aria-label','View '+(a.name||a.path));view.onclick=()=>attachmentViewer.open(a);li.append(view);}li.append(get,remove);list.append(li);}}
 async function persistAssets(){const ok=await save();$('assetSaveState').textContent=ok?'Attachments are saved in the journal archive.':'The archive is not saved completely. Download the journal before closing.';return ok;}
 function assetPath(file){return 'media/'+crypto.randomUUID()+(/\.jot$/i.test(file.name)?'.jot':'');}
@@ -365,6 +367,9 @@ voiceWriting = setupVoiceWriting({ editor, status, getRevision: () => fileRevisi
 stenographer = setupStenographer({ editor, status, today, todayEntry: (source, date) => A.todayEntry(source, date), beforeOpen: () => voiceWriting.reset() });
 $('writerVoiceMic').onclick = () => { if (stenographer.listening) stenographer.stop(); else stenographer.open(); };
 $('writerVoiceWritingBtn').addEventListener('click', () => stenographer.reset(), { capture: true });
+// Scratchpads: rough notes beside an entry, kept in the file and off the page (spec 4.2.7). Margin notes: [[...]] beside a passage (4.2.8).
+scratchpad = setupScratchpad({ editor, status, today, speakInto: () => stenographer.open({ target: 'draft' }) });
+setupMarginNotes({ editor, status });
 setupWriterWelcome({ editor, openVoice: () => stenographer.open(), openMethods: () => $('methodsBtn').click(), openTools: () => $('writerCommandsBtn').click(), addToday: () => $('todayBtn').click(), insertText: text => { const start = editor.selectionStart, end = editor.selectionEnd; editor.focus(); if (editor.jotApplyEdit) editor.jotApplyEdit({ start, end, text }); else if (!document.execCommand('insertText', false, text)) { editor.setRangeText(text, start, end, 'end'); editor.dispatchEvent(new Event('input', { bubbles: true })); } } });
 browserTools=setupBrowserTools(browserBridge);annotations=setupAnnotations(browserBridge);connectedSources=setupConnectedSources(browserBridge);
 archiveTools=setupArchiveTools({...browserBridge,hasSession:()=>!!lockKey,publicAvailable:()=>!!archiveState?.partial,entries:()=>lockWaiting?archiveState?.entries||[]:currentEntries(),async setPrivacy(ids){if(!lockKey)throw Error('Set up a passphrase first.');currentEntries();archiveEntries=archiveEntries.map(entry=>({...entry,private:ids.includes(entry.id),revision:entry.revision+(entry.private!==ids.includes(entry.id)?1:0)}));fileRevision++;dirty=true;return save();},async search(criteria){if(lockWaiting)return searchArchive(archiveState,criteria);await save();const state=archiveState&&archiveState.source===editor.value?archiveState:{entries:currentEntries(),index:null,indexBytes:null};return searchArchive(state,criteria);}});
@@ -432,6 +437,7 @@ function showLock() {
   aiCompanion?.reset();
   voiceWriting?.reset();
   stenographer?.reset();
+  scratchpad?.reset();
   browserTools?.reset(); annotations?.reset(); connectedSources?.reset();archiveTools?.reset();
   const waiting = !!lockWaiting&&!recoveringAssets, locked = !!lockKey;
   $('lockGate').hidden = !waiting; $('lockNote').hidden = !locked;

@@ -103,6 +103,10 @@ navigation bar, and above the on-screen keyboard when it is open.
 
 Commands said in the middle of a sentence are written as words. Undo and redo work on everything it wrote.
 
+To talk a rough draft first and write the entry afterwards, choose **Write into: Today's scratchpad** under **What you can say,
+and settings**, or **Talk into it** in the entry's scratchpad. The words go into today's [scratchpad](writing-jot.md#a-scratchpad-for-each-entry),
+which stays off the page.
+
 It needs the Whistle speech model once (16.9 MB, the same pinned file voice typing uses). Keep it on this device and the
 stenographer starts offline. Listening and transcription run in the page: nothing you say is recorded, stored or sent,
 and only the words go into the journal, which saves and protects them like anything you type. Speech recognition makes

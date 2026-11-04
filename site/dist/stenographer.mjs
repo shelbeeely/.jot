@@ -6,6 +6,7 @@ import { createVoiceBackend } from './voice-backend.mjs';
 import { captureSpeech } from './speech-capture.mjs';
 import { SPEECH_MODELS, verifySpeechModel, downloadSpeechModel, speechModelCache } from './speech-models.mjs';
 import { readCommand, splitSentences, planWrite, STENO_QUESTIONS } from './stenographer-core.mjs';
+import { appendToScratchpad } from './scratchpad-core.mjs';
 
 const QUIET_LEVEL = 0.01;       // RMS below this counts as quiet
 const PAUSE_MS = 1200;          // a pause this long finishes the sentence you were saying
@@ -17,9 +18,9 @@ const PREF = 'jot-stenographer-v1';
 export function setupStenographer({ editor, today, todayEntry, status = () => {}, beforeOpen = () => {} }) {
   const doc = editor.ownerDocument, win = doc.defaultView;
   const el = (tag, attributes = {}, text) => { const node = doc.createElement(tag); for (const [k, v] of Object.entries(attributes)) node.setAttribute(k, v); if (text !== undefined) node.textContent = text; return node; };
-  let prefs = { questions: true, aloud: true, remember: true, language: '' };
+  let prefs = { questions: true, aloud: true, remember: true, language: '', target: 'entry' };
   try { prefs = { ...prefs, ...JSON.parse(win.localStorage.getItem(PREF) || '{}') }; } catch { /* defaults */ }
-  const savePrefs = () => { try { win.localStorage.setItem(PREF, JSON.stringify({ questions: prefs.questions, aloud: prefs.aloud, remember: prefs.remember, language: prefs.language })); } catch { /* this visit only */ } };
+  const savePrefs = () => { try { win.localStorage.setItem(PREF, JSON.stringify({ questions: prefs.questions, aloud: prefs.aloud, remember: prefs.remember, language: prefs.language, target: prefs.target })); } catch { /* this visit only */ } };
 
   const panel = el('section', { id: 'stenographer', class: 'steno', 'aria-labelledby': 'stenoTitle' });
   panel.hidden = true;
@@ -37,6 +38,7 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
 <p class="steno-small">Say a command on its own, with a short pause before and after. Everything else is written exactly as you say it, at the end of today’s entry. Undo works as usual.</p>
 <label class="steno-check"><input id="stenoQuestions" type="checkbox"> Ask me a short question when I pause</label>
 <label class="steno-check"><input id="stenoAloud" type="checkbox"> Read questions aloud (on-device voices only)</label>
+<label>Write into <select id="stenoTarget"><option value="entry">Today’s entry</option><option value="draft">Today’s scratchpad (rough notes, kept off the page)</option></select></label>
 <label>Speech language <select id="stenoLanguage"><option value="">Detect automatically</option><option value="en">English</option><option value="de">German</option><option value="fr">French</option><option value="es">Spanish</option><option value="it">Italian</option><option value="nl">Dutch</option><option value="pl">Polish</option></select></label>
 <p class="steno-small">Listening and transcription run on this device. Nothing you say is recorded, stored or sent anywhere; only the words go into your journal. The microphone turns off after five quiet minutes.</p>
 </details>`;
@@ -46,7 +48,7 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
   const button = el('button', { id: 'stenographerBtn', type: 'button', class: 'quiet', title: 'Talk, and every word goes into today’s entry' }, 'Stenographer');
   doc.querySelector('.tool-row')?.append(button);
   const $ = id => panel.querySelector('#' + id);
-  $('stenoQuestions').checked = prefs.questions; $('stenoAloud').checked = prefs.aloud; $('stenoRemember').checked = prefs.remember; $('stenoLanguage').value = prefs.language;
+  $('stenoQuestions').checked = prefs.questions; $('stenoAloud').checked = prefs.aloud; $('stenoRemember').checked = prefs.remember; $('stenoLanguage').value = prefs.language; $('stenoTarget').value = prefs.target === 'draft' ? 'draft' : 'entry';
 
   let engine = null, whistle = false, generation = 0, controller = null, stopMic = null, queue = Promise.resolve(), audio = new Float32Array(0), buffered = 0;
   let state = 'idle', buffer = '', heard = false, lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * STENO_QUESTIONS.length);
@@ -80,9 +82,28 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
     editor.setSelectionRange(keep[0], keep[1]);
     return true;
   }
+  // Rough-draft mode: the same words, into today's scratchpad instead of the entry (spec 4.2.7).
+  function writeDraft(item, date) {
+    const asked = question && spokeSinceQuestion ? question : '';
+    const block = item.kind === 'task' ? '[ ] ' + item.text : item.kind === 'note' ? '- ' + item.text : item.kind === 'heading' ? '#### ' + item.text : item.text;
+    const joiner = asked || written.separator === 'paragraph' || item.kind === 'heading' ? '\n\n' : written.separator === 'line' ? '\n'
+      : item.kind === 'tag' || (item.kind === 'text' && written.lastKind === 'text') ? ' ' : (item.kind === 'task' || item.kind === 'note') && written.lastKind === item.kind ? '\n' : '\n\n';
+    const piece = (asked ? '> ' + asked + '\n\n' : '') + block;
+    let edit = appendToScratchpad(editor.value, date, piece, joiner);
+    if (!edit) { addToday(date); edit = appendToScratchpad(editor.value, date, piece, joiner); }
+    if (!edit) { say('Could not find today’s entry to write into. Microphone still on.'); return; }
+    if (asked) clearQuestion();
+    const old = editor.value.slice(edit.start, edit.end);
+    apply(edit);
+    history.push({ start: edit.start, text: edit.text, old });
+    if (history.length > 200) history.shift();
+    written = { lastEnd: -1, lastKind: item.kind, separator: null };
+    controls();
+  }
   function write(item) {
     if (editor.readOnly) { stop('The journal is locked. Microphone off.'); return; }
     const date = today();
+    if (prefs.target === 'draft') { writeDraft(item, date); return; }
     let plan = planWrite(editor.value, date, written, item, question && spokeSinceQuestion ? question : '');
     if (!plan) { addToday(date); written.lastEnd = -1; plan = planWrite(editor.value, date, written, item, question && spokeSinceQuestion ? question : ''); }
     if (!plan) { say('Could not find today’s entry to write into. Microphone still on.'); return; }
@@ -110,10 +131,10 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
     // Remove exactly what it wrote, if it is still where it was; otherwise the nearest copy before that place.
     let at = editor.value.slice(last.start, last.start + last.text.length) === last.text ? last.start : editor.value.lastIndexOf(last.text, last.start + last.text.length);
     if (at < 0) { say('The last words were changed since, so nothing was removed. Use Undo instead.'); controls(); return; }
-    apply({ start: at, end: at + last.text.length, text: '' });
+    apply({ start: at, end: at + last.text.length, text: last.old ?? '' });
     const previous = history.at(-1);
-    written = previous ? { lastEnd: previous.start + previous.text.length, lastKind: 'text', separator: null } : { lastEnd: -1, lastKind: '', separator: null };
-    say('Removed: “' + last.text.trim().slice(0, 80) + '”'); controls();
+    written = previous && previous.old === undefined ? { lastEnd: previous.start + previous.text.length, lastKind: 'text', separator: null } : { lastEnd: -1, lastKind: previous ? 'text' : '', separator: null };
+    say(last.old === undefined ? 'Removed: “' + last.text.trim().slice(0, 80) + '”' : 'Removed the last words from the scratchpad.'); controls();
   }
 
   // Spoken sentences: a command, or words to write.
@@ -238,7 +259,7 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
       if (ticket !== generation) { await stopNow(); return; }
       stopMic = stopNow; state = 'listening'; startedAt = lastLoud = lastWords = Date.now();
       ticker = win.setInterval(() => tick(ticket), 250);
-      say('Listening. Talk, and every word goes into today’s entry.'); controls(); $('stenoStop').focus();
+      say(prefs.target === 'draft' ? 'Listening. Every word goes into today’s scratchpad.' : 'Listening. Talk, and every word goes into today’s entry.'); controls(); $('stenoStop').focus();
     } catch (e) { fail(e, ticket); }
   }
   async function stop(message = 'Microphone off. Everything you said is in today’s entry.') {
@@ -263,8 +284,9 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
     say('Microphone off.'); controls();
   }
 
-  function open({ listen = true } = {}) {
+  function open({ listen = true, target } = {}) {
     if (editor.readOnly) { status('Unlock this journal to use the stenographer.'); return; }
+    if (target === 'draft' || target === 'entry') { if (prefs.target !== target) written = { lastEnd: -1, lastKind: '', separator: null }; prefs.target = target; $('stenoTarget').value = target; savePrefs(); }
     beforeOpen();
     panel.hidden = false; root.toggleAttribute('data-steno-open', true); controls();
     panel.scrollIntoView({ block: 'nearest' });
@@ -283,6 +305,7 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
   $('stenoAloud').onchange = () => { prefs.aloud = $('stenoAloud').checked; if (!prefs.aloud) win.speechSynthesis?.cancel(); savePrefs(); };
   $('stenoRemember').onchange = () => { prefs.remember = $('stenoRemember').checked; savePrefs(); };
   $('stenoLanguage').onchange = () => { prefs.language = $('stenoLanguage').value; savePrefs(); };
+  $('stenoTarget').onchange = () => { prefs.target = $('stenoTarget').value; written = { lastEnd: -1, lastKind: '', separator: null }; savePrefs(); say(prefs.target === 'draft' ? 'Writing into today’s scratchpad.' : 'Writing into today’s entry.'); };
   $('stenoDownload').onclick = async () => {
     $('stenoDownload').disabled = true;
     try { if (await ensureWhistle(true)) { controls(); start(); } } catch (e) { say(e.message); } finally { controls(); }

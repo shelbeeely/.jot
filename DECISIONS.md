@@ -1123,3 +1123,29 @@ The owner asked for "a stenographer that I can talk with and journal" and chose,
 **Change to the voice rule:** `site/AGENTS.md` required cleanup before any voice insertion. The stenographer is an explicit exception at the owner's request. It writes only the speech engine's transcript and generated text never enters the journal. Recognition errors stay visible in the writing and can be undone or scratched.
 
 Research basis: `docs/methods/prompt-journaling.md, line 107` ("a question lowers the cost of starting") and `line 113` (the writer can skip, change the question, or stop) shaped the questions and the skip/another commands; the questions are adapted from the guide's ready-to-use bank (`line 476`, "all written to be skippable"), keeping the light and gentle reflective ones and leaving out heavy prompts (`line 30` warns against a heavy prompt with no exit). `docs/methods/adhd-journaling.md, line 513` lists voice memos as an adaptation for dyslexia and dysgraphia, which supports a speak-first route. The research does not study live dictation into a journal or spoken commands; the command set and timings (1.2-second pause to finish a sentence, seven seconds before a question, five quiet minutes before stopping) are design choices to revisit with use.
+
+## 2026-11-04: Entry scratchpads and margin notes on a passage
+
+**Scratchpads (format, spec 4.2.7).** The owner asked for "scratchpads for entries that include a rough draft and then the actual entry". A fenced literal block with the info string `draft` is the scratchpad of the entry that contains it. Choices:
+- **Notation:** an existing construct, so it stays plain text that any Markdown reader shows as a code block, and needs no new parser rule.
+- **Literal content:** rough notes never become tasks, tags, links or measurements.
+- **Off the page:** omitted from formatted pages, print and page exports.
+- **Treated like the entry:** saved, searched in the editor and protected along with its entry. It is no more private than the entry, and the guide says so.
+
+The parser marks such code nodes `draft: true` and the renderer skips them. Conformance cases `scratchpad` and `margin-note-after` were added.
+
+**Writer: scratchpad.** **Tools → Scratchpad for this entry** opens a panel beside the writing.
+- **Typing:** writes the block under the entry's heading as you type. Each burst of typing is one Undo step.
+- **Add to entry:** copies the selection (or all of it) to the end of the entry, as its own Undo step.
+- **Clear:** asks twice, then removes the block.
+- **Live editing:** the block shows as a card with its word count and an Open button.
+- **Stenographer:** can write into today's scratchpad instead of the entry, from its **Write into** setting or the scratchpad's **Talk into it**. It writes the same verbatim words, and Scratch that restores the previous scratchpad.
+
+No other entry changes.
+
+**Margin notes (spec 4.2.8).** The spec already had `[[...]]` marginalia; it now says that a marginalia line straight after a block annotates that block. **Format → Margin note…** adds one after the paragraph, list item or quote at the cursor without changing the words. The live editor shows it as a "Margin note:" card. **Format → Draw on a page…** opens the existing handwritten annotation tool, so both kinds of annotation sit together.
+
+Research basis:
+- `docs/methods/adhd-journaling.md, line 138` describes the brain dump: emptying working memory onto paper before ordering it. That supports a rough place beside the entry, and keeping its lines literal so a dump does not fill task lists.
+- `docs/methods/commonplace-book.md, line 204` describes marking passages with margin notes and transferring what still stands out later, which is the scratchpad-then-entry flow.
+- The guides do not study digital scratchpads or margin-note placement, so the notation and the controls are design choices.

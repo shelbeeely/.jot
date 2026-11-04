@@ -75,9 +75,9 @@ export function shortcutMatcher(combo) {
 }
 
 const TOOL_GROUPS = [
-  ['Start writing', ['Today', 'Quick note', 'Stenographer', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
+  ['Start writing', ['Today', 'Quick note', 'Stenographer', 'Scratchpad for this entry', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
   ['Find your way', ['Find and replace', 'Outline', 'Journal map', 'Page preview', 'Write only', 'Side by side', 'Focus mode']],
-  ['Add to an entry', ['Insert current time', 'Capture location', 'Attach a file', 'People and Places', 'Music and background media', 'Voice practice', 'Carry tasks forward', 'Week review', 'Annotate page', 'Connected sources', 'Import health data', 'Import numbers CSV', 'Entry timezone']],
+  ['Add to an entry', ['Margin note', 'Annotate page', 'Insert current time', 'Capture location', 'Attach a file', 'People and Places', 'Music and background media', 'Voice practice', 'Carry tasks forward', 'Week review', 'Annotate page', 'Connected sources', 'Import health data', 'Import numbers CSV', 'Entry timezone']],
   ['Save, open and share', ['Save', 'Save as', 'Open a journal', 'New journal', 'Download journal', 'Print or PDF', 'Download page', 'Export Markdown', 'Export Jot source', 'Export calendar', 'Export numbers', 'Export tasks', 'Open imported file', 'Attached files', 'Rename document']],
   ['Privacy', ['Journal lock and ways in', 'Entries, privacy and search', 'Offline, sharing and nearby transfer']],
   ['Look and feel', ['Writing preferences', 'Live editing', 'Source editing', 'Formatting controls', 'Writing options', 'Journal tools', 'Music player', 'Copy palette CSS', 'Copy palette JSON']],
@@ -114,7 +114,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
-  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'stenographerBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
+  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'stenographerBtn', 'scratchpadBtn', 'marginNoteBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
     if (name !== 'write' && name !== 'map') showPreview();
@@ -244,6 +244,8 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     const hint = action => { const shortcut = SHORTCUTS.find(entry => entry.action === action); return shortcut ? keyLabel(shortcut.keys[0]) : ''; };
     for (const [label, action] of [['Bold', 'bold'], ['Italic', 'italic'], ['Underline', 'underline'], ['Highlight', 'highlight'], ['Strikethrough', 'strike'], ['Superscript', 'superscript'], ['Heading 1', 'heading1'], ['Heading 2', 'heading2'], ['Heading 3', 'heading3'], ['Normal text', 'paragraph'], ['Center the line', 'center'], ['Task', 'task'], ['Bulleted list', 'bullet'], ['Numbered list', 'number'], ['Quote', 'quote'], ['Link', 'link'], ['Code', 'code'], ['Indent', 'indent'], ['Outdent', 'outdent'], ['Clear formatting', 'clear'], ['Clear formatting in this entry', 'clearEntry']]) item(label, hint(action), format(action));
     item('Pen and ink for this entry…', '', () => { showWriting(); $('entryPenBtn').click(); });
+    item('Margin note…', '', () => { showWriting(); $('marginNoteBtn').click(); });
+    item('Draw on a page…', '', () => { showWriting(); $('writerAnnotateBtn').click(); });
     item('Keyboard shortcuts…', keyLabel('Ctrl+/'), () => openShortcuts());
     item('Colors and highlights…', '', () => { showWriting(); const panel = doc.querySelector('.writer-format'); panel.hidden = false; colorsExpanded = true; disclosures(); panel.scrollIntoView({ block: 'nearest' }); });
     menu.append(element('div', undefined, { role: 'separator', class: 'writer-menu-divider' }));
@@ -364,7 +366,9 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['writerArchiveBtn', 'Entries, privacy and search', 'Choose protected entries and search the local archive'],
     ['writerSourcesBtn', 'Connected sources', 'Look up and review weather; no journal prose sent'],
     ['writerBrowserBtn', 'Offline, sharing and nearby transfer', 'Install, protect storage, share, review incoming items and pair devices'],
-    ['writerAnnotateBtn', 'Annotate page', 'Write over a frozen page copy and keep editable strokes'],
+    ['writerAnnotateBtn', 'Annotate page', 'Draw or write by hand over a copy of a page; the strokes stay editable'],
+    ['marginNoteBtn', 'Margin note', 'A short note beside the passage at your cursor, without changing your words'],
+    ['scratchpadBtn', 'Scratchpad for this entry', 'Rough notes beside the entry, kept in the file and off the page'],
     ['stenographerBtn', 'Stenographer', 'Talk hands-free; every word goes into today’s entry as you say it, with optional questions when you pause'],
     ['writerVoiceWritingBtn', 'Voice typing', 'Speak an entry. It is transcribed and tidied on this device, then you check it (voice writing)'],
     ['writerAIBtn', 'AI companion', 'Optional BYOK drafts and suggestions; OpenRouter or local models'],

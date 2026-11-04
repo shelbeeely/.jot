@@ -104,6 +104,16 @@ const server = http.createServer((req, res) => {
     await page.click('#stenoStart'); await page.waitForFunction(() => document.getElementById('stenoStatus').textContent.startsWith('Listening'));
     await page.click('#stenoClose'); await micsOff(); assert.equal(await page.isHidden('#stenographer'), true);
 
+    // Rough-draft mode: the same words go into today's scratchpad, off the page; Scratch that restores it.
+    await page.click('#writerVoiceMic'); await page.waitForFunction(() => document.getElementById('stenoStatus').textContent.startsWith('Listening'));
+    await page.click('#stenographer details summary'); await page.selectOption('#stenoTarget', 'draft'); await page.click('#stenographer details summary');
+    const beforeDraft = await writing();
+    await page.evaluate(() => window.stenoSay.push('Heron by the canal.', 'New task, look it up.', 'Scratch that.', 'Rain all day.'));
+    await page.waitForFunction(() => window.stenoSay.length === 0 && /~~~draft\nHeron by the canal\. Rain all day\.\n~~~/.test(document.getElementById('writing').value), null, { timeout: 20000 });
+    assert.equal((await writing()).replace(/~~~draft\n[\s\S]*?\n~~~\n\n/, ''), beforeDraft, 'only the scratchpad changed');
+    await page.click('#stenoClose'); await micsOff();
+    await page.evaluate(() => { localStorage.removeItem('jot-stenographer-v1'); });
+
     // Voice typing (cleanup and review) is still under Tools, and opening it closes the stenographer.
     await page.click('#writerVoiceMic'); await page.waitForFunction(() => document.getElementById('stenoStatus').textContent.startsWith('Listening'));
     await page.evaluate(() => document.getElementById('writerVoiceWritingBtn').click());
@@ -112,6 +122,6 @@ const server = http.createServer((req, res) => {
     await page.click('#vwClose');
 
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
-    console.log('PASS: stenographer: model setup without automatic download, one-tap Speak, verbatim words at the end of today\'s entry (earlier entries unchanged), spoken paragraph/task/tag/scratch/stop commands, a question on a pause read only with an on-device voice and quoted above the answer, unfinished words flushed on a pause, Undo, microphone released on stop/close/voice typing, phone light/dark accessibility, no network requests.');
+    console.log('PASS: stenographer: model setup without automatic download, one-tap Speak, verbatim words at the end of today\'s entry (earlier entries unchanged), spoken paragraph/task/tag/scratch/stop commands, a question on a pause read only with an on-device voice and quoted above the answer, unfinished words flushed on a pause, rough-draft mode into today\'s scratchpad, Undo, microphone released on stop/close/voice typing, phone light/dark accessibility, no network requests.');
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); server.close(); process.exitCode = 1; });

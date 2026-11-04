@@ -169,3 +169,17 @@ test('clear formatting in this entry: only the entry at the cursor, prose only, 
   assert.equal(clearEntryEdit('**Undated**', 3), null, 'undated writing is not an entry');
   assert.equal(writingEdit(S, caret, caret, 'clearEntry').text, r.text);
 });
+
+test('a margin note goes on its own line after the passage at the cursor; the words stay as they were', async () => {
+  const { marginNoteEdit } = await import('./dist/writing-tools.mjs');
+  const { parse } = await import('./dist/jot/jot.mjs');
+  const run = (source, caret, note) => { const r = marginNoteEdit(source, caret, note); return r && source.slice(0, r.start) + r.text + source.slice(r.end); };
+  const src = '### 2026-11-04\n\nI went out.\nThen home.\n\nNext paragraph.\n';
+  const out = run(src, src.indexOf('went'), 'Was it Tuesday?');
+  assert.equal(out, '### 2026-11-04\n\nI went out.\nThen home.\n[[Was it Tuesday?]]\n\nNext paragraph.\n');
+  assert.ok(parse(out).nodes.some(n => n.type === 'annotation' && n.text === 'Was it Tuesday?'));
+  const list = '- one\n- two\n- three\n';
+  assert.equal(run(list, list.indexOf('two'), 'this one'), '- one\n- two\n[[this one]]\n- three\n');
+  assert.equal(run('Hi.', 1, 'odd ]] note\nline'), 'Hi.\n[[odd ] ] note line]]');
+  assert.equal(marginNoteEdit('Hi.', 1, '   '), null);
+});

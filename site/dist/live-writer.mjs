@@ -117,6 +117,25 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
     blocks = projectSource(editor.value); textLeaves = []; wrappers = [];
     const fragment = doc.createDocumentFragment(); let currentList = null;
     for (const block of blocks) {
+      if (block.kind === 'opaque' && block.sourceType === 'annotation' && /^\[\[[^\r\n]*\]\]\s*$/.test(block.raw)) {
+        // A margin note (spec 4.2.8) reads as a note beside the writing above it; Edit opens its source line.
+        currentList = null;
+        const card = node('div'); card.className = 'live-pen live-margin'; card.contentEditable = 'false';
+        card.append(node('span', 'Margin note: ' + block.raw.trim().slice(2, -2)));
+        const edit = node('button', 'Edit'); edit.type = 'button'; edit.className = 'live-source-button'; edit.setAttribute('aria-label', 'Edit this margin note in the source');
+        edit.onclick = () => { setMode('source'); focusSource(); selectSource(block.from + 2, block.from + 2 + block.raw.trim().length - 4); };
+        card.append(edit); fragment.append(card); wrappers.push({ node: card, from: block.from, to: block.to, editable: false }); continue;
+      }
+      if (block.kind === 'opaque' && /^ {0,3}(?:`{3,}|~{3,})[ \t]*draft\b/i.test(block.raw)) {
+        // An entry's scratchpad (spec 4.2.7) stays off the page; here it is a small card that opens it.
+        currentList = null;
+        const words = (block.raw.replace(/^[^\n]*\n?/, '').replace(/\n?[ ]{0,3}(?:`{3,}|~{3,})[ \t]*\n?$/, '').match(/\S*[\p{L}\p{N}]\S*/gu) || []).length;
+        const card = node('div'); card.className = 'live-pen live-scratch'; card.contentEditable = 'false';
+        card.append(node('span', 'Scratchpad · ' + words + (words === 1 ? ' word' : ' words') + ', kept off the page'));
+        const openIt = node('button', 'Open'); openIt.type = 'button'; openIt.className = 'live-source-button'; openIt.setAttribute('aria-label', 'Open this entry’s scratchpad');
+        openIt.onclick = () => { selectSource(block.from, block.from); doc.getElementById('scratchpadBtn')?.click(); };
+        card.append(openIt); fragment.append(card); wrappers.push({ node: card, from: block.from, to: block.to, editable: false }); continue;
+      }
       if (block.kind === 'opaque' && block.sourceType === 'directive' && /^@(?:hand|ink):/.test(block.raw)) {
         // An entry's pen or ink reads as a small labelled chip; Change opens the dialog for that entry.
         currentList = null;

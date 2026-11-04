@@ -165,7 +165,10 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
   const tokens=lexer(normalized);let pos=0;
   for(const token of tokens){const end=pos+token.raw.length,original=raw.slice(map[pos],map[end]);const extra={markdown:token};
    if(token.type==='code'){
-    const language=(token.lang||'').trim().split(/\s+/)[0].toLowerCase(),engine={...builtinDiagrams,...diagramLanguages}[language];
+    const language=(token.lang||'').trim().split(/\s+/)[0].toLowerCase();
+    // A fenced block named draft is the entry's scratchpad (spec 4.2.7): kept in the file, left off the formatted page.
+    if(language==='draft'){extra.draft=true;extra.text=token.text;}
+    const engine={...builtinDiagrams,...diagramLanguages}[language];
     if(engine){extra.diagram={engine,language,source:token.text};if(engine==='vega'||engine==='vega-lite'){try{const value=JSON.parse(token.text);if(!value||Array.isArray(value)||typeof value!=='object')throw Error('Expected object');extra.diagram.config=value;}catch{ast.diagnostics.push({severity:'warning',code:'invalid-diagram-json',message:'Chart block must contain a JSON object; source retained.',start:offset,end:offset+bytes(original)});}}}
    }
    if(token.type==='blockquote'){const kind=callout(token);if(kind)extra.callout=kind;}

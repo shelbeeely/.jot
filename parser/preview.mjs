@@ -363,7 +363,7 @@ export function renderPreview(ast, target, opts = {}) {
         } else if (/^\/\*\r?\njot-block-end\r?\n\*\//.test(n.raw)) frag = root;
         return;
       }
-      if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank') return;
+      if (n.type === 'comment' || n.type === 'directive' || n.type === 'blank' || n.draft) return; // a scratchpad stays off the page
       if (n.markdown && n.markdown.type === 'paragraph' && BLANKS.test(n.markdown.raw.trim())) { // a template's empty lines: "1. ", "- ", "[ ] " to write after
         const box = el('div', undefined, 'jot-blanks');
         for (const line of n.markdown.raw.trim().split(/\r?\n/)) { const m = line.trim(), mark = /^\[x\]/i.test(m) ? '☑' : m.startsWith('[') ? '☐' : /^\d/.test(m) ? m : '•'; const row = el('div', undefined, 'jot-blank-line'); row.append(el('span', mark, 'jot-mark'), el('span', '', 'jot-rule')); box.append(row); }

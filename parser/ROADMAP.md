@@ -46,6 +46,7 @@ Implemented means code exists, tested means a named check passed, and planned/un
 | Markdown | Marked/GFM parser integrated; safe DOM preview implemented | Run official compatibility fixtures; improve list rendering |
 | JavaScript parser | ES module for Node/browser; parser, formatting, proofreading and container suites pass | Stabilize API; complete semantic/profile validation |
 | Journaling methods | 62 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
+| Entry scratchpads and margin notes | `~~~draft` scratchpads (literal, off the page) and marginalia after a block (spec 4.2.7–4.2.8); parser, renderer and conformance cases `scratchpad` and `margin-note-after`; Writer support in `WRITER-ROADMAP.md` | Independent reader check; define how share/export selection treats scratchpads alongside hidden comments (section 9) |
 | Fuller formatting | Highlight, underline, superscript, footnotes, callouts and centred lines; tests pass | Definition lists, subscript once its syntax is settled |
 | Structured observations | Generic records and ordered fields implemented | Scales, units, profile constraints, missing-data validation |
 | Stable format | Draft specification | Reconcile grammar/Markdown precedences; independent reader; versioned conformance release |

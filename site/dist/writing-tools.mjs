@@ -146,6 +146,25 @@ export function clearEntryEdit(source, caret, ast = parse(source)) {
   return result;
 }
 
+// A margin note (spec 4.2.8): a [[...]] line straight after the paragraph, list item or quote at the cursor.
+const NOTE_AFTER = new Set(['paragraph', 'list', 'task', 'blockquote', 'heading', 'table', 'annotation']);
+/** Adds a margin note after the block at `caret`; the annotated words are not changed. Null when the note is empty. */
+export function marginNoteEdit(source, caret, note) {
+  const text = String(note ?? '').replace(/\s+/g, ' ').trim().replace(/\]\]/g, '] ]').replace(/\]$/, '] ');
+  if (!text) return null;
+  const ast = parse(source), bytes = new TextEncoder().encode(ast.source), decoder = new TextDecoder();
+  const charAt = byte => decoder.decode(bytes.slice(0, byte)).length, newline = source.includes('\r\n') ? '\r\n' : '\n';
+  let target = null;
+  for (const node of ast.nodes) { const start = charAt(node.start), end = charAt(node.end); if (caret >= start && caret <= end && NOTE_AFTER.has(node.type)) target = { start, end }; if (start > caret) break; }
+  let at;
+  if (target) { at = target.end; while (at > target.start && /[\r\n]/.test(source[at - 1])) at--; }
+  else at = lineEnd(source, caret);
+  // A list item or quote ends at the end of its own line, so the note annotates the line the cursor is on.
+  if (target && /^\s*(?:[-+*]|\d+[.)]|\[[ xX><!\-]\]|>)/.test(source.slice(lineStart(source, caret), lineEnd(source, caret)))) at = lineEnd(source, caret);
+  const line = newline + '[[' + text + ']]';
+  return edit(at, at, line, caret, caret);
+}
+
 /** A minimal replacement plus absolute final selection; null means no change. */
 export function writingEdit(source, start, end, action) {
   [start, end] = bounds(source, start, end);

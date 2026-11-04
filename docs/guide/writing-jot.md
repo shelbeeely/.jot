@@ -204,6 +204,42 @@ Things to look up later: the name of that song.
 */
 ```
 
+In Writer, put the cursor in a passage and choose **Format → Margin note…** (or **Tools → Margin note**). Writer adds the note
+on its own line straight after that paragraph, list item or quote, and it sits beside it on the page. Your words are not
+changed, and Undo removes the note. To draw or write by hand over a page instead, choose **Format → Draw on a page…**
+(the same as **Tools → Annotate page**).
+
+### A scratchpad for each entry
+
+Sometimes you want to get it all down roughly first and write the entry afterwards. A **scratchpad** is a block named `draft`
+inside the entry. It stays in the file with the entry, but it is not shown on the page or in print:
+
+````jot
+### 2026-11-04 | Wednesday
+
+~~~draft
+heron, rain, canal. why was it standing so still?
+~~~
+
+The heron was back by the canal this morning, standing in the rain.
+````
+
+Everything in a scratchpad is kept exactly as written: `[ ]` there is not a task and `#words` are not tags, so rough notes
+never turn up in your task lists or charts.
+
+In Writer, put the cursor in an entry and choose **Tools → Scratchpad for this entry**. The scratchpad opens beside the
+writing; what you type is saved into the entry as you go.
+
+- **Add to entry** puts the words you selected in the scratchpad (or all of it) at the end of the entry. The scratchpad keeps
+  them until you clear it.
+- **Clear scratchpad** asks once more, then removes the block. Undo brings it back.
+- **Talk into it** (for today's entry) starts the stenographer writing into the scratchpad instead of the entry. You can also
+  choose **Write into: Today's scratchpad** in the stenographer's settings.
+- In live editing a scratchpad shows as a small card with its word count and an **Open** button.
+
+A scratchpad is part of the entry, so it is protected when the journal is locked. It is not secret from anyone who opens the
+file, and an editable export or a copy of the file includes it. Clear it if you don't want to keep it.
+
 ## Numbers, ratings and other data (records)
 
 When you want something a program can count (sleep hours, energy, a mood), put it in a **record**. A record starts with

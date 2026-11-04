@@ -244,7 +244,19 @@ html[data-steno-open] .writing-pane{padding-bottom:calc(var(--steno-height,0px) 
 .steno label{display:block;margin:8px 0}.steno .steno-check{display:flex;gap:10px;align-items:flex-start}.steno-check input{flex:none;width:20px;height:20px;margin:1px 0 0}
 .steno select{display:block;width:100%;min-height:44px;margin-top:4px;padding:8px;font:inherit;background:var(--jot-paper);color:var(--jot-ink);border:1px solid var(--jot-edge);border-radius:8px}
 body #writerVoiceMic.vw-on{background:#b42318;color:#fff}
-@media print{#voiceWriting,.writer-voice-mic,.steno{display:none!important}}
+.scratch{position:fixed;z-index:22;top:72px;right:max(16px,env(safe-area-inset-right));width:min(420px,calc(100vw - 32px));max-height:min(70vh,640px);overflow:auto;box-sizing:border-box;padding:14px 16px;background:var(--jot-paper);color:var(--jot-ink);border:1px solid var(--jot-edge);border-radius:16px;box-shadow:0 6px 20px #0003;font:15px/1.45 "Jot Sans",ui-sans-serif,system-ui,sans-serif}
+.scratch[hidden]{display:none!important}.scratch [hidden]{display:none!important}
+.scratch-head{display:flex;align-items:center;gap:8px}.scratch-head h2,#scratchpad .scratch-head h2{margin:0;font:700 17px/1.2 "Jot Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:0}.scratch-date{font-size:14px;opacity:.85}
+.scratch .scratch-close{margin-left:auto;min-width:44px;min-height:44px;border:0;background:none;color:inherit;font-size:18px;cursor:pointer;border-radius:8px}
+.scratch-help{font-size:13px;margin:4px 0 8px}.scratch textarea{display:block;width:100%;box-sizing:border-box;min-height:160px;padding:10px;font:16px/1.5 "Jot Mono",ui-monospace,monospace;background:var(--jot-paper);color:var(--jot-ink);border:1px dashed var(--jot-edge);border-radius:8px;resize:vertical}
+.scratch-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.scratch-actions button{min-height:44px;padding:8px 14px;font:inherit;border:1px solid var(--jot-edge);border-radius:999px;background:var(--jot-paper);color:var(--jot-ink);cursor:pointer}
+.scratch .scratch-primary{background:var(--jot-ink);color:var(--jot-paper);border-color:var(--jot-ink);font-weight:600}.scratch .scratch-danger{background:#b42318;color:#fff;border-color:#b42318}
+.scratch-status{font-size:13px;margin:8px 0 0;min-height:1em}
+@media(max-width:700px){.scratch{top:104px;max-height:58vh;padding:10px 12px}.scratch textarea{min-height:96px}.scratch-help{font-size:12px;margin:2px 0 6px}.scratch-actions{margin-top:8px}}
+.live-margin{border-left:3px solid var(--writer-border,currentColor);border-radius:0 999px 999px 0}.live-margin span{font-style:italic}
+.writer-small-dialog{width:min(560px,calc(100vw - 24px));max-height:90vh;overflow:auto;padding:20px;box-sizing:border-box}.writer-small-dialog input{width:100%;box-sizing:border-box;min-height:44px;padding:8px;font:inherit;font-size:16px;color:var(--jot-ink);background:var(--jot-paper);border:1px solid var(--jot-edge);border-radius:6px}
+.writer-small-actions{display:flex;flex-wrap:wrap;gap:8px}.writer-small-dialog button{min-height:44px;transition:none}.writer-small-dialog .writer-small-actions button{padding:8px 14px;background:var(--jot-paper);color:var(--jot-ink);border:1px solid var(--jot-edge)}.writer-small-dialog .writer-small-actions button.primary{background:var(--jot-ink);color:var(--jot-paper)}
+@media print{#voiceWriting,.writer-voice-mic,.steno,.scratch,.writer-small-dialog{display:none!important}}
 /* Narrow screens see the whole handwritten page, scaled after layout (studio.mjs fitPaper). */
 @media screen{.paper-preview.jot-hand{zoom:var(--jot-fit,1)}}
 /* Preview tabs stay on one line. */

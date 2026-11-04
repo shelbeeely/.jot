@@ -304,6 +304,26 @@ this from a chosen file. A host rendering an included document MUST use that inc
 its footnotes, and restore the enclosing document's context afterwards. A formatted export captures the displayed name at export
 time; a plain `.jot` download keeps the variable. Renderers without variable support can display the original text unchanged.
 
+#### 4.2.7 Entry scratchpads
+
+A fenced literal block whose info string is `draft` is the **scratchpad** of the entry that contains it: a rough draft kept beside the finished writing.
+
+```jot
+### 2026-11-04 | Wednesday
+
+~~~draft
+bus late again, rain, saw the heron by the canal?? write about the heron
+~~~
+
+The heron was back by the canal this morning, standing in the rain as if it had been there all night.
+```
+
+Its content is literal (3.2): tasks, tags, links, records and formatting inside it mean nothing, so rough notes never become tasks or measurements. A renderer MUST omit scratchpads from formatted pages, print and page exports, and SHOULD offer them in an editor beside the entry. They remain part of the source: editable exports, search within the editor and protection treat them like the rest of the entry, so a scratchpad is no more private than the entry it belongs to. An entry MAY have more than one; an editor that offers one scratchpad per entry uses the first and preserves the others. A scratchpad before the first dated heading belongs to no entry and is preserved. Choose a fence longer than any run of the same character inside the draft (3.2).
+
+#### 4.2.8 Margin notes on a passage
+
+Marginalia (4.2) on its own line directly after a paragraph, list item or quote annotates that block. A renderer SHOULD place it beside the block, or after it on narrow pages, and it MUST NOT change the annotated text. Several notes MAY follow one block.
+
 ### 4.3 Generic structured record
 
 ```jot

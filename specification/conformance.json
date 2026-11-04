@@ -33,6 +33,16 @@
       "expected": "One literal block; no task."
     },
     {
+      "id": "scratchpad",
+      "input": "### 2026-11-04\n\n~~~draft\nrough [ ] words\n~~~\n\nThe entry.\n",
+      "expected": "One dated entry; the draft block is its scratchpad (literal, no task), kept in the source and omitted from the formatted page."
+    },
+    {
+      "id": "margin-note-after",
+      "input": "I went out.\n[[Was it Tuesday?]]\n",
+      "expected": "A paragraph, then marginalia annotating it."
+    },
+    {
       "id": "escaped",
       "input": "\\[ ] literal\n",
       "expected": "Paragraph displayed as [ ] literal."
