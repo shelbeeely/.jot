@@ -233,8 +233,8 @@ writing; what you type is saved into the entry as you go.
 - **Add to entry** puts the words you selected in the scratchpad (or all of it) at the end of the entry. The scratchpad keeps
   them until you clear it.
 - **Clear scratchpad** asks once more, then removes the block. Undo brings it back.
-- **Talk into it** (for today's entry) starts the stenographer writing into the scratchpad instead of the entry. You can also
-  choose **Write into: Today's scratchpad** in the stenographer's settings.
+- **Talk into it** (for today's entry) starts the scribe writing into the scratchpad instead of the entry. You can also
+  choose **Write into: Today's scratchpad** in the scribe's settings.
 - In live editing a scratchpad shows as a small card with its word count and an **Open** button.
 
 A scratchpad is part of the entry, so it is protected when the journal is locked. It is not secret from anyone who opens the

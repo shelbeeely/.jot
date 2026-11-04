@@ -64,7 +64,7 @@ export function setupScratchpad({ editor, status = () => {}, speakInto = null, t
     nth = Math.max(0, here.findIndex(e => byteCaret >= ast.nodes[e.startNode].start && (e.endNode >= ast.nodes.length ? byteCaret <= bytes : byteCaret < ast.nodes[e.endNode].start)));
     date = current.date; text.value = current.text;
     $('scratchDate').textContent = current.date; text.setAttribute('aria-label', 'Scratchpad for ' + current.date);
-    // Talking into it works for today's entry, where the stenographer writes.
+    // Talking into it works for today's entry, where the scribe writes.
     $('scratchSpeak').hidden = !speakInto || current.date !== today();
     panel.hidden = false; root.toggleAttribute('data-scratch-open', true);
     say(current.exists ? '' : 'Nothing here yet.');

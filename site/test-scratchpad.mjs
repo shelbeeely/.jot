@@ -45,7 +45,7 @@ test('moving words into the entry adds paragraphs after its writing; the scratch
   assert.ok(out.startsWith('### 2026-11-03 | Tue\n\nOld.\n\n'));
 });
 
-test('the stenographer can talk into the scratchpad', () => {
+test('the scribe can talk into the scratchpad', () => {
   let out = run(SRC, appendToScratchpad(SRC, '2026-11-04', 'I went out.'));
   out = run(out, appendToScratchpad(out, '2026-11-04', 'It rained.'));
   out = run(out, appendToScratchpad(out, '2026-11-04', '[ ] call Sam', '\n'));

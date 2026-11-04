@@ -75,7 +75,7 @@ export function shortcutMatcher(combo) {
 }
 
 const TOOL_GROUPS = [
-  ['Start writing', ['Today', 'Quick note', 'Stenographer', 'Scratchpad for this entry', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
+  ['Start writing', ['Today', 'Quick note', 'Scribe', 'Scratchpad for this entry', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
   ['Find your way', ['Find and replace', 'Outline', 'Journal map', 'Page preview', 'Write only', 'Side by side', 'Focus mode']],
   ['Add to an entry', ['Margin note', 'Annotate page', 'Insert current time', 'Capture location', 'Attach a file', 'People and Places', 'Music and background media', 'Voice practice', 'Carry tasks forward', 'Week review', 'Annotate page', 'Connected sources', 'Import health data', 'Import numbers CSV', 'Entry timezone']],
   ['Save, open and share', ['Save', 'Save as', 'Open a journal', 'New journal', 'Download journal', 'Print or PDF', 'Download page', 'Export Markdown', 'Export Jot source', 'Export calendar', 'Export numbers', 'Export tasks', 'Open imported file', 'Attached files', 'Rename document']],
@@ -114,7 +114,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
-  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'stenographerBtn', 'scratchpadBtn', 'marginNoteBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
+  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'scribeBtn', 'scratchpadBtn', 'marginNoteBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
     if (name !== 'write' && name !== 'map') showPreview();
@@ -369,7 +369,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['writerAnnotateBtn', 'Annotate page', 'Draw or write by hand over a copy of a page; the strokes stay editable'],
     ['marginNoteBtn', 'Margin note', 'A short note beside the passage at your cursor, without changing your words'],
     ['scratchpadBtn', 'Scratchpad for this entry', 'Rough notes beside the entry, kept in the file and off the page'],
-    ['stenographerBtn', 'Stenographer', 'Talk hands-free; every word goes into today’s entry as you say it, with optional questions when you pause'],
+    ['scribeBtn', 'Scribe', 'Talk hands-free; every word goes into today’s entry as you say it, with optional questions when you pause'],
     ['writerVoiceWritingBtn', 'Voice typing', 'Speak an entry. It is transcribed and tidied on this device, then you check it (voice writing)'],
     ['writerAIBtn', 'AI companion', 'Optional BYOK drafts and suggestions; OpenRouter or local models'],
     ['lockBtn', 'Journal lock and ways in', 'Encrypt this journal or manage its unlock methods'],

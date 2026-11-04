@@ -70,10 +70,10 @@ Requests are single-shot, cancellable, limited to 60 seconds, 4,000 instruction 
 2,048 requested output tokens and a bounded response. There is no conversation history sent implicitly. A rejection leaves your
 journal unchanged; revise the instruction, select a smaller passage or choose a compatible model.
 
-## Stenographer
+## Scribe
 
-The stenographer is for talking your journal. Press the microphone button at the bottom right of the writing (**Speak**),
-choose **Say it out loud** on an empty page, or open **Tools → Stenographer**. On phones the button sits above the
+The scribe is for talking your journal. Press the microphone button at the bottom right of the writing (**Speak**),
+choose **Say it out loud** on an empty page, or open **Tools → Scribe**. On phones the button sits above the
 navigation bar, and above the on-screen keyboard when it is open.
 
 - **Every word goes in as you say it**, at the end of today's entry, exactly as the speech model heard it. There is no
@@ -108,13 +108,13 @@ and settings**, or **Talk into it** in the entry's scratchpad. The words go into
 which stays off the page.
 
 It needs the Whistle speech model once (16.9 MB, the same pinned file voice typing uses). Keep it on this device and the
-stenographer starts offline. Listening and transcription run in the page: nothing you say is recorded, stored or sent,
+scribe starts offline. Listening and transcription run in the page: nothing you say is recorded, stored or sent,
 and only the words go into the journal, which saves and protects them like anything you type. Speech recognition makes
 mistakes, so read it back later; for a tidied draft you check before it goes in, use voice typing.
 
 ## Live voice writing
 
-Open **Tools → Voice typing** to speak an entry and review a cleaned-up draft before it goes in. (The microphone button at the bottom right of the writing, and **Say it out loud** on an empty page, open the [stenographer](#stenographer) instead, which writes your words as you say them.) This is separate from the voice-practice tool, which measures pitch and does not transcribe.
+Open **Tools → Voice typing** to speak an entry and review a cleaned-up draft before it goes in. (The microphone button at the bottom right of the writing, and **Say it out loud** on an empty page, open the [scribe](#scribe) instead, which writes your words as you say them.) This is separate from the voice-practice tool, which measures pitch and does not transcribe.
 
 1. The first time, choose **Download voice typing · 323 MB**. Under **Settings and models** you can instead download or import the models individually: Whistle (16.9 MB), Needle (35.3 MB) and the pinned SmolLM2-360M cleanup GGUF (270.6 MB). Writer checks each file's size and SHA-256 before loading. The runtime is included with Writer, while these public model weights require an explicit first download or local-file import; they are not embedded in a journal or the app installer.
 2. **Keep the models on this device** is selected by default and can be cleared before downloading. Only public model weights enter this separate IndexedDB cache, stored in 32 MB pieces so browsers that limit single stored values can still keep the 271 MB cleanup model. If the browser cannot store them (storage full, private browsing), the models still load for this session and Writer says they were not kept. Next time, opening voice typing loads the saved models from the device without a network request. **Load saved models** does the same on demand; **Remove saved models** deletes saved copies. Closing the tool releases loaded models. Uninserted drafts are session-only.

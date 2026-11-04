@@ -18,7 +18,7 @@
 </header>
 <main>
 <div class="guide-wrap" id="guide"><h1 id="optional-ai-writing-companion">Optional AI writing companion</h1>
-<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-a-session">Start a session</a></li><li><a href="#openrouter-privacy-and-zdr">OpenRouter privacy and ZDR</a></li><li><a href="#local-models">Local models</a></li><li><a href="#validation-and-limits">Validation and limits</a></li><li><a href="#stenographer">Stenographer</a></li><li><a href="#live-voice-writing">Live voice writing</a></li></ul></nav><article class="guide">
+<nav class="toc" aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><ul><li><a href="#start-a-session">Start a session</a></li><li><a href="#openrouter-privacy-and-zdr">OpenRouter privacy and ZDR</a></li><li><a href="#local-models">Local models</a></li><li><a href="#validation-and-limits">Validation and limits</a></li><li><a href="#scribe">Scribe</a></li><li><a href="#live-voice-writing">Live voice writing</a></li></ul></nav><article class="guide">
 <p>Writer works without AI, an account or a network connection. The optional companion helps turn your own notes into writing,
 or offers suggestions when you ask. It uses your own OpenRouter key or a local OpenAI-compatible model server. It is not a
 background agent and cannot browse, upload files, call tools or act on connected services.</p>
@@ -75,9 +75,9 @@ existing journal syntax diagnostics before applying AI writing. No response is r
 <p>Requests are single-shot, cancellable, limited to 60 seconds, 4,000 instruction characters, 24,000 context/fragment characters,
 2,048 requested output tokens and a bounded response. There is no conversation history sent implicitly. A rejection leaves your
 journal unchanged; revise the instruction, select a smaller passage or choose a compatible model.</p>
-<h2 id="stenographer">Stenographer</h2>
-<p>The stenographer is for talking your journal. Press the microphone button at the bottom right of the writing (<strong>Speak</strong>),
-choose <strong>Say it out loud</strong> on an empty page, or open <strong>Tools → Stenographer</strong>. On phones the button sits above the
+<h2 id="scribe">Scribe</h2>
+<p>The scribe is for talking your journal. Press the microphone button at the bottom right of the writing (<strong>Speak</strong>),
+choose <strong>Say it out loud</strong> on an empty page, or open <strong>Tools → Scribe</strong>. On phones the button sits above the
 navigation bar, and above the on-screen keyboard when it is open.</p>
 <ul>
 <li><strong>Every word goes in as you say it</strong>, at the end of today&#39;s entry, exactly as the speech model heard it. There is no
@@ -139,11 +139,11 @@ reading aloud off under <strong>What you can say, and settings</strong>.</li>
 and settings</strong>, or <strong>Talk into it</strong> in the entry&#39;s scratchpad. The words go into today&#39;s <a href="writing-jot.html#a-scratchpad-for-each-entry">scratchpad</a>,
 which stays off the page.</p>
 <p>It needs the Whistle speech model once (16.9 MB, the same pinned file voice typing uses). Keep it on this device and the
-stenographer starts offline. Listening and transcription run in the page: nothing you say is recorded, stored or sent,
+scribe starts offline. Listening and transcription run in the page: nothing you say is recorded, stored or sent,
 and only the words go into the journal, which saves and protects them like anything you type. Speech recognition makes
 mistakes, so read it back later; for a tidied draft you check before it goes in, use voice typing.</p>
 <h2 id="live-voice-writing">Live voice writing</h2>
-<p>Open <strong>Tools → Voice typing</strong> to speak an entry and review a cleaned-up draft before it goes in. (The microphone button at the bottom right of the writing, and <strong>Say it out loud</strong> on an empty page, open the <a href="#stenographer">stenographer</a> instead, which writes your words as you say them.) This is separate from the voice-practice tool, which measures pitch and does not transcribe.</p>
+<p>Open <strong>Tools → Voice typing</strong> to speak an entry and review a cleaned-up draft before it goes in. (The microphone button at the bottom right of the writing, and <strong>Say it out loud</strong> on an empty page, open the <a href="#scribe">scribe</a> instead, which writes your words as you say them.) This is separate from the voice-practice tool, which measures pitch and does not transcribe.</p>
 <ol>
 <li>The first time, choose <strong>Download voice typing · 323 MB</strong>. Under <strong>Settings and models</strong> you can instead download or import the models individually: Whistle (16.9 MB), Needle (35.3 MB) and the pinned SmolLM2-360M cleanup GGUF (270.6 MB). Writer checks each file&#39;s size and SHA-256 before loading. The runtime is included with Writer, while these public model weights require an explicit first download or local-file import; they are not embedded in a journal or the app installer.</li>
 <li><strong>Keep the models on this device</strong> is selected by default and can be cleared before downloading. Only public model weights enter this separate IndexedDB cache, stored in 32 MB pieces so browsers that limit single stored values can still keep the 271 MB cleanup model. If the browser cannot store them (storage full, private browsing), the models still load for this session and Writer says they were not kept. Next time, opening voice typing loads the saved models from the device without a network request. <strong>Load saved models</strong> does the same on demand; <strong>Remove saved models</strong> deletes saved copies. Closing the tool releases loaded models. Uninserted drafts are session-only.</li>

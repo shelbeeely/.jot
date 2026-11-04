@@ -1149,3 +1149,7 @@ Research basis:
 - `docs/methods/adhd-journaling.md, line 138` describes the brain dump: emptying working memory onto paper before ordering it. That supports a rough place beside the entry, and keeping its lines literal so a dump does not fill task lists.
 - `docs/methods/commonplace-book.md, line 204` describes marking passages with margin notes and transferring what still stands out later, which is the scratchpad-then-entry flow.
 - The guides do not study digital scratchpads or margin-note placement, so the notation and the controls are design choices.
+
+## 2026-11-04: The stenographer is called Scribe
+
+The owner chose **Scribe** for the hands-free, word-for-word dictation tool (entries above say "stenographer"). It follows the brand book's rule of naming tools by what they do (`docs/brand/voice.md`, "The tools by what they do"): one plain word, short enough for a button, that says it writes down what you say. It is "Scribe" on buttons and in Tools, and "the scribe" in running text. Its files, element IDs and tests are renamed to match (`scribe.mjs`, `scribe-core.mjs`, `site/test-scribe*.mjs`/`.cjs`). The bring-your-own-key **AI companion** keeps its name, so it stays clear which tool uses a language model and which does not.

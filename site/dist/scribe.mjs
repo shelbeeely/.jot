@@ -1,11 +1,11 @@
-// The stenographer: talk, and every word goes verbatim into today's entry as you speak.
+// The scribe: talk, and every word goes verbatim into today's entry as you speak.
 // Speech runs on this device (pinned Whistle model); no model writes or rewrites the words. When you pause, it can ask
 // one short question from a fixed list, read aloud with an on-device voice. Spoken commands edit and add Jot structure.
 // The microphone stays on until Stop, "stop listening", closing, five quiet minutes, locking or leaving the page.
 import { createVoiceBackend } from './voice-backend.mjs';
 import { captureSpeech } from './speech-capture.mjs';
 import { SPEECH_MODELS, verifySpeechModel, downloadSpeechModel, speechModelCache } from './speech-models.mjs';
-import { readCommand, splitSentences, planWrite, STENO_QUESTIONS } from './stenographer-core.mjs';
+import { readCommand, splitSentences, planWrite, SCRIBE_QUESTIONS } from './scribe-core.mjs';
 import { appendToScratchpad } from './scratchpad-core.mjs';
 
 const QUIET_LEVEL = 0.01;       // RMS below this counts as quiet
@@ -13,62 +13,62 @@ const PAUSE_MS = 1200;          // a pause this long finishes the sentence you w
 const QUESTION_MS = 7000;       // after this much quiet, one optional question
 const QUESTION_GAP_MS = 45000;  // and never more often than this
 const IDLE_MS = 5 * 60 * 1000;  // the microphone turns itself off after five quiet minutes
-const PREF = 'jot-stenographer-v1';
+const PREF = 'jot-scribe-v1';
 
-export function setupStenographer({ editor, today, todayEntry, status = () => {}, beforeOpen = () => {} }) {
+export function setupScribe({ editor, today, todayEntry, status = () => {}, beforeOpen = () => {} }) {
   const doc = editor.ownerDocument, win = doc.defaultView;
   const el = (tag, attributes = {}, text) => { const node = doc.createElement(tag); for (const [k, v] of Object.entries(attributes)) node.setAttribute(k, v); if (text !== undefined) node.textContent = text; return node; };
   let prefs = { questions: true, aloud: true, remember: true, language: '', target: 'entry' };
   try { prefs = { ...prefs, ...JSON.parse(win.localStorage.getItem(PREF) || '{}') }; } catch { /* defaults */ }
   const savePrefs = () => { try { win.localStorage.setItem(PREF, JSON.stringify({ questions: prefs.questions, aloud: prefs.aloud, remember: prefs.remember, language: prefs.language, target: prefs.target })); } catch { /* this visit only */ } };
 
-  const panel = el('section', { id: 'stenographer', class: 'steno', 'aria-labelledby': 'stenoTitle' });
+  const panel = el('section', { id: 'scribe', class: 'scribe', 'aria-labelledby': 'scribeTitle' });
   panel.hidden = true;
   // Static markup only; transcripts and questions are set with textContent.
-  panel.innerHTML = `<div class="steno-head"><h2 id="stenoTitle">Stenographer</h2><span id="stenoState" class="steno-state" aria-hidden="true"></span><button id="stenoClose" class="steno-close" type="button" aria-label="Close the stenographer and turn the microphone off">✕</button></div>
-<p id="stenoStatus" class="steno-status" role="status" aria-live="polite">Microphone off.</p>
-<div id="stenoSetup" class="steno-setup" hidden><p>The stenographer needs the Whistle speech model once (16.9 MB, public, from Hugging Face). Your voice and writing are never part of the download.</p>
-<label class="steno-check"><input id="stenoRemember" type="checkbox"> Keep it on this device, so it starts quickly and works offline</label>
-<div class="steno-actions"><button id="stenoDownload" class="steno-primary" type="button">Download speech model · 16.9 MB</button><label class="steno-file">Import whistle.cact<input id="stenoFile" type="file" accept=".cact"></label></div></div>
-<p id="stenoHearing" class="steno-hearing" hidden><span class="steno-label">Hearing:</span> <span id="stenoPending"></span></p>
-<div id="stenoQuestion" class="steno-question" hidden><p id="stenoQuestionText"></p><div class="steno-actions"><button id="stenoSkip" type="button">Skip</button><button id="stenoAnother" type="button">Another question</button></div></div>
-<div class="steno-actions steno-main"><button id="stenoStart" class="steno-primary" type="button">Start listening</button><button id="stenoStop" class="steno-stop" type="button" hidden><span class="steno-dot" aria-hidden="true"></span>Stop <span id="stenoElapsed" aria-hidden="true">0:00</span></button><button id="stenoScratch" type="button" disabled>Scratch that</button></div>
-<details class="steno-more"><summary>What you can say, and settings</summary>
-<ul class="steno-commands"><li><b>“New paragraph”</b>, <b>“new line”</b></li><li><b>“Scratch that”</b> or <b>“undo”</b> removes the last thing it wrote</li><li><b>“New task</b> call Sam<b>”</b>, <b>“new note</b> …<b>”</b>, <b>“new heading</b> Evening<b>”</b>, <b>“tag</b> work<b>”</b></li><li><b>“Skip”</b>, <b>“another question”</b></li><li><b>“Stop listening”</b></li></ul>
-<p class="steno-small">Say a command on its own, with a short pause before and after. Everything else is written exactly as you say it, at the end of today’s entry. Undo works as usual.</p>
-<label class="steno-check"><input id="stenoQuestions" type="checkbox"> Ask me a short question when I pause</label>
-<label class="steno-check"><input id="stenoAloud" type="checkbox"> Read questions aloud (on-device voices only)</label>
-<label>Write into <select id="stenoTarget"><option value="entry">Today’s entry</option><option value="draft">Today’s scratchpad (rough notes, kept off the page)</option></select></label>
-<label>Speech language <select id="stenoLanguage"><option value="">Detect automatically</option><option value="en">English</option><option value="de">German</option><option value="fr">French</option><option value="es">Spanish</option><option value="it">Italian</option><option value="nl">Dutch</option><option value="pl">Polish</option></select></label>
-<p class="steno-small">Listening and transcription run on this device. Nothing you say is recorded, stored or sent anywhere; only the words go into your journal. The microphone turns off after five quiet minutes.</p>
+  panel.innerHTML = `<div class="scribe-head"><h2 id="scribeTitle">Scribe</h2><span id="scribeState" class="scribe-state" aria-hidden="true"></span><button id="scribeClose" class="scribe-close" type="button" aria-label="Close the scribe and turn the microphone off">✕</button></div>
+<p id="scribeStatus" class="scribe-status" role="status" aria-live="polite">Microphone off.</p>
+<div id="scribeSetup" class="scribe-setup" hidden><p>The scribe needs the Whistle speech model once (16.9 MB, public, from Hugging Face). Your voice and writing are never part of the download.</p>
+<label class="scribe-check"><input id="scribeRemember" type="checkbox"> Keep it on this device, so it starts quickly and works offline</label>
+<div class="scribe-actions"><button id="scribeDownload" class="scribe-primary" type="button">Download speech model · 16.9 MB</button><label class="scribe-file">Import whistle.cact<input id="scribeFile" type="file" accept=".cact"></label></div></div>
+<p id="scribeHearing" class="scribe-hearing" hidden><span class="scribe-label">Hearing:</span> <span id="scribePending"></span></p>
+<div id="scribeQuestion" class="scribe-question" hidden><p id="scribeQuestionText"></p><div class="scribe-actions"><button id="scribeSkip" type="button">Skip</button><button id="scribeAnother" type="button">Another question</button></div></div>
+<div class="scribe-actions scribe-main"><button id="scribeStart" class="scribe-primary" type="button">Start listening</button><button id="scribeStop" class="scribe-stop" type="button" hidden><span class="scribe-dot" aria-hidden="true"></span>Stop <span id="scribeElapsed" aria-hidden="true">0:00</span></button><button id="scribeScratch" type="button" disabled>Scratch that</button></div>
+<details class="scribe-more"><summary>What you can say, and settings</summary>
+<ul class="scribe-commands"><li><b>“New paragraph”</b>, <b>“new line”</b></li><li><b>“Scratch that”</b> or <b>“undo”</b> removes the last thing it wrote</li><li><b>“New task</b> call Sam<b>”</b>, <b>“new note</b> …<b>”</b>, <b>“new heading</b> Evening<b>”</b>, <b>“tag</b> work<b>”</b></li><li><b>“Skip”</b>, <b>“another question”</b></li><li><b>“Stop listening”</b></li></ul>
+<p class="scribe-small">Say a command on its own, with a short pause before and after. Everything else is written exactly as you say it, at the end of today’s entry. Undo works as usual.</p>
+<label class="scribe-check"><input id="scribeQuestions" type="checkbox"> Ask me a short question when I pause</label>
+<label class="scribe-check"><input id="scribeAloud" type="checkbox"> Read questions aloud (on-device voices only)</label>
+<label>Write into <select id="scribeTarget"><option value="entry">Today’s entry</option><option value="draft">Today’s scratchpad (rough notes, kept off the page)</option></select></label>
+<label>Speech language <select id="scribeLanguage"><option value="">Detect automatically</option><option value="en">English</option><option value="de">German</option><option value="fr">French</option><option value="es">Spanish</option><option value="it">Italian</option><option value="nl">Dutch</option><option value="pl">Polish</option></select></label>
+<p class="scribe-small">Listening and transcription run on this device. Nothing you say is recorded, stored or sent anywhere; only the words go into your journal. The microphone turns off after five quiet minutes.</p>
 </details>`;
   (doc.querySelector('.writing-pane') || doc.body).append(panel);
   const root = doc.documentElement;
-  if (win.ResizeObserver) new win.ResizeObserver(() => root.style.setProperty('--steno-height', panel.offsetHeight + 'px')).observe(panel);
-  const button = el('button', { id: 'stenographerBtn', type: 'button', class: 'quiet', title: 'Talk, and every word goes into today’s entry' }, 'Stenographer');
+  if (win.ResizeObserver) new win.ResizeObserver(() => root.style.setProperty('--scribe-height', panel.offsetHeight + 'px')).observe(panel);
+  const button = el('button', { id: 'scribeBtn', type: 'button', class: 'quiet', title: 'Talk, and every word goes into today’s entry' }, 'Scribe');
   doc.querySelector('.tool-row')?.append(button);
   const $ = id => panel.querySelector('#' + id);
-  $('stenoQuestions').checked = prefs.questions; $('stenoAloud').checked = prefs.aloud; $('stenoRemember').checked = prefs.remember; $('stenoLanguage').value = prefs.language; $('stenoTarget').value = prefs.target === 'draft' ? 'draft' : 'entry';
+  $('scribeQuestions').checked = prefs.questions; $('scribeAloud').checked = prefs.aloud; $('scribeRemember').checked = prefs.remember; $('scribeLanguage').value = prefs.language; $('scribeTarget').value = prefs.target === 'draft' ? 'draft' : 'entry';
 
   let engine = null, whistle = false, generation = 0, controller = null, stopMic = null, queue = Promise.resolve(), audio = new Float32Array(0), buffered = 0;
-  let state = 'idle', buffer = '', heard = false, lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * STENO_QUESTIONS.length);
+  let state = 'idle', buffer = '', heard = false, lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * SCRIBE_QUESTIONS.length);
   let written = { lastEnd: -1, lastKind: '', separator: null }, history = [];
-  const say = text => { $('stenoStatus').textContent = text; };
+  const say = text => { $('scribeStatus').textContent = text; };
 
   function controls() {
     const on = ['starting', 'listening'].includes(state);
-    $('stenoSetup').hidden = whistle || on;
-    $('stenoStart').hidden = on; $('stenoStop').hidden = !on;
-    $('stenoStart').disabled = state !== 'idle' || !whistle;
-    $('stenoScratch').disabled = !history.length;
-    $('stenoHearing').hidden = !on || !$('stenoPending').textContent.trim();
-    $('stenoQuestion').hidden = !question;
-    $('stenoState').textContent = on ? 'Listening' : '';
+    $('scribeSetup').hidden = whistle || on;
+    $('scribeStart').hidden = on; $('scribeStop').hidden = !on;
+    $('scribeStart').disabled = state !== 'idle' || !whistle;
+    $('scribeScratch').disabled = !history.length;
+    $('scribeHearing').hidden = !on || !$('scribePending').textContent.trim();
+    $('scribeQuestion').hidden = !question;
+    $('scribeState').textContent = on ? 'Listening' : '';
     panel.toggleAttribute('data-listening', on);
-    // The Speak button doubles as Stop while the stenographer listens.
+    // The Speak button doubles as Stop while the scribe listens.
     const fab = doc.getElementById('writerVoiceMic');
-    if (fab) { const label = on ? 'Stop the stenographer' : 'Speak (stenographer)'; fab.classList.toggle('vw-on', on); fab.setAttribute('aria-label', label); fab.title = label; const word = fab.querySelector('.writer-voice-mic-label'); if (word) word.textContent = on ? 'Stop' : 'Speak'; }
-    for (const id of ['stenoDownload', 'stenoFile', 'stenoRemember', 'stenoLanguage']) $(id).disabled = state !== 'idle';
+    if (fab) { const label = on ? 'Stop the scribe' : 'Speak (scribe)'; fab.classList.toggle('vw-on', on); fab.setAttribute('aria-label', label); fab.title = label; const word = fab.querySelector('.writer-voice-mic-label'); if (word) word.textContent = on ? 'Stop' : 'Speak'; }
+    for (const id of ['scribeDownload', 'scribeFile', 'scribeRemember', 'scribeLanguage']) $(id).disabled = state !== 'idle';
   }
 
   // The words: written at the end of today's entry, through the editor's own edit path, so Undo works.
@@ -167,9 +167,9 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
   }
   function ask(force = false) {
     if (!force && (!prefs.questions || question || !spokeSinceQuestion || Date.now() - askedAt < QUESTION_GAP_MS)) return;
-    questionIndex = (questionIndex + 1) % STENO_QUESTIONS.length;
-    question = STENO_QUESTIONS[questionIndex]; askedAt = Date.now(); spokeSinceQuestion = false;
-    $('stenoQuestionText').textContent = question; controls();
+    questionIndex = (questionIndex + 1) % SCRIBE_QUESTIONS.length;
+    question = SCRIBE_QUESTIONS[questionIndex]; askedAt = Date.now(); spokeSinceQuestion = false;
+    $('scribeQuestionText').textContent = question; controls();
     say('A question, if you like. Answer, say “skip”, or just keep talking.');
     const voice = prefs.aloud && win.speechSynthesis && win.SpeechSynthesisUtterance ? localVoice() : null;
     if (voice) {
@@ -197,18 +197,18 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
     if (typeof result?.text !== 'string' || typeof result?.pending !== 'string' || result.text.length > 12000) throw Error('The speech engine returned an invalid transcript.');
     hear(result.text.trim());
     // Words not yet written: the unfinished sentence and what the engine is still unsure of.
-    $('stenoPending').textContent = [buffer, result.pending].filter(Boolean).join(' ');
-    $('stenoHearing').hidden = state !== 'listening' || !$('stenoPending').textContent.trim();
+    $('scribePending').textContent = [buffer, result.pending].filter(Boolean).join(' ');
+    $('scribeHearing').hidden = state !== 'listening' || !$('scribePending').textContent.trim();
   }
   function finishPhrase(ticket) {
     // Whistle keeps the last words open until it is told the phrase is over.
-    queue = queue.then(async () => { if (ticket !== generation) return; const result = await engine.finish(); if (ticket === generation) { take(result); flushRest(); $('stenoPending').textContent = ''; $('stenoHearing').hidden = true; } }).catch(error => fail(error, ticket));
+    queue = queue.then(async () => { if (ticket !== generation) return; const result = await engine.finish(); if (ticket === generation) { take(result); flushRest(); $('scribePending').textContent = ''; $('scribeHearing').hidden = true; } }).catch(error => fail(error, ticket));
     return queue;
   }
   function tick(ticket) {
     if (ticket !== generation || state !== 'listening') return;
     const now = Date.now(), seconds = Math.floor((now - startedAt) / 1000);
-    $('stenoElapsed').textContent = Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2, '0');
+    $('scribeElapsed').textContent = Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2, '0');
     const quiet = now - Math.max(lastLoud, speakingUntil);
     if (heard && quiet > PAUSE_MS && now - lastWords > 600) { heard = false; finishPhrase(ticket); }
     if (quiet > QUESTION_MS && !speaking) ask();
@@ -238,7 +238,7 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
 
   async function start() {
     if (state !== 'idle') return;
-    if (editor.readOnly) { say('Unlock this journal to use the stenographer.'); return; }
+    if (editor.readOnly) { say('Unlock this journal to use the scribe.'); return; }
     if (!whistle) { say('Loading the speech model…'); try { if (!(await ensureWhistle(false))) { say('Download the speech model once to start. After that it works offline.'); controls(); return; } } catch (e) { say(e.message); controls(); return; } }
     state = 'starting'; const ticket = generation; controller = new AbortController();
     audio = new Float32Array(0); buffered = 0; buffer = ''; heard = false; queue = Promise.resolve(); controls(); say('Starting the microphone…');
@@ -259,7 +259,7 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
       if (ticket !== generation) { await stopNow(); return; }
       stopMic = stopNow; state = 'listening'; startedAt = lastLoud = lastWords = Date.now();
       ticker = win.setInterval(() => tick(ticket), 250);
-      say(prefs.target === 'draft' ? 'Listening. Every word goes into today’s scratchpad.' : 'Listening. Talk, and every word goes into today’s entry.'); controls(); $('stenoStop').focus();
+      say(prefs.target === 'draft' ? 'Listening. Every word goes into today’s scratchpad.' : 'Listening. Talk, and every word goes into today’s entry.'); controls(); $('scribeStop').focus();
     } catch (e) { fail(e, ticket); }
   }
   async function stop(message = 'Microphone off. Everything you said is in today’s entry.') {
@@ -269,7 +269,7 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
     try { await end?.(); if (audio.length) enqueue(audio.slice(), ticket); audio = new Float32Array(0); await finishPhrase(ticket); }
     catch (e) { if (ticket === generation) say(e.message); }
     if (ticket !== generation) return;
-    controller = null; state = 'idle'; $('stenoPending').textContent = ''; controls(); say(message);
+    controller = null; state = 'idle'; $('scribePending').textContent = ''; controls(); say(message);
   }
   function fail(error, ticket) {
     if (ticket !== generation) return;
@@ -280,37 +280,37 @@ export function setupStenographer({ editor, today, todayEntry, status = () => {}
   function reset() {
     generation++; controller?.abort(); controller = null; stopMic?.(); stopMic = null; win.clearInterval(ticker); ticker = null;
     win.speechSynthesis?.cancel(); speaking = false; question = ''; buffer = ''; history = []; written = { lastEnd: -1, lastKind: '', separator: null };
-    engine?.close(); engine = null; whistle = false; state = 'idle'; panel.hidden = true; root.removeAttribute('data-steno-open'); $('stenoPending').textContent = '';
+    engine?.close(); engine = null; whistle = false; state = 'idle'; panel.hidden = true; root.removeAttribute('data-scribe-open'); $('scribePending').textContent = '';
     say('Microphone off.'); controls();
   }
 
   function open({ listen = true, target } = {}) {
-    if (editor.readOnly) { status('Unlock this journal to use the stenographer.'); return; }
-    if (target === 'draft' || target === 'entry') { if (prefs.target !== target) written = { lastEnd: -1, lastKind: '', separator: null }; prefs.target = target; $('stenoTarget').value = target; savePrefs(); }
+    if (editor.readOnly) { status('Unlock this journal to use the scribe.'); return; }
+    if (target === 'draft' || target === 'entry') { if (prefs.target !== target) written = { lastEnd: -1, lastKind: '', separator: null }; prefs.target = target; $('scribeTarget').value = target; savePrefs(); }
     beforeOpen();
-    panel.hidden = false; root.toggleAttribute('data-steno-open', true); controls();
+    panel.hidden = false; root.toggleAttribute('data-scribe-open', true); controls();
     panel.scrollIntoView({ block: 'nearest' });
     if (state !== 'idle') return;
-    if (listen) start(); else { $('stenoStart').focus(); ensureWhistle(false).then(ok => { controls(); say(ok ? 'Ready. Press Start listening.' : 'Download the speech model once to start. After that it works offline.'); }).catch(e => say(e.message)); }
+    if (listen) start(); else { $('scribeStart').focus(); ensureWhistle(false).then(ok => { controls(); say(ok ? 'Ready. Press Start listening.' : 'Download the speech model once to start. After that it works offline.'); }).catch(e => say(e.message)); }
   }
 
   button.onclick = () => open();
-  $('stenoStart').onclick = () => start();
-  $('stenoStop').onclick = () => stop();
-  $('stenoScratch').onclick = () => scratch();
-  $('stenoSkip').onclick = () => { clearQuestion(); say('Skipped.'); };
-  $('stenoAnother').onclick = () => ask(true);
-  $('stenoClose').onclick = () => { reset(); editor.focus(); };
-  $('stenoQuestions').onchange = () => { prefs.questions = $('stenoQuestions').checked; if (!prefs.questions) clearQuestion(); savePrefs(); };
-  $('stenoAloud').onchange = () => { prefs.aloud = $('stenoAloud').checked; if (!prefs.aloud) win.speechSynthesis?.cancel(); savePrefs(); };
-  $('stenoRemember').onchange = () => { prefs.remember = $('stenoRemember').checked; savePrefs(); };
-  $('stenoLanguage').onchange = () => { prefs.language = $('stenoLanguage').value; savePrefs(); };
-  $('stenoTarget').onchange = () => { prefs.target = $('stenoTarget').value; written = { lastEnd: -1, lastKind: '', separator: null }; savePrefs(); say(prefs.target === 'draft' ? 'Writing into today’s scratchpad.' : 'Writing into today’s entry.'); };
-  $('stenoDownload').onclick = async () => {
-    $('stenoDownload').disabled = true;
+  $('scribeStart').onclick = () => start();
+  $('scribeStop').onclick = () => stop();
+  $('scribeScratch').onclick = () => scratch();
+  $('scribeSkip').onclick = () => { clearQuestion(); say('Skipped.'); };
+  $('scribeAnother').onclick = () => ask(true);
+  $('scribeClose').onclick = () => { reset(); editor.focus(); };
+  $('scribeQuestions').onchange = () => { prefs.questions = $('scribeQuestions').checked; if (!prefs.questions) clearQuestion(); savePrefs(); };
+  $('scribeAloud').onchange = () => { prefs.aloud = $('scribeAloud').checked; if (!prefs.aloud) win.speechSynthesis?.cancel(); savePrefs(); };
+  $('scribeRemember').onchange = () => { prefs.remember = $('scribeRemember').checked; savePrefs(); };
+  $('scribeLanguage').onchange = () => { prefs.language = $('scribeLanguage').value; savePrefs(); };
+  $('scribeTarget').onchange = () => { prefs.target = $('scribeTarget').value; written = { lastEnd: -1, lastKind: '', separator: null }; savePrefs(); say(prefs.target === 'draft' ? 'Writing into today’s scratchpad.' : 'Writing into today’s entry.'); };
+  $('scribeDownload').onclick = async () => {
+    $('scribeDownload').disabled = true;
     try { if (await ensureWhistle(true)) { controls(); start(); } } catch (e) { say(e.message); } finally { controls(); }
   };
-  $('stenoFile').onchange = async event => {
+  $('scribeFile').onchange = async event => {
     const file = event.target.files[0]; event.target.value = '';
     if (!file) return;
     try {

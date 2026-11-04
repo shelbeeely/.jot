@@ -59,7 +59,7 @@ function draftEdit(source, ast, entry, charAt, text) {
   return { start: at, end: at, text: lead + block(text, newline) + tail };
 }
 
-/** Adds words to the end of a dated entry's scratchpad (made if needed): the stenographer's rough-draft mode. */
+/** Adds words to the end of a dated entry's scratchpad (made if needed): the scribe's rough-draft mode. */
 export function appendToScratchpad(source, date, piece, joiner = ' ') {
   const { ast, entry, charAt } = entryOn(source, date);
   if (!entry) return null;

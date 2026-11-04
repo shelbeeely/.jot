@@ -30,10 +30,10 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decode
    await page.click('#welcomeToday');await page.waitForFunction(()=>/\S/.test(document.getElementById('writing').value));assert.match(await text(),/^### \d{4}-\d{2}-\d{2}/);assert.equal((await text()).includes('>'),false);
    await page.evaluate(()=>{const e=document.getElementById('writing');e.value='';e.dispatchEvent(new Event('input',{bubbles:true}));});await page.waitForSelector('.writer-welcome',{state:'visible'});
    // Speak and methods open their tools.
-   await page.click('#welcomeSpeak');await page.waitForFunction(()=>!document.getElementById('stenographer').hidden);await page.click('#stenoClose');
+   await page.click('#welcomeSpeak');await page.waitForFunction(()=>!document.getElementById('scribe').hidden);await page.click('#scribeClose');
    await page.click('#welcomeMethods');await page.waitForFunction(()=>document.getElementById('methodsDialog').open);await page.click('#closeMethods');
    // The labeled mic opens voice typing too.
-   await page.click('#writerVoiceMic');await page.waitForFunction(()=>!document.getElementById('stenographer').hidden);await page.click('#stenoClose');
+   await page.click('#writerVoiceMic');await page.waitForFunction(()=>!document.getElementById('scribe').hidden);await page.click('#scribeClose');
    // Material 3 flexible navigation bar: three destinations, one active with a filled icon, the FAB above the bar.
    assert.deepEqual(await page.locator('.writer-nav button .writer-nav-label').allTextContents(),['Write','Preview','Map','Tools']);
    assert.equal(await page.getAttribute('.writer-nav [data-nav=write]','aria-current'),'page');

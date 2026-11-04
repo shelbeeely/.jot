@@ -1,7 +1,7 @@
-// The stenographer's rules: commands, sentences and where words go. Run: node --test site/test-stenographer.mjs
+// The scribe's rules: commands, sentences and where words go. Run: node --test site/test-scribe.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readCommand, splitSentences, entryEnd, planWrite, STENO_QUESTIONS } from './dist/stenographer-core.mjs';
+import { readCommand, splitSentences, entryEnd, planWrite, SCRIBE_QUESTIONS } from './dist/scribe-core.mjs';
 
 test('spoken commands are whole sentences; anything else is written as said', () => {
   assert.deepEqual(readCommand('New paragraph.'), { kind: 'paragraph' });
@@ -52,6 +52,6 @@ test('words go at the end of today\'s entry, never into another entry', () => {
 });
 
 test('questions are short and open', () => {
-  assert.ok(STENO_QUESTIONS.length >= 10);
-  for (const q of STENO_QUESTIONS) { assert.ok(q.length < 50, q); assert.ok(!/\b(trauma|wrong with|should you)\b/i.test(q)); }
+  assert.ok(SCRIBE_QUESTIONS.length >= 10);
+  for (const q of SCRIBE_QUESTIONS) { assert.ok(q.length < 50, q); assert.ok(!/\b(trauma|wrong with|should you)\b/i.test(q)); }
 });

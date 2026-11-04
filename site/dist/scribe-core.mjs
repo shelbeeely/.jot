@@ -1,9 +1,9 @@
-// The stenographer's plain-text rules: spoken commands, where words go in today's entry, and its questions.
+// The scribe's plain-text rules: spoken commands, where words go in today's entry, and its questions.
 // No model writes here: the words are the speech engine's transcript, placed verbatim.
 import { parse } from './jot/jot.mjs';
 
 // Light, skippable questions, one at a time, never heavy (docs/methods/prompt-journaling.md, lines 113 and 476).
-export const STENO_QUESTIONS = Object.freeze([
+export const SCRIBE_QUESTIONS = Object.freeze([
   'What else happened today?',
   'What can you hear right now?',
   'What did you eat that was good?',
@@ -23,7 +23,7 @@ const EDITS = new Map([
   ['new paragraph', 'paragraph'], ['next paragraph', 'paragraph'],
   ['new line', 'line'], ['next line', 'line'],
   ['scratch that', 'scratch'], ['delete that', 'scratch'], ['undo', 'scratch'], ['undo that', 'scratch'],
-  ['stop listening', 'stop'], ['stop', 'stop'], ['stop stenographer', 'stop'],
+  ['stop listening', 'stop'], ['stop', 'stop'], ['stop scribe', 'stop'],
   ['skip', 'skip'], ['skip question', 'skip'], ['skip that question', 'skip'], ['skip it', 'skip'],
   ['another question', 'another'], ['ask me a question', 'another'], ['ask me something', 'another'], ['next question', 'another']
 ]);
