@@ -17,7 +17,7 @@ export function setupWakeLock({ isLocked = () => false, changed = () => {}, navi
   globalThis.addEventListener?.('pagehide', reset);
   return { supported: !!nav.wakeLock?.request, async enable(value) { wanted = !!value; if (wanted && nav.wakeLock?.request) await acquire(); else await release(); }, reset };
 }
-export async function setupOffline({ changed = () => {} } = {}) {
+export async function setupOffline({ changed = () => {}, updateReady = () => {} } = {}) {
   if (globalThis.jotDesktop || !globalThis.isSecureContext || !('serviceWorker' in navigator)) return null;
   const registration = await navigator.serviceWorker.register(new URL('./sw.mjs', import.meta.url), { type: 'module', updateViaCache: 'none', scope: new URL('./', import.meta.url).pathname });
   const shareManifest = () => { if(navigator.serviceWorker.controller) { const link=document.querySelector('link[rel=manifest]'); if(link)link.href=new URL('./manifest-share.webmanifest',import.meta.url).href; } };
@@ -25,5 +25,15 @@ export async function setupOffline({ changed = () => {} } = {}) {
   const report = () => { shareManifest(); if (registration.waiting) changed('An offline update is ready. Save your work, close all Jot tabs and reopen to update.'); else if (registration.active) changed('Offline application files are ready. Keep downloading journal backups.'); };
   const watch = worker => worker?.addEventListener('statechange', report);
   watch(registration.installing); registration.addEventListener('updatefound', () => watch(registration.installing));
+  // A newer Writer is waiting: offer it in one step instead of "close every tab", which is hard on a phone or a home-screen app.
+  let applying = false, offered = false;
+  const apply = () => { if (!registration.waiting) return; applying = true; registration.waiting.postMessage('jot-update-now'); };
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (applying) location.reload(); else updateReady(null); });
+  const offer = () => { if (registration.waiting && navigator.serviceWorker.controller && !offered) { offered = true; updateReady(apply); } };
+  const offerWhenInstalled = worker => worker?.addEventListener('statechange', () => { if (worker.state === 'installed') offer(); });
+  offerWhenInstalled(registration.installing); registration.addEventListener('updatefound', () => offerWhenInstalled(registration.installing));
+  offer();
+  // Check for a newer version when the page comes back into view, not only on a fresh load.
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) registration.update().catch(() => {}); });
   report(); return registration;
 }

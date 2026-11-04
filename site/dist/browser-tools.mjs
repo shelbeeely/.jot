@@ -23,8 +23,19 @@ export function setupBrowserTools(bridge) {
   $('browserWake').onchange = () => wake.enable($('browserWake').checked);
   globalThis.addEventListener('beforeinstallprompt', event => { event.preventDefault(); installEvent = event; });
   $('installJot').onclick = async () => { if (!installEvent) { $('installHelp').textContent = 'Use your browser’s Install app or Add to Home Screen menu where available. Desktop Jot is already packaged for offline use.'; return; } await installEvent.prompt(); installEvent = null; };
+  // A small bar when a newer Writer is ready: Update now reloads this tab on the new version. Your writing is kept by autosave.
+  function updateReady(apply) {
+    let bar = document.getElementById('jotUpdateBar');
+    if (!bar) { bar = document.createElement('div'); bar.id = 'jotUpdateBar'; bar.className = 'jot-update-bar'; bar.setAttribute('role', 'status'); document.body.append(bar); }
+    const words = document.createElement('span'), go = document.createElement('button'), later = document.createElement('button');
+    words.textContent = apply ? 'A new version of Jot is ready.' : 'Jot was updated in another tab. Reload this one to keep things working.';
+    go.type = later.type = 'button'; go.textContent = apply ? 'Update now' : 'Reload'; later.textContent = 'Later'; later.className = 'quiet';
+    go.onclick = () => { go.disabled = true; go.textContent = 'Updating…'; document.dispatchEvent(new Event('jot-before-update')); if (apply) apply(); else location.reload(); };
+    later.onclick = () => bar.remove();
+    bar.replaceChildren(words, go, later);
+  }
   if (globalThis.jotDesktop) $('offlineStatus').textContent = 'The desktop app already includes its application files. Web-app installation is not needed.';
-  else setupOffline({ changed: text => { $('offlineStatus').textContent = text; } }).then(reg => { if (!reg) $('offlineStatus').textContent = 'Offline installation is unavailable here. Save or download your journal to keep it.'; }).catch(() => { $('offlineStatus').textContent = 'Offline preparation failed. Stay online or download a journal backup and retry.'; });
+  else setupOffline({ changed: text => { $('offlineStatus').textContent = text; }, updateReady }).then(reg => { if (!reg) $('offlineStatus').textContent = 'Offline installation is unavailable here. Save or download your journal to keep it.'; }).catch(() => { $('offlineStatus').textContent = 'Offline preparation failed. Stay online or download a journal backup and retry.'; });
   $('protectStorage').onclick = async () => {
     try {
       const kept = await navigator.storage?.persist?.(), estimate = await navigator.storage?.estimate?.();

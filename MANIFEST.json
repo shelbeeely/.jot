@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 134395,
-      "sha256": "28ad1f312cd73e6fce02e9dbac077da4426a6732f795da7b7d6b4cb1d7f60141"
+      "byteLength": 135318,
+      "sha256": "f19bc1a89cc3d3066c072bf94e8daa69311084f2022d7f4aed264aad72b23c92"
     },
     {
       "path": "README.md",
@@ -859,8 +859,8 @@
     },
     {
       "path": "docs/guide/browser-tools.md",
-      "byteLength": 9006,
-      "sha256": "ee7fd2faef5108119f040e144160966a3d0e8ba296b5d4547e314a4396aa7958"
+      "byteLength": 9416,
+      "sha256": "061aeb435d5254f49a6fdfa5a5f0554cd91721d1e864c98937e0b1f11f4a3767"
     },
     {
       "path": "docs/guide/connected-sources.md",
@@ -22689,8 +22689,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 16297,
-      "sha256": "df48202a82e1dcbad55df45c46e401c868fc337d714ba71c9b3d82cad8c88f18"
+      "byteLength": 16541,
+      "sha256": "6412efdee3c80d4ab7e8a08aa8a789d3da3dea3208d0e7f2c93f9f5409ed4959"
     },
     {
       "path": "site/CLAUDE.md",
@@ -22759,8 +22759,8 @@
     },
     {
       "path": "site/dist/browser-session.mjs",
-      "byteLength": 2829,
-      "sha256": "336cb6c4ccf6727296b7bc85ee01084d22ef0c75dd3b94e67465b7b35c218ee1"
+      "byteLength": 3933,
+      "sha256": "faa25ff56e923022a66f37c5f1fdcb11f9de61f56b638880f2102b8a28c56109"
     },
     {
       "path": "site/dist/browser-tools.css",
@@ -22769,8 +22769,8 @@
     },
     {
       "path": "site/dist/browser-tools.mjs",
-      "byteLength": 20645,
-      "sha256": "0b4f57cc6a41766ea248a5db63bb2abd7b059f80fe47bfd640db24160d16d036"
+      "byteLength": 21734,
+      "sha256": "40ad741ca5932f6cdfc84501f768d12555cc19d74d000bc20d80a643f0aa54c2"
     },
     {
       "path": "site/dist/capture-core.mjs",
@@ -23204,8 +23204,8 @@
     },
     {
       "path": "site/dist/guide/browser-tools.html",
-      "byteLength": 13614,
-      "sha256": "df50e046dede1654b89cd8aa5c6841b22d552ca6c52f139bc3f25dd5b3b43996"
+      "byteLength": 14076,
+      "sha256": "fe723e946fab3f531486c639fb7e2d4ab17b5a4d08dba96ec86f5a1131040315"
     },
     {
       "path": "site/dist/guide/connected-sources.html",
@@ -23740,7 +23740,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5035,
-      "sha256": "07bd53c8f50fe19971b81537302396c5779486392280d113a8f2cd97019027f3"
+      "sha256": "1e55934485d2efbb79c35a9e521501724d6c47314e7c56e965520eb428045d47"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23839,18 +23839,18 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 58906,
-      "sha256": "18506a702e1e99a11b19ac1ba9519213f818ca3a429d06c533c338320c93cf87"
+      "byteLength": 59664,
+      "sha256": "c9fcdc3d377df6a30871b5b05265f5e4e3c5228b90319eee4d86b7e9932bb98e"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 84438,
-      "sha256": "8adaff4f659594fceb2c4fa0ea36064ee46c3c82e52bd4ed21c07e65b8e8597f"
+      "byteLength": 84511,
+      "sha256": "1236570b417205616bb4c0ee4e0ba8d13c0d9380071ccf5cdef1cbdc2b2fcda3"
     },
     {
       "path": "site/dist/sw.mjs",
-      "byteLength": 2921,
-      "sha256": "0b980c3fc908f079b616226897da78b6e34052635d0788adc25b35e483258dcc"
+      "byteLength": 3159,
+      "sha256": "811e7eb1e3ad6bdc4b115e7f43f3ce562b0645e8d8e4c510e9c83a47214a3a7e"
     },
     {
       "path": "site/dist/tools/index.html",
@@ -24311,6 +24311,11 @@
       "path": "site/test-source-workspace.cjs",
       "byteLength": 735,
       "sha256": "716737f4931091716e7ccbc06d9932c990749491e2bcb391225209f90bc35a18"
+    },
+    {
+      "path": "site/test-update-ui.cjs",
+      "byteLength": 4847,
+      "sha256": "165882e1323439e4b1087708f4041acedc38a1326bd9e858ddc56d81e505df8e"
     },
     {
       "path": "site/test-voice-local-ui.cjs",

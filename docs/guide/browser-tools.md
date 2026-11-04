@@ -11,8 +11,12 @@ to Home Screen menu. Reopen the installed app once before going offline. Writer 
 styles, guides, libraries and fonts. Journals, attachments, exports, keys, provider responses and models do not enter that cache.
 Local drafts and attachments use the existing separate browser storage; locked journals keep their encrypted storage path.
 
-An offline update waits while old Jot tabs remain open. Finish any drawing, save/download your writing, then close all Jot tabs
-and reopen. Jot does not force an update while you write. An unsuccessful installation leaves the previous offline version intact.
+When a newer Jot is ready, a bar at the top of Writer says **A new version of Jot is ready** with **Update now** and
+**Later**. Update now saves your writing in this browser and reloads onto the new version in one step; you do not need to
+close every tab, which is hard on a phone or from the home screen. Finish any drawing first. Later keeps the version you
+have until you choose to update or close every Jot tab. Writer checks for a newer version when it opens and when you come
+back to it. Jot never updates while you write without asking. An unsuccessful installation leaves the previous offline version
+intact. If another tab updated, this one offers **Reload**.
 The desktop app already bundles its application files and does not install a web service worker.
 
 **Protect local storage** asks the browser to retain this site's storage and reports approximate usage. The browser can refuse;

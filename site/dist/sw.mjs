@@ -3,7 +3,9 @@ import { enqueue } from './inbox.mjs';
 const scope = new URL('./', import.meta.url), cacheName = 'jot-app-' + VERSION;
 const allowed = new Set(FILES.map(path => new URL(path, scope).href));
 self.addEventListener('install', event => { event.waitUntil((async () => { const cache = await caches.open(cacheName); try { await cache.addAll([...allowed]); } catch (error) { await caches.delete(cacheName); throw error; } })()); });
-// No skipWaiting or clients.claim: old open tabs keep a consistent application version until closed.
+// No automatic skipWaiting or clients.claim: open tabs keep a consistent application version. The person can choose
+// Update now, which asks the waiting worker to take over; that tab then reloads straight away (browser-session.mjs).
+self.addEventListener('message', event => { if (event.data === 'jot-update-now') self.skipWaiting(); });
 self.addEventListener('activate', event => { event.waitUntil((async () => { for (const name of await caches.keys()) if (name.startsWith('jot-app-') && name !== cacheName) await caches.delete(name); })()); });
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);

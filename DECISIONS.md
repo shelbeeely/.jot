@@ -1236,3 +1236,14 @@ The scribe and voice typing now behave differently:
 - In the scribe, "New task." said on its own makes the next sentence the task.
 
 These are measurements with synthetic speech on one machine. They are not evidence about real voices or phones (`docs/security/README.md`).
+
+## 2026-11-04: Offline updates in one tap
+
+On a phone the owner did not see the new Speak button. The offline application cache served the version it already had, because a new version only took over once every Jot tab was closed. That is hard on a phone and close to impossible from a home-screen app.
+
+Writer now shows a bar when a newer version is waiting: **A new version of Jot is ready**, with **Update now** and **Later**.
+- **Update now** saves the writing in this browser, asks the waiting worker to take over, and reloads that tab.
+- **Other tabs** offer **Reload**.
+- **Checking:** Writer looks for a new version on load and whenever the page comes back into view.
+
+Nothing updates without the person's choice, so open tabs still keep one consistent version unless they ask. `site/test-update-ui.cjs` publishes a simulated new release and checks the bar, the reload, the removed old cache and the kept writing.
