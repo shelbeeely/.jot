@@ -218,6 +218,11 @@ body .writer-history button:hover{background:color-mix(in srgb,var(--writer-ink,
 #vwStatus{margin:4px 0;font-size:15px;line-height:1.5}
 #voiceWriting .vw-pending{margin:0;font-size:14px}#vwPending{font-style:italic;white-space:pre-wrap}#vwOrganization{white-space:pre-wrap;overflow-wrap:anywhere}
 #voiceWriting h3{font-size:16px;margin:18px 0 4px}
+#voiceWriting .vw-elapsed{font-variant-numeric:tabular-nums;font-weight:500;opacity:.9}
+#voiceWriting .vw-where{margin:4px 0 8px;font-size:14px}#voiceWriting #vwReview .voice-writing-actions{position:sticky;bottom:-20px;z-index:1;margin:0 -20px;padding:10px 20px 12px;background:var(--jot-paper);border-top:1px solid var(--jot-edge)}#voiceWriting .vw-hint{margin:8px 0 0}
+#voiceWriting #vwMore{display:inline-flex;align-items:center;gap:6px}#voiceWriting #vwMore svg{width:20px;height:20px}
+#voiceWriting .voice-writing-actions .vw-danger{background:#b42318;color:#fff;border-color:#b42318}
+@media(max-width:480px){#voiceWriting #vwReview .voice-writing-actions button{flex:1 1 calc(50% - 4px)}#voiceWriting #vwReview .voice-writing-actions .vw-primary{flex-basis:100%}}
 .voice-writing-actions,.voice-model-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.voice-model-row>label{flex:1 1 220px}
 #voiceWriting [hidden]{display:none!important}#voiceWriting::backdrop{background:#0009}
 @media print{#voiceWriting,.writer-voice-mic{display:none!important}}

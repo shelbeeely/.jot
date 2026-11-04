@@ -3,6 +3,8 @@ import {captureSpeech} from './speech-capture.mjs';
 import {SPEECH_MODELS,verifySpeechModel,downloadSpeechModel,speechModelCache} from './speech-models.mjs';
 import {organizedJot,liveTranscript} from './voice-writing-core.mjs';
 import {aiEdit,aiEndpoint,aiRequest} from './ai-client.mjs';
+import {parse} from './jot/jot.mjs';
+import {entryAtCaret} from './jot/timezone.mjs';
 
 export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdentity=()=>'',addCapture,status=()=>{}}){
   const doc=editor.ownerDocument,win=doc.defaultView;
@@ -23,19 +25,21 @@ export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdenti
 </div>
 <div class="vw-speak">
 <button id="vwStart" class="vw-mic-button" type="button">${MIC}<span>Start speaking</span></button>
-<button id="vwStop" class="vw-mic-button vw-listening" type="button" disabled><span class="vw-dot" aria-hidden="true"></span><span>Stop</span></button>
+<button id="vwStop" class="vw-mic-button vw-listening" type="button" disabled><span class="vw-dot" aria-hidden="true"></span><span>Stop</span><span id="vwElapsed" class="vw-elapsed" aria-hidden="true">0:00</span></button>
 <p id="vwStatus" role="status" aria-live="polite">Microphone off.</p>
 </div>
 <div id="vwHeard"><label>What you said<textarea id="vwTranscript" rows="4" readonly></textarea></label><p class="vw-pending">Still listening: <span id="vwPending"></span></p></div>
 <div id="vwReview">
 <label>Cleaned-up text (edit it if you like)<textarea id="vwDraft" rows="6" disabled></textarea></label>
-<div class="voice-writing-actions"><button id="vwInsert" class="vw-primary" type="button" disabled>Insert into journal</button><button id="vwRetry" type="button" disabled>Clean up again</button><button id="vwCancel" type="button" disabled>Cancel processing</button><button id="vwDiscard" type="button">Discard</button></div>
+<p id="vwWhere" class="vw-where"></p>
+<div class="voice-writing-actions"><button id="vwInsert" class="vw-primary" type="button" disabled aria-keyshortcuts="Control+Enter Meta+Enter" aria-describedby="vwWhere">Insert into journal</button><button id="vwMore" type="button" hidden>${MIC}<span>Add more</span></button><button id="vwCopy" type="button" hidden>Copy text</button><button id="vwRetry" type="button" disabled>Clean up again</button><button id="vwCancel" type="button" disabled>Cancel processing</button><button id="vwDiscard" type="button">Discard</button></div>
+<p class="vw-hint small">Ctrl/Cmd + Enter inserts. Add more keeps what you said and listens again.</p>
 <details><summary>Needle's proposed organization</summary><pre id="vwOrganization"></pre></details>
 </div>
 <details id="vwSetup"><summary>Settings and models</summary>
 <label>Speech language<select id="vwLanguage"><option value="">Detect automatically</option><option value="en">English</option><option value="de">German</option><option value="fr">French</option><option value="es">Spanish</option><option value="it">Italian</option><option value="nl">Dutch</option><option value="pl">Polish</option></select></label>
 <label>Names or phrases to recognize (one per line; stays on this device)<textarea id="vwKeywords" rows="2" maxlength="1000"></textarea></label>
-<label class="vw-check"><input id="vwKeepAudio" type="checkbox"> Keep audio and original transcript with the inserted entry</label><p class="small">Off by default. When on, both become attachments in the journal when you insert, using the journal’s attachment protection. Discarding the draft discards the recording.</p>
+<label class="vw-check"><input id="vwKeepAudio" type="checkbox"> Keep audio and original transcript with the inserted entry</label><p class="small">Off by default. When on, both become attachments in the journal when you insert, using the journal’s attachment protection. Discarding the draft discards the recording. Add more is not offered while this is on, because separate recordings cannot be joined into one file.</p>
 <h3>Models</h3><p class="small">Whistle (16.9 MB) transcribes live, Needle (35.3 MB) suggests structure and SmolLM2 (271 MB) cleans up English text. These are pinned releases, checked byte for byte before use. Runtime memory is larger than the files.</p>
 <div class="voice-model-row"><button id="vwWhistleDownload" type="button">Download Whistle</button><label>Import whistle.cact<input id="vwWhistleFile" type="file" accept=".cact"></label></div>
 <div class="voice-model-row"><button id="vwNeedleDownload" type="button">Download Needle</button><label>Import needle3.cact<input id="vwNeedleFile" type="file" accept=".cact"></label></div>
@@ -52,7 +56,7 @@ export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdenti
 <p class="small">Keys and uninserted drafts stay in memory. Inserting writing uses the journal's current protection settings. Model syntax checks cannot verify facts.</p>
 </details>`;
   doc.body.append(dialog);const $=id=>dialog.querySelector('#'+id);
-  let engine=null,storeFailed=false,loaded=new Set(),generation=0,controller=null,setupController=null,stopMic=null,queue=Promise.resolve(),audio=new Float32Array(0),buffered=0,committed='',pending='',snapshot='',revision,identity,start=0,end=0,state='idle',setupBusy=false,cleanupTimer=null,recording=null,speechLanguage='';
+  let engine=null,storeFailed=false,loaded=new Set(),generation=0,controller=null,setupController=null,stopMic=null,queue=Promise.resolve(),audio=new Float32Array(0),buffered=0,committed='',pending='',snapshot='',revision,identity,start=0,end=0,state='idle',setupBusy=false,cleanupTimer=null,recording=null,speechLanguage='',spokeAgain=false,listenWhenReady=false,listenStarted=0,elapsedTimer=null,discardArmed=null;
   const message=text=>{$('vwStatus').textContent=text;};
   const modelLabel=()=>{$('vwModels').textContent=(loaded.has('whistle')?'Whistle loaded':'Whistle not loaded')+' · '+(loaded.has('needle3')?'Needle loaded':'Needle not loaded')+' · '+(loaded.has('cleanup')?'Offline cleanup loaded':'Offline cleanup not loaded');};
   const connection=()=>{
@@ -68,18 +72,30 @@ export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdenti
     $('vwCancelSetup').disabled=!setupBusy;
     for(const id of ['vwProvider','vwBase','vwModel','vwKey','vwCloud','vwZdr','vwStructured','vwLanguage','vwKeywords','vwRemember','vwKeepAudio'])$(id).disabled=active||setupBusy;
     $('vwStart').disabled=active||setupBusy||!loaded.has('whistle')||!loaded.has('needle3')||!!committed;
+    const reviewing=state==='review'||(state==='idle'&&!!committed.trim());
+    $('vwMore').hidden=!reviewing||$('vwKeepAudio').checked;$('vwMore').disabled=setupBusy||!loaded.has('whistle')||!loaded.has('needle3');
+    $('vwCopy').hidden=state!=='review';
+    if(!reviewing||active)disarmDiscard();
+    $('vwWhere').hidden=state!=='review';if(state==='review')$('vwWhere').textContent=where();
     $('vwStop').disabled=state!=='listening';$('vwRetry').disabled=active||setupBusy||!committed.trim()||!loaded.has('needle3');$('vwCancel').disabled=!active;
     $('vwDraft').disabled=state!=='review';$('vwInsert').disabled=state!=='review'||!current();
     // Show only what the current step needs; everything else stays under Settings and models.
     const listening=['starting','listening','stopping'].includes(state);
     $('vwGetStarted').hidden=ready();$('vwCancelSetup').hidden=!setupBusy;
-    $('vwStart').hidden=listening;$('vwStop').hidden=!listening;
+    // While reviewing, Add more sits with the other actions instead of the big Start button.
+    $('vwStart').hidden=listening||(reviewing&&!active)||state==='processing';$('vwStop').hidden=!listening;
+    dialog.querySelector('.vw-pending').hidden=!listening;
     $('vwHeard').hidden=!(listening||committed||pending);
     $('vwReview').hidden=!(['processing','review','inserting'].includes(state)||(state==='idle'&&committed.trim()));
     $('vwRetry').hidden=$('vwRetry').disabled;$('vwCancel').hidden=$('vwCancel').disabled;
     fab.classList.toggle('vw-on',state==='listening');
+    if(state==='listening'&&!elapsedTimer){listenStarted=Date.now();tick();elapsedTimer=win.setInterval(tick,1000);}else if(state!=='listening'&&elapsedTimer){win.clearInterval(elapsedTimer);elapsedTimer=null;}
   }
   function ready(){return loaded.has('whistle')&&loaded.has('needle3')&&($('vwProvider').value!=='embedded'||loaded.has('cleanup'));}
+  function tick(){const seconds=Math.floor((Date.now()-listenStarted)/1000);$('vwElapsed').textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');}
+  // Where Insert puts the writing, said in words before anything changes.
+  function where(){let entry=null;try{entry=entryAtCaret(parse(snapshot),start);}catch{/* the plain wording below still holds */}const replacing=end>start?'replaces the words you selected':'goes in at your cursor';return 'It '+replacing+(entry?', in the '+entry.date+' entry':snapshot.trim()?', before your first dated entry':'')+'.';}
+  function disarmDiscard(){if(!discardArmed)return;win.clearTimeout(discardArmed);discardArmed=null;$('vwDiscard').textContent='Discard';$('vwDiscard').classList.remove('vw-danger');}
   function autoLoad(quiet=false){
     // Public weights the person chose to keep load from this device only; nothing is downloaded here.
     setup(async(signal,ticket)=>{
@@ -90,21 +106,32 @@ export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdenti
         if(signal.aborted||ticket!==generation)return;if(!bytes)continue;
         await load(name,new Uint8Array(bytes),signal,ticket,false);found++;
       }
+      if(ready()&&listenWhenReady&&dialog.open&&state==='idle'){listenWhenReady=false;win.setTimeout(()=>{if(dialog.open)listen(false);},0);return false;}
       return quiet?false:ready()?'Ready. Press Start speaking.':found?'Some voice models are saved on this device. Download voice typing to add the rest.':'Download voice typing once to start. After that it works offline.';
     });
   }
   function destroyEngine(){engine?.close();engine=null;loaded.clear();modelLabel();}
-  function abandon(){generation++;controller?.abort();controller=null;setupController?.abort();setupController=null;stopMic?.();stopMic=null;recording=null;clearTimeout(cleanupTimer);audio=new Float32Array(0);buffered=0;queue=Promise.resolve();destroyEngine();state='idle';setupBusy=false;committed=pending=speechLanguage='';$('vwTranscript').value=$('vwDraft').value='';$('vwPending').textContent=$('vwOrganization').textContent='';controls();}
-  function reset(){abandon();snapshot='';revision=undefined;identity='';$('vwKey').value=$('vwKeywords').value='';$('vwCloud').checked=false;message('Microphone off. Voice draft cleared.');if(dialog.open)dialog.close();}
+  function abandon(){generation++;controller?.abort();controller=null;setupController?.abort();setupController=null;stopMic?.();stopMic=null;recording=null;clearTimeout(cleanupTimer);audio=new Float32Array(0);buffered=0;queue=Promise.resolve();destroyEngine();state='idle';setupBusy=false;committed=pending=speechLanguage='';spokeAgain=false;$('vwTranscript').value=$('vwDraft').value='';$('vwPending').textContent=$('vwOrganization').textContent='';controls();}
+  function reset(){listenWhenReady=false;abandon();snapshot='';revision=undefined;identity='';$('vwKey').value=$('vwKeywords').value='';$('vwCloud').checked=false;message('Microphone off. Voice draft cleared.');if(dialog.open)dialog.close();}
   function discard(){abandon();snapshot=editor.value;revision=getRevision();identity=getIdentity();start=editor.selectionStart;end=editor.selectionEnd;message('Microphone off. Draft discarded.');controls();if(dialog.open)autoLoad(true);}
-  function open(){
+  function open(listen=false){
     if(dialog.open)return;if(editor.readOnly){status('Unlock this journal to use voice typing.');return;}
     snapshot=editor.value;revision=getRevision();identity=getIdentity();start=editor.selectionStart;end=editor.selectionEnd;
     $('vwSetup').open=false;dialog.showModal();controls();
-    if(ready()){message('Ready. Press Start speaking.');$('vwStart').focus();}else{$('vwPackageDownload').focus();autoLoad();}
+    if(ready()){
+      // The Speak button is the explicit request: with the models ready it starts listening straight away.
+      if(listen){$('vwStart').focus();$('vwStart').click();}else{message('Ready. Press Start speaking.');$('vwStart').focus();}
+    }else{listenWhenReady=listen;$('vwPackageDownload').focus();autoLoad();}
   }
-  button.onclick=open;fab.onclick=open;
-  $('vwClose').onclick=reset;dialog.addEventListener('cancel',event=>{event.preventDefault();reset();});dialog.addEventListener('close',()=>{if(!dialog.open&&(state!=='idle'||engine||committed))reset();});$('vwDiscard').onclick=discard;
+  button.onclick=()=>open();fab.onclick=()=>open(true);
+  // Saved models load first; touching anything in the dialog meanwhile means the person is doing something else.
+  for(const type of ['pointerdown','keydown'])dialog.addEventListener(type,()=>{listenWhenReady=false;},true);
+  $('vwClose').onclick=reset;dialog.addEventListener('cancel',event=>{event.preventDefault();reset();});dialog.addEventListener('close',()=>{if(!dialog.open&&(state!=='idle'||engine||committed))reset();});$('vwDiscard').onclick=()=>{
+    // A long dictation is easy to lose: with words in the draft, Discard asks once more.
+    if(!committed.trim()&&!$('vwDraft').value.trim()){discard();return;}
+    if(discardArmed){disarmDiscard();discard();return;}
+    $('vwDiscard').textContent='Discard what you said?';$('vwDiscard').classList.add('vw-danger');discardArmed=win.setTimeout(disarmDiscard,5000);
+  };
   async function setup(task){if(setupBusy||state!=='idle')return;setupBusy=true;storeFailed=false;const ticket=generation;const control=new AbortController();setupController=control;controls();try{const result=await task(control.signal,ticket);if(ticket===generation&&result!==false)message((result||(ready()?'Ready. Press Start speaking.':'Model setup updated. Load the models for your selected cleanup option, then start speaking.'))+(storeFailed?' These models are loaded for now, but this browser could not keep them for offline use (storage is full or private browsing is on).':''));}catch(e){if(ticket===generation)message(e.message);}finally{if(ticket===generation){setupBusy=false;setupController=null;modelLabel();controls();if(ready()&&dialog.open&&(!dialog.contains(doc.activeElement)||$('vwGetStarted').contains(doc.activeElement)))$('vwStart').focus();}}}
   async function load(name,bytes,signal,ticket,store=true){await verifySpeechModel(name,bytes);if(signal.aborted||ticket!==generation)return;if(store&&$('vwRemember').checked){try{await navigator.storage?.persist?.().catch(()=>false);await speechModelCache('put',name,bytes);}catch{storeFailed=true;}}if(signal.aborted||ticket!==generation)return;loaded.delete(name);modelLabel();engine ||= createVoiceBackend();await engine.load(name,bytes);if(ticket===generation&&!signal.aborted){loaded.add(name);modelLabel();}}
   for(const [name,prefix] of [['whistle','Whistle'],['needle3','Needle'],['cleanup','Cleanup']]){
@@ -120,14 +147,15 @@ export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdenti
   function showTranscript(result){if(result.language)speechLanguage=result.language;const text=liveTranscript(committed,{pending:'',...result});committed=text.committed;pending=text.pending;$('vwTranscript').value=committed;$('vwPending').textContent=pending;}
   function failCapture(error,ticket){if(ticket!==generation)return;generation++;controller?.abort();stopMic?.();stopMic=null;destroyEngine();state='idle';if(pending.trim()){committed=[committed,pending].filter(Boolean).join(' ');pending='';$('vwTranscript').value=committed;$('vwPending').textContent='';}message('Microphone off. '+error.message+' What you said is kept; nothing was inserted.');controls();if(dialog.open)autoLoad(true);}
   function enqueue(pcm,ticket){if(!pcm.length)return;const count=pcm.length;buffered+=count;if(buffered>16000*8){failCapture(Error('This device cannot keep up with live transcription. Stop and retry with shorter speech.'),ticket);return;}queue=queue.then(async()=>{if(ticket!==generation||controller?.signal.aborted)return;try{const result=await engine.transcribe(pcm,{language:$('vwLanguage').value,keywords:$('vwKeywords').value});if(ticket===generation&&!controller?.signal.aborted)showTranscript(result);}finally{if(ticket===generation)buffered=Math.max(0,buffered-count);}}).catch(error=>failCapture(error,ticket));}
-  $('vwStart').onclick=async()=>{
-    if(state!=='idle'||setupBusy||!loaded.has('whistle')||!loaded.has('needle3'))return;
+  $('vwStart').onclick=()=>listen(false);
+  async function listen(more){
+    if(state!=='idle'||setupBusy||!loaded.has('whistle')||!loaded.has('needle3')||(!more&&committed))return;
     try{connection();if(!current())throw Error('The journal changed. Close voice writing and choose the writing position again.');}catch(e){message(e.message);$('vwSetup').open=true;return;}
-    state='starting';const ticket=generation;controller=new AbortController();committed=pending='';audio=new Float32Array(0);buffered=0;queue=Promise.resolve();controls();message('Starting microphone…');
+    state='starting';const ticket=generation;controller=new AbortController();if(!more)committed='';pending='';audio=new Float32Array(0);buffered=0;queue=Promise.resolve();controls();message('Starting microphone…');
     try{const stop=await captureSpeech({signal:controller.signal,keepAudio:$('vwKeepAudio').checked,onEnded:error=>{if(ticket===generation&&state==='listening'){if(error)failCapture(error,ticket);else finish().catch(e=>failCapture(e,ticket));}},onSamples:chunk=>{if(ticket!==generation||!['starting','listening','stopping'].includes(state))return;const all=new Float32Array(audio.length+chunk.length);all.set(audio);all.set(chunk,audio.length);audio=all;while(audio.length>=16000){const piece=audio.slice(0,16000);audio=audio.slice(16000);enqueue(piece,ticket);}}});
-      if(ticket!==generation){await stop();return;}stopMic=stop;state='listening';$('vwSetup').open=false;message('Microphone on · transcribing locally. Stop to organize and clean up.');controls();$('vwStop').focus();
+      if(ticket!==generation){await stop();return;}stopMic=stop;state='listening';$('vwSetup').open=false;message(more?'Microphone on · adding to what you said. Stop to clean up all of it.':'Microphone on · transcribing locally. Stop to organize and clean up.');controls();$('vwStop').focus();
     }catch(e){failCapture(e,ticket);}
-  };
+  }
   async function processDraft(){
     if(!committed.trim()){state='idle';message('Microphone off. No speech was recognized.');controls();return;}
     const ticket=generation;let config;
@@ -145,12 +173,16 @@ export function setupVoiceWriting({editor,getRevision=()=>editor.value,getIdenti
   }
   async function finish(){if(!['listening','starting'].includes(state))return;state='stopping';const ticket=generation;controls();message('Stopping microphone and finishing the transcript…');const stop=stopMic;stopMic=null;const recorded=await stop?.();if(ticket!==generation)return;recording=recorded||null;if(audio.length)enqueue(audio.slice(),ticket);audio=new Float32Array(0);await queue;if(ticket!==generation||controller?.signal.aborted)return;try{showTranscript(await engine.finish());if(ticket!==generation)return;await processDraft();}catch(e){failCapture(e,ticket);}}
   $('vwStop').onclick=()=>finish().catch(e=>failCapture(e,generation));$('vwRetry').onclick=()=>processDraft();
+  $('vwMore').onclick=()=>{if(!['review','idle'].includes(state)||!committed.trim()||$('vwKeepAudio').checked)return;state='idle';$('vwDraft').value='';spokeAgain=true;controls();listen(true);};
+  $('vwCopy').onclick=async()=>{const text=$('vwDraft').value;try{await win.navigator.clipboard.writeText(text);message('Copied the cleaned-up text. Nothing was inserted.');}catch{$('vwDraft').focus();$('vwDraft').select();message('Copying is blocked here. The text is selected: press Ctrl/Cmd + C.');}};
+  dialog.addEventListener('keydown',event=>{if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)&&!event.isComposing&&state==='review'&&!$('vwInsert').disabled){event.preventDefault();$('vwInsert').click();}});
   $('vwCancel').onclick=()=>{generation++;controller?.abort();stopMic?.();stopMic=null;clearTimeout(cleanupTimer);destroyEngine();state='idle';$('vwDraft').value='';message('Microphone off. Processing cancelled. What you said is kept; press Clean up again to retry.');controls();if(dialog.open)autoLoad(true);};
   $('vwInsert').onclick=async()=>{
     if(state!=='review'||!current())return;
     state='inserting';controls();
     try{const change=aiEdit(snapshot,start,end,$('vwDraft').value);let text=change.insertion;
       if($('vwKeepAudio').checked){
+        if(spokeAgain)throw Error('The recording holds only the last part you said. Turn off Keep audio to insert the writing, or discard and dictate it in one go.');
         if(!recording?.size)throw Error('The requested recording is unavailable. Dictate again, or turn off retention to insert only the cleaned writing.');
         if(!addCapture)throw Error('This reader cannot attach a recording.');
         const id=crypto.randomUUID(),audioPath='media/'+crypto.randomUUID(),transcriptPath='media/'+crypto.randomUUID();

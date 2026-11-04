@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 119445,
-      "sha256": "85820b7008ba01f0b622c143293aee9faa0fbb3778ae79b7a655637c4518eb41"
+      "byteLength": 120876,
+      "sha256": "ad94c9e25eba253990533e15dfcf0b2a5c64dcc5a1b372fab4bc64c8491b2bcf"
     },
     {
       "path": "README.md",
@@ -849,8 +849,8 @@
     },
     {
       "path": "docs/guide/ai-companion.md",
-      "byteLength": 13413,
-      "sha256": "7819cb42b4f65171ceffba8360beb115ef2ba24019d4268e20cb1982ab6b1a9a"
+      "byteLength": 14369,
+      "sha256": "30b500e16f719a6bfc263d6dec8f938c6a562a1c14c0849211aada4fe224846f"
     },
     {
       "path": "docs/guide/automation.md",
@@ -23094,8 +23094,8 @@
     },
     {
       "path": "site/dist/guide/ai-companion.html",
-      "byteLength": 18403,
-      "sha256": "5a56351ac167606d1fe91e0eab0326642d9b1a38d8d76a4642c36026958c7229"
+      "byteLength": 19536,
+      "sha256": "a0c00533e6accb153028faa63be18ed9c950ad3df6dbd0a85a0f61960fd1084f"
     },
     {
       "path": "site/dist/guide/automation.html",
@@ -23635,7 +23635,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 4931,
-      "sha256": "21255aa8c52aadaf656902b7358b99f42c3d13c826e5577430a712a5a41cdec8"
+      "sha256": "66c42bc9bf153265955b9ba2a49c95d8033cda1de766e5fa053de39b690a1985"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23714,8 +23714,8 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 51945,
-      "sha256": "37a7938656e959a0969c3042deaca53b25a45ecf474b12690e26f98924290e34"
+      "byteLength": 52716,
+      "sha256": "b30ffc9ad830f4a698eb4707737f7171ffc6fd92e194f96f92160743f50ac71e"
     },
     {
       "path": "site/dist/studio.mjs",
@@ -23844,8 +23844,8 @@
     },
     {
       "path": "site/dist/voice-writing.mjs",
-      "byteLength": 25721,
-      "sha256": "789bd17a05c9b2b8bcd9d44ff0f12b8c35c4304537c410a76dcbe4f7762e23d4"
+      "byteLength": 30029,
+      "sha256": "32b9166cdf797e93b6405b773bedde5cfadd792773b4432133945d72c1573296"
     },
     {
       "path": "site/dist/write/index.html",
@@ -24174,8 +24174,8 @@
     },
     {
       "path": "site/test-voice-writing-ui.cjs",
-      "byteLength": 14192,
-      "sha256": "62bd8bd8486f1518d1e87fd32807c5d3e2393c152ec12f6e8cdaa30f1b210263"
+      "byteLength": 18092,
+      "sha256": "8c540c8742c079cc932ad4d1f27fc9d93c7d8b5122158187d5e0b52b60a6daaf"
     },
     {
       "path": "site/test-voice-writing.mjs",
