@@ -181,6 +181,56 @@
       "id": "document-filename-literals",
       "input": "`{{document.filename}}` and \\{{document.filename}} and {{document.unknown}}.\n",
       "expected": "Code, escaped known variable and unknown variable remain literal; no filename lookup or source rewriting."
+    },
+    {
+      "id": "model-record",
+      "input": ":::record model #cube\nlabel: A clay cube\nfile: media/cube.glb A small clay cube, each face a different colour\ncamera: 2, 1.5, 3\nlighting: studio\n:::\n",
+      "expected": "Generic record of type model; no diagnostics; exact source round-trip. A reader draws the attached glTF model with its description as text alternative, or shows the description; nothing runs from the journal and no URL is fetched."
+    },
+    {
+      "id": "model-record-problems",
+      "input": ":::record model\nlabel: Unfinished\ncamera: 1, two, 3\nlighting: neon\n:::\n",
+      "expected": "Warnings model-without-file (on the record), invalid-model-field on the camera and lighting lines; all fields kept as written; exact source round-trip."
+    },
+    {
+      "id": "model-hotspots",
+      "input": ":::record model\nfile: media/bed.glb A clay garden bed\nhotspot: 0.3, 0.9, 0.2 The first seedling\nhotspot: 1, 2 missing a number\n:::\n",
+      "expected": "One hotspot at 0.3, 0.9, 0.2 named The first seedling, listed as text; invalid-model-field on the second hotspot line, kept as written; exact source round-trip."
+    },
+    {
+      "id": "card-record",
+      "input": ":::record card #leaf\nfront: What does a leaf make from light, water and air?\nback: |\n  Sugar, and oxygen it lets go.\n:::\n",
+      "expected": "Generic record of type card; no diagnostics; exact source round-trip. The back stays hidden until the reader reveals it; in print it is a fold-over card. Nothing is scored or scheduled."
+    },
+    {
+      "id": "card-record-missing",
+      "input": ":::record card\nlabel: Unfinished\n:::\n",
+      "expected": "Warnings card-without-front and card-without-back on the record line; fields kept as written."
+    },
+    {
+      "id": "recording-reference",
+      "input": "![Rain on the roof](media/rain.m4a)\n",
+      "renderContext": {
+        "assets": {
+          "media/rain.m4a": "audio/mp4"
+        }
+      },
+      "expected": "An attached sound recording drawn as a player labelled Rain on the roof; no autoplay or loop; in print a box naming it; exact source round-trip."
+    },
+    {
+      "id": "setting-directive",
+      "input": "### 2026-10-02 | Friday\n@setting: media/bus-stop\nRain at the bus stop.\n",
+      "expected": "Directive named setting with value media/bus-stop in the 2026-10-02 entry; no diagnostics; exact source round-trip. A reader that draws places reads the attached jot-place file; others ignore the line. The writing is unchanged."
+    },
+    {
+      "id": "setting-place-moments",
+      "input": "### 2026-10-02\n@setting: media/bus-stop\nRain at the bus stop. The 42 was late again.\n",
+      "renderContext": {
+        "assets": {
+          "media/bus-stop": "application/vnd.jot.place+json"
+        }
+      },
+      "expected": "A place whose objects hold moments that are this entry's own sentences, word for word; a moment whose sentence is no longer in the entry is shown as no longer there. Nothing in the place runs, and nothing is fetched."
     }
   ],
   "archiveCases": [

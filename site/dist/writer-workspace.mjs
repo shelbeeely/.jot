@@ -4,6 +4,7 @@ import { setupWriterSearch } from './writer-search.mjs';
 import { setupWriterTemplates } from './writer-templates.mjs';
 import { setupWriterMap } from './writer-map.mjs';
 import { setupWriterMedia } from './writer-media.mjs';
+import { setupWriterScene } from './writer-scene.mjs';
 
 // Only parsed headings belong in the outline: fenced examples, comments and record fields stay out.
 export function outlineItems(source) {
@@ -87,7 +88,7 @@ const TOOL_GROUPS = [
   ['Help', ['Keyboard shortcuts']],
 ];
 
-export function setupWriterWorkspace({ editor, status, showPreview }) {
+export function setupWriterWorkspace({ editor, status, showPreview, scenes: sceneOptions = null }) {
   const doc = editor.ownerDocument, win = doc.defaultView, root = doc.documentElement, $ = id => doc.getElementById(id);
   const tools = setupWritingTools({ editor, status }), search = setupWriterSearch({ editor, status }), templates = setupWriterTemplates({ editor, status });
   const smart = $('writerSmartLists');
@@ -97,14 +98,16 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   $('writerFindBtn').onclick = search.open;
 
   const narrow = win.matchMedia('(max-width: 850px)');
-  let map = null, media = null, chosenView = null, toolsExpanded = false, colorsExpanded = false, previewAllowed = !root.hasAttribute('data-hide-preview');
+  let map = null, media = null, scenes = null, chosenView = null, toolsExpanded = false, colorsExpanded = false, previewAllowed = !root.hasAttribute('data-hide-preview');
   function view(value) {
-    const active = value === 'map' || value === 'media' ? value : !previewAllowed || value === 'split' && narrow.matches ? 'write' : value;
+    const active = value === 'map' || value === 'media' || value === 'scenes' ? value : !previewAllowed || value === 'split' && narrow.matches ? 'write' : value;
     root.setAttribute('data-writer-view', active);
     if (active === 'map') map?.show(); else map?.hide();
     if (active === 'media') media?.show(); else media?.hide();
+    if (active === 'scenes') scenes?.show(); else scenes?.hide();
     $('writerMapToggle')?.setAttribute('aria-pressed', String(active === 'map'));
     $('writerMediaToggle')?.setAttribute('aria-pressed', String(active === 'media'));
+    $('writerScenesToggle')?.setAttribute('aria-pressed', String(active === 'scenes'));
     for (const name of ['write', 'preview', 'split']) $('writerView' + name[0].toUpperCase() + name.slice(1)).setAttribute('aria-pressed', String(name === active));
     $('writerPreviewToggle').setAttribute('aria-pressed', String(active === 'preview' || active === 'split'));
     $('writerPreviewToggle').textContent = active === 'preview' ? 'Write' : 'Preview';
@@ -114,14 +117,14 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     }
   }
   function showWriting() {
-    if (['preview', 'map', 'media'].includes(root.getAttribute('data-writer-view'))) { chosenView = 'write'; view(chosenView); }
+    if (['preview', 'map', 'media', 'scenes'].includes(root.getAttribute('data-writer-view'))) { chosenView = 'write'; view(chosenView); }
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
   for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'scribeBtn', 'scratchpadBtn', 'marginNoteBtn', 'mediaPickerBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
-    if (!['write', 'map', 'media'].includes(name)) showPreview();
+    if (!['write', 'map', 'media', 'scenes'].includes(name)) showPreview();
     view(name);
     if (name === 'write') editor.focus({ preventScroll: true });
   }
@@ -144,7 +147,11 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   map = setupWriterMap({ editor, status, jumpTo: (position, label) => { selectView('write'); jumpTo(position, 'the entry for ' + label); } });
   // The media journal: every film, series, book, anime, podcast, game and song the entries mention. Read-only; clears on lock.
   media = setupWriterMedia({ editor, status, jumpTo: (position, label) => { selectView('write'); jumpTo(position, 'the mention on ' + label); }, documentName: () => $('documentName').value, addMedia: () => { selectView('write'); $('mediaPickerBtn')?.click(); } });
-  new MutationObserver(() => { if (editor.readOnly) { map.reset(); media.reset(); } }).observe(editor, { attributes: true, attributeFilter: ['readonly'] });
+  // Scenes: each dated entry as a small 3D place a model designs from its words, kept in the journal once the writer chooses to.
+  // Keeping a scene is an ordinary edit with Undo, which Chromium makes only in a visible textarea: show the writing for that edit.
+  if (sceneOptions) scenes = setupWriterScene({ editor, jumpTo: (position, label) => { selectView('write'); jumpTo(position, 'the entry for ' + label); }, ...sceneOptions,
+    rewrite: (text, said) => { const back = root.getAttribute('data-writer-view'); view('write'); try { sceneOptions.rewrite(text, said); } finally { view(back); } } });
+  new MutationObserver(() => { if (editor.readOnly) { map.reset(); media.reset(); scenes?.reset(); } }).observe(editor, { attributes: true, attributeFilter: ['readonly'] });
   {
     const mapToggle = element('button', 'Map', { id: 'writerMapToggle', type: 'button', 'aria-pressed': 'false', title: 'Every entry on a calendar, with the links between them' });
     mapToggle.onclick = () => selectView(root.getAttribute('data-writer-view') === 'map' ? 'write' : 'map');
@@ -152,6 +159,11 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     const mediaToggle = element('button', 'Media', { id: 'writerMediaToggle', type: 'button', 'aria-pressed': 'false', title: 'Every film, series, book, podcast, game and song your entries mention' });
     mediaToggle.onclick = () => selectView(root.getAttribute('data-writer-view') === 'media' ? 'write' : 'media');
     mapToggle.after(mediaToggle);
+    if (scenes) {
+      const scenesToggle = element('button', 'Scenes', { id: 'writerScenesToggle', type: 'button', 'aria-pressed': 'false', title: 'Each day as a small 3D place, made by your AI model when you ask' });
+      scenesToggle.onclick = () => selectView(root.getAttribute('data-writer-view') === 'scenes' ? 'write' : 'scenes');
+      mediaToggle.after(scenesToggle);
+    }
   }
   bottomNavigation();
   view('write'); disclosures();
@@ -396,7 +408,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['musicPlayerBtn', 'Music player', 'Load a persistent Spotify player'], ['voiceBtn', 'Voice practice', 'Optional pitch tool'],
     ['importHealthBtn', 'Import health data', 'Review daily measurements'], ['attachBtn', 'Attach a file', 'Keep files in a .jotz'],
     ['downloadJot', 'Download journal', 'Jotz v1 archive'], ['sourceJotBtn', 'Export Jot source', 'Unencrypted writing as .jot; attachments omitted'], ['markdownBtn', 'Export Markdown', 'Writing as .md'],
-    ['printBtn', 'Print or PDF', 'Formatted pages'], ['exportPage', 'Download page', 'Standalone HTML'],
+    ['printBtn', 'Print or PDF', 'Formatted pages'], ['pageViewBtn', 'Page view', 'The printed pages one sheet at a time'], ['writerScenesToggle', 'Scenes', 'Each day as a small 3D place'], ['epubBtn', 'Download EPUB', 'Fixed-layout pages for Apple Books and other EPUB readers'], ['exportPage', 'Download page', 'Standalone HTML'],
     ['icsBtn', 'Export calendar', 'Events and tasks as .ics'], ['numbersCsvBtn', 'Export numbers', 'Measurements as CSV'],
     ['tasksCsvBtn', 'Export tasks', 'Tasks as CSV'], ['importCsvBtn', 'Import numbers CSV', 'Review measurements from a file'],
     ['paletteCssBtn', 'Copy palette CSS', 'Colors at the caret'], ['paletteJsonBtn', 'Copy palette JSON', 'Colors at the caret'],

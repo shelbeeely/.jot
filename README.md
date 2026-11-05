@@ -80,7 +80,7 @@ The static site needs Python 3 to serve it locally; no build or npm install is r
 | [Converter](http://localhost:8000/convert/) | Convert a plain-text diary into dated Jot entries |
 | [Your life online](http://localhost:8000/import/) | Turn social and blog data exports into one dated journal |
 | [Guides](http://localhost:8000/guide/) | Learn the writing format and tools |
-| [Examples](http://localhost:8000/examples/) | Read or download converted public-domain diaries |
+| [Examples](http://localhost:8000/examples/) | Explore a complete fictional month with scenes and media, or read public-domain diaries |
 | [Fonts](http://localhost:8000/fonts/) | Try Jot's original fonts and inspect their glyphs and spacing |
 
 The server runs until you press **Ctrl+C**. Download your journal to keep a file outside the browser's local storage.

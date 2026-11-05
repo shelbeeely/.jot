@@ -1,0 +1,973 @@
+{
+  "format": "jot-place",
+  "version": 1,
+  "made": {
+    "model": "openai/gpt-5-mini",
+    "at": "2026-11-05T09:52:57.418Z"
+  },
+  "title": "Morning at the Cafe Table",
+  "sky": "#c7d8e6",
+  "ground": "#e8dccf",
+  "weather": "fog",
+  "time": "morning",
+  "camera": {
+    "position": [
+      0,
+      1.6,
+      3
+    ],
+    "target": [
+      0,
+      1,
+      0
+    ]
+  },
+  "objects": [
+    {
+      "name": "Floor",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            8,
+            0.01,
+            6
+          ],
+          "color": "#efe7de",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back wall",
+      "position": [
+        0,
+        0,
+        -2.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Measure the kitchen wall #making"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            6,
+            2.2,
+            0.06
+          ],
+          "color": "#f5efe9",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        -1.2,
+        0,
+        -2.89
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The café window had steamed over, except for a clear patch just above our table.",
+        "Start with the space beside the window, then check where the lamp plugs in."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#cfe3f2",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            1.35,
+            0.031
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.01,
+            0.35
+          ],
+          "color": "#ffffff",
+          "roughness": 0,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Left wall",
+      "position": [
+        -3,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Measure the kitchen wall #making"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            2.2,
+            6
+          ],
+          "color": "#efe7e2",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Counter",
+      "position": [
+        1.6,
+        0.9,
+        -1.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "A small vase of flowers leaned toward the lamp behind the counter."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            0.06,
+            0.8
+          ],
+          "color": "#c9b79b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.9,
+            -0.45,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.3,
+            0.9,
+            0.3
+          ],
+          "color": "#9b7f65",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lamp",
+      "position": [
+        1.5,
+        1.6,
+        -1.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "A small vase of flowers leaned toward the lamp behind the counter.",
+        "Start with the space beside the window, then check where the lamp plugs in."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.9,
+            0.08
+          ],
+          "color": "#5a4b3f",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.18,
+            0.12
+          ],
+          "color": "#ffd49b",
+          "roughness": 0.1,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Vase of flowers",
+      "position": [
+        1.4,
+        1,
+        -1
+      ],
+      "rotation": [
+        0.2,
+        0,
+        0
+      ],
+      "moments": [
+        "A small vase of flowers leaned toward the lamp behind the counter."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.09,
+            0.09
+          ],
+          "color": "#c35b6d",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.18,
+            0.02
+          ],
+          "color": "#4aa04a",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Table",
+      "position": [
+        0,
+        0.75,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The café window had steamed over, except for a clear patch just above our table.",
+        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands.",
+        "The useful part of the morning was having time to sit there. #making #friends @cafe"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.06,
+            0.9
+          ],
+          "color": "#8b6b4b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#704e36",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#704e36",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#704e36",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#704e36",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea",
+      "position": [
+        0.2,
+        0.92,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.12,
+            0.06
+          ],
+          "color": "#ffffff",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0.085,
+            0.03,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.57
+          ],
+          "size": [
+            0.04,
+            0.01,
+            0.04
+          ],
+          "color": "#ffffff",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Napkin with sketch",
+      "position": [
+        -0.05,
+        0.82,
+        0.06
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands.",
+        "I took the napkin home inside my notebook, next to the question from Thursday.",
+        "| Shelf idea | What I liked | What can wait |",
+        "| Narrow, by the window | Room for one notebook | Choosing the wood |",
+        "| Hooks underneath | A place for the garden key | Measuring the wall |"
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.01,
+            0.18
+          ],
+          "color": "#fffef8",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.005,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.01,
+            0.14
+          ],
+          "color": "#f0e6d8",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        -0.28,
+        0.82,
+        0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I took the napkin home inside my notebook, next to the question from Thursday.",
+        "| Shelf idea | What I liked | What can wait |",
+        "| Narrow, by the window | Room for one notebook | Choosing the wood |",
+        "| Hooks underneath | A place for the garden key | Measuring the wall |"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.02,
+            0.15
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.011,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.01,
+            0.12
+          ],
+          "color": "#c9bfae",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Chair",
+      "position": [
+        -0.6,
+        0.45,
+        -0.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The useful part of the morning was having time to sit there. #making #friends @cafe"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.25,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.46,
+            0.5,
+            0.46
+          ],
+          "color": "#6b4f3b",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Shelf marker",
+      "position": [
+        0.05,
+        1.1,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "We decided the shelf could wait until we found wood we liked."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.02,
+            0.15
+          ],
+          "color": "#b78f64",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.12,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.18,
+            0.06
+          ],
+          "color": "#7b5b44",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Wall plug area",
+      "position": [
+        1.2,
+        1,
+        -1.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Start with the space beside the window, then check where the lamp plugs in."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.1,
+            0.06
+          ],
+          "color": "#e3e3e3",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small pendant light",
+      "position": [
+        0.4,
+        1.5,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The useful part of the morning was having time to sit there. #making #friends @cafe",
+        "A small vase of flowers leaned toward the lamp behind the counter."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.5,
+            0.03
+          ],
+          "color": "#6a5546",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.28,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.14,
+            0.09
+          ],
+          "color": "#fff0d1",
+          "roughness": 0.1,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Steam patch",
+      "position": [
+        -0.9,
+        1.4,
+        -2.88
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The café window had steamed over, except for a clear patch just above our table."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.45,
+            0.01,
+            0.18
+          ],
+          "color": "#ffffff",
+          "roughness": 0,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Floor rug",
+      "position": [
+        0,
+        0.01,
+        0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The useful part of the morning was having time to sit there. #making #friends @cafe"
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            0.01,
+            0.8
+          ],
+          "color": "#d6bfa6",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    }
+  ]
+}

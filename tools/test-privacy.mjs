@@ -6,7 +6,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { check } from './privacy-check.mjs';
+import { check, decryptedFindings } from './privacy-check.mjs';
+import { pack, readDocument } from '../parser/container.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const site = (files) => {
@@ -71,4 +72,53 @@ test('a pinned upstream license preserves its public contact without allowing em
   assert.deepEqual(await check(site({[name]:license})),[]);
   assert.ok((await check(site({'journal.jot':'self@wyattbaldwin.com'}))).some(issue=>issue.includes('email')));
   assert.ok((await check(site({[name]:Buffer.concat([license,Buffer.from('\nChanged.\n')])}))).some(issue=>issue.includes('email')));
+});
+
+test('only the exact published fictional CSV is allowed and its contents remain scanned', async (t) => {
+  const name = 'examples/demo-numbers.csv', data = fs.readFileSync(path.join(ROOT, 'site/dist', name));
+  const clean = site({ [name]: data }); t.after(() => fs.rmSync(clean, { recursive: true, force: true }));
+  assert.deepEqual(await check(clean), []);
+  const renamed = site({ 'examples/other.csv': data }); t.after(() => fs.rmSync(renamed, { recursive: true, force: true }));
+  assert.ok((await check(renamed)).some((issue) => issue.includes('not a kind of file')));
+  const changed = site({ [name]: Buffer.concat([data, Buffer.from('\nsomeone@example.org\n')]) }); t.after(() => fs.rmSync(changed, { recursive: true, force: true }));
+  const findings = await check(changed);
+  assert.ok(findings.some((issue) => issue.includes('SHA-256 pin')));
+  assert.ok(findings.some((issue) => issue.includes('an email address')));
+  assert.ok(findings.some((issue) => issue.includes('not a kind of file')));
+});
+
+test('the exact mixed demo is decrypted and compared; copies, missing companions and tampering keep the private-path gate', async (t) => {
+  const mixedName = 'examples/demo-month-mixed.jotz', publicName = 'examples/demo-month.jotz';
+  const mixed = fs.readFileSync(path.join(ROOT, 'site/dist', mixedName)), publicBytes = fs.readFileSync(path.join(ROOT, 'site/dist', publicName));
+  const make = (files) => { const dir = site(files); t.after(() => fs.rmSync(dir, { recursive: true, force: true })); return dir; };
+  assert.deepEqual(await check(make({ [mixedName]: mixed, [publicName]: publicBytes })), []);
+  const renamed = await check(make({ 'examples/copied.jotz': mixed, [publicName]: publicBytes }));
+  assert.ok(renamed.some((issue) => issue.includes('a private path')));
+  const missing = await check(make({ [mixedName]: mixed }));
+  assert.ok(missing.some((issue) => issue.includes('could not audit the decrypted demo')));
+  assert.ok(missing.some((issue) => issue.includes('a private path')));
+  const zip = await globalThis.JSZip.loadAsync(mixed); zip.comment = 'Modified fixture';
+  const altered = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
+  const tampered = await check(make({ [mixedName]: altered, [publicName]: publicBytes }));
+  assert.ok(tampered.some((issue) => issue.includes('SHA-256 pin')));
+  assert.ok(tampered.some((issue) => issue.includes('a private path')));
+  const doc = await readDocument(publicBytes);
+  let changedCompanion;
+  try { changedCompanion = await pack({ source: doc.source, entries: doc.entries, assets: doc.assets, metadata: { ...doc.metadata, contact: 'someone@example.org' }, index: 'never' }); }
+  finally { doc.index?.close(); }
+  const mismatch = await check(make({ [mixedName]: mixed, [publicName]: changedCompanion }));
+  assert.ok(mismatch.some((issue) => issue.includes('does not match its all-public companion')));
+  assert.ok(mismatch.some((issue) => issue.includes('an email address')));
+  assert.ok(mismatch.some((issue) => issue.includes('a private path')));
+});
+
+test('decrypted demo writing, entry/catalog metadata and every attachment byte still use the leak rules', () => {
+  const found = decryptedFindings({ source: 'Dinner in Spokane.', metadata: { contact: 'someone@example.org' },
+    entries: [{ source: 'A note.', private: true, extra: 'Keeping Watch' }],
+    assets: [{ path: 'media/picture.png', name: 'other@example.net', mediaType: 'image/png', data: Buffer.from('metadata: hidden@example.com') }] }, 'demo');
+  assert.ok(found.some((issue) => issue.includes('(decrypted writing): a personal place')));
+  assert.ok(found.some((issue) => issue.includes('(decrypted document metadata): an email address')));
+  assert.ok(found.some((issue) => issue.includes('(decrypted entry metadata): the personal book title')));
+  assert.ok(found.some((issue) => issue.includes('(asset metadata): an email address')));
+  assert.ok(found.some((issue) => issue.includes('decrypted media/picture.png): an email address')));
 });

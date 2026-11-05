@@ -84,7 +84,7 @@ python3 fonts/build.py --check
 python3 fonts/test.py
 node tools/sync-fonts.mjs --check
 npm ci && npm run lint
-node --test tools/test-privacy.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/*test.mjs cli/test.mjs site/test-editor.mjs site/test-autocomplete.mjs site/test-device-files.mjs site/test-editor-capture.mjs site/test-live-model.mjs site/test-reference-books.mjs site/test-writer-search.mjs site/test-writer-templates.mjs site/test-writer-workspace.mjs site/test-entry-pen.mjs site/test-scribe.mjs site/test-scratchpad.mjs site/test-media-catalog.mjs site/test-media-shelf.mjs site/test-writing-tools.mjs site/test-guides.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
+node --test tools/test-privacy.mjs converter/test.mjs converter/archive-test.mjs tools/test-files.mjs tools/test-profiles.mjs parser/*test.mjs cli/test.mjs site/test-editor.mjs site/test-autocomplete.mjs site/test-device-files.mjs site/test-editor-capture.mjs site/test-live-model.mjs site/test-reference-books.mjs site/test-writer-search.mjs site/test-writer-templates.mjs site/test-writer-workspace.mjs site/test-entry-pen.mjs site/test-scribe.mjs site/test-scratchpad.mjs site/test-media-catalog.mjs site/test-media-shelf.mjs site/test-writing-tools.mjs site/test-guides.mjs site/test-page-view.mjs site/test-scene-journal.mjs site/test-music.mjs site/test-voice.mjs vscode/test-extension.mjs
 node site/test-core.cjs
 node tools/privacy-check.mjs site/dist
 node tools/build-handwriting-css.mjs --check

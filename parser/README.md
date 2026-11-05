@@ -100,6 +100,24 @@ alt text, captions and credits), `isPaletteRecord(node)`, and `paletteCSS` / `pa
 `invalid-color` on a palette's unreadable `color:` line; the preview draws swatch chips and a moodboard grid. Tests:
 `node --test palette-test.mjs`.
 
+## Flip cards and recordings
+
+`card.mjs`: `cardOf(record)` reads a `:::record card` (spec 8.1.7: `front`, `back`, optional `label`); the parser warns
+`card-without-front` and `card-without-back`. The preview draws a native `<details>` card, and a fold-over card for print. An
+embedded reference to an attached sound or video file (spec 8.1.8) is drawn as the browser's own player, never autoplaying, with a
+same-sized box for print. Model hotspots are in `model3d.mjs`. Tests: `node --test card-test.mjs model3d-test.mjs`.
+
+## 3D models
+
+`model3d.mjs`: `modelOf(record)` reads a `:::record model` (spec 8.1.6): the attached glTF `file` and its description, an optional
+`poster`, `camera`/`target` vectors, `lighting`, `background`, `animation`, caption and credit; fields that do not fit are kept as
+written. The parser warns `model-without-file` and `invalid-model-field`. The preview draws the poster (or the description) with a
+caption; with `renderPreview(..., { models3d: true })` it offers Turn in 3D, which only then loads `vendor/three.mjs` and
+`model3d-view.mjs` (a classic script setting `globalThis.Jot3D`) and reads the attachment's own bytes. Every outside URL a model
+names is refused. `gltfExtensions(bytes)` and `decodersFor(bytes)` read which decoders a compressed model needs (Draco meshes and
+Basis Universal KTX2 textures, from `vendor/three-decoders/`; meshopt is built into the bundle); the host reads only those and
+hands them to the viewer as bytes. Tests: `node --test model3d-test.mjs`.
+
 ## Fuller formatting
 
 Beyond GFM, the lexer understands `==highlight==` (`mark` tokens), `++underline++` (`ins`), `^superscript^` (`sup`), footnotes
@@ -128,7 +146,7 @@ Handwritten writing can be preserved as editable strokes plus a PNG attachment, 
 
 ## Dependency notice
 
-`vendor/chart.mjs` is Chart.js 4.6.1 with @kurkle/color 0.3.4, both MIT (`vendor/chart-LICENSE.md`). `vendor/marked.mjs` is Marked 17.0.5, distributed under its MIT license in `vendor/marked-LICENSE.md`. It is included to keep Markdown behavior grounded in an established parser rather than an ad hoc collection of replacement expressions. Jot's wrapper is original project code.
+`vendor/chart.mjs` is Chart.js 4.6.1 with @kurkle/color 0.3.4, both MIT (`vendor/chart-LICENSE.md`). `vendor/three.mjs` is a bundled subset of three.js r186, MIT (`vendor/three-LICENSE.md`; how it is built: `vendor/three-README.md`); `vendor/three-decoders/` holds the Draco decoder and Basis Universal transcoder it ships, Apache-2.0 (`vendor/three-decoders-LICENSE.md`). `vendor/marked.mjs` is Marked 17.0.5, distributed under its MIT license in `vendor/marked-LICENSE.md`. It is included to keep Markdown behavior grounded in an established parser rather than an ad hoc collection of replacement expressions. Jot's wrapper is original project code.
 
 
 ## Optional spelling and grammar hints

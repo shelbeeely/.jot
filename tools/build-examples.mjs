@@ -14,7 +14,7 @@ import { brandLink, iconLinks } from './sync-brand.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'site/dist/examples');
-const SMALL = ['manual.jot', 'plain-text.jot', 'packaged.jotz']; // copied from examples/
+const SMALL = ['manual.jot', 'plain-text.jot', 'packaged.jotz', 'demo-month.jot', 'demo-month.jotz', 'demo-month-mixed.jotz']; // copied from examples/
 export const DIARIES = [
   { id: 'pepys', ebooks: [4200], options: { calendar: 'julian', per: 'auto' }, title: 'The Diary of Samuel Pepys', author: 'Samuel Pepys',
     about: 'Almost every day from January 1660 to May 1669, kept by a clerk of the Navy Board in London: the Plague, the Great Fire, the navy, music and gossip. Old Style dates, converted to modern ones.' },
@@ -89,7 +89,7 @@ export function page(index) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>Examples · Jot</title>${iconLinks('../')}
-<meta name="description" content="Real diaries as Jot: public-domain diaries converted to dated .jot entries, to read, download and learn from.">
+<meta name="description" content="Explore a complete month in Jot, with saved 3D scenes and media, or read public-domain diaries.">
 <link rel="stylesheet" href="../editor/editor.css">
 <link rel="stylesheet" href="examples.css">
 <link id="jot-hand-css" rel="stylesheet" href="../jot/handwriting.css">
@@ -104,10 +104,21 @@ ${navigationStyles('../')}
 <main>
   <section class="intro">
     <p class="eyebrow">EXAMPLES</p>
-    <h1>Real diaries, <em>as Jot.</em></h1>
-    <p class="lead">Public-domain diaries converted to plain-text <code>.jot</code> files: a dated entry for each day, the date as it was written kept beside it. Read one in the workspace, or download it and open it in any text editor.</p>
+    <h1>A month to <em>explore.</em></h1>
+    <p class="lead">A complete journal with scenes, pictures and small things to try. Or read a public-domain diary, converted to plain-text <code>.jot</code> entries.</p>
   </section>
   <div id="diaries">
+    <section class="diary" aria-labelledby="h-demo">
+      <h2 id="h-demo">Small things in October</h2>
+      <p class="by">Fictional demo · October 2026 · 31 entries · 31 saved scenes</p>
+      <p>A rainy kitchen, a library, a garden and a train ride. Each day's 3D scene comes from that entry's actual words, made through Writer's OpenRouter pipeline and kept in the file. Choose a thing in a scene to read its sentences. Saved scenes need no AI connection.</p>
+      <p>Try tasks, numbers and charts, Map, Media, editable ink, flip cards, attached recordings and a 3D model. The pictures and recordings are original demo material. External songs, films and books remain links.</p>
+      <ul class="files">
+        <li><span class="f-name">demo-month.jotz</span><span class="f-meta">the complete month, with every saved scene and attachment</span><span class="f-act"><a class="btn small" href="../write/?open=examples/demo-month.jotz">Read</a><a class="btn small" href="demo-month.jotz" download>Download</a></span></li>
+        <li><span class="f-name">demo-month-mixed.jotz</span><span class="f-meta">try protection: October 31 and all attachments are protected; demo passphrase <code>jot-demo-only</code></span><span class="f-act"><a class="btn small" href="../write/?open=examples/demo-month-mixed.jotz">Read</a><a class="btn small" href="demo-month-mixed.jotz" download>Download</a></span></li>
+      </ul>
+      <p><a href="demo.html">Explore the demo and Writer's tools</a> · <a href="demo-month.jot" download>Download the readable source</a> (writing only)</p>
+    </section>
     ${cards}
   </div>
   <section class="diary small-ex" aria-labelledby="h-small">

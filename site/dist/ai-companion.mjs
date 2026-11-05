@@ -102,5 +102,8 @@ export function setupAICompanion({ editor, getRevision = () => editor.value, sta
   editor.addEventListener('input', () => { if (!panel.hidden) { cancel(); discard(); message('Writing changed. Capture the current selection and caret before requesting help.'); } });
   window.addEventListener('pagehide', reset);
   privacy();
-  return { reset, writeUp };
+  // Other tools (journal places) use the same connection, only while AI is on for this session; the key never leaves this page's memory.
+  const connection = () => ($('aiEnabled').checked && $('aiModel').value.trim() ? { provider: $('aiProvider').value, base: $('aiBase').value, model: $('aiModel').value.trim(), key: $('aiKey').value, zdr: $('aiZdr').checked, structured: $('aiStructured').checked } : null);
+  const open = () => { if (editor.readOnly) return; panel.hidden = false; capture(); $('aiEnabled').focus(); };
+  return { reset, writeUp, connection, open };
 }

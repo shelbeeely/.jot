@@ -2,6 +2,8 @@ import { applyTimezones } from './timezone.mjs';
 /** Jot JavaScript parser, draft 0.1. Source-preserving block parser + Marked 17.0.5. */
 import { Marked } from './vendor/marked.mjs';
 import { COLOR, isPaletteRecord } from './palette.mjs';
+import { modelProblems } from './model3d.mjs';
+import { cardProblems } from './card.mjs';
 
 // A block extension can only interrupt the paragraph being read, which ends at the next blank line. Searching just
 // that far keeps parsing linear: searching the whole remaining journal for every paragraph made large journals slow.
@@ -195,14 +197,17 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
   // Markdown-indented code is never interpreted as a journal command.
   if(/^( {4}|\t)/.test(t)){append(l);i++;continue;}
   const record=RECORD.exec(t);
-  if(record){flush();let raw=l.raw;const fields=[],unparsed=[],colors=[];i++;let closed=false;
+  if(record){flush();let raw=l.raw;const fields=[],unparsed=[],colors=[],at=[];i++;let closed=false;
    while(i<lines.length){const f=lines[i];raw+=f.raw;i++;if(f.text===':::'){closed=true;break;}if(!f.text.trim())continue;
     const m=/^([a-z][a-z0-9-]*):[ \t]*(.*)$/.exec(f.text);
     if(!m){unparsed.push(f.text);diag('invalid-field','Record fields use lowercase-name: value.',f);continue;}
-    let value=m[2].trim();if(value==='|'){const parts=[];while(i<lines.length&&lines[i].text.startsWith('  ')){parts.push(lines[i].text.slice(2));raw+=lines[i].raw;i++;}value=parts.join('\n');}fields.push({name:m[1],value});if(m[1]==='color')colors.push([value,f]);
+    let value=m[2].trim();if(value==='|'){const parts=[];while(i<lines.length&&lines[i].text.startsWith('  ')){parts.push(lines[i].text.slice(2));raw+=lines[i].raw;i++;}value=parts.join('\n');}fields.push({name:m[1],value});at.push(f);if(m[1]==='color')colors.push([value,f]);
    }
    // Palette colors (palette.mjs): #RRGGBB or #RGB, then a name. Kept as written either way; the preview shows a note.
    if(isPaletteRecord({type:'record',recordType:record[1],fields}))for(const [v,f] of colors)if(!COLOR.test(v))diag('invalid-color','Palette colors are written color: #RRGGBB name (or #RGB name).',f);
+   // 3D models (model3d.mjs): a file to draw, and fields that fit. Kept as written either way; the preview shows a note.
+   if(record[1]==='card')for(const x of cardProblems({fields}))diag(x.code,x.message,l);
+   if(record[1]==='model')for(const x of modelProblems({fields}))diag(x.code,x.message,x.field?at[fields.findIndex((g)=>g.name===x.field.name&&g.value===x.field.value)]||l:l);
    node('record',raw,l.start,{recordType:record[1],...(record[2]?{id:record[2]}:{}),fields,unparsed});if(!closed)diag('unclosed-record','Record consumes through end of file. Add ::: to close it.',l,'error');continue;
   }
   if(t==='/*'){flush();let raw=l.raw;i++;let closed=false;while(i<lines.length){const x=lines[i++];raw+=x.raw;if(x.text==='*/'){closed=true;break;}}node('comment',raw,l.start);if(!closed)diag('unclosed-comment','Hidden comment is unclosed.',l);continue;}

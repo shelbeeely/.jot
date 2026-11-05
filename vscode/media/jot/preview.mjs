@@ -7,6 +7,8 @@
  * A `:::record palette` becomes swatch chips (palette.mjs): each names its color and hex in text, in black or white, whichever has the
  * higher contrast; a color that is not #RRGGBB or #RGB shows a note. A `:::record moodboard` is a grid of its attached pictures (with
  * descriptions, captions and credits), and a paragraph of two or more pictures alone is drawn as the same grid.
+ * A `:::record model` (model3d.mjs) is its still picture (or its description) with a caption; with opts.models3d, a Turn in 3D button
+ * loads the bundled three.js (vendor/three.mjs) and the viewer (model3d-view.mjs) only then, and reads the attached file's own bytes.
  *
  * Fuller formatting (spec 4.2.1): ==highlight==, ++underline++, ^superscript^, footnotes ([^1] and [^1]: …, gathered at the end),
  * callouts (> [!NOTE]) and centred lines (-> … <-).
@@ -14,7 +16,8 @@
  *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …',
  *                                style: 'journal' | 'notes' | 'plain' | null (styles.mjs; a typed page only),
  *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 },
- *                                include(path) -> text | null, from: '', filename: '', reference(href) -> void })
+ *                                include(path) -> text | null, from: '', filename: '', reference(href) -> void,
+ *                                models3d: false (true: offer Turn in 3D for model records; the host ships model3d-view.mjs and vendor/three.mjs) })
  *     `![label](other.jot#id)` on a line of its own shows that part of another journal in place, framed and labelled with where it
  *     came from (include.mjs). The host reads the file and lends its text through opts.include (the path is already checked to stay
  *     inside the root; `from` is this document's own path there); a missing, unsafe, looping or too-deep include says so on the page.
@@ -35,6 +38,8 @@ import { parse, mediaURL } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
 import { includeLines, excerpt, notice, MAX_DEPTH } from './include.mjs';
 import { isPaletteRecord, paletteOf, moodboardOf } from './palette.mjs';
+import { modelOf, isModelType, decodersFor } from './model3d.mjs';
+import { cardOf } from './card.mjs';
 export { CHART_CSS };
 const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
@@ -79,6 +84,9 @@ export function drawChart(section, model) {
 
 const BLANKS = /^(?:(?:\d+\.|[-*+]|\[[ x]\])[ \t]*(?:\r?\n|$))+$/i;
 const RASTER = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif']);
+const AUDIO = new Set(['audio/mpeg', 'audio/mp3', 'audio/mp4', 'audio/aac', 'audio/ogg', 'audio/opus', 'audio/webm', 'audio/wav', 'audio/x-wav', 'audio/flac', 'audio/x-flac']);
+const VIDEO = new Set(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime']);
+const typeOf = (a) => String(a?.mediaType || '').split(';')[0].trim().toLowerCase();
 const TASK = { open: ['☐', 'to do'], completed: ['☑', 'done'], migrated: ['→', 'moved'], scheduled: ['←', 'scheduled'], cancelled: ['✕', 'cancelled'] };
 const SIGN = { event: ['○', 'Event'], question: ['?', 'Question'], idea: ['!', 'Idea'], voice: ['❝', 'Voice'], synopsis: ['≡', 'Summary'] };
 const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -171,10 +179,79 @@ export function renderPreview(ast, target, opts = {}) {
       into.append(n);
     }
   }
+  // An attached recording: the browser's own player, which plays only when the reader asks (no autoplay, no loop). In print and on
+  // fixed-layout pages a quiet box of the same size says what it is.
+  function player(kind, url, label) {
+    const words = `${kind === 'audio' ? 'Sound' : 'Video'}: ${label || 'attached recording'}`;
+    const box = el('span', undefined, `jot-media jot-media-${kind}`), media = el(kind);
+    box.setAttribute('role', 'group'); box.setAttribute('aria-label', words);
+    media.controls = true; media.preload = kind === 'audio' ? 'none' : 'metadata'; media.src = url; media.setAttribute('aria-label', words);
+    if (kind === 'video') media.playsInline = true;
+    const still = el('span', `${kind === 'audio' ? '♪' : '▶'} ${words}`, 'jot-media-still'); still.setAttribute('aria-hidden', 'true');
+    box.append(media, still, el('span', words, 'jot-media-label'));
+    return box;
+  }
   function picture(href, alt, fallback) { // an attached picture, or a note saying what is missing; nothing outside the attachments is fetched
     const a = asset(href);
     if (a && a.url && RASTER.has(a.mediaType)) { const n = el('img'); n.src = a.url; n.alt = alt || fallback; n.loading = 'lazy'; return n; }
+    if (a && a.url && (AUDIO.has(typeOf(a)) || VIDEO.has(typeOf(a)))) return player(AUDIO.has(typeOf(a)) ? 'audio' : 'video', a.url, alt);
     return el('span', `[Image: ${alt || 'attachment'} · ${href}${a ? '' : ' · not attached'}]`, 'jot-missing');
+  }
+  function modelFigure(n) { // a 3D model: its still (or description), what is missing or kept as written, and Turn in 3D when offered
+    const s = modelOf(n), fig = el('figure', undefined, 'jot-record jot-3d'), stage = el('div', undefined, 'jot-3d-stage');
+    const alt = s.file?.alt || s.poster?.alt || s.title;
+    fig.setAttribute('aria-label', `3D model: ${s.title}`);
+    fig.dataset.jot3d = JSON.stringify({ file: s.file?.path || '', alt, title: s.title, camera: s.camera, target: s.target, lighting: s.lighting, background: s.background, animation: s.animation, hotspots: s.hotspots });
+    const model = s.file ? asset(s.file.path) : null, poster = s.poster ? asset(s.poster.path) : null, notes = [];
+    if (poster && poster.url && RASTER.has(poster.mediaType)) { const img = el('img', undefined, 'jot-3d-still'); img.src = poster.url; img.alt = alt; img.loading = 'lazy'; stage.append(img); }
+    else { const box = el('div', undefined, 'jot-3d-still jot-3d-placeholder'); box.append(el('strong', '3D model'), el('span', alt)); stage.append(box); if (s.poster) notes.push(`The still picture is not attached: ${s.poster.path}`); }
+    fig.append(stage);
+    const tools = el('div', undefined, 'jot-3d-tools'), state = el('span', '', 'jot-3d-state'); state.setAttribute('role', 'status');
+    if (!s.file) notes.push('No model file yet: add file: and the path of an attached .glb or .gltf file.');
+    else if (!model) notes.push(`The model file is not attached: ${s.file.path}`);
+    else if (!isModelType(model.mediaType)) notes.push(`${s.file.path} is not a glTF model (.glb or .gltf).`);
+    else if (opts.models3d && /^(blob|data):/i.test(model.url || '')) {
+      const turn = el('button', 'Turn in 3D', 'jot-3d-turn'); turn.type = 'button'; turn.dataset.jotLive = '';
+      turn.addEventListener('click', async () => {
+        turn.disabled = true; state.textContent = 'Loading the 3D viewer…';
+        try {
+          await import('./vendor/three.mjs'); await import('./model3d-view.mjs'); // only now: most pages never need them
+          const bytes = await (await fetch(model.url)).arrayBuffer(); // the attachment's own bytes, already in this page
+          const decoders = {}; // Jot's own Draco / Basis decoders, beside this module, only when the model is compressed that way
+          for (const name of decodersFor(new Uint8Array(bytes))) { const r = await fetch(new URL(`./vendor/three-decoders/${name}`, import.meta.url)); if (r.ok) decoders[name] = await r.arrayBuffer(); }
+          if (fig.isConnected) await globalThis.Jot3D.open(fig, bytes, { ...JSON.parse(fig.dataset.jot3d), ...(fig.jotView || {}) }, { decoders });
+        } catch { state.textContent = 'Could not load the 3D viewer. The picture stays.'; }
+        finally { turn.disabled = false; }
+      });
+      tools.append(turn);
+    }
+    tools.append(state); fig.append(tools);
+    if (s.hotspots.length) { // the places worth looking at, as words everywhere; turned in 3D, each is also a numbered marker
+      const list = el('ol', undefined, 'jot-3d-spots'); list.setAttribute('aria-label', 'Places on the model');
+      for (const h of s.hotspots) { const li = el('li'); inline(inlineOf(h.label), li); list.append(li); }
+      fig.append(list);
+    }
+    for (const t of notes) fig.append(el('p', t, 'jot-3d-note'));
+    for (const x of s.invalid) fig.append(el('p', `Kept as written: ${x.name}: ${x.value} (${x.why}).`, 'jot-3d-note'));
+    if (s.title || s.caption || s.credit) {
+      const cap = el('figcaption'); cap.append(el('strong', s.title));
+      if (s.caption) { const c = el('span', undefined, 'jot-mood-caption'); inline(inlineOf(s.caption), c); cap.append(c); }
+      if (s.credit) { const c = el('span', undefined, 'jot-mood-credit'); c.append('Credit: '); inline(inlineOf(s.credit), c); cap.append(c); }
+      fig.append(cap);
+    }
+    return fig;
+  }
+  function cardFigure(n) { // a flip card: the front, and the back behind a tap (native <details>, no script); in print, a fold-over card
+    const c = cardOf(n), fig = el('figure', undefined, 'jot-record jot-card'), flip = el('details', undefined, 'jot-card-flip'), sum = el('summary');
+    fig.setAttribute('aria-label', c.label ? `Flip card: ${c.label}` : 'Flip card');
+    if (c.label) fig.append(el('strong', c.label, 'jot-card-label'));
+    const front = el('span', undefined, 'jot-card-front'); if (c.front) inline(inlineOf(c.front), front); else front.append('A card with no front yet');
+    sum.append(front, el('span', 'Show the answer', 'jot-card-hint')); flip.append(sum);
+    const back = () => { const b = el('div', undefined, 'jot-card-back'); for (const line of (c.back || 'No answer written yet').split(/\n+/)) { const p = el('p'); inline(inlineOf(line), p); b.append(p); } return b; };
+    flip.append(back()); fig.append(flip);
+    const fold = el('div', undefined, 'jot-card-fold'); fold.setAttribute('aria-hidden', 'true'); fold.append(back()); fig.append(fold);
+    for (const x of c.rest) fig.append(el('p', `${x.name}: ${x.value}`, 'jot-card-note'));
+    return fig;
   }
   function moodGrid(items) { // [{ path, alt, caption, credit }] as figures in a responsive grid
     const grid = el('div', undefined, 'jot-mood-grid');
@@ -306,7 +383,7 @@ export function renderPreview(ast, target, opts = {}) {
   for (const c of [...target.classList]) if (c.startsWith('jot-style-')) target.classList.remove(c);
   if (!hand && opts.style && isStyle(opts.style)) { addPageStyles(doc); target.classList.add(`jot-style-${opts.style}`); }
   if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.script07).family}'`); }
-  else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift']) target.style.removeProperty(k);
+  else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift', 'min-height', 'box-sizing']) target.style.removeProperty(k); // and the whole-pages height alignToGrid gave a handwritten page, or typed pages print it as blank pages
   const root = doc.createDocumentFragment(), lend = typeof opts.include === 'function' ? opts.include : () => null;
   let includes = 0;
   function include(inc, into, at) { // one `![label](file.jot#id)`: the part it names, framed, or a notice saying why not
@@ -393,6 +470,8 @@ export function renderPreview(ast, target, opts = {}) {
         box.append(el('strong', metricLabel(get('metric').replace(/[^a-z0-9]+/gi, '-').toLowerCase()) + ':'), doc.createTextNode(' '));
         box.append(get('value') ? el('span', `${get('value')}${get('unit') ? ' ' + get('unit') : ''}`, 'jot-value') : el('span', '____', 'jot-blank'));
         frag.append(box);
+      } else if (n.type === 'record' && n.recordType === 'card') { frag.append(cardFigure(n));
+      } else if (n.type === 'record' && n.recordType === 'model') { frag.append(modelFigure(n));
       } else if (isPaletteRecord(n)) {
         const board = n.recordType !== 'palette', p = board ? moodboardOf(n) : paletteOf(n);
         const box = el('section', undefined, `jot-record ${board ? 'jot-moodboard' : 'jot-palette'}`); box.setAttribute('aria-label', `${board ? 'Moodboard' : 'Palette'}: ${p.title}`);
@@ -434,8 +513,12 @@ export function renderPreview(ast, target, opts = {}) {
   draw(ast.nodes, root, { level: 0, stack: [String(opts.from || '')], from: String(opts.from || '') });
   footnotes(root);
   for (const c of target.querySelectorAll('canvas')) { const old = Chart.getChart(c); if (old) old.destroy(); } // the last drawing's charts
+  // the last drawing's 3D views free their graphics contexts; one still showing the same model opens again where it was
+  const reopen = new Map(); for (const f of target.querySelectorAll('figure.jot-3d-open')) reopen.set(f.dataset.jot3d, globalThis.Jot3D?.viewOf(f));
+  globalThis.Jot3D?.closeAll(target);
   target.replaceChildren(root);
-  for (const [box, model] of drawn) drawChart(box, model); // once in the page: Chart.js measures the box and reads its colours
+  for (const [box, model] of drawn) drawChart(box, model);
+  if (reopen.size) for (const f of target.querySelectorAll('figure.jot-3d')) if (reopen.has(f.dataset.jot3d)) { f.jotView = reopen.get(f.dataset.jot3d); f.querySelector('.jot-3d-turn')?.click(); } // once in the page: Chart.js measures the box and reads its colours
   if (!target.childNodes.length) target.append(el('p', opts.empty || 'A little room for whatever comes next.'));
   const revision = (target.jotRevision || 0) + 1; target.jotRevision = revision;
   target.jotGrid = null;
@@ -496,7 +579,25 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-mood figcaption{font-size:.86em;margin-top:.25em}.jot-mood-caption,.jot-mood-credit{display:block}.jot-mood-credit{font-style:italic;font-size:.92em}
 .jot-mood-missing{border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:4px;padding:.6em;font-size:.88em;overflow-wrap:anywhere}
 .jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}
-:is(.jot-task-text,.jot-margin,.jot-date-note,.jot-footnotes):has(:is(mark,.jot-highlight)){opacity:1}`;
+:is(.jot-task-text,.jot-margin,.jot-date-note,.jot-footnotes):has(:is(mark,.jot-highlight)){opacity:1}
+.jot-3d{margin:.8em 0;break-inside:avoid}.jot-3d-stage{position:relative;width:100%;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:color-mix(in srgb,currentColor 5%,transparent)}
+.jot-3d-stage>img.jot-3d-still{display:block;width:100%;height:100%;object-fit:contain}.jot-3d-still[hidden]{display:none!important}
+.jot-3d-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3em;padding:1em;text-align:center;border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:6px;overflow-wrap:anywhere}
+.jot-3d-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none}.jot-3d-canvas:focus-visible{outline:2px solid currentColor;outline-offset:-3px}
+.jot-3d-tools{display:flex;flex-wrap:wrap;align-items:center;gap:.4em;margin:.35em 0}.jot-3d-live{display:contents}
+.jot-3d-tools button{font:inherit;font-size:.85em;min-height:44px;padding:.3em .9em;border:1px solid color-mix(in srgb,currentColor 40%,transparent);border-radius:999px;background:transparent;color:inherit;cursor:pointer}
+.jot-3d-tools button:disabled{opacity:.6;cursor:progress}.jot-3d-tools button[hidden]{display:none}.jot-3d-state{font-size:.85em;opacity:.8}
+.jot-3d-note{font-size:.88em;font-style:italic;margin:.2em 0;overflow-wrap:anywhere}.jot-3d figcaption{font-size:.9em;margin-top:.2em}.jot-3d figcaption strong{display:block}
+.jot-3d-spots{margin:.3em 0;padding-left:1.6em;font-size:.9em}.jot-3d-stage .jot-3d-spot{position:absolute;z-index:1;transform:translate(-50%,-50%);min-width:44px;min-height:44px;padding:0;border:2px solid #fff;border-radius:999px;background:#22314f;color:#fff;font:700 .9em/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 4px rgb(0 0 0/.4)}.jot-3d-stage .jot-3d-spot[hidden]{display:none}.jot-3d-stage .jot-3d-spot:focus-visible{outline:3px solid #f2c94c;outline-offset:2px}
+.jot-media{display:block;margin:.6em 0;break-inside:avoid}.jot-media audio{display:block;width:100%;height:54px}.jot-media video{display:block;width:100%;aspect-ratio:16/9;background:#111;border-radius:6px}
+.jot-media-label{display:block;font-size:.88em;margin-top:.2em}.jot-media-still{display:none}
+.jot-card{margin:.8em 0;break-inside:avoid}.jot-card-flip{border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:10px;padding:.2em .9em}
+.jot-card-flip>:is(summary,.jot-card-summary){display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.3em .8em;min-height:44px;padding:.5em 0;cursor:pointer;list-style:none}.jot-card-flip>summary::-webkit-details-marker{display:none}
+.jot-card-front{font-weight:600}.jot-card-hint{font-size:.82em;opacity:.75;text-decoration:underline dotted}.jot-card-flip[open] .jot-card-hint{display:none}
+.jot-card-back{border-top:1px dashed color-mix(in srgb,currentColor 35%,transparent);padding:.3em 0}.jot-card-back p{margin:.25em 0}.jot-card-fold{display:none}.jot-card-fold .jot-card-back{border-top:0}.jot-card-label{display:block}.jot-card-note{font-size:.88em;font-style:italic;margin:.2em 0}
+@media print{[data-jot-live],.jot-3d-state{display:none!important}.jot-3d-spot{display:none!important}
+.jot-media audio,.jot-media video{display:none!important}.jot-media-still{display:flex;align-items:center;gap:.5em;padding:0 .8em;border:1px solid color-mix(in srgb,currentColor 35%,transparent);border-radius:6px;font-size:.9em}.jot-media-audio .jot-media-still{height:54px}.jot-media-video .jot-media-still{aspect-ratio:16/9;justify-content:center}.jot-media-label{display:none}
+.jot-card-hint,.jot-card-flip>.jot-card-back{display:none}.jot-card-fold{display:block;transform:rotate(180deg);padding:.2em .9em;border-bottom:2px dashed color-mix(in srgb,currentColor 45%,transparent)}}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;
   const s = doc.createElement('style'); s.id = 'jot-chart-css'; s.textContent = PREVIEW_CSS; doc.head.append(s);

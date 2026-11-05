@@ -610,6 +610,64 @@ A renderer draws each color as a swatch whose name and hex value are text on the
 
 A `moodboard` record holds repeatable `image` (or `asset`) fields: a path to an attachment, then optionally a text description used as the picture's alternative text. `alt`, `caption` and `credit` fields after an `image` describe that picture. Other fields keep their order. A renderer draws only attached pictures (§9: no network request); a picture that is not attached shows its path and description. A paragraph containing only two or more Markdown images MAY be drawn as the same grid.
 
+### 8.1.6 3D models
+
+A `model` record shows an attached 3D model. It is data, never code: a reader draws it with its own viewer, and nothing in the journal runs.
+
+```jot
+:::record model #garden-bed
+label: The garden bed in October
+file: media/garden-bed.glb A clay model of the raised bed with three seedlings
+poster: media/garden-bed.png
+camera: 2, 1.5, 3
+target: 0, 0.4, 0
+lighting: soft
+background: #f4efe4
+animation: Grow
+hotspot: 0.3, 0.9, 0.2 The first seedling
+caption: Built from scraps on Sunday.
+:::
+```
+
+`file` is the path of an attached glTF 2.0 model, then optionally whitespace and a description used as its text alternative: a binary `.glb` (`model/gltf-binary`), or a `.gltf` (`model/gltf+json`) whose buffers and images are embedded as `data:` URIs. A reader MUST NOT fetch any other URL a model names; it draws the model without that part and says so. Compressed models are ordinary glTF: `KHR_draco_mesh_compression` (Draco meshes), `EXT_meshopt_compression` with `KHR_mesh_quantization`, and `KHR_texture_basisu` (Basis Universal KTX2 textures), as well as `EXT_texture_webp` and `EXT_texture_avif` pictures. A reader decodes them with decoders it carries itself, never ones fetched for the occasion, and reads only the decoders a model's `extensionsUsed` names. A reader without a needed decoder shows the poster or description and says the model is compressed in a way it cannot read. `poster` is an attached still picture shown wherever the model is not drawn in 3D: in print, in a page export, in readers without 3D and before the reader asks for it. Without a poster, a reader shows the description. `camera` and `target` are three decimal numbers (`x, y, z`, comma or space separated, each within ±10,000) in the model's units; absent, the camera frames the whole model and looks at its middle. `lighting` is `soft` (default), `studio` or `dim`. `background` is `#RRGGBB` or `#RGB`; absent, the page shows through. `animation` names an animation in the model; a reader plays it, or the first animation when none is named, only when the reader asks. `hotspot` is repeatable, up to 20: three decimal numbers for a point on the model, then what is there. A renderer lists the hotspots as text wherever the model is shown, and while the model is drawn in 3D offers each as a control that brings the view to it. `label`, `caption` and `credit` are text. Other fields keep their order.
+
+A field that does not fit is kept as written and produces an `invalid-model-field` warning on its line; a record without `file` produces `model-without-file`. A file that is not attached, or is not a glTF model, is reported in place of the model, never dropped silently (§8.3). Nothing moves until the reader asks: no automatic rotation, and drag, keys and buttons turn, zoom and reset the view. A renderer SHOULD keep the model's description as the accessible name of its drawing. Readers that do not draw models show the record as any other record.
+
+A fixed-layout EPUB 3 export MAY draw models on its pages. Only the exporter's own viewer scripts are included, the pages that use them are declared `scripted`, the model's bytes, and the decoders a compressed model needs, are carried inside the book (never fetched), and each page keeps the poster or description for reading systems that do not run scripts (§9).
+
+### 8.1.7 Flip cards
+
+A `card` record is a question and its answer, for trying to recall before checking. It is plain text and needs no code to work.
+
+```jot
+:::record card #leaf
+label: Biology, week 3
+front: What does a leaf make from light, water and air?
+back: |
+  Sugar, and oxygen it lets go.
+:::
+```
+
+`front` and `back` are text (the back may be multiline); `label` is optional. A renderer shows the front and keeps the back behind a control the reader uses to reveal it; nothing reveals it on its own, and nothing is scored, counted or scheduled. In print and on fixed-layout pages, where nothing can open, a card is a fold-over card: the front, then the back turned upside down below a fold line, still readable as text by assistive technology. A missing front or back produces `card-without-front` or `card-without-back` on the record. Other fields keep their order. Readers that do not draw cards show the record as any other record.
+
+### 8.1.8 Sound and video recordings
+
+An embedded attachment reference, `![Rain on the roof](media/rain.m4a)`, to an attached sound or video recording is drawn as a player for that file; the label is its accessible name. A renderer MUST NOT start playback, loop or play several recordings on its own: a recording plays only when the reader asks. It reads only the attached bytes (§9). In print and on fixed-layout pages laid out for print, a quiet box of the same size names the recording; a fixed-layout EPUB puts the player back in that box, carrying the file inside the book. A link (`[label](media/rain.m4a)`) stays a link to the attachment.
+
+### 8.1.9 Places: a day drawn as a 3D scene
+
+A dated entry MAY name a place: a small 3D scene of where the day happened, kept as an attachment.
+
+```jot
+### 2026-10-02 | Friday
+@setting: media/7f3c2a…
+Rain at the bus stop. The 42 was late again.
+```
+
+`@setting:` (a directive, §2.3) names an attached `jot-place` file (`application/vnd.jot.place+json`). It is presentation only: it never changes the writing, and readers that do not draw places ignore it. A place is data, never code: JSON with `format: "jot-place"`, `version: 1`, `made` (`model`, `at`), `title`, `sky` and `ground` colours, `weather` (`clear`, `rain`, `snow`, `fog`, `sun`), `time` (`morning`, `day`, `evening`, `night`), a `camera` (`position`, `target`), and up to 60 `objects`, each a `name`, `position`, `rotation`, the `moments` it holds and up to 8 `shapes` (300 in all): `box`, `cylinder`, `sphere`, `cone`, `torus`, `plane` or `capsule`, with `position`, `rotation`, `size`, a `#rrggbb` colour, `roughness` and `glow`; a `plane` lies flat, sized by width and depth. Coordinates are metres within ±50; sizes are 0.01–20. A reader clamps or drops what does not fit, as untrusted input.
+
+`moments` are the entry's own sentences, word for word. A place maker that uses a model sends only the day's sentences, numbered, after the writer has seen exactly what goes and where; the model refers to sentences by number and never writes journal text, and the maker turns the numbers into the sentences before keeping the place. A reader shows a moment whose sentence is no longer in the entry as no longer there. Nothing is kept until the writer chooses to; keeping adds the attachment and one `@setting:` line under the entry's date heading. A place is drawn only with the reader's own code, and fetches nothing.
+
 ### 8.2 Pagination and overflow
 
 Renderers MUST preserve all selected writing. Overflow modes are `continue`, `additional-page` or `summary-with-source`. Clipping or silently shrinking text below the chosen minimum is forbidden. A renderer MUST show omitted content counts and continuation locators when a summary is explicitly chosen. Print output MUST declare paper size, scale, margins and page numbering. Privacy selection must remove excluded content from the exported document, not merely conceal it in a hidden layer.
@@ -659,7 +717,7 @@ A share/export command MUST let the user select content and include/exclude atta
 
 Collaborative writing records authors per block/record and uses separate `response` or `relation` records for replies. A person's words MUST NOT be silently reassigned to another author. Private sections need separate access-controlled storage; labels inside one shared document cannot conceal them. Conflicting edits MUST retain both versions, with a visible resolution step. Device modification times alone MUST NOT decide which journal text survives.
 
-Export to Markdown, HTML, PDF, text, CSV or JSON MUST declare which constructs lose meaning. CSV exports require an explicit row model and selection, preserving units, scale IDs, missing statuses, source IDs and timestamps. HTML and PDF renderers MUST escape untrusted text and reject active content. Apps MUST NOT evaluate embedded code, expand shell expressions or execute template instructions found in a journal. Search and AI features MUST respect the selected source scope; generated inference is never a measured observation.
+Export to Markdown, HTML, PDF, text, CSV or JSON MUST declare which constructs lose meaning. CSV exports require an explicit row model and selection, preserving units, scale IDs, missing statuses, source IDs and timestamps. HTML and PDF renderers MUST escape untrusted text and reject active content. Apps MUST NOT evaluate embedded code, expand shell expressions or execute template instructions found in a journal. An export that draws models (§8.1.6) MAY include the exporter's own viewer scripts; it MUST NOT include, generate or evaluate code taken from the journal. Search and AI features MUST respect the selected source scope; generated inference is never a measured observation.
 
 ## 10. Migration from Jot v1.0
 

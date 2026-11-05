@@ -1,5 +1,175 @@
 # Latest Jot v1 decisions
 
+## A complete fictional month and text-grounded scenes (5 November 2026)
+
+The October demo contains 31 fictional entries, bundled media, interactive cards, editable annotations, 3D models,
+numbers and queries. A separate walkthrough covers Writer actions and connections that a saved journal cannot
+activate. The public archive and a mixed-protection copy use the same source and attachment bytes; the mixed copy's
+published demonstration passphrase is not a real privacy secret. Separate People and Places books remain explicit
+context, rather than automatically joining an export.
+
+Scenes are real OpenRouter replies through Writer's existing prompt, structured-output schema, transport and
+validator. The selected model is `openai/gpt-5-mini`, with Zero Data Retention required and data collection denied.
+The model receives only each day's extracted sentences and returns shape data; stored moments retain the entry's
+exact words. Prompt/source/output hashes and actual model/timestamps accompany the saved replies. Ordinary builds
+read those replies locally, verify their provenance against the current source and make no model request.
+
+Visual review of the first live run found horizontal window slabs, upward table legs and objects below the floor.
+Writer's prompt now states the world/local coordinate distinction and gives upright-window and tabletop examples.
+The demo scenes were regenerated through that same pipeline; no manual geometry substitutes are presented as model
+output. Model-generated compositions remain illustrative, rather than a reconstruction of real events or places.
+
+The `to-jot` skill now documents current media, interactive blocks, annotations, scenes and the primary Jotz layout.
+Its downloadable runtime includes the SQLite loader/WASM needed to validate indexed archives outside this repository.
+The publication privacy gate permits only the exact pinned fictional CSV and encrypted demo. It decrypts the latter,
+compares it with its public companion and scans its plaintext; other private paths and changed fixtures still fail.
+
+Verification covers strict source/archive validation, exact moment linkage, attachment preservation, all 31 scenes
+without network access, local playback, editing and mixed protection in Chromium. Native reader/device behavior and
+the effectiveness of any journal method are not established by this fictional fixture.
+
+On the Pages site the demo opens straight in Writer: the home page links to it (**See a sample month**) and the demo page
+opens either copy in Writer. Checking that path found a protection bug: a site link (`?open=examples/…`) to a protected
+example loaded only its public entries as if they were the whole journal, with no unlock prompt. Such links now open a
+protected example exactly as Open does: a way in is asked for, and Cancel leaves the public entries readable but locked.
+
+## Days as scenes, made by a model, kept as data (5 November 2026)
+
+The owner asked for the journal entries themselves to become interactive three.js scenes: "from the cluttered desk to the rainy bus
+stop and Saturday's bedroom", drag to orbit, scroll to zoom, objects that reveal journal moments, day tabs, and Open journal. A
+keyword sketch was planned first; the owner said a model needs to make the scenes. Asked to choose, the owner chose: reuse the AI
+companion's connection, keep a made scene in the journal, show nothing until one is made, and Writer only.
+
+- **Scenes** (`writer-scene.mjs`, `scene-journal-core.mjs`, `writer-scene-build.mjs`) is a view beside Map and Media. Make this
+  day's scene sends only that day's prose as numbered sentences, after showing exactly those sentences and where they go
+  (OpenRouter with the companion's ZDR and no-data-collection settings, or a local server). Scratchpads, comments, code and
+  records are never sent. The model answers with structured JSON (a `jot-place`): simple shapes, positions, colours, weather and
+  time; sentence numbers, never text. Jot clamps and limits it, turns the numbers into the writer's own sentences, and draws it
+  with its own code. Nothing in a place runs.
+- A draft changes nothing. **Keep it** adds the place as an attachment (`application/vnd.jot.place+json`) and one `@setting:` line
+  under the day's date (spec 8.1.9), with Undo; the file is read again as untrusted whenever it is shown, and a moment whose
+  sentence has since changed is marked as no longer in the entry. Kept scenes draw offline with no model.
+- The view loads three.js only when shown, steps back when a model's camera would stand inside the place, animates weather only
+  while shown (paused under reduced motion), and clears drafts, requests and the drawing when the journal locks.
+- `ai-client.mjs` gains `requestJSON` (the companion's transport and checks for any schema); the companion exposes its current
+  connection only while AI is on for the session.
+- Found and fixed while testing: Writer's `rewrite()` replaced the whole text, and Chromium's Redo of such an edit dropped text
+  (the first line, in the test). It now replaces only the changed range, so Undo and Redo are exact for every tool that uses it.
+
+Verified with a mocked local model in Chromium: nothing sent before Send; the exact sentences shown and sent; drafts, Keep, Undo
+and Redo; kept scenes drawing with no request; moments; Open journal; lock; phone layout; axe; no outside requests. Not verified:
+live models (scene quality depends entirely on the chosen model), phones' GPU performance, and non-English sentence splitting.
+
+Research basis: memory writing can "Begin with a familiar object" (`docs/methods/memory-life-story.md, line 163`), and art and
+junk journaling claims to keep "memories as objects" (`docs/methods/art-and-junk-journaling.md, line 427`), which shaped objects
+that hold moments. Sending stays the writer's choice: "Keep it private unless you choose" (`docs/methods/expressive-writing.md,
+line 444`). The guides say nothing about 3D or model-made scenes; the rest are design choices.
+
+## Interactive blocks without code: flip cards, recordings and hotspots (5 November 2026)
+
+The owner asked to allow interactive journal entries. Asked to choose, the owner chose interactive blocks that Jot's own code makes
+interactive, with no code in the journal, always on. The first three (spec 8.1.6–8.1.8):
+
+- **Flip cards** (`:::record card`, `parser/card.mjs`): a front and a back; the back waits behind the reader's tap (a native
+  `<details>`, which needs no script, in Writer and Download page). Nothing is scored, counted or scheduled. In print and on
+  fixed-layout pages, where nothing can open, a card is a fold-over card: the back upside down below a fold line, still text for
+  assistive technology; the EPUB turns the card into that static form, because a fixed page cannot grow when an answer opens.
+- **Recordings**: `![label](media/…)` to an attached sound or video file draws the browser's own player, labelled by the brackets'
+  words; attaching a recording writes that reference. Nothing plays, loops or starts on its own. Print shows a box of the same
+  size naming it; Download page embeds the file; the EPUB carries it and puts the player in that box.
+- **Hotspots** on 3D models (`hotspot:` fields, up to 20): listed as words wherever the model is shown; turned in 3D, numbered
+  buttons follow the model and take the view to each place.
+
+Verified in Chromium: cards by pointer and keyboard, players with no autoplay, hotspots moving the view, the print forms, Download
+page, the EPUB's pages (players, static fold-over card, hotspots in the book's viewer) and the handwritten look, with no axe
+violations and no outside requests. Not verified: reading systems on devices; EPUB core media rules for WAV or FLAC recordings.
+
+Research basis: retrieval practice has strong evidence (`docs/methods/study-and-note-taking.md, line 31`), and the guide's first
+step is "Try to recall, then check" (`docs/methods/study-and-note-taking.md, line 48`). It adopts fold-over flash strips "as
+paper-only blocks with no data handling" (`docs/methods/study-and-note-taking.md, line 222`), which is why a card keeps no scores
+or schedule and prints as a fold-over card; the spaced-review tracker it also describes is not built here. Some writers avoid
+sound (`docs/methods/autistic-sensory-journaling.md, line 137`), which supports never starting a recording on its own; the guides
+say nothing else about players or hotspots, so those choices are design choices.
+
+## Compressed 3D models: Draco, meshopt and KTX2 (5 November 2026)
+
+The owner relies heavily on Draco mesh compression and optimized GLB textures, so models compressed that way now draw instead of
+saying they can't (spec 8.1.6). The three.js bundle adds `DRACOLoader`, `KTX2Loader` and the meshopt decoder; the glTF build of the
+Draco decoder and the Basis Universal transcoder are vendored unmodified from three.js r186 (`parser/vendor/three-decoders/`,
+Apache-2.0, licences in `three-decoders-LICENSE.md`). WebP and AVIF textures need no decoder.
+
+- `model3d.mjs` reads which extensions a model declares from its own JSON; a decoder is read only when a model names it, and only
+  from Jot's own files. The viewer turns those bytes into blob: URLs for the loaders' workers; its loading manager still refuses every
+  other address, including `KTX2Loader`'s default CDN. A missing decoder keeps the picture and says the model is compressed in a way
+  it cannot read here. Workers and blob URLs are released on close.
+- An EPUB carries each decoder its models need once, as a script holding its bytes, on the pages that use it. Turning a compressed
+  model in a book therefore needs a reading system that runs WebAssembly and workers from scripts; plain and meshopt-only models need
+  no worker. This is unverified in Apple Books.
+- Fixtures: a textured, animated cube as plain, Draco, meshopt, KTX2 (ETC1S) and Draco+KTX2 GLB files, made reproducibly by
+  `site/fixtures/scene/make-compressed.mjs` with glTF-Transform 4.5.1 and ktx2-encoder 0.6.0 (development tools only).
+
+Verified in Chromium: each fixture draws its texture after reading exactly the decoders it needs (none before Turn in 3D), a blocked
+Draco decoder keeps the picture with its message, and an EPUB with Draco+KTX2 and meshopt models turns both inside the book. Not
+verified: reading systems on devices, and very large models (decoding time and memory on phones).
+
+## 3D models as data, and fixed-layout EPUB books (5 November 2026)
+
+The owner asked for interactive journals in the manner of Apple Books' scripted fixed-layout EPUB 3, by embedding three.js in
+`.jotz`. Asked to choose, the owner chose **scenes as data**: a journal never carries code. A `:::record model` (spec 8.1.6) names an
+attached glTF 2.0 file (`.glb`, or `.gltf` with everything embedded) and its description, with optional poster, camera, target,
+lighting, background, animation, caption and credit. The record name is `model`, not `scene`, because a forced scene label
+(`.0830 - WORKSHOP`, spec 3.3) already has that name. No container change was needed: the model is an ordinary attachment, so it
+is encrypted, saved and reopened like a photo.
+
+- Writer draws the still or the description. Turn in 3D loads Jot's bundled three.js (r186 subset, MIT, `parser/vendor/three.mjs`,
+  built reproducibly by `tools/vendor-three/build.sh`) and `model3d-view.mjs` only then. The viewer reads the attachment's own bytes
+  with `GLTFLoader.parse`; a loading manager refuses every outside URL, and says how many it refused. Nothing moves until the reader
+  asks: no auto-rotation, and an animation plays only on Play. Arrow keys, + and − and buttons work without a pointer; the
+  description is the drawing's accessible name. At most four views hold graphics contexts at once. An edit redraws the page and
+  reopens an open model at the same view.
+- Fixed-layout EPUB: EPUB ↓ saves Page view's Paged.js sheets as a pre-paginated EPUB 3 book (`parser/epub.mjs` packages,
+  `site/dist/epub-book.mjs` collects files). Pictures and fonts become files in the book; each page carries where its page count
+  starts. A page with a model is declared `scripted` and carries only Jot's own scripts: the three.js bundle, the viewer, a fixed
+  wiring script and the model's bytes as a script, so the book never fetches (spec §9 now says an export may include the exporter's
+  own viewer scripts and never code from the journal). Readers without scripts keep the still or description.
+- Like Download page, the book is plaintext; Writer says so when the journal is protected. VS Code and the template editor show the
+  still; drawing there is roadmap work.
+
+Verified: parser and conformance tests; Node tests of the package, the file collection and data: URLs; a Chromium suite that
+attaches a model, turns it, saves Download page and the EPUB, opens every page of the book as XHTML and turns the model inside it,
+with no outside requests. Not verified: Apple Books or any other reading system on a device, and W3C EPUBCheck (the test runs it
+when `JOT_EPUBCHECK` names the jar; running a downloaded jar was not permitted in this session).
+
+Research basis: art and junk journaling claims to keep "memories as objects" (`docs/methods/art-and-junk-journaling.md, line 427`)
+and names "the object itself" among what is lost on screen (`docs/methods/art-and-junk-journaling.md, line 391`); memory writing
+can begin from a familiar object (`docs/methods/memory-life-story.md, line 163`). The guides say nothing about 3D models, motion
+or scripted books, so the motion and interaction choices above are design choices, not findings.
+
+## Page view with Paged.js (5 November 2026)
+
+The owner asked to integrate Paged.js (https://github.com/pagedjs/pagedjs). Writer gains **Page view** beside Print / PDF:
+the formatted pages, as Download page saves them, laid out sheet by sheet by Paged.js with the chosen paper, margins and page
+numbers, then printed from that view. Browsers that do not draw `@page` margin boxes still get page numbers this way.
+
+- Paged.js 0.4.3 is vendored unmodified in `site/dist/vendor/pagedjs/` (MIT, SHA-256 in its README) and loaded only when Page
+  view opens, so ordinary writing and printing do not carry it. It runs in a same-origin frame (`write/pages.html`) whose CSP
+  allows no requests; stylesheets are passed in as text, so it never fetches. Closing the view or locking the journal empties
+  the frame. The desktop CSP gains `frame-src 'self'` for it.
+- Paged.js 0.4 splits selector lists on every comma, which breaks Jot's `:not(…,…)` and `:is(…,…)` selectors.
+  `page-view-css.mjs` rewrites them into equivalent comma-free selectors before Paged.js reads them, rather than patching
+  the vendored file. It also drops screen-only rules, so how sheets sit on screen lives in the frame page itself.
+- Download page now keeps ticked task boxes ticked (a property the saved markup dropped); Page view shares that path.
+- Page view carries Writer's own paper rules (`.paper-preview` in `studio.css`, outside media queries and in `@media print`)
+  and the paper's classes, so its sheets match Writer's Print / PDF page for page; the browser suite compares the two
+  counts. Handwritten pages keep their dot-grid geometry: the sheet's content area is the same whole number of rows.
+- Fixed while comparing them: switching a page from Handwritten back to Typed kept the handwritten page's inline height
+  (`parser/preview.mjs` now clears it with the other handwriting properties), so Print / PDF added blank pages at the end.
+
+Research basis: printable pages are expected to print at 100% on paper the writer picks (`docs/methods/paper-and-grids.md,
+line 554`; `docs/methods/mood-tracking-year-in-pixels.md, line 506`), which the view repeats. The guides are silent on
+on-screen paginated previews, so this is a design choice, not a finding. Verified in Chromium (desktop and phone emulation);
+Firefox, Safari, the desktop app and physical print proofs are not yet checked.
+
 ## Shorter rendering documentation and a small authoring path (3 November 2026)
 
 The owner found the documentation and syntax bloated. The rendering index now supplies shared reader rules and

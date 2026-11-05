@@ -1,0 +1,811 @@
+{
+  "format": "jot-place",
+  "version": 1,
+  "made": {
+    "model": "openai/gpt-5-mini",
+    "at": "2026-11-05T09:52:55.565Z"
+  },
+  "title": "Rainy library corner",
+  "sky": "#8fa3b0",
+  "ground": "#e9e2d8",
+  "weather": "rain",
+  "time": "day",
+  "camera": {
+    "position": [
+      0,
+      1.6,
+      4
+    ],
+    "target": [
+      0,
+      1,
+      0
+    ]
+  },
+  "objects": [
+    {
+      "name": "Floor",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            0.01,
+            3.5
+          ],
+          "color": "#e9e2d8",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back wall",
+      "position": [
+        0,
+        0,
+        -1.75
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window.",
+        "I sat there with a book open on my knees while the rain tapped the glass."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.25,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            2.5,
+            0.06
+          ],
+          "color": "#dcd7d3",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side wall",
+      "position": [
+        -2.25,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.25,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            2.5,
+            3.5
+          ],
+          "color": "#dcd7d3",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        1.05,
+        0,
+        -1.74
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window.",
+        "I sat there with a book open on my knees while the rain tapped the glass."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#bfe0ff",
+          "roughness": 0.2,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tall bookshelf",
+      "position": [
+        -1.7,
+        0.6,
+        -1.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window.",
+        "I had forgotten how much of it happens in conversations that seem to be about something else."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            1.8,
+            0.25
+          ],
+          "color": "#6b4b2b",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.6,
+            -0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.84,
+            0.06,
+            0.22
+          ],
+          "color": "#5c3f29",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.18,
+            -0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.84,
+            0.06,
+            0.22
+          ],
+          "color": "#5c3f29",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Green chair",
+      "position": [
+        0.2,
+        0,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window.",
+        "I sat there with a book open on my knees while the rain tapped the glass.",
+        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            0.9,
+            0.9
+          ],
+          "color": "#3b8b59",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.35,
+            0.02,
+            0.32
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.04,
+            0.18
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.35,
+            0.02,
+            0.32
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.04,
+            0.18
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.35,
+            0.02,
+            -0.32
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.04,
+            0.18
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.35,
+            0.02,
+            -0.32
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.04,
+            0.18
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Low table",
+      "position": [
+        0.6,
+        0,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Someone had left a tiny paper boat on the low table, so I turned it carefully and put it back where it was."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.28,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.8,
+            0.12,
+            0.5
+          ],
+          "color": "#5c3f29",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.33,
+            -0.1,
+            0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.5,
+            0.06
+          ],
+          "color": "#3d2b1f",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.33,
+            -0.1,
+            0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.5,
+            0.06
+          ],
+          "color": "#3d2b1f",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.33,
+            -0.1,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.5,
+            0.06
+          ],
+          "color": "#3d2b1f",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.33,
+            -0.1,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.5,
+            0.06
+          ],
+          "color": "#3d2b1f",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Paper boat",
+      "position": [
+        0.6,
+        0.43,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Someone had left a tiny paper boat on the low table, so I turned it carefully and put it back where it was."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.02,
+            0.06
+          ],
+          "color": "#ffffff",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Open book on lap",
+      "position": [
+        0.2,
+        0.85,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I sat there with a book open on my knees while the rain tapped the glass.",
+        "Reading Pride and Prejudice again, slowly.",
+        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library",
+        "Pick up the reserved book #reading"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.02,
+            0.24
+          ],
+          "color": "#f7f3ea",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.01,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.34,
+            0.01,
+            0.22
+          ],
+          "color": "#d9d9d9",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Closed reserved book",
+      "position": [
+        0.9,
+        0.42,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Pick up the reserved book #reading"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.16,
+            0.02,
+            0.1
+          ],
+          "color": "#7a5b3a",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        0.52,
+        0.44,
+        -0.5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.02,
+            0.12
+          ],
+          "color": "#fff7ee",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window raindrops",
+      "position": [
+        1.05,
+        1.6,
+        -1.74
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I sat there with a book open on my knees while the rain tapped the glass."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            -0.2,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.25,
+            0.01
+          ],
+          "color": "#9fc6e6",
+          "roughness": 0.1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.12,
+            -0.1,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.2,
+            0.01
+          ],
+          "color": "#9fc6e6",
+          "roughness": 0.1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.12,
+            -0.05,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.15,
+            0.01
+          ],
+          "color": "#9fc6e6",
+          "roughness": 0.1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small rug",
+      "position": [
+        0,
+        0,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.001,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.01,
+            1.2
+          ],
+          "color": "#cfc2b8",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    }
+  ]
+}
