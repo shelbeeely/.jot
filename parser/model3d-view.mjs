@@ -12,7 +12,8 @@
  * The model is data, never code. Only bytes already in the journal are read: every outside URL a model names is refused, so
  * nothing is fetched. Draco meshes and Basis Universal (KTX2) textures are decoded by the decoders handed over as bytes, in
  * workers made from those bytes; meshopt is built in. The decoders' files are Jot's own, never the model's. Nothing moves until the reader asks: no auto-rotation, and an animation plays only on Play. Drag, the arrow
- * keys and + / − turn and zoom it; Reset view and Back to the picture are buttons.
+ * keys and + / − turn and zoom it; Reset view and Back to the picture are buttons. Hotspots are numbered buttons on the model:
+ * each takes the view to its place and says what is there.
  */
 (function () {
   const OPEN = new Map(), MAX_OPEN = 4, STEP = Math.PI / 12, FOV = 40, MathFOV = (FOV / 2) * Math.PI / 180; // the whole model in view, with room around it
@@ -97,12 +98,30 @@
     const controls = new T.OrbitControls(camera, canvas);
     controls.enableDamping = false; controls.enablePan = false; controls.minDistance = r * 0.2; controls.maxDistance = Math.max(r * 20, start.distanceTo(target) * 2);
     const reset = () => { camera.position.copy(start); controls.target.copy(target); controls.update(); draw(); };
+    // Hotspots: numbered buttons kept over their places as the model turns; hidden when a place is behind the camera or off the view.
+    const spots = (settings.hotspots || []).map((h, i) => {
+      const b = ui(doc, 'button', String(i + 1), 'jot-3d-spot'), at = new T.Vector3(...h.at);
+      b.type = 'button'; b.title = h.label; b.setAttribute('aria-label', `Go to ${i + 1}: ${h.label}`);
+      b.onclick = () => {
+        const dir = camera.position.clone().sub(controls.target).normalize();
+        controls.target.copy(at); camera.position.copy(at).add(dir.multiplyScalar(Math.max(controls.minDistance * 1.5, r * 1.8)));
+        controls.update(); draw(); say(`${i + 1}: ${h.label}`);
+      };
+      return { b, at };
+    });
+    const place = () => {
+      const w = stage.clientWidth, h = stage.clientHeight;
+      for (const s of spots) {
+        const v = s.at.clone().project(camera), off = v.z > 1 || Math.abs(v.x) > 1.02 || Math.abs(v.y) > 1.02;
+        s.b.hidden = off; if (!off) { s.b.style.left = `${((v.x + 1) / 2) * w}px`; s.b.style.top = `${((1 - v.y) / 2) * h}px`; }
+      }
+    };
 
     // Drawing happens when something changes, not every frame, unless an animation is playing.
     let frame = 0, playing = false, mixer = null, action = null;
     const clock = new T.Timer();
     const draw = () => { if (!frame) frame = win.requestAnimationFrame(tick); };
-    function tick() { frame = 0; if (playing && mixer) { clock.update(); mixer.update(clock.getDelta()); draw(); } renderer.render(scene, camera); }
+    function tick() { frame = 0; if (playing && mixer) { clock.update(); mixer.update(clock.getDelta()); draw(); } renderer.render(scene, camera); place(); }
     const size = () => { const w = stage.clientWidth || 320, h = stage.clientHeight || 240; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); draw(); };
     const resize = new win.ResizeObserver(size);
     controls.addEventListener('change', draw);
@@ -140,7 +159,7 @@
 
     const still = stage.querySelector('.jot-3d-still'); if (still) still.hidden = true;
     const turn = figure.querySelector('.jot-3d-turn'); if (turn) turn.hidden = true;
-    stage.append(canvas); tools?.prepend(bar); figure.classList.add('jot-3d-open');
+    stage.append(canvas, ...spots.map((s) => s.b)); tools?.prepend(bar); figure.classList.add('jot-3d-open');
     resize.observe(stage); size(); reset();
     if (!state?.textContent.startsWith('No animation')) say(refused ? `Turned in 3D, without ${refused} outside file${refused === 1 ? '' : 's'} the model names: only what is in the journal is drawn.` : 'Turned in 3D. Drag or use the arrow keys to turn it.');
     OPEN.set(figure, { view: () => ({ camera: camera.position.toArray(), target: controls.target.toArray() }), stop() {
@@ -148,7 +167,7 @@
       if (frame) win.cancelAnimationFrame(frame); resize.disconnect(); controls.dispose(); mixer?.stopAllAction();
       root.traverse((o) => { o.geometry?.dispose(); for (const m of [].concat(o.material || [])) { for (const k in m) if (m[k]?.isTexture) m[k].dispose(); m.dispose(); } });
       env?.dispose(); renderer.dispose(); renderer.forceContextLoss?.(); freeDecoders();
-      canvas.remove(); bar.remove(); if (still) still.hidden = false; if (turn) turn.hidden = false; figure.classList.remove('jot-3d-open'); say('');
+      canvas.remove(); bar.remove(); for (const s of spots) s.b.remove(); if (still) still.hidden = false; if (turn) turn.hidden = false; figure.classList.remove('jot-3d-open'); say('');
     } });
     return true;
   }

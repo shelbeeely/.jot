@@ -1,5 +1,31 @@
 # Latest Jot v1 decisions
 
+## Interactive blocks without code: flip cards, recordings and hotspots (5 November 2026)
+
+The owner asked to allow interactive journal entries. Asked to choose, the owner chose interactive blocks that Jot's own code makes
+interactive, with no code in the journal, always on. The first three (spec 8.1.6–8.1.8):
+
+- **Flip cards** (`:::record card`, `parser/card.mjs`): a front and a back; the back waits behind the reader's tap (a native
+  `<details>`, which needs no script, in Writer and Download page). Nothing is scored, counted or scheduled. In print and on
+  fixed-layout pages, where nothing can open, a card is a fold-over card: the back upside down below a fold line, still text for
+  assistive technology; the EPUB turns the card into that static form, because a fixed page cannot grow when an answer opens.
+- **Recordings**: `![label](media/…)` to an attached sound or video file draws the browser's own player, labelled by the brackets'
+  words; attaching a recording writes that reference. Nothing plays, loops or starts on its own. Print shows a box of the same
+  size naming it; Download page embeds the file; the EPUB carries it and puts the player in that box.
+- **Hotspots** on 3D models (`hotspot:` fields, up to 20): listed as words wherever the model is shown; turned in 3D, numbered
+  buttons follow the model and take the view to each place.
+
+Verified in Chromium: cards by pointer and keyboard, players with no autoplay, hotspots moving the view, the print forms, Download
+page, the EPUB's pages (players, static fold-over card, hotspots in the book's viewer) and the handwritten look, with no axe
+violations and no outside requests. Not verified: reading systems on devices; EPUB core media rules for WAV or FLAC recordings.
+
+Research basis: retrieval practice has strong evidence (`docs/methods/study-and-note-taking.md, line 31`), and the guide's first
+step is "Try to recall, then check" (`docs/methods/study-and-note-taking.md, line 48`). It adopts fold-over flash strips "as
+paper-only blocks with no data handling" (`docs/methods/study-and-note-taking.md, line 222`), which is why a card keeps no scores
+or schedule and prints as a fold-over card; the spaced-review tracker it also describes is not built here. Some writers avoid
+sound (`docs/methods/autistic-sensory-journaling.md, line 137`), which supports never starting a recording on its own; the guides
+say nothing else about players or hotspots, so those choices are design choices.
+
 ## Compressed 3D models: Draco, meshopt and KTX2 (5 November 2026)
 
 The owner relies heavily on Draco mesh compression and optimized GLB textures, so models compressed that way now draw instead of

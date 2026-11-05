@@ -15,7 +15,7 @@ A format/parser/container/protection change must include the corresponding Write
 
 ## After changing a module
 
-1. Copy each changed module to `site/dist/jot/` (CI compares `jot`, `timezone`, `container`, `proofread`, `charts`, `preview`, `handwriting`, `styles`, `palette`, `export`, `automation`, `connect`, `include`, `query`, `health`, `model3d`, `model3d-view`, `epub`, `vendor/chart`, `vendor/marked`, `vendor/three` and `fonts/`). `converter/convert.mjs` is copied there the same way.
+1. Copy each changed module to `site/dist/jot/` (CI compares `jot`, `timezone`, `container`, `proofread`, `charts`, `preview`, `handwriting`, `styles`, `palette`, `export`, `automation`, `connect`, `include`, `query`, `health`, `model3d`, `model3d-view`, `card`, `epub`, `vendor/chart`, `vendor/marked`, `vendor/three` and `fonts/`). `converter/convert.mjs` is copied there the same way.
 2. Run `node vscode/sync.mjs` for the extension's copy.
 3. After changing `handwriting.mjs`, run `node tools/build-handwriting-css.mjs`; never edit `handwriting.css` by hand.
 4. Run `python3 tools/build-parser-zip.py` for the site's parser download, then `node tools/manifest.cjs` last.

@@ -477,6 +477,7 @@ optional too:
 | `lighting` | `soft` (the default), `studio` or `dim` |
 | `background` | A color like `#f4efe4`; without one, the paper shows through |
 | `animation` | Which of the model's animations **Play animation** plays |
+| `hotspot` | A place worth looking at: three numbers, then what is there (`hotspot: 0.3, 0.9, 0.2 The first seedling`). Listed under the model; turned in 3D, each is a numbered button that takes you there |
 | `caption`, `credit` | Words under the model |
 
 A model is a file, never a program: Jot's own viewer draws it, and it only reads what is in your journal. A `.glb` carries
@@ -487,6 +488,30 @@ Optimized models work too, and keep a journal small: Draco-compressed meshes, me
 or AVIF, as tools such as glTF-Transform, gltfpack and Blender's exporter make them. Jot carries its own decoders and reads one only
 when a model needs it, so nothing is downloaded. In an EPUB, a compressed model brings its decoder along; the reader then has to run
 WebAssembly in a book, which not every reader does. Where it can't, the still or the description stays.
+
+## Flip cards
+
+A card is a question with its answer behind a tap, for trying to remember before you check:
+
+```jot
+:::record card #leaf
+label: Biology, week 3
+front: What does a leaf make from light, water and air?
+back: |
+  Sugar, and oxygen it lets go.
+:::
+```
+
+The page shows the front. Tap it, or press Enter on it, to see the back, and again to hide it. Nothing is scored, counted or
+scheduled. Printed, and in a fixed-layout EPUB, a card is a paper fold-over card: the front, then the answer upside down below a
+fold line.
+
+## Sound and video recordings
+
+Attach a recording (a voice memo, birdsong, a clip of the sea) and Jot writes `![rain.m4a](media/…)`: the page shows a player for
+it. Change the words in the brackets to say what it is; that is what a screen reader reads. A recording plays only when you press
+play, never on its own. Printed, a box names the recording; Download page and the EPUB carry the recording inside, with a working
+player. A plain link, `[rain.m4a](media/…)`, stays a link.
 
 ## A few other things
 

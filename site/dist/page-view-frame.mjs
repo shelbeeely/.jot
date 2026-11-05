@@ -45,6 +45,13 @@ window.jotBook = () => {
       const turn = document.createElement('button'); turn.type = 'button'; turn.className = 'jot-3d-turn'; turn.hidden = true; turn.textContent = 'Turn in 3D';
       (fig.querySelector('.jot-3d-tools') || fig).prepend(turn);
     }
+    // A flip card on a fixed page is a fold-over card: the front, and the back upside down below the fold, readable by everyone.
+    for (const flip of copy.querySelectorAll('details.jot-card-flip')) {
+      const still = document.createElement('div'); still.className = 'jot-card-flip';
+      for (const child of [...flip.children]) { if (child.tagName === 'SUMMARY') { const s = document.createElement('div'); s.className = 'jot-card-summary'; s.append(...child.childNodes); still.append(s); } }
+      flip.replaceWith(still);
+    }
+    for (const fold of copy.querySelectorAll('.jot-card-fold')) fold.removeAttribute('aria-hidden');
     wrap.append(copy);
     return { body: xml.serializeToString(wrap), headings: [...sheet.querySelectorAll('.jot-date')].filter((h) => !h.closest('[data-split-from]')).map((h) => h.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean), models };
   });

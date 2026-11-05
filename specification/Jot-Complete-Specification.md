@@ -624,15 +624,35 @@ target: 0, 0.4, 0
 lighting: soft
 background: #f4efe4
 animation: Grow
+hotspot: 0.3, 0.9, 0.2 The first seedling
 caption: Built from scraps on Sunday.
 :::
 ```
 
-`file` is the path of an attached glTF 2.0 model, then optionally whitespace and a description used as its text alternative: a binary `.glb` (`model/gltf-binary`), or a `.gltf` (`model/gltf+json`) whose buffers and images are embedded as `data:` URIs. A reader MUST NOT fetch any other URL a model names; it draws the model without that part and says so. Compressed models are ordinary glTF: `KHR_draco_mesh_compression` (Draco meshes), `EXT_meshopt_compression` with `KHR_mesh_quantization`, and `KHR_texture_basisu` (Basis Universal KTX2 textures), as well as `EXT_texture_webp` and `EXT_texture_avif` pictures. A reader decodes them with decoders it carries itself, never ones fetched for the occasion, and reads only the decoders a model's `extensionsUsed` names. A reader without a needed decoder shows the poster or description and says the model is compressed in a way it cannot read. `poster` is an attached still picture shown wherever the model is not drawn in 3D: in print, in a page export, in readers without 3D and before the reader asks for it. Without a poster, a reader shows the description. `camera` and `target` are three decimal numbers (`x, y, z`, comma or space separated, each within ±10,000) in the model's units; absent, the camera frames the whole model and looks at its middle. `lighting` is `soft` (default), `studio` or `dim`. `background` is `#RRGGBB` or `#RGB`; absent, the page shows through. `animation` names an animation in the model; a reader plays it, or the first animation when none is named, only when the reader asks. `label`, `caption` and `credit` are text. Other fields keep their order.
+`file` is the path of an attached glTF 2.0 model, then optionally whitespace and a description used as its text alternative: a binary `.glb` (`model/gltf-binary`), or a `.gltf` (`model/gltf+json`) whose buffers and images are embedded as `data:` URIs. A reader MUST NOT fetch any other URL a model names; it draws the model without that part and says so. Compressed models are ordinary glTF: `KHR_draco_mesh_compression` (Draco meshes), `EXT_meshopt_compression` with `KHR_mesh_quantization`, and `KHR_texture_basisu` (Basis Universal KTX2 textures), as well as `EXT_texture_webp` and `EXT_texture_avif` pictures. A reader decodes them with decoders it carries itself, never ones fetched for the occasion, and reads only the decoders a model's `extensionsUsed` names. A reader without a needed decoder shows the poster or description and says the model is compressed in a way it cannot read. `poster` is an attached still picture shown wherever the model is not drawn in 3D: in print, in a page export, in readers without 3D and before the reader asks for it. Without a poster, a reader shows the description. `camera` and `target` are three decimal numbers (`x, y, z`, comma or space separated, each within ±10,000) in the model's units; absent, the camera frames the whole model and looks at its middle. `lighting` is `soft` (default), `studio` or `dim`. `background` is `#RRGGBB` or `#RGB`; absent, the page shows through. `animation` names an animation in the model; a reader plays it, or the first animation when none is named, only when the reader asks. `hotspot` is repeatable, up to 20: three decimal numbers for a point on the model, then what is there. A renderer lists the hotspots as text wherever the model is shown, and while the model is drawn in 3D offers each as a control that brings the view to it. `label`, `caption` and `credit` are text. Other fields keep their order.
 
 A field that does not fit is kept as written and produces an `invalid-model-field` warning on its line; a record without `file` produces `model-without-file`. A file that is not attached, or is not a glTF model, is reported in place of the model, never dropped silently (§8.3). Nothing moves until the reader asks: no automatic rotation, and drag, keys and buttons turn, zoom and reset the view. A renderer SHOULD keep the model's description as the accessible name of its drawing. Readers that do not draw models show the record as any other record.
 
 A fixed-layout EPUB 3 export MAY draw models on its pages. Only the exporter's own viewer scripts are included, the pages that use them are declared `scripted`, the model's bytes, and the decoders a compressed model needs, are carried inside the book (never fetched), and each page keeps the poster or description for reading systems that do not run scripts (§9).
+
+### 8.1.7 Flip cards
+
+A `card` record is a question and its answer, for trying to recall before checking. It is plain text and needs no code to work.
+
+```jot
+:::record card #leaf
+label: Biology, week 3
+front: What does a leaf make from light, water and air?
+back: |
+  Sugar, and oxygen it lets go.
+:::
+```
+
+`front` and `back` are text (the back may be multiline); `label` is optional. A renderer shows the front and keeps the back behind a control the reader uses to reveal it; nothing reveals it on its own, and nothing is scored, counted or scheduled. In print and on fixed-layout pages, where nothing can open, a card is a fold-over card: the front, then the back turned upside down below a fold line, still readable as text by assistive technology. A missing front or back produces `card-without-front` or `card-without-back` on the record. Other fields keep their order. Readers that do not draw cards show the record as any other record.
+
+### 8.1.8 Sound and video recordings
+
+An embedded attachment reference, `![Rain on the roof](media/rain.m4a)`, to an attached sound or video recording is drawn as a player for that file; the label is its accessible name. A renderer MUST NOT start playback, loop or play several recordings on its own: a recording plays only when the reader asks. It reads only the attached bytes (§9). In print and on fixed-layout pages laid out for print, a quiet box of the same size names the recording; a fixed-layout EPUB puts the player back in that box, carrying the file inside the book. A link (`[label](media/rain.m4a)`) stays a link to the attachment.
 
 ### 8.2 Pagination and overflow
 

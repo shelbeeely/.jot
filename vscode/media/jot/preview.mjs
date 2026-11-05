@@ -39,6 +39,7 @@ import { styleCSS, isStyle } from './styles.mjs';
 import { includeLines, excerpt, notice, MAX_DEPTH } from './include.mjs';
 import { isPaletteRecord, paletteOf, moodboardOf } from './palette.mjs';
 import { modelOf, isModelType, decodersFor } from './model3d.mjs';
+import { cardOf } from './card.mjs';
 export { CHART_CSS };
 const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
@@ -83,6 +84,9 @@ export function drawChart(section, model) {
 
 const BLANKS = /^(?:(?:\d+\.|[-*+]|\[[ x]\])[ \t]*(?:\r?\n|$))+$/i;
 const RASTER = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif']);
+const AUDIO = new Set(['audio/mpeg', 'audio/mp3', 'audio/mp4', 'audio/aac', 'audio/ogg', 'audio/opus', 'audio/webm', 'audio/wav', 'audio/x-wav', 'audio/flac', 'audio/x-flac']);
+const VIDEO = new Set(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime']);
+const typeOf = (a) => String(a?.mediaType || '').split(';')[0].trim().toLowerCase();
 const TASK = { open: ['☐', 'to do'], completed: ['☑', 'done'], migrated: ['→', 'moved'], scheduled: ['←', 'scheduled'], cancelled: ['✕', 'cancelled'] };
 const SIGN = { event: ['○', 'Event'], question: ['?', 'Question'], idea: ['!', 'Idea'], voice: ['❝', 'Voice'], synopsis: ['≡', 'Summary'] };
 const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -175,16 +179,29 @@ export function renderPreview(ast, target, opts = {}) {
       into.append(n);
     }
   }
+  // An attached recording: the browser's own player, which plays only when the reader asks (no autoplay, no loop). In print and on
+  // fixed-layout pages a quiet box of the same size says what it is.
+  function player(kind, url, label) {
+    const words = `${kind === 'audio' ? 'Sound' : 'Video'}: ${label || 'attached recording'}`;
+    const box = el('span', undefined, `jot-media jot-media-${kind}`), media = el(kind);
+    box.setAttribute('role', 'group'); box.setAttribute('aria-label', words);
+    media.controls = true; media.preload = kind === 'audio' ? 'none' : 'metadata'; media.src = url; media.setAttribute('aria-label', words);
+    if (kind === 'video') media.playsInline = true;
+    const still = el('span', `${kind === 'audio' ? '♪' : '▶'} ${words}`, 'jot-media-still'); still.setAttribute('aria-hidden', 'true');
+    box.append(media, still, el('span', words, 'jot-media-label'));
+    return box;
+  }
   function picture(href, alt, fallback) { // an attached picture, or a note saying what is missing; nothing outside the attachments is fetched
     const a = asset(href);
     if (a && a.url && RASTER.has(a.mediaType)) { const n = el('img'); n.src = a.url; n.alt = alt || fallback; n.loading = 'lazy'; return n; }
+    if (a && a.url && (AUDIO.has(typeOf(a)) || VIDEO.has(typeOf(a)))) return player(AUDIO.has(typeOf(a)) ? 'audio' : 'video', a.url, alt);
     return el('span', `[Image: ${alt || 'attachment'} · ${href}${a ? '' : ' · not attached'}]`, 'jot-missing');
   }
   function modelFigure(n) { // a 3D model: its still (or description), what is missing or kept as written, and Turn in 3D when offered
     const s = modelOf(n), fig = el('figure', undefined, 'jot-record jot-3d'), stage = el('div', undefined, 'jot-3d-stage');
     const alt = s.file?.alt || s.poster?.alt || s.title;
     fig.setAttribute('aria-label', `3D model: ${s.title}`);
-    fig.dataset.jot3d = JSON.stringify({ file: s.file?.path || '', alt, title: s.title, camera: s.camera, target: s.target, lighting: s.lighting, background: s.background, animation: s.animation });
+    fig.dataset.jot3d = JSON.stringify({ file: s.file?.path || '', alt, title: s.title, camera: s.camera, target: s.target, lighting: s.lighting, background: s.background, animation: s.animation, hotspots: s.hotspots });
     const model = s.file ? asset(s.file.path) : null, poster = s.poster ? asset(s.poster.path) : null, notes = [];
     if (poster && poster.url && RASTER.has(poster.mediaType)) { const img = el('img', undefined, 'jot-3d-still'); img.src = poster.url; img.alt = alt; img.loading = 'lazy'; stage.append(img); }
     else { const box = el('div', undefined, 'jot-3d-still jot-3d-placeholder'); box.append(el('strong', '3D model'), el('span', alt)); stage.append(box); if (s.poster) notes.push(`The still picture is not attached: ${s.poster.path}`); }
@@ -209,6 +226,11 @@ export function renderPreview(ast, target, opts = {}) {
       tools.append(turn);
     }
     tools.append(state); fig.append(tools);
+    if (s.hotspots.length) { // the places worth looking at, as words everywhere; turned in 3D, each is also a numbered marker
+      const list = el('ol', undefined, 'jot-3d-spots'); list.setAttribute('aria-label', 'Places on the model');
+      for (const h of s.hotspots) { const li = el('li'); inline(inlineOf(h.label), li); list.append(li); }
+      fig.append(list);
+    }
     for (const t of notes) fig.append(el('p', t, 'jot-3d-note'));
     for (const x of s.invalid) fig.append(el('p', `Kept as written: ${x.name}: ${x.value} (${x.why}).`, 'jot-3d-note'));
     if (s.title || s.caption || s.credit) {
@@ -217,6 +239,18 @@ export function renderPreview(ast, target, opts = {}) {
       if (s.credit) { const c = el('span', undefined, 'jot-mood-credit'); c.append('Credit: '); inline(inlineOf(s.credit), c); cap.append(c); }
       fig.append(cap);
     }
+    return fig;
+  }
+  function cardFigure(n) { // a flip card: the front, and the back behind a tap (native <details>, no script); in print, a fold-over card
+    const c = cardOf(n), fig = el('figure', undefined, 'jot-record jot-card'), flip = el('details', undefined, 'jot-card-flip'), sum = el('summary');
+    fig.setAttribute('aria-label', c.label ? `Flip card: ${c.label}` : 'Flip card');
+    if (c.label) fig.append(el('strong', c.label, 'jot-card-label'));
+    const front = el('span', undefined, 'jot-card-front'); if (c.front) inline(inlineOf(c.front), front); else front.append('A card with no front yet');
+    sum.append(front, el('span', 'Show the answer', 'jot-card-hint')); flip.append(sum);
+    const back = () => { const b = el('div', undefined, 'jot-card-back'); for (const line of (c.back || 'No answer written yet').split(/\n+/)) { const p = el('p'); inline(inlineOf(line), p); b.append(p); } return b; };
+    flip.append(back()); fig.append(flip);
+    const fold = el('div', undefined, 'jot-card-fold'); fold.setAttribute('aria-hidden', 'true'); fold.append(back()); fig.append(fold);
+    for (const x of c.rest) fig.append(el('p', `${x.name}: ${x.value}`, 'jot-card-note'));
     return fig;
   }
   function moodGrid(items) { // [{ path, alt, caption, credit }] as figures in a responsive grid
@@ -436,6 +470,7 @@ export function renderPreview(ast, target, opts = {}) {
         box.append(el('strong', metricLabel(get('metric').replace(/[^a-z0-9]+/gi, '-').toLowerCase()) + ':'), doc.createTextNode(' '));
         box.append(get('value') ? el('span', `${get('value')}${get('unit') ? ' ' + get('unit') : ''}`, 'jot-value') : el('span', '____', 'jot-blank'));
         frag.append(box);
+      } else if (n.type === 'record' && n.recordType === 'card') { frag.append(cardFigure(n));
       } else if (n.type === 'record' && n.recordType === 'model') { frag.append(modelFigure(n));
       } else if (isPaletteRecord(n)) {
         const board = n.recordType !== 'palette', p = board ? moodboardOf(n) : paletteOf(n);
@@ -553,7 +588,16 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-3d-tools button{font:inherit;font-size:.85em;min-height:44px;padding:.3em .9em;border:1px solid color-mix(in srgb,currentColor 40%,transparent);border-radius:999px;background:transparent;color:inherit;cursor:pointer}
 .jot-3d-tools button:disabled{opacity:.6;cursor:progress}.jot-3d-tools button[hidden]{display:none}.jot-3d-state{font-size:.85em;opacity:.8}
 .jot-3d-note{font-size:.88em;font-style:italic;margin:.2em 0;overflow-wrap:anywhere}.jot-3d figcaption{font-size:.9em;margin-top:.2em}.jot-3d figcaption strong{display:block}
-@media print{[data-jot-live],.jot-3d-state{display:none!important}}`;
+.jot-3d-spots{margin:.3em 0;padding-left:1.6em;font-size:.9em}.jot-3d-stage .jot-3d-spot{position:absolute;z-index:1;transform:translate(-50%,-50%);min-width:44px;min-height:44px;padding:0;border:2px solid #fff;border-radius:999px;background:#22314f;color:#fff;font:700 .9em/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 4px rgb(0 0 0/.4)}.jot-3d-stage .jot-3d-spot[hidden]{display:none}.jot-3d-stage .jot-3d-spot:focus-visible{outline:3px solid #f2c94c;outline-offset:2px}
+.jot-media{display:block;margin:.6em 0;break-inside:avoid}.jot-media audio{display:block;width:100%;height:54px}.jot-media video{display:block;width:100%;aspect-ratio:16/9;background:#111;border-radius:6px}
+.jot-media-label{display:block;font-size:.88em;margin-top:.2em}.jot-media-still{display:none}
+.jot-card{margin:.8em 0;break-inside:avoid}.jot-card-flip{border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:10px;padding:.2em .9em}
+.jot-card-flip>:is(summary,.jot-card-summary){display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.3em .8em;min-height:44px;padding:.5em 0;cursor:pointer;list-style:none}.jot-card-flip>summary::-webkit-details-marker{display:none}
+.jot-card-front{font-weight:600}.jot-card-hint{font-size:.82em;opacity:.75;text-decoration:underline dotted}.jot-card-flip[open] .jot-card-hint{display:none}
+.jot-card-back{border-top:1px dashed color-mix(in srgb,currentColor 35%,transparent);padding:.3em 0}.jot-card-back p{margin:.25em 0}.jot-card-fold{display:none}.jot-card-fold .jot-card-back{border-top:0}.jot-card-label{display:block}.jot-card-note{font-size:.88em;font-style:italic;margin:.2em 0}
+@media print{[data-jot-live],.jot-3d-state{display:none!important}.jot-3d-spot{display:none!important}
+.jot-media audio,.jot-media video{display:none!important}.jot-media-still{display:flex;align-items:center;gap:.5em;padding:0 .8em;border:1px solid color-mix(in srgb,currentColor 35%,transparent);border-radius:6px;font-size:.9em}.jot-media-audio .jot-media-still{height:54px}.jot-media-video .jot-media-still{aspect-ratio:16/9;justify-content:center}.jot-media-label{display:none}
+.jot-card-hint,.jot-card-flip>.jot-card-back{display:none}.jot-card-fold{display:block;transform:rotate(180deg);padding:.2em .9em;border-bottom:2px dashed color-mix(in srgb,currentColor 45%,transparent)}}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;
   const s = doc.createElement('style'); s.id = 'jot-chart-css'; s.textContent = PREVIEW_CSS; doc.head.append(s);

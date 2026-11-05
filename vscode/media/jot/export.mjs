@@ -4,7 +4,8 @@
  *
  * The file needs nothing else: the styles that drew the page are copied in, charts become pictures (PNG, with their text summary as
  * the alternative), a 3D model turned in 3D becomes a picture of its view (its still otherwise), attached images and the handwriting
- * fonts are embedded as data: URLs, and nothing in it runs or fetches. Links in
+ * fonts are embedded as data: URLs, and so are attached sound and video recordings (the browser's own players, which play only
+ * when asked), and nothing in it runs or fetches. Links in
  * the writing stay links. Print it from any browser for a PDF.
  */
 const STYLE_IDS = ['jot-chart-css', 'jot-style-css', 'jot-hand-css'];
@@ -36,6 +37,7 @@ export async function exportHTML(page, { title = 'Journal', lang = 'en', pageCss
   for (const d of clone.querySelectorAll('details')) d.open = false;
   // attached images and file links: into the file itself
   for (const img of clone.querySelectorAll('img[src^="blob:"]')) { try { img.src = await dataURL(img.src, fetchImpl); } catch { img.replaceWith(doc.createTextNode(`[Image: ${img.alt}]`)); } }
+  for (const m of clone.querySelectorAll('audio[src^="blob:"], video[src^="blob:"]')) { try { m.src = await dataURL(m.src, fetchImpl); } catch { m.replaceWith(doc.createTextNode(`[${m.getAttribute('aria-label') || 'Recording'}]`)); } } // recordings travel inside too
   for (const a of clone.querySelectorAll('a[href^="blob:"]')) { try { a.href = await dataURL(a.href, fetchImpl); } catch { a.removeAttribute('href'); } }
   // the styles that drew it, the fonts inside them embedded
   const sheets = await Promise.all(STYLE_IDS.map((id) => doc.getElementById(id)).filter(Boolean).map(async (sheet) => {

@@ -66,3 +66,10 @@ test('Draco and Basis need their decoders; meshopt and plain models need none', 
   assert.deepEqual(decodersFor(glb({ asset, extensionsUsed: ['EXT_meshopt_compression', 'KHR_mesh_quantization', 'EXT_texture_webp'] })), []);
   assert.deepEqual(decodersFor(new Uint8Array([0])), []);
 });
+test('hotspots: three numbers, then what is there; at most twenty', () => {
+  const m = modelOf(record(':::record model\nfile: media/x.glb\nhotspot: 0.3, 0.9, 0.2 The first seedling\nhotspot: 1 2 3 Top\nhotspot: 1, 2 nope\nhotspot: 1, 2, 3\n:::\n'));
+  assert.deepEqual(m.hotspots, [{ at: [0.3, 0.9, 0.2], label: 'The first seedling' }, { at: [1, 2, 3], label: 'Top' }]);
+  assert.deepEqual(m.invalid.map((x) => x.value), ['1, 2 nope', '1, 2, 3']);
+  const many = modelOf(record(`:::record model\nfile: media/x.glb\n${Array.from({ length: 21 }, (_, i) => `hotspot: ${i}, 0, 0 Spot ${i}`).join('\n')}\n:::\n`));
+  assert.equal(many.hotspots.length, 20); assert.match(many.invalid[0].why, /at most 20/);
+});

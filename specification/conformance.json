@@ -191,6 +191,31 @@
       "id": "model-record-problems",
       "input": ":::record model\nlabel: Unfinished\ncamera: 1, two, 3\nlighting: neon\n:::\n",
       "expected": "Warnings model-without-file (on the record), invalid-model-field on the camera and lighting lines; all fields kept as written; exact source round-trip."
+    },
+    {
+      "id": "model-hotspots",
+      "input": ":::record model\nfile: media/bed.glb A clay garden bed\nhotspot: 0.3, 0.9, 0.2 The first seedling\nhotspot: 1, 2 missing a number\n:::\n",
+      "expected": "One hotspot at 0.3, 0.9, 0.2 named The first seedling, listed as text; invalid-model-field on the second hotspot line, kept as written; exact source round-trip."
+    },
+    {
+      "id": "card-record",
+      "input": ":::record card #leaf\nfront: What does a leaf make from light, water and air?\nback: |\n  Sugar, and oxygen it lets go.\n:::\n",
+      "expected": "Generic record of type card; no diagnostics; exact source round-trip. The back stays hidden until the reader reveals it; in print it is a fold-over card. Nothing is scored or scheduled."
+    },
+    {
+      "id": "card-record-missing",
+      "input": ":::record card\nlabel: Unfinished\n:::\n",
+      "expected": "Warnings card-without-front and card-without-back on the record line; fields kept as written."
+    },
+    {
+      "id": "recording-reference",
+      "input": "![Rain on the roof](media/rain.m4a)\n",
+      "renderContext": {
+        "assets": {
+          "media/rain.m4a": "audio/mp4"
+        }
+      },
+      "expected": "An attached sound recording drawn as a player labelled Rain on the roof; no autoplay or loop; in print a box naming it; exact source round-trip."
     }
   ],
   "archiveCases": [

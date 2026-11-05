@@ -10,6 +10,7 @@
  *   lighting: soft                          (soft | studio | dim; absent, soft)
  *   background: #f4efe4                     (optional: #RRGGBB or #RGB; absent, the page shows through)
  *   animation: Grow                         (optional: a named animation in the model, played only when the reader asks)
+ *   hotspot: 0.3, 0.9, 0.2 The first seedling   (repeatable, up to 20: a point on the model, then what it is; the reader can go to it)
  *   caption: Built from scraps on Sunday.
  *   credit: Model by me
  *   :::
@@ -19,7 +20,7 @@
  * the parser warns about it (`invalid-model-field`, `model-without-file`).
  *
  *   modelOf(record)        { title, file: { path, alt } | null, poster, camera, target, lighting, background, animation, caption,
- *                            credit, invalid: [{ name, value, why }], rest: [{ name, value }] }
+ *                            credit, hotspots: [{ at: [x, y, z], label }], invalid: [{ name, value, why }], rest: [{ name, value }] }
  *   modelProblems(record)  [{ code, message, field }] for the parser
  *   isModelType(type)      a glTF media type
  *   gltfExtensions(bytes)  { used: [...], required: [...] } from a .glb or .gltf file's own JSON, or null when it is not glTF
@@ -32,7 +33,8 @@ export const LIGHTING = ['soft', 'studio', 'dim'];
 export const MODEL_TYPES = { glb: 'model/gltf-binary', gltf: 'model/gltf+json' };
 export const isModelType = (type) => /^model\/gltf(-binary|\+json)$/i.test(String(type || '').split(';')[0].trim());
 const LIMIT = 1e4; // camera and target coordinates, in model units
-const KNOWN = new Set(['label', 'file', 'poster', 'camera', 'target', 'lighting', 'background', 'animation', 'caption', 'credit']);
+const KNOWN = new Set(['label', 'file', 'poster', 'camera', 'target', 'lighting', 'background', 'animation', 'caption', 'credit', 'hotspot']);
+export const MAX_HOTSPOTS = 20;
 
 /** "2, 1.5, 3" or "2 1.5 3" -> [2, 1.5, 3], or null when it is not three finite numbers within ±10,000. */
 export function vector(value) {
@@ -45,7 +47,7 @@ const split = (value) => { const m = /^(\S+)(?:[ \t]+(.*))?$/s.exec(String(value
 const hex = (raw) => { const m = COLOR.exec(raw); if (!m || m[2]) return null; return '#' + (m[1].length === 3 ? [...m[1]].map((c) => c + c).join('') : m[1]).toLowerCase(); };
 
 export function modelOf(record) {
-  const out = { title: '', file: null, poster: null, camera: null, target: null, lighting: 'soft', background: null, animation: '', caption: '', credit: '', invalid: [], rest: [] };
+  const out = { title: '', file: null, poster: null, camera: null, target: null, lighting: 'soft', background: null, animation: '', caption: '', credit: '', hotspots: [], invalid: [], rest: [] };
   const bad = (name, value, why) => out.invalid.push({ name, value, why });
   for (const { name, value } of record?.fields || []) {
     const v = String(value ?? '').trim();
@@ -61,6 +63,11 @@ export function modelOf(record) {
     } else if (name === 'camera' || name === 'target') {
       const p = vector(v);
       if (!p) bad(name, value, `${name} is three numbers, x, y, z`); else if (!out[name]) out[name] = p;
+    } else if (name === 'hotspot') {
+      const m = /^(\S+?)\s*(?:,\s*|\s+)(\S+?)\s*(?:,\s*|\s+)(\S+?)(?:\s+(.+))?$/s.exec(v), at = m && vector(`${m[1]} ${m[2]} ${m[3]}`);
+      if (!at || !m[4]?.trim()) bad(name, value, 'a hotspot is three numbers, x, y, z, then what is there');
+      else if (out.hotspots.length >= MAX_HOTSPOTS) bad(name, value, `a model has at most ${MAX_HOTSPOTS} hotspots`);
+      else out.hotspots.push({ at, label: m[4].trim() });
     } else if (name === 'lighting') {
       if (LIGHTING.includes(v.toLowerCase())) out.lighting = v.toLowerCase(); else bad(name, value, `lighting is ${LIGHTING.join(', ')}`);
     } else if (name === 'background') {

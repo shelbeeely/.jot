@@ -3,6 +3,7 @@ import { applyTimezones } from './timezone.mjs';
 import { Marked } from './vendor/marked.mjs';
 import { COLOR, isPaletteRecord } from './palette.mjs';
 import { modelProblems } from './model3d.mjs';
+import { cardProblems } from './card.mjs';
 
 // A block extension can only interrupt the paragraph being read, which ends at the next blank line. Searching just
 // that far keeps parsing linear: searching the whole remaining journal for every paragraph made large journals slow.
@@ -205,6 +206,7 @@ export function parse(source,{journal=true,diagramLanguages={}}={}){
    // Palette colors (palette.mjs): #RRGGBB or #RGB, then a name. Kept as written either way; the preview shows a note.
    if(isPaletteRecord({type:'record',recordType:record[1],fields}))for(const [v,f] of colors)if(!COLOR.test(v))diag('invalid-color','Palette colors are written color: #RRGGBB name (or #RGB name).',f);
    // 3D models (model3d.mjs): a file to draw, and fields that fit. Kept as written either way; the preview shows a note.
+   if(record[1]==='card')for(const x of cardProblems({fields}))diag(x.code,x.message,l);
    if(record[1]==='model')for(const x of modelProblems({fields}))diag(x.code,x.message,x.field?at[fields.findIndex((g)=>g.name===x.field.name&&g.value===x.field.value)]||l:l);
    node('record',raw,l.start,{recordType:record[1],...(record[2]?{id:record[2]}:{}),fields,unparsed});if(!closed)diag('unclosed-record','Record consumes through end of file. Add ::: to close it.',l,'error');continue;
   }

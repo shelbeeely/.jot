@@ -10,6 +10,7 @@ import { EPUB_MEDIA_TYPES, EPUB_MODELS_JS, modelScript, decoderScript } from './
 import { decodersFor } from './jot/model3d.mjs';
 
 const EXT = Object.fromEntries(Object.entries(EPUB_MEDIA_TYPES).filter(([e]) => e !== 'jpeg').map(([e, t]) => [t, e]));
+const ALIAS = { 'audio/mp3': 'audio/mpeg', 'audio/x-wav': 'audio/wav', 'audio/x-flac': 'audio/flac', 'image/jpg': 'image/jpeg' }; // older names for the same files
 const unescape = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
 export function base64(bytes) {
@@ -31,8 +32,9 @@ export async function bookParts({ css, pages }, { modelBytes = () => null, three
   const files = [], byURL = new Map(), byHash = new Map();
   async function keep(url) { // a data: URL -> the book's file for it, or null to leave it as written
     if (byURL.has(url)) return byURL.get(url);
-    const d = decodeDataURL(url), ext = d && EXT[d.type]; let path = null;
-    if (ext && ext !== 'js' && ext !== 'css') {
+    const d = decodeDataURL(url); if (d) d.type = ALIAS[d.type] || d.type;
+    const ext = d && EXT[d.type]; let path = null;
+    if (ext && ext !== 'js' && ext !== 'css') { // pictures, fonts and attached recordings
       const hash = await sha(d.bytes);
       path = byHash.get(hash) || `${d.type.startsWith('font/') ? 'fonts' : 'media'}/${hash}.${ext}`;
       if (!byHash.has(hash)) { byHash.set(hash, path); files.push({ path, mediaType: d.type, data: d.bytes }); }
@@ -50,7 +52,8 @@ export async function bookParts({ css, pages }, { modelBytes = () => null, three
     }
     return parts.join('') + text.slice(at);
   }
-  const outCSS = await rewrite(css, CSS_URL, (_, p) => `url("../${p}")`);
+  // Pages were laid out for print, where a recording is a quiet box; in the book the player takes that box's place.
+  const outCSS = await rewrite(css, CSS_URL, (_, p) => `url("../${p}")`) + '\n.pagedjs_pages .jot-media audio,.pagedjs_pages .jot-media video{display:block!important}.pagedjs_pages .jot-media-still{display:none!important}';
   const models = new Map(), needs = new Map(), decoders = new Map(), missing = new Set(), outPages = [];
   for (const page of pages) {
     const body = await rewrite(page.body, BODY_URL, (m, p) => (m.startsWith('src=') ? `src="../${p}"` : `url(&quot;../${p}&quot;)`), unescape);

@@ -100,6 +100,13 @@ alt text, captions and credits), `isPaletteRecord(node)`, and `paletteCSS` / `pa
 `invalid-color` on a palette's unreadable `color:` line; the preview draws swatch chips and a moodboard grid. Tests:
 `node --test palette-test.mjs`.
 
+## Flip cards and recordings
+
+`card.mjs`: `cardOf(record)` reads a `:::record card` (spec 8.1.7: `front`, `back`, optional `label`); the parser warns
+`card-without-front` and `card-without-back`. The preview draws a native `<details>` card, and a fold-over card for print. An
+embedded reference to an attached sound or video file (spec 8.1.8) is drawn as the browser's own player, never autoplaying, with a
+same-sized box for print. Model hotspots are in `model3d.mjs`. Tests: `node --test card-test.mjs model3d-test.mjs`.
+
 ## 3D models
 
 `model3d.mjs`: `modelOf(record)` reads a `:::record model` (spec 8.1.6): the attached glTF `file` and its description, an optional

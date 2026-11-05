@@ -20,7 +20,8 @@ const RESERVED = new Set(['package.opf', 'nav.xhtml', 'styles/pages.css']);
 const pad = (n) => String(n).padStart(3, '0');
 const LANG = /^[a-z]{2,3}(-[a-z0-9]{1,8})*$/i;
 
-export const EPUB_MEDIA_TYPES = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp', svg: 'image/svg+xml', woff2: 'font/woff2', woff: 'font/woff', ttf: 'font/ttf', otf: 'font/otf', js: 'application/javascript', css: 'text/css', mp3: 'audio/mpeg', mp4: 'video/mp4' };
+export const EPUB_MEDIA_TYPES = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp', avif: 'image/avif', svg: 'image/svg+xml', woff2: 'font/woff2', woff: 'font/woff', ttf: 'font/ttf', otf: 'font/otf', js: 'application/javascript', css: 'text/css',
+  mp3: 'audio/mpeg', m4a: 'audio/mp4', aac: 'audio/aac', ogg: 'audio/ogg', opus: 'audio/opus', weba: 'audio/webm', wav: 'audio/wav', flac: 'audio/flac', mp4: 'video/mp4', webm: 'video/webm', ogv: 'video/ogg', mov: 'video/quicktime' };
 
 /** Turns the Jot 3D models on a scripted page in a book: Jot's own code, the same in every book. */
 export const EPUB_MODELS_JS = `/* Jot: wires the 3D models on this page to the bundled viewer (model3d-view.js). Each model's bytes are in js/models/, and the
