@@ -124,8 +124,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 158105,
-      "sha256": "b512d17071f3e79e3e5afe92c995d4f0a7b163b6ab3002fb16e839fb69e21158"
+      "byteLength": 158590,
+      "sha256": "e6ae7f71d30b36b6b6d632a8b2e81326f7a3b41940c60c3b3d613ffea87be9a0"
     },
     {
       "path": "README.md",
@@ -23359,8 +23359,8 @@
     },
     {
       "path": "site/dist/examples/demo.html",
-      "byteLength": 17120,
-      "sha256": "5a28c8ef6d862024e02abfb0e6b627cef24f4d19f1bce1255129b5213d1f9881"
+      "byteLength": 17339,
+      "sha256": "868257f5c6ea653df77985fef6602f40b1adacf537dc196d9e5d9c741bad400f"
     },
     {
       "path": "site/dist/examples/diaries/blunt/blunt-1870.jot",
@@ -23799,8 +23799,8 @@
     },
     {
       "path": "site/dist/index.html",
-      "byteLength": 14730,
-      "sha256": "f9721f9491e3a4c08218cc1d7e8da67a7f2b081cd7536fb4b9f922d63e1f13bd"
+      "byteLength": 14808,
+      "sha256": "0028887cd91e7bf17b2315ec12c1cdfd8e9a97d489d84e4aef1ac271c40a229b"
     },
     {
       "path": "site/dist/ink.mjs",
@@ -24310,7 +24310,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5828,
-      "sha256": "011c5d7677598eba83f5e4024cd96e19d6530dd83aa31f898d957bc3012dcf8d"
+      "sha256": "f9caa1823f469e182d52a7e43650fe9bad10e1410c1212501923573ee0860c91"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -24434,8 +24434,8 @@
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 88256,
-      "sha256": "68ae71eadd048cfb0a30484c1c51f209cce4a23b72ff9bde6dbf9f36a8a2107a"
+      "byteLength": 88565,
+      "sha256": "ea7bb98897e47d15969abcad640d71df172e0092003ce4ab0e3a9fa16bb5fba0"
     },
     {
       "path": "site/dist/sw.mjs",
@@ -24834,8 +24834,8 @@
     },
     {
       "path": "site/test-demo-journal-ui.cjs",
-      "byteLength": 15216,
-      "sha256": "069a8a72ea33cd4b5b4faa1c86d408c75182411e88cc5f55f72cf2b265506a5d"
+      "byteLength": 16434,
+      "sha256": "eb778a2b7ff3601d183ac833056dd7267933c4a00dc44733d512a8dcdb1713ad"
     },
     {
       "path": "site/test-device-files-ui.cjs",
@@ -25279,8 +25279,8 @@
     },
     {
       "path": "tools/build-demo-journal.mjs",
-      "byteLength": 8499,
-      "sha256": "c4e7ff90dbb0160a69dad5e867a08ca6a6042c134ccaa039814264eee5afd934"
+      "byteLength": 8893,
+      "sha256": "ac9dea9a2c3efb9be78c8fbff48371ca3ad61c8f62b77d011219bb377e918973"
     },
     {
       "path": "tools/build-examples.mjs",

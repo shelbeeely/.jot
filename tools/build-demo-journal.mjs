@@ -76,6 +76,8 @@ async function verifyArchive(bytes, input, mixed) {
   }
 }
 
+// On the site, the demo opens straight in Writer (Writer asks before it replaces any writing in this browser).
+const OPEN_LINKS = '<p class="demo-open"><a class="btn primary" href="../write/?open=examples/demo-month.jotz">Open the demo in Writer</a> <a class="btn" href="../write/?open=examples/demo-month-mixed.jotz">Open the protected copy</a></p>';
 function guideHTML(markdown) {
   const marked = new Marked({ gfm: true });
   // Only repository-authored documentation, never journal or model output, enters this page.
@@ -85,7 +87,7 @@ function guideHTML(markdown) {
 <meta name="color-scheme" content="light dark"><title>Explore the demo · Jot</title>${iconLinks('../')}
 <link rel="stylesheet" href="../editor/editor.css"><link rel="stylesheet" href="../guide/guide.css">${navigationStyles('../')}</head>
 <body class="jot-site"><a class="skip" href="#demo">Skip to the demo guide</a><header class="top">${brandLink('../')}${siteNavigation('../', 'tools', false)}</header>
-<main><div class="guide-wrap" id="demo"><article class="guide">${marked.parse(markdown).replace(/<table>/g, '<table tabindex="0">')}</article></div></main></body></html>\n`;
+<main><div class="guide-wrap" id="demo"><article class="guide">${marked.parse(markdown).replace(/<table>/g, '<table tabindex="0">').replace('</h1>', `</h1>\n${OPEN_LINKS}`)}</article></div></main></body></html>\n`;
 }
 
 export async function buildDemo({ check = false } = {}) {

@@ -28,6 +28,11 @@ Verification covers strict source/archive validation, exact moment linkage, atta
 without network access, local playback, editing and mixed protection in Chromium. Native reader/device behavior and
 the effectiveness of any journal method are not established by this fictional fixture.
 
+On the Pages site the demo opens straight in Writer: the home page links to it (**See a sample month**) and the demo page
+opens either copy in Writer. Checking that path found a protection bug: a site link (`?open=examples/…`) to a protected
+example loaded only its public entries as if they were the whole journal, with no unlock prompt. Such links now open a
+protected example exactly as Open does: a way in is asked for, and Cancel leaves the public entries readable but locked.
+
 ## Days as scenes, made by a model, kept as data (5 November 2026)
 
 The owner asked for the journal entries themselves to become interactive three.js scenes: "from the cluttered desk to the rainy bus

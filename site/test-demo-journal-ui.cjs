@@ -188,9 +188,21 @@ const server = http.createServer((request, response) => {
     await page.waitForFunction(() => !document.getElementById('archiveSearch').disabled);
     assert.doesNotMatch(await page.textContent('#archiveResults'), /2026-10-31/);
     await page.click('#archiveClose');
+    // The site's link to the protected copy opens it like Open does: the unlock prompt, never public entries taken for the whole journal.
+    const linked = await browser.newContext({ locale: 'en-GB' }), viaLink = await linked.newPage();
+    viaLink.on('pageerror', error => errors.push('link: ' + error.message)); viaLink.on('dialog', dialog => dialog.accept());
+    await viaLink.goto(origin + '/examples/demo.html'); await viaLink.click('a:has-text("Open the protected copy")');
+    await viaLink.waitForFunction(() => document.getElementById('unlockDialog')?.open);
+    assert.equal(await viaLink.inputValue('#writing'), '', 'nothing shows before a way in');
+    await viaLink.click('#unlockCancel'); await viaLink.waitForSelector('#lockGate:not([hidden])');
+    assert.doesNotMatch(await viaLink.textContent('#archivePublicView'), /### 2026-10-31/);
+    await viaLink.click('#lockGateUnlock'); await viaLink.fill('#unlockPass', 'jot-demo-only'); await viaLink.click('#unlockGo');
+    await viaLink.waitForFunction(() => document.getElementById('writing').value.includes('### 2026-10-31'));
+    assert.equal(await viaLink.inputValue('#writing'), source);
+    await linked.close();
     assert.deepEqual(outside, [], 'reading the complete demo makes no provider request');
     assert.deepEqual(errors, [], 'the real journal opens and renders without page errors');
-    console.log(`PASS: real demo Read, all 31 scenes and exact moments offline, all eight media kinds, bundled recordings/model/card, save/reopen, offline mixed unlock and relock. Screenshots: ${shots}`);
+    console.log(`PASS: real demo Read, all 31 scenes and exact moments offline, all eight media kinds, bundled recordings/model/card, save/reopen, offline mixed unlock and relock, the site's protected-copy link. Screenshots: ${shots}`);
     await context.close();
   } finally { original.index?.close(); await browser.close(); server.close(); }
 })().catch(error => { console.error(error); server.close(); process.exitCode = 1; });
