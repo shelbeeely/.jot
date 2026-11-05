@@ -6,7 +6,22 @@ import { exportHTML } from './jot/export.mjs';
 const FRAME = new URL('write/pages.html', import.meta.url).href;
 const plural = (n) => n === 1 ? '1 page' : `${n} pages`;
 
-/** prepare() brings the preview up to date and returns { paper, title, lang, pageCss }, or null when it cannot. */
+/** Writer's own paper rules (studio.css: type, spacing, task lists, print breaks), so typed sheets match Print / PDF: rules for
+ *  `.paper-preview` outside any media query and inside `@media print`, in order. The page carries the paper's classes too. */
+export function writerPaperCSS(doc = document, selector = '.paper-preview') {
+  const out = [], take = (rule) => { if (rule.selectorText?.includes(selector)) out.push(rule.cssText); };
+  for (const sheet of doc.styleSheets) {
+    let rules; try { rules = sheet.cssRules; } catch { continue; }
+    for (const rule of rules) {
+      if (rule.selectorText) take(rule);
+      else if (rule.media && [...rule.media].every((m) => m.trim() === 'print')) for (const inner of rule.cssRules) take(inner);
+    }
+  }
+  return out.join('\n');
+}
+
+/** prepare() brings the preview up to date and returns { paper, title, lang, pageCss, paperCss? }, or null when it cannot.
+ *  paperCss defaults to writerPaperCSS(). */
 export function setupPageView({ prepare, onStatus = () => {} } = {}) {
   const make = (tag, props = {}, ...children) => { const e = Object.assign(document.createElement(tag), props); e.append(...children); return e; };
   const heading = make('h2', { id: 'pageViewHeading', textContent: 'Page view' });
@@ -38,7 +53,7 @@ export function setupPageView({ prepare, onStatus = () => {} } = {}) {
       const html = await exportHTML(page.paper, { title: page.title, lang: page.lang, pageCss: page.pageCss });
       if (mine !== run) return;
       const win = await loaded(); if (mine !== run) return;
-      const count = await win.jotPaginate({ html, lang: page.lang, title: page.title }); if (mine !== run) return;
+      const count = await win.jotPaginate({ html, paperCss: page.paperCss ?? writerPaperCSS(), paperClasses: [...page.paper.classList], lang: page.lang, title: page.title }); if (mine !== run) return;
       say(`${plural(count)}, as they will print. Print at 100% scale.`); print.disabled = false; onStatus(`Page view: ${plural(count)}.`);
     } catch (e) { if (mine === run) say('Could not lay out the pages: ' + e.message); }
   }
@@ -47,4 +62,4 @@ export function setupPageView({ prepare, onStatus = () => {} } = {}) {
   dialog.addEventListener('close', () => { if (frame.src !== 'about:blank') { run++; frame.src = 'about:blank'; print.disabled = true; say(''); } });
   return { open, reset, dialog };
 }
-export default { setupPageView };
+export default { setupPageView, writerPaperCSS };

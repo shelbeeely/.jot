@@ -11,12 +11,15 @@ const days=Array.from({length:14},(_,i)=>`### 2026-10-${String(i+1).padStart(2,'
    page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith(origin)&&!/^(data|blob|about):/.test(r.url()))outside.push(r.url());});
    await page.goto(origin+'/write/');await page.waitForFunction(()=>document.documentElement.hasAttribute('data-archive-ready'));
    await page.evaluate(text=>{const e=document.getElementById('writing');e.jotSetMode?.('source');e.value=text;e.dispatchEvent(new Event('input',{bubbles:true}));},days);
-   for(const look of ['typed','hand']){
+   for(const look of ['hand','typed']){ // handwritten first: going back to typed must not keep the handwritten page height
     await page.evaluate(look=>{const s=document.getElementById('look');s.value=look;s.dispatchEvent(new Event('change'));const p=document.getElementById('journalPaper');p.value='A5';p.dispatchEvent(new Event('change'));},look);
     await page.evaluate(()=>document.getElementById('pageViewBtn').click());
     await page.waitForFunction(()=>/^\d+ pages?, as they will print/.test(document.getElementById('pageViewStatus').textContent),null,{timeout:60000});
     assert.ok(await page.evaluate(()=>document.getElementById('pageViewDialog').open));
     const frame=page.frameLocator('#pageViewFrame'),count=await frame.locator('.pagedjs_page').count();
+    await page.click('#pageViewClose');const printed=(String(await page.pdf({preferCSSPageSize:true})).match(/\/Type\s*\/Page[^s]/g)||[]).length;
+    assert.equal(printed,count,`${look}: Writer's Print / PDF gives as many pages as Page view shows`);
+    await page.evaluate(()=>document.getElementById('pageViewBtn').click());await page.waitForFunction(()=>/^\d+ pages?, as they will print/.test(document.getElementById('pageViewStatus').textContent),null,{timeout:60000});
     assert.ok(count>1,`${look}: a fortnight of writing fills more than one A5 page (${count})`);
     assert.match(await page.textContent('#pageViewStatus'),new RegExp('^'+count+' pages'));
     const sheet=await frame.locator('.pagedjs_page').first().evaluate(p=>({w:p.offsetWidth,h:p.offsetHeight}));

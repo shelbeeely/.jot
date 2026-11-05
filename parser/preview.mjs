@@ -306,7 +306,7 @@ export function renderPreview(ast, target, opts = {}) {
   for (const c of [...target.classList]) if (c.startsWith('jot-style-')) target.classList.remove(c);
   if (!hand && opts.style && isStyle(opts.style)) { addPageStyles(doc); target.classList.add(`jot-style-${opts.style}`); }
   if (hand) { addHandwritingStyles(doc); target.style.setProperty('--hw-pitch', `${pitchPx(hand.pitchMm)}px`); target.style.setProperty('--hw-family', `'${(HANDS[hand.hand] || HANDS.script07).family}'`); }
-  else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift']) target.style.removeProperty(k);
+  else for (const k of ['--hw-pitch', '--hw-family', '--hw-size', '--hw-ink', '--hw-dots', '--hw-dx', '--hw-dy', '--hw-text-shift', 'min-height', 'box-sizing']) target.style.removeProperty(k); // and the whole-pages height alignToGrid gave a handwritten page, or typed pages print it as blank pages
   const root = doc.createDocumentFragment(), lend = typeof opts.include === 'function' ? opts.include : () => null;
   let includes = 0;
   function include(inc, into, at) { // one `![label](file.jot#id)`: the part it names, framed, or a notice saying why not

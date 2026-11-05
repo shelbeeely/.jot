@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 144554,
-      "sha256": "ed58447ab61ef106d1482d2fe1f3a2f81dca4a81c4cd4dc5765fc6d88372c571"
+      "byteLength": 144941,
+      "sha256": "eaeca32b03a47ac1be4474205134996e725c901f97054a7d270a5f941933d830"
     },
     {
       "path": "README.md",
@@ -22559,8 +22559,8 @@
     },
     {
       "path": "parser/preview.mjs",
-      "byteLength": 42629,
-      "sha256": "070f73dbf8d197960cb4097d4dd25669612764d1da6aa3c35869a4e8985616c4"
+      "byteLength": 42763,
+      "sha256": "ed3c6a6d7ea0f39cb2fc5d7e0ed1bb9c731ad55b84d3e045412e11043a5b78e4"
     },
     {
       "path": "parser/proofread-test.mjs",
@@ -22834,8 +22834,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1964149,
-      "sha256": "3aa0d95c65123162997c7f02563d203e6091de449cb0a6cd2396bffa84fc1418"
+      "byteLength": 1964211,
+      "sha256": "c7af0d59a8113c1d185b96cf6214626a6ecb7aa9ab42a08816a3c4172dd856be"
     },
     {
       "path": "site/dist/docs/security-testing.md",
@@ -23559,8 +23559,8 @@
     },
     {
       "path": "site/dist/jot/preview.mjs",
-      "byteLength": 42629,
-      "sha256": "070f73dbf8d197960cb4097d4dd25669612764d1da6aa3c35869a4e8985616c4"
+      "byteLength": 42763,
+      "sha256": "ed3c6a6d7ea0f39cb2fc5d7e0ed1bb9c731ad55b84d3e045412e11043a5b78e4"
     },
     {
       "path": "site/dist/jot/profiles.json",
@@ -23755,17 +23755,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5308,
-      "sha256": "64efe035a844b17a8bafcf959a66703c506b59c3119ebb8a390972c6ef69c723"
-    },
-    {
-      "path": "site/dist/offline-files.mjs",
-      "byteLength": 5308,
-      "sha256": "64efe035a844b17a8bafcf959a66703c506b59c3119ebb8a390972c6ef69c723"
-    },
-    {
-      "path": "site/dist/offline-files.mjs",
-      "byteLength": 5308,
-      "sha256": "64efe035a844b17a8bafcf959a66703c506b59c3119ebb8a390972c6ef69c723"
+      "sha256": "0b22957b22f7ba60f8f9003916d511d149efe831d6419c371e36963997607843"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -23774,13 +23764,13 @@
     },
     {
       "path": "site/dist/page-view-frame.mjs",
-      "byteLength": 2538,
-      "sha256": "cf6cf4384dc8f92ed4d05ce3b41eef9b664e7c579ff4d1d205695600ff3ad3a8"
+      "byteLength": 2565,
+      "sha256": "dd19e468dc1e6a16fdef84ea560a4bee730320e627f529197caa1f4ab04cb548"
     },
     {
       "path": "site/dist/page-view.mjs",
-      "byteLength": 3642,
-      "sha256": "4041e32d82b4ef3d179417a6a1c80b5a1003152a3cc860068b8b0219e4334f02"
+      "byteLength": 4587,
+      "sha256": "f83ba6efdc0c26802f09927e90a237e12d54264ef21adde5b9e7eaab9b773551"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -24034,8 +24024,8 @@
     },
     {
       "path": "site/dist/write/pages.html",
-      "byteLength": 797,
-      "sha256": "89c42a8def25134342b98dbfaabb6cabf96365c6ccb12a2d14ad6a376c4b1a8d"
+      "byteLength": 794,
+      "sha256": "ca0c9549a35fa8f81a9c68a49828f5ed1dd2db552536217d8aa3c6005b1a2034"
     },
     {
       "path": "site/dist/write/spotify-callback.html",
@@ -24369,8 +24359,8 @@
     },
     {
       "path": "site/test-page-view-ui.cjs",
-      "byteLength": 4671,
-      "sha256": "25eaeda20fee8c8ff07fcb444b037e4833314634d38708c39378d492d4d16a77"
+      "byteLength": 5229,
+      "sha256": "f1060918709b53db70911949a5129e43b204975672204df7bd33e80d11d3e1b7"
     },
     {
       "path": "site/test-page-view.mjs",
@@ -24964,8 +24954,8 @@
     },
     {
       "path": "vscode/media/jot/preview.mjs",
-      "byteLength": 42629,
-      "sha256": "070f73dbf8d197960cb4097d4dd25669612764d1da6aa3c35869a4e8985616c4"
+      "byteLength": 42763,
+      "sha256": "ed3c6a6d7ea0f39cb2fc5d7e0ed1bb9c731ad55b84d3e045412e11043a5b78e4"
     },
     {
       "path": "vscode/media/jot/query.mjs",

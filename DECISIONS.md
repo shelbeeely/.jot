@@ -14,8 +14,11 @@ numbers, then printed from that view. Browsers that do not draw `@page` margin b
   `page-view-css.mjs` rewrites them into equivalent comma-free selectors before Paged.js reads them, rather than patching
   the vendored file. It also drops screen-only rules, so how sheets sit on screen lives in the frame page itself.
 - Download page now keeps ticked task boxes ticked (a property the saved markup dropped); Page view shares that path.
-- Typed pages also use Writer's own task-list layout in Page view, so they match Writer's print. Handwritten pages keep their
-  dot-grid geometry: the sheet's content area is the same whole number of rows as before.
+- Page view carries Writer's own paper rules (`.paper-preview` in `studio.css`, outside media queries and in `@media print`)
+  and the paper's classes, so its sheets match Writer's Print / PDF page for page; the browser suite compares the two
+  counts. Handwritten pages keep their dot-grid geometry: the sheet's content area is the same whole number of rows.
+- Fixed while comparing them: switching a page from Handwritten back to Typed kept the handwritten page's inline height
+  (`parser/preview.mjs` now clears it with the other handwriting properties), so Print / PDF added blank pages at the end.
 
 Research basis: printable pages are expected to print at 100% on paper the writer picks (`docs/methods/paper-and-grids.md,
 line 554`; `docs/methods/mood-tracking-year-in-pixels.md, line 506`), which the view repeats. The guides are silent on
