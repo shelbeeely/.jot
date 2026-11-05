@@ -48,7 +48,8 @@ Once Writer is prepared for offline use, attached files need no provider connect
   entry at the cursor and leaves every other entry as it was. The words, links, code blocks, records and the entry's
   pen and ink stay; Undo brings the formatting back. **Ctrl+Alt+1** to **3** make a heading and **Ctrl+Alt+0** normal
   text (Ctrl+1 to 3 also work where the browser does not keep them for switching tabs). **Ctrl+E** centres a line
-  (`-> text <-`) and **Ctrl+L** removes the centring. **Ctrl+Shift+7**, **8** and **9** make numbered, bulleted and task lines.
+  (`-> text <-`) and **Ctrl+L** removes the centring. **Ctrl+Shift+7**, **8** and **9** make numbered, bulleted and task lines. To tick a task, tap its box in live editing, or press
+  **Ctrl+Enter** (**Format → Tick or untick task**) with the cursor on it; Undo unticks it.
   On a Mac, use Cmd for Ctrl.
 - **Ctrl+/ / Cmd+/** opens **Keyboard shortcuts**, a searchable list of all of them. It also lists word-processor shortcuts
   Jot leaves out, and why: there is no double underline, subscript, right alignment or justification in a plain-text

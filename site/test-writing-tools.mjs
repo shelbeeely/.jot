@@ -183,3 +183,13 @@ test('a margin note goes on its own line after the passage at the cursor; the wo
   assert.equal(run('Hi.', 1, 'odd ]] note\nline'), 'Hi.\n[[odd ] ] note line]]');
   assert.equal(marginNoteEdit('Hi.', 1, '   '), null);
 });
+
+test('tick or untick a task: only task markers on the touched lines change', () => {
+  const run = (source, start, end) => { const r = writingEdit(source, start, end, 'tick'); return r && source.slice(0, r.start) + r.text + source.slice(r.end); };
+  assert.equal(run('[ ] Milk\n[x] Eggs', 1, 1), '[x] Milk\n[x] Eggs');
+  assert.equal(run('[ ] Milk\n[x] Eggs', 10, 10), '[ ] Milk\n[ ] Eggs');
+  assert.equal(run('- [!] Call\n  [ ] sub', 0, 14), '- [x] Call\n  [x] sub', 'urgent and nested tasks are ticked too');
+  assert.equal(run('[x] a\n[x] b', 0, 10), '[ ] a\n[ ] b');
+  assert.equal(run('[>] moved\n[ ] open', 0, 15), '[>] moved\n[x] open', 'moved and cancelled tasks keep their state');
+  assert.equal(writingEdit('plain words', 1, 1, 'tick'), null);
+});

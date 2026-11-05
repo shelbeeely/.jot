@@ -36,13 +36,21 @@ export function readCommand(sentence) {
   if (!said) return null;
   const words = plain(said);
   if (EDITS.has(words)) return { kind: EDITS.get(words) };
-  let m = /^(?:new|add(?: a)?) (task|to-?do|note|heading)\b[\s,:-]*(.*)$/i.exec(said.replace(/^[\s"“]+/, ''));
-  if (m && !tidy(m[2])) return { kind: /^to-?do$/i.test(m[1]) ? 'task' : m[1].toLowerCase(), text: '' };
-  if (m && tidy(m[2])) {
-    const kind = /^to-?do$/i.test(m[1]) ? 'task' : m[1].toLowerCase();
-    const text = capital(tidy(m[2]));
+  // Checklist items, notes and headings, the ways people say them: "new task …", "add a checklist item …", "new to do …",
+  // "to do: …", "checklist item …", "add milk to my checklist". Said on its own ("new checklist item"), the next sentence is it.
+  const TASK = 'task|to[- ]?do|checklist item|checklist|check ?box|list item|item';
+  const kindOf = word => /^(note|heading)$/i.test(word) ? word.toLowerCase() : 'task';
+  const finish = (kind, rest) => {
+    const text = capital(tidy(rest));
     return { kind, text: kind === 'note' ? text : text.replace(/[.]+$/, '') };
-  }
+  };
+  const spoken = said.replace(/^[\s"“]+/, '');
+  let m = new RegExp('^(?:new|add|another)(?: an?| another)? (' + TASK + '|note|heading)\\b[\\s,:-]*(.*)$', 'i').exec(spoken);
+  if (m) return tidy(m[2]) ? finish(kindOf(m[1]), m[2]) : { kind: kindOf(m[1]), text: '' };
+  m = /^(?:(?:task|to[- ]?do|checklist(?: item)?)\s*[,:]|checklist item\b)\s*(.+)$/i.exec(spoken);
+  if (m && tidy(m[1])) return finish('task', m[1]);
+  m = /^add (.+?) to (?:my |the )?(?:checklist|to[- ]?do list|task list|tasks|list)[.!]?$/i.exec(spoken);
+  if (m && tidy(m[1])) return finish('task', m[1]);
   m = /^(?:add )?(?:tag|hashtag)\s+(.+)$/i.exec(plain(said));
   if (m && m[1].split(' ').length <= 3) {
     const tags = m[1].split(/\s+and\s+|\s*,\s*/).map(t => t.replace(/[^\p{L}\p{N}_ -]+/gu, '').trim().replace(/\s+/g, '-')).filter(Boolean);
@@ -53,12 +61,13 @@ export function readCommand(sentence) {
 
 // "Find film Dune", "look up the book The Hobbit": a media search the scribe shows for the writer to choose from.
 const FIND_KINDS = { film: 'film', movie: 'film', show: 'tv', series: 'tv', 'tv show': 'tv', 'tv series': 'tv', book: 'book', novel: 'book', anime: 'anime', manga: 'manga', podcast: 'podcast', game: 'game', 'video game': 'game', song: 'music', album: 'music', music: 'music' };
-const FIND = new RegExp('^(?:find|look up|search for)(?: the| a| an)? (' + Object.keys(FIND_KINDS).sort((a, b) => b.length - a.length).join('|') + ')[\\s,:-]+(.+)$', 'i');
+const FIND = new RegExp('^(?:find|look up|search for|add|link|insert)(?: the| a| an| that)? (' + Object.keys(FIND_KINDS).sort((a, b) => b.length - a.length).join('|') + ')[\\s,:-]+(.+)$', 'i');
 const PICK = new Map([['link it', 0], ['link that', 0], ['use that', 0], ['first one', 0], ['the first one', 0], ['use the first one', 0], ['second one', 1], ['the second one', 1], ['use the second one', 1], ['third one', 2], ['the third one', 2], ['use the third one', 2]]);
 export function readFind(sentence) {
   const said = String(sentence ?? '').trim().replace(/[.!?]+$/, '');
   const m = FIND.exec(said);
-  if (m && m[2].trim().length >= 2) return { kind: 'find', mediaKind: FIND_KINDS[m[1].toLowerCase()], query: m[2].trim() };
+  const query = m ? m[2].trim().replace(/^(?:called|named|titled)\s+/i, '').replace(/^["“]|["”]$/g, '').trim() : '';
+  if (m && query.length >= 2) return { kind: 'find', mediaKind: FIND_KINDS[m[1].toLowerCase()], query };
   const words = said.toLowerCase().replace(/[.,!?]+/g, '').trim();
   return PICK.has(words) ? { kind: 'pick', index: PICK.get(words) } : null;
 }

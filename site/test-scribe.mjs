@@ -77,3 +77,14 @@ test('media by voice: find commands, picks, and known titles linked around the e
   assert.equal(linkKnownTitles('thematrix and the matrixes', titles), 'thematrix and the matrixes', 'whole words only');
   assert.equal(linkKnownTitles('[The Matrix (1999)](imdb:tt0133093)', titles), '[The Matrix (1999)](imdb:tt0133093)', 'never inside an existing link');
 });
+
+test('checklist items and media requests, said the ways people say them', async () => {
+  const { readCommand, readFind } = await import('./dist/scribe-core.mjs');
+  for (const [said, text] of [['Add checklist item milk.', 'Milk'], ['Checklist item milk.', 'Milk'], ['New checklist item: eggs.', 'Eggs'], ['Add milk to my checklist.', 'Milk'], ['To do, call Sam.', 'Call Sam'], ['New to do buy milk.', 'Buy milk'], ['Checklist, eggs.', 'Eggs'], ['Add an item, bread.', 'Bread']]) assert.deepEqual(readCommand(said), { kind: 'task', text }, said);
+  assert.deepEqual(readCommand('New checklist item.'), { kind: 'task', text: '' });
+  for (const said of ['To do this properly I need time.', 'I need a new item for the house.', 'The task was hard.', 'My checklist is long.', 'Checklist is long.']) assert.equal(readCommand(said).kind, 'text', said);
+  assert.deepEqual(readFind('Add the movie Dune.'), { kind: 'find', mediaKind: 'film', query: 'Dune' });
+  assert.deepEqual(readFind('Link the film Dune.'), { kind: 'find', mediaKind: 'film', query: 'Dune' });
+  assert.deepEqual(readFind('Find a book called Dune.'), { kind: 'find', mediaKind: 'book', query: 'Dune' });
+  assert.deepEqual(readFind('Find the book “Dune”.'), { kind: 'find', mediaKind: 'book', query: 'Dune' });
+});

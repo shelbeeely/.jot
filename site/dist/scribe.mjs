@@ -164,13 +164,21 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     });
     $('scribeFound').hidden = !found.length;
   }
-  async function findMedia({ mediaKind, query }) {
+  async function findMedia({ mediaKind, query, allowOnline = false }) {
     clearFound();
-    let online = false; try { online = win.localStorage.getItem('jot-media-online-v1') === 'on'; } catch { /* off */ }
+    let online = allowOnline; try { online ||= win.localStorage.getItem('jot-media-online-v1') === 'on'; } catch { /* off */ }
     const local = journalMatches(editor.value, query, 3);
     if (!online) {
       showFound(local, local.length ? 'In this journal: “' + query + '”' : '');
-      say(local.length ? 'Found it in this journal. Say “link it”, or tap one.' : 'Not in this journal yet. To look it up, turn on online search in Add media; your words are not sent.');
+      if (!local.length) {
+        // One tap turns on the same online search Add media uses (remembered), then looks this title up.
+        const ask = doc.createElement('button');
+        ask.type = 'button'; ask.textContent = 'Look up “' + query + '” online';
+        ask.onclick = () => { try { win.localStorage.setItem('jot-media-online-v1', 'on'); } catch { /* this time only */ } findMedia({ mediaKind, query, allowOnline: true }); };
+        const li = doc.createElement('li'); li.append(ask); $('scribeFoundList').append(li);
+        $('scribeFoundTitle').textContent = 'Not in this journal yet.'; $('scribeFound').hidden = false;
+      }
+      say(local.length ? 'Found it in this journal. Say “link it”, or tap one.' : 'Not in this journal yet. Tap “Look up online” to search the catalog; only the title is sent.');
       return;
     }
     say('Looking up “' + query + '”…');

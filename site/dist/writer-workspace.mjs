@@ -50,6 +50,7 @@ export const SHORTCUTS = [
   { group: 'Lines and paragraphs', keys: ['Ctrl+Shift+7'], label: 'Numbered list', action: 'number', scope: 'edit' },
   { group: 'Lines and paragraphs', keys: ['Ctrl+Shift+8'], label: 'Bulleted list', action: 'bullet', scope: 'edit' },
   { group: 'Lines and paragraphs', keys: ['Ctrl+Shift+9'], label: 'Task', action: 'task', scope: 'edit' },
+  { group: 'Lines and paragraphs', keys: ['Ctrl+Enter'], label: 'Tick or untick a task', action: 'tick', scope: 'edit' },
   { group: 'Lines and paragraphs', keys: ['Ctrl+Shift+.'], label: 'Quote', action: 'quote', scope: 'edit' },
   { group: 'Lines and paragraphs', keys: ['Ctrl+]'], label: 'Indent', action: 'indent', scope: 'edit' },
   { group: 'Lines and paragraphs', keys: ['Ctrl+['], label: 'Outdent', action: 'outdent', scope: 'edit' },
@@ -251,7 +252,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     };
     const format = action => () => { showWriting(); tools.run(action); };
     const hint = action => { const shortcut = SHORTCUTS.find(entry => entry.action === action); return shortcut ? keyLabel(shortcut.keys[0]) : ''; };
-    for (const [label, action] of [['Bold', 'bold'], ['Italic', 'italic'], ['Underline', 'underline'], ['Highlight', 'highlight'], ['Strikethrough', 'strike'], ['Superscript', 'superscript'], ['Heading 1', 'heading1'], ['Heading 2', 'heading2'], ['Heading 3', 'heading3'], ['Normal text', 'paragraph'], ['Center the line', 'center'], ['Task', 'task'], ['Bulleted list', 'bullet'], ['Numbered list', 'number'], ['Quote', 'quote'], ['Link', 'link'], ['Code', 'code'], ['Indent', 'indent'], ['Outdent', 'outdent'], ['Clear formatting', 'clear'], ['Clear formatting in this entry', 'clearEntry']]) item(label, hint(action), format(action));
+    for (const [label, action] of [['Bold', 'bold'], ['Italic', 'italic'], ['Underline', 'underline'], ['Highlight', 'highlight'], ['Strikethrough', 'strike'], ['Superscript', 'superscript'], ['Heading 1', 'heading1'], ['Heading 2', 'heading2'], ['Heading 3', 'heading3'], ['Normal text', 'paragraph'], ['Center the line', 'center'], ['Task', 'task'], ['Tick or untick task', 'tick'], ['Bulleted list', 'bullet'], ['Numbered list', 'number'], ['Quote', 'quote'], ['Link', 'link'], ['Code', 'code'], ['Indent', 'indent'], ['Outdent', 'outdent'], ['Clear formatting', 'clear'], ['Clear formatting in this entry', 'clearEntry']]) item(label, hint(action), format(action));
     item('Pen and ink for this entry…', '', () => { showWriting(); $('entryPenBtn').click(); });
     item('Margin note…', '', () => { showWriting(); $('marginNoteBtn').click(); });
     item('Draw on a page…', '', () => { showWriting(); $('writerAnnotateBtn').click(); });
@@ -367,7 +368,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   const formatting = [
     ['Bold', 'bold', 'Control+B · Command+B'], ['Italic', 'italic', 'Control+I · Command+I'], ['Inline code', 'code'],
     ['Link', 'link'], ['Heading', 'heading'], ['Bullet list', 'bullet'], ['Numbered list', 'number'],
-    ['Jot task', 'task'], ['Quote', 'quote'], ['Indent', 'indent'], ['Outdent', 'outdent'],
+    ['Jot task', 'task'], ['Tick or untick a task', 'tick'], ['Quote', 'quote'], ['Indent', 'indent'], ['Outdent', 'outdent'],
     ['Underline', 'underline'], ['Highlight', 'highlight'], ['Strikethrough', 'strike'], ['Superscript', 'superscript'], ['Clear formatting', 'clear'], ['Clear formatting in this entry', 'clearEntry'],
     ['Heading 1', 'heading1'], ['Heading 2', 'heading2'], ['Heading 3', 'heading3'], ['Normal text', 'paragraph'], ['Center the line', 'center'],
   ].map(([label, action]) => ({ label, detail: 'Format writing', run: () => { showWriting(); tools.run(action); } }));

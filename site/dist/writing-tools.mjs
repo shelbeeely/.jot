@@ -197,6 +197,15 @@ export function writingEdit(source, start, end, action) {
   }
   if (action === 'clear') return clearEdit(source, start, end);
   if (action === 'clearEntry') return clearEntryEdit(source, start);
+  if (action === 'tick') {
+    // Tick or untick the task lines touched by the selection: [ ] and [!] become [x]; [x] becomes [ ]. Other lines stay.
+    const from = lineStart(source, start), to = lineEnd(source, Math.max(start, end));
+    const lines = source.slice(from, to), any = /^([ \t]*(?:(?:[-+*]|\d+[.)])[ \t]+)?)\[([ xX!])\]/m.test(lines);
+    if (!any) return null;
+    const done = /^[ \t]*(?:(?:[-+*]|\d+[.)])[ \t]+)?\[[ !]\]/m.test(lines);
+    const text = lines.replace(/^([ \t]*(?:(?:[-+*]|\d+[.)])[ \t]+)?)\[([ xX!])\]/gm, (m, lead, state) => lead + (done ? (state === ' ' || state === '!' ? '[x]' : m.slice(lead.length)) : '[ ]'));
+    return text === lines ? null : edit(from, to, text, start, end);
+  }
   if (action === 'link') {
     const selected = source.slice(start, end);
     if (/[\r\n]/.test(selected)) return null;
@@ -294,6 +303,7 @@ export function setupWritingTools({ editor, status = () => {} }) {
     const replacement = writingEdit(editor.value, editor.selectionStart, editor.selectionEnd, action);
     if (!replacement) {
       if (action === 'superscript') status('Select one word, with no spaces, to make it superscript.');
+      else if (action === 'tick') status('Put the cursor on a task line ([ ] …) to tick it.');
       else if (action === 'clear') status('Select formatted words to clear their formatting, or use Clear formatting in this entry.');
       else if (action === 'clearEntry') status(entryAtCaret(parse(editor.value), editor.selectionStart) ? 'This entry has no bold, italics or other formatting to clear.' : 'Put the cursor in a dated entry to clear its formatting.');
       return false;

@@ -97,11 +97,11 @@ navigation bar, and above the on-screen keyboard when it is open.
 | --- | --- |
 | "New paragraph", "new line" | The next words start a new paragraph or line |
 | "Scratch that", "undo" | Removes the last thing it wrote (the **Scratch that** button does the same) |
-| "New task call Sam" | `[ ] Call Sam` |
+| "New task call Sam", "add checklist item milk", "new to do …", "to do, …", "add milk to my checklist" | `[ ] Call Sam`, `[ ] Milk` … (said alone, "new checklist item" makes the next sentence the item) |
 | "New note the bus was late" | `- The bus was late.` |
 | "New heading Evening" | `#### Evening` |
 | "Tag work", "tag work and family" | `#work`, `#work #family` |
-| "Find film Dune", "find book …" (also series, anime, manga, podcast, game, song, album) | Shows up to three matches; then say "link it", "second one" or "third one", or tap one |
+| "Find film Dune", "add the movie Dune", "find a book called …" (also series, anime, manga, podcast, game, song, album) | Shows up to three matches; then say "link it", "second one" or "third one", or tap one |
 | "Skip", "another question" | Skips or changes the question |
 | "Stop listening" | Turns the microphone off |
 
@@ -116,8 +116,9 @@ end of today's entry if you don't want your words and the scribe's to interleave
 example), the scribe links your exact words to it: "I watched the matrix again" is written as
 `I watched [the matrix](imdb:tt0133093) again`. This needs no connection. Single short words are never linked, so "Up" or "It"
 stay ordinary words; turn it off with **Link titles already in my journal** in the scribe's settings. For something new,
-say "find film …" or "find book …": the scribe looks in your journal and, if online search is on in **Add media**, in the
-catalog for that kind, sending only the title you said. Nothing from a catalog is linked until you say "link it" (or
+say "find film …", "add the movie …" or "find book …": the scribe looks in your journal and, if online search is on in
+**Add media**, in the catalog for that kind, sending only the title you said. If online search is off and it isn't in your
+journal, the scribe shows **Look up “…” online**: one tap turns online search on and looks it up. Nothing from a catalog is linked until you say "link it" (or
 another pick) or tap a match; "skip" leaves it. The scribe does not guess titles out of ordinary speech.
 
 To talk a rough draft first and write the entry afterwards, choose **Write into: Today's scratchpad** under **What you can say,
