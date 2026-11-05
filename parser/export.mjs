@@ -28,6 +28,9 @@ export async function exportHTML(page, { title = 'Journal', lang = 'en', pageCss
     img.style.cssText = `width:100%;height:${c.getBoundingClientRect().height || 140}px;object-fit:contain;display:block`;
     copies[i].replaceWith(img);
   });
+  // a ticked task box is a property, which the saved markup would drop
+  const boxes = [...clone.querySelectorAll('input')];
+  [...page.querySelectorAll('input')].forEach((input, i) => { if (input.checked) boxes[i]?.setAttribute('checked', ''); });
   for (const e of clone.querySelectorAll('.hw-page-edge, script, style')) e.remove();
   for (const d of clone.querySelectorAll('details')) d.open = false;
   // attached images and file links: into the file itself

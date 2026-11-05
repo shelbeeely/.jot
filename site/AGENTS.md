@@ -34,6 +34,7 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - Health import changes (`health-import.mjs`, `jot/health.mjs`): `node site/test-health-ui.cjs`.
 - Styling changes: the relevant paper, color, highlight-blend and layout suites. Check mobile light/dark mode and accessibility.
 - Palettes, moodboards and the palette tools: `node site/test-palette-ui.cjs`.
+- Page view (`page-view*.mjs`, `write/pages.html`, vendored Paged.js in `vendor/pagedjs/`): `node --test site/test-page-view.mjs` and `node site/test-page-view-ui.cjs`. It shows only what Download page would save, in a frame that makes no requests, and empties on close and lock. Keep the vendored file unmodified; work around Paged.js limits in `page-view-css.mjs`.
 
 ## Conventions
 

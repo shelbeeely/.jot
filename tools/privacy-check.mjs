@@ -25,8 +25,8 @@ const RULES = [
   [/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/, 'an email address'],
 ];
 const EMAIL_OK = new Set([]);
-// Preserve the public copyright contact in this exact, pinned upstream license only.
-const LICENSE_EMAILS = { 'vendor/browser/dijkstrajs-LICENSE.md.txt': { sha256: 'c46324e45a005413535a6fb7a97e9eacd3cc6bf30335b7d5c10b8ee3af9e60c2', emails: ['self@wyattbaldwin.com'] } };
+// Preserve public upstream author contacts only in these exact, pinned vendored files (a licence; Paged.js's bundled css-tree package metadata).
+const LICENSE_EMAILS = { 'vendor/browser/dijkstrajs-LICENSE.md.txt': { sha256: 'c46324e45a005413535a6fb7a97e9eacd3cc6bf30335b7d5c10b8ee3af9e60c2', emails: ['self@wyattbaldwin.com'] }, 'vendor/pagedjs/paged.mjs': { sha256: '6d7ae76b6f3ae8ccd06cdb2f8ca65acb6be25702e57bf65af89ef5067ad5e9e3', emails: ['rdvornov@gmail.com'] } };
 const PAGES_FILE = 100 * 1024 * 1024, PAGES_SITE = 1024 * 1024 * 1024; // GitHub Pages limits
 
 function findings(text, where, allowedEmails = EMAIL_OK) {

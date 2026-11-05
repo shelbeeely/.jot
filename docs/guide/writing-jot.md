@@ -489,6 +489,9 @@ To keep or share the pages:
 
 - **Print / PDF** prints them on the **Paper** you choose (A5, A4, Letter, pocket or your own), with book margins and page numbers
   (Journal and Notes). Choose "Save as PDF" in the print dialog for a PDF.
+- **Page view** shows the pages one sheet at a time before you print, with margins and page numbers, as Paged.js lays them out.
+  **Print these pages** prints exactly those sheets, in browsers that do not draw page numbers themselves too. Print at 100% scale.
+  Nothing is fetched or kept: closing Page view, or locking the journal, empties it.
 - **Download page ↓** saves one `.html` file with the formatted pages inside it, charts as pictures and attached pictures included.
   It opens in any browser, on any device, without the internet, and prints as nicely as the workspace does. Send it to someone, or
   keep it beside the `.jot`.

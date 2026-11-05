@@ -375,3 +375,8 @@ html[data-pref-contrast] .writer-map{--map-muted:var(--map-ink);--map-edge:var(-
 @media screen and (max-width:850px){.writer-map-body{grid-template-columns:1fr}.writer-map-stage{height:56vh;height:56dvh}.writer-map-side{max-height:none;overflow:visible}}
 @media screen and (max-width:700px){.jot-site.jot-writer .writer-file-actions #writerMapToggle{display:none}}
 @media print{.writer-map{display:none!important}}
+/* Page view (page-view.mjs): the printed sheets in a frame, laid out by Paged.js. */
+dialog.page-view{width:min(1100px,calc(100vw - 16px));height:calc(100dvh - 16px);max-height:none;display:flex;flex-direction:column;gap:10px;padding:14px;overflow:hidden}dialog.page-view:not([open]){display:none}
+.page-view .dialog-header{margin:0}.page-view-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.page-view-status{flex:1 1 220px;margin:0;font-size:16px;color:var(--jot-muted)}
+.page-view-actions .button{min-height:44px}#pageViewFrame{flex:1;width:100%;min-height:0;border:1px solid var(--jot-edge);border-radius:8px;background:#e6e3dc}
+@media print{#pageViewDialog{display:none!important}}

@@ -99,8 +99,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 4530,
-      "sha256": "4bb69d54c372e4f2ce3f51cecd6258a788aaa7b4596c29921c59fd671b47cc0f"
+      "byteLength": 4554,
+      "sha256": "09631d3c778ad2204348f62357c6c7554e1cbc5ddc434c143c38a2d12d2fc897"
     },
     {
       "path": ".gitignore",
@@ -109,8 +109,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 11703,
-      "sha256": "afb06b90ba97510c27684d9616d8317b99f938247cb60987c20d06c5352db663"
+      "byteLength": 11727,
+      "sha256": "b866762bb3d658bee9ae41e54d1562465226ea4b5736b0b6ae4670febff17716"
     },
     {
       "path": "CLAUDE.md",
@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 141443,
-      "sha256": "686199c189c47aad5490ba6ab5f95fd55b4ecbfa5272a353ea3f23c99aadcce1"
+      "byteLength": 143434,
+      "sha256": "d71ab3e124d3f86eaaf3e0a44d74c40ef1a1635bb98f9acf9fc512ab940e9f87"
     },
     {
       "path": "README.md",
@@ -129,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 72942,
-      "sha256": "aab4f04d9c2789af589504258a9b3991efed06ad6017de1cb22aec08d0bd65f2"
+      "byteLength": 73128,
+      "sha256": "30f5fc15e8ea5bb6c470d68ef35be8c93d9dd8812ae5ea0a6957ed690f8a3e40"
     },
     {
       "path": "cli/README.md",
@@ -689,8 +689,8 @@
     },
     {
       "path": "desktop/src-tauri/tauri.conf.json",
-      "byteLength": 3177,
-      "sha256": "17164d9bbe5d81123e07f1993031c3ebdf84ecfe2077f1119ff7f85fb1bbac84"
+      "byteLength": 3184,
+      "sha256": "7a6b4d2a58f0e2d7528265f7eedd3ca17bd0ae0c4f0212e6547ff77b9616f24e"
     },
     {
       "path": "desktop/test-desktop.cjs",
@@ -894,8 +894,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 59439,
-      "sha256": "8b7f1674c3bacb7348fe4578783e80466afe8f4183c7d0eab8c58918abba86c2"
+      "byteLength": 59784,
+      "sha256": "98f69dbe60e9e04a042fc5ed9e38464fccf0765fbc331745b7f6b49928cb1d8e"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -22349,8 +22349,8 @@
     },
     {
       "path": "parser/export.mjs",
-      "byteLength": 5326,
-      "sha256": "8d84747acf829f99ffb6ede831b2fe93bc07228fceea652c4b2cc9eaf6e83c4c"
+      "byteLength": 5576,
+      "sha256": "85dd567080cdaa7180398ef77feb5730aaa478b4edf9f97fb63001c87d92a239"
     },
     {
       "path": "parser/fonts/caveat-OFL.txt",
@@ -22689,8 +22689,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 19000,
-      "sha256": "b3f710a337c57c531b3ff1e970eb8ccaafb1e25975a1dd6fb272ab00c23a21ce"
+      "byteLength": 19367,
+      "sha256": "5461667caa8dc1011c19f7d7314caae5733bbbc0acb78b1beb19941b22f98f2e"
     },
     {
       "path": "site/CLAUDE.md",
@@ -22714,8 +22714,8 @@
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 72968,
-      "sha256": "6e46055acbd5b9136aea94120bc969b650e593b73336c4a345f624615ed8f1f3"
+      "byteLength": 73154,
+      "sha256": "0d2c05f49fd4b9cc9c65477deb266f9311695a66ddf6dd01142e3987503daa1d"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -22834,8 +22834,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 1964059,
-      "sha256": "74c7b2eb047ea353d89458b994386615c25661e00df464870de8f45ea25a7c09"
+      "byteLength": 1964149,
+      "sha256": "3aa0d95c65123162997c7f02563d203e6091de449cb0a6cd2396bffa84fc1418"
     },
     {
       "path": "site/dist/docs/security-testing.md",
@@ -23249,8 +23249,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 77663,
-      "sha256": "240a2ebf5a0305fa34715aae20c06be18a363241c310d411f7cfbc4dac38de29"
+      "byteLength": 78037,
+      "sha256": "2383600beac416d612fd2cfc83764136a70662a0e46608ee2f2195bc27ad297e"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -23369,8 +23369,8 @@
     },
     {
       "path": "site/dist/jot/export.mjs",
-      "byteLength": 5326,
-      "sha256": "8d84747acf829f99ffb6ede831b2fe93bc07228fceea652c4b2cc9eaf6e83c4c"
+      "byteLength": 5576,
+      "sha256": "85dd567080cdaa7180398ef77feb5730aaa478b4edf9f97fb63001c87d92a239"
     },
     {
       "path": "site/dist/jot/fonts/caveat-OFL.txt",
@@ -23754,8 +23754,23 @@
     },
     {
       "path": "site/dist/offline-files.mjs",
-      "byteLength": 5128,
-      "sha256": "1e15a18c757d2eea2445a012bc8fb4de9bd8793597253503f34b788a70f95e77"
+      "byteLength": 5308,
+      "sha256": "82905552d75d29286573240f8c5285218a740597385916586bf741f944183341"
+    },
+    {
+      "path": "site/dist/page-view-css.mjs",
+      "byteLength": 3706,
+      "sha256": "457ad52c015cc779f1e28889881794ce92481436ec43c01c5a1a94efcf7b412a"
+    },
+    {
+      "path": "site/dist/page-view-frame.mjs",
+      "byteLength": 2538,
+      "sha256": "cf6cf4384dc8f92ed4d05ce3b41eef9b664e7c579ff4d1d205695600ff3ad3a8"
+    },
+    {
+      "path": "site/dist/page-view.mjs",
+      "byteLength": 3642,
+      "sha256": "4041e32d82b4ef3d179417a6a1c80b5a1003152a3cc860068b8b0219e4334f02"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23854,13 +23869,13 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 63528,
-      "sha256": "beadf2fae3bb9fd3b8acb80234c10acec5d4de89e4a02e0dfe5ec68627a586ec"
+      "byteLength": 64232,
+      "sha256": "f95f086ef94a2f0ab4a70537e7b01be16fc949234cb82320e5d34125f1dea08e"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 84778,
-      "sha256": "884df3ff0c42499c93fbeab4a9376c130904c52778e9f5dc6e29f0f1054fdf97"
+      "byteLength": 85318,
+      "sha256": "eff382dac6d887dd2226cb818193de9a59459bd7103ccd7b06c586a5f768d96b"
     },
     {
       "path": "site/dist/sw.mjs",
@@ -23928,6 +23943,21 @@
       "sha256": "7b73d09c17923bf81d6bdb82e19b3c343b8994f83d512ddec52eec9f6b029802"
     },
     {
+      "path": "site/dist/vendor/pagedjs/LICENSE.md",
+      "byteLength": 1076,
+      "sha256": "f49bdde202ca66880e2d7cb7fd8103f43a917a60b61681484a66cf370e7647e0"
+    },
+    {
+      "path": "site/dist/vendor/pagedjs/README.md",
+      "byteLength": 757,
+      "sha256": "9b36b865962c5459da2c98f7aa4eb683cf5e62dea645a7d46c080e266b4565c4"
+    },
+    {
+      "path": "site/dist/vendor/pagedjs/paged.mjs",
+      "byteLength": 891372,
+      "sha256": "6d7ae76b6f3ae8ccd06cdb2f8ca65acb6be25702e57bf65af89ef5067ad5e9e3"
+    },
+    {
       "path": "site/dist/vendor/wllama/LICENSE-llama.txt",
       "byteLength": 1078,
       "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
@@ -23989,8 +24019,13 @@
     },
     {
       "path": "site/dist/write/index.html",
-      "byteLength": 52389,
-      "sha256": "a2441a2344eaf3e64373576a102fd3cbb353d3f2adb22c9096b17b1db56e3766"
+      "byteLength": 52547,
+      "sha256": "f207c6be4f11297870959901bfe0d70e26342534f1d80b711e44fd89265e8c6e"
+    },
+    {
+      "path": "site/dist/write/pages.html",
+      "byteLength": 797,
+      "sha256": "89c42a8def25134342b98dbfaabb6cabf96365c6ccb12a2d14ad6a376c4b1a8d"
     },
     {
       "path": "site/dist/write/spotify-callback.html",
@@ -24044,8 +24079,8 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 48047,
-      "sha256": "04329dbc35e6c3def1d68db1591229d4419096b9bf5313b7c76a4ce8ca58fdf7"
+      "byteLength": 48118,
+      "sha256": "34628f22ed227b313d414b8ad5dbad54303efc6b044239b354172136cea5fd7a"
     },
     {
       "path": "site/dist/writing-tools.mjs",
@@ -24323,6 +24358,16 @@
       "sha256": "946c72d9714bf64b9033433d48a9a85a20dbe8f3e2ad4d5e06f31da8c88ca93d"
     },
     {
+      "path": "site/test-page-view-ui.cjs",
+      "byteLength": 4671,
+      "sha256": "25eaeda20fee8c8ff07fcb444b037e4833314634d38708c39378d492d4d16a77"
+    },
+    {
+      "path": "site/test-page-view.mjs",
+      "byteLength": 1699,
+      "sha256": "1fee8499bf275bfad7283a4a5b813132dd898523beb763122b35133cae3d4779"
+    },
+    {
       "path": "site/test-palette-ui.cjs",
       "byteLength": 9991,
       "sha256": "0b973aaa2ec4326a16aa4cf4276efc99392fb79db6455fcf6e9aaae91a90428d"
@@ -24584,8 +24629,8 @@
     },
     {
       "path": "tools/build-offline.mjs",
-      "byteLength": 2792,
-      "sha256": "f8b521f7ec80339255071f2cc6e1ca9eebc715f5475613214f0bf2d9b2befde0"
+      "byteLength": 2866,
+      "sha256": "803fe962f581226cc435b1cdf348aae6d0f42ea08a7b39e81fdec6921362c072"
     },
     {
       "path": "tools/build-parser-zip.py",
@@ -24634,8 +24679,8 @@
     },
     {
       "path": "tools/privacy-check.mjs",
-      "byteLength": 6386,
-      "sha256": "634166ed4618e2dfcec378f95ae49f08050439aebcad0393f9dba2bc870aaf51"
+      "byteLength": 6586,
+      "sha256": "24d438d69afb400dca0fefd72047254324cb30c9a86516020b319bbd87890aec"
     },
     {
       "path": "tools/sync-archive-specs.mjs",
@@ -24749,8 +24794,8 @@
     },
     {
       "path": "vscode/media/jot/export.mjs",
-      "byteLength": 5326,
-      "sha256": "8d84747acf829f99ffb6ede831b2fe93bc07228fceea652c4b2cc9eaf6e83c4c"
+      "byteLength": 5576,
+      "sha256": "85dd567080cdaa7180398ef77feb5730aaa478b4edf9f97fb63001c87d92a239"
     },
     {
       "path": "vscode/media/jot/fonts/caveat-OFL.txt",

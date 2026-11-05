@@ -1,5 +1,27 @@
 # Latest Jot v1 decisions
 
+## Page view with Paged.js (5 November 2026)
+
+The owner asked to integrate Paged.js (https://github.com/pagedjs/pagedjs). Writer gains **Page view** beside Print / PDF:
+the formatted pages, as Download page saves them, laid out sheet by sheet by Paged.js with the chosen paper, margins and page
+numbers, then printed from that view. Browsers that do not draw `@page` margin boxes still get page numbers this way.
+
+- Paged.js 0.4.3 is vendored unmodified in `site/dist/vendor/pagedjs/` (MIT, SHA-256 in its README) and loaded only when Page
+  view opens, so ordinary writing and printing do not carry it. It runs in a same-origin frame (`write/pages.html`) whose CSP
+  allows no requests; stylesheets are passed in as text, so it never fetches. Closing the view or locking the journal empties
+  the frame. The desktop CSP gains `frame-src 'self'` for it.
+- Paged.js 0.4 splits selector lists on every comma, which breaks Jot's `:not(…,…)` and `:is(…,…)` selectors.
+  `page-view-css.mjs` rewrites them into equivalent comma-free selectors before Paged.js reads them, rather than patching
+  the vendored file. It also drops screen-only rules, so how sheets sit on screen lives in the frame page itself.
+- Download page now keeps ticked task boxes ticked (a property the saved markup dropped); Page view shares that path.
+- Typed pages also use Writer's own task-list layout in Page view, so they match Writer's print. Handwritten pages keep their
+  dot-grid geometry: the sheet's content area is the same whole number of rows as before.
+
+Research basis: printable pages are expected to print at 100% on paper the writer picks (`docs/methods/paper-and-grids.md,
+line 554`; `docs/methods/mood-tracking-year-in-pixels.md, line 506`), which the view repeats. The guides are silent on
+on-screen paginated previews, so this is a design choice, not a finding. Verified in Chromium (desktop and phone emulation);
+Firefox, Safari, the desktop app and physical print proofs are not yet checked.
+
 ## Shorter rendering documentation and a small authoring path (3 November 2026)
 
 The owner found the documentation and syntax bloated. The rendering index now supplies shared reader rules and
