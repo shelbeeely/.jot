@@ -98,10 +98,19 @@ navigation bar, and above the on-screen keyboard when it is open.
 | "New note the bus was late" | `- The bus was late.` |
 | "New heading Evening" | `#### Evening` |
 | "Tag work", "tag work and family" | `#work`, `#work #family` |
+| "Find film Dune", "find book …" (also series, anime, manga, podcast, game, song, album) | Shows up to three matches; then say "link it", "second one" or "third one", or tap one |
 | "Skip", "another question" | Skips or changes the question |
 | "Stop listening" | Turns the microphone off |
 
 Commands said in the middle of a sentence are written as words. Undo and redo work on everything it wrote.
+
+**Media, linked as you talk.** When you say a title that is already in your journal (anything added with Add media, for
+example), the scribe links your exact words to it: "I watched the matrix again" is written as
+`I watched [the matrix](imdb:tt0133093) again`. This needs no connection. Single short words are never linked, so "Up" or "It"
+stay ordinary words; turn it off with **Link titles already in my journal** in the scribe's settings. For something new,
+say "find film …" or "find book …": the scribe looks in your journal and, if online search is on in **Add media**, in the
+catalog for that kind, sending only the title you said. Nothing from a catalog is linked until you say "link it" (or
+another pick) or tap a match; "skip" leaves it. The scribe does not guess titles out of ordinary speech.
 
 To talk a rough draft first and write the entry afterwards, choose **Write into: Today's scratchpad** under **What you can say,
 and settings**, or **Talk into it** in the entry's scratchpad. The words go into today's [scratchpad](writing-jot.md#a-scratchpad-for-each-entry),

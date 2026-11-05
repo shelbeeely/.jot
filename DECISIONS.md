@@ -1278,3 +1278,13 @@ Choices:
 - **Status only from the writer's own words** ("Watched", "Want to read"…, as Add media writes them). A bare mention stays "Mentioned", so a reference never becomes a claimed event.
 - **Scratchpads, code and hidden comments are not counted.** Rough notes are not the record.
 - **Behaves like the journal map:** read-only, no requests, and cleared on lock.
+
+## 2026-11-05: The scribe links media, but only without guessing
+
+The owner asked whether the scribe can "find the media and link it automatically".
+
+- **Automatic linking only for titles already in the journal.** The spoken words stay exactly as said and become the link label, for example `[the matrix](imdb:tt0133093)`. Matching is case-insensitive and whole-word, longest title first, and never inside an existing link. Single words under five letters, episodes and fallback names are left out so ordinary words are not linked. This can be turned off.
+- **New titles need a spoken "find <kind> <title>".** The scribe searches the journal, and the catalog only when Add media's online search is on, sending only that title. It shows up to three matches, and nothing is inserted until the writer says "link it" (or "second one", "third one") or taps one.
+- **No title spotting in free speech.** Picking titles out of ordinary speech and linking the top catalog result would often link the wrong edition, remake or namesake, and the scribe's rule is that it writes what was said rather than what a model guesses.
+
+This narrows the 2026-11-04 scribe exception: links are added around verbatim words, and catalog text enters only by the writer's choice, as in Add media.

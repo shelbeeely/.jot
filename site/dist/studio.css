@@ -233,7 +233,7 @@ html[data-scribe-open] .writing-pane{padding-bottom:calc(var(--scribe-height,0px
 .scribe-close{margin-left:auto;min-width:44px;min-height:44px;border:0;background:none;color:inherit;font-size:18px;cursor:pointer;border-radius:8px}
 .scribe-status{margin:6px 0 8px}.scribe-hearing{margin:0 0 8px;font-style:italic;overflow-wrap:anywhere}.scribe-label{font-style:normal;font-weight:600}
 .scribe-question{margin:8px 0;padding:10px 12px;border-left:4px solid currentColor;border-radius:6px;background:color-mix(in srgb,var(--jot-ink) 6%,var(--jot-paper))}.scribe-question p{margin:0 0 6px;font-size:17px}
-.scribe-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.scribe-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.scribe-found ul{list-style:none;margin:6px 0;padding:0;display:grid;gap:6px}.scribe .scribe-found ul button{width:100%;text-align:left;border-radius:10px;font-size:14px}.scribe-found p{margin:0}
 .scribe button,.scribe .scribe-file{min-height:44px;padding:8px 14px;font:inherit;border:1px solid var(--jot-edge);border-radius:999px;background:var(--jot-paper);color:var(--jot-ink);cursor:pointer;box-sizing:border-box}
 .scribe .scribe-close{border:0;padding:0}.scribe .scribe-primary{background:var(--jot-ink);color:var(--jot-paper);border-color:var(--jot-ink);font-weight:600}
 .scribe .scribe-stop{display:inline-flex;align-items:center;gap:8px;background:#b42318;color:#fff;border-color:#b42318;font-weight:600}.scribe-stop span:last-child{font-variant-numeric:tabular-nums;font-weight:500}

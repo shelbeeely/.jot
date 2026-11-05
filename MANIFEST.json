@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 138935,
-      "sha256": "666750df9339e3ef44a2d919d8072e62b8406c0a688d97fba477b938e75456a2"
+      "byteLength": 140206,
+      "sha256": "21209746ab346cf3da5cd0cd674672e582a8a37d4f8d783dc16c6ec434e1e71c"
     },
     {
       "path": "README.md",
@@ -849,8 +849,8 @@
     },
     {
       "path": "docs/guide/ai-companion.md",
-      "byteLength": 17044,
-      "sha256": "eb311f304c865b1093222c43bdfdbc5ec8a3a7fcfc927ca70789e3e34cdcdf5f"
+      "byteLength": 18038,
+      "sha256": "92beb51cd652f909f6726ded6b63558f8b82bcd4b8060ddf5241840fc097281d"
     },
     {
       "path": "docs/guide/automation.md",
@@ -22689,8 +22689,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 18286,
-      "sha256": "bc38923406e8fcb5cec99f6373efd3327a35f29735cf2e8069cc5455fc2a0c36"
+      "byteLength": 18648,
+      "sha256": "81b1a8d4bb034f74e43ff610d2080ef23952a2fc91b0ff8137836177cc51050f"
     },
     {
       "path": "site/CLAUDE.md",
@@ -23194,8 +23194,8 @@
     },
     {
       "path": "site/dist/guide/ai-companion.html",
-      "byteLength": 22980,
-      "sha256": "a97fc0ba939de215cd77024053abf08753ab81d99949b90d91932fd6b970398e"
+      "byteLength": 24177,
+      "sha256": "069477c3047bad823cf81a1481f0bfe89e89b75595e2862b805ecf087efd273b"
     },
     {
       "path": "site/dist/guide/automation.html",
@@ -23755,7 +23755,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5128,
-      "sha256": "b9a17d344105621d90c7f3a3970285de2689a72636e686e59e3f2205ace62120"
+      "sha256": "e170311f4c7def8ec7234aa6449028b5807e92d33a5b71bb6d9d571e00c4171e"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23804,13 +23804,13 @@
     },
     {
       "path": "site/dist/scribe-core.mjs",
-      "byteLength": 5203,
-      "sha256": "5a277b31a7bbd158e4dbbfbcc38e6da24bb845e0ee4e22ecd06da9ee217a13c6"
+      "byteLength": 8657,
+      "sha256": "2166d569ba871b08fd1e5a4f444ff2cc99f16bbff8b1048d4dda5e1151bef493"
     },
     {
       "path": "site/dist/scribe.mjs",
-      "byteLength": 26978,
-      "sha256": "b5cd15b4fdb7d5c95198a70d8577150d9bf099e8206535d3ff98dfceb7b9c8be"
+      "byteLength": 31459,
+      "sha256": "3348709f75f904ebe7775036205bf3be70c77875798b8e2184289e5344ff4dd1"
     },
     {
       "path": "site/dist/share/index.html",
@@ -23854,8 +23854,8 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 63333,
-      "sha256": "ac61c3f33713143806ea40f5b076ab46319e1b25be0560a1212ff014bbcfa943"
+      "byteLength": 63528,
+      "sha256": "beadf2fae3bb9fd3b8acb80234c10acec5d4de89e4a02e0dfe5ec68627a586ec"
     },
     {
       "path": "site/dist/studio.mjs",
@@ -24374,13 +24374,13 @@
     },
     {
       "path": "site/test-scribe-ui.cjs",
-      "byteLength": 12027,
-      "sha256": "8a458acb49f1702bdedbf8931f6b1fa0c190804b6b4ca9d9f2386ffbc24a39c0"
+      "byteLength": 14442,
+      "sha256": "6d3d86f416c0d336b304574427a5ac5c3420a7bedfab7c07cdfd0c09c3d33168"
     },
     {
       "path": "site/test-scribe.mjs",
-      "byteLength": 4291,
-      "sha256": "7ac5d40751c320288cbc6ba6444b5c1f8a57932a3f45e1bd52e93fe3d81afc7b"
+      "byteLength": 6238,
+      "sha256": "e474b828b02fe1f5c2aff24fc334d8fc10cff608e7fadf5825e2861cfc25052e"
     },
     {
       "path": "site/test-source-workspace.cjs",

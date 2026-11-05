@@ -56,3 +56,24 @@ test('questions are short and open', () => {
   assert.ok(SCRIBE_QUESTIONS.length >= 10);
   for (const q of SCRIBE_QUESTIONS) { assert.ok(q.length < 50, q); assert.ok(!/\b(trauma|wrong with|should you)\b/i.test(q)); }
 });
+
+test('media by voice: find commands, picks, and known titles linked around the exact words said', async () => {
+  const { readFind, knownTitles, linkKnownTitles } = await import('./dist/scribe-core.mjs');
+  assert.deepEqual(readFind('Find film Dune.'), { kind: 'find', mediaKind: 'film', query: 'Dune' });
+  assert.deepEqual(readFind('Look up the book The Left Hand of Darkness'), { kind: 'find', mediaKind: 'book', query: 'The Left Hand of Darkness' });
+  assert.deepEqual(readFind('find TV show Severance'), { kind: 'find', mediaKind: 'tv', query: 'Severance' });
+  assert.deepEqual(readFind('Link it.'), { kind: 'pick', index: 0 }); assert.deepEqual(readFind('second one'), { kind: 'pick', index: 1 });
+  assert.equal(readFind('I found a film I liked.'), null); assert.equal(readFind('Find film'), null);
+  const titles = knownTitles([
+    { title: 'The Matrix (1999)', target: 'imdb:tt0133093', kind: 'film' },
+    { title: 'The Matrix Reloaded (2003)', target: 'https://www.wikidata.org/wiki/Q189600', kind: 'game-or-film' },
+    { title: 'Up (2009)', target: 'imdb:tt1049413', kind: 'film' },
+    { title: 'Severance S1E3: “In Perpetuity”', target: 'https://www.tvmaze.com/episodes/2238340', kind: 'tv' },
+    { title: 'IMDb tt0111161', target: 'imdb:tt0111161', kind: 'film' }
+  ]);
+  assert.deepEqual(titles.map(t => t.key), ['the matrix reloaded', 'the matrix'], 'short words, episodes and fallback names are not matched');
+  assert.equal(linkKnownTitles('I watched the matrix reloaded, then The Matrix. Up was fine.', titles),
+    'I watched [the matrix reloaded](https://www.wikidata.org/wiki/Q189600), then [The Matrix](imdb:tt0133093). Up was fine.');
+  assert.equal(linkKnownTitles('thematrix and the matrixes', titles), 'thematrix and the matrixes', 'whole words only');
+  assert.equal(linkKnownTitles('[The Matrix (1999)](imdb:tt0133093)', titles), '[The Matrix (1999)](imdb:tt0133093)', 'never inside an existing link');
+});

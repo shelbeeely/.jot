@@ -5,7 +5,9 @@
 import { createVoiceBackend } from './voice-backend.mjs';
 import { captureSpeech } from './speech-capture.mjs';
 import { SPEECH_MODELS, verifySpeechModel, downloadSpeechModel, speechModelCache } from './speech-models.mjs';
-import { readCommand, splitSentences, planWrite, SCRIBE_QUESTIONS } from './scribe-core.mjs';
+import { readCommand, readFind, knownTitles, linkKnownTitles, splitSentences, planWrite, SCRIBE_QUESTIONS } from './scribe-core.mjs';
+import { mediaShelf } from './media-shelf-core.mjs';
+import { createMediaCatalog, journalMatches, mediaReference, SOURCES } from './media-catalog.mjs';
 import { appendToScratchpad } from './scratchpad-core.mjs';
 
 const QUIET_LEVEL = 0.01;       // RMS below this counts as quiet
@@ -19,12 +21,12 @@ const IDLE_MS = 5 * 60 * 1000;  // the microphone turns itself off after five qu
 const PHRASE_SOFT_S = 4, PHRASE_MAX_S = 6;
 const PREF = 'jot-scribe-v1';
 
-export function setupScribe({ editor, today, todayEntry, status = () => {}, beforeOpen = () => {} }) {
+export function setupScribe({ editor, today, todayEntry, status = () => {}, beforeOpen = () => {}, catalog = createMediaCatalog() }) {
   const doc = editor.ownerDocument, win = doc.defaultView;
   const el = (tag, attributes = {}, text) => { const node = doc.createElement(tag); for (const [k, v] of Object.entries(attributes)) node.setAttribute(k, v); if (text !== undefined) node.textContent = text; return node; };
-  let prefs = { questions: true, aloud: true, remember: true, language: '', target: 'entry' };
+  let prefs = { questions: true, aloud: true, remember: true, language: '', target: 'entry', linkMedia: true };
   try { prefs = { ...prefs, ...JSON.parse(win.localStorage.getItem(PREF) || '{}') }; } catch { /* defaults */ }
-  const savePrefs = () => { try { win.localStorage.setItem(PREF, JSON.stringify({ questions: prefs.questions, aloud: prefs.aloud, remember: prefs.remember, language: prefs.language, target: prefs.target })); } catch { /* this visit only */ } };
+  const savePrefs = () => { try { win.localStorage.setItem(PREF, JSON.stringify({ questions: prefs.questions, aloud: prefs.aloud, remember: prefs.remember, language: prefs.language, target: prefs.target, linkMedia: prefs.linkMedia })); } catch { /* this visit only */ } };
 
   const panel = el('section', { id: 'scribe', class: 'scribe', 'aria-labelledby': 'scribeTitle' });
   panel.hidden = true;
@@ -36,12 +38,14 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
 <div class="scribe-actions"><button id="scribeDownload" class="scribe-primary" type="button">Download speech model · 16.9 MB</button><label class="scribe-file">Import whistle.cact<input id="scribeFile" type="file" accept=".cact"></label></div></div>
 <p id="scribeHearing" class="scribe-hearing" hidden><span class="scribe-label">Hearing:</span> <span id="scribePending"></span></p>
 <div id="scribeQuestion" class="scribe-question" hidden><p id="scribeQuestionText"></p><div class="scribe-actions"><button id="scribeSkip" type="button">Skip</button><button id="scribeAnother" type="button">Another question</button></div></div>
+<div id="scribeFound" class="scribe-question scribe-found" hidden><p id="scribeFoundTitle"></p><ul id="scribeFoundList"></ul><p class="scribe-small">Say “link it” for the first, “second one” or “third one”, or tap one. “Skip” leaves it.</p></div>
 <div class="scribe-actions scribe-main"><button id="scribeStart" class="scribe-primary" type="button">Start listening</button><button id="scribeStop" class="scribe-stop" type="button" hidden><span class="scribe-dot" aria-hidden="true"></span>Stop <span id="scribeElapsed" aria-hidden="true">0:00</span></button><button id="scribeScratch" type="button" disabled>Scratch that</button></div>
 <details class="scribe-more"><summary>What you can say, and settings</summary>
-<ul class="scribe-commands"><li><b>“New paragraph”</b>, <b>“new line”</b></li><li><b>“Scratch that”</b> or <b>“undo”</b> removes the last thing it wrote</li><li><b>“New task</b> call Sam<b>”</b>, <b>“new note</b> …<b>”</b>, <b>“new heading</b> Evening<b>”</b>, <b>“tag</b> work<b>”</b></li><li><b>“Skip”</b>, <b>“another question”</b></li><li><b>“Stop listening”</b></li></ul>
+<ul class="scribe-commands"><li><b>“New paragraph”</b>, <b>“new line”</b></li><li><b>“Scratch that”</b> or <b>“undo”</b> removes the last thing it wrote</li><li><b>“New task</b> call Sam<b>”</b>, <b>“new note</b> …<b>”</b>, <b>“new heading</b> Evening<b>”</b>, <b>“tag</b> work<b>”</b></li><li><b>“Find film</b> Dune<b>”</b>, <b>“find book</b> …<b>”</b> (or series, anime, manga, podcast, game, song, album), then <b>“link it”</b></li><li><b>“Skip”</b>, <b>“another question”</b></li><li><b>“Stop listening”</b></li></ul>
 <p class="scribe-small">Say a command on its own, with a short pause before and after. Everything else is written exactly as you say it, at the end of today’s entry. Undo works as usual.</p>
 <label class="scribe-check"><input id="scribeQuestions" type="checkbox"> Ask me a short question when I pause</label>
 <label class="scribe-check"><input id="scribeAloud" type="checkbox"> Read questions aloud (on-device voices only)</label>
+<label class="scribe-check"><input id="scribeLinkMedia" type="checkbox"> Link titles already in my journal as I say them (no connection needed)</label>
 <label>Write into <select id="scribeTarget"><option value="entry">Today’s entry</option><option value="draft">Today’s scratchpad (rough notes, kept off the page)</option></select></label>
 <label>Speech language <select id="scribeLanguage"><option value="">Detect automatically</option><option value="en">English</option><option value="de">German</option><option value="fr">French</option><option value="es">Spanish</option><option value="it">Italian</option><option value="nl">Dutch</option><option value="pl">Polish</option></select></label>
 <p class="scribe-small">Listening and transcription run on this device. Nothing you say is recorded, stored or sent anywhere; only the words go into your journal. The microphone turns off after five quiet minutes.</p>
@@ -53,9 +57,10 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
   doc.querySelector('.tool-row')?.append(button);
   const $ = id => panel.querySelector('#' + id);
   $('scribeQuestions').checked = prefs.questions; $('scribeAloud').checked = prefs.aloud; $('scribeRemember').checked = prefs.remember; $('scribeLanguage').value = prefs.language; $('scribeTarget').value = prefs.target === 'draft' ? 'draft' : 'entry';
+  $('scribeLinkMedia').checked = prefs.linkMedia !== false;
 
   let engine = null, whistle = false, generation = 0, controller = null, stopMic = null, queue = Promise.resolve(), audio = new Float32Array(0), buffered = 0;
-  let state = 'idle', buffer = '', heard = false, phraseSeconds = 0, awaiting = '', lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * SCRIBE_QUESTIONS.length);
+  let state = 'idle', titles = [], found = [], findController = null, buffer = '', heard = false, phraseSeconds = 0, awaiting = '', lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * SCRIBE_QUESTIONS.length);
   let written = { lastEnd: -1, lastKind: '', separator: null }, history = [];
   const say = text => { $('scribeStatus').textContent = text; };
 
@@ -108,6 +113,8 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     if (editor.readOnly) { stop('The journal is locked. Microphone off.'); return; }
     const date = today();
     if (prefs.target === 'draft') { writeDraft(item, date); return; }
+    // Titles already in the journal become links around the exact words said.
+    if (prefs.linkMedia !== false && titles.length && ['text', 'task', 'note'].includes(item.kind) && !item.reference) item = { ...item, text: linkKnownTitles(item.text, titles) };
     let plan = planWrite(editor.value, date, written, item, question && spokeSinceQuestion ? question : '');
     if (!plan) { addToday(date); written.lastEnd = -1; plan = planWrite(editor.value, date, written, item, question && spokeSinceQuestion ? question : ''); }
     if (!plan) { say('Could not find today’s entry to write into. Microphone still on.'); return; }
@@ -141,14 +148,60 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     say(last.old === undefined ? 'Removed: “' + last.text.trim().slice(0, 80) + '”' : 'Removed the last words from the scratchpad.'); controls();
   }
 
+  // Media by voice: "find film Dune" looks it up (journal first; catalogs only when Add media's online search is on),
+  // and the writer picks a result by voice or tap. Nothing is linked from a catalog without that choice.
+  function clearFound() { findController?.abort(); findController = null; found = []; $('scribeFoundList').replaceChildren(); $('scribeFound').hidden = true; }
+  function showFound(list, words) {
+    found = list.slice(0, 3); $('scribeFoundList').replaceChildren();
+    $('scribeFoundTitle').textContent = words;
+    found.forEach((item, i) => {
+      const li = doc.createElement('li'), pick = doc.createElement('button');
+      pick.type = 'button'; pick.textContent = (i + 1) + '. ' + item.label + (item.detail ? ' · ' + item.detail : '');
+      pick.onclick = () => pickMedia(i); li.append(pick); $('scribeFoundList').append(li);
+    });
+    $('scribeFound').hidden = !found.length;
+  }
+  async function findMedia({ mediaKind, query }) {
+    clearFound();
+    let online = false; try { online = win.localStorage.getItem('jot-media-online-v1') === 'on'; } catch { /* off */ }
+    const local = journalMatches(editor.value, query, 3);
+    if (!online) {
+      showFound(local, local.length ? 'In this journal: “' + query + '”' : '');
+      say(local.length ? 'Found it in this journal. Say “link it”, or tap one.' : 'Not in this journal yet. To look it up, turn on online search in Add media; your words are not sent.');
+      return;
+    }
+    say('Looking up “' + query + '”…');
+    findController = new AbortController(); const signal = findController.signal;
+    try {
+      const results = await catalog.search({ kind: mediaKind, query, signal });
+      if (signal.aborted) return;
+      const all = [...local, ...results];
+      showFound(all, all.length ? 'Found for “' + query + '” · ' + (results[0] ? SOURCES[results[0].source].name : 'this journal') : '');
+      say(all.length ? 'Found ' + Math.min(all.length, 3) + '. Say “link it” for the first, or tap one.' : 'Nothing found for “' + query + '”. Keep talking, or try other words.');
+    } catch (error) { if (error?.name !== 'AbortError') say(error.message + ' Keep talking; nothing was added.'); }
+  }
+  function pickMedia(index) {
+    const item = found[index];
+    if (!item) { say('There is no result ' + (index + 1) + '.'); return; }
+    let text; try { text = mediaReference(item); } catch (error) { say(error.message); return; }
+    clearFound();
+    spokeSinceQuestion = true;
+    write({ kind: 'text', text, reference: true });
+    if (item.target || item.reference) titles = knownTitles([...mediaShelf(editor.value)]);
+    say('Linked ' + (item.title || item.label) + '.');
+  }
+
   // Spoken sentences: a command, or words to write.
   function act(sentence) {
+    const media = readFind(sentence);
+    if (media?.kind === 'find') { findMedia(media); return; }
+    if (media?.kind === 'pick' && found.length) { pickMedia(media.index); return; }
     const item = readCommand(sentence);
     if (!item) return;
     if (item.kind === 'paragraph' || item.kind === 'line') { written.separator = item.kind; say(item.kind === 'paragraph' ? 'New paragraph.' : 'New line.'); return; }
     if (item.kind === 'scratch') { scratch(); return; }
     if (item.kind === 'stop') { stop('Stopped when you said so. Microphone off.'); return; }
-    if (item.kind === 'skip') { clearQuestion(); say('Skipped. Keep talking whenever you like.'); return; }
+    if (item.kind === 'skip') { if (found.length) { clearFound(); say('Left it. Keep talking whenever you like.'); return; } clearQuestion(); say('Skipped. Keep talking whenever you like.'); return; }
     if (item.kind === 'another') { ask(true); return; }
     // "New task." on its own: the next sentence is the task.
     if (['task', 'note', 'heading'].includes(item.kind) && !item.text) { awaiting = item.kind; say('New ' + item.kind + ': say it now.'); return; }
@@ -251,7 +304,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     if (editor.readOnly) { say('Unlock this journal to use the scribe.'); return; }
     if (!whistle) { say('Loading the speech model…'); try { if (!(await ensureWhistle(false))) { say('Download the speech model once to start. After that it works offline.'); controls(); return; } } catch (e) { say(e.message); controls(); return; } }
     state = 'starting'; const ticket = generation; controller = new AbortController();
-    audio = new Float32Array(0); buffered = 0; buffer = ''; heard = false; phraseSeconds = 0; awaiting = ''; queue = Promise.resolve(); controls(); say('Starting the microphone…');
+    audio = new Float32Array(0); buffered = 0; buffer = ''; heard = false; phraseSeconds = 0; awaiting = ''; titles = prefs.linkMedia !== false ? knownTitles(mediaShelf(editor.value)) : []; queue = Promise.resolve(); controls(); say('Starting the microphone…');
     try {
       const stopNow = await captureSpeech({
         signal: controller.signal,
@@ -297,7 +350,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
   }
   function reset() {
     generation++; controller?.abort(); controller = null; stopMic?.(); stopMic = null; win.clearInterval(ticker); ticker = null;
-    win.speechSynthesis?.cancel(); speaking = false; question = ''; buffer = ''; phraseSeconds = 0; awaiting = ''; history = []; written = { lastEnd: -1, lastKind: '', separator: null };
+    win.speechSynthesis?.cancel(); speaking = false; question = ''; buffer = ''; phraseSeconds = 0; awaiting = ''; clearFound(); titles = []; history = []; written = { lastEnd: -1, lastKind: '', separator: null };
     engine?.close(); engine = null; whistle = false; state = 'idle'; panel.hidden = true; root.removeAttribute('data-scribe-open'); $('scribePending').textContent = '';
     say('Microphone off.'); controls();
   }
@@ -323,6 +376,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
   $('scribeAloud').onchange = () => { prefs.aloud = $('scribeAloud').checked; if (!prefs.aloud) win.speechSynthesis?.cancel(); savePrefs(); };
   $('scribeRemember').onchange = () => { prefs.remember = $('scribeRemember').checked; savePrefs(); };
   $('scribeLanguage').onchange = () => { prefs.language = $('scribeLanguage').value; savePrefs(); };
+  $('scribeLinkMedia').onchange = () => { prefs.linkMedia = $('scribeLinkMedia').checked; titles = prefs.linkMedia ? knownTitles(mediaShelf(editor.value)) : []; savePrefs(); };
   $('scribeTarget').onchange = () => { prefs.target = $('scribeTarget').value; written = { lastEnd: -1, lastKind: '', separator: null }; savePrefs(); say(prefs.target === 'draft' ? 'Writing into today’s scratchpad.' : 'Writing into today’s entry.'); };
   $('scribeDownload').onclick = async () => {
     $('scribeDownload').disabled = true;

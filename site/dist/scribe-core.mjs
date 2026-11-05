@@ -51,6 +51,54 @@ export function readCommand(sentence) {
   return { kind: 'text', text: said };
 }
 
+// "Find film Dune", "look up the book The Hobbit": a media search the scribe shows for the writer to choose from.
+const FIND_KINDS = { film: 'film', movie: 'film', show: 'tv', series: 'tv', 'tv show': 'tv', 'tv series': 'tv', book: 'book', novel: 'book', anime: 'anime', manga: 'manga', podcast: 'podcast', game: 'game', 'video game': 'game', song: 'music', album: 'music', music: 'music' };
+const FIND = new RegExp('^(?:find|look up|search for)(?: the| a| an)? (' + Object.keys(FIND_KINDS).sort((a, b) => b.length - a.length).join('|') + ')[\\s,:-]+(.+)$', 'i');
+const PICK = new Map([['link it', 0], ['link that', 0], ['use that', 0], ['first one', 0], ['the first one', 0], ['use the first one', 0], ['second one', 1], ['the second one', 1], ['use the second one', 1], ['third one', 2], ['the third one', 2], ['use the third one', 2]]);
+export function readFind(sentence) {
+  const said = String(sentence ?? '').trim().replace(/[.!?]+$/, '');
+  const m = FIND.exec(said);
+  if (m && m[2].trim().length >= 2) return { kind: 'find', mediaKind: FIND_KINDS[m[1].toLowerCase()], query: m[2].trim() };
+  const words = said.toLowerCase().replace(/[.,!?]+/g, '').trim();
+  return PICK.has(words) ? { kind: 'pick', index: PICK.get(words) } : null;
+}
+
+/**
+ * Titles already in the journal, as things the scribe may link without asking: "The Matrix (1999)" is matched as
+ * "the matrix", "Dune by Frank Herbert (1965)" as "dune". Short or one-letter titles are left out, so ordinary words
+ * are not linked. Longest first, so "The Matrix Reloaded" wins over "The Matrix".
+ */
+export function knownTitles(shelf) {
+  const seen = new Map();
+  for (const item of shelf || []) {
+    if (!item?.target || !item.title || item.kind === 'video') continue;
+    let key = item.title.replace(/\s*\(\d{4}\)$/, '').replace(/\s+by\s+[^:]+$/, '').replace(/[“”"]/g, '').trim();
+    if (/S\d+E\d+/.test(key)) continue; // episodes are too specific to spot in speech
+    if (key.length < 4 || (!/\s/.test(key) && key.length < 5) || /^(IMDb|YouTube|Spotify|MusicBrainz) /.test(key)) continue;
+    const lower = key.toLowerCase();
+    if (!seen.has(lower)) seen.set(lower, { key: lower, target: item.target });
+  }
+  return [...seen.values()].sort((a, b) => b.key.length - a.key.length);
+}
+const escapeLabel = text => String(text).replace(/([\\[\]*_`<>~=^|#])/g, '\\$1');
+const escapeRe = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+/** The spoken words exactly as said, with known titles turned into links. Each title is linked once per sentence. */
+export function linkKnownTitles(text, titles) {
+  let out = String(text), used = [];
+  for (const { key, target } of titles || []) {
+    const re = new RegExp('(^|[^\\p{L}\\p{N}])(' + escapeRe(key).replace(/\\ /g, '\\s+') + ')(?=$|[^\\p{L}\\p{N}])', 'giu');
+    // The first place it appears outside a link already made.
+    const m = [...out.matchAll(re)].find(found => { const at = found.index + found[1].length; return !used.some(([a, b]) => at < b && at + found[2].length > a) && !/\[[^\]]*$/.test(out.slice(0, at)); });
+    if (!m) continue;
+    const start = m.index + m[1].length, end = start + m[2].length;
+    const link = '[' + escapeLabel(m[2]) + '](' + target + ')';
+    out = out.slice(0, start) + link + out.slice(end);
+    used = used.map(([a, b]) => a >= end ? [a + link.length - m[2].length, b + link.length - m[2].length] : [a, b]);
+    used.push([start, start + link.length]);
+  }
+  return out;
+}
+
 /** Whole sentences ready to write, and the unfinished rest kept for later. */
 export function splitSentences(buffer) {
   const text = String(buffer ?? '').replace(/\s+/g, ' ').trimStart();
