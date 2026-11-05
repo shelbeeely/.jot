@@ -1,5 +1,33 @@
 # Latest Jot v1 decisions
 
+## A complete fictional month and text-grounded scenes (5 November 2026)
+
+The October demo contains 31 fictional entries, bundled media, interactive cards, editable annotations, 3D models,
+numbers and queries. A separate walkthrough covers Writer actions and connections that a saved journal cannot
+activate. The public archive and a mixed-protection copy use the same source and attachment bytes; the mixed copy's
+published demonstration passphrase is not a real privacy secret. Separate People and Places books remain explicit
+context, rather than automatically joining an export.
+
+Scenes are real OpenRouter replies through Writer's existing prompt, structured-output schema, transport and
+validator. The selected model is `openai/gpt-5-mini`, with Zero Data Retention required and data collection denied.
+The model receives only each day's extracted sentences and returns shape data; stored moments retain the entry's
+exact words. Prompt/source/output hashes and actual model/timestamps accompany the saved replies. Ordinary builds
+read those replies locally, verify their provenance against the current source and make no model request.
+
+Visual review of the first live run found horizontal window slabs, upward table legs and objects below the floor.
+Writer's prompt now states the world/local coordinate distinction and gives upright-window and tabletop examples.
+The demo scenes were regenerated through that same pipeline; no manual geometry substitutes are presented as model
+output. Model-generated compositions remain illustrative, rather than a reconstruction of real events or places.
+
+The `to-jot` skill now documents current media, interactive blocks, annotations, scenes and the primary Jotz layout.
+Its downloadable runtime includes the SQLite loader/WASM needed to validate indexed archives outside this repository.
+The publication privacy gate permits only the exact pinned fictional CSV and encrypted demo. It decrypts the latter,
+compares it with its public companion and scans its plaintext; other private paths and changed fixtures still fail.
+
+Verification covers strict source/archive validation, exact moment linkage, attachment preservation, all 31 scenes
+without network access, local playback, editing and mixed protection in Chromium. Native reader/device behavior and
+the effectiveness of any journal method are not established by this fictional fixture.
+
 ## Days as scenes, made by a model, kept as data (5 November 2026)
 
 The owner asked for the journal entries themselves to become interactive three.js scenes: "from the cluttered desk to the rainy bus

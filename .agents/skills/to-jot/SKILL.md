@@ -1,12 +1,12 @@
 ---
 name: to-jot
-description: Generate, edit, convert and validate Jot journals and templates (.jot and .jotz). Use for plain-language requests, guided interviews, new journals, planners, prompts, trackers, method records and fixing invalid Jot, as well as turning source material into Jot. Use when asked to convert, import, journal or "make a jot" from text, notes, chat logs, emails, transcripts, meeting notes, calendar exports, CSV or health/fitness exports, Markdown/Obsidian/Day One/Notion exports, or photos, scans and PDFs of pages. Produces canonical, dated plain-text Jot that `node cli/jot.mjs check` accepts, without inventing dates or values.
+description: Generate, edit, convert, package and validate Jot journals and templates (.jot and .jotz), including bundled media, cards, 3D models and saved scenes. Use for plain-language requests, guided interviews, new journals, demos, planners, prompts, trackers, method records and fixing invalid Jot, as well as turning text, exports, photos, scans or PDFs into Jot. Produces readable source and self-contained Jotz archives that `node cli/jot.mjs check --strict` accepts, preserving supplied facts and clearly labeling authorized fiction.
 ---
 
 # Generate and validate Jot
 
 Jot is plain text: Markdown plus a few line marks, dated headings and `:::record` blocks. The result must read well in any
-text editor, keep the writer's words, and pass strict validation with no errors or warnings. Repository tool paths below are relative to the Jot repository root; the bundled validation script works from any directory. The syntax is in `reference/cheatsheet.md`; worked examples (input, then output) are in `reference/`.
+text editor, keep the writer's words, and pass strict validation with no errors or warnings. `.jotz` is the primary saved journal, even for text-only writing; `.jot` is its independently usable source. Repository tool paths below are relative to the Jot repository root; the bundled validation script works from any directory. Start with `reference/cheatsheet.md`; read `reference/media.md` for attachments, media references, interactive blocks, models, annotations and scenes. Worked conversions are in `reference/`.
 
 ## Choose the conversation
 
@@ -36,14 +36,15 @@ When the user asks for a new journal, planner, template or tracker rather than a
    fictional entries clearly labelled. Never present invented experiences or measurements as the user's facts.
 2. If dates are unspecified, make an undated template. For an explicit request for “today”, use the session's user timezone and
    date. Use real ISO dates for a dated template; keep weekday labels optional rather than guessing them.
-3. Write UTF-8 `.jot`. Leave answers and measurements blank. Use a `measurement` record for each metric, retain requested units,
+3. Write UTF-8 `.jot`. In templates, leave answers and measurements blank. In an explicitly requested fictional demo, author fictional prose and values, label them as such, and keep scenes consistent with those words. Use a `measurement` record for each metric, retain requested units,
    and add chart or query records only when requested and supported by the reference. Prefer simple prose to invented syntax.
 4. For a method record, read its actual version, record type and required fields in `specification/profiles.json` (or the bundled
    `reference/profiles.json`). Check these manually: parser success does **not** prove full profile compliance.
    When designing a template or tracker for a method, and inside this repository, skim that method's guide in `docs/methods/`
    (index: `docs/methods/README.md`), especially any health or safety note: it says what to include, what to avoid (streaks,
    missed-day counts, colour-only meaning) and when the method is meant for use with a clinician.
-5. Save the file, validate the actual saved bytes, repair diagnostics and rerun. Validate again after every subsequent edit or
+5. For a saved journal, package the source as `.jotz` using the canonical container or Writer. Bundle the actual media bytes and correct MIME types; references alone are not attachments. Use current `entries/`, `media/` and `private/` container behavior, never the retired `journal.txt` layout. See the media reference for exact packaging and feature examples.
+6. Save the file, validate the actual saved bytes, repair diagnostics and rerun. Validate again after every subsequent edit or
    packaging step. Never claim validation from inspecting text, or from a successful run on an earlier draft.
 
 A minimal undated tracker (not a record of real measurements):
@@ -84,14 +85,13 @@ canonical CLI in the downloadable skill, or finds the repository above the insta
 - Exit 1: invalid input or diagnostics. Fix the cause and rerun; do not deliver it as validated.
 - Exit 2 from the wrapper: validator/setup failure. Report that validation did not run; never infer success.
 - Review meaning too: dates, wording, units, task states, unique IDs, reference targets and profile requirements. A clean parser
-  cannot prove factual accuracy, all attachment references, rendered appearance or every profile constraint.
+  cannot prove factual accuracy, all attachment references, rendered appearance, codecs, saved-scene grounding or every profile constraint. For media work, open the saved archive in Writer, check the relevant viewers/interactions, and verify offline behavior with a locally available reader. Inspect index contents and public/mixed/protected cases when relevant; report any unavailable checks.
 - Deliver the saved file and state the command, exit status and any remaining limitations. If the runtime is unavailable, label
   the result **unvalidated** rather than claiming it is valid.
 
 ## Rules that are never bent
 
-- **Never invent.** No made-up dates, years, times, weekdays, values, units, names, places or tasks. If the source does not say
-  it, the journal does not say it. A guess you think is useful goes in a margin note marked as a guess, or is left out.
+- **Never invent source facts.** Conversion preserves supplied dates, times, values, names, places and tasks. If the source does not say it, do not present it as a fact. A guess goes in a margin note marked as a guess, or is left out. An explicit request to author a fictional/sample journal permits invented entries and media, clearly labeled as fiction; it never makes them the user's experiences or real service captures.
 - **Undated stays undated.** Material without a date goes before the first dated entry, under a plain heading such as
   `## Undated`. Never after one: a dated entry runs until the next dated heading, so anything below it (even under another
   heading) takes its date. Never assign it "today" or the file's modification time unless the user tells you to. A relative date
@@ -100,8 +100,7 @@ canonical CLI in the downloadable skill, or finds the repository above the insta
 - **Keep the original wording.** Reorganise into Jot structure, fix nothing silently. Don't summarise, correct spelling, change
   tone or translate unless asked. If you must leave something out (signatures, quoted email history, boilerplate), say so in
   your reply.
-- **Private by default.** Journals are personal. Do all work locally. Never upload journal content, paste it into web tools or
-  send it to a service. Don't fetch anything the user did not ask for.
+- **Private by default.** Journals are personal. Work locally. Do not upload prose or fetch media without explicit authorization. A request for a saved scene can be fulfilled locally from the entry; using an external model requires authorization for that destination and the exact scoped text. Writer's scene tool separately previews the day's sentences and destination before sending them. A title lookup sends only the explicitly chosen title/query, never journal prose. A link or attachment never authorizes a service action.
 - **No diagnosis or inference.** Record what was written or measured; never add interpretations ("seems depressed", "probable
   ADHD", "low mood") or clinical labels the source does not contain.
 
@@ -134,7 +133,7 @@ canonical CLI in the downloadable skill, or finds the repository above the insta
      such as `### 2026-03-04 | Wednesday, 4 March (the original header)`). Entries in date order unless the user wants the
      source order. Put a month heading (`# March 2026`) above a long run of days if it helps.
    - Inside a day, keep the writing as paragraphs, and convert only what is unambiguously one of these:
-     - tasks: `[ ] open`, `[x] done`, `[-] cancelled`, `[>] moved`, `[!] important` (a checkbox, "TODO", "action item")
+     - tasks: `[ ] open`, `[x] done`, `[-] cancelled`, `[>] moved`, `[<] scheduled`, `[!] important` (a checkbox, "TODO", "action item")
      - events: `o 14:30 Standup` or `o Dentist at 4pm` (a time only when the source gives it; no time means all day)
      - questions to come back to: `? …`; ideas: `! …`
      - `#tag` for tags the source already uses (Obsidian/Notion tags, hashtags); `@context` for places or people the source
@@ -161,18 +160,16 @@ canonical CLI in the downloadable skill, or finds the repository above the insta
    meant as structure, gets a backslash in front: `\o well, never mind`, `\? is what she wrote`, `\! important`,
    `\[x] in the margin`, `\# not a heading`, `\---`, `\===`, `\:::`, `\.5 mg`, `\> not a quote`, `\- not a list`; a leading number and dot (`2026. was a year`) becomes `2026\. was a year`.
    Remove leading indentation from prose (four spaces makes a code block). The cheat sheet has the full list.
-5. **Images, scans, photos, PDFs.** Transcribe only what you can read; mark unreadable parts `[illegible]` rather than guessing.
-   Keep the original with the writing as an attachment, which needs a packaged `.jotz`:
+5. **Media and scanned pages.** Read `reference/media.md`. For transcription, mark unreadable parts `[illegible]` rather than guessing. Keep originals as bundled attachments; an `attachment` record describes a file but does not insert its bytes or create a player:
    ```
    :::record attachment #page-2026-10-20
-   path: assets/page-2026-10-20.jpg
+   path: media/page-2026-10-20.jpg
    media-type: image/jpeg
    alt: <what the image shows, in words>
    ocr-status: unreviewed
    :::
    ```
-   Write the `.jot` first, then package it with the images: open it in the site's workspace (`/write/`) and attach them, or
-   call `pack({ source, assets })` from `parser/container.mjs`. A plain `.jot` must never contain binary data or base64.
+   Use `![description](media/file)` for inline supported images and audio/video players; use `[label](media/file)` for an attachment link. PDF and EPUB are attachment links, not image syntax. Cards use `:::record card`; 3D assets use `:::record model`; saved day scenes use `@setting:` and validated `jot-place` JSON. These are different features. Package with Writer or `pack({ source, assets })` from `parser/container.mjs`. A plain `.jot` must never contain binary data or base64. Preserve unknown attachments and protection when editing an existing archive.
 6. **Validate and fix.** Run the validation script above (or `node cli/jot.mjs check --strict out.jot`). Fix every error and
    warning, then rerun until exit 0. For invalid dates, check the source; leave an uncertain date as prose rather than guessing.
    Do not suppress warnings to pass. Validate the final `.jotz` too if packaging attachments. Inspect parsed tasks/events when
@@ -201,5 +198,7 @@ canonical CLI in the downloadable skill, or finds the repository above the insta
 | CSV / health / fitness export | `jot import` (or `import-health` if present); otherwise measurement records |
 | Social or blog data export (X/Twitter, Mastodon, Facebook, Instagram, Tumblr, Reddit, Google Keep/Blogger) | `converter/jot-archive.mjs`; one `#### HH:MM · Service` section per post under its day, own words by default |
 | Markdown, Obsidian, Notion, Day One | Keep Markdown; daily-note file names or `date:` front matter give the date; `- [ ]` may stay or become `[ ]` |
-| Photos, scans, PDFs of pages | Transcribe what is legible; attachment record with alt text; package as `.jotz` |
+| Photos, scans, PDFs of pages | Transcribe what is legible; bundle originals with descriptions in `.jotz`; inline only supported raster formats |
+| Audio/video, EPUB/PDF, 3D files | Bundle real bytes; use the media reference's player, link or model syntax; check decoding/viewer limits |
+| Fictional demos and saved scenes | Label fiction; base each scene's objects and exact sentence moments on that entry; save scene JSON locally in `.jotz` |
 | Brain dump, undated notes | No date heading; tasks, questions and ideas marked; the rest as written |

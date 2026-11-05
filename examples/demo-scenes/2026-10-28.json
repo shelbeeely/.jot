@@ -1,0 +1,837 @@
+{
+  "format": "jot-place",
+  "version": 1,
+  "made": {
+    "model": "openai/gpt-5-mini",
+    "at": "2026-11-05T09:53:54.663Z"
+  },
+  "title": "Autumn garden bench",
+  "sky": "#cfe9ff",
+  "ground": "#7aa05a",
+  "weather": "sun",
+  "time": "evening",
+  "camera": {
+    "position": [
+      -2.5,
+      1.8,
+      3.5
+    ],
+    "target": [
+      0,
+      0.9,
+      0
+    ]
+  },
+  "objects": [
+    {
+      "name": "Ground",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            8,
+            0.01,
+            6
+          ],
+          "color": "#7aa05a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.001,
+            -0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            0.01,
+            3.2
+          ],
+          "color": "#c9b38a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden bench",
+      "position": [
+        0,
+        0.45,
+        -0.3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The garden bench was covered in leaves from the apple tree.",
+        "I brushed off a space for my notebook and tea mug, then checked the seedlings in the raised bed."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.14,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.18,
+            0.5
+          ],
+          "color": "#6b4a2f",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.75,
+            -0.23,
+            0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.82,
+            0.08
+          ],
+          "color": "#4f341f",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.75,
+            -0.23,
+            0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.82,
+            0.08
+          ],
+          "color": "#4f341f",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.75,
+            -0.23,
+            -0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.82,
+            0.08
+          ],
+          "color": "#4f341f",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.75,
+            -0.23,
+            -0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.82,
+            0.08
+          ],
+          "color": "#4f341f",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Leaf pile",
+      "position": [
+        0.38,
+        0.57,
+        -0.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The garden bench was covered in leaves from the apple tree."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.12
+          ],
+          "color": "#c85a2b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.14,
+            0.02,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.09,
+            0.09
+          ],
+          "color": "#e09b2f",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.12,
+            -0.01,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.08,
+            0.08
+          ],
+          "color": "#a94b1f",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Cleared spot",
+      "position": [
+        0.06,
+        0.57,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I brushed off a space for my notebook and tea mug, then checked the seedlings in the raised bed."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.35,
+            0.01,
+            0.22
+          ],
+          "color": "#6b4a2f",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        0.05,
+        0.78,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I brushed off a space for my notebook and tea mug, then checked the seedlings in the raised bed.",
+        "I looked at the open tasks in this journal before deciding what to do next."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.02,
+            0.12
+          ],
+          "color": "#dedede",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.08,
+            0,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.02,
+            0.08
+          ],
+          "color": "#b0b0b0",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea",
+      "position": [
+        0.18,
+        0.79,
+        0.06
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I brushed off a space for my notebook and tea mug, then checked the seedlings in the raised bed."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.08,
+            0.06
+          ],
+          "color": "#ffffff",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0.07,
+            0,
+            0.02
+          ],
+          "rotation": [
+            0,
+            1.57,
+            0
+          ],
+          "size": [
+            0.02,
+            0.01,
+            0.02
+          ],
+          "color": "#ffffff",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Borrowed key",
+      "position": [
+        -0.12,
+        0.78,
+        0.08
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The borrowed key cannot stay in my coat pocket forever. #garden #making @garden",
+        "Return the borrowed garden key #garden"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.01,
+            0.02
+          ],
+          "color": "#b8a04a",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.025,
+            0,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#b8a04a",
+          "roughness": 0.2,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Raised bed",
+      "position": [
+        -1.8,
+        0.5,
+        -0.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I brushed off a space for my notebook and tea mug, then checked the seedlings in the raised bed.",
+        "The flowers along the path looked smaller in the low afternoon sun, as if the whole garden had settled back into itself."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.2,
+            0.2,
+            0.8
+          ],
+          "color": "#8b5a3c",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.21,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.02,
+            0.01,
+            0.62
+          ],
+          "color": "#4a6b2a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.35,
+            0.34,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.06,
+            0.03
+          ],
+          "color": "#6fbf5f",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.34,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.06,
+            0.03
+          ],
+          "color": "#6fbf5f",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.35,
+            0.34,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.06,
+            0.03
+          ],
+          "color": "#6fbf5f",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Flower border",
+      "position": [
+        0.6,
+        0.12,
+        -1.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The flowers along the path looked smaller in the low afternoon sun, as if the whole garden had settled back into itself."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            -0.35,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#f16d9a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.18,
+            0.06,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.05,
+            0.05
+          ],
+          "color": "#f2b8ff",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.07,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.05,
+            0.05
+          ],
+          "color": "#ffd36b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.18,
+            0.06,
+            -0.04
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.05,
+            0.05
+          ],
+          "color": "#f16d9a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden path",
+      "position": [
+        0,
+        0.001,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The flowers along the path looked smaller in the low afternoon sun, as if the whole garden had settled back into itself.",
+        "Sweep the garden path when it is dry #garden"
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.01,
+            2.2
+          ],
+          "color": "#bfa37f",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small wall shelf",
+      "position": [
+        1.9,
+        0.9,
+        -0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The shelf can wait."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.4,
+            0.06,
+            0.12
+          ],
+          "color": "#7b5a3f",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.18,
+            -0.16,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.34,
+            0.03
+          ],
+          "color": "#7b5a3f",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    }
+  ]
+}

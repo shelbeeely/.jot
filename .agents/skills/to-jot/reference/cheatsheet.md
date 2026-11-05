@@ -1,6 +1,8 @@
 # Jot syntax cheat sheet
 
 The full rules: `docs/guide/writing-jot.md` (readable) and `specification/Jot-Complete-Specification.md` (normative).
+For current media, packaging, cards, annotations, 3D models and scenes, read `reference/media.md`; the latest
+`DECISIONS.md` and runnable parser/Writer take precedence over older guide descriptions.
 
 ## Document
 
@@ -63,6 +65,17 @@ source: sleep.csv
 - Reserved fields any record may use: `method`, `privacy`, `author`, `created`, `modified`, `date`, `at`, `start`, `end`,
   `body`, `source`, `relation`, `label`.
 - A method profile is chosen with `method: <id>@1` (ids in `specification/profiles.json`, or bundled `reference/profiles.json`). Check required fields manually: the parser is not a full profile validator.
+- A `privacy:` field is a note, not encryption. Unknown fields/record data are preserved rather than automatically executed.
+
+## Scratchpads and entry appearance
+
+`~~~draft` fences hold literal scratchpad notes, saved in the journal but left off formatted pages, print and page
+exports. Hidden comments and scratchpads are not encrypted. Writer can edit a scratchpad or explicitly add its words
+to the entry. `[[margin note]]` annotates without replacing prose.
+
+`@hand: script07` and `@ink: #26372d` under a date set handwriting appearance; use the canonical supported hand/ink
+values and Writer's per-entry tools rather than inventing fonts or CSS. Appearance directives persist until changed;
+restore the prior values at the next entry when a change is meant for only one entry.
 
 ## Escaping
 
@@ -77,11 +90,56 @@ Drop leading indentation from prose: four spaces makes a code block.
 
 ## Files
 
-- `.jot`: plain UTF-8 text. Never binary, never base64.
-- `.jotz`: a ZIP with `manifest.json`, `journal.txt` and `assets/…`, for attachments. Make it with the workspace (`/write/`) or
-  `pack({ source, assets })` from `parser/container.mjs`; `node cli/jot.mjs check` reads both.
+- `.jot`: independently usable UTF-8 source. Never binary or base64.
+- `.jotz`: the primary saved journal, including text-only writing. ZIP with `manifest.json`, ordered `entries/…`, UUID
+  `media/…` public assets or encrypted `private/…` members, catalog metadata and an optional public-only `index.sqlite`.
+  The retired `journal.txt` layout is not supported. Use Writer or `pack({ source, assets })` from
+  `parser/container.mjs`; never hand-build the ZIP. `node cli/jot.mjs check --strict` reads source and archives.
+- `assets` entries passed to `pack` need `{ path, mediaType, data }`, with optional `id`/`name`. Use safe, unique local
+  `media/…` or accepted older `assets/…` aliases and real bytes. `index: 'always'` includes the public index for small
+  demos; the normal `auto` threshold is 256 KiB of public writing. Metadata or attachment records do not add files.
+- A protected archive encrypts all media/catalog data, including shared media used by public entries; choose protected
+  entries through the supported container/Writer APIs. Preserve protection and unknown attachments on edits.
 
-## Music references
+## Inline media and interactive blocks
+
+```jot
+![Window sketch](media/window.png)
+
+![Rain recording](media/rain.wav)
+
+![Garden video](media/garden.webm)
+
+[Original PDF](media/reading.pdf)
+[EPUB attachment](media/reading.epub)
+
+:::record card #leaf-card
+front: What leaf did I find?
+back: A yellow maple leaf.
+:::
+
+:::record model #garden-model
+file: media/garden.glb A model of the garden
+poster: media/garden.png A still of the same garden
+hotspot: 0.3, 0.9, 0.2 First seedling
+:::
+```
+
+Image syntax shows supported local PNG/JPEG/WebP/GIF/AVIF images and controls for supported local audio/video bytes.
+Nothing autoplays or loops. Ordinary links remain attachments/downloads; PDF viewing is a separate Writer/browser
+capability, and EPUB attachment does not mean an inline EPUB reader. Unsupported image types stay attachments.
+Cards need both `front:` and `back:`; models need a bundled self-contained glTF file with an appropriate model MIME
+type. Draco, meshopt and KTX2 are supported through Jot's own decoders. No journal code or outside model URLs run.
+
+Editable annotations need a composite PNG, linked `.jot-ink.json` strokes and the frozen background referenced by
+that JSON. `![Excerpt](media/clippings.jot#record-id)` alone includes an explicitly bundled/lent local `.jot` excerpt.
+
+Saved scenes use `@setting: media/scene.json` directly under a date, with a bundled
+`application/vnd.jot.place+json` file. Use `journalDays`, `validatePlace`, `placeFile` and `readPlaceFile` from
+`site/dist/scene-journal-core.mjs`: scene objects depict the entry, and moments are exact sentences from it. Read the
+media reference before creating one; do not substitute an arbitrary GLB, generated prose or scripts for a scene.
+
+## Catalog references and the Media view
 
 An entry may list multiple songs, albums or playlists. Use `spotify:album:ID` or `spotify: playlist:ID` with a real 22-character
 Spotify ID, or `[My mix](spotify:playlist:ID)` for a label. Types: track, album, playlist, artist, episode, show. Replace ID with
@@ -94,6 +152,13 @@ tt; YouTube video IDs have 11 letters/digits/underscore/hyphen, playlist IDs 10�
 Music identities can use `musicbrainz:recording:UUID`, `musicbrainz:release-group:UUID`, `musicbrainz:release:UUID`,
 `musicbrainz:work:UUID` or `musicbrainz:artist:UUID`. Use a supplied/verified canonical UUID; never invent one or substitute a
 composition, recording and album edition. The workspace offers opt-in MusicBrainz search, with explicit choice of result.
+
+Writer's Media view also recognizes named catalog links for TVmaze shows/episodes, Open Library works, AniList
+anime/manga, Apple Podcasts and Wikidata games/films. Write the author's supplied `Watched`, `Reading`, `Finished`,
+`Want to play` or other supported activity immediately before the link to show that activity. A bare mention remains
+Mentioned. The view reads dated prose, not scratchpads, code, comments or records; it fetches nothing. Add media's
+online title lookup is off until explicitly enabled and never sends journal writing. A catalog link is not bundled
+audio/video, a cover image or an instruction to load a player.
 
 ## Timezone and period scope
 

@@ -1,0 +1,687 @@
+{
+  "format": "jot-place",
+  "version": 1,
+  "made": {
+    "model": "openai/gpt-5-mini",
+    "at": "2026-11-05T09:53:12.884Z"
+  },
+  "title": "Window Café Corner",
+  "sky": "#cfe8ff",
+  "ground": "#efe6dd",
+  "weather": "clear",
+  "time": "evening",
+  "camera": {
+    "position": [
+      -2.4,
+      1.6,
+      2.8
+    ],
+    "target": [
+      0.4,
+      1,
+      0
+    ]
+  },
+  "objects": [
+    {
+      "name": "Floor",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            0.01,
+            3.5
+          ],
+          "color": "#efe6dd",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        1.4,
+        0,
+        -0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The café had moved a small piano beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#d9f1ff",
+          "roughness": 0.2,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Piano",
+      "position": [
+        1,
+        0,
+        -0.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The café had moved a small piano beside the window.",
+        "The lamp on the piano made a golden line along the keys; the garden flowers in the counter vase were starting to dry."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.9,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.5,
+            0.5
+          ],
+          "color": "#2b1b13",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.6,
+            0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.5,
+            0.08,
+            0.12
+          ],
+          "color": "#ffffff",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.65,
+            0.15,
+            0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.6,
+            0.08
+          ],
+          "color": "#2b1b13",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.65,
+            0.15,
+            0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.6,
+            0.08
+          ],
+          "color": "#2b1b13",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Piano lamp",
+      "position": [
+        1.6,
+        1.3,
+        -0.25
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The lamp on the piano made a golden line along the keys; the garden flowers in the counter vase were starting to dry."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.5,
+            0.05
+          ],
+          "color": "#8b6a3d",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.12,
+            0.18
+          ],
+          "color": "#ffd27f",
+          "roughness": 0.2,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Counter",
+      "position": [
+        0.2,
+        0,
+        1.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The lamp on the piano made a golden line along the keys; the garden flowers in the counter vase were starting to dry."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.85,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.8,
+            0.7,
+            0.4
+          ],
+          "color": "#7a5a44",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Vase of flowers",
+      "position": [
+        0.6,
+        1.45,
+        1.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The lamp on the piano made a golden line along the keys; the garden flowers in the counter vase were starting to dry."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.25,
+            0.08
+          ],
+          "color": "#ffffff",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.03,
+            0.13,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.18,
+            0.015
+          ],
+          "color": "#d47a7a",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.02,
+            0.16,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.18,
+            0.015
+          ],
+          "color": "#e2b54e",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Wooden table",
+      "position": [
+        0,
+        0,
+        -0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin played a slow scale while I sat at the wooden table with my notebook and tea mug."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.75,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.2,
+            0.06,
+            0.8
+          ],
+          "color": "#a36b3a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.55,
+            0.36,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#7a4f2d",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.55,
+            0.36,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#7a4f2d",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.55,
+            0.36,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#7a4f2d",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.55,
+            0.36,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#7a4f2d",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea",
+      "position": [
+        -0.25,
+        0.86,
+        -0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin played a slow scale while I sat at the wooden table with my notebook and tea mug."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.12,
+            0.08
+          ],
+          "color": "#f6e7d0",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        0.15,
+        0.87,
+        -0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin played a slow scale while I sat at the wooden table with my notebook and tea mug."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.02,
+            0.12
+          ],
+          "color": "#2f2f2f",
+          "roughness": 0.5,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Chair",
+      "position": [
+        0.9,
+        0,
+        -1.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin played a slow scale while I sat at the wooden table with my notebook and tea mug."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.5,
+            0.06,
+            0.45
+          ],
+          "color": "#5b3b2a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.05,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.9,
+            0.06
+          ],
+          "color": "#5b3b2a",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Album sleeve",
+      "position": [
+        -0.55,
+        0.81,
+        -0.78
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Listened to Abbey Road later, and liked the change from piano keys to a whole room of sound.",
+        "The album reference records what this fictional narrator wrote, without loading a player or attaching the album. #music #friends @cafe"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.02,
+            0.12
+          ],
+          "color": "#0d2b3d",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,791 @@
+{
+  "format": "jot-place",
+  "version": 1,
+  "made": {
+    "model": "openai/gpt-5-mini",
+    "at": "2026-11-05T09:53:23.596Z"
+  },
+  "title": "Gallery Corner",
+  "sky": "#cfe8ff",
+  "ground": "#e9e6df",
+  "weather": "clear",
+  "time": "day",
+  "camera": {
+    "position": [
+      2.5,
+      1.6,
+      4.5
+    ],
+    "target": [
+      0,
+      1,
+      0
+    ]
+  },
+  "objects": [
+    {
+      "name": "Floor",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I liked the space around the painting as much as the painting itself."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            0.01,
+            3.5
+          ],
+          "color": "#f6f3ee",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back wall",
+      "position": [
+        0,
+        0,
+        -1.75
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The gallery had one wooden bench in front of an easel holding an unfinished painting.",
+        "A lamp lit the corner of the canvas, and the room's big window framed the top of a tree.",
+        "I liked the space around the painting as much as the painting itself."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.5,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            3,
+            0.08
+          ],
+          "color": "#f2efe9",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side wall",
+      "position": [
+        -2.25,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I liked the space around the painting as much as the painting itself."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.5,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            3,
+            3.5
+          ],
+          "color": "#efece6",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        1.2,
+        0,
+        -1.74
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "A lamp lit the corner of the canvas, and the room's big window framed the top of a tree."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#cfe8ff",
+          "roughness": 0.1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tree top (outside)",
+      "position": [
+        2,
+        0,
+        -3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "A lamp lit the corner of the canvas, and the room's big window framed the top of a tree."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            1.9,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "color": "#2b7a2b",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.9,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            1.2,
+            0.08
+          ],
+          "color": "#7a4f2b",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Easel",
+      "position": [
+        0.2,
+        0,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The gallery had one wooden bench in front of an easel holding an unfinished painting.",
+        "We disagreed about which picture we liked, which gave us something better to talk about than whether the visit had been worth it. #drawing #friends @gallery"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            2.1,
+            0.06
+          ],
+          "color": "#8b6b4a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.08,
+            0.4
+          ],
+          "color": "#8b6b4a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Canvas (unfinished)",
+      "position": [
+        0.2,
+        0.9,
+        -0.57
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The gallery had one wooden bench in front of an easel holding an unfinished painting.",
+        "I left my notebook closed for a while and looked at the same blue shape until it seemed less like a shape and more like water.",
+        "We disagreed about which picture we liked, which gave us something better to talk about than whether the visit had been worth it. #drawing #friends @gallery",
+        "I liked the space around the painting as much as the painting itself."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.7,
+            0.01,
+            0.5
+          ],
+          "color": "#ffffff",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.001,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.45,
+            0.01,
+            0.3
+          ],
+          "color": "#2d6fb4",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bench",
+      "position": [
+        -0.9,
+        0,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The gallery had one wooden bench in front of an easel holding an unfinished painting.",
+        "(remembering the quiet room)"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.2,
+            0.4
+          ],
+          "color": "#8b6b4a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.65,
+            0,
+            -0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.9,
+            0.08
+          ],
+          "color": "#684f3a",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.65,
+            0,
+            -0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.9,
+            0.08
+          ],
+          "color": "#684f3a",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook (closed)",
+      "position": [
+        -0.9,
+        0.92,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I left my notebook closed for a while and looked at the same blue shape until it seemed less like a shape and more like water.",
+        "(remembering the quiet room)"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.02,
+            0.12
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Floor lamp",
+      "position": [
+        0.9,
+        0,
+        -0.3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "A lamp lit the corner of the canvas, and the room's big window framed the top of a tree.",
+        "I liked the space around the painting as much as the painting itself."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            1.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            1.2,
+            0.04
+          ],
+          "color": "#4a3b2b",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            1.85,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.24,
+            0.24,
+            0.24
+          ],
+          "color": "#ffdca3",
+          "roughness": 0.2,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Café table",
+      "position": [
+        1.1,
+        0,
+        0.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Afterward Robin and I sat at a café table with two mugs of tea.",
+        "We disagreed about which picture we liked, which gave us something better to talk about than whether the visit had been worth it. #drawing #friends @gallery"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.75,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.06,
+            0.6
+          ],
+          "color": "#6b4f3a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.15,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.6,
+            0.06
+          ],
+          "color": "#6b4f3a",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug A",
+      "position": [
+        1.02,
+        0.88,
+        0.95
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Afterward Robin and I sat at a café table with two mugs of tea."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.08,
+            0.06
+          ],
+          "color": "#e6d2c6",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug B",
+      "position": [
+        1.18,
+        0.88,
+        0.65
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Afterward Robin and I sat at a café table with two mugs of tea."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.08,
+            0.06
+          ],
+          "color": "#d4e7ff",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Two chairs",
+      "position": [
+        1.1,
+        0,
+        1.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Afterward Robin and I sat at a café table with two mugs of tea.",
+        "We disagreed about which picture we liked, which gave us something better to talk about than whether the visit had been worth it. #drawing #friends @gallery"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.18,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.9,
+            0.36
+          ],
+          "color": "#8c6b53",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.18,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.9,
+            0.36
+          ],
+          "color": "#8c6b53",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small rug",
+      "position": [
+        0.1,
+        0,
+        -0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I liked the space around the painting as much as the painting itself."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            0.01,
+            0.9
+          ],
+          "color": "#dbe9ff",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    }
+  ]
+}

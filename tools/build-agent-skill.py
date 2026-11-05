@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package the to-jot skill and canonical CLI dependency closure for offline use."""
+"""Package the to-jot skill, canonical CLI and shared scene authoring helper for offline use."""
 import argparse
 from pathlib import Path
 import re
@@ -14,7 +14,9 @@ args = parser.parse_args()
 with tempfile.TemporaryDirectory() as temp:
     skill = Path(temp) / 'to-jot'
     shutil.copytree(ROOT / '.agents/skills/to-jot', skill)
-    pending = [ROOT / 'cli/jot.mjs']
+    # archive-index.mjs selects SQLite with a conditional dynamic import; the static import walk cannot find it.
+    # Keep the Node loader and its locally resolved WASM beside one another so indexed Jotz works offline too.
+    pending = [ROOT / 'cli/jot.mjs', ROOT / 'parser/vendor/sqlite/node.mjs', ROOT / 'site/dist/scene-journal-core.mjs']
     copied = set()
     while pending:
         source = pending.pop().resolve()
@@ -29,6 +31,11 @@ with tempfile.TemporaryDirectory() as temp:
             pending.append(source.parent / ref)
     for license_file in (ROOT / 'parser/vendor').glob('*LICENSE*'):
         shutil.copy2(license_file, skill / 'runtime/parser/vendor' / license_file.name)
+    sqlite = skill / 'runtime/parser/vendor/sqlite'
+    shutil.copy2(ROOT / 'parser/vendor/sqlite/sqlite3.wasm', sqlite / 'sqlite3.wasm')
+    for source in (ROOT / 'parser/vendor/sqlite').glob('*LICENSE*'):
+        shutil.copy2(source, sqlite / source.name)
+    shutil.copy2(ROOT / 'parser/vendor/sqlite/README.md', sqlite / 'README.md')
     shutil.copy2(ROOT / 'specification/profiles.json', skill / 'reference/profiles.json')
     shutil.copy2(ROOT / 'docs/guide/writing-jot.md', skill / 'reference/writing-jot.md')
     (skill / 'INSTALL.md').write_text('''# Install to-jot
@@ -44,8 +51,10 @@ Run directly from any directory:
 
     node /path/to/to-jot/scripts/validate.mjs /path/to/journal.jot
 
-The bundled runtime is copied from the canonical Jot CLI and parser. It reports syntax/package diagnostics;
-it does not establish factual accuracy or full method-profile compliance. See SKILL.md for the review steps.
+The bundled runtime is copied from the canonical Jot CLI and parser, including the local SQLite loader/WASM needed
+to read indexed Jotz. It reports syntax/package diagnostics; it does not establish factual accuracy, attachment
+decoding/completeness, scene grounding or full method-profile compliance. See SKILL.md and reference/media.md
+for packaging, supported media/interactions and the review steps.
 ''')
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(args.output, 'w', zipfile.ZIP_DEFLATED) as archive:

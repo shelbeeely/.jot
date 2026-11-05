@@ -1,0 +1,831 @@
+{
+  "format": "jot-place",
+  "version": 1,
+  "made": {
+    "model": "openai/gpt-5-mini",
+    "at": "2026-11-05T09:53:30.320Z"
+  },
+  "title": "Library corner with open window",
+  "sky": "#cfe8ff",
+  "ground": "#efe8dd",
+  "weather": "clear",
+  "time": "day",
+  "camera": {
+    "position": [
+      -2.5,
+      1.6,
+      2.5
+    ],
+    "target": [
+      0.2,
+      0.9,
+      0
+    ]
+  },
+  "objects": [
+    {
+      "name": "Room floor",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            0.01,
+            3.5
+          ],
+          "color": "#efe8dd",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back wall",
+      "position": [
+        0,
+        1.6,
+        -1.75
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            3.2,
+            0.12
+          ],
+          "color": "#f6f3ef",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        -1.2,
+        1.6,
+        -1.74
+      ],
+      "rotation": [
+        0,
+        -0.25,
+        0
+      ],
+      "moments": [
+        "The library window was open just a crack, enough to stir the paper on the table."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#bfe6ff",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bookshelf",
+      "position": [
+        1.6,
+        0.9,
+        -1.3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I chose a chair beside the bookshelf and put my tea mug far away from the book.",
+        "They are locally made demo documents, not borrowed or downloaded copies of a book. #reading #learning @library"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            1.8,
+            0.28
+          ],
+          "color": "#8b5a2b",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.5,
+            0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.82,
+            0.06,
+            0.06
+          ],
+          "color": "#c96f35",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.82,
+            0.06,
+            0.06
+          ],
+          "color": "#c96f35",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.5,
+            0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.82,
+            0.06,
+            0.06
+          ],
+          "color": "#c96f35",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Table",
+      "position": [
+        0,
+        0.75,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The library window was open just a crack, enough to stir the paper on the table.",
+        "I chose a chair beside the bookshelf and put my tea mug far away from the book.",
+        "I kept a short sample reading page in two formats, plus a small Jot clipping that can be included right here."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.06,
+            0.9
+          ],
+          "color": "#7a5a3c",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Chair",
+      "position": [
+        -0.9,
+        0.45,
+        0.6
+      ],
+      "rotation": [
+        0,
+        0.15,
+        0
+      ],
+      "moments": [
+        "I chose a chair beside the bookshelf and put my tea mug far away from the book."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.1,
+            0.6
+          ],
+          "color": "#6b4a33",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.4,
+            -0.23
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.8,
+            0.08
+          ],
+          "color": "#6b4a33",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea",
+      "position": [
+        0.65,
+        0.93,
+        -0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I chose a chair beside the bookshelf and put my tea mug far away from the book."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.08,
+            0.05
+          ],
+          "color": "#ffffff",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.03,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.01,
+            0.02
+          ],
+          "color": "#deb887",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Book (closed)",
+      "position": [
+        -0.2,
+        0.92,
+        0.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I chose a chair beside the bookshelf and put my tea mug far away from the book.",
+        "I kept a short sample reading page in two formats, plus a small Jot clipping that can be included right here."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.02,
+            0.14
+          ],
+          "color": "#2b4f6f",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        0.05,
+        0.92,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "A lamp with a green shade made a little island of light around my notebook.",
+        "I kept a short sample reading page in two formats, plus a small Jot clipping that can be included right here."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.01,
+            0.12
+          ],
+          "color": "#f8f3e8",
+          "roughness": 0.5,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.006,
+            0.045
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.01,
+            0.08
+          ],
+          "color": "#e5e5e5",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lamp with green shade",
+      "position": [
+        -0.45,
+        0.9,
+        -0.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "A lamp with a green shade made a little island of light around my notebook."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            -0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.18,
+            0.03
+          ],
+          "color": "#333333",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.16,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.12,
+            0.14
+          ],
+          "color": "#2a9a58",
+          "roughness": 0.4,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Loose papers",
+      "position": [
+        0.12,
+        0.94,
+        0.22
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "The library window was open just a crack, enough to stir the paper on the table.",
+        "I kept a short sample reading page in two formats, plus a small Jot clipping that can be included right here.",
+        "Open the attached demo reading page as a PDF",
+        "Keep the attached demo reading page as an EPUB",
+        "Included local Jot clipping"
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.01,
+            0.08
+          ],
+          "color": "#ffffff",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.07,
+            0,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0.05,
+            0
+          ],
+          "size": [
+            0.09,
+            0.01,
+            0.06
+          ],
+          "color": "#fff7e6",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Jot clipping",
+      "position": [
+        0.22,
+        0.95,
+        0.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I kept a short sample reading page in two formats, plus a small Jot clipping that can be included right here.",
+        "Included local Jot clipping"
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.01,
+            0.03
+          ],
+          "color": "#fff1d6",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Demo PDF stub",
+      "position": [
+        -0.02,
+        0.95,
+        -0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Open the attached demo reading page as a PDF"
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.01,
+            0.055
+          ],
+          "color": "#e9eef6",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Demo EPUB stub",
+      "position": [
+        0.32,
+        0.95,
+        -0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Keep the attached demo reading page as an EPUB"
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.01,
+            0.055
+          ],
+          "color": "#f6f7e8",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    }
+  ]
+}

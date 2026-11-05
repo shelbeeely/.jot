@@ -1,0 +1,894 @@
+{
+  "format": "jot-place",
+  "version": 1,
+  "made": {
+    "model": "openai/gpt-5-mini",
+    "at": "2026-11-05T09:53:34.025Z"
+  },
+  "title": "Workshop Table with Clay Bowl",
+  "sky": "#cfe9ff",
+  "ground": "#e9e6dd",
+  "weather": "clear",
+  "time": "day",
+  "camera": {
+    "position": [
+      1.8,
+      1.6,
+      3.6
+    ],
+    "target": [
+      0.2,
+      0.8,
+      0
+    ]
+  },
+  "objects": [
+    {
+      "name": "Floor",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            6,
+            0.01,
+            4
+          ],
+          "color": "#d9d6cc",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back wall",
+      "position": [
+        0,
+        1.5,
+        -1.95
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Through the window I could see the garden flowers nodding while the potter opened the back door."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            6,
+            3,
+            0.08
+          ],
+          "color": "#f4f1ec",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        -0.9,
+        0,
+        -1.94
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Through the window I could see the garden flowers nodding while the potter opened the back door."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.6,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#a6d6ff",
+          "roughness": 0.15,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden flowers",
+      "position": [
+        -0.9,
+        0,
+        -2.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Through the window I could see the garden flowers nodding while the potter opened the back door."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.25,
+            0.25,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.5,
+            0.02
+          ],
+          "color": "#6aa84f",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.25,
+            0.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.08,
+            0.08
+          ],
+          "color": "#ff7fb2",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.15,
+            0.25,
+            0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.5,
+            0.02
+          ],
+          "color": "#6aa84f",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.15,
+            0.6,
+            0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.07,
+            0.07
+          ],
+          "color": "#ffd56b",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back door (open)",
+      "position": [
+        1.6,
+        0,
+        -1.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Through the window I could see the garden flowers nodding while the potter opened the back door."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0.35,
+            0
+          ],
+          "size": [
+            0.9,
+            2,
+            0.06
+          ],
+          "color": "#b88666",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Workshop table",
+      "position": [
+        0.2,
+        0.75,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "At the workshop table I rolled a little clay bowl with a rim as uneven as the river bank.",
+        "Robin set a mug of tea beside the lamp, safely away from the tools.",
+        "I drew the bowl in my notebook before leaving it to dry.",
+        "What I thought would be a five-minute job turned into a whole afternoon of making the same curve over and over.",
+        "The unfinished shape was the part I wanted to keep. #making #drawing @workshop"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.06,
+            0.9
+          ],
+          "color": "#8b5e3c",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Clay bowl (wet)",
+      "position": [
+        -0.05,
+        0.87,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "At the workshop table I rolled a little clay bowl with a rim as uneven as the river bank.",
+        "I drew the bowl in my notebook before leaving it to dry.",
+        "The unfinished shape was the part I wanted to keep. #making #drawing @workshop"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.04,
+            0.09
+          ],
+          "color": "#c28f6b",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.02,
+            0.04
+          ],
+          "color": "#b07250",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        0.35,
+        0.88,
+        -0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "I drew the bowl in my notebook before leaving it to dry."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.02,
+            0.15
+          ],
+          "color": "#fff7e6",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.011,
+            0.065
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.02,
+            0.14
+          ],
+          "color": "#d9c9b5",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea",
+      "position": [
+        0.55,
+        0.87,
+        0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin set a mug of tea beside the lamp, safely away from the tools."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.08,
+            0.05
+          ],
+          "color": "#ffffff",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0.07,
+            0.01,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.01,
+            0.01
+          ],
+          "color": "#ffffff",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Desk lamp",
+      "position": [
+        -0.5,
+        0.9,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin set a mug of tea beside the lamp, safely away from the tools."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            -0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.4,
+            0.03
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.19,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.08,
+            0.12
+          ],
+          "color": "#333333",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.26,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.03,
+            0.03
+          ],
+          "color": "#ffdca6",
+          "roughness": 0.1,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Tool box",
+      "position": [
+        0.9,
+        0.82,
+        -0.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "Robin set a mug of tea beside the lamp, safely away from the tools."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.35,
+            0.12,
+            0.2
+          ],
+          "color": "#6a6a6a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.35,
+            0.02,
+            0.18
+          ],
+          "color": "#555555",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Stool",
+      "position": [
+        -0.8,
+        0.45,
+        0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "At the workshop table I rolled a little clay bowl with a rim as uneven as the river bank.",
+        "What I thought would be a five-minute job turned into a whole afternoon of making the same curve over and over."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.5,
+            0.18
+          ],
+          "color": "#7a5b3c",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.26,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.4,
+            0.06,
+            0.32
+          ],
+          "color": "#6b4f36",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Unfinished clay piece",
+      "position": [
+        0.02,
+        0.81,
+        -0.25
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "What I thought would be a five-minute job turned into a whole afternoon of making the same curve over and over.",
+        "The unfinished shape was the part I wanted to keep. #making #drawing @workshop"
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#caa07f",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small scrap pile",
+      "position": [
+        0.28,
+        0.8,
+        0.3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "moments": [
+        "What I thought would be a five-minute job turned into a whole afternoon of making the same curve over and over."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.03,
+            0.03
+          ],
+          "color": "#b88a66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.04,
+            0.02,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.02,
+            0.02
+          ],
+          "color": "#a77250",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    }
+  ]
+}
