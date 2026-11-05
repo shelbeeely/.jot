@@ -1288,3 +1288,18 @@ The owner asked whether the scribe can "find the media and link it automatically
 - **No title spotting in free speech.** Picking titles out of ordinary speech and linking the top catalog result would often link the wrong edition, remake or namesake, and the scribe's rule is that it writes what was said rather than what a model guesses.
 
 This narrows the 2026-11-04 scribe exception: links are added around verbatim words, and catalog text enters only by the writer's choice, as in Add media.
+
+## 2026-11-05: Typing alongside the scribe, and writing up a scratchpad
+
+**Typing while the scribe listens.** This already worked: the scribe writes at the end of today's entry without moving the cursor. One case was broken. While a phone keyboard is composing a word, the live editor turns edits away, so heard words could be dropped. They now wait and are written when the word ends.
+
+**Writing up a scratchpad.** The owner asked for the scratchpad to become "coherent thoughts". **Write it up…** hands the notes to the existing AI companion (bring-your-own local server or OpenRouter key, session only, as chosen on 2026-11-05):
+- the notes are the only context sent;
+- the starting instruction is "keep every fact, name, number and uncertainty; add nothing";
+- nothing is sent before **Draft writing**;
+- the reviewed draft goes after the entry's writing on **Apply**;
+- the scratchpad is unchanged.
+
+**Why not on-device.** The on-device SmolLM2 cleanup is not used because it only fixes punctuation and capitals, so it cannot reshape notes into sentences. Claiming otherwise would overstate it.
+
+**What the companion keeps.** It still validates output as passive Jot and cannot verify facts, so the review step is the safeguard.

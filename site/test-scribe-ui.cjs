@@ -124,6 +124,16 @@ const server = http.createServer((req, res) => {
     await page.click('#scribeClose'); await micsOff();
     await page.evaluate(() => localStorage.removeItem('jot-media-online-v1'));
 
+    // Typing while it listens: while the keyboard is mid-word (composition), heard words wait, then go in; nothing is lost.
+    await page.click('#writerVoiceMic'); await page.waitForFunction(() => document.getElementById('scribeStatus').textContent.startsWith('Listening'));
+    await page.evaluate(() => { const target = document.getElementById('liveWriting') || document.getElementById('writing'); target.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true, data: '' })); });
+    await page.evaluate(() => window.scribeSay.push('Said while typing.'));
+    await page.waitForFunction(() => window.scribeSay.length === 0); await page.waitForTimeout(2500);
+    assert.ok(!(await page.inputValue('#writing')).includes('Said while typing.'), 'held while a word is being typed');
+    await page.evaluate(() => { const target = document.getElementById('liveWriting') || document.getElementById('writing'); target.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true, data: '' })); });
+    await page.waitForFunction(() => document.getElementById('writing').value.includes('Said while typing.'), null, { timeout: 10000 });
+    await page.click('#scribeClose'); await micsOff();
+
     // Rough-draft mode: the same words go into today's scratchpad, off the page; Scratch that restores it.
     await page.click('#writerVoiceMic'); await page.waitForFunction(() => document.getElementById('scribeStatus').textContent.startsWith('Listening'));
     await page.click('#scribe details summary'); await page.selectOption('#scribeTarget', 'draft'); await page.click('#scribe details summary');
@@ -142,6 +152,6 @@ const server = http.createServer((req, res) => {
     await page.click('#vwClose');
 
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
-    console.log('PASS: scribe: model setup without automatic download, one-tap Speak, verbatim words at the end of today\'s entry (earlier entries unchanged), spoken paragraph/task/tag/scratch/stop commands, a question on a pause read only with an on-device voice and quoted above the answer, unfinished words flushed on a pause, media by voice (known titles linked, find and link it), rough-draft mode into today\'s scratchpad, Undo, microphone released on stop/close/voice typing, phone light/dark accessibility, no network requests.');
+    console.log('PASS: scribe: model setup without automatic download, one-tap Speak, verbatim words at the end of today\'s entry (earlier entries unchanged), spoken paragraph/task/tag/scratch/stop commands, a question on a pause read only with an on-device voice and quoted above the answer, unfinished words flushed on a pause, media by voice (known titles linked, find and link it), typing while it listens, rough-draft mode into today\'s scratchpad, Undo, microphone released on stop/close/voice typing, phone light/dark accessibility, no network requests.');
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); server.close(); process.exitCode = 1; });

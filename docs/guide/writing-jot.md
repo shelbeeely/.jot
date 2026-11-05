@@ -233,6 +233,12 @@ writing; what you type is saved into the entry as you go.
 - **Add to entry** puts the words you selected in the scratchpad (or all of it) at the end of the entry. The scratchpad keeps
   them until you clear it.
 - **Clear scratchpad** asks once more, then removes the block. Undo brings it back.
+- **Write it up…** turns your rough notes into a draft entry with the optional AI companion (your own local model server or
+  OpenRouter key, for this session only). It opens the companion with your notes (or just the ones you selected) as the
+  only context and an instruction to keep every fact and add nothing; you can change the instruction. Nothing is sent until
+  you choose **Draft writing**, and nothing goes in until you review it and choose **Apply**, which adds the draft after the
+  entry's writing. The scratchpad stays as it was. The small on-device cleanup model that voice typing uses only fixes
+  punctuation and capitals, so it is not offered here: shaping notes into sentences needs a larger model.
 - **Talk into it** (for today's entry) starts the scribe writing into the scratchpad instead of the entry. You can also
   choose **Write into: Today's scratchpad** in the scribe's settings.
 - In live editing a scratchpad shows as a small card with its word count and an **Open** button.

@@ -4,6 +4,9 @@ Writer works without AI, an account or a network connection. The optional compan
 or offers suggestions when you ask. It uses your own OpenRouter key or a local OpenAI-compatible model server. It is not a
 background agent and cannot browse, upload files, call tools or act on connected services.
 
+From an entry's **scratchpad**, **Write it up…** opens the companion with those notes as the only context and the draft
+going in after the entry's writing (see the scratchpad section of the writing guide). The steps below are the same.
+
 ## Start a session
 
 1. In Writer, place the caret where you want new writing, or select the passage you want to replace.
@@ -103,6 +106,11 @@ navigation bar, and above the on-screen keyboard when it is open.
 | "Stop listening" | Turns the microphone off |
 
 Commands said in the middle of a sentence are written as words. Undo and redo work on everything it wrote.
+
+**Typing while it listens.** You can type anywhere while the scribe listens; it writes at the end of today's entry and
+leaves your cursor where it is. While your keyboard is in the middle of a word (on phones this is most of the time you
+are typing), heard words wait and go in as soon as the word is finished, so nothing is lost. Write somewhere other than the
+end of today's entry if you don't want your words and the scribe's to interleave.
 
 **Media, linked as you talk.** When you say a title that is already in your journal (anything added with Add media, for
 example), the scribe links your exact words to it: "I watched the matrix again" is written as

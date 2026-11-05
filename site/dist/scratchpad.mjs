@@ -4,7 +4,7 @@
 import { parse } from './jot/jot.mjs';
 import { scratchpadAt, setScratchpad, addToEntry } from './scratchpad-core.mjs';
 
-export function setupScratchpad({ editor, status = () => {}, speakInto = null, today = () => '' }) {
+export function setupScratchpad({ editor, status = () => {}, speakInto = null, today = () => '', writeUp = null }) {
   const doc = editor.ownerDocument, win = doc.defaultView;
   const panel = doc.createElement('section');
   panel.id = 'scratchpad'; panel.className = 'scratch'; panel.setAttribute('aria-labelledby', 'scratchTitle'); panel.hidden = true;
@@ -12,7 +12,7 @@ export function setupScratchpad({ editor, status = () => {}, speakInto = null, t
   panel.innerHTML = `<div class="scratch-head"><h2 id="scratchTitle">Scratchpad</h2><span id="scratchDate" class="scratch-date"></span><button id="scratchClose" class="scratch-close" type="button" aria-label="Close the scratchpad">✕</button></div>
 <p class="scratch-help">Rough notes for this entry. They are saved with it but stay off the page and out of print. When you are ready, add what you want to keep to the entry.</p>
 <label class="sr-only" for="scratchText">Scratchpad</label><textarea id="scratchText" rows="8" spellcheck="true" placeholder="Anything goes: half sentences, lists, reminders."></textarea>
-<div class="scratch-actions"><button id="scratchAdd" class="scratch-primary" type="button">Add to entry</button><button id="scratchSpeak" type="button" hidden>Talk into it</button><button id="scratchClear" type="button">Clear scratchpad</button></div>
+<div class="scratch-actions"><button id="scratchAdd" class="scratch-primary" type="button">Add to entry</button><button id="scratchWriteUp" type="button" hidden title="Turn the notes into a draft entry with the AI companion; you review it first">Write it up…</button><button id="scratchSpeak" type="button" hidden>Talk into it</button><button id="scratchClear" type="button">Clear scratchpad</button></div>
 <p id="scratchStatus" class="scratch-status" role="status" aria-live="polite"></p>`;
   (doc.querySelector('.writing-pane') || doc.body).append(panel);
   const button = doc.createElement('button');
@@ -92,6 +92,20 @@ export function setupScratchpad({ editor, status = () => {}, speakInto = null, t
     if (!text.value.trim()) { say('The scratchpad is already empty.'); return; }
     if (!clearArmed) { $('scratchClear').textContent = 'Clear it? Press again'; $('scratchClear').classList.add('scratch-danger'); clearArmed = win.setTimeout(disarm, 5000); return; }
     disarm(); text.value = ''; save(); say('Cleared.' + undoable());
+  };
+  if (writeUp) $('scratchWriteUp').hidden = false;
+  $('scratchWriteUp').onclick = () => {
+    if (timer) save();
+    const chosen = text.value.slice(text.selectionStart, text.selectionEnd).trim(), words = chosen || text.value.trim();
+    if (!words) { say('Write some notes in the scratchpad first.'); text.focus(); return; }
+    const at = locate();
+    if (at < 0) { say('This entry is no longer in the journal.'); return; }
+    // The draft will go where Add to entry puts words: after the entry's own writing.
+    const end = addToEntry(editor.value, at, 'x').start;
+    // The scratchpad is saved; it steps aside so the companion is in reach, and opens again from the entry's card.
+    close();
+    writeUp({ context: words, caret: end, date });
+    status('The writing companion has your ' + (chosen ? 'selected notes' : 'scratchpad notes') + '. Nothing is sent until you choose Draft writing.');
   };
   $('scratchSpeak').onclick = () => { if (timer) save(); speakInto?.(date); };
   $('scratchClose').onclick = () => { close(); editor.focus(); };

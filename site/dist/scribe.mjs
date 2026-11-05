@@ -60,7 +60,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
   $('scribeLinkMedia').checked = prefs.linkMedia !== false;
 
   let engine = null, whistle = false, generation = 0, controller = null, stopMic = null, queue = Promise.resolve(), audio = new Float32Array(0), buffered = 0;
-  let state = 'idle', titles = [], found = [], findController = null, buffer = '', heard = false, phraseSeconds = 0, awaiting = '', lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * SCRIBE_QUESTIONS.length);
+  let state = 'idle', composing = false, waiting = [], titles = [], found = [], findController = null, buffer = '', heard = false, phraseSeconds = 0, awaiting = '', lastLoud = 0, lastWords = 0, startedAt = 0, ticker = null, question = '', askedAt = 0, spokeSinceQuestion = false, speaking = false, speakingUntil = 0, questionIndex = Math.floor(Math.random() * SCRIBE_QUESTIONS.length);
   let written = { lastEnd: -1, lastKind: '', separator: null }, history = [];
   const say = text => { $('scribeStatus').textContent = text; };
 
@@ -103,7 +103,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     if (!edit) { say('Could not find today’s entry to write into. Microphone still on.'); return; }
     if (asked) clearQuestion();
     const old = editor.value.slice(edit.start, edit.end);
-    apply(edit);
+    if (apply(edit) === false) { waiting.push(item); return; }
     history.push({ start: edit.start, text: edit.text, old });
     if (history.length > 200) history.shift();
     written = { lastEnd: -1, lastKind: item.kind, separator: null };
@@ -111,6 +111,9 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
   }
   function write(item) {
     if (editor.readOnly) { stop('The journal is locked. Microphone off.'); return; }
+    // You may be typing: while the keyboard is in the middle of a word (composition), the editor turns edits away, so
+    // the words wait and go in as soon as the word is done. Nothing is lost.
+    if (composing) { waiting.push(item); return; }
     const date = today();
     if (prefs.target === 'draft') { writeDraft(item, date); return; }
     // Titles already in the journal become links around the exact words said.
@@ -119,7 +122,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
     if (!plan) { addToday(date); written.lastEnd = -1; plan = planWrite(editor.value, date, written, item, question && spokeSinceQuestion ? question : ''); }
     if (!plan) { say('Could not find today’s entry to write into. Microphone still on.'); return; }
     if (question && spokeSinceQuestion) clearQuestion();
-    apply({ start: plan.start, end: plan.start, text: plan.text });
+    if (apply({ start: plan.start, end: plan.start, text: plan.text }) === false) { waiting.push(item); return; }
     history.push({ start: plan.start, text: plan.text });
     // Keep the newest words in view when they are the end of the journal.
     if (!editor.value.slice(plan.start + plan.text.length).trim()) win.scrollTo({ top: doc.documentElement.scrollHeight, behavior: win.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
@@ -350,7 +353,7 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
   }
   function reset() {
     generation++; controller?.abort(); controller = null; stopMic?.(); stopMic = null; win.clearInterval(ticker); ticker = null;
-    win.speechSynthesis?.cancel(); speaking = false; question = ''; buffer = ''; phraseSeconds = 0; awaiting = ''; clearFound(); titles = []; history = []; written = { lastEnd: -1, lastKind: '', separator: null };
+    win.speechSynthesis?.cancel(); speaking = false; question = ''; buffer = ''; phraseSeconds = 0; awaiting = ''; clearFound(); titles = []; waiting = []; history = []; written = { lastEnd: -1, lastKind: '', separator: null };
     engine?.close(); engine = null; whistle = false; state = 'idle'; panel.hidden = true; root.removeAttribute('data-scribe-open'); $('scribePending').textContent = '';
     say('Microphone off.'); controls();
   }
@@ -392,6 +395,8 @@ export function setupScribe({ editor, today, todayEntry, status = () => {}, befo
       await load(bytes, generation); controls(); say('Speech model loaded. Press Start listening.');
     } catch (e) { say(e.message); }
   };
+  doc.addEventListener('compositionstart', () => { composing = true; }, true);
+  doc.addEventListener('compositionend', () => { composing = false; win.setTimeout(() => { const now = waiting.splice(0); for (const item of now) write(item); }, 0); }, true);
   win.addEventListener('pagehide', reset);
   doc.addEventListener('visibilitychange', () => { if (doc.hidden && ['starting', 'listening'].includes(state)) stop('Microphone off because the page was hidden. Start listening to carry on.'); });
   controls();

@@ -369,7 +369,7 @@ scribe = setupScribe({ editor, status, today, todayEntry: (source, date) => A.to
 $('writerVoiceMic').onclick = () => { if (scribe.listening) scribe.stop(); else scribe.open(); };
 $('writerVoiceWritingBtn').addEventListener('click', () => scribe.reset(), { capture: true });
 // Scratchpads: rough notes beside an entry, kept in the file and off the page (spec 4.2.7). Margin notes: [[...]] beside a passage (4.2.8).
-scratchpad = setupScratchpad({ editor, status, today, speakInto: () => scribe.open({ target: 'draft' }) });
+scratchpad = setupScratchpad({ editor, status, today, speakInto: () => scribe.open({ target: 'draft' }), writeUp: options => aiCompanion.writeUp(options) });
 setupMarginNotes({ editor, status });
 // Add media: films, series and episodes, books, anime, podcasts, games and songs from keyless public catalogs, on request.
 setupMediaPicker({ editor, status });

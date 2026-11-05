@@ -67,6 +67,37 @@ const server = http.createServer((req, res) => {
     await page.click('#writerUndo');
     await page.waitForFunction(() => document.getElementById('scratchText').value.includes('heron, rain'));
 
+    // Write it up: the AI companion gets only the scratchpad notes; the reviewed draft goes at the end of the entry.
+    const sent = [];
+    await page.route('http://127.0.0.1:11434/v1/chat/completions', async (route) => {
+      const request = route.request();
+      if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Headers': 'content-type' } });
+      sent.push(request.postData());
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': origin }, body: JSON.stringify({ choices: [{ finish_reason: 'stop', message: { content: JSON.stringify({ candidates: [{ label: 'Draft', jot: 'The heron stood in the rain by the canal.' }] }) } }] }) });
+    });
+    const beforeWriteUp = await writing();
+    await page.click('#scratchWriteUp');
+    await page.waitForFunction(() => !document.getElementById('writerAI').hidden);
+    assert.equal(await page.inputValue('#aiContext'), 'heron, rain, canal\n[ ] look up heron species');
+    assert.match(await page.textContent('#aiTarget'), /end of the 2026-11-04 entry\. Your scratchpad stays/);
+    assert.equal(sent.length, 0, 'nothing is sent on opening');
+    await page.check('#aiEnabled'); await page.selectOption('#aiProvider', 'local'); await page.fill('#aiModel', 'test-model');
+    assert.equal(await page.isHidden('#scratchpad'), true, 'the scratchpad steps aside');
+    assert.equal(await page.inputValue('#aiContext'), 'heron, rain, canal\n[ ] look up heron species');
+    await page.click('#aiDraft');
+    await page.waitForFunction(() => !document.getElementById('aiReview').hidden);
+    assert.equal(sent.length, 1);
+    const body = JSON.parse(JSON.parse(sent[0]).messages[1].content);
+    assert.equal(body.context, 'heron, rain, canal\n[ ] look up heron species');
+    assert.ok(!sent[0].includes('Old entry') && !sent[0].includes('Later') && !sent[0].includes('The heron was back'), 'no other writing is sent');
+    await page.click('#aiApply');
+    const afterWriteUp = await writing();
+    assert.ok(afterWriteUp.includes('The heron was back.\n\nThe heron stood in the rain by the canal.'), afterWriteUp);
+    assert.ok(afterWriteUp.includes('~~~draft\nheron, rain, canal\n[ ] look up heron species\n~~~'), 'the scratchpad stays');
+    assert.ok(afterWriteUp.startsWith('### 2026-11-03 | Tue\n\nOld entry.'));
+    await page.keyboard.press('Control+z'); assert.equal(await writing(), beforeWriteUp, 'Undo removes the draft');
+    await page.evaluate(() => document.getElementById('scratchpadBtn').click());
+
     // Accessibility on a phone, light and dark.
     await page.addScriptTag({ path: require.resolve('axe-core/axe.min.js') });
     for (const scheme of ['light', 'dark']) {
@@ -105,7 +136,7 @@ const server = http.createServer((req, res) => {
     await page.click('#writerFormatTop'); await page.click('#writerFormatMenu >> text=Draw on a page…');
     await page.waitForFunction(() => !document.getElementById('writerAnnotation').hidden);
 
-    assert.deepEqual(errors, []); assert.deepEqual(external, []);
-    console.log('PASS: scratchpad under the entry heading (only that entry changes), literal and off the page, live card and Open, add selected words to the entry, two-step clear, Undo both ways, margin note after the passage and beside it on the page, Draw on a page from the Format menu, phone light/dark accessibility, no network requests.');
+    assert.deepEqual(errors, []); assert.deepEqual(external.filter((u) => !u.startsWith('http://127.0.0.1:11434/')), []);
+    console.log('PASS: scratchpad under the entry heading (only that entry changes), literal and off the page, live card and Open, add selected words to the entry, two-step clear, Undo both ways, Write it up through the AI companion with only the notes sent, margin note after the passage and beside it on the page, Draw on a page from the Format menu, phone light/dark accessibility, no network requests.');
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); server.close(); process.exitCode = 1; });

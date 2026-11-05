@@ -1,4 +1,4 @@
-import { aiEdit, requestAI } from './ai-client.mjs';
+import { aiEdit, requestAI, AI_LIMIT } from './ai-client.mjs';
 
 export function setupAICompanion({ editor, getRevision = () => editor.value, status = () => {} }) {
   const button = document.createElement('button'); button.id = 'writerAIBtn'; button.type = 'button'; button.className = 'quiet'; button.textContent = 'AI companion';
@@ -30,7 +30,7 @@ export function setupAICompanion({ editor, getRevision = () => editor.value, sta
 <button id="aiDisconnect" type="button">Disconnect and forget key</button>`;
   editor.closest('.writing-pane').append(panel);
   const $ = id => panel.querySelector('#' + id);
-  let snapshot = '', revision, start = 0, end = 0, controller, generation = 0, candidates = [], validated = false;
+  let snapshot = '', revision, start = 0, end = 0, controller, generation = 0, candidates = [], validated = false, notes = null;
   const cancel = () => { generation++; controller?.abort(); controller = null; $('aiCancel').hidden = true; $('aiDraft').disabled = false; $('aiSuggest').disabled = !$('aiSuggestionsEnabled').checked; };
   const discard = () => { validated = false; candidates = []; $('aiCandidates').replaceChildren(); $('aiOutput').value = ''; $('aiReview').hidden = true; };
   const message = text => { $('aiMessage').textContent = text; };
@@ -39,19 +39,34 @@ export function setupAICompanion({ editor, getRevision = () => editor.value, sta
     $('aiBaseLabel').hidden = remote; $('aiZdrLabel').hidden = !remote;
     $('aiPrivacy').textContent = remote ? 'Your instruction and chosen context go to OpenRouter and its model provider. BYOK is not local processing. Provider data collection is denied. ZDR restricts eligible endpoints; turning it off cannot override account-level ZDR. Model charges may apply.' : 'Requests go only to your configured loopback server. Check that it runs a local model and does not forward to the cloud. Configure its CORS/allowed origins for this Writer page. Browser or desktop policy may block local access; no proxy or cloud fallback is used.';
   };
-  const showContext = () => { $('aiContext').value = $('aiContextEnabled').checked ? snapshot.slice(start, end) : ''; };
+  // The context is the captured selection, or the scratchpad notes the writer chose to write up.
+  const showContext = () => { $('aiContext').value = $('aiContextEnabled').checked ? (notes ?? snapshot.slice(start, end)) : ''; };
   const capture = () => {
-    cancel(); discard(); snapshot = editor.value; revision = getRevision(); start = editor.selectionStart; end = editor.selectionEnd;
+    cancel(); discard(); notes = null; snapshot = editor.value; revision = getRevision(); start = editor.selectionStart; end = editor.selectionEnd;
     $('aiTarget').textContent = start === end ? 'Apply will insert at the captured caret. No journal context is sent.' : `Apply will replace the captured selection (${end - start} characters). Sending that selection as context is optional.`;
     showContext(); message('Describe what you want, then request help. Only the displayed context and your instruction will be sent.');
   };
-  const reset = () => { cancel(); discard(); snapshot = ''; revision = undefined; start = end = 0; $('aiContext').value = ''; $('aiInstruction').value = ''; $('aiKey').value = ''; $('aiContextEnabled').checked = false; $('aiSuggestionsEnabled').checked = false; $('aiEnabled').checked = false; $('aiControls').disabled = true; $('aiTarget').textContent = ''; message('AI disconnected. The key and companion text were cleared.'); panel.hidden = true; };
+  const reset = () => { cancel(); discard(); notes = null; snapshot = ''; revision = undefined; start = end = 0; $('aiContext').value = ''; $('aiInstruction').value = ''; $('aiKey').value = ''; $('aiContextEnabled').checked = false; $('aiSuggestionsEnabled').checked = false; $('aiEnabled').checked = false; $('aiControls').disabled = true; $('aiTarget').textContent = ''; message('AI disconnected. The key and companion text were cleared.'); panel.hidden = true; };
   button.onclick = () => { if (editor.readOnly) return; panel.hidden = false; capture(); $('aiEnabled').focus(); };
   $('aiClose').onclick = () => { cancel(); discard(); panel.hidden = true; editor.focus(); };
   $('aiDisconnect').onclick = reset;
+  // From a scratchpad: its notes are the only context, the draft goes in at the end of that entry, and nothing is sent
+  // until the writer presses Draft writing (and nothing is added until Apply).
+  function writeUp({ context, caret, date = '' }) {
+    if (editor.readOnly) return;
+    panel.hidden = false; cancel(); discard();
+    snapshot = editor.value; revision = getRevision(); start = end = Math.min(caret, snapshot.length); notes = String(context).slice(0, AI_LIMIT);
+    $('aiContextEnabled').checked = true; showContext();
+    if (!$('aiInstruction').value.trim()) $('aiInstruction').value = 'Turn my rough notes into a short journal entry in my own words. Keep every fact, name, number and uncertainty. Do not add anything I did not write.';
+    $('aiTarget').textContent = 'Apply will add the draft at the end of ' + (date ? 'the ' + date + ' entry' : 'the entry') + '. Your scratchpad stays as it is.';
+    message($('aiEnabled').checked ? 'Check the notes and the instruction, then choose Draft writing. Only these notes and the instruction are sent.' : 'Turn on AI for this session and choose a connection. Only these notes and your instruction will be sent, when you choose Draft writing.');
+    panel.scrollIntoView({ block: 'start' });
+    ($('aiEnabled').checked ? $('aiDraft') : $('aiEnabled')).focus({ preventScroll: true });
+  }
   $('aiEnabled').onchange = () => { cancel(); discard(); $('aiControls').disabled = !$('aiEnabled').checked; if (!$('aiEnabled').checked) { $('aiKey').value = ''; message('AI off. Key cleared.'); } };
   $('aiProvider').onchange = () => { cancel(); discard(); $('aiKey').value = ''; $('aiModel').value = ''; privacy(); };
   for (const id of ['aiBase', 'aiModel', 'aiKey', 'aiZdr', 'aiStructured', 'aiInstruction', 'aiSuggestionsEnabled', 'aiContextEnabled']) $(id).addEventListener('input', () => { cancel(); discard(); showContext(); });
+  $('aiContextEnabled').addEventListener('change', showContext);
   $('aiRefresh').onclick = capture;
   $('aiCancel').onclick = () => { cancel(); discard(); message('Request cancelled. Nothing was inserted.'); };
   $('aiCandidates').onchange = () => { $('aiOutput').value = candidates[Number($('aiCandidates').value)].jot; };
@@ -87,5 +102,5 @@ export function setupAICompanion({ editor, getRevision = () => editor.value, sta
   editor.addEventListener('input', () => { if (!panel.hidden) { cancel(); discard(); message('Writing changed. Capture the current selection and caret before requesting help.'); } });
   window.addEventListener('pagehide', reset);
   privacy();
-  return { reset };
+  return { reset, writeUp };
 }
