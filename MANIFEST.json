@@ -24464,8 +24464,8 @@
     },
     {
       "path": "site/test-writer-welcome-ui.cjs",
-      "byteLength": 12923,
-      "sha256": "73bc969878f3e249898f6e397216e394405456693807dda1dccb6d8aaf1f46fb"
+      "byteLength": 12931,
+      "sha256": "698d8fef8c86b968bda673e6f68fc9abe50f79343addfd0b8d5316ce30d81000"
     },
     {
       "path": "site/test-writer-workspace.mjs",
