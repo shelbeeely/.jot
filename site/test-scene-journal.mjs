@@ -94,3 +94,18 @@ test('the shared JSON transport keeps the companion\'s privacy settings and refu
   await assert.rejects(requestJSON(config, { fetcher: reply('not json') }), /invalid JSON/);
   await assert.rejects(requestJSON({ ...config, base: 'https://evil.example/v1' }, { fetcher: reply('{}') }), /localhost/);
 });
+test('a reasoning hint goes only to OpenRouter, and is dropped once if no provider can take it', async () => {
+  const base = { model: 'm', key: 'k', system: 's', user: 'u', schema: PLACE_SCHEMA, reasoning: { effort: 'low' } };
+  assert.deepEqual(jsonRequest({ provider: 'openrouter', ...base }).reasoning, { effort: 'low' });
+  assert.equal(jsonRequest({ provider: 'local', base: 'http://127.0.0.1:1/v1', ...base }).reasoning, undefined, 'local servers never get it');
+  const sent = [];
+  const fetcher = async (url, init) => {
+    const body = JSON.parse(init.body); sent.push(body);
+    if (body.reasoning) return new Response('{"error":{"code":404}}', { status: 404 });
+    return new Response(JSON.stringify({ choices: [{ finish_reason: 'stop', message: { content: '{"ok":true}' } }] }), { status: 200 });
+  };
+  assert.deepEqual(await requestJSON({ provider: 'openrouter', ...base }, { fetcher }), { ok: true });
+  assert.equal(sent.length, 2); assert.deepEqual(sent[1].provider, sent[0].provider, 'the same privacy settings, only the hint dropped');
+  const refused = async () => new Response('{}', { status: 401 });
+  await assert.rejects(requestJSON({ provider: 'openrouter', ...base }, { fetcher: refused }), /HTTP 401/);
+});

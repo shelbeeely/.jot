@@ -144,9 +144,9 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     cancel.onclick = () => { controller?.abort(); confirm.hidden = true; };
     send.onclick = async () => {
       const prompt = placePrompt(day), mine = keyOf(day); controller?.abort(); controller = new AbortController();
-      send.disabled = true; summary.textContent = 'Asking the model for this day\'s scene…';
+      send.disabled = true; summary.textContent = 'Asking the model for this day\'s scene. Some models take a minute or two; Cancel stops it.';
       try {
-        const value = await requestJSON({ ...conn, system: prompt.system, user: prompt.user, schema: PLACE_SCHEMA, name: 'jot_place', maxTokens: 8192 }, { signal: controller.signal });
+        const value = await requestJSON({ ...conn, system: prompt.system, user: prompt.user, schema: PLACE_SCHEMA, name: 'jot_place', maxTokens: 24000, reasoning: { effort: 'low' } }, { signal: controller.signal });
         const place = validatePlace(value, day.sentences);
         drafts.set(mine, { place, model: conn.model, sentences: day.sentences.join('\n') });
         confirm.hidden = true; summary.textContent = `A draft scene for ${dayName(day)}. Look around, then keep it or try again.`;

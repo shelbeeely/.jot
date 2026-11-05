@@ -18,18 +18,18 @@ const SHAPES = ['box', 'cylinder', 'sphere', 'cone', 'torus', 'plane', 'capsule'
 const WEATHER = ['clear', 'rain', 'snow', 'fog', 'sun'], TIMES = ['morning', 'day', 'evening', 'night'];
 const PROSE = new Set(['paragraph', 'list', 'task', 'blockquote', 'table']);
 
-const vec = { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3 };
+const vec = { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3 }, hex = { type: 'string', pattern: '^#[0-9a-fA-F]{6}$' };
 /** The structured output the model must return (strict JSON schema). */
 export const PLACE_SCHEMA = Object.freeze({
   type: 'object', additionalProperties: false, required: ['title', 'sky', 'ground', 'weather', 'time', 'camera', 'objects'],
   properties: {
-    title: { type: 'string' }, sky: { type: 'string' }, ground: { type: 'string' },
+    title: { type: 'string' }, sky: hex, ground: hex,
     weather: { type: 'string', enum: WEATHER }, time: { type: 'string', enum: TIMES },
     camera: { type: 'object', additionalProperties: false, required: ['position', 'target'], properties: { position: vec, target: vec } },
     objects: { type: 'array', maxItems: LIMITS.objects, items: { type: 'object', additionalProperties: false, required: ['name', 'position', 'rotation', 'moments', 'shapes'], properties: {
       name: { type: 'string' }, position: vec, rotation: vec, moments: { type: 'array', items: { type: 'integer' } },
       shapes: { type: 'array', minItems: 1, maxItems: LIMITS.shapes, items: { type: 'object', additionalProperties: false, required: ['type', 'position', 'rotation', 'size', 'color', 'roughness', 'glow'], properties: {
-        type: { type: 'string', enum: SHAPES }, position: vec, rotation: vec, size: vec, color: { type: 'string' }, roughness: { type: 'number' }, glow: { type: 'boolean' } } } } } } },
+        type: { type: 'string', enum: SHAPES }, position: vec, rotation: vec, size: vec, color: hex, roughness: { type: 'number' }, glow: { type: 'boolean' } } } } } } },
   },
 });
 
@@ -73,7 +73,8 @@ export function placePrompt(day) {
     'Build every object from simple shapes (box, cylinder, sphere, cone, torus, plane, capsule). Units are metres; the ground is y = 0;',
     'keep the place within about 8 metres across. position and rotation (radians) are relative to the object; size is width, height, depth',
     '(for cylinders, cones and capsules: radius, height, radius; spheres: radius in all three; torus: radius, tube, radius).',
-    'Colours are #rrggbb. glow is true only for light sources. Choose weather and time of day from the entry.',
+    'Every colour, including sky and ground, is #rrggbb (never a word). glow is true only for light sources. Choose weather and time of day from the entry.',
+    'Aim for 8 to 20 objects and at most 80 shapes in all: a few telling details, not everything. Write compact JSON with no indentation.',
     'For each object, list in moments the numbers of the sentences it is part of (or none). Never write journal text, captions or quotes:',
     'object names are short plain labels such as "Mug of tea" or "Bus shelter". Give a short title for the place.',
   ].join(' ');

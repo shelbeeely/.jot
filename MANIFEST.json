@@ -22794,8 +22794,8 @@
     },
     {
       "path": "site/dist/ai-client.mjs",
-      "byteLength": 10093,
-      "sha256": "03362c9fcb75567b8e828af697371593e26ab3493c4ada241c0e2dd8150c5f12"
+      "byteLength": 10672,
+      "sha256": "507bd5ede07aacdb7d2e38eb91361f0ba5efe36f55fc12c161eac307ad4e889c"
     },
     {
       "path": "site/dist/ai-companion.css",
@@ -23895,7 +23895,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5828,
-      "sha256": "154f9a7b2de68e223d10c59ffe142091bd78a4f0c1314b9e0f5e3f7b5aa60d35"
+      "sha256": "10bd63d2ec2c3e9b0f5ad13bb2bd1b16ef2bdb106526b60fd7da619b89124236"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -23949,8 +23949,8 @@
     },
     {
       "path": "site/dist/scene-journal-core.mjs",
-      "byteLength": 11183,
-      "sha256": "049d8102b48cb4507dfda66a86036da5763f5d27ce16a4990fd5e5bd04f254bd"
+      "byteLength": 11380,
+      "sha256": "ef34534c7b701f620b23cd66f420c9a9c9247466c8b429aeafc6971e247edd93"
     },
     {
       "path": "site/dist/scratchpad-core.mjs",
@@ -24209,8 +24209,8 @@
     },
     {
       "path": "site/dist/writer-scene.mjs",
-      "byteLength": 17808,
-      "sha256": "b50b10310eb43ff7e4ad324068ae6d2b3d91f1e25e3acb92a7de246653b1e233"
+      "byteLength": 17888,
+      "sha256": "36a42b022dbce150dca16b89bcbbdbc5f31d191cb075dc2047aa6ca984743ee5"
     },
     {
       "path": "site/dist/writer-search.mjs",

@@ -28,13 +28,14 @@ export function aiRequest({ provider, model, key = '', instruction, context = ''
 }
 
 /** A request for any structured JSON answer (journal places use it): the companion's privacy settings, a caller's own schema. */
-export function jsonRequest({ provider, model, key = '', system, user, schema, name = 'jot', zdr = true, structured = true, maxTokens = 4096 }) {
+export function jsonRequest({ provider, model, key = '', system, user, schema, name = 'jot', zdr = true, structured = true, maxTokens = 4096, reasoning = null }) {
   if (!model?.trim() || model.length > 200) throw Error('Enter a model ID in the AI companion.');
   if (provider === 'openrouter' && !key.trim()) throw Error('Enter your OpenRouter API key in the AI companion for this session.');
   if (!system || !user || user.length > AI_LIMIT) throw Error('There is too much to send (at most 24,000 characters).');
   const body = { model: model.trim(), stream: false, max_tokens: maxTokens, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] };
   if (structured) body.response_format = { type: 'json_schema', json_schema: { name, strict: true, schema } };
   if (provider === 'openrouter') body.provider = { zdr: !!zdr, data_collection: 'deny', require_parameters: true };
+  if (provider === 'openrouter' && reasoning) body.reasoning = reasoning; // a hint for models that think before answering; local servers never get it
   return body;
 }
 /** The JSON value of a finished answer: no tool calls, no refusals, no unfinished text. */
@@ -86,7 +87,7 @@ async function post(config, body, { signal, fetcher = fetch, limit = 128000 } = 
   let response;
   try { response = await fetcher(endpoint, { method: 'POST', headers, body: JSON.stringify(body), signal, credentials: 'omit', redirect: 'error', referrerPolicy: 'no-referrer', cache: 'no-store' }); }
   catch { throw Error(signal?.aborted ? 'AI request cancelled or timed out.' : 'Could not reach the model. Check the endpoint, browser permissions and server CORS settings. No fallback was attempted.'); }
-  if (!response.ok) throw Error(`Model request failed (HTTP ${response.status}). Check the key, model, structured-output support and routing policies. No privacy settings were relaxed.`);
+  if (!response.ok) throw Object.assign(Error(`Model request failed (HTTP ${response.status}). Check the key, model, structured-output support and routing policies. No privacy settings were relaxed.`), { status: response.status });
   // Bound the response while streaming, rather than trusting Content-Length.
   const reader = response.body.getReader(), decoder = new TextDecoder(); let content = '', bytes = 0;
   try {
@@ -100,6 +101,8 @@ export async function requestAI(config, options = {}) {
   return aiCandidates(await post(config, aiRequest(config), options), config.suggestions);
 }
 /** A structured answer to jsonRequest(config): the parsed JSON value, checked by the caller. */
+// With a reasoning hint, a model whose providers cannot take it is asked once more without it: the same privacy settings, minus the hint.
 export async function requestJSON(config, options = {}) {
-  return jsonContent(await post(config, jsonRequest(config), { limit: 512000, ...options }));
+  try { return jsonContent(await post(config, jsonRequest(config), { limit: 512000, ...options })); }
+  catch (e) { if (e.status === 404 && config.reasoning && config.provider === 'openrouter') return jsonContent(await post(config, jsonRequest({ ...config, reasoning: null }), { limit: 512000, ...options })); throw e; }
 }
