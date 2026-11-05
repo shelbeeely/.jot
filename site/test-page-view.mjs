@@ -53,3 +53,17 @@ test('book parts: a page with a model carries the viewer and the bytes; a missin
   assert.deepEqual(out.files.map((f) => f.path).filter((p) => !p.startsWith('js/models/')), ['js/three.js', 'js/model3d-view.js', 'js/models.js']);
   await assert.rejects(bookParts({ css: '', pages }, { modelBytes: () => new Uint8Array([1]) }), /viewer/);
 });
+test('book parts: a compressed model brings its decoders, once per book, before the models', async () => {
+  const enc = (o) => { let t = JSON.stringify(o); while (t.length % 4) t += ' '; const b = new TextEncoder().encode(t), out = new Uint8Array(20 + b.length), v = new DataView(out.buffer);
+    v.setUint32(0, 0x46546c67, true); v.setUint32(4, 2, true); v.setUint32(8, out.length, true); v.setUint32(12, b.length, true); v.setUint32(16, 0x4e4f534a, true); out.set(b, 20); return out; };
+  const models = { 'media/d': enc({ asset: { version: '2.0' }, extensionsUsed: ['KHR_draco_mesh_compression'] }), 'media/m': enc({ asset: { version: '2.0' }, extensionsUsed: ['EXT_meshopt_compression'] }) };
+  const asked = [];
+  const out = await bookParts({ css: '', pages: [{ body: '<p/>', models: ['media/d'] }, { body: '<p/>', models: ['media/m', 'media/d'] }, { body: '<p/>', models: ['media/m'] }] },
+    { modelBytes: (p) => models[p], three: '/*t*/', viewer: '/*v*/', decoderBytes: (n) => { asked.push(n); return new TextEncoder().encode(n); } });
+  assert.deepEqual(asked, ['draco_wasm_wrapper.js', 'draco_decoder.wasm'], 'each decoder read once');
+  assert.deepEqual(out.pages[0].scripts.slice(0, 4), ['js/three.js', 'js/model3d-view.js', 'js/decoders/draco_wasm_wrapper-js.js', 'js/decoders/draco_decoder-wasm.js']);
+  assert.equal(out.pages[1].scripts.filter((s) => s.startsWith('js/decoders/')).length, 2);
+  assert.equal(out.pages[2].scripts.some((s) => s.startsWith('js/decoders/')), false, 'meshopt needs no decoder');
+  assert.match(out.files.find((f) => f.path === 'js/decoders/draco_decoder-wasm.js').data, /JotDecoders[\s\S]*\["draco_decoder\.wasm"\] = "ZHJhY29fZGVjb2Rlci53YXNt"/);
+  await assert.rejects(bookParts({ css: '', pages: [{ body: '<p/>', models: ['media/d'] }] }, { modelBytes: (p) => models[p], three: '/*t*/', viewer: '/*v*/' }), /decoder could not be read/);
+});

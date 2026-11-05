@@ -22,6 +22,9 @@
  *                            credit, invalid: [{ name, value, why }], rest: [{ name, value }] }
  *   modelProblems(record)  [{ code, message, field }] for the parser
  *   isModelType(type)      a glTF media type
+ *   gltfExtensions(bytes)  { used: [...], required: [...] } from a .glb or .gltf file's own JSON, or null when it is not glTF
+ *   decodersFor(bytes)     the decoder files (vendor/three-decoders/) a model needs: Draco meshes, Basis Universal (KTX2) textures.
+ *                          meshopt (EXT_meshopt_compression) is built into vendor/three.mjs and needs none.
  */
 import { COLOR } from './palette.mjs';
 
@@ -76,4 +79,22 @@ export function modelProblems(record) {
   return problems;
 }
 
-export default { modelOf, modelProblems, vector, isModelType, LIGHTING, MODEL_TYPES };
+/** The glTF extensions a model declares, read from its own JSON (the first chunk of a .glb). Never runs or fetches anything. */
+export function gltfExtensions(bytes) {
+  const b = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || []);
+  let json;
+  try {
+    if (b.length >= 20 && b[0] === 0x67 && b[1] === 0x6c && b[2] === 0x54 && b[3] === 0x46) { // 'glTF'
+      const view = new DataView(b.buffer, b.byteOffset, b.byteLength), length = view.getUint32(12, true);
+      if (view.getUint32(16, true) !== 0x4e4f534a || 20 + length > b.length) return null; // 'JSON'
+      json = JSON.parse(new TextDecoder().decode(b.subarray(20, 20 + length)));
+    } else json = JSON.parse(new TextDecoder().decode(b));
+  } catch { return null; }
+  if (!json || typeof json !== 'object' || !json.asset) return null;
+  const list = (x) => (Array.isArray(x) ? x.filter((e) => typeof e === 'string') : []);
+  return { used: list(json.extensionsUsed), required: list(json.extensionsRequired) };
+}
+export const DECODERS = { KHR_draco_mesh_compression: ['draco_wasm_wrapper.js', 'draco_decoder.wasm'], KHR_texture_basisu: ['basis_transcoder.js', 'basis_transcoder.wasm'] };
+export function decodersFor(bytes) { const ext = gltfExtensions(bytes); return ext ? ext.used.flatMap((e) => DECODERS[e] || []) : []; }
+
+export default { modelOf, modelProblems, gltfExtensions, decodersFor, DECODERS, vector, isModelType, LIGHTING, MODEL_TYPES };

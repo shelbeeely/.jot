@@ -43,3 +43,26 @@ test('other records named like Fountain scenes are untouched', () => {
   assert.deepEqual(parse('.0830 - WORKSHOP\n').diagnostics, []);
   assert.deepEqual(parse(':::record scene\nmodel: x\n:::\n').diagnostics, []);
 });
+
+// Compressed models: which decoders a model needs comes from its own JSON, never from running anything.
+import { gltfExtensions, decodersFor } from './model3d.mjs';
+const glb = (json) => { // a minimal .glb: header and a JSON chunk
+  let text = JSON.stringify(json); while (text.length % 4) text += ' ';
+  const body = new TextEncoder().encode(text), out = new Uint8Array(20 + body.length), v = new DataView(out.buffer);
+  v.setUint32(0, 0x46546c67, true); v.setUint32(4, 2, true); v.setUint32(8, out.length, true); v.setUint32(12, body.length, true); v.setUint32(16, 0x4e4f534a, true); out.set(body, 20);
+  return out;
+};
+test('reads the extensions a model declares', () => {
+  const asset = { version: '2.0' };
+  assert.deepEqual(gltfExtensions(glb({ asset, extensionsUsed: ['KHR_draco_mesh_compression', 'KHR_texture_basisu'], extensionsRequired: ['KHR_draco_mesh_compression'] })),
+    { used: ['KHR_draco_mesh_compression', 'KHR_texture_basisu'], required: ['KHR_draco_mesh_compression'] });
+  assert.deepEqual(gltfExtensions(new TextEncoder().encode(JSON.stringify({ asset, extensionsUsed: ['EXT_meshopt_compression'] }))), { used: ['EXT_meshopt_compression'], required: [] });
+  for (const bad of [new Uint8Array([1, 2, 3]), new TextEncoder().encode('{"no":"asset"}'), glb({ asset }).subarray(0, 24)]) assert.equal(gltfExtensions(bad), null);
+});
+test('Draco and Basis need their decoders; meshopt and plain models need none', () => {
+  const asset = { version: '2.0' };
+  assert.deepEqual(decodersFor(glb({ asset, extensionsUsed: ['KHR_draco_mesh_compression'] })), ['draco_wasm_wrapper.js', 'draco_decoder.wasm']);
+  assert.deepEqual(decodersFor(glb({ asset, extensionsUsed: ['KHR_texture_basisu', 'KHR_draco_mesh_compression'] })), ['basis_transcoder.js', 'basis_transcoder.wasm', 'draco_wasm_wrapper.js', 'draco_decoder.wasm']);
+  assert.deepEqual(decodersFor(glb({ asset, extensionsUsed: ['EXT_meshopt_compression', 'KHR_mesh_quantization', 'EXT_texture_webp'] })), []);
+  assert.deepEqual(decodersFor(new Uint8Array([0])), []);
+});

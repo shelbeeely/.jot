@@ -2,13 +2,16 @@
  * three.js (vendor/three.mjs, globalThis.JotThree). Classic script: it sets globalThis.Jot3D and exports nothing, so Writer
  * imports it for its effect and a fixed-layout EPUB page loads it with a plain <script>.
  *
- *   Jot3D.open(figure, bytes, settings)   -> Promise: draws the model (ArrayBuffer/Uint8Array of a .glb or self-contained .gltf)
+ *   Jot3D.open(figure, bytes, settings, { decoders })   -> Promise: draws the model (ArrayBuffer/Uint8Array of a .glb or
+ *                                          self-contained .gltf). decoders: { 'draco_decoder.wasm': bytes, … } for compressed models
+ *                                          (model3d.mjs decodersFor names them); meshopt needs none.
  *   Jot3D.close(figure) / closeAll(root)   back to the still picture; frees the graphics context
  *   Jot3D.viewOf(figure)                   { camera, target } of an open view, so a redrawn page can reopen it where it was
- *   Jot3D.bindAll(root, bytesOf)           wires every model's "Turn in 3D" button; bytesOf(figure) -> bytes | Promise
+ *   Jot3D.bindAll(root, bytesOf)           wires every model's "Turn in 3D" button; bytesOf(figure) -> bytes | { bytes, decoders }
  *
  * The model is data, never code. Only bytes already in the journal are read: every outside URL a model names is refused, so
- * nothing is fetched. Nothing moves until the reader asks: no auto-rotation, and an animation plays only on Play. Drag, the arrow
+ * nothing is fetched. Draco meshes and Basis Universal (KTX2) textures are decoded by the decoders handed over as bytes, in
+ * workers made from those bytes; meshopt is built in. The decoders' files are Jot's own, never the model's. Nothing moves until the reader asks: no auto-rotation, and an animation plays only on Play. Drag, the arrow
  * keys and + / − turn and zoom it; Reset view and Back to the picture are buttons.
  */
 (function () {
@@ -24,7 +27,7 @@
   function viewOf(figure) { return OPEN.get(figure)?.view() || null; }
   function closeAll(root) { for (const f of [...OPEN.keys()]) if (!root || root.contains(f) || !f.isConnected) close(f); }
 
-  async function open(figure, bytes, settings = settingsOf(figure)) {
+  async function open(figure, bytes, settings = settingsOf(figure), { decoders = {} } = {}) {
     const T = globalThis.JotThree, doc = figure.ownerDocument, win = doc.defaultView;
     const stage = figure.querySelector('.jot-3d-stage'), tools = figure.querySelector('.jot-3d-tools'), state = figure.querySelector('.jot-3d-state');
     const say = (text) => { if (state) state.textContent = text; };
@@ -47,16 +50,43 @@
     if (settings.lighting !== 'soft') { const key = new T.DirectionalLight(0xffffff, settings.lighting === 'studio' ? 2 : 0.5); key.position.set(3, 5, 4); scene.add(key); }
 
     // Only the journal's own bytes: a model that names outside files is drawn without them, and says so.
+    // The decoders (Jot's own files, passed in as bytes) are reached through blob: URLs made here and nowhere else.
     let refused = 0;
+    const files = new Map(), urls = [];
+    for (const [name, data] of Object.entries(decoders || {})) {
+      if (!/^[a-z_]+\.(js|wasm)$/.test(name) || !data) continue;
+      const url = win.URL.createObjectURL(new win.Blob([data], { type: name.endsWith('.wasm') ? 'application/wasm' : 'text/javascript' }));
+      files.set(name, url); urls.push(url);
+    }
     const manager = new T.LoadingManager();
-    manager.setURLModifier((url) => (/^(data|blob):/i.test(url) ? url : (refused++, 'data:application/octet-stream;base64,')));
+    manager.setURLModifier((url) => {
+      const own = /^jot-decoders\/([a-z_]+\.(?:js|wasm))$/.exec(url); if (own) return files.get(own[1]) || (refused++, 'data:,');
+      return /^(data|blob):/i.test(url) ? url : (refused++, 'data:application/octet-stream;base64,');
+    });
+    const loader = new T.GLTFLoader(manager);
+    loader.setMeshoptDecoder(T.MeshoptDecoder);
+    let draco = null, ktx2 = null;
+    if (files.has('draco_wasm_wrapper.js') && files.has('draco_decoder.wasm')) {
+      draco = new T.DRACOLoader(manager).setDecoderPath({ js: files.get('draco_wasm_wrapper.js'), wasm: files.get('draco_decoder.wasm') });
+      draco.setWorkerLimit(2); loader.setDRACOLoader(draco); // given the WebAssembly files, it uses them
+    }
+    if (files.has('basis_transcoder.js') && files.has('basis_transcoder.wasm')) {
+      ktx2 = new T.KTX2Loader(manager).setTranscoderPath('jot-decoders/').setWorkerLimit(2).detectSupport(renderer); loader.setKTX2Loader(ktx2);
+    }
+    const freeDecoders = () => { draco?.dispose(); ktx2?.dispose(); for (const u of urls) win.URL.revokeObjectURL(u); };
     say('Opening the model…');
     let gltf;
     try {
-      gltf = await new Promise((resolve, reject) => new T.GLTFLoader(manager).parse(bytesOf(bytes), '', resolve, reject));
+      if (typeof win.WebAssembly !== 'object' && (draco || ktx2)) throw new Error('no WebAssembly');
+      gltf = await new Promise((resolve, reject) => loader.parse(bytesOf(bytes), '', resolve, reject));
     } catch (e) {
-      renderer.dispose(); renderer.forceContextLoss?.();
-      const why = /DRACO|KTX2|meshopt|EXT_meshopt|KHR_draco/i.test(String(e?.message || e)) ? 'it uses a compressed format Jot does not read yet' : 'it is not a glTF model Jot can read';
+      renderer.dispose(); renderer.forceContextLoss?.(); freeDecoders();
+      const m = String(e?.message || e);
+      const why = /no WebAssembly/.test(m) ? 'this reader cannot run the decoder it needs'
+        : /DRACO|KHR_draco/i.test(m) ? 'it is compressed with Draco and its decoder is not available here'
+        : /KTX2|basisu/i.test(m) ? 'its textures are Basis Universal (KTX2) and their decoder is not available here'
+        : /meshopt/i.test(m) ? 'its meshopt compression could not be read'
+        : 'it is not a glTF model Jot can read';
       say(`Could not turn this model in 3D: ${why}. The picture stays.`); return false;
     }
     const root = gltf.scene || gltf.scenes?.[0]; scene.add(root);
@@ -70,9 +100,9 @@
 
     // Drawing happens when something changes, not every frame, unless an animation is playing.
     let frame = 0, playing = false, mixer = null, action = null;
-    const clock = new T.Clock();
+    const clock = new T.Timer();
     const draw = () => { if (!frame) frame = win.requestAnimationFrame(tick); };
-    function tick() { frame = 0; if (playing && mixer) { mixer.update(clock.getDelta()); draw(); } renderer.render(scene, camera); }
+    function tick() { frame = 0; if (playing && mixer) { clock.update(); mixer.update(clock.getDelta()); draw(); } renderer.render(scene, camera); }
     const size = () => { const w = stage.clientWidth || 320, h = stage.clientHeight || 240; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); draw(); };
     const resize = new win.ResizeObserver(size);
     controls.addEventListener('change', draw);
@@ -102,7 +132,7 @@
       if (clip) {
         mixer = new T.AnimationMixer(root); action = mixer.clipAction(clip);
         const play = ui(doc, 'button', 'Play animation'); play.type = 'button'; play.setAttribute('aria-pressed', 'false');
-        play.onclick = () => { playing = !playing; if (playing) { action.paused = false; action.play(); clock.getDelta(); } else action.paused = true; play.textContent = playing ? 'Pause animation' : 'Play animation'; play.setAttribute('aria-pressed', String(playing)); draw(); };
+        play.onclick = () => { playing = !playing; if (playing) { action.paused = false; action.play(); clock.update(); } else action.paused = true; play.textContent = playing ? 'Pause animation' : 'Play animation'; play.setAttribute('aria-pressed', String(playing)); draw(); };
         bar.append(play);
       } else say(`No animation called “${settings.animation}” in this model.`);
     }
@@ -117,7 +147,7 @@
       stopped = true;
       if (frame) win.cancelAnimationFrame(frame); resize.disconnect(); controls.dispose(); mixer?.stopAllAction();
       root.traverse((o) => { o.geometry?.dispose(); for (const m of [].concat(o.material || [])) { for (const k in m) if (m[k]?.isTexture) m[k].dispose(); m.dispose(); } });
-      env?.dispose(); renderer.dispose(); renderer.forceContextLoss?.();
+      env?.dispose(); renderer.dispose(); renderer.forceContextLoss?.(); freeDecoders();
       canvas.remove(); bar.remove(); if (still) still.hidden = false; if (turn) turn.hidden = false; figure.classList.remove('jot-3d-open'); say('');
     } });
     return true;
@@ -127,7 +157,7 @@
     for (const figure of root.querySelectorAll('figure.jot-3d[data-jot3d]')) {
       const turn = figure.querySelector('.jot-3d-turn'); if (!turn || turn.dataset.bound) continue;
       turn.dataset.bound = '1'; turn.disabled = false; turn.hidden = false; // shown only where it works (an EPUB page without scripts keeps the still)
-      turn.addEventListener('click', async () => { turn.disabled = true; try { const b = await bytesOfFigure(figure); if (b) await open(figure, b); } finally { turn.disabled = false; } });
+      turn.addEventListener('click', async () => { turn.disabled = true; try { const got = await bytesOfFigure(figure); if (got) await (got.bytes ? open(figure, got.bytes, undefined, { decoders: got.decoders }) : open(figure, got)); } finally { turn.disabled = false; } });
     }
   }
   globalThis.Jot3D = Object.freeze({ open, close, closeAll, viewOf, bindAll });

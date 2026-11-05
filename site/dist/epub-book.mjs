@@ -1,10 +1,13 @@
 // The files of a fixed-layout EPUB made from Page view's sheets (page-view-frame.mjs jotBook, jot/epub.mjs). Pure: no DOM, so
 // Node tests read the same book Writer saves.
-//   bookParts({ css, pages }, { modelBytes(path) -> Uint8Array | null, three, viewer }) -> Promise<{ css, pages, files, models, missing }>
+//   bookParts({ css, pages }, { modelBytes(path) -> Uint8Array | null, three, viewer, decoderBytes(name) -> Uint8Array })
+//     -> Promise<{ css, pages, files, models, missing }>
 // Pictures and fonts the page carries as data: URLs become files in the book (once each, named by their SHA-256). A sheet with a 3D
 // model whose bytes are in the journal gets Jot's viewer scripts and the model's bytes as a script (books never fetch); a model
-// without them keeps its still, and is counted in `missing`.
-import { EPUB_MEDIA_TYPES, EPUB_MODELS_JS, modelScript } from './jot/epub.mjs';
+// without them keeps its still, and is counted in `missing`. A compressed model (Draco meshes, Basis Universal textures) brings the
+// decoders it needs, once per book, as scripts too.
+import { EPUB_MEDIA_TYPES, EPUB_MODELS_JS, modelScript, decoderScript } from './jot/epub.mjs';
+import { decodersFor } from './jot/model3d.mjs';
 
 const EXT = Object.fromEntries(Object.entries(EPUB_MEDIA_TYPES).filter(([e]) => e !== 'jpeg').map(([e, t]) => [t, e]));
 const unescape = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
@@ -24,7 +27,7 @@ export function decodeDataURL(url) {
 }
 async function sha(bytes) { const h = new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256', bytes)); return [...h.slice(0, 10)].map((b) => b.toString(16).padStart(2, '0')).join(''); }
 
-export async function bookParts({ css, pages }, { modelBytes = () => null, three, viewer } = {}) {
+export async function bookParts({ css, pages }, { modelBytes = () => null, three, viewer, decoderBytes = () => null } = {}) {
   const files = [], byURL = new Map(), byHash = new Map();
   async function keep(url) { // a data: URL -> the book's file for it, or null to leave it as written
     if (byURL.has(url)) return byURL.get(url);
@@ -48,7 +51,7 @@ export async function bookParts({ css, pages }, { modelBytes = () => null, three
     return parts.join('') + text.slice(at);
   }
   const outCSS = await rewrite(css, CSS_URL, (_, p) => `url("../${p}")`);
-  const models = new Map(), missing = new Set(), outPages = [];
+  const models = new Map(), needs = new Map(), decoders = new Map(), missing = new Set(), outPages = [];
   for (const page of pages) {
     const body = await rewrite(page.body, BODY_URL, (m, p) => (m.startsWith('src=') ? `src="../${p}"` : `url(&quot;../${p}&quot;)`), unescape);
     const scripts = [];
@@ -56,12 +59,18 @@ export async function bookParts({ css, pages }, { modelBytes = () => null, three
       if (!models.has(file)) {
         const bytes = await modelBytes(file);
         if (!bytes?.length) { missing.add(file); models.set(file, null); continue; }
-        const path = `js/models/${await sha(bytes)}.js`; models.set(file, path);
+        const path = `js/models/${await sha(bytes)}.js`; models.set(file, path); needs.set(file, decodersFor(bytes));
         files.push({ path, mediaType: 'application/javascript', data: modelScript(file, base64(bytes)) });
+        for (const name of needs.get(file)) if (!decoders.has(name)) {
+          const data = await decoderBytes(name); if (!data?.length) throw new Error(`The ${name} decoder could not be read for the book.`);
+          const at = `js/decoders/${name.replace(/\./g, '-')}.js`; decoders.set(name, at);
+          files.push({ path: at, mediaType: 'application/javascript', data: decoderScript(name, base64(data instanceof Uint8Array ? data : new Uint8Array(data))) });
+        }
       }
       if (models.get(file) && !scripts.includes(models.get(file))) scripts.push(models.get(file));
     }
-    outPages.push({ body, headings: page.headings || [], label: page.label, ...(scripts.length ? { scripts: ['js/three.js', 'js/model3d-view.js', ...scripts, 'js/models.js'] } : {}) });
+    const used = [...new Set((page.models || []).filter((f) => models.get(f)).flatMap((f) => needs.get(f)))].map((n) => decoders.get(n));
+    outPages.push({ body, headings: page.headings || [], label: page.label, ...(scripts.length ? { scripts: ['js/three.js', 'js/model3d-view.js', ...used, ...scripts, 'js/models.js'] } : {}) });
   }
   if (outPages.some((p) => p.scripts)) {
     if (!three || !viewer) throw new Error('The 3D viewer could not be read for the book.');

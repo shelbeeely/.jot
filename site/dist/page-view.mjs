@@ -70,7 +70,8 @@ export function setupPageView({ prepare, onStatus = () => {}, download = () => {
       const sheets = frame.contentWindow.jotBook(), needs = sheets.pages.some((p) => p.models.length);
       const text = async (path) => { const r = await fetch(new URL(path, import.meta.url)); if (!r.ok) throw new Error(`${path}: ${r.status}`); return r.text(); };
       const [three, viewer] = needs ? await Promise.all([text('jot/vendor/three.mjs'), text('jot/model3d-view.mjs')]) : [];
-      const parts = await bookParts(sheets, { modelBytes: (p) => page.assetBytes?.(p) || null, three, viewer });
+      const decoderBytes = async (name) => { const r = await fetch(new URL(`jot/vendor/three-decoders/${name}`, import.meta.url)); return r.ok ? new Uint8Array(await r.arrayBuffer()) : null; };
+      const parts = await bookParts(sheets, { modelBytes: (p) => page.assetBytes?.(p) || null, three, viewer, decoderBytes });
       const bytes = await fixedLayoutEPUB({ title: page.title, lang: page.lang, width: sheets.width, height: sheets.height, ...parts });
       if (mine !== run) return;
       const name = (page.fileName || 'journal') + '.epub';

@@ -38,7 +38,7 @@ import { parse, mediaURL } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
 import { includeLines, excerpt, notice, MAX_DEPTH } from './include.mjs';
 import { isPaletteRecord, paletteOf, moodboardOf } from './palette.mjs';
-import { modelOf, isModelType } from './model3d.mjs';
+import { modelOf, isModelType, decodersFor } from './model3d.mjs';
 export { CHART_CSS };
 const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
@@ -200,7 +200,9 @@ export function renderPreview(ast, target, opts = {}) {
         try {
           await import('./vendor/three.mjs'); await import('./model3d-view.mjs'); // only now: most pages never need them
           const bytes = await (await fetch(model.url)).arrayBuffer(); // the attachment's own bytes, already in this page
-          if (fig.isConnected) await globalThis.Jot3D.open(fig, bytes, { ...JSON.parse(fig.dataset.jot3d), ...(fig.jotView || {}) });
+          const decoders = {}; // Jot's own Draco / Basis decoders, beside this module, only when the model is compressed that way
+          for (const name of decodersFor(new Uint8Array(bytes))) { const r = await fetch(new URL(`./vendor/three-decoders/${name}`, import.meta.url)); if (r.ok) decoders[name] = await r.arrayBuffer(); }
+          if (fig.isConnected) await globalThis.Jot3D.open(fig, bytes, { ...JSON.parse(fig.dataset.jot3d), ...(fig.jotView || {}) }, { decoders });
         } catch { state.textContent = 'Could not load the 3D viewer. The picture stays.'; }
         finally { turn.disabled = false; }
       });

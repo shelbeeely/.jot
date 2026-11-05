@@ -23,14 +23,18 @@ const LANG = /^[a-z]{2,3}(-[a-z0-9]{1,8})*$/i;
 export const EPUB_MEDIA_TYPES = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp', svg: 'image/svg+xml', woff2: 'font/woff2', woff: 'font/woff', ttf: 'font/ttf', otf: 'font/otf', js: 'application/javascript', css: 'text/css', mp3: 'audio/mpeg', mp4: 'video/mp4' };
 
 /** Turns the Jot 3D models on a scripted page in a book: Jot's own code, the same in every book. */
-export const EPUB_MODELS_JS = `/* Jot: wires the 3D models on this page to the bundled viewer (model3d-view.js). Each model's bytes are in js/models/. */
+export const EPUB_MODELS_JS = `/* Jot: wires the 3D models on this page to the bundled viewer (model3d-view.js). Each model's bytes are in js/models/, and the
+   decoders a compressed model needs in js/decoders/. */
 (function () {
   function bytes(b64) { var s = atob(b64), u = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
   function go() {
     if (!globalThis.Jot3D) return;
     globalThis.Jot3D.bindAll(document, function (figure) {
       var d = {}; try { d = JSON.parse(figure.getAttribute('data-jot3d') || '{}'); } catch (e) {}
-      var b = (globalThis.JotModels || {})[d.file]; return b ? bytes(b) : null;
+      var b = (globalThis.JotModels || {})[d.file]; if (!b) return null;
+      var decoders = {}, all = globalThis.JotDecoders || {}; // Draco / Basis decoders, carried only when a model on this page needs them
+      for (var name in all) decoders[name] = name.slice(-3) === '.js' ? new TextDecoder().decode(bytes(all[name])) : bytes(all[name]);
+      return { bytes: bytes(b), decoders: decoders };
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
@@ -38,6 +42,8 @@ export const EPUB_MODELS_JS = `/* Jot: wires the 3D models on this page to the b
 `;
 /** One model's bytes as a script (no fetching inside a book): js/models/<name>.js */
 export const modelScript = (path, base64) => `(globalThis.JotModels || (globalThis.JotModels = {}))[${JSON.stringify(path)}] = ${JSON.stringify(base64)};\n`;
+/** One decoder file's bytes as a script (Draco or Basis, for compressed models): js/decoders/<name>.js */
+export const decoderScript = (name, base64) => `(globalThis.JotDecoders || (globalThis.JotDecoders = {}))[${JSON.stringify(name)}] = ${JSON.stringify(base64)};\n`;
 
 function check({ title, lang, width, height, pages, files }) {
   if (!Array.isArray(pages) || !pages.length) throw new Error('A book needs at least one page.');
@@ -141,4 +147,4 @@ export async function fixedLayoutEPUB({ title = 'Journal', lang = 'en', id, modi
   return zip.generateAsync({ type: 'uint8array', mimeType: 'application/epub+zip' });
 }
 
-export default { fixedLayoutEPUB, modelScript, EPUB_MODELS_JS, EPUB_MEDIA_TYPES };
+export default { fixedLayoutEPUB, modelScript, decoderScript, EPUB_MODELS_JS, EPUB_MEDIA_TYPES };

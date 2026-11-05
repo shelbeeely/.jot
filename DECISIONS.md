@@ -1,5 +1,26 @@
 # Latest Jot v1 decisions
 
+## Compressed 3D models: Draco, meshopt and KTX2 (5 November 2026)
+
+The owner relies heavily on Draco mesh compression and optimized GLB textures, so models compressed that way now draw instead of
+saying they can't (spec 8.1.6). The three.js bundle adds `DRACOLoader`, `KTX2Loader` and the meshopt decoder; the glTF build of the
+Draco decoder and the Basis Universal transcoder are vendored unmodified from three.js r186 (`parser/vendor/three-decoders/`,
+Apache-2.0, licences in `three-decoders-LICENSE.md`). WebP and AVIF textures need no decoder.
+
+- `model3d.mjs` reads which extensions a model declares from its own JSON; a decoder is read only when a model names it, and only
+  from Jot's own files. The viewer turns those bytes into blob: URLs for the loaders' workers; its loading manager still refuses every
+  other address, including `KTX2Loader`'s default CDN. A missing decoder keeps the picture and says the model is compressed in a way
+  it cannot read here. Workers and blob URLs are released on close.
+- An EPUB carries each decoder its models need once, as a script holding its bytes, on the pages that use it. Turning a compressed
+  model in a book therefore needs a reading system that runs WebAssembly and workers from scripts; plain and meshopt-only models need
+  no worker. This is unverified in Apple Books.
+- Fixtures: a textured, animated cube as plain, Draco, meshopt, KTX2 (ETC1S) and Draco+KTX2 GLB files, made reproducibly by
+  `site/fixtures/scene/make-compressed.mjs` with glTF-Transform 4.5.1 and ktx2-encoder 0.6.0 (development tools only).
+
+Verified in Chromium: each fixture draws its texture after reading exactly the decoders it needs (none before Turn in 3D), a blocked
+Draco decoder keeps the picture with its message, and an EPUB with Draco+KTX2 and meshopt models turns both inside the book. Not
+verified: reading systems on devices, and very large models (decoding time and memory on phones).
+
 ## 3D models as data, and fixed-layout EPUB books (5 November 2026)
 
 The owner asked for interactive journals in the manner of Apple Books' scripted fixed-layout EPUB 3, by embedding three.js in

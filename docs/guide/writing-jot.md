@@ -481,7 +481,12 @@ optional too:
 
 A model is a file, never a program: Jot's own viewer draws it, and it only reads what is in your journal. A `.glb` carries
 everything it needs. A `.gltf` works only if its pictures are inside the file; Jot never fetches the rest from the internet, and says
-so. Compressed models (Draco, KTX2 or meshopt) can't be drawn yet; the description stays.
+so.
+
+Optimized models work too, and keep a journal small: Draco-compressed meshes, meshopt, and textures in KTX2 (Basis Universal), WebP
+or AVIF, as tools such as glTF-Transform, gltfpack and Blender's exporter make them. Jot carries its own decoders and reads one only
+when a model needs it, so nothing is downloaded. In an EPUB, a compressed model brings its decoder along; the reader then has to run
+WebAssembly in a book, which not every reader does. Where it can't, the still or the description stays.
 
 ## A few other things
 
