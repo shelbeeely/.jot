@@ -2,6 +2,7 @@ import { setupVoiceWriting } from './voice-writing.mjs';
 import { setupScribe } from './scribe.mjs';
 import { setupScratchpad } from './scratchpad.mjs';
 import { setupMarginNotes } from './margin-notes.mjs';
+import { setupMediaPicker } from './media-picker.mjs';
 import { setupWriterWelcome } from './writer-welcome.mjs';
 import { setupAttachmentViewer, attachmentKind } from './attachment-viewer.mjs';
 import { setupArchiveTools } from './archive-tools.mjs';
@@ -370,6 +371,8 @@ $('writerVoiceWritingBtn').addEventListener('click', () => scribe.reset(), { cap
 // Scratchpads: rough notes beside an entry, kept in the file and off the page (spec 4.2.7). Margin notes: [[...]] beside a passage (4.2.8).
 scratchpad = setupScratchpad({ editor, status, today, speakInto: () => scribe.open({ target: 'draft' }) });
 setupMarginNotes({ editor, status });
+// Add media: films, series and episodes, books, anime, podcasts, games and songs from keyless public catalogs, on request.
+setupMediaPicker({ editor, status });
 setupWriterWelcome({ editor, openVoice: () => scribe.open(), openMethods: () => $('methodsBtn').click(), openTools: () => $('writerCommandsBtn').click(), addToday: () => $('todayBtn').click(), insertText: text => { const start = editor.selectionStart, end = editor.selectionEnd; editor.focus(); if (editor.jotApplyEdit) editor.jotApplyEdit({ start, end, text }); else if (!document.execCommand('insertText', false, text)) { editor.setRangeText(text, start, end, 'end'); editor.dispatchEvent(new Event('input', { bubbles: true })); } } });
 browserTools=setupBrowserTools(browserBridge);annotations=setupAnnotations(browserBridge);connectedSources=setupConnectedSources(browserBridge);
 archiveTools=setupArchiveTools({...browserBridge,hasSession:()=>!!lockKey,publicAvailable:()=>!!archiveState?.partial,entries:()=>lockWaiting?archiveState?.entries||[]:currentEntries(),async setPrivacy(ids){if(!lockKey)throw Error('Set up a passphrase first.');currentEntries();archiveEntries=archiveEntries.map(entry=>({...entry,private:ids.includes(entry.id),revision:entry.revision+(entry.private!==ids.includes(entry.id)?1:0)}));fileRevision++;dirty=true;return save();},async search(criteria){if(lockWaiting)return searchArchive(archiveState,criteria);await save();const state=archiveState&&archiveState.source===editor.value?archiveState:{entries:currentEntries(),index:null,indexBytes:null};return searchArchive(state,criteria);}});

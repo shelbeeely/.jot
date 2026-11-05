@@ -1,0 +1,56 @@
+{
+ "data": {
+  "Page": {
+   "media": [
+    {
+     "id": 154587,
+     "type": "ANIME",
+     "format": "TV",
+     "title": {
+      "romaji": "Sousou no Frieren",
+      "english": "Frieren: Beyond Journey’s End",
+      "native": "葬送のフリーレン"
+     },
+     "startDate": {
+      "year": 2023
+     },
+     "episodes": 28,
+     "chapters": null,
+     "siteUrl": "https://anilist.co/anime/154587"
+    },
+    {
+     "id": 209939,
+     "type": "ANIME",
+     "format": "TV",
+     "title": {
+      "romaji": "Sousou no Frieren 3rd Season",
+      "english": null,
+      "native": "葬送のフリーレン 第3期"
+     },
+     "startDate": {
+      "year": 2027
+     },
+     "episodes": null,
+     "chapters": null,
+     "siteUrl": "https://anilist.co/anime/209939"
+    },
+    {
+     "id": 182255,
+     "type": "ANIME",
+     "format": "TV",
+     "title": {
+      "romaji": "Sousou no Frieren 2nd Season",
+      "english": "Frieren: Beyond Journey’s End Season 2",
+      "native": "葬送のフリーレン 第2期"
+     },
+     "startDate": {
+      "year": 2026
+     },
+     "episodes": 10,
+     "chapters": null,
+     "siteUrl": "https://anilist.co/anime/182255"
+    }
+   ]
+  }
+ }
+}

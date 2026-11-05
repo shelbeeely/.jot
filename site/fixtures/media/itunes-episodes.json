@@ -1,0 +1,42 @@
+{
+ "resultCount": 3,
+ "results": [
+  {
+   "wrapperType": "track",
+   "kind": "podcast",
+   "collectionId": 152249110,
+   "trackId": 152249110,
+   "artistName": "WNYC Studios",
+   "collectionName": "Radiolab",
+   "trackName": "Radiolab",
+   "collectionViewUrl": "https://podcasts.apple.com/us/podcast/radiolab/id152249110?uo=4",
+   "trackViewUrl": "https://podcasts.apple.com/us/podcast/radiolab/id152249110?uo=4",
+   "releaseDate": "2026-10-30T14:00:00Z",
+   "trackTimeMillis": 2968
+  },
+  {
+   "releaseDate": "2026-10-30T14:00:00Z",
+   "collectionId": 152249110,
+   "collectionName": "Radiolab",
+   "kind": "podcast-episode",
+   "wrapperType": "podcastEpisode",
+   "collectionViewUrl": "https://itunes.apple.com/us/podcast/radiolab/id152249110?mt=2&uo=4",
+   "trackViewUrl": "https://podcasts.apple.com/us/podcast/the-buried-bodies-case/id152249110?i=1000798906962&uo=4",
+   "trackTimeMillis": 2968000,
+   "trackId": 1000798906962,
+   "trackName": "The Buried Bodies Case"
+  },
+  {
+   "releaseDate": "2026-10-23T14:00:00Z",
+   "collectionId": 152249110,
+   "collectionName": "Radiolab",
+   "kind": "podcast-episode",
+   "wrapperType": "podcastEpisode",
+   "collectionViewUrl": "https://itunes.apple.com/us/podcast/radiolab/id152249110?mt=2&uo=4",
+   "trackViewUrl": "https://podcasts.apple.com/us/podcast/octomom/id152249110?i=1000797662464&uo=4",
+   "trackTimeMillis": 2057000,
+   "trackId": 1000797662464,
+   "trackName": "Octomom"
+  }
+ ]
+}

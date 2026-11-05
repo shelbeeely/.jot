@@ -62,6 +62,12 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - Keep the iframe outside journal rendering, preserve it through edits, and remove it when the user closes the player.
 - The embed handles its own account/session; do not share the listening capture's tokens or add background polling.
 
+## Add media (`site/dist/media-catalog.mjs`, `media-picker.mjs`)
+
+- Keyless public catalogs only, through fixed hosts (`HOSTS`); no accounts, keys or scraping. Online search is off until the person turns it on (remembered as a preference). Send only the picker's own search text or pasted link; never journal writing. Matches already in the journal come first and need no connection.
+- Results are untrusted text: set with `textContent`, escaped in link labels (`escapeLabel`), and inserted only on the person's Insert, at the cursor, with Undo. Activity words (Watched, Reading…) are the person's choice; a reference alone never implies an event. Unknown links are never fetched.
+- Space requests per provider, cache briefly, cancel stale searches, and show busy/offline plainly with a paste fallback. Run `node --test site/test-media-catalog.mjs` and `node site/test-media-picker-ui.cjs` (saved real responses in `site/fixtures/media/`); report live catalog checks separately. Keep the desktop CSP `connect-src` in step with `HOSTS`.
+
 ## Music database lookup (`site/dist/media-lookup.mjs`)
 
 - Search is off until explicitly enabled. Send only the dedicated search text and entity type; never journal writing or tokens.

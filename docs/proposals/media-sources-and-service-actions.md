@@ -1,6 +1,6 @@
 # Media autocomplete and connected service actions
 
-Updated 1 November 2026. Status: planned expansion, not implemented integrations. The owner wants movies, television,
+Updated 5 November 2026. Status: the keyless catalog picker (**Tools → Add media**) and pasted-link resolution are implemented; account connections and outbound actions below remain planned. The owner wants movies, television,
 music, streaming services and other media in Writer's autocomplete, plus optional actions back to services such as Trakt.
 Current-journal suggestions, explicitly opened reference books, MusicBrainz lookup and existing listening capture remain
 the baseline. MusicBrainz lookup currently lives in the listening dialog; it is not general film/TV autocomplete.

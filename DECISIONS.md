@@ -1249,3 +1249,22 @@ Writer now shows a bar when a newer version is waiting: **A new version of Jot i
 Nothing updates without the person's choice, so open tabs still keep one consistent version unless they ask. `site/test-update-ui.cjs` publishes a simulated new release and checks the bar, the reload, the removed old cache and the kept writing.
 
 One-time migration: an install from before the update bar existed has no way to offer it, and the owner's phone kept showing that old copy even in a fresh tab. A new version now looks in the existing offline caches for a mark that update-aware versions leave. If no older cache has the mark, the new version takes over at once; a reload, or the next visit, then shows it. Versions that carry the mark wait for **Update now** as described above.
+
+## 2026-11-05: Add media from keyless catalogs
+
+The owner asked to finish the integrations, media first. From the options offered they chose catalog lookups first, and bring-your-own credentials kept for the session only for services added later. **Tools → Add media** finds the following and inserts a readable reference at the cursor:
+- films and games (Wikidata)
+- TV series and episodes (TVmaze)
+- books (Open Library)
+- anime and manga (AniList)
+- podcasts and episodes (Apple Podcasts directory)
+- music (MusicBrainz)
+
+Pasted links from YouTube, Spotify, IMDb and those catalogs are looked up by that item only.
+
+- **No format change.** References are named links to the catalog's page, or Jot's existing `imdb:`, `youtube:`, `spotify:` and `musicbrainz:` short forms (spec 4.2.3–4.2.5). An IMDb ID is preferred for films because it is the identity most other services (including Trakt) accept, which keeps later write-backs possible without rewriting entries.
+- **Privacy follows the MusicBrainz lookup.** Online search is off until turned on, only the search box text is sent, there are no cookies or referrer, and fixed hosts only. References already in the journal come first and need no connection. Nothing is fetched when a journal is opened or rendered.
+- **Mentioning is not doing.** Activity words are optional and chosen by the person, so a reference never records that something was watched, read or played (`docs/proposals/media-sources-and-service-actions.md`, "Experience", step 3).
+- **Evidence.** Saved real responses back the Node and browser tests. TVmaze, Open Library, AniList, Apple Podcasts, YouTube and Spotify were also checked live from a browser. Wikidata and MusicBrainz rate-limit the test environment's shared address, so films, games and music were checked against saved and documented responses only.
+
+Next: the bring-your-own-token services (ListenBrainz submit, Trakt watched, AniList progress, TMDB availability) and the self-hosted servers.

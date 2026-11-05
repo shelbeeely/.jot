@@ -99,8 +99,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 4476,
-      "sha256": "fadf1611fa3726080aaace9b7012876cc066a66c82dcd0e321c8caca6e4433ec"
+      "byteLength": 4504,
+      "sha256": "2134b21857e601eab2f3dbd149657269610294fc24e9ee03ff55378a949e03e1"
     },
     {
       "path": ".gitignore",
@@ -109,8 +109,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 11649,
-      "sha256": "a684b38677155ec317fb3fda4584e3b44166305622594578d550d6a4a74dfc4a"
+      "byteLength": 11677,
+      "sha256": "57e0a70a84dda602089c6c5ac61c10285b2748916ea60610cfda0c0b42d04449"
     },
     {
       "path": "CLAUDE.md",
@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 135764,
-      "sha256": "6e6ac54bf87af94b0a78f96fd4479bb26ba1c302a74a024ebf5272e274c87569"
+      "byteLength": 137751,
+      "sha256": "e1a71daa0680ed29fc6267e3e66f25fafe6d4dcb4eff8e928e8b06f738b93443"
     },
     {
       "path": "README.md",
@@ -129,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 71900,
-      "sha256": "3005f719d4d444afc0d37ebb45c3ceb73c580dd7c791752b9b36477d855d533f"
+      "byteLength": 72706,
+      "sha256": "747c5ff19974e5cc1a56db5032dbe989cbb09ccdd772acdf72a460c54f8acd55"
     },
     {
       "path": "cli/README.md",
@@ -689,8 +689,8 @@
     },
     {
       "path": "desktop/src-tauri/tauri.conf.json",
-      "byteLength": 2980,
-      "sha256": "7c5765c68de423d72e405a867bfa2a852b34b6e21e8cb404ae2810d4203cffb9"
+      "byteLength": 3177,
+      "sha256": "17164d9bbe5d81123e07f1993031c3ebdf84ecfe2077f1119ff7f85fb1bbac84"
     },
     {
       "path": "desktop/test-desktop.cjs",
@@ -894,8 +894,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 55084,
-      "sha256": "f406de1351f517cf0f5a197539299b7f20ce90bc627602e3cfd84e474dac93cb"
+      "byteLength": 57489,
+      "sha256": "87f8201a8395b862e0649737f64472083bfe574d709a8a681e3f1acfa1f8f150"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -1264,8 +1264,8 @@
     },
     {
       "path": "docs/proposals/media-sources-and-service-actions.md",
-      "byteLength": 16252,
-      "sha256": "4ec6242b217c6e5ab4e738c8b9c752aeccbbb1af3e64a9575829f7d918ef1488"
+      "byteLength": 16363,
+      "sha256": "977c7c032d4f854d5e16bd4373e9c1bc167118b69b8bb6562836a705d27dcf1a"
     },
     {
       "path": "docs/proposals/notes-sharing-collaboration.md",
@@ -22689,8 +22689,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 16693,
-      "sha256": "0bafea72d02826c1874ff185393bd6e89ead2f0e0c2b9a9083e8b041f505b90b"
+      "byteLength": 17732,
+      "sha256": "e204535ec36e1156e2e9dcf6c414bb88480c640f955979829dc62bdb3717f8c6"
     },
     {
       "path": "site/CLAUDE.md",
@@ -22714,8 +22714,8 @@
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 71926,
-      "sha256": "050cb79815a0534941bd367029c61b5c9db78b88dfd8608dfbe05fed86df202f"
+      "byteLength": 72732,
+      "sha256": "ff27c50a3e9b4e3642bbcd5b24db1d5b253f3f4bb5936fac7b8c34921f524c36"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -23249,8 +23249,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 72209,
-      "sha256": "afcc8e73decc8d04e7487cb4f5bbd78ecebb4d1dc1bfd13b21af004d2e74edbe"
+      "byteLength": 75413,
+      "sha256": "df59b7820c13ff9c021052959f83be4bd108d98a432f32e8d6510134d51d899e"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -23718,9 +23718,19 @@
       "sha256": "c01e5b04a4d3532891360fac1b1029b629dfe617e337cf0d5a0fbbaf6594ef2e"
     },
     {
+      "path": "site/dist/media-catalog.mjs",
+      "byteLength": 24451,
+      "sha256": "f4c4f8a2b3500c876723aeb13e36b97196eab27a78a4e45b44458bd92d2a62c0"
+    },
+    {
       "path": "site/dist/media-lookup.mjs",
       "byteLength": 6844,
       "sha256": "3a75387aff6bc88a00b106133be767359f300f250e5178b60badb0f68b42ba4f"
+    },
+    {
+      "path": "site/dist/media-picker.mjs",
+      "byteLength": 11086,
+      "sha256": "1318d46df6c66e95cc100a1f46865be545d81d2e6e6c860493f67c01522ff334"
     },
     {
       "path": "site/dist/music-player.mjs",
@@ -23739,8 +23749,8 @@
     },
     {
       "path": "site/dist/offline-files.mjs",
-      "byteLength": 5035,
-      "sha256": "d0434fe4a176aceb39a6a10e1749c3dcf59c5a6b0d0f1507aa680b915da77951"
+      "byteLength": 5080,
+      "sha256": "d4f798f60828027c56d893d6e84ea8da3abf166f5d2576e6ff66d3788a8cf31e"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23839,13 +23849,13 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 59664,
-      "sha256": "c9fcdc3d377df6a30871b5b05265f5e4e3c5228b90319eee4d86b7e9932bb98e"
+      "byteLength": 60799,
+      "sha256": "85e96ddf4868951636af1b67714ea0f1af88135cc4a6a603d7fef3db3f99a54b"
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 84511,
-      "sha256": "1236570b417205616bb4c0ee4e0ba8d13c0d9380071ccf5cdef1cbdc2b2fcda3"
+      "byteLength": 84728,
+      "sha256": "4b953fd8bd24929bd536703052fd8534eb12d3eb79c9383f708b9bed5a5ab36d"
     },
     {
       "path": "site/dist/sw.mjs",
@@ -24024,13 +24034,53 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 46359,
-      "sha256": "7482eb7db23f5668507e50d1dba2bd0aaa80137afa4b463336e12f4d1ad280e3"
+      "byteLength": 46536,
+      "sha256": "79588b26aee2e1a0cc40821f2f321c6982880d25e65c7084df2cef2ae6a0219d"
     },
     {
       "path": "site/dist/writing-tools.mjs",
       "byteLength": 20003,
       "sha256": "b4c19221f94734ee13548668ef37707b92b194ec4ac0279191561849f3b848ab"
+    },
+    {
+      "path": "site/fixtures/media/anilist-search.json",
+      "byteLength": 1187,
+      "sha256": "6b783987d8b170aa92303921e9e70ae5258bd675bad4a46dc30826f820396e89"
+    },
+    {
+      "path": "site/fixtures/media/itunes-episodes.json",
+      "byteLength": 1443,
+      "sha256": "a0d291431d293207fff59ac2d33b97f8d56cb5cec9c97867e45becda4e084829"
+    },
+    {
+      "path": "site/fixtures/media/itunes-podcasts.json",
+      "byteLength": 1014,
+      "sha256": "d44fe85b28492b56a1c7a263027b30ee405ef23ef0e30919de9043b74a6bb45a"
+    },
+    {
+      "path": "site/fixtures/media/openlibrary-search.json",
+      "byteLength": 790,
+      "sha256": "738d83f475446c27c6b714a821104c4d46900f375a7d2f24bf297ec2f92d2feb"
+    },
+    {
+      "path": "site/fixtures/media/tvmaze-episodes.json",
+      "byteLength": 635,
+      "sha256": "7950d47ad4d5789a5db7517950c6b4a56d65f370ca8fefc781c6bf36cf7a6408"
+    },
+    {
+      "path": "site/fixtures/media/tvmaze-search.json",
+      "byteLength": 1109,
+      "sha256": "ba182ecd5a0bbfe48abb51cfd792b41820788a1bd661a1c41adee66cfc403958"
+    },
+    {
+      "path": "site/fixtures/media/wikidata-entities.json",
+      "byteLength": 705,
+      "sha256": "742f8e7854daa2441f7fe3c700c4c4c7aa64f67b15b43289d0e2edee2d859698"
+    },
+    {
+      "path": "site/fixtures/media/wikidata-search.json",
+      "byteLength": 155,
+      "sha256": "1d00dc885afcba1ccf9d2bc566335d1461346a6be222719250b8673aabc81444"
     },
     {
       "path": "site/fixtures/viewer.webm",
@@ -24218,9 +24268,19 @@
       "sha256": "e5c16cd8d7cd763603db4c0b824830991c910a5efa91f4635a9fd7f97d096bd3"
     },
     {
+      "path": "site/test-media-catalog.mjs",
+      "byteLength": 7832,
+      "sha256": "a717629d120cc24e770a7435c2fe4e2d15fa7203554a23fe0463bfd39641ef22"
+    },
+    {
       "path": "site/test-media-lookup-ui.cjs",
       "byteLength": 6295,
       "sha256": "0ffd75023d07c35fdc3b7a0ccb67efc70a3d2ecde3a68deec138a3a1371a4a5d"
+    },
+    {
+      "path": "site/test-media-picker-ui.cjs",
+      "byteLength": 10037,
+      "sha256": "916ad2b1c7569e456211e50c64b47c2e625c55b1712cd1859e7a5e41f8f19d43"
     },
     {
       "path": "site/test-music-player-ui.cjs",

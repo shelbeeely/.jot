@@ -722,8 +722,37 @@ verified matches: check the recording/version or album edition before selecting 
 
 Database links use `musicbrainz:recording:UUID`, `musicbrainz:release-group:UUID`, `musicbrainz:release:UUID`,
 `musicbrainz:work:UUID` or `musicbrainz:artist:UUID`. They identify the music independently of Spotify or YouTube. Existing service
-links remain useful for playback; the lookup does not guess a corresponding playback URL. IMDb and YouTube remain manual links
-or shortcodes; their online search is not part of this MusicBrainz lookup.
+links remain useful for playback; the lookup does not guess a corresponding playback URL. IMDb and YouTube links can be looked up with
+**Tools → Add media** (below).
+
+## Add media: films, series, books, anime, podcasts, games and music
+
+Choose **Tools → Add media** to put a film, a TV series or one episode, a book, an anime or manga, a podcast or one episode,
+a video game or a song or album into your writing as a reference. Pick the kind, type a title (or paste a link) and choose
+a result. Writer shows the exact text before it goes in at your cursor, and Undo removes it.
+
+- **Already in this journal first.** References you have used before are found straight away, with no connection.
+- **Online catalogs are off until you turn them on** (**Search online catalogs**, remembered on this device). Then only the
+  words in the search box go to the catalog for the kind you chose. Your writing is never sent, and no account is needed:
+
+| Kind | Catalog | The reference |
+| --- | --- | --- |
+| Film | Wikidata | `[The Matrix (1999)](imdb:tt0133093)` when Wikidata knows the IMDb title, otherwise its Wikidata page |
+| TV series or episode | TVmaze | `[Severance S1E3: “In Perpetuity”](https://www.tvmaze.com/episodes/2238340)`; choose a series, then **Episodes →** |
+| Book | Open Library | `[The Left Hand of Darkness by Ursula K. Le Guin (1969)](https://openlibrary.org/works/OL59800W)` |
+| Anime or manga | AniList | `[Frieren: Beyond Journey’s End (2023)](https://anilist.co/anime/154587)` |
+| Podcast or episode | Apple Podcasts directory | the show, or one of its latest episodes |
+| Video game | Wikidata | its Wikidata page |
+| Music | MusicBrainz | `musicbrainz:` song or album references, as above |
+
+- **Paste a link** from YouTube, Spotify, IMDb, TVmaze, AniList, Open Library, Apple Podcasts, MusicBrainz or Wikidata and Writer
+  looks up just that item's title, then writes the short form where Jot has one (`youtube:`, `spotify:`, `imdb:`,
+  `musicbrainz:`). Any other link is not fetched; you can insert it as it is.
+- **What you did is your choice.** Mentioning a film does not say you watched it. Choose **Watched**, **Reading**,
+  **Want to listen to** and so on only when that is what you mean; it goes in as ordinary words before the link.
+- References are ordinary links: they read fine in any text editor, open the catalog's page in the preview, and nothing is
+  fetched when the journal is opened or printed. Titles come from the catalogs and may be wrong or change; check before
+  you insert. Catalogs can be busy or offline; then search again later or paste a link.
 
 ## Local writing suggestions
 

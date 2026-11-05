@@ -1,0 +1,59 @@
+[
+ {
+  "score": 0.8903923,
+  "show": {
+   "id": 44933,
+   "url": "https://www.tvmaze.com/shows/44933/severance",
+   "name": "Severance",
+   "type": "Scripted",
+   "premiered": "2022-02-18",
+   "network": null,
+   "webChannel": {
+    "name": "Apple TV"
+   },
+   "externals": {
+    "tvrage": null,
+    "thetvdb": 371980,
+    "imdb": "tt11280740"
+   }
+  }
+ },
+ {
+  "score": 0.2863248,
+  "show": {
+   "id": 85532,
+   "url": "https://www.tvmaze.com/shows/85532/aligned-reverence",
+   "name": "Aligned Reverence",
+   "type": "Scripted",
+   "premiered": "2025-12-05",
+   "network": null,
+   "webChannel": {
+    "name": "Tencent QQ"
+   },
+   "externals": {
+    "tvrage": null,
+    "thetvdb": 467232,
+    "imdb": null
+   }
+  }
+ },
+ {
+  "score": 0.15121393,
+  "show": {
+   "id": 70294,
+   "url": "https://www.tvmaze.com/shows/70294/la-riviere-esperance",
+   "name": "La Rivi\u00e8re Esp\u00e9rance",
+   "type": "Scripted",
+   "premiered": "1995-09-04",
+   "network": {
+    "name": "France 2"
+   },
+   "webChannel": null,
+   "externals": {
+    "tvrage": null,
+    "thetvdb": 261526,
+    "imdb": "tt0170511"
+   }
+  }
+ }
+]

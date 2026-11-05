@@ -1,0 +1,29 @@
+[
+ {
+  "id": 2238231,
+  "url": "https://www.tvmaze.com/episodes/2238231/severance-1x01-good-news-about-hell",
+  "name": "Good News About Hell",
+  "season": 1,
+  "number": 1,
+  "type": "regular",
+  "airdate": "2022-02-18"
+ },
+ {
+  "id": 2238339,
+  "url": "https://www.tvmaze.com/episodes/2238339/severance-1x02-half-loop",
+  "name": "Half Loop",
+  "season": 1,
+  "number": 2,
+  "type": "regular",
+  "airdate": "2022-02-18"
+ },
+ {
+  "id": 2238340,
+  "url": "https://www.tvmaze.com/episodes/2238340/severance-1x03-in-perpetuity",
+  "name": "In Perpetuity",
+  "season": 1,
+  "number": 3,
+  "type": "regular",
+  "airdate": "2022-02-25"
+ }
+]

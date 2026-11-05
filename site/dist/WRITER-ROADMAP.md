@@ -200,11 +200,11 @@ separately; adding a provider does not by itself change Jot v1. Remembering impo
 
 ## Media autocomplete and connected service actions
 
-Status: **planned**, beyond existing MusicBrainz lookup and listening capture. Expand Writer to movies, TV series and
+Status: **Add media implemented** for keyless catalogs (films and games from Wikidata, TV series and episodes from TVmaze, books from Open Library, anime and manga from AniList, podcasts and episodes from the Apple Podcasts directory, music from MusicBrainz) and pasted-link resolution (YouTube, Spotify, IMDb and those catalogs); account connections, write-backs and the remaining providers are planned. Expand Writer to movies, TV series and
 episodes, music, streaming availability, podcasts, video, books/audiobooks and games. The source assessment, interaction
 contract and acceptance cases are in media-sources-and-service-actions.md (repository source: `docs/proposals/media-sources-and-service-actions.md`).
 
-1. Build a shared media picker/provider contract; preserve readable references and verified IDs with year, creator,
+1. **Done (keyless catalogs):** `media-catalog.mjs` and the Add media dialog, with journal matches first, opt-in online search, episode drill-down, optional activity words and named references; browser- and Node-tested with saved real responses, and checked live against TVmaze, Open Library, AniList, Apple Podcasts, YouTube and Spotify (Wikidata and MusicBrainz rate-limit the test environment, so those were checked against saved responses only). Remaining: build a shared media picker/provider contract for account providers; preserve readable references and verified IDs with year, creator,
    edition, platform and episode context. Online lookup sends only the explicit query, not journal prose.
 2. Add TMDB movie/TV lookup and optional country-specific streaming availability with required attribution. Availability
    does not establish subscription access, account history or that an item was watched.
