@@ -23895,7 +23895,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5828,
-      "sha256": "10bd63d2ec2c3e9b0f5ad13bb2bd1b16ef2bdb106526b60fd7da619b89124236"
+      "sha256": "4b51df986e69dcd96625ef958909015cbcd0e4e14f9ac9d279fa5a690dd41fb5"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -23949,8 +23949,8 @@
     },
     {
       "path": "site/dist/scene-journal-core.mjs",
-      "byteLength": 11380,
-      "sha256": "ef34534c7b701f620b23cd66f420c9a9c9247466c8b429aeafc6971e247edd93"
+      "byteLength": 11513,
+      "sha256": "5e654f04cb658f5b723956e92ea13f6108a53526d060cc8e57469068a14d97e4"
     },
     {
       "path": "site/dist/scratchpad-core.mjs",
@@ -24204,13 +24204,13 @@
     },
     {
       "path": "site/dist/writer-scene-build.mjs",
-      "byteLength": 5850,
-      "sha256": "bd7a5012188cb00e747dc2c009b7cabbc5fa09c62b3e6f84bd2708d701ebce55"
+      "byteLength": 6627,
+      "sha256": "30164e44b5a5ba141e0dbbc6bdb5fa2dd4c9190ea70d436841d1b3be17de44bc"
     },
     {
       "path": "site/dist/writer-scene.mjs",
-      "byteLength": 17888,
-      "sha256": "36a42b022dbce150dca16b89bcbbdbc5f31d191cb075dc2047aa6ca984743ee5"
+      "byteLength": 18124,
+      "sha256": "c7e8aa4e9118183577c61ce0207681944fa78c1a758b9fe10b67fdb6bdd2cf92"
     },
     {
       "path": "site/dist/writer-search.mjs",
@@ -24321,6 +24321,31 @@
       "path": "site/fixtures/scene/textured.glb",
       "byteLength": 2636,
       "sha256": "9ebf69d6b5e9d10e55b3ee4959dd3912343ea781969c1e19769b44ebe03bf0e5"
+    },
+    {
+      "path": "site/fixtures/scenes/README.md",
+      "byteLength": 523,
+      "sha256": "58ae5c7c1fc449470e15697977427eef5113be8ce79f6797a6b5f6612b062c17"
+    },
+    {
+      "path": "site/fixtures/scenes/journal.jot",
+      "byteLength": 521,
+      "sha256": "d38e558a1ab26ac3a8ac5f4b7cad88c29504545b551424c310f967e06906ae21"
+    },
+    {
+      "path": "site/fixtures/scenes/qwen3.8-flash-2026-10-01.json",
+      "byteLength": 5874,
+      "sha256": "e3141cf32f103b54e7cd1c9d9b86325bd92fca6770f97addc99e6085ead5d5d5"
+    },
+    {
+      "path": "site/fixtures/scenes/qwen3.8-flash-2026-10-02.json",
+      "byteLength": 6949,
+      "sha256": "2ce56b401fbc413b5e5d12a9658dc8bfd8fd6b82d691f05f080e1598ba25739d"
+    },
+    {
+      "path": "site/fixtures/scenes/qwen3.8-flash-2026-10-03.json",
+      "byteLength": 6192,
+      "sha256": "b9a51d82da797cff266ab0ad1900e4b773d4ddbf83874cea771820243c015e98"
     },
     {
       "path": "site/fixtures/viewer.webm",
@@ -24614,8 +24639,8 @@
     },
     {
       "path": "site/test-scene-journal.mjs",
-      "byteLength": 7378,
-      "sha256": "d5bbfc5e05f912af4f7bb9d8673f053c65cb32746f16c0905608d6d0aaae01ed"
+      "byteLength": 9782,
+      "sha256": "257a21792b071a0567949c59241c536805c426a244ccd76bafd64ea945698d38"
     },
     {
       "path": "site/test-scratchpad-ui.cjs",
@@ -24704,8 +24729,8 @@
     },
     {
       "path": "site/test-writer-scene-ui.cjs",
-      "byteLength": 14308,
-      "sha256": "38d54e31da1d5fab5e95b5981cc76cb772bb8bacc502987a822f0062c83a8498"
+      "byteLength": 14494,
+      "sha256": "4dd9015093cea1ac5dcf039a5779491f1c05d74928a4f3608d7e5144c1ee0e15"
     },
     {
       "path": "site/test-writer-search.mjs",
@@ -24749,8 +24774,8 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 157972,
-      "sha256": "e38e7bfc8ee0948a2779e616fdbd58afb4084b5032b100df234fcf48657453d0"
+      "byteLength": 158019,
+      "sha256": "3474042b0accf7690b2f86f4a9a751f2f174f7d57cf57c0285fb0d0bf4a4f464"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",

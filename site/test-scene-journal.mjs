@@ -109,3 +109,16 @@ test('a reasoning hint goes only to OpenRouter, and is dropped once if no provid
   const refused = async () => new Response('{}', { status: 401 });
   await assert.rejects(requestJSON({ provider: 'openrouter', ...base }, { fetcher: refused }), /HTTP 401/);
 });
+test('real replies from a live model are kept whole, with moments in the journal\'s own words', async () => {
+  const fs = await import('node:fs'), dir = new URL('./fixtures/scenes/', import.meta.url);
+  const days = journalDays(fs.readFileSync(new URL('journal.jot', dir), 'utf8'));
+  for (const day of days) {
+    const raw = JSON.parse(fs.readFileSync(new URL(`qwen3.8-flash-${day.date}.json`, dir), 'utf8')), place = validatePlace(raw, day.sentences);
+    assert.equal(place.objects.length, raw.objects.length, `${day.date}: every object is kept`);
+    assert.ok(place.objects.every((o) => o.shapes.length === raw.objects.find((r) => r.name === o.name).shapes.length), `${day.date}: every shape is kept`);
+    assert.match(place.sky + place.ground, /^#[0-9a-f]{6}#[0-9a-f]{6}$/);
+    const moments = place.objects.flatMap((o) => o.moments);
+    assert.ok(moments.length && moments.every((m) => day.sentences.includes(m)), `${day.date}: moments are the entry's sentences`);
+  }
+  assert.deepEqual(days.map((d) => validatePlace(JSON.parse(fs.readFileSync(new URL(`qwen3.8-flash-${d.date}.json`, dir), 'utf8')), d.sentences).weather), ['clear', 'rain', 'sun']);
+});

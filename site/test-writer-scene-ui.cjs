@@ -52,6 +52,8 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
   await page.click('#writerScenesToggle');await page.waitForSelector('#writerScenes:not([hidden]) [role=tab]');
   assert.deepEqual(await page.locator('#writerScenes [role=tab]').allTextContents(),['Thu 1 Oct','Fri 2 Oct','Sat 3 Oct']);
   assert.equal(await page.textContent('#writerScenesSummary'),'3 days; 0 with a kept scene.');
+  // Choosing the day that is already chosen keeps its Make button.
+  await page.locator('#writerScenes [role=tab]').nth(0).click();assert.ok(await page.isVisible('#writerScenesMake'));
   // Without the AI companion on, Make points to it and sends nothing.
   await page.click('#writerScenesMake');assert.match(await page.textContent('.writer-scenes-confirm'),/Turn on AI for this session there and choose a model/);assert.equal(requests.length,0);
   await page.evaluate((base)=>{const $=(id)=>document.getElementById(id);$('aiEnabled').checked=true;$('aiEnabled').dispatchEvent(new Event('change',{bubbles:true}));$('aiProvider').value='local';$('aiProvider').dispatchEvent(new Event('change',{bubbles:true}));$('aiBase').value=base;$('aiModel').value='mock-scenes';},origin+'/v1');

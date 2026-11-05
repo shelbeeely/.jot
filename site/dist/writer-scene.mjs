@@ -90,13 +90,14 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     if (!held.length) things.append(el('li', 'Nothing in this scene is tied to a sentence yet.'));
     draw();
   }
-  function reset3D() { // the model's camera, moved back if it would stand inside the place or too close to see it whole
+  function reset3D() { // the model's camera, moved to fit the whole place when it stands inside it or too far away
     if (!view || !three) return;
     const { T, camera, controls } = three, target = new T.Vector3(...view.place.camera.target), from = new T.Vector3(...view.place.camera.position), b = view.built.bounds;
     if (b) {
       const need = (b.radius / Math.sin((camera.fov * Math.PI) / 360)) * 1.05, dir = from.clone().sub(target);
       if (dir.lengthSq() < 1e-6) dir.set(1, 0.6, 1);
-      if (from.distanceTo(b.center) < need) { target.copy(b.center); from.copy(b.center).add(dir.normalize().multiplyScalar(need)); }
+      // From the model's side, at the distance that fits the whole place: never inside it, never so far it is a speck.
+      const d = from.distanceTo(b.center); if (d < need || d > need * 1.6) { target.copy(b.center); from.copy(b.center).add(dir.normalize().multiplyScalar(need)); }
     }
     camera.position.copy(from); controls.target.copy(target); controls.update(); draw();
   }
@@ -186,10 +187,11 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   }
   async function select(i, focus = false) { current = i; drawTabs(); if (focus) tabs.children[i]?.focus(); journal.hidden = true; confirm.hidden = true; await render(); }
   async function render() {
-    const day = days[current]; make.hidden = true;
-    if (!day) { clearView(); about.textContent = 'Dated entries become scenes here. Write a date heading such as ### 2026-10-03 to begin.'; return; }
+    const day = days[current];
+    if (!day) { make.hidden = true; clearView(); about.textContent = 'Dated entries become scenes here. Write a date heading such as ### 2026-10-03 to begin.'; return; }
     const draft = drafts.get(keyOf(day)), now = `${keyOf(day)}|${draft ? 'draft' : day.setting?.path || ''}|${day.sentences.join('\n')}`;
-    if (now === key) return; key = now;
+    if (now === key) return; // nothing changed: what is shown stays, the Make button included
+    key = now; make.hidden = true;
     if (draft) { await show3D(draft.place, { draft: true, model: draft.model }); return; }
     if (day.setting) {
       const text = placeText(day.setting.path);

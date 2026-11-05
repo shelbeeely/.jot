@@ -4,8 +4,9 @@
 //
 //   buildPlace(T, place) -> { root, objects: [Group], sky, fog: { color, near, far } | null, tick(seconds), highlight(index), dispose() }
 
-const LIGHT = { morning: ['#ffe0b5', 2.2, 0.6], day: ['#ffffff', 2.6, 0.75], evening: ['#ffb27a', 1.4, 0.45], night: ['#9db1ff', 0.35, 0.18] };
-const GLOW = { morning: 0.5, day: 0.35, evening: 1.1, night: 1.6 };
+// Night and evening stay readable: a dim key light, but enough fill to see the place (a live run's night desk was nearly black).
+const LIGHT = { morning: ['#ffe0b5', 2.2, 0.6], day: ['#ffffff', 2.6, 0.75], evening: ['#ffb27a', 1.5, 0.7], night: ['#9db1ff', 0.7, 0.55] };
+const GLOW = { morning: 0.5, day: 0.35, evening: 1.2, night: 1.8 };
 
 function geometry(T, s) {
   const [x, y, z] = s.size;
@@ -14,7 +15,7 @@ function geometry(T, s) {
     case 'cylinder': return new T.CylinderGeometry(x, z, y, 20);
     case 'cone': return new T.ConeGeometry(x, y, 20);
     case 'torus': return new T.TorusGeometry(x, Math.min(y, x), 10, 28);
-    case 'plane': return new T.PlaneGeometry(x, y);
+    case 'plane': return new T.PlaneGeometry(x, z).rotateX(-Math.PI / 2); // a flat surface, width by depth, facing up (a floor, a rug, a puddle)
     case 'capsule': return new T.CapsuleGeometry(x, y, 6, 14);
     default: return new T.SphereGeometry(1, 18, 12); // sphere: scaled to its three radii below
   }
@@ -23,12 +24,13 @@ function geometry(T, s) {
 export function buildPlace(T, place) {
   const root = new T.Group(), objects = [], lights = [], weather = [];
   const [tint, sun, hemi] = LIGHT[place.time] || LIGHT.day, glow = GLOW[place.time] ?? 0.4;
-  root.add(new T.HemisphereLight(place.sky, place.ground, hemi));
+  const lift = (c) => new T.Color(c).lerp(new T.Color('#ffffff'), 0.55); // fill light from the sky and ground colours, lightened so dark places stay readable
+  root.add(new T.HemisphereLight(lift(place.sky), lift(place.ground), hemi));
   const key = new T.DirectionalLight(tint, sun); key.position.set(4, 8, 5); root.add(key);
   if (place.weather === 'sun') { const warm = new T.DirectionalLight('#fff2cf', 0.8); warm.position.set(-5, 6, 2); root.add(warm); }
   // The ground: a low disc of the place's ground colour.
   const groundMat = new T.MeshStandardMaterial({ color: place.ground, roughness: place.weather === 'rain' ? 0.35 : 0.95, flatShading: true });
-  const ground = new T.Mesh(new T.CylinderGeometry(7, 7.3, 0.25, 40), groundMat); ground.position.y = -0.125; root.add(ground);
+  const ground = new T.Mesh(new T.CylinderGeometry(1, 1.04, 0.25, 48), groundMat); ground.position.y = -0.125; root.add(ground); // sized to the place below
   place.objects.forEach((o, index) => {
     const group = new T.Group(); group.userData.object = index; group.name = o.name;
     group.position.set(...o.position); group.rotation.set(...o.rotation);
@@ -66,8 +68,10 @@ export function buildPlace(T, place) {
     });
   }
   // How big the place is (objects only, not the ground or weather): the view keeps far enough back to see all of it.
-  const box = new T.Box3(); for (const g of objects) box.expandByObject(g);
+  // Framed on what the day is about: the things that hold sentences, or everything when none do.
+  const box = new T.Box3(), held = objects.filter((g, i) => place.objects[i].moments.length); for (const g of held.length ? held : objects) box.expandByObject(g);
   const bounds = box.isEmpty() ? null : box.getBoundingSphere(new T.Sphere());
+  const reach = Math.max(2.5, (bounds?.radius || 3) * 1.5); ground.scale.set(reach, 1, reach); if (bounds) ground.position.set(bounds.center.x, -0.125, bounds.center.z);
   let lit = -1;
   return {
     root, objects, sky: place.sky, bounds,
