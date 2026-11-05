@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 135318,
-      "sha256": "f19bc1a89cc3d3066c072bf94e8daa69311084f2022d7f4aed264aad72b23c92"
+      "byteLength": 135764,
+      "sha256": "6e6ac54bf87af94b0a78f96fd4479bb26ba1c302a74a024ebf5272e274c87569"
     },
     {
       "path": "README.md",
@@ -22689,8 +22689,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 16541,
-      "sha256": "6412efdee3c80d4ab7e8a08aa8a789d3da3dea3208d0e7f2c93f9f5409ed4959"
+      "byteLength": 16693,
+      "sha256": "0bafea72d02826c1874ff185393bd6e89ead2f0e0c2b9a9083e8b041f505b90b"
     },
     {
       "path": "site/CLAUDE.md",
@@ -23740,7 +23740,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5035,
-      "sha256": "1e55934485d2efbb79c35a9e521501724d6c47314e7c56e965520eb428045d47"
+      "sha256": "d0434fe4a176aceb39a6a10e1749c3dcf59c5a6b0d0f1507aa680b915da77951"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23849,8 +23849,8 @@
     },
     {
       "path": "site/dist/sw.mjs",
-      "byteLength": 3159,
-      "sha256": "811e7eb1e3ad6bdc4b115e7f43f3ce562b0645e8d8e4c510e9c83a47214a3a7e"
+      "byteLength": 3877,
+      "sha256": "ad3ad9e415256e450a53b284d1929452e8d480f9398c15dc86911de21c56aea2"
     },
     {
       "path": "site/dist/tools/index.html",
@@ -24314,8 +24314,8 @@
     },
     {
       "path": "site/test-update-ui.cjs",
-      "byteLength": 4847,
-      "sha256": "165882e1323439e4b1087708f4041acedc38a1326bd9e858ddc56d81e505df8e"
+      "byteLength": 6292,
+      "sha256": "2e1b06e47c85d9633cd6f520c829eab1fbb1421997af4d8e4f70a6cbb6378a4f"
     },
     {
       "path": "site/test-voice-local-ui.cjs",

@@ -2,7 +2,19 @@ import { VERSION, FILES } from './offline-files.mjs';
 import { enqueue } from './inbox.mjs';
 const scope = new URL('./', import.meta.url), cacheName = 'jot-app-' + VERSION;
 const allowed = new Set(FILES.map(path => new URL(path, scope).href));
-self.addEventListener('install', event => { event.waitUntil((async () => { const cache = await caches.open(cacheName); try { await cache.addAll([...allowed]); } catch (error) { await caches.delete(cacheName); throw error; } })()); });
+// Versions that can offer "Update now" leave this mark in their cache. An older install without it can only update once
+// every Jot tab is closed, which is hard on a phone or from a home-screen app, so a new version replaces it straight away
+// (once); after that, updates wait for the person to choose Update now.
+const UPDATE_AWARE = new URL('__jot-update-aware', scope).href;
+self.addEventListener('install', event => { event.waitUntil((async () => {
+  const cache = await caches.open(cacheName);
+  try { await cache.addAll([...allowed]); } catch (error) { await caches.delete(cacheName); throw error; }
+  await cache.put(UPDATE_AWARE, new Response('1'));
+  const older = (await caches.keys()).filter(name => name.startsWith('jot-app-') && name !== cacheName);
+  let aware = false;
+  for (const name of older) if (await (await caches.open(name)).match(UPDATE_AWARE)) aware = true;
+  if (older.length && !aware) await self.skipWaiting();
+})()); });
 // No automatic skipWaiting or clients.claim: open tabs keep a consistent application version. The person can choose
 // Update now, which asks the waiting worker to take over; that tab then reloads straight away (browser-session.mjs).
 self.addEventListener('message', event => { if (event.data === 'jot-update-now') self.skipWaiting(); });

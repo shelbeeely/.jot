@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
   fs.readFile(file, (err, data) => {
     if (err) { res.writeHead(404); res.end(); return; }
     // A "new release" changes the offline version, so the service worker installs a fresh cache and waits.
-    if (file === path.join(root, 'offline-files.mjs') && release === 'two') data = Buffer.from(String(data).replace(/export const VERSION = '([^']+)'/, "export const VERSION = '$1-two'"));
+    if (file === path.join(root, 'offline-files.mjs') && release !== 'one') data = Buffer.from(String(data).replace(/export const VERSION = '([^']+)'/, "export const VERSION = '$1-" + release + "'"));
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('Content-Type', ({ '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.png': 'image/png', '.wasm': 'application/wasm' })[path.extname(file)] || 'application/octet-stream');
     res.end(data);
@@ -51,7 +51,19 @@ const server = http.createServer((req, res) => {
     await page.waitForFunction(() => document.getElementById('writing').value.includes('Kept through the update.'), null, { timeout: 30000 });
     assert.equal(await page.$('#jotUpdateBar'), null);
     assert.equal(await page.isVisible('#writerVoiceMic'), true, 'the Speak button is there after updating');
+
+    // An install from before "Update now" existed (no mark in its cache) is replaced by the next version straight away,
+    // since it could otherwise only update once every Jot tab was closed. A reload then shows the new version.
+    await page.evaluate(async () => { for (const name of await caches.keys()) await (await caches.open(name)).delete(new URL('../__jot-update-aware', location.href).href); });
+    release = 'three';
+    const changed = page.evaluate(() => new Promise((resolve) => navigator.serviceWorker.addEventListener('controllerchange', () => resolve(true), { once: true })));
+    await page.evaluate(() => navigator.serviceWorker.getRegistration().then((r) => r.update()));
+    assert.equal(await changed, true, 'the new version took over without waiting for every tab to close');
+    await page.reload();
+    await page.waitForFunction(async () => (await caches.keys()).some((k) => k.endsWith('-three')) && !(await caches.keys()).some((k) => k.endsWith('-two')));
+    assert.ok(await page.evaluate(async () => !!(await (await caches.open((await caches.keys()).find((k) => k.endsWith('-three')))).match(new URL('../__jot-update-aware', location.href).href))), 'the new version leaves the mark');
+    await page.waitForFunction(() => document.getElementById('writing').value.includes('Kept through the update.'), null, { timeout: 30000 });
     assert.deepEqual(errors, []);
-    console.log('PASS: offline update offered in one tap (no closing every tab), reloads onto the new version, old cache removed, writing kept, accessible bar, nothing offered when nothing is new.');
+    console.log('PASS: an install from before Update now replaces itself on the next version; offline update offered in one tap (no closing every tab), reloads onto the new version, old cache removed, writing kept, accessible bar, nothing offered when nothing is new.');
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); server.close(); process.exitCode = 1; });

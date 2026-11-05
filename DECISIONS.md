@@ -1247,3 +1247,5 @@ Writer now shows a bar when a newer version is waiting: **A new version of Jot i
 - **Checking:** Writer looks for a new version on load and whenever the page comes back into view.
 
 Nothing updates without the person's choice, so open tabs still keep one consistent version unless they ask. `site/test-update-ui.cjs` publishes a simulated new release and checks the bar, the reload, the removed old cache and the kept writing.
+
+One-time migration: an install from before the update bar existed has no way to offer it, and the owner's phone kept showing that old copy even in a fresh tab. A new version now looks in the existing offline caches for a mark that update-aware versions leave. If no older cache has the mark, the new version takes over at once; a reload, or the next visit, then shows it. Versions that carry the mark wait for **Update now** as described above.
