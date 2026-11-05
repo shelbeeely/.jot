@@ -68,6 +68,11 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - Results are untrusted text: set with `textContent`, escaped in link labels (`escapeLabel`), and inserted only on the person's Insert, at the cursor, with Undo. Activity words (Watched, Reading…) are the person's choice; a reference alone never implies an event. Unknown links are never fetched.
 - Space requests per provider, cache briefly, cancel stale searches, and show busy/offline plainly with a paste fallback. Run `node --test site/test-media-catalog.mjs` and `node site/test-media-picker-ui.cjs` (saved real responses in `site/fixtures/media/`); report live catalog checks separately. Keep the desktop CSP `connect-src` in step with `HOSTS`.
 
+## Media journal (`site/dist/media-shelf-core.mjs`, `writer-media.mjs`)
+
+- A read-only view like the journal map: it reads references in the prose of dated entries (never scratchpads, code or comments), fetches nothing, never edits the writing, and clears when the journal locks. Activity status comes only from the words the writer put before a link; a bare mention is "Mentioned".
+- Download media journal writes a separate `.jot` and leaves the journal unchanged. Run `node --test site/test-media-shelf.mjs` and `node site/test-writer-media-ui.cjs`.
+
 ## Music database lookup (`site/dist/media-lookup.mjs`)
 
 - Search is off until explicitly enabled. Send only the dedicated search text and entity type; never journal writing or tokens.

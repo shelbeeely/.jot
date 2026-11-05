@@ -754,6 +754,21 @@ a result. Writer shows the exact text before it goes in at your cursor, and Undo
   fetched when the journal is opened or printed. Titles come from the catalogs and may be wrong or change; check before
   you insert. Catalogs can be busy or offline; then search again later or paste a link.
 
+### Your media journal
+
+**Media** (in the bar at the bottom on a phone, beside **Map** at the top on a wider screen, or **Tools → Media journal**)
+gathers every film, series, episode, book, anime, podcast, game, song and video your entries mention. It finds the
+references Add media writes, the short `imdb:`, `youtube:`, `spotify:` and `musicbrainz:` forms, and listening notes.
+
+- Each title appears once, grouped by kind, with what you last did (**Watched**, **Reading**, **Want to watch**…), the date
+  and how many times it comes up. Open a title to see every mention; **Open in writing** goes to that spot.
+- Find a title, or show one kind, or only what you want to, are in the middle of, or have done. "Done" and "Want to" come
+  from the words you wrote before the link; a title you only mentioned shows as **Mentioned**.
+- **Download media journal** saves a separate `.jot`: one dated entry per day, listing that day's media with what you did.
+  Your journal is not changed. Open the file in Writer like any other journal.
+- Nothing is fetched to build the view; the catalog link on a title opens only when you choose it. Scratchpads, code and
+  hidden comments are not counted. Locking the journal clears the view.
+
 ## Local writing suggestions
 
 The workspace can reuse names already in the open journal. It does not search other journals or contact a service.

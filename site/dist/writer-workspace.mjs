@@ -3,6 +3,7 @@ import { setupWritingTools } from './writing-tools.mjs';
 import { setupWriterSearch } from './writer-search.mjs';
 import { setupWriterTemplates } from './writer-templates.mjs';
 import { setupWriterMap } from './writer-map.mjs';
+import { setupWriterMedia } from './writer-media.mjs';
 
 // Only parsed headings belong in the outline: fenced examples, comments and record fields stay out.
 export function outlineItems(source) {
@@ -76,7 +77,7 @@ export function shortcutMatcher(combo) {
 
 const TOOL_GROUPS = [
   ['Start writing', ['Today', 'Quick note', 'Scribe', 'Scratchpad for this entry', 'Voice typing', 'Writing invitations', 'Entry templates', 'AI companion']],
-  ['Find your way', ['Find and replace', 'Outline', 'Journal map', 'Page preview', 'Write only', 'Side by side', 'Focus mode']],
+  ['Find your way', ['Find and replace', 'Outline', 'Journal map', 'Media journal', 'Page preview', 'Write only', 'Side by side', 'Focus mode']],
   ['Add to an entry', ['Add media', 'Margin note', 'Annotate page', 'Insert current time', 'Capture location', 'Attach a file', 'People and Places', 'Music and background media', 'Voice practice', 'Carry tasks forward', 'Week review', 'Annotate page', 'Connected sources', 'Import health data', 'Import numbers CSV', 'Entry timezone']],
   ['Save, open and share', ['Save', 'Save as', 'Open a journal', 'New journal', 'Download journal', 'Print or PDF', 'Download page', 'Export Markdown', 'Export Jot source', 'Export calendar', 'Export numbers', 'Export tasks', 'Open imported file', 'Attached files', 'Rename document']],
   ['Privacy', ['Journal lock and ways in', 'Entries, privacy and search', 'Offline, sharing and nearby transfer']],
@@ -95,29 +96,31 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   $('writerFindBtn').onclick = search.open;
 
   const narrow = win.matchMedia('(max-width: 850px)');
-  let map = null, chosenView = null, toolsExpanded = false, colorsExpanded = false, previewAllowed = !root.hasAttribute('data-hide-preview');
+  let map = null, media = null, chosenView = null, toolsExpanded = false, colorsExpanded = false, previewAllowed = !root.hasAttribute('data-hide-preview');
   function view(value) {
-    const active = value === 'map' ? 'map' : !previewAllowed || value === 'split' && narrow.matches ? 'write' : value;
+    const active = value === 'map' || value === 'media' ? value : !previewAllowed || value === 'split' && narrow.matches ? 'write' : value;
     root.setAttribute('data-writer-view', active);
     if (active === 'map') map?.show(); else map?.hide();
+    if (active === 'media') media?.show(); else media?.hide();
     $('writerMapToggle')?.setAttribute('aria-pressed', String(active === 'map'));
+    $('writerMediaToggle')?.setAttribute('aria-pressed', String(active === 'media'));
     for (const name of ['write', 'preview', 'split']) $('writerView' + name[0].toUpperCase() + name.slice(1)).setAttribute('aria-pressed', String(name === active));
     $('writerPreviewToggle').setAttribute('aria-pressed', String(active === 'preview' || active === 'split'));
     $('writerPreviewToggle').textContent = active === 'preview' ? 'Write' : 'Preview';
-    for (const name of ['write', 'preview', 'map']) {
+    for (const name of ['write', 'preview', 'map', 'media']) {
       const item = doc.querySelector('.writer-nav [data-nav="' + name + '"]');
       if (item) { if (name === active) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current'); }
     }
   }
   function showWriting() {
-    if (['preview', 'map'].includes(root.getAttribute('data-writer-view'))) { chosenView = 'write'; view(chosenView); }
+    if (['preview', 'map', 'media'].includes(root.getAttribute('data-writer-view'))) { chosenView = 'write'; view(chosenView); }
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
   for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'scribeBtn', 'scratchpadBtn', 'marginNoteBtn', 'mediaPickerBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
-    if (name !== 'write' && name !== 'map') showPreview();
+    if (!['write', 'map', 'media'].includes(name)) showPreview();
     view(name);
     if (name === 'write') editor.focus({ preventScroll: true });
   }
@@ -138,11 +141,16 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
   });
   // The journal map: a calendar canvas of entries, links and threads. It clears whenever the journal locks.
   map = setupWriterMap({ editor, status, jumpTo: (position, label) => { selectView('write'); jumpTo(position, 'the entry for ' + label); } });
-  new MutationObserver(() => { if (editor.readOnly) map.reset(); }).observe(editor, { attributes: true, attributeFilter: ['readonly'] });
+  // The media journal: every film, series, book, anime, podcast, game and song the entries mention. Read-only; clears on lock.
+  media = setupWriterMedia({ editor, status, jumpTo: (position, label) => { selectView('write'); jumpTo(position, 'the mention on ' + label); }, documentName: () => $('documentName').value, addMedia: () => { selectView('write'); $('mediaPickerBtn')?.click(); } });
+  new MutationObserver(() => { if (editor.readOnly) { map.reset(); media.reset(); } }).observe(editor, { attributes: true, attributeFilter: ['readonly'] });
   {
     const mapToggle = element('button', 'Map', { id: 'writerMapToggle', type: 'button', 'aria-pressed': 'false', title: 'Every entry on a calendar, with the links between them' });
     mapToggle.onclick = () => selectView(root.getAttribute('data-writer-view') === 'map' ? 'write' : 'map');
     $('writerPreviewToggle').after(mapToggle);
+    const mediaToggle = element('button', 'Media', { id: 'writerMediaToggle', type: 'button', 'aria-pressed': 'false', title: 'Every film, series, book, podcast, game and song your entries mention' });
+    mediaToggle.onclick = () => selectView(root.getAttribute('data-writer-view') === 'media' ? 'write' : 'media');
+    mapToggle.after(mediaToggle);
   }
   bottomNavigation();
   view('write'); disclosures();
@@ -158,6 +166,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
       ['write', 'Write', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>', '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4" stroke="var(--writer-nav-indicator)"/>', 'write'],
       ['preview', 'Preview', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>', '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3" fill="var(--writer-nav-indicator)" stroke="var(--writer-nav-indicator)"/>', 'preview'],
       ['map', 'Map', '<circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="7" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7.4 6.2 16.5 7M6.3 8.2l4.4 7.6M17.7 9.2l-4.4 6.6"/>', '<circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="7" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7.4 6.2 16.5 7M6.3 8.2l4.4 7.6M17.7 9.2l-4.4 6.6"/>', 'map'],
+      ['media', 'Media', '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3Z"/>', '<rect x="3" y="5" width="18" height="14" rx="2" fill="currentColor"/><path d="m10 9 5 3-5 3Z" fill="var(--writer-nav-indicator)" stroke="var(--writer-nav-indicator)"/>', 'media'],
     ];
     for (const [name, label, outlined, filled, destination] of items) {
       const item = doc.createElement('button');
@@ -402,6 +411,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     { label: 'Attached files', detail: 'Review, download or remove files in this journal', run: () => { const shelf = $('writerAssetShelf'); shelf.hidden = false; shelf.scrollIntoView({ block: 'nearest' }); } },
     { label: 'Write only', detail: 'Just the writing', run: () => selectView('write') },
     { label: 'Journal map', detail: 'Every entry on a calendar, with the links and threads between them', run: () => selectView('map') },
+    { label: 'Media journal', detail: 'Every film, series, book, anime, podcast, game and song your entries mention, and a downloadable media log', run: () => selectView('media') },
     { label: 'Page preview', detail: 'Read the formatted pages', run: () => selectView('preview') },
     { label: 'Side by side', detail: 'Write beside the preview on a wide screen', run: () => selectView(narrow.matches ? 'preview' : 'split') },
     ...[['localSuggestionsEnabled', 'local suggestions'], ['checkToggle', 'writing hints'], ['writerSmartLists', 'list continuation']].map(([id, label]) => ({ label: 'Toggle ' + label, detail: () => label + ': ' + ($(id).checked ? 'on' : 'off'), run: () => { $(id).checked = !$(id).checked; $(id).dispatchEvent(new win.Event('change', { bubbles: true })); status(label[0].toUpperCase() + label.slice(1) + ($(id).checked ? ' on.' : ' off.')); } })),

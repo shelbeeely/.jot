@@ -99,8 +99,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 4504,
-      "sha256": "2134b21857e601eab2f3dbd149657269610294fc24e9ee03ff55378a949e03e1"
+      "byteLength": 4530,
+      "sha256": "4bb69d54c372e4f2ce3f51cecd6258a788aaa7b4596c29921c59fd671b47cc0f"
     },
     {
       "path": ".gitignore",
@@ -109,8 +109,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 11677,
-      "sha256": "57e0a70a84dda602089c6c5ac61c10285b2748916ea60610cfda0c0b42d04449"
+      "byteLength": 11703,
+      "sha256": "afb06b90ba97510c27684d9616d8317b99f938247cb60987c20d06c5352db663"
     },
     {
       "path": "CLAUDE.md",
@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 137751,
-      "sha256": "e1a71daa0680ed29fc6267e3e66f25fafe6d4dcb4eff8e928e8b06f738b93443"
+      "byteLength": 138935,
+      "sha256": "666750df9339e3ef44a2d919d8072e62b8406c0a688d97fba477b938e75456a2"
     },
     {
       "path": "README.md",
@@ -129,8 +129,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 72706,
-      "sha256": "747c5ff19974e5cc1a56db5032dbe989cbb09ccdd772acdf72a460c54f8acd55"
+      "byteLength": 72942,
+      "sha256": "aab4f04d9c2789af589504258a9b3991efed06ad6017de1cb22aec08d0bd65f2"
     },
     {
       "path": "cli/README.md",
@@ -894,8 +894,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 57489,
-      "sha256": "87f8201a8395b862e0649737f64472083bfe574d709a8a681e3f1acfa1f8f150"
+      "byteLength": 58719,
+      "sha256": "1181af1dee7578f09bd51aebe103f2b312ac56640ad78c1dd0b517800c0968db"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -22689,8 +22689,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 17732,
-      "sha256": "e204535ec36e1156e2e9dcf6c414bb88480c640f955979829dc62bdb3717f8c6"
+      "byteLength": 18286,
+      "sha256": "bc38923406e8fcb5cec99f6373efd3327a35f29735cf2e8069cc5455fc2a0c36"
     },
     {
       "path": "site/CLAUDE.md",
@@ -22714,8 +22714,8 @@
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 72732,
-      "sha256": "ff27c50a3e9b4e3642bbcd5b24db1d5b253f3f4bb5936fac7b8c34921f524c36"
+      "byteLength": 72968,
+      "sha256": "6e46055acbd5b9136aea94120bc969b650e593b73336c4a345f624615ed8f1f3"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -23249,8 +23249,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 75413,
-      "sha256": "df59b7820c13ff9c021052959f83be4bd108d98a432f32e8d6510134d51d899e"
+      "byteLength": 76903,
+      "sha256": "81ad7b2a963609ada3087860bccff1680ea8e650ebc2692923a62bfb7f597376"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -23733,6 +23733,11 @@
       "sha256": "1318d46df6c66e95cc100a1f46865be545d81d2e6e6c860493f67c01522ff334"
     },
     {
+      "path": "site/dist/media-shelf-core.mjs",
+      "byteLength": 7875,
+      "sha256": "c3f2d61c669548cb8ce2f6abd442967f2c01815816d00a71d89aa918da52745a"
+    },
+    {
       "path": "site/dist/music-player.mjs",
       "byteLength": 2545,
       "sha256": "285e76ccd3fd6982645b5459226145f23c18563e9689e28eb0ba41ccc93bf5af"
@@ -23749,8 +23754,8 @@
     },
     {
       "path": "site/dist/offline-files.mjs",
-      "byteLength": 5080,
-      "sha256": "d4f798f60828027c56d893d6e84ea8da3abf166f5d2576e6ff66d3788a8cf31e"
+      "byteLength": 5128,
+      "sha256": "b9a17d344105621d90c7f3a3970285de2689a72636e686e59e3f2205ace62120"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23849,8 +23854,8 @@
     },
     {
       "path": "site/dist/studio.css",
-      "byteLength": 60799,
-      "sha256": "85e96ddf4868951636af1b67714ea0f1af88135cc4a6a603d7fef3db3f99a54b"
+      "byteLength": 63333,
+      "sha256": "ac61c3f33713143806ea40f5b076ab46319e1b25be0560a1212ff014bbcfa943"
     },
     {
       "path": "site/dist/studio.mjs",
@@ -24013,6 +24018,11 @@
       "sha256": "7ded5ef168c7487133621585480bf23170165645fad29cdab9421ed0e6f2eb62"
     },
     {
+      "path": "site/dist/writer-media.mjs",
+      "byteLength": 7468,
+      "sha256": "6d2d19f58f0498dcd20e2789978805c77351ff8e172c1d32255a1926f64347d0"
+    },
+    {
       "path": "site/dist/writer-search.mjs",
       "byteLength": 8046,
       "sha256": "6c597feb5f0cc60b500de00caacfc716feb89327f321e2f5611963337baceb5f"
@@ -24034,8 +24044,8 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 46536,
-      "sha256": "79588b26aee2e1a0cc40821f2f321c6982880d25e65c7084df2cef2ae6a0219d"
+      "byteLength": 48047,
+      "sha256": "04329dbc35e6c3def1d68db1591229d4419096b9bf5313b7c76a4ce8ca58fdf7"
     },
     {
       "path": "site/dist/writing-tools.mjs",
@@ -24283,6 +24293,11 @@
       "sha256": "916ad2b1c7569e456211e50c64b47c2e625c55b1712cd1859e7a5e41f8f19d43"
     },
     {
+      "path": "site/test-media-shelf.mjs",
+      "byteLength": 4150,
+      "sha256": "74df04a23792e966e31b8f7e170af3f160b1e39a4e7e82213206c0e6d3d20ebb"
+    },
+    {
       "path": "site/test-music-player-ui.cjs",
       "byteLength": 8293,
       "sha256": "9f52b0e086d05a0c703f58867390dda7fcc11929779f850967f48b80dc884bd0"
@@ -24416,6 +24431,11 @@
       "path": "site/test-writer-map.mjs",
       "byteLength": 2444,
       "sha256": "1748c4f39c25d44cb4846c2c64fbeca4df9a4707f46c71b76cd8649de6a99e8a"
+    },
+    {
+      "path": "site/test-writer-media-ui.cjs",
+      "byteLength": 8229,
+      "sha256": "b49470e95c6bed1755e135918c708e9d305bd56eff8a689231c9adf742968dca"
     },
     {
       "path": "site/test-writer-recovery-ui.cjs",

@@ -35,7 +35,7 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decode
    // The labeled mic opens voice typing too.
    await page.click('#writerVoiceMic');await page.waitForFunction(()=>!document.getElementById('scribe').hidden);await page.click('#scribeClose');
    // Material 3 flexible navigation bar: three destinations, one active with a filled icon, the FAB above the bar.
-   assert.deepEqual(await page.locator('.writer-nav button .writer-nav-label').allTextContents(),['Write','Preview','Map','Tools']);
+   assert.deepEqual(await page.locator('.writer-nav button .writer-nav-label').allTextContents(),['Write','Preview','Map','Media','Tools']);
    assert.equal(await page.getAttribute('.writer-nav [data-nav=write]','aria-current'),'page');
    assert.ok(await page.isVisible('.writer-nav [data-nav=write] .is-filled'));assert.ok(await page.isVisible('.writer-nav [data-nav=preview] .is-outlined'));
    const bar=await page.locator('.writer-nav').boundingBox(),fab=await page.locator('#writerVoiceMic').boundingBox();assert.ok(bar.height>=64&&fab.y+fab.height<=bar.y,'the FAB sits above the bar');

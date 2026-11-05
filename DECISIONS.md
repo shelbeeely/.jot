@@ -1268,3 +1268,13 @@ Pasted links from YouTube, Spotify, IMDb and those catalogs are looked up by tha
 - **Evidence.** Saved real responses back the Node and browser tests. TVmaze, Open Library, AniList, Apple Podcasts, YouTube and Spotify were also checked live from a browser. Wikidata and MusicBrainz rate-limit the test environment's shared address, so films, games and music were checked against saved and documented responses only.
 
 Next: the bring-your-own-token services (ListenBrainz submit, Trakt watched, AniList progress, TMDB availability) and the self-hosted servers.
+
+## 2026-11-05: A media journal built from the entries
+
+The owner asked for "a dedicated media journal that pulls all the media together". Writer now has a **Media** view beside **Map** and in the phone navigation bar. It gathers every media reference in the prose of dated entries and groups each title once by kind, with its latest activity, date and mentions, filters, and **Open in writing**. References come from Add media, the short `imdb:`, `youtube:`, `spotify:` and `musicbrainz:` forms, and listening notes. **Download media journal** saves a separate `.jot` with one dated entry per day.
+
+Choices:
+- **No second store of media.** It is built from the entries, so the journal stays the single record, nothing can drift out of step, and the downloaded journal can always be made again. Nothing in the format changes.
+- **Status only from the writer's own words** ("Watched", "Want to read"…, as Add media writes them). A bare mention stays "Mentioned", so a reference never becomes a claimed event.
+- **Scratchpads, code and hidden comments are not counted.** Rough notes are not the record.
+- **Behaves like the journal map:** read-only, no requests, and cleared on lock.
