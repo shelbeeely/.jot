@@ -293,7 +293,24 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
   });
   surface.addEventListener('paste', event => { event.preventDefault(); if (composing) return; type('insertFromPaste', event.clipboardData?.getData('text/plain') || ''); });
   surface.addEventListener('drop', event => { event.preventDefault(); if (!composing && event.dataTransfer?.getData('text/plain')) type('insertFromDrop', event.dataTransfer.getData('text/plain')); });
-  surface.addEventListener('click', event => { if (event.target.closest('a')) event.preventDefault(); scheduleSuggestions(); });
+  // Tapping a task's box ticks or unticks it, as an ordinary undoable edit of its [ ] marker; the caret stays put.
+  const onBox = event => {
+    const line = event.target.closest?.('.live-task'); if (!line || !surface.contains(line)) return null;
+    const rect = line.getBoundingClientRect(), gutter = parseFloat(win.getComputedStyle(line).paddingInlineStart) || 0;
+    const rtl = win.getComputedStyle(line).direction === 'rtl', x = rtl ? rect.right - event.clientX : event.clientX - rect.left;
+    return x >= 0 && x <= gutter ? wrappers.find(item => item.node === line) || null : null;
+  };
+  surface.addEventListener('pointerdown', event => { if (onBox(event)) event.preventDefault(); });
+  surface.addEventListener('click', event => {
+    const block = onBox(event);
+    if (block) {
+      event.preventDefault();
+      const keep = readSelection(), change = writingEdit(editor.value, block.contentFrom, block.contentFrom, 'tick');
+      if (change) { apply({ ...change, selectionStart: keep.start, selectionEnd: keep.end }, { focus: false }); status(/\[[xX]\]/.test(editor.value.slice(block.from, block.contentFrom)) ? 'Ticked. Undo unticks it.' : 'Unticked.'); }
+      return;
+    }
+    if (event.target.closest('a')) event.preventDefault(); scheduleSuggestions();
+  });
   surface.addEventListener('blur', () => { readIntoSource(); closeSuggestions(); });
   surface.addEventListener('compositionstart', () => {
     closeSuggestions(); const range = readSelection(), block = wrappers.find(item => item.editable && item.node.contains(win.getSelection()?.anchorNode));

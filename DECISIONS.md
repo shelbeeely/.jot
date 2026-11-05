@@ -1303,3 +1303,12 @@ This narrows the 2026-11-04 scribe exception: links are added around verbatim wo
 **Why not on-device.** The on-device SmolLM2 cleanup is not used because it only fixes punctuation and capitals, so it cannot reshape notes into sentences. Claiming otherwise would overstate it.
 
 **What the companion keeps.** It still validates output as passive Jot and cannot verify facts, so the review step is the safeguard.
+
+## 2026-11-05: Checklists that tick, and the scribe understanding everyday wording
+
+The owner had trouble adding checklists and media with the scribe. Testing showed three gaps:
+- **Tapping a task's box did nothing.** Tapping the box in live editing now ticks or unticks it, and so do **Format → Tick or untick task** and **Ctrl+Enter**. Each is an ordinary undoable edit of the `[ ]` marker: `[ ]` and `[!]` become `[x]`, `[x]` becomes `[ ]`, and moved or cancelled tasks keep their state.
+- **The scribe knew only "new task" and "new to-do".** It now also accepts "checklist item …", "add checklist item …", "new to do …", "to do, …" and "add … to my checklist". A bare "to do" or "checklist" needs a comma or colon, so ordinary sentences such as "To do this properly…" stay as words.
+- **The scribe accepted only "find …".** It now also accepts "add the movie …", "link the film …" and "… called …".
+
+When online search is off and a title isn't in the journal, the scribe offers **Look up online**. That one tap turns on the same remembered setting Add media uses, so consent stays explicit.

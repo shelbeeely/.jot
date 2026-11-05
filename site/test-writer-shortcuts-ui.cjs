@@ -55,6 +55,22 @@ const server=http.createServer((req,res)=>{let file=path.resolve(root,'.'+decode
     assert.equal(await page.inputValue('#writing'),src,mode+': undo restores it');
   }
   await page.evaluate(()=>document.getElementById('writing').jotSetMode('source'));
-  assert.deepEqual(errors,[]);console.log('PASS: Writer shortcuts in source and live editing, clear formatting in one entry, undo/redo, shortcuts list search and accessibility, find and replace, tool search by key, open.');
+  // Checklists: tapping a box ticks it (live editing), Ctrl+Enter ticks the task at the cursor; both undoable.
+  await page.evaluate(()=>document.getElementById('writing').jotSetMode('live'));
+  await page.evaluate(()=>{const e=document.getElementById('writing');e.value='### 2026-11-05\n\n[ ] Milk\n[ ] Eggs\n';e.dispatchEvent(new Event('input',{bubbles:true}));});
+  await page.waitForFunction(()=>document.querySelectorAll('#liveWriting .live-task').length===2);
+  {const box=await page.locator('#liveWriting .live-task').first().boundingBox();await page.mouse.click(box.x+6,box.y+box.height/2);}
+  assert.equal(await page.inputValue('#writing'),'### 2026-11-05\n\n[x] Milk\n[ ] Eggs\n','tapping the box ticks it');
+  assert.equal(await page.getAttribute('#liveWriting .live-task >> nth=0','data-marker'),'☑');
+  await page.waitForTimeout(250); // a person's next tap comes after the redraw
+  await page.locator('#liveWriting .live-task').nth(1).click();
+  await page.waitForTimeout(250);
+  assert.equal(await page.inputValue('#writing'),'### 2026-11-05\n\n[x] Milk\n[ ] Eggs\n','tapping the words places the caret, no tick');
+  await page.keyboard.press('Control+Enter');
+  assert.equal(await page.inputValue('#writing'),'### 2026-11-05\n\n[x] Milk\n[x] Eggs\n','Ctrl+Enter ticks the task at the cursor');
+  await page.click('#writerUndo');await page.click('#writerUndo');
+  assert.equal(await page.inputValue('#writing'),'### 2026-11-05\n\n[ ] Milk\n[ ] Eggs\n','Undo unticks');
+  await page.evaluate(()=>document.getElementById('writing').jotSetMode('source'));
+  assert.deepEqual(errors,[]);console.log('PASS: Writer shortcuts in source and live editing, tick tasks by tapping the box or Ctrl+Enter, clear formatting in one entry, undo/redo, shortcuts list search and accessibility, find and replace, tool search by key, open.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

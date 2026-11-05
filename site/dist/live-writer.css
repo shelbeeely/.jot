@@ -11,7 +11,7 @@
  .jot-site.jot-writer .live-writing :is(ul,ol){padding-inline-start:1.5em;margin:.3em 0 1em;white-space:normal}
  .jot-site.jot-writer .live-writing li{margin:0;min-height:1.8em}
  .jot-site.jot-writer .live-writing blockquote{padding-inline-start:1em;border-inline-start:3px solid var(--writer-border);margin-inline:0;color:var(--writer-muted)}
- .live-task{padding-inline-start:1.6em;position:relative}.live-task::before{content:attr(data-marker);position:absolute;inset-inline-start:0}
+ .live-task{padding-inline-start:1.6em;position:relative}.live-task::before{content:attr(data-marker);position:absolute;inset-inline-start:0;cursor:pointer;min-width:1.4em}
  .live-writing code{font: .9em/1.6 'Jot Mono',ui-monospace,Consolas,monospace;background:color-mix(in srgb,var(--writer-ink) 7%,var(--writer-bg));border-radius:3px;padding:.1em .25em}
  .live-writing .live-link{color:var(--jot-accent);text-decoration:underline;text-underline-offset:.15em}
  .live-writing mark.jot-highlighter-active{background:transparent!important;color:inherit;padding:0;border-radius:0}

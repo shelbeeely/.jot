@@ -108,12 +108,18 @@ const server = http.createServer((req, res) => {
     // "link it" adds a catalog reference (online search on; the catalog is mocked with a saved Open Library response).
     await page.locator('#writing').evaluate((e) => { e.value = e.value.replace('Old entry,', 'Old entry, watched [The Matrix (1999)](imdb:tt0133093),'); e.dispatchEvent(new Event('input', { bubbles: true })); });
     await page.route('https://openlibrary.org/**', (route) => route.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: fs.readFileSync(path.join(__dirname, 'fixtures', 'media', 'openlibrary-search.json'), 'utf8') }));
-    await page.evaluate(() => localStorage.setItem('jot-media-online-v1', 'on'));
     await page.click('#writerVoiceMic'); await page.waitForFunction(() => document.getElementById('scribeStatus').textContent.startsWith('Listening'));
     await page.evaluate(() => window.scribeSay.push('I watched the matrix again.'));
     await page.waitForFunction(() => document.getElementById('writing').value.includes('I watched [the matrix](imdb:tt0133093) again.'), null, { timeout: 20000 });
-    await page.evaluate(() => window.scribeSay.push('Find book the left hand of darkness.'));
-    await page.waitForFunction(() => !document.getElementById('scribeFound').hidden, null, { timeout: 20000 });
+    await page.evaluate(() => window.scribeSay.push('Add checklist item milk.'));
+    await page.waitForFunction(() => /\n\[ \] Milk/.test(document.getElementById('writing').value), null, { timeout: 20000 });
+    // With online search off: nothing is sent; one tap turns it on and looks the title up.
+    await page.evaluate(() => window.scribeSay.push('Add the book called the left hand of darkness.'));
+    await page.waitForFunction(() => /Look up/.test(document.getElementById('scribeFoundList').textContent), null, { timeout: 20000 });
+    assert.equal(external.filter((u) => u.startsWith('https://openlibrary.org/')).length, 0, 'nothing sent before the tap');
+    await page.click('#scribeFoundList button');
+    await page.waitForFunction(() => /Le Guin/.test(document.getElementById('scribeFoundList').textContent), null, { timeout: 20000 });
+    assert.equal(await page.evaluate(() => localStorage.getItem('jot-media-online-v1')), 'on');
     assert.match(await page.textContent('#scribeFoundList'), /1\. The Left Hand of Darkness by Ursula K\. Le Guin \(1969\)/);
     await page.evaluate(() => window.scribeSay.push('Link it.'));
     await page.waitForFunction(() => document.getElementById('writing').value.includes('[The Left Hand of Darkness by Ursula K. Le Guin (1969)](https://openlibrary.org/works/OL59800W)'), null, { timeout: 20000 });
@@ -152,6 +158,6 @@ const server = http.createServer((req, res) => {
     await page.click('#vwClose');
 
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
-    console.log('PASS: scribe: model setup without automatic download, one-tap Speak, verbatim words at the end of today\'s entry (earlier entries unchanged), spoken paragraph/task/tag/scratch/stop commands, a question on a pause read only with an on-device voice and quoted above the answer, unfinished words flushed on a pause, media by voice (known titles linked, find and link it), typing while it listens, rough-draft mode into today\'s scratchpad, Undo, microphone released on stop/close/voice typing, phone light/dark accessibility, no network requests.');
+    console.log('PASS: scribe: model setup without automatic download, one-tap Speak, verbatim words at the end of today\'s entry (earlier entries unchanged), spoken paragraph/task/tag/scratch/stop commands, a question on a pause read only with an on-device voice and quoted above the answer, unfinished words flushed on a pause, media by voice (known titles linked, find and link it, one-tap online lookup), spoken checklist items, typing while it listens, rough-draft mode into today\'s scratchpad, Undo, microphone released on stop/close/voice typing, phone light/dark accessibility, no network requests.');
   } finally { await browser.close(); server.close(); }
 })().catch((e) => { console.error(e); server.close(); process.exitCode = 1; });

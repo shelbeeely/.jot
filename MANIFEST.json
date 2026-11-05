@@ -119,8 +119,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 141443,
-      "sha256": "686199c189c47aad5490ba6ab5f95fd55b4ecbfa5272a353ea3f23c99aadcce1"
+      "byteLength": 142563,
+      "sha256": "6531a4283581aea0e3cb94eb824c5401b7470ed05cc94822a78af46224672632"
     },
     {
       "path": "README.md",
@@ -849,8 +849,8 @@
     },
     {
       "path": "docs/guide/ai-companion.md",
-      "byteLength": 18722,
-      "sha256": "c1c602a8494e0d0abff9ba51a75395f47eb4937fefb53bdfe8cef26380bd06d6"
+      "byteLength": 19093,
+      "sha256": "2bf6aa1ffb04ced651797d85d10fba80e50cb4ead7360e24fb947e560b3b90f2"
     },
     {
       "path": "docs/guide/automation.md",
@@ -894,8 +894,8 @@
     },
     {
       "path": "docs/guide/writing-jot.md",
-      "byteLength": 59439,
-      "sha256": "8b7f1674c3bacb7348fe4578783e80466afe8f4183c7d0eab8c58918abba86c2"
+      "byteLength": 59587,
+      "sha256": "1ce858eb42de2acce43030e42fd042322985a3e6cb0f140d39307f99514bbad9"
     },
     {
       "path": "docs/methods/LICENSE",
@@ -23194,8 +23194,8 @@
     },
     {
       "path": "site/dist/guide/ai-companion.html",
-      "byteLength": 24936,
-      "sha256": "8f84291b3e187c6b2a8201a49f0812e512ef5fa0a69aa78574804a1085a109f1"
+      "byteLength": 25405,
+      "sha256": "fde46036c895c176aeaa4decebf8bcd673935b76d7726b38c4329562e4152431"
     },
     {
       "path": "site/dist/guide/automation.html",
@@ -23249,8 +23249,8 @@
     },
     {
       "path": "site/dist/guide/writing-jot.html",
-      "byteLength": 77663,
-      "sha256": "240a2ebf5a0305fa34715aae20c06be18a363241c310d411f7cfbc4dac38de29"
+      "byteLength": 77835,
+      "sha256": "82f1e2ef403a740bf8fc65625f19e632da124f7b47cb4c4a71345f0a76bb69ff"
     },
     {
       "path": "site/dist/health-import.mjs",
@@ -23689,13 +23689,13 @@
     },
     {
       "path": "site/dist/live-writer.css",
-      "byteLength": 5547,
-      "sha256": "450316969c5b10047d8b842800ade2d7564cd237ce01b1012891c32660111632"
+      "byteLength": 5578,
+      "sha256": "663aa67a1b16238022477f142b238777dbe5ecc8f0c0cd1139fb057f3277ad8e"
     },
     {
       "path": "site/dist/live-writer.mjs",
-      "byteLength": 28656,
-      "sha256": "3e59d1384102f6b875ee4491c99de0d28ed6b98a9107f70e2290895f1d5390ac"
+      "byteLength": 29808,
+      "sha256": "123a7a348e55717040a8830a8120041c981c7dfaf203648b48fe5eb168ba8a1f"
     },
     {
       "path": "site/dist/local-autocomplete.mjs",
@@ -23755,7 +23755,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5128,
-      "sha256": "1e15a18c757d2eea2445a012bc8fb4de9bd8793597253503f34b788a70f95e77"
+      "sha256": "79837742c9a854e538baebf70719011fef790f43d2aba662d7065b52de4548b9"
     },
     {
       "path": "site/dist/reference-books-ui.mjs",
@@ -23804,13 +23804,13 @@
     },
     {
       "path": "site/dist/scribe-core.mjs",
-      "byteLength": 8657,
-      "sha256": "2166d569ba871b08fd1e5a4f444ff2cc99f16bbff8b1048d4dda5e1151bef493"
+      "byteLength": 9514,
+      "sha256": "c5a5f5e286e20e00929343498a290e58e61d79dd03903477a740f9b1d7d8334b"
     },
     {
       "path": "site/dist/scribe.mjs",
-      "byteLength": 32101,
-      "sha256": "58516850c6f3705f5dcd4b03682e51a905bd31d9a905c8e3358ccc3411e3b53e"
+      "byteLength": 32778,
+      "sha256": "c9b6a38b54c9c430926e1f6ee03a5ad5b84c99daec071e3f14ef3142efae338c"
     },
     {
       "path": "site/dist/share/index.html",
@@ -24044,13 +24044,13 @@
     },
     {
       "path": "site/dist/writer-workspace.mjs",
-      "byteLength": 48047,
-      "sha256": "04329dbc35e6c3def1d68db1591229d4419096b9bf5313b7c76a4ce8ca58fdf7"
+      "byteLength": 48237,
+      "sha256": "429463b664a3111465673927d1f899ef5f536232f8cc325bc9e66dff49efc443"
     },
     {
       "path": "site/dist/writing-tools.mjs",
-      "byteLength": 20003,
-      "sha256": "b4c19221f94734ee13548668ef37707b92b194ec4ac0279191561849f3b848ab"
+      "byteLength": 20823,
+      "sha256": "66547e6c306c6a4f3940a109c21b5f8b80e169d7799b38a32448dd2e68d944f6"
     },
     {
       "path": "site/fixtures/media/anilist-search.json",
@@ -24374,13 +24374,13 @@
     },
     {
       "path": "site/test-scribe-ui.cjs",
-      "byteLength": 15677,
-      "sha256": "a3f5cdeb333eca51e5e208bcf8735e19c3766b875ffc8e92c2df5fe43bdb2c64"
+      "byteLength": 16383,
+      "sha256": "e92964f5535a44d087236dfe057d8b4d4afd27240aa60e0fb2ef73a494cf36cc"
     },
     {
       "path": "site/test-scribe.mjs",
-      "byteLength": 6238,
-      "sha256": "e474b828b02fe1f5c2aff24fc334d8fc10cff608e7fadf5825e2861cfc25052e"
+      "byteLength": 7521,
+      "sha256": "fcd9fa3c499165b21b30902b00cf9071603e454338e98558daa450d59a223642"
     },
     {
       "path": "site/test-source-workspace.cjs",
@@ -24449,8 +24449,8 @@
     },
     {
       "path": "site/test-writer-shortcuts-ui.cjs",
-      "byteLength": 7145,
-      "sha256": "4a9f7be5e1de86b7a4786b2b3dbaedc89114f7f260dbdde5b2a3d2753e273aae"
+      "byteLength": 8761,
+      "sha256": "fe54a4e1a62994b9ccc1b7fa4deb297c3465f54dabb1678bf231e39cb40ffb3c"
     },
     {
       "path": "site/test-writer-templates.mjs",
@@ -24474,8 +24474,8 @@
     },
     {
       "path": "site/test-writing-tools.mjs",
-      "byteLength": 13064,
-      "sha256": "a47309048426dcf6e6533cb15befee7d5e7c6c973a9d1973c8e4c292b984abad"
+      "byteLength": 13825,
+      "sha256": "964c7a0a47bf0dad04ae22eae1e8e3f206b937c461e0f154a09f2328eb0ad432"
     },
     {
       "path": "specification/AGENTS.md",
