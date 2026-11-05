@@ -610,6 +610,30 @@ A renderer draws each color as a swatch whose name and hex value are text on the
 
 A `moodboard` record holds repeatable `image` (or `asset`) fields: a path to an attachment, then optionally a text description used as the picture's alternative text. `alt`, `caption` and `credit` fields after an `image` describe that picture. Other fields keep their order. A renderer draws only attached pictures (§9: no network request); a picture that is not attached shows its path and description. A paragraph containing only two or more Markdown images MAY be drawn as the same grid.
 
+### 8.1.6 3D models
+
+A `model` record shows an attached 3D model. It is data, never code: a reader draws it with its own viewer, and nothing in the journal runs.
+
+```jot
+:::record model #garden-bed
+label: The garden bed in October
+file: media/garden-bed.glb A clay model of the raised bed with three seedlings
+poster: media/garden-bed.png
+camera: 2, 1.5, 3
+target: 0, 0.4, 0
+lighting: soft
+background: #f4efe4
+animation: Grow
+caption: Built from scraps on Sunday.
+:::
+```
+
+`file` is the path of an attached glTF 2.0 model, then optionally whitespace and a description used as its text alternative: a binary `.glb` (`model/gltf-binary`), or a `.gltf` (`model/gltf+json`) whose buffers and images are embedded as `data:` URIs. A reader MUST NOT fetch any other URL a model names; it draws the model without that part and says so. `poster` is an attached still picture shown wherever the model is not drawn in 3D: in print, in a page export, in readers without 3D and before the reader asks for it. Without a poster, a reader shows the description. `camera` and `target` are three decimal numbers (`x, y, z`, comma or space separated, each within ±10,000) in the model's units; absent, the camera frames the whole model and looks at its middle. `lighting` is `soft` (default), `studio` or `dim`. `background` is `#RRGGBB` or `#RGB`; absent, the page shows through. `animation` names an animation in the model; a reader plays it, or the first animation when none is named, only when the reader asks. `label`, `caption` and `credit` are text. Other fields keep their order.
+
+A field that does not fit is kept as written and produces an `invalid-model-field` warning on its line; a record without `file` produces `model-without-file`. A file that is not attached, or is not a glTF model, is reported in place of the model, never dropped silently (§8.3). Nothing moves until the reader asks: no automatic rotation, and drag, keys and buttons turn, zoom and reset the view. A renderer SHOULD keep the model's description as the accessible name of its drawing. Readers that do not draw models show the record as any other record.
+
+A fixed-layout EPUB 3 export MAY draw models on its pages. Only the exporter's own viewer scripts are included, the pages that use them are declared `scripted`, the model's bytes are carried inside the book (never fetched), and each page keeps the poster or description for reading systems that do not run scripts (§9).
+
 ### 8.2 Pagination and overflow
 
 Renderers MUST preserve all selected writing. Overflow modes are `continue`, `additional-page` or `summary-with-source`. Clipping or silently shrinking text below the chosen minimum is forbidden. A renderer MUST show omitted content counts and continuation locators when a summary is explicitly chosen. Print output MUST declare paper size, scale, margins and page numbering. Privacy selection must remove excluded content from the exported document, not merely conceal it in a hidden layer.
@@ -659,7 +683,7 @@ A share/export command MUST let the user select content and include/exclude atta
 
 Collaborative writing records authors per block/record and uses separate `response` or `relation` records for replies. A person's words MUST NOT be silently reassigned to another author. Private sections need separate access-controlled storage; labels inside one shared document cannot conceal them. Conflicting edits MUST retain both versions, with a visible resolution step. Device modification times alone MUST NOT decide which journal text survives.
 
-Export to Markdown, HTML, PDF, text, CSV or JSON MUST declare which constructs lose meaning. CSV exports require an explicit row model and selection, preserving units, scale IDs, missing statuses, source IDs and timestamps. HTML and PDF renderers MUST escape untrusted text and reject active content. Apps MUST NOT evaluate embedded code, expand shell expressions or execute template instructions found in a journal. Search and AI features MUST respect the selected source scope; generated inference is never a measured observation.
+Export to Markdown, HTML, PDF, text, CSV or JSON MUST declare which constructs lose meaning. CSV exports require an explicit row model and selection, preserving units, scale IDs, missing statuses, source IDs and timestamps. HTML and PDF renderers MUST escape untrusted text and reject active content. Apps MUST NOT evaluate embedded code, expand shell expressions or execute template instructions found in a journal. An export that draws models (§8.1.6) MAY include the exporter's own viewer scripts; it MUST NOT include, generate or evaluate code taken from the journal. Search and AI features MUST respect the selected source scope; generated inference is never a measured observation.
 
 ## 10. Migration from Jot v1.0
 

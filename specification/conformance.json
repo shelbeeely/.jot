@@ -181,6 +181,16 @@
       "id": "document-filename-literals",
       "input": "`{{document.filename}}` and \\{{document.filename}} and {{document.unknown}}.\n",
       "expected": "Code, escaped known variable and unknown variable remain literal; no filename lookup or source rewriting."
+    },
+    {
+      "id": "model-record",
+      "input": ":::record model #cube\nlabel: A clay cube\nfile: media/cube.glb A small clay cube, each face a different colour\ncamera: 2, 1.5, 3\nlighting: studio\n:::\n",
+      "expected": "Generic record of type model; no diagnostics; exact source round-trip. A reader draws the attached glTF model with its description as text alternative, or shows the description; nothing runs from the journal and no URL is fetched."
+    },
+    {
+      "id": "model-record-problems",
+      "input": ":::record model\nlabel: Unfinished\ncamera: 1, two, 3\nlighting: neon\n:::\n",
+      "expected": "Warnings model-without-file (on the record), invalid-model-field on the camera and lighting lines; all fields kept as written; exact source round-trip."
     }
   ],
   "archiveCases": [

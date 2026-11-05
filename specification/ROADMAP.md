@@ -48,6 +48,7 @@ Implemented means code exists, tested means a named check passed, and planned/un
 | Journaling methods | 62 profiles and searchable invitations implemented | Human review against all full source guides; refine templates |
 | Entry scratchpads and margin notes | `~~~draft` scratchpads (literal, off the page) and marginalia after a block (spec 4.2.7–4.2.8); parser, renderer and conformance cases `scratchpad` and `margin-note-after`; Writer support in `WRITER-ROADMAP.md` | Independent reader check; define how share/export selection treats scratchpads alongside hidden comments (section 9) |
 | Fuller formatting | Highlight, underline, superscript, footnotes, callouts and centred lines; tests pass | Definition lists, subscript once its syntax is settled |
+| 3D models | `:::record model` (spec 8.1.6): an attached glTF file as data, never code; poster/description fallback; `model-without-file` and `invalid-model-field` warnings; parser tests and conformance cases. Writer support: `WRITER-ROADMAP.md` | Fixtures with real-world glTF (textures, skins, morph targets, compressed extensions); an independent reader; decide whether `.gltf` with external files belongs in a `.jotz` |
 | Structured observations | Generic records and ordered fields implemented | Scales, units, profile constraints, missing-data validation |
 | Stable format | Draft specification | Reconcile grammar/Markdown precedences; independent reader; versioned conformance release |
 

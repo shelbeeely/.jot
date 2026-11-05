@@ -27,6 +27,29 @@ window.jotPaginate = async ({ html, paperCss = '', paperClasses = [], lang = 'en
   })();
   return busy;
 };
+/** The laid-out sheets for a fixed-layout EPUB (../page-view.mjs, jot/epub.mjs): each sheet as an XHTML fragment that numbers itself
+ *  (Paged.js counts pages across the whole run, so each carries where its count starts), the styles that drew them (not this
+ *  frame's screen layout), the dated entries each sheet starts, and the 3D model files it shows. A model gets a hidden Turn in 3D
+ *  button, which the book's viewer shows where scripts run. */
+window.jotBook = () => {
+  const sheets = [...document.querySelectorAll('.pagedjs_page')]; if (!sheets.length) throw new Error('There are no pages yet.');
+  const size = getComputedStyle(sheets[0]), css = [...document.styleSheets].filter((s) => s.ownerNode?.id !== 'jot-frame-screen').map((s) => [...s.cssRules].map((r) => r.cssText).join('\n')).join('\n');
+  const xml = new XMLSerializer(), total = sheets.length;
+  const pages = sheets.map((sheet, i) => {
+    const wrap = document.createElement('div'); wrap.className = 'pagedjs_pages';
+    wrap.setAttribute('style', `--pagedjs-page-count: ${total}; counter-reset: page ${i} pages ${total}`);
+    const copy = sheet.cloneNode(true), models = [];
+    for (const fig of copy.querySelectorAll('figure.jot-3d[data-jot3d]')) {
+      let file = ''; try { file = JSON.parse(fig.dataset.jot3d).file || ''; } catch { /* kept as a still */ }
+      if (!file) continue; models.push(file);
+      const turn = document.createElement('button'); turn.type = 'button'; turn.className = 'jot-3d-turn'; turn.hidden = true; turn.textContent = 'Turn in 3D';
+      (fig.querySelector('.jot-3d-tools') || fig).prepend(turn);
+    }
+    wrap.append(copy);
+    return { body: xml.serializeToString(wrap), headings: [...sheet.querySelectorAll('.jot-date')].filter((h) => !h.closest('[data-split-from]')).map((h) => h.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean), models };
+  });
+  return { width: parseFloat(size.width), height: parseFloat(size.height), css, pages };
+};
 // Phones see the whole sheet, scaled down; printing is always full size.
 function fit() {
   const page = document.querySelector('.pagedjs_page'); if (!page) return;

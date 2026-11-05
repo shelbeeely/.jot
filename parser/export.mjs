@@ -3,7 +3,8 @@
  *   exportHTML(page, { title, lang: 'en', pageCss: '@page {…}' }) -> Promise<string>
  *
  * The file needs nothing else: the styles that drew the page are copied in, charts become pictures (PNG, with their text summary as
- * the alternative), attached images and the handwriting fonts are embedded as data: URLs, and nothing in it runs or fetches. Links in
+ * the alternative), a 3D model turned in 3D becomes a picture of its view (its still otherwise), attached images and the handwriting
+ * fonts are embedded as data: URLs, and nothing in it runs or fetches. Links in
  * the writing stay links. Print it from any browser for a PDF.
  */
 const STYLE_IDS = ['jot-chart-css', 'jot-style-css', 'jot-hand-css'];
@@ -31,7 +32,7 @@ export async function exportHTML(page, { title = 'Journal', lang = 'en', pageCss
   // a ticked task box is a property, which the saved markup would drop
   const boxes = [...clone.querySelectorAll('input')];
   [...page.querySelectorAll('input')].forEach((input, i) => { if (input.checked) boxes[i]?.setAttribute('checked', ''); });
-  for (const e of clone.querySelectorAll('.hw-page-edge, script, style')) e.remove();
+  for (const e of clone.querySelectorAll('.hw-page-edge, script, style, [data-jot-live]')) e.remove(); // and live controls, such as a 3D model's buttons
   for (const d of clone.querySelectorAll('details')) d.open = false;
   // attached images and file links: into the file itself
   for (const img of clone.querySelectorAll('img[src^="blob:"]')) { try { img.src = await dataURL(img.src, fetchImpl); } catch { img.replaceWith(doc.createTextNode(`[Image: ${img.alt}]`)); } }

@@ -1,5 +1,38 @@
 # Latest Jot v1 decisions
 
+## 3D models as data, and fixed-layout EPUB books (5 November 2026)
+
+The owner asked for interactive journals in the manner of Apple Books' scripted fixed-layout EPUB 3, by embedding three.js in
+`.jotz`. Asked to choose, the owner chose **scenes as data**: a journal never carries code. A `:::record model` (spec 8.1.6) names an
+attached glTF 2.0 file (`.glb`, or `.gltf` with everything embedded) and its description, with optional poster, camera, target,
+lighting, background, animation, caption and credit. The record name is `model`, not `scene`, because a forced scene label
+(`.0830 - WORKSHOP`, spec 3.3) already has that name. No container change was needed: the model is an ordinary attachment, so it
+is encrypted, saved and reopened like a photo.
+
+- Writer draws the still or the description. Turn in 3D loads Jot's bundled three.js (r186 subset, MIT, `parser/vendor/three.mjs`,
+  built reproducibly by `tools/vendor-three/build.sh`) and `model3d-view.mjs` only then. The viewer reads the attachment's own bytes
+  with `GLTFLoader.parse`; a loading manager refuses every outside URL, and says how many it refused. Nothing moves until the reader
+  asks: no auto-rotation, and an animation plays only on Play. Arrow keys, + and − and buttons work without a pointer; the
+  description is the drawing's accessible name. At most four views hold graphics contexts at once. An edit redraws the page and
+  reopens an open model at the same view.
+- Fixed-layout EPUB: EPUB ↓ saves Page view's Paged.js sheets as a pre-paginated EPUB 3 book (`parser/epub.mjs` packages,
+  `site/dist/epub-book.mjs` collects files). Pictures and fonts become files in the book; each page carries where its page count
+  starts. A page with a model is declared `scripted` and carries only Jot's own scripts: the three.js bundle, the viewer, a fixed
+  wiring script and the model's bytes as a script, so the book never fetches (spec §9 now says an export may include the exporter's
+  own viewer scripts and never code from the journal). Readers without scripts keep the still or description.
+- Like Download page, the book is plaintext; Writer says so when the journal is protected. VS Code and the template editor show the
+  still; drawing there is roadmap work.
+
+Verified: parser and conformance tests; Node tests of the package, the file collection and data: URLs; a Chromium suite that
+attaches a model, turns it, saves Download page and the EPUB, opens every page of the book as XHTML and turns the model inside it,
+with no outside requests. Not verified: Apple Books or any other reading system on a device, and W3C EPUBCheck (the test runs it
+when `JOT_EPUBCHECK` names the jar; running a downloaded jar was not permitted in this session).
+
+Research basis: art and junk journaling claims to keep "memories as objects" (`docs/methods/art-and-junk-journaling.md, line 427`)
+and names "the object itself" among what is lost on screen (`docs/methods/art-and-junk-journaling.md, line 391`); memory writing
+can begin from a familiar object (`docs/methods/memory-life-story.md, line 163`). The guides say nothing about 3D models, motion
+or scripted books, so the motion and interaction choices above are design choices, not findings.
+
 ## Page view with Paged.js (5 November 2026)
 
 The owner asked to integrate Paged.js (https://github.com/pagedjs/pagedjs). Writer gains **Page view** beside Print / PDF:

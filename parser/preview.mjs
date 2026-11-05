@@ -7,6 +7,8 @@
  * A `:::record palette` becomes swatch chips (palette.mjs): each names its color and hex in text, in black or white, whichever has the
  * higher contrast; a color that is not #RRGGBB or #RGB shows a note. A `:::record moodboard` is a grid of its attached pictures (with
  * descriptions, captions and credits), and a paragraph of two or more pictures alone is drawn as the same grid.
+ * A `:::record model` (model3d.mjs) is its still picture (or its description) with a caption; with opts.models3d, a Turn in 3D button
+ * loads the bundled three.js (vendor/three.mjs) and the viewer (model3d-view.mjs) only then, and reads the attached file's own bytes.
  *
  * Fuller formatting (spec 4.2.1): ==highlight==, ++underline++, ^superscript^, footnotes ([^1] and [^1]: …, gathered at the end),
  * callouts (> [!NOTE]) and centred lines (-> … <-).
@@ -14,7 +16,8 @@
  *   renderPreview(ast, target, { asset(path) -> {url, mediaType} | null, sample: false, empty: 'A little room …',
  *                                style: 'journal' | 'notes' | 'plain' | null (styles.mjs; a typed page only),
  *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 },
- *                                include(path) -> text | null, from: '', filename: '', reference(href) -> void })
+ *                                include(path) -> text | null, from: '', filename: '', reference(href) -> void,
+ *                                models3d: false (true: offer Turn in 3D for model records; the host ships model3d-view.mjs and vendor/three.mjs) })
  *     `![label](other.jot#id)` on a line of its own shows that part of another journal in place, framed and labelled with where it
  *     came from (include.mjs). The host reads the file and lends its text through opts.include (the path is already checked to stay
  *     inside the root; `from` is this document's own path there); a missing, unsafe, looping or too-deep include says so on the page.
@@ -35,6 +38,7 @@ import { parse, mediaURL } from './jot.mjs';
 import { styleCSS, isStyle } from './styles.mjs';
 import { includeLines, excerpt, notice, MAX_DEPTH } from './include.mjs';
 import { isPaletteRecord, paletteOf, moodboardOf } from './palette.mjs';
+import { modelOf, isModelType } from './model3d.mjs';
 export { CHART_CSS };
 const CALLOUTS = { note: 'Note', tip: 'Tip', important: 'Important', warning: 'Warning', caution: 'Caution' };
 
@@ -175,6 +179,43 @@ export function renderPreview(ast, target, opts = {}) {
     const a = asset(href);
     if (a && a.url && RASTER.has(a.mediaType)) { const n = el('img'); n.src = a.url; n.alt = alt || fallback; n.loading = 'lazy'; return n; }
     return el('span', `[Image: ${alt || 'attachment'} · ${href}${a ? '' : ' · not attached'}]`, 'jot-missing');
+  }
+  function modelFigure(n) { // a 3D model: its still (or description), what is missing or kept as written, and Turn in 3D when offered
+    const s = modelOf(n), fig = el('figure', undefined, 'jot-record jot-3d'), stage = el('div', undefined, 'jot-3d-stage');
+    const alt = s.file?.alt || s.poster?.alt || s.title;
+    fig.setAttribute('aria-label', `3D model: ${s.title}`);
+    fig.dataset.jot3d = JSON.stringify({ file: s.file?.path || '', alt, title: s.title, camera: s.camera, target: s.target, lighting: s.lighting, background: s.background, animation: s.animation });
+    const model = s.file ? asset(s.file.path) : null, poster = s.poster ? asset(s.poster.path) : null, notes = [];
+    if (poster && poster.url && RASTER.has(poster.mediaType)) { const img = el('img', undefined, 'jot-3d-still'); img.src = poster.url; img.alt = alt; img.loading = 'lazy'; stage.append(img); }
+    else { const box = el('div', undefined, 'jot-3d-still jot-3d-placeholder'); box.append(el('strong', '3D model'), el('span', alt)); stage.append(box); if (s.poster) notes.push(`The still picture is not attached: ${s.poster.path}`); }
+    fig.append(stage);
+    const tools = el('div', undefined, 'jot-3d-tools'), state = el('span', '', 'jot-3d-state'); state.setAttribute('role', 'status');
+    if (!s.file) notes.push('No model file yet: add file: and the path of an attached .glb or .gltf file.');
+    else if (!model) notes.push(`The model file is not attached: ${s.file.path}`);
+    else if (!isModelType(model.mediaType)) notes.push(`${s.file.path} is not a glTF model (.glb or .gltf).`);
+    else if (opts.models3d && /^(blob|data):/i.test(model.url || '')) {
+      const turn = el('button', 'Turn in 3D', 'jot-3d-turn'); turn.type = 'button'; turn.dataset.jotLive = '';
+      turn.addEventListener('click', async () => {
+        turn.disabled = true; state.textContent = 'Loading the 3D viewer…';
+        try {
+          await import('./vendor/three.mjs'); await import('./model3d-view.mjs'); // only now: most pages never need them
+          const bytes = await (await fetch(model.url)).arrayBuffer(); // the attachment's own bytes, already in this page
+          if (fig.isConnected) await globalThis.Jot3D.open(fig, bytes, { ...JSON.parse(fig.dataset.jot3d), ...(fig.jotView || {}) });
+        } catch { state.textContent = 'Could not load the 3D viewer. The picture stays.'; }
+        finally { turn.disabled = false; }
+      });
+      tools.append(turn);
+    }
+    tools.append(state); fig.append(tools);
+    for (const t of notes) fig.append(el('p', t, 'jot-3d-note'));
+    for (const x of s.invalid) fig.append(el('p', `Kept as written: ${x.name}: ${x.value} (${x.why}).`, 'jot-3d-note'));
+    if (s.title || s.caption || s.credit) {
+      const cap = el('figcaption'); cap.append(el('strong', s.title));
+      if (s.caption) { const c = el('span', undefined, 'jot-mood-caption'); inline(inlineOf(s.caption), c); cap.append(c); }
+      if (s.credit) { const c = el('span', undefined, 'jot-mood-credit'); c.append('Credit: '); inline(inlineOf(s.credit), c); cap.append(c); }
+      fig.append(cap);
+    }
+    return fig;
   }
   function moodGrid(items) { // [{ path, alt, caption, credit }] as figures in a responsive grid
     const grid = el('div', undefined, 'jot-mood-grid');
@@ -393,6 +434,7 @@ export function renderPreview(ast, target, opts = {}) {
         box.append(el('strong', metricLabel(get('metric').replace(/[^a-z0-9]+/gi, '-').toLowerCase()) + ':'), doc.createTextNode(' '));
         box.append(get('value') ? el('span', `${get('value')}${get('unit') ? ' ' + get('unit') : ''}`, 'jot-value') : el('span', '____', 'jot-blank'));
         frag.append(box);
+      } else if (n.type === 'record' && n.recordType === 'model') { frag.append(modelFigure(n));
       } else if (isPaletteRecord(n)) {
         const board = n.recordType !== 'palette', p = board ? moodboardOf(n) : paletteOf(n);
         const box = el('section', undefined, `jot-record ${board ? 'jot-moodboard' : 'jot-palette'}`); box.setAttribute('aria-label', `${board ? 'Moodboard' : 'Palette'}: ${p.title}`);
@@ -434,8 +476,12 @@ export function renderPreview(ast, target, opts = {}) {
   draw(ast.nodes, root, { level: 0, stack: [String(opts.from || '')], from: String(opts.from || '') });
   footnotes(root);
   for (const c of target.querySelectorAll('canvas')) { const old = Chart.getChart(c); if (old) old.destroy(); } // the last drawing's charts
+  // the last drawing's 3D views free their graphics contexts; one still showing the same model opens again where it was
+  const reopen = new Map(); for (const f of target.querySelectorAll('figure.jot-3d-open')) reopen.set(f.dataset.jot3d, globalThis.Jot3D?.viewOf(f));
+  globalThis.Jot3D?.closeAll(target);
   target.replaceChildren(root);
-  for (const [box, model] of drawn) drawChart(box, model); // once in the page: Chart.js measures the box and reads its colours
+  for (const [box, model] of drawn) drawChart(box, model);
+  if (reopen.size) for (const f of target.querySelectorAll('figure.jot-3d')) if (reopen.has(f.dataset.jot3d)) { f.jotView = reopen.get(f.dataset.jot3d); f.querySelector('.jot-3d-turn')?.click(); } // once in the page: Chart.js measures the box and reads its colours
   if (!target.childNodes.length) target.append(el('p', opts.empty || 'A little room for whatever comes next.'));
   const revision = (target.jotRevision || 0) + 1; target.jotRevision = revision;
   target.jotGrid = null;
@@ -496,7 +542,16 @@ mark{background:#fddd13;color:inherit;padding:0 .1em;border-radius:2px}ins{text-
 .jot-mood figcaption{font-size:.86em;margin-top:.25em}.jot-mood-caption,.jot-mood-credit{display:block}.jot-mood-credit{font-style:italic;font-size:.92em}
 .jot-mood-missing{border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:4px;padding:.6em;font-size:.88em;overflow-wrap:anywhere}
 .jot-blanks{margin:6px 0}.jot-blank-line{display:flex;align-items:flex-end;gap:8px;min-height:1.8em}.jot-mark{min-width:1.4em;opacity:.75}.jot-rule{flex:1;border-bottom:1px dotted currentColor;opacity:.4;margin-bottom:.35em}
-:is(.jot-task-text,.jot-margin,.jot-date-note,.jot-footnotes):has(:is(mark,.jot-highlight)){opacity:1}`;
+:is(.jot-task-text,.jot-margin,.jot-date-note,.jot-footnotes):has(:is(mark,.jot-highlight)){opacity:1}
+.jot-3d{margin:.8em 0;break-inside:avoid}.jot-3d-stage{position:relative;width:100%;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:color-mix(in srgb,currentColor 5%,transparent)}
+.jot-3d-stage>img.jot-3d-still{display:block;width:100%;height:100%;object-fit:contain}.jot-3d-still[hidden]{display:none!important}
+.jot-3d-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3em;padding:1em;text-align:center;border:1px dashed color-mix(in srgb,currentColor 35%,transparent);border-radius:6px;overflow-wrap:anywhere}
+.jot-3d-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none}.jot-3d-canvas:focus-visible{outline:2px solid currentColor;outline-offset:-3px}
+.jot-3d-tools{display:flex;flex-wrap:wrap;align-items:center;gap:.4em;margin:.35em 0}.jot-3d-live{display:contents}
+.jot-3d-tools button{font:inherit;font-size:.85em;min-height:44px;padding:.3em .9em;border:1px solid color-mix(in srgb,currentColor 40%,transparent);border-radius:999px;background:transparent;color:inherit;cursor:pointer}
+.jot-3d-tools button:disabled{opacity:.6;cursor:progress}.jot-3d-tools button[hidden]{display:none}.jot-3d-state{font-size:.85em;opacity:.8}
+.jot-3d-note{font-size:.88em;font-style:italic;margin:.2em 0;overflow-wrap:anywhere}.jot-3d figcaption{font-size:.9em;margin-top:.2em}.jot-3d figcaption strong{display:block}
+@media print{[data-jot-live],.jot-3d-state{display:none!important}}`;
 export function addChartStyles(doc) {
   if (doc.getElementById('jot-chart-css')) return;
   const s = doc.createElement('style'); s.id = 'jot-chart-css'; s.textContent = PREVIEW_CSS; doc.head.append(s);

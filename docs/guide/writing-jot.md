@@ -451,6 +451,38 @@ body: Grey, wet, a little blue.
 The page lays the pictures out in a grid that fits the screen. A picture that isn't attached shows its path and description
 instead; nothing is fetched from the internet. Two or more pictures on their own in one paragraph are laid out the same way.
 
+## 3D models
+
+Attach a 3D model you made or were given, a `.glb` file, and Jot writes a model record for it:
+
+```jot
+:::record model #garden-bed
+label: The garden bed in October
+file: media/1b4e… A clay model of the raised bed, with three seedlings
+:::
+```
+
+The page shows the model's description (or a still picture, if you add `poster:` and an attached picture), and a **Turn in 3D**
+button. Press it to turn the model: drag it, or use the arrow keys, and **+** and **−** to come closer or step back. **Reset view**
+puts it back, **Play animation** plays an animation the model has, and **Back to the picture** puts the still back. Nothing moves
+until you ask.
+
+Write the description after the file's path: it is what a screen reader, a printed page and any reader without 3D show. These are
+optional too:
+
+| Field | What it does |
+| --- | --- |
+| `poster` | A still picture shown wherever the model isn't turning: print, saved pages, readers without 3D |
+| `camera` / `target` | Where the camera starts and what it looks at: three numbers, `2, 1.5, 3` |
+| `lighting` | `soft` (the default), `studio` or `dim` |
+| `background` | A color like `#f4efe4`; without one, the paper shows through |
+| `animation` | Which of the model's animations **Play animation** plays |
+| `caption`, `credit` | Words under the model |
+
+A model is a file, never a program: Jot's own viewer draws it, and it only reads what is in your journal. A `.glb` carries
+everything it needs. A `.gltf` works only if its pictures are inside the file; Jot never fetches the rest from the internet, and says
+so. Compressed models (Draco, KTX2 or meshopt) can't be drawn yet; the description stays.
+
 ## A few other things
 
 - **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.
@@ -496,6 +528,10 @@ To keep or share the pages:
 - **Download page ↓** saves one `.html` file with the formatted pages inside it, charts as pictures and attached pictures included.
   It opens in any browser, on any device, without the internet, and prints as nicely as the workspace does. Send it to someone, or
   keep it beside the `.jot`.
+- **EPUB ↓** (also in Page view) saves the same sheets as a fixed-layout EPUB 3 book: every page keeps its layout, the way picture
+  books and comics do. A 3D model turns in readers that run a book's scripts (Apple Books is made to); other readers show its
+  still or its description. The book carries its pictures, fonts and models inside and never fetches anything. Like Download
+  page, it is not locked: anyone with the file can read it.
 
 The `.jot` file never changes: the style is only how it is shown. In VS Code, the `jot.preview.style` setting chooses the same styles,
 and **Jot: Export as HTML** saves the same page.

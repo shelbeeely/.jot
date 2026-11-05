@@ -396,7 +396,7 @@ export function setupWriterWorkspace({ editor, status, showPreview }) {
     ['musicPlayerBtn', 'Music player', 'Load a persistent Spotify player'], ['voiceBtn', 'Voice practice', 'Optional pitch tool'],
     ['importHealthBtn', 'Import health data', 'Review daily measurements'], ['attachBtn', 'Attach a file', 'Keep files in a .jotz'],
     ['downloadJot', 'Download journal', 'Jotz v1 archive'], ['sourceJotBtn', 'Export Jot source', 'Unencrypted writing as .jot; attachments omitted'], ['markdownBtn', 'Export Markdown', 'Writing as .md'],
-    ['printBtn', 'Print or PDF', 'Formatted pages'], ['pageViewBtn', 'Page view', 'The printed pages one sheet at a time'], ['exportPage', 'Download page', 'Standalone HTML'],
+    ['printBtn', 'Print or PDF', 'Formatted pages'], ['pageViewBtn', 'Page view', 'The printed pages one sheet at a time'], ['epubBtn', 'Download EPUB', 'Fixed-layout pages for Apple Books and other EPUB readers'], ['exportPage', 'Download page', 'Standalone HTML'],
     ['icsBtn', 'Export calendar', 'Events and tasks as .ics'], ['numbersCsvBtn', 'Export numbers', 'Measurements as CSV'],
     ['tasksCsvBtn', 'Export tasks', 'Tasks as CSV'], ['importCsvBtn', 'Import numbers CSV', 'Review measurements from a file'],
     ['paletteCssBtn', 'Copy palette CSS', 'Colors at the caret'], ['paletteJsonBtn', 'Copy palette JSON', 'Colors at the caret'],
