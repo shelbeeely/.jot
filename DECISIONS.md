@@ -1,5 +1,37 @@
 # Latest Jot v1 decisions
 
+## Days as scenes, made by a model, kept as data (5 November 2026)
+
+The owner asked for the journal entries themselves to become interactive three.js scenes: "from the cluttered desk to the rainy bus
+stop and Saturday's bedroom", drag to orbit, scroll to zoom, objects that reveal journal moments, day tabs, and Open journal. A
+keyword sketch was planned first; the owner said a model needs to make the scenes. Asked to choose, the owner chose: reuse the AI
+companion's connection, keep a made scene in the journal, show nothing until one is made, and Writer only.
+
+- **Scenes** (`writer-scene.mjs`, `scene-journal-core.mjs`, `writer-scene-build.mjs`) is a view beside Map and Media. Make this
+  day's scene sends only that day's prose as numbered sentences, after showing exactly those sentences and where they go
+  (OpenRouter with the companion's ZDR and no-data-collection settings, or a local server). Scratchpads, comments, code and
+  records are never sent. The model answers with structured JSON (a `jot-place`): simple shapes, positions, colours, weather and
+  time; sentence numbers, never text. Jot clamps and limits it, turns the numbers into the writer's own sentences, and draws it
+  with its own code. Nothing in a place runs.
+- A draft changes nothing. **Keep it** adds the place as an attachment (`application/vnd.jot.place+json`) and one `@setting:` line
+  under the day's date (spec 8.1.9), with Undo; the file is read again as untrusted whenever it is shown, and a moment whose
+  sentence has since changed is marked as no longer in the entry. Kept scenes draw offline with no model.
+- The view loads three.js only when shown, steps back when a model's camera would stand inside the place, animates weather only
+  while shown (paused under reduced motion), and clears drafts, requests and the drawing when the journal locks.
+- `ai-client.mjs` gains `requestJSON` (the companion's transport and checks for any schema); the companion exposes its current
+  connection only while AI is on for the session.
+- Found and fixed while testing: Writer's `rewrite()` replaced the whole text, and Chromium's Redo of such an edit dropped text
+  (the first line, in the test). It now replaces only the changed range, so Undo and Redo are exact for every tool that uses it.
+
+Verified with a mocked local model in Chromium: nothing sent before Send; the exact sentences shown and sent; drafts, Keep, Undo
+and Redo; kept scenes drawing with no request; moments; Open journal; lock; phone layout; axe; no outside requests. Not verified:
+live models (scene quality depends entirely on the chosen model), phones' GPU performance, and non-English sentence splitting.
+
+Research basis: memory writing can "Begin with a familiar object" (`docs/methods/memory-life-story.md, line 163`), and art and
+junk journaling claims to keep "memories as objects" (`docs/methods/art-and-junk-journaling.md, line 427`), which shaped objects
+that hold moments. Sending stays the writer's choice: "Keep it private unless you choose" (`docs/methods/expressive-writing.md,
+line 444`). The guides say nothing about 3D or model-made scenes; the rest are design choices.
+
 ## Interactive blocks without code: flip cards, recordings and hotspots (5 November 2026)
 
 The owner asked to allow interactive journal entries. Asked to choose, the owner chose interactive blocks that Jot's own code makes

@@ -216,6 +216,21 @@
         }
       },
       "expected": "An attached sound recording drawn as a player labelled Rain on the roof; no autoplay or loop; in print a box naming it; exact source round-trip."
+    },
+    {
+      "id": "setting-directive",
+      "input": "### 2026-10-02 | Friday\n@setting: media/bus-stop\nRain at the bus stop.\n",
+      "expected": "Directive named setting with value media/bus-stop in the 2026-10-02 entry; no diagnostics; exact source round-trip. A reader that draws places reads the attached jot-place file; others ignore the line. The writing is unchanged."
+    },
+    {
+      "id": "setting-place-moments",
+      "input": "### 2026-10-02\n@setting: media/bus-stop\nRain at the bus stop. The 42 was late again.\n",
+      "renderContext": {
+        "assets": {
+          "media/bus-stop": "application/vnd.jot.place+json"
+        }
+      },
+      "expected": "A place whose objects hold moments that are this entry's own sentences, word for word; a moment whose sentence is no longer in the entry is shown as no longer there. Nothing in the place runs, and nothing is fetched."
     }
   ],
   "archiveCases": [

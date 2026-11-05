@@ -2,7 +2,8 @@
 
 `three.mjs` is a minified bundle of three.js r186 (npm `three@0.186.0`, published 2026-09-08, git 148ef33ecb6d2502ff796d4554abd1549c95d519) made by esbuild 0.24.0 from
 `tools/vendor-three/entry.mjs`: the renderer, scene, cameras, lights, animation mixer, `GLTFLoader`, `OrbitControls`,
-`RoomEnvironment`, `DRACOLoader`, `KTX2Loader` and the meshopt decoder, unmodified. It is a classic script that sets
+`RoomEnvironment`, `DRACOLoader`, `KTX2Loader`, the meshopt decoder and the simple shapes, materials and weather pieces journal places
+are drawn with, unmodified. It is a classic script that sets
 `globalThis.JotThree` and exports nothing, so Writer imports it for its effect and a fixed-layout EPUB page loads it with a plain
 `<script>`. Rebuild with `sh tools/vendor-three/build.sh <empty folder>`, which also copies the decoders below.
 
@@ -13,7 +14,7 @@
 three.js itself is MIT; see `three-LICENSE.md`. Upstream: https://github.com/mrdoob/three.js .
 
 SHA-256:
-- three.mjs: b92ff889b804b087a759096acac8fee32d0664c183bdc556883435807c2e5996
+- three.mjs: fe183a952a4fc512cf02f199f0e539bea604279344cd1d4edf47e1799fc9bbad
 - three-decoders/draco_wasm_wrapper.js: 8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6
 - three-decoders/draco_decoder.wasm: a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac
 - three-decoders/basis_transcoder.js: 8478b5b6d6b74e7d3082b89f6417321d8d1dc0307f2b30d4484bb11b441696a1

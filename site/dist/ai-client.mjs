@@ -27,6 +27,23 @@ export function aiRequest({ provider, model, key = '', instruction, context = ''
   return body;
 }
 
+/** A request for any structured JSON answer (journal places use it): the companion's privacy settings, a caller's own schema. */
+export function jsonRequest({ provider, model, key = '', system, user, schema, name = 'jot', zdr = true, structured = true, maxTokens = 4096 }) {
+  if (!model?.trim() || model.length > 200) throw Error('Enter a model ID in the AI companion.');
+  if (provider === 'openrouter' && !key.trim()) throw Error('Enter your OpenRouter API key in the AI companion for this session.');
+  if (!system || !user || user.length > AI_LIMIT) throw Error('There is too much to send (at most 24,000 characters).');
+  const body = { model: model.trim(), stream: false, max_tokens: maxTokens, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] };
+  if (structured) body.response_format = { type: 'json_schema', json_schema: { name, strict: true, schema } };
+  if (provider === 'openrouter') body.provider = { zdr: !!zdr, data_collection: 'deny', require_parameters: true };
+  return body;
+}
+/** The JSON value of a finished answer: no tool calls, no refusals, no unfinished text. */
+export function jsonContent(response) {
+  const choice = response?.choices?.[0];
+  if (response?.error || choice?.finish_reason !== 'stop' || choice?.message?.tool_calls || choice?.message?.refusal || typeof choice?.message?.content !== 'string') throw Error('The model did not finish an answer. Nothing was changed.');
+  try { return JSON.parse(choice.message.content); } catch { throw Error('The model returned invalid JSON. Try a model with structured-output support.'); }
+}
+
 export function validateJotFragment(text) {
   if (typeof text !== 'string' || !text.trim() || text.length > AI_LIMIT) throw Error('The model did not return a usable Jot fragment.');
   if (/^\s*(?:---|```|~~~)|<\/?[a-z!]|!\[|\]\(|^\s*::: *(?:(?:record\s+)?(?:include|query|automation|embed|chart|template))\b/im.test(text)) throw Error('The response contains unsupported framing or active content. Ask for plain Jot prose or records.');
@@ -62,8 +79,8 @@ export function aiEdit(source, start, end, fragment) {
   return change;
 }
 
-export async function requestAI(config, { signal, fetcher = fetch } = {}) {
-  const endpoint = aiEndpoint(config.provider, config.base), body = aiRequest(config);
+async function post(config, body, { signal, fetcher = fetch, limit = 128000 } = {}) {
+  const endpoint = aiEndpoint(config.provider, config.base);
   const headers = { 'Content-Type': 'application/json' };
   if (config.key?.trim()) headers.Authorization = 'Bearer ' + config.key.trim();
   let response;
@@ -73,10 +90,16 @@ export async function requestAI(config, { signal, fetcher = fetch } = {}) {
   // Bound the response while streaming, rather than trusting Content-Length.
   const reader = response.body.getReader(), decoder = new TextDecoder(); let content = '', bytes = 0;
   try {
-    while (true) { const { done, value } = await reader.read(); if (done) break; bytes += value.byteLength; if (bytes > 128000) throw Error('The model response was too large.'); content += decoder.decode(value, { stream: true }); }
+    while (true) { const { done, value } = await reader.read(); if (done) break; bytes += value.byteLength; if (bytes > limit) throw Error('The model response was too large.'); content += decoder.decode(value, { stream: true }); }
     content += decoder.decode();
   } finally { await reader.cancel().catch(() => {}); }
-  let result;
-  try { result = JSON.parse(content); } catch { throw Error('The endpoint returned an invalid response.'); }
-  return aiCandidates(result, config.suggestions);
+  try { return JSON.parse(content); } catch { throw Error('The endpoint returned an invalid response.'); }
+}
+
+export async function requestAI(config, options = {}) {
+  return aiCandidates(await post(config, aiRequest(config), options), config.suggestions);
+}
+/** A structured answer to jsonRequest(config): the parsed JSON value, checked by the caller. */
+export async function requestJSON(config, options = {}) {
+  return jsonContent(await post(config, jsonRequest(config), { limit: 512000, ...options }));
 }

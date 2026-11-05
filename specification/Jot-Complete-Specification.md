@@ -654,6 +654,20 @@ back: |
 
 An embedded attachment reference, `![Rain on the roof](media/rain.m4a)`, to an attached sound or video recording is drawn as a player for that file; the label is its accessible name. A renderer MUST NOT start playback, loop or play several recordings on its own: a recording plays only when the reader asks. It reads only the attached bytes (§9). In print and on fixed-layout pages laid out for print, a quiet box of the same size names the recording; a fixed-layout EPUB puts the player back in that box, carrying the file inside the book. A link (`[label](media/rain.m4a)`) stays a link to the attachment.
 
+### 8.1.9 Places: a day drawn as a 3D scene
+
+A dated entry MAY name a place: a small 3D scene of where the day happened, kept as an attachment.
+
+```jot
+### 2026-10-02 | Friday
+@setting: media/7f3c2a…
+Rain at the bus stop. The 42 was late again.
+```
+
+`@setting:` (a directive, §2.3) names an attached `jot-place` file (`application/vnd.jot.place+json`). It is presentation only: it never changes the writing, and readers that do not draw places ignore it. A place is data, never code: JSON with `format: "jot-place"`, `version: 1`, `made` (`model`, `at`), `title`, `sky` and `ground` colours, `weather` (`clear`, `rain`, `snow`, `fog`, `sun`), `time` (`morning`, `day`, `evening`, `night`), a `camera` (`position`, `target`), and up to 60 `objects`, each a `name`, `position`, `rotation`, the `moments` it holds and up to 8 `shapes` (300 in all): `box`, `cylinder`, `sphere`, `cone`, `torus`, `plane` or `capsule`, with `position`, `rotation`, `size`, a `#rrggbb` colour, `roughness` and `glow`. Coordinates are metres within ±50; sizes are 0.01–20. A reader clamps or drops what does not fit, as untrusted input.
+
+`moments` are the entry's own sentences, word for word. A place maker that uses a model sends only the day's sentences, numbered, after the writer has seen exactly what goes and where; the model refers to sentences by number and never writes journal text, and the maker turns the numbers into the sentences before keeping the place. A reader shows a moment whose sentence is no longer in the entry as no longer there. Nothing is kept until the writer chooses to; keeping adds the attachment and one `@setting:` line under the entry's date heading. A place is drawn only with the reader's own code, and fetches nothing.
+
 ### 8.2 Pagination and overflow
 
 Renderers MUST preserve all selected writing. Overflow modes are `continue`, `additional-page` or `summary-with-source`. Clipping or silently shrinking text below the chosen minimum is forbidden. A renderer MUST show omitted content counts and continuation locators when a summary is explicitly chosen. Print output MUST declare paper size, scale, margins and page numbering. Privacy selection must remove excluded content from the exported document, not merely conceal it in a hidden layer.

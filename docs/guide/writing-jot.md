@@ -513,6 +513,23 @@ it. Change the words in the brackets to say what it is; that is what a screen re
 play, never on its own. Printed, a box names the recording; Download page and the EPUB carry the recording inside, with a working
 player. A plain link, `[rain.m4a](media/…)`, stays a link.
 
+## Your days as scenes
+
+**Scenes** (beside Map and Media) shows each dated entry as a small 3D place: the cluttered desk, the rainy bus stop, Saturday's
+bedroom. A model makes each one from that day's words, using the AI companion's connection: turn on AI for this session there and
+choose a model (your OpenRouter key, or a server on your own computer) first.
+
+1. Choose a day from the tabs, then **Make this day's scene**. Jot shows the sentences it will send, and where, before anything
+   goes; scratchpads, comments, code and records are never sent.
+2. The scene appears as a draft. Drag to turn it, scroll to zoom, and choose a thing (in the scene or from the list under it) to
+   read the sentences it holds: your own words, never the model's. **Open journal** shows the whole entry.
+3. **Keep it** saves the scene in your journal: an attachment, and one line under the day's date, `@setting: media/…`. Undo takes
+   the line back out. **Try again** asks once more; **Discard** forgets the draft.
+
+A kept scene needs no model and no connection: it opens from your journal, offline, and is locked with the rest of a protected
+journal. If you change a sentence later, the scene still shows the old one, marked as no longer in the entry. Weather moves only
+while you watch, and starts paused if your device asks for less motion.
+
 ## A few other things
 
 - **Page break:** `===` on its own line, after an empty line, starts a new page when the journal is printed.
