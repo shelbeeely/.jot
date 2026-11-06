@@ -99,6 +99,19 @@ Finished [The Left Hand of Darkness by Ursula K. Le Guin (1969)](https://openlib
     await page.waitForFunction(() => document.getElementById('mediaPicker').open);
     await page.click('#mediaClose');
 
+    // Song or album, episode under its show, film under its series, and where in a work, all from the writing.
+    const DETAIL = '### 2026-11-05 | Thu\n\nRead [Emma](https://openlibrary.org/works/OL66510W) pp. 40–72, ch. 4.\nWatched [Severance S1E1: Good News About Hell](https://www.tvmaze.com/episodes/2238231) and [Severance S1E2: Half Loop](https://www.tvmaze.com/episodes/2238232) S1E2.\nWatched [The Matrix Reloaded](imdb:tt0234215) (in [The Matrix series](https://www.wikidata.org/wiki/Q1210827)).\nListened to [Come Together](musicbrainz:recording:485bbe7f-d0f7-4ffe-8adb-0f1093dd2dbf) track 1 and [Abbey Road](musicbrainz:release-group:9162580e-5df4-32de-80cc-f45a8d8a9b1d).\n';
+    await page.locator('#writing').evaluate((e, t) => { e.value = t; e.dispatchEvent(new Event('input', { bubbles: true })); }, DETAIL);
+    await page.click('.writer-nav [data-nav="write"]'); await page.click('.writer-nav [data-nav="media"]');
+    await page.waitForFunction(() => document.querySelectorAll('.writer-media-item').length === 6);
+    const heads = await page.locator('.writer-media-series > h4').allTextContents();
+    assert.deepEqual(heads.sort(), ['Severance · 2', 'The Matrix series · 1']);
+    const meta = await page.locator('.writer-media-item summary').allTextContents();
+    assert.ok(meta.some((t) => /^Come Together\s*Song · Listened to · track 1/.test(t)), meta.join(' | ')); assert.ok(meta.some((t) => /^Abbey Road\s*Album/.test(t)));
+    assert.ok(meta.some((t) => /^Emma\s*Read · pp\. 40–72, ch\. 4/.test(t))); assert.ok(meta.some((t) => /Half Loop\s*Episode · Mentioned · S1E2/.test(t)));
+    if (process.env.JOT_SHOTS) await page.locator("#writerMedia").screenshot({ path: path.join(process.env.JOT_SHOTS, "media-detail.png") });
+    await page.click('.writer-nav [data-nav="write"]');
+
     // Empty journal: a plain explanation.
     await page.fill('#writing', 'No media here.');
     await page.click('.writer-nav [data-nav="media"]');

@@ -1033,10 +1033,11 @@
         "locator",
         "quotation",
         "spoiler",
-        "source"
+        "source",
+        "series"
       ],
       "example": "work: A novel I am reading\nbody: The quiet scene mattered more than the ending.\nspoiler: false",
-      "notes": "spoiler is true or false. Repeated source and locator fields are allowed. A reaction is distinct from a factual summary, and reading progress is optional."
+      "notes": "spoiler is true or false. Repeated source and locator fields are allowed; series names the series the work belongs to (spec 4.2.9). A reaction is distinct from a factual summary, and reading progress is optional."
     },
     {
       "id": "decision-journal",

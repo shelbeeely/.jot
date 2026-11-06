@@ -1,11 +1,63 @@
 # Latest Jot v1 decisions
 
+## Logging exactly what was read, watched or heard (6 November 2026)
+
+The owner asked how to log the specific pages read, episodes watched, songs as against albums, and films in a series. Asked to
+choose, the owner chose all three: exact links, plain locators and series.
+
+- **Exact links.** A reference already says what it names: a Spotify track or album, a MusicBrainz recording or release group, a
+  TVmaze episode or show, an Open Library edition or work (spec 4.2.5 already says a recording is not an album and readers must
+  not substitute one for the other). Add media now opens an album's tracks (one MusicBrainz request on Tracks →) as it opens a
+  show's episodes, and the Media journal labels Song, Album, Episode and Edition from the reference alone.
+- **Plain locators** (spec 4.2.9). Up to three written right after a reference: pages, chapters, an episode code, tracks or a
+  time (`pp. 40–72`, `ch. 4`, `S1E3`, `track 4`, `at 1:12:30`), shown exactly as written. The reading and media guide suggests "an
+  edition, page, chapter, timestamp or other locator when it helps" (`docs/methods/reading-media-journal.md`, line 42) and a
+  "Where: chapter, page, scene, timestamp, level or episode" line (line 118); it also warns against "Reading becomes a completion
+  contest" (line 230) and says not to "require reading progress" (line 303). So locators are optional, never totalled, never a
+  percentage or streak, and the spec forbids turning them into progress.
+- **Series** (spec 4.2.9). `(in [Series](link))` after a reference names its series; the series link is part of that mention.
+  Add media looks up a Wikidata film's or game's "part of the series" only as part of the search the writer runs (one labels
+  request), says "Part of …", and writes the series only while its box stays ticked. The Media journal groups works under a
+  written series and episodes under the show their title begins with, from the writing alone. `reading-media-journal@1` gains an
+  optional `series` field. Series for books are not built: Open Library has no series data, and matching books to Wikidata was
+  left for later.
+
+The research does not cover how a journal tool should show series or what a reference names; those are design choices.
+Verified: Node tests for forms, locators, series and grouping (`site/test-media-shelf.mjs`) and for tracks and series names
+against saved real MusicBrainz and Wikidata replies (`site/test-media-catalog.mjs`; Wikidata rate-limited this environment, so
+the series replies were taken from its entity-data pages), the Add media suite (an album's track, the series box) and the Media
+journal suite (labels, locators, grouping, phone width). Live catalog checks were not repeated beyond fetching those replies.
+
+## Book covers from Open Library on a scene's book (6 November 2026)
+
+The owner asked for real covers for books read, naming Open Library's cover service (and Google Books). Covers work like a
+scene's stills (spec 8.1.9 `stills`): when a day says a book was read or is being read (an Open Library work or edition, or an
+ISBN), Make's confirm offers "Also put the cover of … on the book", saying that only that identifier goes to Open Library, which
+hands the picture on from the Internet Archive. The cover arrives with the scene; Another cover tries the next one the work
+lists; Keep saves it as an attachment named by the place, so the writing gets only the `@setting:` line and the cover draws
+offline. Open Library needs no account or key and is already one of Add media's catalogs; Google Books was not added, as it
+would only add a host for the same pictures. The credit "The book's cover is from Open Library" is shown with the scene.
+Publishers' cover art stays in the writer's own journal and is never part of the public demo. The desktop CSP allows Open
+Library's cover host and the Internet Archive's storage hosts it redirects to.
+
+Verified: `site/test-book-covers.mjs` against saved real Open Library replies (`site/fixtures/covers/`: only the identifier goes,
+`-1` placeholders are dropped, only JPEG or PNG is kept), the Scenes Chromium suite (the offer, nothing sent before Send, only
+the work's path, Another cover, the credit, a kept cover drawing with no request) and a live lookup: Pride and Prejudice
+listed 7 covers, and the first downloaded and drew on a scene's book. Not verified: the desktop app with the new hosts.
+
 ## Books that open and turn like a book, and stills from TMDb on a scene's screen (6 November 2026)
 
 The owner asked for the book to read left to right, for scenes to fold away when turning the page, and for stills for films
 and TV, offering a TMDb key; then asked that the stills be loaded when a scene is made (which already needs a connection) and
 saved with the scene.
 
+- **Read like a book, with no backdrop.** The owner asked for the book to lie flat, seen "like you would read a book", and for
+  no backdrop "unless it's popping out of the pages". The spread has a book's proportions (upright pages about 1 : 1.42, sized
+  to hold the place), the view looks down at it from the reader's side (about 55°), and the standing sky card is gone: the sun
+  or moon, clouds and stars are paper cut-outs that rise out of the pages and fold flat with them. Then: "Everything has to pop
+  from the pages including the sun and such." Each sky cut-out stands on a folded paper strut (an A, as pop-up books do it);
+  rain is paper strips and snow paper flakes on threads, hanging from the clouds and swaying, never falling free; fog is a pale
+  paper band standing across the back; the drifting motes and the room's haze are gone.
 - **Left to right.** A closed book opens as an English book does: the left page lifts off the right half and swings over to
   the left. Choosing a later day turns the page forward (the scene folds flat into the gutter, the sky card lies down, the right
   page stands and the next day comes over from the right); an earlier day turns back. With reduced motion the next day is there.

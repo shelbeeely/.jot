@@ -72,3 +72,25 @@ test('the media journal is a valid separate .jot, one entry per day, and the jou
   assert.match(text, /- Listened to \[Radiolab: “Octomom”\]\(https:\/\/podcasts\.apple\.com\/podcast\/id152249110\?i=1000797662464\)/);
   assert.match(text, /\[Yesterday by The Beatles\]\(spotify:track:3BQHpFgAp4l80e1XslIjNI\)/);
 });
+
+test('what a reference names: song or album, episode or series, edition or book, from the reference alone', async () => {
+  const { formOf } = await import('./dist/media-shelf-core.mjs');
+  assert.deepEqual(['spotify:track:0aaaaaaaaaaaaaaaaaaaaa', 'spotify:album:0aaaaaaaaaaaaaaaaaaaaa', 'musicbrainz:recording:12345678-1234-1234-1234-123456789abc', 'musicbrainz:release-group:12345678-1234-1234-1234-123456789abc',
+    'https://www.tvmaze.com/episodes/2238231/x', 'https://www.tvmaze.com/shows/44933/severance', 'https://openlibrary.org/books/OL7353617M', 'https://openlibrary.org/works/OL66554W', 'https://podcasts.apple.com/podcast/id1?i=2'].map(formOf),
+    ['song', 'album', 'song', 'album', 'episode', 'series', 'edition', 'book', 'episode']);
+});
+test('where in a work, written right after it: pages, chapters, an episode code, tracks, a time; anything else stays words', async () => {
+  const { mediaMentions, locatorsAfter } = await import('./dist/media-shelf-core.mjs');
+  const src = '### 2026-10-02 | Friday\nRead [Pride and Prejudice](https://openlibrary.org/works/OL66554W) pp. 40–72, ch. 4 on the bus.\nWatched [Severance](https://www.tvmaze.com/shows/44933/severance) S1E3 (at 0:42:10).\nListened to [Abbey Road](spotify:album:0ETFjACtuP2ADo6LFhL6HN) tracks 1-3.\nRead [Emma](https://openlibrary.org/works/OL66510W) with tea at 18 degrees.\n';
+  assert.deepEqual(mediaMentions(src).map((m) => m.locators), [['pp. 40–72', 'ch. 4'], ['S1E3', 'at 0:42:10'], ['tracks 1-3'], []]);
+  assert.deepEqual(locatorsAfter(' page 12').locators, ['page 12']); assert.deepEqual(locatorsAfter(' p12x').locators, []);
+});
+test('a series written after a work belongs to that mention, and episodes and films group under their show or series', async () => {
+  const { mediaMentions, mediaShelf, mediaJournal } = await import('./dist/media-shelf-core.mjs');
+  const src = '### 2026-10-03 | Saturday\nWatched [The Matrix Reloaded](imdb:tt0234215) (in [The Matrix](https://www.wikidata.org/wiki/Q83495)).\nWatched [Severance S1E1: Good News About Hell](https://www.tvmaze.com/episodes/2238231/x).\n';
+  const mentions = mediaMentions(src);
+  assert.equal(mentions.length, 2, 'the series link is not a mention of its own');
+  assert.deepEqual(mentions[0].series, { title: 'The Matrix', target: 'https://www.wikidata.org/wiki/Q83495' });
+  assert.deepEqual(mediaShelf(src).map((i) => [i.title, i.parent]).sort(), [['Severance S1E1: Good News About Hell', 'Severance'], ['The Matrix Reloaded', 'The Matrix']]);
+  assert.match(mediaJournal(src).text, /- Watched \[The Matrix Reloaded\]\(imdb:tt0234215\) \(in \[The Matrix\]\(https:\/\/www\.wikidata\.org\/wiki\/Q83495\)\)/);
+});
