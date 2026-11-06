@@ -8,7 +8,8 @@ import { PARTS, buildPart } from './writer-scene-parts.mjs';
 // light drift over it, the light shifts a little, a piece lifts under the pointer and hops when chosen. With reduced motion (or
 // Pause motion) it all stays still. Each object is a group with userData.object = its index, so a click can find it.
 //
-// media (optional) is the day's own: { screen: { label, title }, book: { title }, picture: an image of an attached picture }. Screens
+// media (optional) is the day's own: { screen: { label, title, picture? }, book: { title, picture? }, picture }. A screen shows a kept
+// still (or a title card), a book its kept cover (or its title), a frame the entry's own picture. Screens
 // show what the entry says was watched or listened to, a book's cover the book it is reading, a frame its picture; nothing is fetched.
 //
 //   buildPlace(T, place, { reduced, document, media }) -> { root, objects: [Group], background, bounds, frame: { target, direction, radius },
@@ -47,7 +48,7 @@ function geometry(T, s) {
 }
 const seeded = (i) => { const v = Math.sin(i * 12.9898) * 43758.5453; return v - Math.floor(v); };
 const backOut = (x) => { const c = 1.6; return 1 + (c + 1) * (x - 1) ** 3 + c * (x - 1) ** 2; };
-const easeOut = (x) => 1 - (1 - x) ** 3;
+const easeOut = (x) => 1 - (1 - x) ** 3, easeIn = (x) => x * x * x;
 
 // Paper made in the page (nothing is fetched): card-stock grain, a dot-grid page and the painted sky of the back page.
 function paperTextures(T, doc, place, mood) {
@@ -112,7 +113,9 @@ function pictureTexture(T, doc, image, aspect) { // the picture, cropped to fill
   const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; return t;
 }
 
-export function buildPlace(T, place, { reduced = false, document: doc = globalThis.document, media = null } = {}) {
+// enter: how the book comes in. 'open' (a closed book, opened as an English book is: the left page lifts off the right half and
+// swings over to the left), 'next' (a page turned forward: it comes over from the right) or 'prev' (turned back: from the left).
+export function buildPlace(T, place, { reduced = false, document: doc = globalThis.document, media = null, enter = 'open' } = {}) {
   const root = new T.Group(), objects = [], hinges = [], lights = [], weather = [], motions = [], textures = [], idle = [];
   const mood = ATMOSPHERE[place.atmosphere] || ATMOSPHERE.neutral;
   const [tint, sun, hemi] = LIGHT[place.time] || LIGHT.day, glow = (GLOW[place.time] ?? 0.4) * mood.glow;
@@ -166,7 +169,9 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
     const kind = m.userData?.surface; if (!m.isMesh || !kind) return;
     const p = m.geometry.parameters || {}, aspect = (p.width || 1) / (p.height || p.depth || 1);
     let map = null;
-    if (kind === 'screen' && media.screen) map = titleCard(T, doc, { label: media.screen.label, title: media.screen.title, aspect, glyph: '▶' });
+    if (kind === 'screen' && media.screen?.picture) { try { map = pictureTexture(T, doc, media.screen.picture, aspect); } catch { map = null; } } // a kept still
+    else if (kind === 'screen' && media.screen) map = titleCard(T, doc, { label: media.screen.label, title: media.screen.title, aspect, glyph: '▶' });
+    else if (kind === 'cover' && media.book?.picture) { try { map = pictureTexture(T, doc, media.book.picture, aspect); } catch { map = null; } }
     else if (kind === 'cover' && media.book) map = titleCard(T, doc, { title: media.book.title, colour: `#${m.material.color.getHexString()}`, aspect });
     else if (kind === 'picture' && media.picture) { try { map = pictureTexture(T, doc, media.picture, aspect); } catch { map = null; } }
     if (!map) return;
@@ -261,17 +266,25 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
     m.puffs = Array.from({ length: 4 }, (_, i) => { const p = new T.Mesh(new T.SphereGeometry(0.05, 8, 6), puff.clone()); p.raycast = () => {}; p.userData.from = at.clone(); p.userData.offset = i / 4; m.swing.add(p); return p; });
   }
 
-  let clock = 0, unfold = reduced ? 1 : 0, lit = -1, over = -1;
+  let clock = 0, unfold = reduced ? 1 : 0, lit = -1, over = -1, leaving = null;
   const lifted = hinges.map(() => 0), hops = new Map(), keyBase = key.intensity;
   // Where each piece stands: which side of the gutter (it folds toward the gutter) and how far from it (the nearest rise first).
   const spots = hinges.map((h) => { const local = book.worldToLocal(h.getWorldPosition(new T.Vector3())); return { sign: local.x >= 0 ? 1 : -1, far: Math.min(1, Math.abs(local.x) / R) }; });
-  function pose() { // the book opening toward the reader: the right page swings over, the sky card stands, the pieces rise out of the gutter
+  function pose() { // the book opening toward the reader: a page swings over, the sky card stands, the pieces rise out of the gutter
     const turn = easeOut(Math.min(1, unfold / 0.5));
-    rightPage.rotation.z = Math.PI * (1 - turn); // closed, the right page lies over the left one
+    if (enter === 'prev') rightPage.rotation.z = (Math.PI / 2) * (1 - turn); // the page turned back comes down from standing at the gutter
+    else leftPage.rotation.z = -(enter === 'next' ? Math.PI / 2 : Math.PI) * (1 - turn); // closed, the left page lies over the right half
     backPage.rotation.x = -(Math.PI / 2) * (1 - easeOut(Math.max(0, Math.min(1, (unfold - 0.25) / 0.45)))); // in the book's own axes
     hinges.forEach((h, i) => { const start = 0.3 + spots[i].far * 0.3, p = Math.max(0, Math.min(1, (unfold - start) / 0.4)); h.quaternion.setFromAxisAngle(axis, spots[i].sign * (Math.PI / 2) * (1 - backOut(p))); });
   }
   pose();
+  function fold(dt) {
+    const l = Math.min(1, leaving.t += dt / 1.1), down = easeIn(Math.min(1, l / 0.55)), lift = easeIn(Math.max(0, (l - 0.4) / 0.6));
+    hinges.forEach((h, i) => { h.quaternion.setFromAxisAngle(axis, spots[i].sign * (Math.PI / 2) * down); h.visible = down < 0.98; });
+    backPage.rotation.x = -(Math.PI / 2) * down; backPage.visible = down < 0.98;
+    if (leaving.direction === 'prev') leftPage.rotation.z = -(Math.PI / 2) * lift; else rightPage.rotation.z = (Math.PI / 2) * lift;
+    if (l >= 1) { const done = leaving.resolve; leaving = null; done(); }
+  }
   function animate(dt) {
     clock += dt * mood.speed;
     for (const m of motions) {
@@ -311,11 +324,19 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
     // Advances the opening and, when motion is on, the weather and the things that move. True while another frame is needed.
     update(dt, { motion = true } = {}) {
       dt = Math.min(dt, 0.1);
+      if (leaving) { fold(dt); return true; }
       if (unfold < 1) { unfold = Math.min(1, unfold + dt / 1.8); pose(); }
       if (motion) { for (const f of weather) f(dt); animate(dt); }
       return unfold < 1 || (motion && objects.length > 0);
     },
     settle() { unfold = 1; pose(); },
+    // Turning the page: the pieces fold flat into the gutter and the sky card lies down, then the page lifts to standing at the gutter
+    // ('next' lifts the right page, 'prev' the left). Resolves when the page stands; the caller then draws the next day coming in.
+    leave(direction = 'next') {
+      if (reduced) return Promise.resolve();
+      unfold = 1; pose();
+      return new Promise((resolve) => { leaving = { direction, t: 0, resolve }; });
+    },
     hover(index) { over = index; }, // the piece under the pointer lifts while motion plays
     hop(index) { if (objects[index]) hops.set(index, clock); },
     highlight(index) { // the chosen object glows softly; the last one goes back to how it was

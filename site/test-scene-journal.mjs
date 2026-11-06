@@ -94,6 +94,14 @@ test('crafted parts are shapes Jot draws: a fixed list, kept by validation, ever
   for (const [type, surface] of [['tv', 'screen'], ['laptop', 'screen'], ['phone', 'screen'], ['book', 'cover'], ['frame', 'picture']])
     assert.deepEqual(surfaces(buildPart(T, type, [1, 1, 1], '#abcdef', { material: () => ({}) })), [surface], `${type} has a ${surface} Jot may draw on`);
 });
+test('a kept still is read only from a saved place, and only with a media/ path', () => {
+  const day = journalDays(SOURCE)[0], base = { objects: [{ name: 'TV', moments: [1], shapes: [shape({ type: 'tv' })] }] };
+  assert.equal(validatePlace({ ...base, stills: [{ reference: 'imdb:tt0133093', path: 'media/x.jpg' }] }, day.sentences).stills, undefined, 'never from a model');
+  const kept = { format: 'jot-place', version: 1, made: { model: 'm', at: 't' }, ...validatePlace(base, day.sentences),
+    stills: [{ reference: 'imdb:tt0133093', path: 'media/still-the-matrix.jpg', credit: 'TMDB' }, { reference: 'imdb:tt1', path: 'https://evil.example/x.jpg' }, { path: 'media/y.jpg' }] };
+  assert.deepEqual(readPlaceFile(JSON.stringify(kept), day).stills, [{ reference: 'imdb:tt0133093', path: 'media/still-the-matrix.jpg', credit: 'TMDB' }]);
+  assert.deepEqual(JSON.parse(placeFile(readPlaceFile(JSON.stringify(kept), day))).stills.length, 1, 'kept again as it was');
+});
 test('a kept place is read again as untrusted, and says when a moment has left the entry', () => {
   const day = journalDays(SOURCE)[0], place = validatePlace({ objects: [{ name: 'Mug', moments: [2], shapes: [shape()] }] }, day.sentences);
   const text = placeFile(place, { model: 'some/model', at: '2026-11-05T00:00:00Z' });

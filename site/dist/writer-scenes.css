@@ -64,3 +64,7 @@
 /* While a moment is open its card has the left of the stage: the headline stays, the first sentence and the note step back. */
 .writer-scenes-panel:has(.writer-scenes-moment:not(:empty)) :is(.writer-scenes-first,.writer-scenes-about){visibility:hidden}
 @media (max-width:720px){.writer-scenes-panel:has(.writer-scenes-moment:not(:empty)) :is(.writer-scenes-first,.writer-scenes-about){visibility:visible}}
+/* A still for the screen, offered in the confirm step when the day watched something. */
+.writer-scenes-still-choice{display:flex;gap:8px;align-items:flex-start;margin:10px 0;font-size:15px}.writer-scenes-still-choice input{width:20px;height:20px;margin-top:2px}
+.writer-scenes-token{display:grid;gap:4px;margin:8px 0;font-size:15px}.writer-scenes-token[hidden]{display:none}.writer-scenes-token input{min-height:44px;padding:6px 10px;font:inherit;border:1px solid var(--writer-border,var(--jot-edge));border-radius:8px}
+.writer-scenes-credit{font-size:13px;color:var(--writer-muted,var(--jot-muted))}

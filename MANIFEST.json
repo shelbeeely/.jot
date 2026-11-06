@@ -104,8 +104,8 @@
     },
     {
       "path": ".github/workflows/pages.yml",
-      "byteLength": 4754,
-      "sha256": "2847b62c7ffb6301a0ce2984a1d50a2d2f9e38ae1411d5e1e467a7821c51f4aa"
+      "byteLength": 4780,
+      "sha256": "18e3fd90f12ed2316b2be65834f82a1d138ddd4b812134d0c59ebf9678883422"
     },
     {
       "path": ".gitignore",
@@ -114,8 +114,8 @@
     },
     {
       "path": "AGENTS.md",
-      "byteLength": 11755,
-      "sha256": "27534f2206f7aeb7514bd9cc5aa841036832abfd0e94b8488748cba7aa1dc4c1"
+      "byteLength": 11781,
+      "sha256": "4143d20024684f77c7567b1becb4207e17a059db3a427cc6af7ba2796521a2d5"
     },
     {
       "path": "CLAUDE.md",
@@ -124,8 +124,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 166010,
-      "sha256": "3c9957948f8dea1b18add7fb03ad68fbe3283b1c6bcbde53dcaf83eee5353666"
+      "byteLength": 168637,
+      "sha256": "681b8b7f44e990a18df14754b2ccc320994825bca05d6fca80acb80488c8d799"
     },
     {
       "path": "README.md",
@@ -134,8 +134,8 @@
     },
     {
       "path": "WRITER-ROADMAP.md",
-      "byteLength": 76226,
-      "sha256": "2568e00eb0ca565dd09cef4274a6db2c9d4fa35e9881afac5159beb3413dadcc"
+      "byteLength": 76341,
+      "sha256": "bb92470db18f9176d4b0105ab944297d349713df1c2a10fac8fbca5e930486f2"
     },
     {
       "path": "cli/README.md",
@@ -694,8 +694,8 @@
     },
     {
       "path": "desktop/src-tauri/tauri.conf.json",
-      "byteLength": 3184,
-      "sha256": "7a6b4d2a58f0e2d7528265f7eedd3ca17bd0ae0c4f0212e6547ff77b9616f24e"
+      "byteLength": 3257,
+      "sha256": "938057d2ac6a9d2c8abacdecb98f9006a7bf343e560730fcea59062b1972ccd7"
     },
     {
       "path": "desktop/test-desktop.cjs",
@@ -22489,8 +22489,8 @@
     },
     {
       "path": "parser/ROADMAP.md",
-      "byteLength": 25232,
-      "sha256": "7b97c8218c1f5ba2dea666c3e93bc090dc91238a47b49e1fa5dcabde2f4d4d7a"
+      "byteLength": 25301,
+      "sha256": "e506d7f6f0989360e4d5510184800a2c47412a630af4f5d441780ab86421d612"
     },
     {
       "path": "parser/archive-common.mjs",
@@ -22984,8 +22984,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 21996,
-      "sha256": "2ef80bfe625f1880c7955cef6a2b25f47474d7bcd3031b7cca0d496268ee112b"
+      "byteLength": 22637,
+      "sha256": "ac426959ca4b6414ab3afdc6fa51a3b3198e2f8d19d32dc7d6395a13590f267e"
     },
     {
       "path": "site/CLAUDE.md",
@@ -23004,13 +23004,13 @@
     },
     {
       "path": "site/dist/ROADMAP.md",
-      "byteLength": 25227,
-      "sha256": "da65f0e03617bbfe8aa7fd9b1a04b52163bfed686aacdd4b54b878236c285de2"
+      "byteLength": 25296,
+      "sha256": "23f6cb2c2d1e7a790682c5ee174a36abc16abd3e49ae85218f8c56b3715a7278"
     },
     {
       "path": "site/dist/WRITER-ROADMAP.md",
-      "byteLength": 76252,
-      "sha256": "cc99e0f5ec34969e6adde0fa602d849fa5aa09dd61b42b70575ebda9bb074668"
+      "byteLength": 76367,
+      "sha256": "a11b237d73ae6b75e6c5c22dfc92da8fbaacd88309ac5b2d131e15d850d362c6"
     },
     {
       "path": "site/dist/ai-client.mjs",
@@ -23109,8 +23109,8 @@
     },
     {
       "path": "site/dist/docs/Jot-Complete-Specification.pdf",
-      "byteLength": 309740,
-      "sha256": "a9156f54631d3344551eacdd5cd1b20f3130bef36304dd7b6933dd33e1315063"
+      "byteLength": 310176,
+      "sha256": "1943f939d760ddaf655137795746086b92220537e9ed97a79b2f279caf5cbb47"
     },
     {
       "path": "site/dist/docs/Jot-Container-v1.md",
@@ -23129,8 +23129,8 @@
     },
     {
       "path": "site/dist/docs/jot-parser.zip",
-      "byteLength": 2533432,
-      "sha256": "8a19eaec0afa7018a76b56331ff2c7d7a58a51190267247449a40789407ae344"
+      "byteLength": 2533463,
+      "sha256": "248e49f9b467509bd2715f0ca513ccacfe60900925620bc706ea2a4e51e5d3cf"
     },
     {
       "path": "site/dist/docs/security-testing.md",
@@ -24319,8 +24319,8 @@
     },
     {
       "path": "site/dist/offline-files.mjs",
-      "byteLength": 5900,
-      "sha256": "6ef5b74b8abe98a28a0422b8b8ddacf832730763f2ec9c579f7264fb55f4bccd"
+      "byteLength": 5921,
+      "sha256": "37bf215b2c959bf20faf7d4167ded23b33ab6b9cee74a32c451c54999d8ba657"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -24374,8 +24374,8 @@
     },
     {
       "path": "site/dist/scene-journal-core.mjs",
-      "byteLength": 15352,
-      "sha256": "7401eca1ea9cf7190b698405f7ce266224cc7f4df6a96d50fb33fef8ff55cce3"
+      "byteLength": 15948,
+      "sha256": "00665f8d4a2f94b6cdd06fa311960e5e69201ef018efc9d04885f038ff6fc2ea"
     },
     {
       "path": "site/dist/scenes-page.mjs",
@@ -24449,13 +24449,18 @@
     },
     {
       "path": "site/dist/studio.mjs",
-      "byteLength": 88749,
-      "sha256": "b44dd49967e353adf8e2fc58e220c7d875553b1f96e8e2dd0fd51dcacc6e98b5"
+      "byteLength": 88903,
+      "sha256": "3142107c6ad54dc8220cb63c9d76b28d9ca7ec439fd21c4675c33f6389077a23"
     },
     {
       "path": "site/dist/sw.mjs",
       "byteLength": 3877,
       "sha256": "ad3ad9e415256e450a53b284d1929452e8d480f9398c15dc86911de21c56aea2"
+    },
+    {
+      "path": "site/dist/tmdb-stills.mjs",
+      "byteLength": 6932,
+      "sha256": "60ce4ee5dae54a13b9b0b7a2384b4a90bfdc19bf559dc90ee758c7ab5af6a6cc"
     },
     {
       "path": "site/dist/tools/index.html",
@@ -24634,8 +24639,8 @@
     },
     {
       "path": "site/dist/writer-scene-build.mjs",
-      "byteLength": 28068,
-      "sha256": "ab2883a294f4505a958fcd8ea6d5fc65372c4a1481c5ecbf92b708dd27b7b0ab"
+      "byteLength": 30070,
+      "sha256": "5b568164bb74c88896aed376695ed47a9b9eff51580a4e77f26839bffa125b12"
     },
     {
       "path": "site/dist/writer-scene-parts.mjs",
@@ -24644,13 +24649,13 @@
     },
     {
       "path": "site/dist/writer-scene.mjs",
-      "byteLength": 29319,
-      "sha256": "1bc211e6c01a21ba84a1678b52501d0848db2e78fe9b9f1f23c828aa94b90244"
+      "byteLength": 35516,
+      "sha256": "c2b01e14740a3c675b409f71fe8797ee2d80716e0d57668388b9b35cdea877ba"
     },
     {
       "path": "site/dist/writer-scenes.css",
-      "byteLength": 9799,
-      "sha256": "16078175b1e015e9440e2c6ba286c4ca53b6414acedd7b8cebd3275f4cf25131"
+      "byteLength": 10402,
+      "sha256": "e3ca3316393b9c69f4b0a2621b39264fb8693f0c6c9d0c8842475270605a64a1"
     },
     {
       "path": "site/dist/writer-search.mjs",
@@ -24786,6 +24791,46 @@
       "path": "site/fixtures/scenes/qwen3.8-flash-2026-10-03.json",
       "byteLength": 6192,
       "sha256": "b9a51d82da797cff266ab0ad1900e4b773d4ddbf83874cea771820243c015e98"
+    },
+    {
+      "path": "site/fixtures/tmdb/find-tt0133093.json",
+      "byteLength": 660,
+      "sha256": "ac7fa7f8a904f217ec087e16ef1bb2f463453e63247121088d66e1331cbc30b6"
+    },
+    {
+      "path": "site/fixtures/tmdb/find-tt11280740.json",
+      "byteLength": 721,
+      "sha256": "646a440b8ad837172f3c8f8f33e02ac9432a45705d62e96a63e588b01b07f225"
+    },
+    {
+      "path": "site/fixtures/tmdb/movie-603-images.json",
+      "byteLength": 46856,
+      "sha256": "5fa66016463ed038e8f80f24c62a92c62ae919f7131e67b50c17beaab39440f6"
+    },
+    {
+      "path": "site/fixtures/tmdb/still.jpg",
+      "byteLength": 676,
+      "sha256": "657475afba36d4ba2958da20b59a711555962f2146f3f7aa42c96ec922fdc5b8"
+    },
+    {
+      "path": "site/fixtures/tmdb/tv-95396-images.json",
+      "byteLength": 16765,
+      "sha256": "03927379275a3a4bffd8f76fec409cb1524a5bcbc089ee358c695f9aac78be07"
+    },
+    {
+      "path": "site/fixtures/tmdb/tv-95396-s1e1-images.json",
+      "byteLength": 1869,
+      "sha256": "c1c79f390b068300125bd34e117b7a7071ce02b4a8eefd23a36842287b910067"
+    },
+    {
+      "path": "site/fixtures/tmdb/tvmaze-episode-2238231.json",
+      "byteLength": 2149,
+      "sha256": "7fb274ae742890863763152687f2f3adb71fb7c3827d652901b5f6a0c9f109f0"
+    },
+    {
+      "path": "site/fixtures/tmdb/tvmaze-show-44933.json",
+      "byteLength": 1389,
+      "sha256": "2ece3c64da667fa89013c806fd2b871e5d7d9d93d0d24e21122ceb3c093dcda7"
     },
     {
       "path": "site/fixtures/viewer.webm",
@@ -25084,8 +25129,8 @@
     },
     {
       "path": "site/test-scene-journal.mjs",
-      "byteLength": 13351,
-      "sha256": "edff8b5cea50324c0c6e1700773302cbd7b53a4e900dfd4f4c6a1f3a6cad9b94"
+      "byteLength": 14322,
+      "sha256": "6e2865f2c48fc0512e07af48522c52e502b207286b032dab96a140a0b9c6c6fc"
     },
     {
       "path": "site/test-scenes-page-ui.cjs",
@@ -25121,6 +25166,11 @@
       "path": "site/test-source-workspace.cjs",
       "byteLength": 735,
       "sha256": "716737f4931091716e7ccbc06d9932c990749491e2bcb391225209f90bc35a18"
+    },
+    {
+      "path": "site/test-tmdb-stills.mjs",
+      "byteLength": 5515,
+      "sha256": "fd0e4cf13a7a695725ba5ae6bf865924ec2d14e267997c263a9bac36017be1b1"
     },
     {
       "path": "site/test-update-ui.cjs",
@@ -25179,8 +25229,8 @@
     },
     {
       "path": "site/test-writer-scene-ui.cjs",
-      "byteLength": 16266,
-      "sha256": "0ccb53c7e49ddac4d7eae9e2f234f4e1a6b84fa86b31a11456920676edd1cf1a"
+      "byteLength": 20202,
+      "sha256": "0f8adcad1720c6d90784d4572f333c5ab88e992e706bac8531bf09a2528e21bc"
     },
     {
       "path": "site/test-writer-search.mjs",
@@ -25224,13 +25274,13 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 159901,
-      "sha256": "07e90e4b0ace53dfa4910c608a481820aaf1d5313448c649ae230cd6905cad9d"
+      "byteLength": 160305,
+      "sha256": "6d15fe1166add022752451a79a6e59f36a4979db31bd8235a5553b6244de6fa6"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
-      "byteLength": 309740,
-      "sha256": "a9156f54631d3344551eacdd5cd1b20f3130bef36304dd7b6933dd33e1315063"
+      "byteLength": 310176,
+      "sha256": "1943f939d760ddaf655137795746086b92220537e9ed97a79b2f279caf5cbb47"
     },
     {
       "path": "specification/Jot-Container-v1.md",
@@ -25249,8 +25299,8 @@
     },
     {
       "path": "specification/ROADMAP.md",
-      "byteLength": 25232,
-      "sha256": "7b97c8218c1f5ba2dea666c3e93bc090dc91238a47b49e1fa5dcabde2f4d4d7a"
+      "byteLength": 25301,
+      "sha256": "e506d7f6f0989360e4d5510184800a2c47412a630af4f5d441780ab86421d612"
     },
     {
       "path": "specification/conformance.json",

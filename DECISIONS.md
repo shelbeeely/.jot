@@ -1,5 +1,32 @@
 # Latest Jot v1 decisions
 
+## Books that open and turn like a book, and stills from TMDb on a scene's screen (6 November 2026)
+
+The owner asked for the book to read left to right, for scenes to fold away when turning the page, and for stills for films
+and TV, offering a TMDb key; then asked that the stills be loaded when a scene is made (which already needs a connection) and
+saved with the scene.
+
+- **Left to right.** A closed book opens as an English book does: the left page lifts off the right half and swings over to
+  the left. Choosing a later day turns the page forward (the scene folds flat into the gutter, the sky card lies down, the right
+  page stands and the next day comes over from the right); an earlier day turns back. With reduced motion the next day is there.
+- **Stills from TMDb** (`tmdb-stills.mjs`). This is an exception to Add media's "keyless public catalogs only" rule, at the
+  owner's request: TMDb needs the writer's own token (a read access token or the short API key). It lives in page memory for the
+  session, is cleared on lock and is never saved. The offer appears only in Make's confirm, only for a day whose entry says a
+  film or show was watched with an IMDb or TVmaze reference, and it says exactly what goes: that reference's identifier, with
+  the token. The still is fetched alongside the scene from TMDb's image host (JPEG or PNG, at most 4 MiB); Another still tries
+  the next. Keep saves it as an attachment named by the place's `stills` (spec 8.1.9), so the writing gets nothing but the
+  `@setting:` line, and a kept still draws offline with no request. OMDb was not used: it offers posters only.
+- **Credit and rights.** Writer shows "This product uses the TMDB API but is not endorsed or certified by TMDB" where stills
+  are offered, and the scene's note says the still is from TMDB. TMDb's terms also ask for its logo; that is not yet shown and
+  is tracked as unfinished. Stills are the studios' pictures: they stay in the writer's own journal and are never part of the
+  public demo.
+
+Verified: `site/test-tmdb-stills.mjs` against saved real TMDb and TVmaze replies (`site/fixtures/tmdb/`: what is sent, the
+token in the header or the query, episode stills before the show's, refusals), the Scenes Chromium suite (the offer, nothing
+sent before Send, only the id and token, Another still, Keep adds no prose, a kept still draws with no request) and a live
+lookup with the owner's token: The Matrix and Severance's first episode each returned 24 stills, and downloaded stills drew on
+a scene's screen. Not verified: the desktop app with the new CSP hosts, and TMDb's rate limits under heavy use.
+
 ## Scenes in a theatre: crafted parts, a two-page book, media on screens, and October in scenes (6 November 2026)
 
 The owner shared a reference site (a full-screen, art-directed week of journal dioramas) and asked for "more like this". Asked to

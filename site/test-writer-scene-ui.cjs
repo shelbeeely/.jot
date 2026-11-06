@@ -17,6 +17,9 @@ Rain at the bus stop. The 42 was late again, so I shared an umbrella with a stra
 
 ### 2026-10-03 | Saturday
 Stayed in bed until noon with the cat. The lamp is still on.
+
+### 2026-10-04 | Sunday
+Watched [The Matrix](imdb:tt0133093) on the old TV.
 `;
 // What a model might return for each day: data only, shapes and sentence numbers.
 const box=(position,size,color,extra={})=>({type:'box',position,rotation:[0,0,0],size,color,roughness:0.8,glow:false,...extra});
@@ -29,6 +32,8 @@ const PLACES={
   {name:'Bus shelter',position:[0,0,0],rotation:[0,0,0],moments:[1],shapes:[box([0,2.2,0],[3,0.1,1.2],'#556270'),box([-1.4,1.1,0],[0.08,2.2,0.08],'#9aa5b1'),box([1.4,1.1,0],[0.08,2.2,0.08],'#9aa5b1'),box([0,1.1,-0.55],[2.8,2,0.04],'#a9c4d6',{roughness:0.1})]},
   {name:'The 42',position:[0,0,2.4],rotation:[0,0,0],moments:[2],shapes:[box([0,1.2,0],[5,2.2,1.6],'#c0392b'),box([0,1.6,0.81],[4.4,0.6,0.02],'#dbe7f0')]},
   {name:'Shared umbrella',position:[0.6,0,0.4],rotation:[0,0,0],moments:[2],shapes:[{type:'cone',position:[0,1.9,0],rotation:[0,0,0],size:[0.6,0.3,0.6],color:'#2c3e50',roughness:0.6,glow:false},{type:'cylinder',position:[0,1.2,0],rotation:[0,0,0],size:[0.015,1.4,0.015],color:'#222222',roughness:0.6,glow:false}]}]},
+ '2026-10-04':{title:'A film night',sky:'#2b3350',ground:'#6b5a4a',weather:'clear',time:'night',atmosphere:'cosy',camera:{position:[3,2.4,4],target:[0,0.6,0]},objects:[
+  {name:'TV',position:[0,0.45,-0.6],rotation:[0,0,0],motion:'none',moments:[1],shapes:[{type:'tv',position:[0,0,0],rotation:[0,0,0],size:[1.1,0.9,0.25],color:'#2c3350',roughness:0.5,glow:false}]}]},
  '2026-10-03':{title:'Saturday’s bedroom',sky:'#f2d8c9',ground:'#a58d7b',weather:'sun',time:'day',camera:{position:[3.5,2.6,4],target:[0,0.5,0]},objects:[
   {name:'Bed',position:[0,0,0],rotation:[0,0,0],moments:[1],shapes:[box([0,0.25,0],[1.6,0.5,2.1],'#7b5e4a'),box([0,0.55,0.1],[1.5,0.15,1.8],'#f4f0e8'),box([0,0.68,-0.75],[1.2,0.15,0.35],'#ffffff')]},
   {name:'The cat',position:[0.3,0.75,0.4],rotation:[0,0,0],moments:[1],shapes:[{type:'sphere',position:[0,0,0],rotation:[0,0,0],size:[0.18,0.12,0.25],color:'#f0a35e',roughness:0.9,glow:false}]},
@@ -43,15 +48,21 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://127.0.0.1:${server.address().port}`;const browser=await chromium.launch();
  try{
   const context=await browser.newContext({viewport:{width:1280,height:900},reducedMotion:'reduce',locale:'en-GB'}),outside=[],errors=[];
-  context.on('request',r=>{if(!r.url().startsWith(origin)&&!/^(data|blob|about):/.test(r.url()))outside.push(r.url());});
+  const tmdb=[],TMDB=/^https:\/\/(api\.themoviedb\.org|image\.tmdb\.org)\//;
+  context.on('request',r=>{if(TMDB.test(r.url())){tmdb.push({url:r.url(),auth:r.headers().authorization||''});return;}if(!r.url().startsWith(origin)&&!/^(data|blob|about):/.test(r.url()))outside.push(r.url());});
+  // TMDb, as saved real replies (site/fixtures/tmdb/); its image host serves a small picture.
+  const fixtures=path.join(__dirname,'fixtures','tmdb');
+  await context.route(/^https:\/\/api\.themoviedb\.org\//,(route)=>{const u=new URL(route.request().url());const name=u.pathname==='/3/find/tt0133093'?'find-tt0133093.json':u.pathname==='/3/movie/603/images'?'movie-603-images.json':null;
+    if(!name)return route.fulfill({status:404,body:'{}'});route.fulfill({status:200,contentType:'application/json',body:fs.readFileSync(path.join(fixtures,name))});});
+  await context.route(/^https:\/\/image\.tmdb\.org\//,(route)=>route.fulfill({status:200,contentType:'image/jpeg',body:fs.readFileSync(path.join(fixtures,'still.jpg'))}));
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto(origin+'/write/');await page.waitForFunction(()=>document.documentElement.hasAttribute('data-archive-ready'));
   await page.evaluate((src)=>{const e=document.getElementById('writing');e.jotSetMode?.('source');e.value=src;e.dispatchEvent(new Event('input',{bubbles:true}));},SOURCE);
   const source=()=>page.inputValue('#writing');
   const loaded=()=>page.evaluate(()=>!!globalThis.JotThree);assert.equal(await loaded(),false);
   await page.click('#writerScenesToggle');await page.waitForSelector('#writerScenes:not([hidden]) [role=tab]');
-  assert.deepEqual(await page.locator('#writerScenes [role=tab]').allTextContents(),['Thu 1 Oct','Fri 2 Oct','Sat 3 Oct']);
-  assert.equal(await page.textContent('#writerScenesSummary'),'3 days; 0 with a kept scene.');
+  assert.deepEqual(await page.locator('#writerScenes [role=tab]').allTextContents(),['Thu 1 Oct','Fri 2 Oct','Sat 3 Oct','Sun 4 Oct']);
+  assert.equal(await page.textContent('#writerScenesSummary'),'4 days; 0 with a kept scene.');
   // Choosing the day that is already chosen keeps its Make button.
   await page.locator('#writerScenes [role=tab]').nth(0).click();assert.ok(await page.isVisible('#writerScenesMake'));
   // Without the AI companion on, Make points to it and sends nothing.
@@ -121,6 +132,26 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
   assert.match(await page.textContent('.writer-scenes-moment'),/\(no longer in this entry\)/);
   await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});
   {const v=await page.evaluate(async()=>(await axe.run(document.getElementById('writerScenes'))).violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target.join(' ')+' '+(n.any[0]?.message||'')).slice(0,4)})));if(v.length)console.log(JSON.stringify(v,null,1));assert.deepEqual(v.map(x=>x.id),[]);}
+  // A still from TMDb comes with the scene: offered in the confirm step for a day that watched something, only the film's id goes,
+  // the draft shows it with Another still, and Keep saves it with the scene; the writing gets only the @setting: line.
+  await page.locator('#writerScenes [role=tab]').nth(3).click();await page.click('#writerScenesMake');
+  assert.equal(await page.isChecked('#writerScenesWantStill'),true);assert.match(await page.textContent('.writer-scenes-confirm'),/only its identifier \(imdb:tt0133093\) goes to TMDb/);
+  await page.fill('#writerScenesTmdbToken','eyJhbGciOiJIUzI1NiJ9.test.token');assert.equal(tmdb.length,0,'nothing goes to TMDb before Send');
+  await page.click('#writerScenesSend');await page.waitForFunction(()=>document.querySelector('.writer-scenes-about')?.textContent.startsWith('A film night'));
+  assert.match(await page.textContent('.writer-scenes-about'),/The still on the screen is from TMDB\./);assert.equal(await page.isVisible('#writerScenesNextStill'),true);
+  const api=tmdb.filter(r=>r.url.startsWith('https://api.themoviedb.org'));
+  assert.deepEqual(api.map(r=>new URL(r.url).pathname),['/3/find/tt0133093','/3/movie/603/images']);assert.ok(api.every(r=>r.auth==='Bearer eyJhbGciOiJIUzI1NiJ9.test.token'));
+  assert.equal(tmdb.filter(r=>r.url.startsWith('https://image.tmdb.org')).length,1,'one still downloaded');
+  if(shots)await page.locator('#writerScenes').screenshot({path:path.join(shots,'scenes-still.png')});
+  await page.click('#writerScenesNextStill');await page.waitForFunction(()=>!document.getElementById('writerScenesNextStill').disabled);
+  assert.equal(tmdb.filter(r=>r.url.startsWith('https://image.tmdb.org')).length,2,'Another still downloads the next one');
+  const before4=await source();await page.click('#writerScenesKeep');
+  await page.waitForFunction(()=>/### 2026-10-04 \| Sunday\n@setting: media\//.test(document.getElementById('writing').value));
+  assert.doesNotMatch(await source(),/!\[Still/,'the writing gets no still line');
+  await page.waitForFunction(()=>/The still on the screen is from TMDB\./.test(document.querySelector('.writer-scenes-about')?.textContent||''));
+  const stillRequests=tmdb.length;await page.locator('#writerScenes [role=tab]').nth(0).click();await page.locator('#writerScenes [role=tab]').nth(3).click();
+  await page.waitForFunction(()=>/The still on the screen is from TMDB\./.test(document.querySelector('.writer-scenes-about')?.textContent||''));
+  assert.equal(tmdb.length,stillRequests,"a kept still draws from the journal, with no request");void before4;
   // Locking clears the view.
   await page.evaluate(()=>{const e=document.getElementById('writing');e.readOnly=true;e.setAttribute('readonly','');});await page.waitForTimeout(100);
   assert.equal(await page.isVisible('#writerScenes'),false);assert.equal(await page.locator('#writerScenes [role=tab]').count(),0);
