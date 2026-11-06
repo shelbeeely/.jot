@@ -142,6 +142,13 @@ export function validatePlace(value, sentenceList, { saved = false } = {}) {
       motion: MOTIONS.includes(o.motion) ? o.motion : 'none', moments, shapes });
   }
   if (!place.objects.length) throw new Error('The model\'s place had nothing in it that Jot can draw.');
+  // Stills the writer kept with a scene (a picture for a film or show the entry names), only from a saved place: a model never
+  // supplies them. Each names the reference it shows, the attachment holding it and where it came from.
+  if (saved && Array.isArray(value.stills)) {
+    const kept = value.stills.slice(0, 4).filter((x) => x && typeof x === 'object' && /^media\/[A-Za-z0-9._-]{1,200}$/.test(x.path || ''))
+      .map((x) => ({ reference: label(x.reference, 300), path: x.path, credit: label(x.credit, 120) })).filter((x) => x.reference);
+    if (kept.length) place.stills = kept;
+  }
   return place;
 }
 

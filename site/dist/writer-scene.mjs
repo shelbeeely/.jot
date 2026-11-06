@@ -11,8 +11,9 @@ import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, sett
 import { buildPlace } from './writer-scene-build.mjs';
 import { requestJSON } from './ai-client.mjs';
 import { mediaMentions } from './media-shelf-core.mjs';
+import { findStills, downloadStill, stillsTarget, TMDB_CREDIT } from './tmdb-stills.mjs';
 
-export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = () => null, attachPlace, renderEntry, ai, asset = () => null, readOnly = false, heading = 'Scenes', eyebrow = '', mount = null }) {
+export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = () => null, attachPlace, renderEntry, ai, asset = () => null, attachImage = null, readOnly = false, heading = 'Scenes', eyebrow = '', mount = null }) {
   const doc = editor.ownerDocument, win = doc.defaultView;
   const el = (tag, text, attributes = {}) => { const n = doc.createElement(tag); if (text !== undefined) n.textContent = text; for (const [k, v] of Object.entries(attributes)) n.setAttribute(k, v); return n; };
   const button = (text, attributes = {}) => el('button', text, { type: 'button', ...attributes });
@@ -35,7 +36,8 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
   const hint = el('p', 'Choose a thing to read its moment. Drag to turn · scroll to zoom', { class: 'writer-scenes-hint' });
   const draftBar = el('div', undefined, { class: 'writer-scenes-draft', role: 'group', 'aria-label': 'This scene is a draft' }); draftBar.hidden = true;
   const keep = button('Keep it', { id: 'writerScenesKeep', class: 'button' }), again = button('Try again', { id: 'writerScenesAgain' }), discard = button('Discard', { id: 'writerScenesDiscard', class: 'quiet' });
-  draftBar.append(el('span', 'A draft: nothing is saved until you keep it.'), keep, again, discard);
+  const anotherStill = button('Another still', { id: 'writerScenesNextStill' }); anotherStill.hidden = true;
+  draftBar.append(el('span', 'A draft: nothing is saved until you keep it.'), keep, again, anotherStill, discard);
   const make = el('div', undefined, { class: 'writer-scenes-make' });
   const confirm = el('div', undefined, { class: 'writer-scenes-confirm', role: 'group', 'aria-labelledby': 'writerScenesConfirmTitle' }); confirm.hidden = true;
   const things = el('ul', undefined, { class: 'writer-scenes-things', 'aria-label': 'Things in this scene' });
@@ -71,7 +73,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     captionTitle.textContent = day ? day.label || dayName(day) : '';
     prev.disabled = current <= 0; next.disabled = current >= days.length - 1;
   }
-  let days = [], current = 0, drafts = new Map(), view = null, three = null, controller = null, timer = 0, shown = false, paused = reduced.matches, frame = 0, last = 0, key = '', glide = null;
+  let days = [], current = 0, drafts = new Map(), view = null, three = null, controller = null, timer = 0, shown = false, paused = reduced.matches, frame = 0, last = 0, key = '', glide = null, turning = null, busy = false, tmdbToken = '';
   const keyOf = (d) => `${d.date}#${days.filter((x) => x.date === d.date).indexOf(d)}`; // the same date can hold more than one entry
 
   // three.js, its renderer and controls: made once, on first show.
@@ -134,25 +136,36 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
   // The day's own media for the scene's screens, covers and frames: titles the entry names with what was done (Watched, Listened to,
   // Reading; never "want to"), and the first picture it attaches, read from the journal's own bytes. Nothing is fetched.
   const SCREEN_KINDS = new Set(['film', 'tv', 'video', 'anime', 'game-or-film', 'music', 'podcast']);
-  async function mediaOf(day) {
+  // A day's screen media: the first thing the entry says was watched, played or listened to (never "want to").
+  function screenMention(day) {
+    try { return mediaMentions(editor.value).find((m) => m.position >= day.start && m.position < day.end && m.status !== 'want' && SCREEN_KINDS.has(m.kind)) || null; } catch { return null; }
+  }
+  async function picture(url) { // an image of the journal's own bytes (or a draft still held in page memory)
+    if (!url) return null;
+    const image = new win.Image(); image.src = url;
+    try { await Promise.race([image.decode(), new Promise((_, no) => win.setTimeout(() => no(new Error('slow')), 3000))]); return image; } catch { return null; }
+  }
+  async function mediaOf(day, place, still = null) {
     if (!day) return null;
     let mentions = [];
     try { mentions = mediaMentions(editor.value).filter((m) => m.position >= day.start && m.position < day.end && m.status !== 'want'); } catch { /* no media */ }
-    const watched = mentions.find((m) => SCREEN_KINDS.has(m.kind)), reading = mentions.find((m) => m.kind === 'book');
-    let picture = null;
-    for (const m of editor.value.slice(day.start, day.end).matchAll(/!\[[^\]]*\]\((media\/[^\s)]+)\)/g)) {
-      const a = asset(m[1]); if (!a?.url || !/^image\//.test(a.mediaType || '')) continue;
-      const image = new win.Image(); image.src = a.url;
-      try { await Promise.race([image.decode(), new Promise((_, no) => win.setTimeout(() => no(new Error('slow')), 3000))]); picture = image; } catch { /* left blank */ }
-      break;
-    }
-    return { screen: watched ? { label: watched.activity || 'Mentioned', title: watched.title } : null, book: reading ? { title: reading.title } : null, picture };
+    const seen = mentions.find((m) => SCREEN_KINDS.has(m.kind)), reading = mentions.find((m) => m.kind === 'book');
+    // The screen's picture: a still kept with this scene for that reference (or the draft's still); otherwise a title card.
+    const kept = seen && place?.stills?.find((x) => x.reference === seen.target), keptAsset = kept && asset(kept.path);
+    const screenPicture = still && seen && still.reference === seen.target ? await picture(still.url)
+      : keptAsset && /^image\//.test(keptAsset.mediaType || '') ? await picture(keptAsset.url) : null;
+    const attached = editor.value.slice(day.start, day.end).match(/!\[[^\]]*\]\((media\/[^\s)]+)\)/)?.[1], frameAsset = attached && asset(attached);
+    return { credit: screenPicture ? (still?.credit || kept?.credit || '') : '',
+      screen: seen ? { label: seen.activity || 'Mentioned', title: seen.title, picture: screenPicture } : null,
+      book: reading ? { title: reading.title } : null,
+      picture: frameAsset && /^image\//.test(frameAsset.mediaType || '') ? await picture(frameAsset.url) : null };
   }
 
-  async function show3D(place, { draft = false, model = '', day = null } = {}) {
-    const t = await engine(), { T } = t, media = await mediaOf(day);
+  async function show3D(place, { draft = false, model = '', day = null, still = null } = {}) {
+    const t = await engine(), { T } = t, media = await mediaOf(day, place, still);
+    anotherStill.hidden = !draft || !still || still.list.length < 2;
     if (view) clearView();
-    const built = buildPlace(T, place, { reduced: reduced.matches, document: doc, media });
+    const built = buildPlace(T, place, { reduced: reduced.matches, document: doc, media, enter: turning || 'open' });
     t.scene.add(built.root); t.scene.background = new T.Color(built.background); theatre.style.background = built.background; // the room and the scene are one colour
     t.scene.fog = built.fog ? new T.Fog(built.fog.color, built.fog.near, built.fog.far) : null;
     view = { place, built, draft };
@@ -160,7 +173,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     t.canvas.setAttribute('aria-label', `${place.title}: a pop-up scene of this day. Drag or use the arrow keys to turn it; scroll or press + and − to zoom. The things in it are listed beside it.`);
     reset3D(true);
     const by = draft ? model : place.made?.model || '', feel = place.atmosphere && place.atmosphere !== 'neutral' ? `, with a ${place.atmosphere} feel` : '';
-    about.textContent = `${place.title}. ${by ? `Imagined by ${by}` : 'Imagined'} from this entry's words${feel}: the look is an interpretation; the moments are the entry's own sentences. ${draft ? 'Made just now. ' : ''}Choose a thing to read its moment.`;
+    about.textContent = `${place.title}. ${by ? `Imagined by ${by}` : 'Imagined'} from this entry's words${feel}: the look is an interpretation; the moments are the entry's own sentences. ${media?.credit ? `The still on the screen is from ${media.credit}. ` : ''}${draft ? 'Made just now. ' : ''}Choose a thing to read its moment.`;
     const held = place.objects.map((o, i) => [o, i]).filter(([o]) => o.moments.length);
     for (const [o, i] of held) { const li = el('li'), b = button(o.name, { 'data-object': String(i) }); b.onclick = () => choose(i, true); li.append(b); things.append(li); }
     if (!held.length) things.append(el('li', 'Nothing in this scene is tied to a sentence yet.'));
@@ -242,35 +255,78 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     const where = conn.provider === 'openrouter' ? `OpenRouter and the provider of ${conn.model}${conn.zdr ? ', with Zero Data Retention required' : ''}; data collection is denied` : `the server on this computer at ${conn.base} (${conn.model})`;
     confirm.append(el('p', `These ${day.sentences.length} sentences from ${dayName(day)}, and nothing else from your journal, go to ${where}. The model returns a scene as data; it writes no journal text.`));
     const list = el('ol', undefined, { class: 'writer-scenes-sent' }); for (const s of day.sentences) list.append(el('li', s)); confirm.append(list);
+    // A still for the screen: when the day says a film or show was watched, its identifier (and nothing else) can also go to TMDb.
+    const seen = attachImage ? screenMention(day) : null, target = seen && stillsTarget(seen.target);
+    let wantStill = null, tokenInput = null;
+    if (target) {
+      const choice = el('label', undefined, { class: 'writer-scenes-still-choice' });
+      wantStill = el('input', undefined, { type: 'checkbox', id: 'writerScenesWantStill' }); wantStill.checked = true;
+      choice.append(wantStill, ` Also put a still from ${seen.title} on the screen: only its identifier (${seen.target}) goes to TMDb, with your TMDb token. The still is saved with the scene when you keep it.`);
+      confirm.append(choice);
+      if (!tmdbToken) {
+        const label = el('label', 'Your TMDb API read access token or API key (kept in this page until you lock or leave; never saved)', { class: 'writer-scenes-token' });
+        tokenInput = el('input', undefined, { type: 'password', id: 'writerScenesTmdbToken', autocomplete: 'off', spellcheck: 'false' }); label.append(tokenInput); confirm.append(label);
+        wantStill.onchange = () => { label.hidden = !wantStill.checked; };
+      }
+      confirm.append(el('p', TMDB_CREDIT, { class: 'writer-scenes-credit' }));
+    }
     const send = button('Send and make the scene', { class: 'button', id: 'writerScenesSend' }), cancel = button('Cancel', { class: 'quiet' });
     cancel.onclick = () => { controller?.abort(); confirm.hidden = true; };
     send.onclick = async () => {
       const prompt = placePrompt(day), mine = keyOf(day); controller?.abort(); controller = new AbortController();
       send.disabled = true; summary.textContent = 'Asking the model for this day\'s scene. Some models take a minute or two; Cancel stops it.';
+      if (tokenInput?.value.trim()) tmdbToken = tokenInput.value.trim();
+      const stillWanted = !!(wantStill?.checked && tmdbToken), signal = controller.signal;
+      // The scene and the still are asked for together; a still that cannot be found never stops the scene.
+      const stillJob = stillWanted ? (async () => { const found = await findStills(seen.target, { token: tmdbToken, signal }); if (!found.stills.length) throw new Error(`TMDb has no stills for ${found.title}`); return fetchStill({ reference: seen.target, title: found.title, list: found.stills, index: 0 }, signal); })() : null;
       try {
-        const value = await requestJSON({ ...conn, system: prompt.system, user: prompt.user, schema: PLACE_SCHEMA, name: 'jot_place', maxTokens: 24000, reasoning: { effort: 'low' } }, { signal: controller.signal });
+        const [value, still] = await Promise.all([
+          requestJSON({ ...conn, system: prompt.system, user: prompt.user, schema: PLACE_SCHEMA, name: 'jot_place', maxTokens: 24000, reasoning: { effort: 'low' } }, { signal }),
+          stillJob ? stillJob.catch((e) => ({ error: e })) : null]);
         const place = validatePlace(value, day.sentences);
-        drafts.set(mine, { place, model: conn.model, sentences: day.sentences.join('\n') });
-        confirm.hidden = true; summary.textContent = `A draft scene for ${dayName(day)}. Look around, then keep it or try again.`;
+        if (still?.error && /token/.test(still.error.message)) tmdbToken = '';
+        drafts.set(mine, { place, model: conn.model, sentences: day.sentences.join('\n'), still: still && !still.error ? still : null });
+        confirm.hidden = true;
+        summary.textContent = `A draft scene for ${dayName(day)}. Look around, then keep it or try again.${still?.error ? ` No still: ${still.error.message}` : ''}`;
         if (keyOf(days[current] || {}) === mine) { key = ''; await render(); }
       } catch (e) { summary.textContent = e.message; send.disabled = false; }
     };
     confirm.append(send, cancel); send.focus();
   }
+  // A still in page memory for a draft: its bytes, and a blob URL to draw it. Kept only when the scene is kept.
+  async function fetchStill(still, signal) {
+    const { bytes, mediaType } = await downloadStill(still.list[still.index], { signal });
+    if (still.url) URL.revokeObjectURL(still.url);
+    return { ...still, bytes, mediaType, credit: 'TMDB', url: URL.createObjectURL(new Blob([bytes], { type: mediaType })) };
+  }
+  anotherStill.onclick = async () => {
+    const day = days[current], mine = day && keyOf(day), draft = mine && drafts.get(mine); if (!draft?.still) return;
+    anotherStill.disabled = true;
+    try { draft.still = await fetchStill({ ...draft.still, index: (draft.still.index + 1) % draft.still.list.length }); key = ''; await render(); }
+    catch (e) { summary.textContent = 'Could not get another still: ' + e.message; }
+    finally { anotherStill.disabled = false; }
+  };
   keep.onclick = async () => {
     const day = days[current], mine = day && keyOf(day), draft = mine && drafts.get(mine); if (!draft) return;
     keep.disabled = true;
     try {
-      const path = await attachPlace(placeFile(draft.place, { model: draft.model }));
+      // A still goes in first, as its own attachment; the scene names it, so the writing gets nothing but the @setting: line.
+      const place = { ...draft.place };
+      if (draft.still && attachImage) {
+        const slug = draft.still.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'tmdb';
+        const stillPath = await attachImage(draft.still.bytes, draft.still.mediaType, `still-${slug}.${draft.still.mediaType === 'image/png' ? 'png' : 'jpg'}`);
+        place.stills = [{ reference: draft.still.reference, path: stillPath, credit: draft.still.credit }];
+      }
+      const path = await attachPlace(placeFile(place, { model: draft.model }));
       const fresh = journalDays(editor.value).filter((d) => d.date === day.date)[Number(mine.split('#')[1])];
       if (!fresh) throw new Error('That entry is no longer in the journal.');
       rewrite(settingEdit(editor.value, fresh, path), `Kept the scene for ${dayName(day)}: one @setting: line under its date, and the scene as an attachment. Undo takes the line back out.`);
-      drafts.delete(mine); key = ''; await compute(true);
+      if (draft.still?.url) URL.revokeObjectURL(draft.still.url); drafts.delete(mine); key = ''; await compute(true);
     } catch (e) { summary.textContent = 'Could not keep the scene: ' + e.message; }
     finally { keep.disabled = false; }
   };
   again.onclick = () => { const day = days[current]; if (day) ask(day); };
-  discard.onclick = async () => { const day = days[current]; if (!day) return; drafts.delete(keyOf(day)); key = ''; summary.textContent = 'The draft is gone. Your journal is unchanged.'; await render(); };
+  discard.onclick = async () => { const day = days[current]; if (!day) return; const gone = drafts.get(keyOf(day)); if (gone?.still?.url) URL.revokeObjectURL(gone.still.url); drafts.delete(keyOf(day)); key = ''; summary.textContent = 'The draft is gone. Your journal is unchanged.'; await render(); };
   pause.onclick = () => { paused = !paused; pause.setAttribute('aria-pressed', String(paused)); pause.textContent = paused ? 'Play motion' : 'Pause motion'; draw(); };
   pause.setAttribute('aria-pressed', String(paused)); pause.textContent = paused ? 'Play motion' : 'Pause motion';
   resetView.onclick = () => reset3D();
@@ -287,9 +343,15 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     });
     panel.setAttribute('aria-labelledby', `writerScenesTab${current}`);
   }
+  // Choosing another day turns the page: forward to a later day, back to an earlier one. The scene folds away, the page turns and the
+  // next day unfolds. With reduced motion the next day is simply there. Choosing again while a page turns goes to the newest choice.
   async function select(i, focus = false) {
+    const direction = i > current ? 'next' : i < current ? 'prev' : null;
     current = i; drawTabs(); tabs.children[i]?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' }); if (focus) tabs.children[i]?.focus();
-    if (journal.open) journal.close(); confirm.hidden = true; await render();
+    if (journal.open) journal.close(); confirm.hidden = true;
+    if (busy) return; // the turn in progress ends on the newest day
+    if (direction && view && !reduced.matches) { busy = true; glide = null; moment.replaceChildren(); last = 0; const leaving = view.built.leave(direction); draw(); await leaving; busy = false; }
+    turning = direction; try { await render(); } finally { turning = null; }
   }
   async function render() {
     const day = days[current];
@@ -298,7 +360,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     const draft = drafts.get(keyOf(day)), now = `${keyOf(day)}|${draft ? 'draft' : day.setting?.path || ''}|${day.sentences.join('\n')}`;
     if (now === key) return; // nothing changed: what is shown stays, the Make button included
     key = now; make.hidden = true;
-    if (draft) { await show3D(draft.place, { draft: true, model: draft.model, day }); setLede(day, draft.place); return; }
+    if (draft) { await show3D(draft.place, { draft: true, model: draft.model, day, still: draft.still }); setLede(day, draft.place); return; }
     if (day.setting) {
       const text = placeText(day.setting.path);
       try { if (text == null) throw new Error(`${day.setting.path} is not attached`); const place = readPlaceFile(text, day); await show3D(place, { day }); setLede(day, place); return; }
@@ -327,7 +389,9 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     hide() { section.hidden = true; shown = false; controller?.abort(); },
     // Locking clears everything the view drew or held: drafts, the request, the 3D scene.
     reset() {
+      for (const d of drafts.values()) if (d.still?.url) URL.revokeObjectURL(d.still.url);
       section.hidden = true; shown = false; controller?.abort(); controller = null; drafts = new Map(); days = []; current = 0; key = '';
+      tmdbToken = ''; // the TMDb token goes with the journal
       if (three) clearView(); about.textContent = ''; summary.textContent = ''; tabs.replaceChildren(); make.replaceChildren(); confirm.replaceChildren(); confirm.hidden = true;
       if (journal.open) journal.close(); journal.replaceChildren(); setLede(null);
     },
