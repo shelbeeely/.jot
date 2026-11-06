@@ -6,6 +6,10 @@ The owner asked for the book to read left to right, for scenes to fold away when
 and TV, offering a TMDb key; then asked that the stills be loaded when a scene is made (which already needs a connection) and
 saved with the scene.
 
+- **Read like a book, with no backdrop.** The owner asked for the book to lie flat, seen "like you would read a book", and for
+  no backdrop "unless it's popping out of the pages". The spread has a book's proportions (upright pages about 1 : 1.42, sized
+  to hold the place), the view looks down at it from the reader's side (about 55°), and the standing sky card is gone: the sun
+  or moon, clouds and stars are paper cut-outs on stalks that rise out of the pages and fold flat with them.
 - **Left to right.** A closed book opens as an English book does: the left page lifts off the right half and swings over to
   the left. Choosing a later day turns the page forward (the scene folds flat into the gutter, the sky card lies down, the right
   page stands and the next day comes over from the right); an earlier day turns back. With reduced motion the next day is there.

@@ -1,7 +1,7 @@
 import { PARTS, buildPart } from './writer-scene-parts.mjs';
 
 // Draws a journal place (scene-journal-core.mjs validatePlace / readPlaceFile) with the bundled three.js (globalThis.JotThree), as a
-// pop-up book: an open spread whose floor page carries the place and whose back page stands at the fold, painted with the sky.
+// pop-up book: an open book lying flat, read as a book is, with the place and the sky's paper cut-outs rising out of its pages.
 // Only Jot's code runs: the place is data, simple shapes with sizes and colours. Card-stock grain, ink outlines and soft shadows give
 // every day the same paper look; the place's time, weather and atmosphere (the model's reading of the entry's feeling) give each its
 // own light. When a day opens, its pieces rise from the page on hinges; while motion plays the page lives: pieces breathe, motes of
@@ -50,7 +50,7 @@ const seeded = (i) => { const v = Math.sin(i * 12.9898) * 43758.5453; return v -
 const backOut = (x) => { const c = 1.6; return 1 + (c + 1) * (x - 1) ** 3 + c * (x - 1) ** 2; };
 const easeOut = (x) => 1 - (1 - x) ** 3, easeIn = (x) => x * x * x;
 
-// Paper made in the page (nothing is fetched): card-stock grain, a dot-grid page and the painted sky of the back page.
+// Paper made in the page (nothing is fetched): card-stock grain, a dot-grid page and the sky's paper cut-outs.
 function paperTextures(T, doc, place, mood) {
   const make = (w, h, paint) => { const c = doc.createElement('canvas'); c.width = w; c.height = h; paint(c.getContext('2d'), w, h); const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; return t; };
   const grain = (g, w, h, spread = 19) => {
@@ -65,29 +65,23 @@ function paperTextures(T, doc, place, mood) {
     for (let x = 16; x < w; x += 32) for (let y = 16; y < h; y += 32) { g.beginPath(); g.arc(x, y, 2.2, 0, Math.PI * 2); g.fill(); }
   });
   dots.wrapS = dots.wrapT = T.RepeatWrapping;
-  const sky = make(512, 384, (g, w, h) => {
-    const top = new T.Color(place.sky).offsetHSL(0, mood.sat, mood.light - 0.04), low = new T.Color(place.sky).lerp(new T.Color(PAPER), 0.55);
-    const grad = g.createLinearGradient(0, 0, 0, h); grad.addColorStop(0, `#${top.getHexString()}`); grad.addColorStop(1, `#${low.getHexString()}`);
-    g.fillStyle = grad; g.fillRect(0, 0, w, h);
-    g.shadowColor = 'rgba(40,30,20,.22)'; g.shadowBlur = 8; g.shadowOffsetX = 3; g.shadowOffsetY = 4; // cut paper lifted off the page
-    const disc = (x, y, r, colour) => { g.fillStyle = colour; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); };
-    const cloud = (x, y, s, colour) => { g.fillStyle = colour; g.beginPath(); for (const [dx, dy, r] of [[0, 0, 1], [0.9, -0.35, 0.8], [1.7, 0.05, 0.75], [-0.8, 0.15, 0.7]]) { g.moveTo(x + (dx + r) * s, y + dy * s); g.arc(x + dx * s, y + dy * s, r * s, 0, Math.PI * 2); } g.fill(); };
-    const wet = ['rain', 'fog', 'snow'].includes(place.weather);
-    if (place.time === 'night') {
-      g.save(); g.shadowBlur = 0; g.shadowOffsetX = g.shadowOffsetY = 0; g.fillStyle = 'rgba(255,250,225,.85)';
-      for (let i = 0; i < 40; i++) { const x = seeded(i + 1.3) * w, y = seeded(i + 9.7) * h * 0.6; g.fillRect(x, y, 2.4, 2.4); }
-      g.restore(); if (!wet) disc(w * 0.78, h * 0.22, 26, '#f4f0dc');
-    } else if (!wet) {
-      const [x, y, r, colour] = { morning: [0.2, 0.55, 34, '#ffd27a'], day: [0.8, 0.2, 30, '#fff0a8'], evening: [0.72, 0.6, 46, '#ff9a5c'] }[place.time] || [0.8, 0.2, 30, '#fff0a8'];
-      disc(w * x, h * y, r, colour);
-    }
-    if (place.weather !== 'sun') {
-      const colour = wet ? '#aab3c0' : 'rgba(255,255,255,.92)';
-      for (let i = 0; i < (wet ? 4 : 2); i++) cloud(w * (0.12 + i * 0.24 + seeded(i + 4.2) * 0.08), h * (0.16 + seeded(i + 2.1) * 0.18), 22 + seeded(i) * 8, colour);
-    }
-    g.shadowColor = 'transparent'; grain(g, w, h, 12);
-  });
-  return { card, dots, sky, all: [card, dots, sky] };
+  // The sky as paper cut-outs, each on its own transparent sheet: the sun or moon by the time of day, clouds (grey when wet), stars at
+  // night. They stand on stalks at the back of the pages and rise with the book; no backdrop stands behind the place.
+  const sky = [], wet = ['rain', 'fog', 'snow'].includes(place.weather);
+  const cut = (w, h, paint) => make(w, h, (g) => { g.clearRect(0, 0, w, h); g.shadowColor = 'rgba(40,30,20,.25)'; g.shadowBlur = 6; g.shadowOffsetX = 2; g.shadowOffsetY = 3; paint(g); });
+  const disc = (g, x, y, r, colour) => { g.fillStyle = colour; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); };
+  if (place.time === 'night') {
+    sky.push({ kind: 'moon', size: 0.8, aspect: 1, glow: true, map: cut(256, 256, (g) => { disc(g, 128, 128, 96, '#f4f0dc'); g.globalCompositeOperation = 'destination-out'; disc(g, 170, 104, 84, '#000'); }) });
+    for (let i = 0; i < 2; i++) sky.push({ kind: 'star', size: 0.32, aspect: 1, glow: true, map: cut(128, 128, (g) => { g.fillStyle = '#fff3c4'; g.beginPath(); for (let k = 0; k < 10; k++) { const r = k % 2 ? 22 : 54, a = -Math.PI / 2 + (k * Math.PI) / 5; g.lineTo(64 + r * Math.cos(a), 64 + r * Math.sin(a)); } g.closePath(); g.fill(); }) });
+  } else if (!wet) {
+    const colour = { morning: '#ffd27a', evening: '#ff9a5c' }[place.time] || '#fff0a8';
+    sky.push({ kind: 'sun', size: place.time === 'evening' ? 1 : 0.85, aspect: 1, glow: true, map: cut(256, 256, (g) => { g.strokeStyle = colour; g.lineWidth = 10; for (let k = 0; k < 12; k++) { const a = (k * Math.PI) / 6; g.beginPath(); g.moveTo(128 + 80 * Math.cos(a), 128 + 80 * Math.sin(a)); g.lineTo(128 + 112 * Math.cos(a), 128 + 112 * Math.sin(a)); g.stroke(); } disc(g, 128, 128, 66, colour); }) });
+  }
+  if (place.weather !== 'sun') for (let i = 0; i < (wet ? 3 : 2); i++) {
+    const colour = wet ? '#aab3c0' : '#ffffff';
+    sky.push({ kind: 'cloud', size: 1.3, aspect: 1.8, map: cut(360, 200, (g) => { g.fillStyle = colour; g.beginPath(); for (const [x, y, r] of [[120, 120, 56], [190, 92, 62], [258, 118, 52], [80, 138, 38], [300, 140, 34], [180, 146, 50]]) { g.moveTo(x + r, y); g.arc(x, y, r, 0, Math.PI * 2); } g.fill(); grain(g, 360, 200, 10); }) });
+  }
+  return { card, dots, sky, all: [card, dots, ...sky.map((x) => x.map)] };
 }
 
 // A card drawn in the page: a small label and a title, wrapped (the entry's words, drawn as pixels; never markup).
@@ -190,7 +184,7 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   const centre = new T.Vector3(whole.center.x, 0, whole.center.z), R = Math.max(2, whole.radius * 0.95 + 0.25), H = Math.max(2.4, (all.isEmpty() ? 0 : all.max.y) + 0.8, R * 0.9);
 
   // The reader's side: where the model put the camera. The book lies open toward it: a left and a right page with the gutter running
-  // toward the reader, the place standing across both, and a painted sky card standing along the far edge.
+  // toward the reader, and the place and the sky's cut-outs standing across both. No backdrop stands behind the place.
   const toward = new T.Vector3(place.camera.position[0] - place.camera.target[0], 0, place.camera.position[2] - place.camera.target[2]);
   if (toward.lengthSq() < 1e-6) toward.set(0, 0, 1); toward.normalize();
   const book = new T.Group(); book.position.copy(centre); book.rotation.y = Math.atan2(toward.x, toward.z); root.add(book);
@@ -200,26 +194,39 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   const dots = paper?.dots; if (dots) dots.repeat.set(R / 2, R);
   const pageMat = new T.MeshStandardMaterial({ color: floorTint, roughness: place.weather === 'rain' ? 0.55 : 1, map: dots || null, flatShading: true });
   const edgeMat = new T.MeshStandardMaterial({ color: PAPER, roughness: 1, map: paper?.card || null }), coverMat = new T.MeshStandardMaterial({ color: COVER, roughness: 0.9 });
-  const W = R; // each page is half the spread
+  // A book's proportions: each page upright, about 1 : 1.42, the spread wider than it is deep, sized to hold the whole place.
+  const sideAxis = new T.Vector3(1, 0, 0).applyAxisAngle(up, book.rotation.y), fwdAxis = new T.Vector3(0, 0, 1).applyAxisAngle(up, book.rotation.y);
+  let xMax = 1, zMax = 1;
+  for (const g of objects) {
+    const b = new T.Box3().expandByObject(g); if (b.isEmpty()) continue;
+    for (const x of [b.min.x, b.max.x]) for (const z of [b.min.z, b.max.z]) { const v = new T.Vector3(x - centre.x, 0, z - centre.z); xMax = Math.max(xMax, Math.abs(v.dot(sideAxis))); zMax = Math.max(zMax, Math.abs(v.dot(fwdAxis))); }
+  }
+  const D = Math.max(2.6, zMax * 2.2 + 0.3), W = Math.max(xMax * 1.1 + 0.15, D / 1.42); // a page's depth on the table, and its width
   const side = (sign) => { // one page: the page, the block of pages under it, the cover under that
     const g = new T.Group();
-    const page = slab(W, 0.05, 2 * R, pageMat); page.position.set(sign * W / 2, -0.025, 0);
-    const block = slab(W + 0.12, 0.08, 2 * R + 0.14, edgeMat); block.position.set(sign * (W / 2 + 0.06), -0.07, 0);
-    const board = slab(W + 0.26, 0.05, 2 * R + 0.3, coverMat); board.position.set(sign * (W / 2 + 0.12), -0.135, 0);
+    const page = slab(W, 0.05, D, pageMat); page.position.set(sign * W / 2, -0.025, 0);
+    const block = slab(W + 0.12, 0.08, D + 0.14, edgeMat); block.position.set(sign * (W / 2 + 0.06), -0.07, 0);
+    const board = slab(W + 0.26, 0.05, D + 0.3, coverMat); board.position.set(sign * (W / 2 + 0.12), -0.135, 0);
     g.add(page, block, board); for (const m of [page, block, board]) m.raycast = () => {};
     return g;
   };
   const leftPage = side(-1), rightPage = side(1); book.add(leftPage, rightPage);
-  const gutter = new T.Mesh(new T.PlaneGeometry(0.16, 2 * R), new T.MeshBasicMaterial({ color: '#000000', transparent: true, opacity: 0.16, depthWrite: false }));
+  const gutter = new T.Mesh(new T.PlaneGeometry(0.16, D), new T.MeshBasicMaterial({ color: '#000000', transparent: true, opacity: 0.16, depthWrite: false }));
   gutter.rotation.x = -Math.PI / 2; gutter.position.y = 0.003; gutter.raycast = () => {}; book.add(gutter); // the fold's soft shadow
-  const spine = new T.Mesh(new T.CylinderGeometry(0.1, 0.1, 2 * R + 0.3, 16, 1, false, 0, Math.PI), coverMat); spine.rotation.set(Math.PI / 2, 0, Math.PI / 2); spine.position.y = -0.16; spine.raycast = () => {}; book.add(spine);
-  // The sky card: a pop-up layer standing along the far edge of both pages, folded flat until the book opens.
-  const backPage = new T.Group(); backPage.position.set(0, 0, -R + 0.05); book.add(backPage);
-  const painted = new T.Mesh(new T.PlaneGeometry(2 * W * 0.96, H), new T.MeshStandardMaterial({ color: paper ? '#ffffff' : grade(place.sky), map: paper?.sky || null, roughness: 1, side: T.DoubleSide }));
-  painted.position.set(0, H / 2, 0.025); painted.receiveShadow = true;
-  const backMargin = slab(2 * W * 0.96 + 0.12, H + 0.1, 0.035, edgeMat); backMargin.position.set(0, H / 2 + 0.02, 0);
-  backPage.add(painted, backMargin);
-  for (const m of [painted, backMargin]) m.raycast = () => {};
+  const spine = new T.Mesh(new T.CylinderGeometry(0.1, 0.1, D + 0.3, 16, 1, false, 0, Math.PI), coverMat); spine.rotation.set(Math.PI / 2, 0, Math.PI / 2); spine.position.y = -0.16; spine.raycast = () => {}; book.add(spine);
+  // The sky's cut-outs on stalks along the back of the pages, spread across both; each folds flat toward the gutter with its page.
+  const skyHinges = [];
+  (paper?.sky || []).forEach((piece, i, list) => {
+    const x = (list.length === 1 ? 0.4 : -0.8 + (1.6 * i) / (list.length - 1)) * W * 0.8, z = -D / 2 + 0.3 + seeded(i + 3.7) * 0.4;
+    const tall = H * (piece.kind === 'cloud' ? 0.6 + seeded(i + 1.9) * 0.18 : piece.kind === 'star' ? 0.7 + seeded(i + 2.3) * 0.25 : 0.88);
+    const hinge = new T.Group(); hinge.position.set(x, 0, z); book.add(hinge);
+    const stalk = slab(0.025, tall, 0.012, edgeMat); stalk.position.y = tall / 2; stalk.castShadow = true;
+    const flat = new T.Mesh(new T.PlaneGeometry(piece.size, piece.size / piece.aspect), new T.MeshStandardMaterial({ map: piece.map, transparent: true, alphaTest: 0.5, side: T.DoubleSide, roughness: 1,
+      emissive: piece.glow ? '#ffffff' : '#000000', emissiveMap: piece.glow ? piece.map : null, emissiveIntensity: piece.glow ? 0.3 : 0 }));
+    flat.position.y = tall;
+    hinge.add(stalk, flat); for (const m of [stalk, flat]) m.raycast = () => {};
+    skyHinges.push({ hinge, sign: x >= 0 ? 1 : -1 });
+  });
 
   // Key light and its soft shadow, fitted to the book.
   key.position.copy(centre).add(new T.Vector3(0.45, 0.85, 0.35).applyAxisAngle(new T.Vector3(0, 1, 0), book.rotation.y).multiplyScalar(R * 3)); key.target.position.copy(centre);
@@ -230,7 +237,7 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   if (place.weather === 'rain' || place.weather === 'snow') {
     const rain = place.weather === 'rain', n = rain ? 700 : 500, pos = new Float32Array(n * (rain ? 6 : 3)), speed = rain ? 6 : 0.7;
     for (let i = 0; i < n; i++) {
-      const x = (seeded(i) - 0.5) * 1.9 * R, y = seeded(i + 7.1) * H, z = (seeded(i + 3.3) - 0.5) * 1.9 * R; // over the page, in the book's own axes
+      const x = (seeded(i) - 0.5) * 1.9 * W, y = seeded(i + 7.1) * H, z = (seeded(i + 3.3) - 0.5) * 0.95 * D; // over the page, in the book's own axes
       if (rain) pos.set([x, y, z, x - 0.02, y - 0.24, z], i * 6); else pos.set([x, y, z], i * 3);
     }
     const geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(pos, 3));
@@ -251,7 +258,7 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   let motes = null;
   if (place.weather !== 'rain' && place.weather !== 'snow') {
     const n = 56, pos = new Float32Array(n * 3), home = [];
-    for (let i = 0; i < n; i++) { const h = [(seeded(i + 0.31) - 0.5) * 1.7 * R, 0.25 + seeded(i + 5.17) * H * 0.75, (seeded(i + 8.43) - 0.5) * 1.7 * R]; home.push(h); pos.set(h, i * 3); }
+    for (let i = 0; i < n; i++) { const h = [(seeded(i + 0.31) - 0.5) * 1.7 * W, 0.25 + seeded(i + 5.17) * H * 0.75, (seeded(i + 8.43) - 0.5) * 0.85 * D]; home.push(h); pos.set(h, i * 3); }
     const geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(pos, 3));
     const warm = place.time === 'evening' || place.time === 'night', mat = new T.PointsMaterial({ color: warm ? '#ffd98a' : '#fff6dc', size: warm ? 0.07 : 0.045, transparent: true, opacity: warm ? 0.75 : 0.5, depthWrite: false });
     const points = new T.Points(geo, mat); points.raycast = () => {}; book.add(points);
@@ -269,19 +276,20 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   let clock = 0, unfold = reduced ? 1 : 0, lit = -1, over = -1, leaving = null;
   const lifted = hinges.map(() => 0), hops = new Map(), keyBase = key.intensity;
   // Where each piece stands: which side of the gutter (it folds toward the gutter) and how far from it (the nearest rise first).
-  const spots = hinges.map((h) => { const local = book.worldToLocal(h.getWorldPosition(new T.Vector3())); return { sign: local.x >= 0 ? 1 : -1, far: Math.min(1, Math.abs(local.x) / R) }; });
+  const spots = hinges.map((h) => { const local = book.worldToLocal(h.getWorldPosition(new T.Vector3())); return { sign: local.x >= 0 ? 1 : -1, far: Math.min(1, Math.abs(local.x) / W) }; });
   function pose() { // the book opening toward the reader: a page swings over, the sky card stands, the pieces rise out of the gutter
     const turn = easeOut(Math.min(1, unfold / 0.5));
     if (enter === 'prev') rightPage.rotation.z = (Math.PI / 2) * (1 - turn); // the page turned back comes down from standing at the gutter
     else leftPage.rotation.z = -(enter === 'next' ? Math.PI / 2 : Math.PI) * (1 - turn); // closed, the left page lies over the right half
-    backPage.rotation.x = -(Math.PI / 2) * (1 - easeOut(Math.max(0, Math.min(1, (unfold - 0.25) / 0.45)))); // in the book's own axes
+    const rise = Math.max(0, Math.min(1, (unfold - 0.3) / 0.45)); // the sky's cut-outs, in the book's own axes (its z runs along the gutter)
+    for (const sky of skyHinges) sky.hinge.rotation.z = sky.sign * (Math.PI / 2) * (1 - backOut(rise));
     hinges.forEach((h, i) => { const start = 0.3 + spots[i].far * 0.3, p = Math.max(0, Math.min(1, (unfold - start) / 0.4)); h.quaternion.setFromAxisAngle(axis, spots[i].sign * (Math.PI / 2) * (1 - backOut(p))); });
   }
   pose();
   function fold(dt) {
     const l = Math.min(1, leaving.t += dt / 1.1), down = easeIn(Math.min(1, l / 0.55)), lift = easeIn(Math.max(0, (l - 0.4) / 0.6));
     hinges.forEach((h, i) => { h.quaternion.setFromAxisAngle(axis, spots[i].sign * (Math.PI / 2) * down); h.visible = down < 0.98; });
-    backPage.rotation.x = -(Math.PI / 2) * down; backPage.visible = down < 0.98;
+    for (const sky of skyHinges) { sky.hinge.rotation.z = sky.sign * (Math.PI / 2) * down; sky.hinge.visible = down < 0.98; }
     if (leaving.direction === 'prev') leftPage.rotation.z = -(Math.PI / 2) * lift; else rightPage.rotation.z = (Math.PI / 2) * lift;
     if (l >= 1) { const done = leaving.resolve; leaving = null; done(); }
   }
@@ -315,9 +323,9 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   return {
     root, objects, bounds, sky: place.sky,
     background: `#${new T.Color(CHARCOAL).lerp(new T.Color(place.sky), 0.05).getHexString()}`, // every day in the same dark room
-    // The whole open book, seen from the reader's side of the place, a little above it, as a book is read.
-    frame: { target: new T.Vector3(centre.x, H * 0.28, centre.z), radius: Math.hypot(R * 0.96, H * 0.5),
-      direction: toward.clone().multiplyScalar(Math.cos(0.6)).add(new T.Vector3(0, Math.sin(0.6), 0)).normalize() },
+    // As a book is read: from the reader's side of the table, looking down at the open spread (about 55°).
+    frame: { target: new T.Vector3(centre.x, H * 0.18, centre.z), radius: Math.hypot(W * 1.04, D * 0.5, H * 0.3),
+      direction: toward.clone().multiplyScalar(Math.cos(0.95)).add(new T.Vector3(0, Math.sin(0.95), 0)).normalize() },
     fog: place.weather === 'fog' ? { color: `#${new T.Color(CHARCOAL).lerp(new T.Color(place.sky), 0.35).getHexString()}`, near: R * 2.4, far: R * 7.5 } : null,
     moving: objects.length > 0, // a living page: something always breathes
     get unfolding() { return unfold < 1; },
