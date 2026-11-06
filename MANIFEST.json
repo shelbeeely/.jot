@@ -23364,8 +23364,8 @@
     },
     {
       "path": "site/dist/examples/demo.html",
-      "byteLength": 17503,
-      "sha256": "dac7b5a84188db96fc894121d5badcac7d1193f5cad5c5338b2df54a5acc9468"
+      "byteLength": 17617,
+      "sha256": "ffa17ccb2cd7ea3715224160197e8733fd038026ade4d703625b885b630f6df8"
     },
     {
       "path": "site/dist/examples/diaries/blunt/blunt-1870.jot",
@@ -23664,8 +23664,8 @@
     },
     {
       "path": "site/dist/examples/scenes.css",
-      "byteLength": 689,
-      "sha256": "848b4dc21c16a774a04a0547baf5d04a797f2fd49f9829831b2f35a257af1f09"
+      "byteLength": 1831,
+      "sha256": "3aa98f27cc8e9e7cc88e9c238b6eb58cd9148aa5f635e4d32d45e6cf1a3f51f9"
     },
     {
       "path": "site/dist/examples/scenes.html",
@@ -25404,8 +25404,8 @@
     },
     {
       "path": "tools/build-demo-journal.mjs",
-      "byteLength": 8955,
-      "sha256": "ef504840872d53b4c0c246a872bf034ab04106b4358ce0119129939ffb79b935"
+      "byteLength": 9069,
+      "sha256": "e180a638e19ff71d4522e197fef314800d4696b6ad3ce48dc2949c697e0be237"
     },
     {
       "path": "tools/build-examples.mjs",
