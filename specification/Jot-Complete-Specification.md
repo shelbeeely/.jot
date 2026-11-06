@@ -324,6 +324,22 @@ Its content is literal (3.2): tasks, tags, links, records and formatting inside 
 
 Marginalia (4.2) on its own line directly after a paragraph, list item or quote annotates that block. A renderer SHOULD place it beside the block, or after it on narrow pages, and it MUST NOT change the annotated text. Several notes MAY follow one block.
 
+#### 4.2.9 Where in a work, and the series it belongs to
+
+A media reference (§4.2.3–4.2.5, or a named link to a catalog page) MAY be followed on the same line by up to three locators,
+each optionally after a comma or inside parentheses: pages (`p. 12`, `pp. 40–72`, `page 12`), chapters (`ch. 4`, `chapters 4–6`), an
+episode code (`S1E3`, `S1E3–E5`), tracks (`track 4`, `tracks 1–3`) or a time (`1:12:30`, `at 0:42:10`). A reader MAY show these
+exactly as written beside the work; anything else after the reference stays ordinary words. Locators say where the writer was,
+not how much is done: readers MUST NOT total them, turn them into progress or require them.
+
+A reference MAY be followed by the series it belongs to, written as `(in [Series](link))`, for example
+`Watched [The Matrix Reloaded](imdb:tt0234215) (in [The Matrix series](https://www.wikidata.org/wiki/Q1210827))`. The series link
+belongs to that mention and is not a separate mention. A reader MAY group works by the series written this way, and an episode
+under the show its title begins with ("Severance S1E3: …"). What a reference names (a song or an album, an episode or a series,
+an edition or a work) is read from the reference itself (§4.2.5): readers MUST NOT infer it from a provider lookup or substitute one
+for the other. A tool that offers a series looks it up only when the writer asks, discloses the provider, and writes it only when the
+writer chooses it.
+
 ### 4.3 Generic structured record
 
 ```jot
@@ -1856,9 +1872,9 @@ Connect a book, film, game or other work to a response, keeping spoilers and quo
 
 Writing invitation: What stayed with me from this work?
 
-Complete structured record: `work`, `body`. Optional fields: `creator`, `locator`, `quotation`, `spoiler`, `source`.
+Complete structured record: `work`, `body`. Optional fields: `creator`, `locator`, `quotation`, `spoiler`, `source`, `series`.
 
-spoiler is true or false. Repeated source and locator fields are allowed. A reaction is distinct from a factual summary, and reading progress is optional.
+spoiler is true or false. Repeated source and locator fields are allowed; `series` names the series the work belongs to (§4.2.9). A reaction is distinct from a factual summary, and reading progress is optional.
 
 ```jot
 :::record reflection #example-reading-media-journal

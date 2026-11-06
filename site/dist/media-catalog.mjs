@@ -29,6 +29,7 @@ export const SOURCES = Object.freeze({
 // The only hosts this module ever contacts.
 export const HOSTS = Object.freeze(['https://www.wikidata.org', 'https://api.tvmaze.com', 'https://openlibrary.org', 'https://graphql.anilist.co', 'https://itunes.apple.com', 'https://musicbrainz.org', 'https://www.youtube.com', 'https://open.spotify.com']);
 
+const MB = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const clean = (value, max = 200) => String(value ?? '').replace(/[\u0000-\u001f\u007f\u2028\u2029]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
 const year = value => { const m = /^[+-]?(\d{4})/.exec(String(value ?? '')); return m ? m[1] : ''; };
 /** A link label that cannot break out of [ ] or start other formatting. */
@@ -37,13 +38,15 @@ export const escapeLabel = text => clean(text, 300).replace(/([\\[\]*_`<>~=^|#])
 // Wikidata classes: film (and feature, animated and short films), video game.
 const WIKIDATA_CLASSES = { film: ['Q11424', 'Q24869', 'Q202866', 'Q24862', 'Q29168811'], game: ['Q7889'] };
 
-/** The text to insert: an optional activity, then a named link. */
-export function mediaReference(item, activity = '') {
+/** The text to insert: an optional activity, then a named link, then (when chosen) the series it belongs to, as "(in [Series](link))"
+ *  (spec 4.2.9). */
+export function mediaReference(item, activity = '', { series = false } = {}) {
   const label = escapeLabel(item.label || item.title);
   const target = item.reference || item.url;
   if (!label || !target || /[\s()]/.test(target)) throw new Error('This result cannot be linked.');
   const verb = clean(activity, 40);
-  return (verb ? verb + ' ' : '') + '[' + label + '](' + target + ')';
+  const part = series && item.series && /^https:\/\/www\.wikidata\.org\/wiki\/Q\d+$/.test(item.series.reference) && clean(item.series.title) ? ' (in [' + escapeLabel(item.series.title) + '](' + item.series.reference + '))' : '';
+  return (verb ? verb + ' ' : '') + '[' + label + '](' + target + ')' + part;
 }
 
 const httpsURL = value => { try { const url = new URL(String(value)); return url.protocol === 'https:' ? url : null; } catch { return null; } };
@@ -60,10 +63,31 @@ export function parseWikidata(search, entities, kind) {
     const y = year(claim('P577')?.time);
     const imdb = typeof claim('P345') === 'string' && /^tt\d{7,10}$/.test(claim('P345')) ? claim('P345') : '';
     const description = clean(e.descriptions?.en?.value, 160);
-    return { kind, source: 'wikidata', id, title, year: y, detail: description, label: title + (y ? ' (' + y + ')' : ''),
+    const seriesId = claim('P179')?.id; // "part of the series"; its name is looked up separately (seriesNames)
+    return { kind, source: 'wikidata', id, title, year: y, detail: description, label: title + (y ? ' (' + y + ')' : ''), ...(/^Q\d+$/.test(seriesId || '') ? { seriesId } : {}),
       // IMDb is the most widely recognised film identity; otherwise the Wikidata item.
       reference: kind === 'film' && imdb ? 'imdb:' + imdb : 'https://www.wikidata.org/wiki/' + id, url: 'https://www.wikidata.org/wiki/' + id };
   }).filter(Boolean);
+}
+/** Names the series an item is part of, from a Wikidata labels reply; the item says "Part of …". */
+export function withSeriesNames(items, labels) {
+  const all = labels?.entities || {};
+  return items.map(item => {
+    const name = item.seriesId && clean(all[item.seriesId]?.labels?.en?.value);
+    if (!name) return item;
+    return { ...item, series: { title: name, reference: 'https://www.wikidata.org/wiki/' + item.seriesId }, detail: [item.detail, 'Part of ' + name].filter(Boolean).join(' · ') };
+  });
+}
+/** The tracks of an album, from a MusicBrainz release (with recordings): each is the song's own recording. */
+export function parseMusicBrainzTracks(data, album) {
+  const release = data?.releases?.[0]; if (!release) return [];
+  const artist = (Array.isArray(release['artist-credit']) ? release['artist-credit'] : []).map(a => clean(a?.name, 80)).filter(Boolean).join(', ') || album.creator || '';
+  const media = Array.isArray(release.media) ? release.media : [], several = media.length > 1;
+  return media.flatMap((m, disc) => (Array.isArray(m.tracks) ? m.tracks : []).map(t => ({ t, disc: disc + 1 }))).filter(({ t }) => MB.test(t?.recording?.id || '') && clean(t.title || t.recording.title)).slice(0, 60).map(({ t, disc }) => {
+    const id = t.recording.id.toLowerCase(), title = clean(t.title || t.recording.title), position = Number.isInteger(t.position) ? t.position : '';
+    return { kind: 'music', form: 'song', source: 'musicbrainz', id, title, creator: artist, detail: ['Track ' + (several ? disc + '.' : '') + position, album.title].filter(Boolean).join(' · '),
+      label: title + (artist ? ' by ' + artist : ''), reference: 'musicbrainz:recording:' + id, url: 'https://musicbrainz.org/recording/' + id };
+  });
 }
 export function parseTVmazeShows(data) {
   return (Array.isArray(data) ? data : []).map(r => r?.show).filter(s => s && Number.isInteger(s.id) && clean(s.name)).slice(0, 8).map(s => {
@@ -111,14 +135,14 @@ export function parseAppleEpisodes(data, show) {
       label: show.title + ': “' + clean(r.trackName) + '”', reference: 'https://podcasts.apple.com/podcast/id' + show.id + '?i=' + r.trackId, url: 'https://podcasts.apple.com/podcast/id' + show.id + '?i=' + r.trackId };
   });
 }
-const MB = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export function parseMusicBrainz(data, type) {
   const rows = data?.[type === 'release-group' ? 'release-groups' : 'recordings'];
   return (Array.isArray(rows) ? rows : []).filter(r => r && MB.test(r.id || '') && clean(r.title)).slice(0, 8).map(r => {
     const artist = (Array.isArray(r['artist-credit']) ? r['artist-credit'] : []).map(a => clean(a?.name || a?.artist?.name, 80)).filter(Boolean).join(', ');
     const y = year(r['first-release-date']);
     return { kind: 'music', source: 'musicbrainz', id: r.id.toLowerCase(), title: clean(r.title), year: y, creator: artist, detail: [type === 'release-group' ? clean(r['primary-type'] || 'Album', 30) : 'Song', artist, y].filter(Boolean).join(' · '),
-      label: clean(r.title) + (artist ? ' by ' + artist : '') + (y ? ' (' + y + ')' : ''), reference: 'musicbrainz:' + type + ':' + r.id.toLowerCase(), url: 'https://musicbrainz.org/' + type + '/' + r.id.toLowerCase() };
+      label: clean(r.title) + (artist ? ' by ' + artist : '') + (y ? ' (' + y + ')' : ''), reference: 'musicbrainz:' + type + ':' + r.id.toLowerCase(), url: 'https://musicbrainz.org/' + type + '/' + r.id.toLowerCase(),
+      form: type === 'release-group' ? 'album' : 'song', ...(type === 'release-group' ? { hasChildren: true } : {}) };
   });
 }
 
@@ -188,7 +212,14 @@ export function createMediaCatalog({ fetchImpl = (...args) => fetch(...args), no
     const ids = (search?.query?.search || []).map(r => r.title).filter(id => /^Q\d+$/.test(id));
     if (!ids.length) return [];
     const entities = await get('wikidata', 'https://www.wikidata.org/w/api.php?' + new URLSearchParams({ action: 'wbgetentities', ids: ids.join('|'), props: 'labels|descriptions|claims', languages: 'en', format: 'json', origin: '*' }), { signal });
-    return parseWikidata(search, entities, kind);
+    return seriesNames(parseWikidata(search, entities, kind), signal);
+  }
+  // The series a film or game is part of: one more Wikidata request for the series' names, only when a result has one.
+  async function seriesNames(items, signal) {
+    const ids = [...new Set(items.map(i => i.seriesId).filter(Boolean))];
+    if (!ids.length) return items;
+    try { return withSeriesNames(items, await get('wikidata', 'https://www.wikidata.org/w/api.php?' + new URLSearchParams({ action: 'wbgetentities', ids: ids.join('|'), props: 'labels', languages: 'en', format: 'json', origin: '*' }), { signal })); }
+    catch (error) { if (error?.name === 'AbortError') throw error; return items; } // the result still stands without its series
   }
   return {
     /** Search one kind of media by the words typed into the picker. */
@@ -208,11 +239,12 @@ export function createMediaCatalog({ fetchImpl = (...args) => fetch(...args), no
       }
       throw new Error('Choose what kind of media to look for.');
     },
-    /** Episodes of a TV series or podcast, optionally narrowed by words in the title. */
+    /** Episodes of a TV series or podcast, or an album's tracks, optionally narrowed by words in the title. */
     async children({ item, filter = '', signal }) {
       const words = clean(filter, 80).toLowerCase();
       let list = [];
       if (item.source === 'tvmaze') list = parseTVmazeEpisodes(await get('tvmaze', 'https://api.tvmaze.com/shows/' + encodeURIComponent(item.id) + '/episodes', { signal }), item);
+      else if (item.source === 'musicbrainz' && /^musicbrainz:release-group:/.test(item.reference)) list = parseMusicBrainzTracks(await get('musicbrainz', 'https://musicbrainz.org/ws/2/release?' + new URLSearchParams({ 'release-group': item.id, status: 'official', inc: 'recordings artist-credits', fmt: 'json', limit: '1' }), { signal }), item);
       else if (item.source === 'apple') list = parseAppleEpisodes(await get('apple', 'https://itunes.apple.com/lookup?' + new URLSearchParams({ id: item.id, entity: 'podcastEpisode', limit: '100' }), { signal }), item);
       return words ? list.filter(e => (e.title + ' ' + e.detail).toLowerCase().includes(words)) : list;
     },
@@ -237,12 +269,12 @@ export function createMediaCatalog({ fetchImpl = (...args) => fetch(...args), no
         catch (error) { if (error?.name === 'AbortError') throw error; return bare; }
         const ids = (search?.query?.search || []).map(r => r.title).filter(id => /^Q\d+$/.test(id));
         const entities = ids.length ? await get('wikidata', 'https://www.wikidata.org/w/api.php?' + new URLSearchParams({ action: 'wbgetentities', ids: ids.join('|'), props: 'labels|descriptions|claims', languages: 'en', format: 'json', origin: '*' }), { signal }) : null;
-        const found = parseWikidata(search, entities, 'film').map(item => ({ ...item, reference: 'imdb:' + link.id }));
+        const found = (await seriesNames(parseWikidata(search, entities, 'film'), signal)).map(item => ({ ...item, reference: 'imdb:' + link.id }));
         return found.length ? found : bare;
       }
       if (link.provider === 'wikidata') {
         const entities = await get('wikidata', 'https://www.wikidata.org/w/api.php?' + new URLSearchParams({ action: 'wbgetentities', ids: link.id, props: 'labels|descriptions|claims', languages: 'en', format: 'json', origin: '*' }), { signal });
-        return parseWikidata({ query: { search: [{ title: link.id }] } }, entities, 'item').map(item => ({ ...item, reference: 'https://www.wikidata.org/wiki/' + link.id }));
+        return (await seriesNames(parseWikidata({ query: { search: [{ title: link.id }] } }, entities, 'item'), signal)).map(item => ({ ...item, reference: 'https://www.wikidata.org/wiki/' + link.id }));
       }
       if (link.provider === 'musicbrainz') {
         const data = await get('musicbrainz', 'https://musicbrainz.org/ws/2/' + link.type + '/' + link.id + '?' + new URLSearchParams({ fmt: 'json', inc: link.type === 'recording' || link.type === 'release-group' || link.type === 'release' ? 'artist-credits' : '' }), { signal });

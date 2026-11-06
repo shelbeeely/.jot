@@ -93,3 +93,25 @@ test('an IMDb link still becomes an imdb: reference when Wikidata is busy', asyn
   const [item] = await busy.resolve({ text: 'https://www.imdb.com/title/tt0133093/' });
   assert.equal(item.reference, 'imdb:tt0133093'); assert.equal(mediaReference(item), '[IMDb title](imdb:tt0133093)');
 });
+
+// Saved real replies: musicbrainz-release-group-search.json and musicbrainz-release-tracks.json (MusicBrainz, 6 November 2026);
+// wikidata-series-entities.json (Q189600's claims from Special:EntityData, with the English label from wikidata-entities.json) and
+// wikidata-series-labels.json (Q1210827's English label from Special:EntityData), shaped as wbgetentities replies.
+test('an album lists its tracks, each the song\'s own recording, from MusicBrainz', async () => {
+  const { parseMusicBrainz, parseMusicBrainzTracks } = await import('./dist/media-catalog.mjs');
+  const fs = await import('node:fs'), read = (n) => JSON.parse(fs.readFileSync(new URL(`./fixtures/media/${n}`, import.meta.url), 'utf8'));
+  const album = parseMusicBrainz(read('musicbrainz-release-group-search.json'), 'release-group')[0];
+  assert.equal(album.title, 'Abbey Road'); assert.equal(album.form, 'album'); assert.equal(album.hasChildren, true);
+  const tracks = parseMusicBrainzTracks(read('musicbrainz-release-tracks.json'), album);
+  assert.equal(tracks.length, 17); assert.equal(tracks[0].label, 'Come Together by The Beatles'); assert.equal(tracks[0].detail, 'Track 1 · Abbey Road');
+  assert.match(tracks[0].reference, /^musicbrainz:recording:[0-9a-f-]{36}$/); assert.ok(tracks.every((t) => t.form === 'song'));
+});
+test('a film in a series: Wikidata names the series, and the series is noted only when chosen', async () => {
+  const { parseWikidata, withSeriesNames, mediaReference } = await import('./dist/media-catalog.mjs');
+  const fs = await import('node:fs'), read = (n) => JSON.parse(fs.readFileSync(new URL(`./fixtures/media/${n}`, import.meta.url), 'utf8'));
+  const [film] = withSeriesNames(parseWikidata({ query: { search: [{ title: 'Q189600' }] } }, read('wikidata-series-entities.json'), 'film'), read('wikidata-series-labels.json'));
+  assert.deepEqual(film.series, { title: 'The Matrix series', reference: 'https://www.wikidata.org/wiki/Q1210827' }); assert.match(film.detail, /Part of The Matrix series$/);
+  assert.equal(mediaReference(film, 'Watched'), 'Watched [The Matrix Reloaded (2003)](imdb:tt0234215)');
+  assert.equal(mediaReference(film, 'Watched', { series: true }), 'Watched [The Matrix Reloaded (2003)](imdb:tt0234215) (in [The Matrix series](https://www.wikidata.org/wiki/Q1210827))');
+  assert.deepEqual(withSeriesNames([film], { entities: {} })[0], film, 'no name, no change');
+});

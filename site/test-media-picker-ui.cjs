@@ -33,7 +33,12 @@ const server = http.createServer((req, res) => {
       if (url.startsWith('https://itunes.apple.com/search')) return reply(route, fixture('itunes-podcasts'));
       if (url.startsWith('https://itunes.apple.com/lookup')) return reply(route, fixture('itunes-episodes'));
       if (url.includes('wikidata.org/w/api.php') && url.includes('list=search')) return reply(route, fixture('wikidata-search'));
+      if (url.includes('wikidata.org/w/api.php') && url.includes('wbgetentities') && new URL(url).searchParams.get('ids') === 'Q189600') return reply(route, fixture('wikidata-series-entities'));
+      if (url.includes('wikidata.org/w/api.php') && url.includes('wbgetentities') && new URL(url).searchParams.get('ids') === 'Q1210827') return reply(route, fixture('wikidata-series-labels'));
       if (url.includes('wikidata.org/w/api.php') && url.includes('wbgetentities')) return reply(route, fixture('wikidata-entities'));
+      if (url.startsWith('https://musicbrainz.org/ws/2/release-group/')) return reply(route, fixture('musicbrainz-release-group-search'));
+      if (url.startsWith('https://musicbrainz.org/ws/2/recording/')) return reply(route, JSON.stringify({ recordings: [] }));
+      if (url.startsWith('https://musicbrainz.org/ws/2/release?')) return reply(route, fixture('musicbrainz-release-tracks'));
       if (url.startsWith('https://www.youtube.com/oembed')) return reply(route, JSON.stringify({ title: 'A [tricky] *title*', author_name: 'Someone' }));
       unexpected.push(url); return route.abort();
     });
@@ -98,6 +103,26 @@ const server = http.createServer((req, res) => {
     await page.waitForFunction(() => document.querySelectorAll('#mediaResults .media-result').length > 0 && document.getElementById('mediaStatus').textContent.includes('episodes. Type'));
     await page.locator('#mediaResults .media-result').first().click();
     assert.match(await page.inputValue('#mediaText'), /^\[Radiolab: “.+”\]\(https:\/\/podcasts\.apple\.com\/podcast\/id152249110\?i=\d+\)$/);
+    await page.click('#mediaClose');
+
+    // A song from an album: the album's tracks, filtered, each the song's own recording.
+    await open(); await page.selectOption('#mediaKind', 'music'); await page.fill('#mediaQuery', 'abbey road'); await page.press('#mediaQuery', 'Enter');
+    await page.waitForFunction(() => document.getElementById('mediaStatus').textContent.includes('from MusicBrainz'));
+    const album = page.locator('#mediaResults .media-result', { hasText: 'Abbey Road by The Beatles' }).first();
+    assert.match(await album.textContent(), /Tracks →/); await album.click();
+    await page.waitForFunction(() => document.getElementById('mediaStatus').textContent.includes('17 tracks. Type'));
+    assert.equal(await page.textContent('#mediaFilterLabel'), 'Find a track'); assert.equal(await page.textContent('#mediaWhole'), 'Use the whole album');
+    await page.fill('#mediaFilter', 'come together'); await page.waitForFunction(() => document.querySelectorAll('#mediaResults .media-result').length === 1);
+    await page.click('#mediaResults .media-result'); await page.selectOption('#mediaActivity', { index: 1 });
+    assert.match(await page.inputValue('#mediaText'), /^\S.* \[Come Together by The Beatles\]\(musicbrainz:recording:485bbe7f-d0f7-4ffe-8adb-0f1093dd2dbf\)$/);
+    await page.click('#mediaClose');
+
+    // A film in a series: Wikidata names the series; it is noted after the film only while the box stays ticked.
+    await open(); await page.fill('#mediaQuery', 'https://www.wikidata.org/wiki/Q189600'); await page.press('#mediaQuery', 'Enter');
+    await page.locator('#mediaResults .media-result', { hasText: 'Reloaded' }).click();
+    assert.equal(await page.isVisible('#mediaSeriesChoice'), true); assert.equal(await page.textContent('#mediaSeriesText'), 'Note the series: The Matrix series');
+    assert.equal(await page.inputValue('#mediaText'), '[The Matrix Reloaded (2003)](https://www.wikidata.org/wiki/Q189600) (in [The Matrix series](https://www.wikidata.org/wiki/Q1210827))');
+    await page.uncheck('#mediaSeries'); assert.equal(await page.inputValue('#mediaText'), '[The Matrix Reloaded (2003)](https://www.wikidata.org/wiki/Q189600)');
     await page.click('#mediaClose');
 
     // A pasted YouTube link becomes a short reference with a safely escaped title.

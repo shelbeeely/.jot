@@ -129,7 +129,7 @@ not establish a tested device layout or therapeutic effect. Complete example rec
 | [`free-diary@1`](../methods/free-diary.md) · Free diary and stream of consciousness | `reflection` | `body` | `date`, `title` |
 | [`shared-journal@1`](../methods/shared-journal.md) · Shared and dialogue journals | `response` | `author`, `body` | `relation`, `audience`, `consent` |
 | [`travel-field-log@1`](../methods/travel-field-log.md) · Travel, nature and field observations | `observation` | `observation` | `place`, `at`, `weather`, `hypothesis`, `asset` |
-| [`reading-media-journal@1`](../methods/reading-media-journal.md) · Reading and media journals | `reflection` | `work`, `body` | `creator`, `locator`, `quotation`, `spoiler`, `source` |
+| [`reading-media-journal@1`](../methods/reading-media-journal.md) · Reading and media journals | `reflection` | `work`, `body` | `creator`, `locator`, `quotation`, `spoiler`, `source`, `series` |
 | [`decision-journal@1`](../methods/decision-journal.md) · Decision journals | `reflection` | `decision`, `reason` | `option`, `prediction`, `probability`, `review-on`, `outcome` |
 | [`project-lab-log@1`](../methods/project-lab-log.md) · Project and lab notebooks | `observation` | `question`, `observation` | `procedure`, `configuration`, `asset`, `next-step` |
 | [`food-cooking-journal@1`](../methods/food-cooking-journal.md) · Food, cooking and meal memories | `reflection` | `body` | `meal`, `recipe`, `ingredient`, `substitution`, `context` |

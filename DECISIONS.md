@@ -1,5 +1,33 @@
 # Latest Jot v1 decisions
 
+## Logging exactly what was read, watched or heard (6 November 2026)
+
+The owner asked how to log the specific pages read, episodes watched, songs as against albums, and films in a series. Asked to
+choose, the owner chose all three: exact links, plain locators and series.
+
+- **Exact links.** A reference already says what it names: a Spotify track or album, a MusicBrainz recording or release group, a
+  TVmaze episode or show, an Open Library edition or work (spec 4.2.5 already says a recording is not an album and readers must
+  not substitute one for the other). Add media now opens an album's tracks (one MusicBrainz request on Tracks →) as it opens a
+  show's episodes, and the Media journal labels Song, Album, Episode and Edition from the reference alone.
+- **Plain locators** (spec 4.2.9). Up to three written right after a reference: pages, chapters, an episode code, tracks or a
+  time (`pp. 40–72`, `ch. 4`, `S1E3`, `track 4`, `at 1:12:30`), shown exactly as written. The reading and media guide suggests "an
+  edition, page, chapter, timestamp or other locator when it helps" (`docs/methods/reading-media-journal.md`, line 42) and a
+  "Where: chapter, page, scene, timestamp, level or episode" line (line 118); it also warns against "Reading becomes a completion
+  contest" (line 230) and says not to "require reading progress" (line 303). So locators are optional, never totalled, never a
+  percentage or streak, and the spec forbids turning them into progress.
+- **Series** (spec 4.2.9). `(in [Series](link))` after a reference names its series; the series link is part of that mention.
+  Add media looks up a Wikidata film's or game's "part of the series" only as part of the search the writer runs (one labels
+  request), says "Part of …", and writes the series only while its box stays ticked. The Media journal groups works under a
+  written series and episodes under the show their title begins with, from the writing alone. `reading-media-journal@1` gains an
+  optional `series` field. Series for books are not built: Open Library has no series data, and matching books to Wikidata was
+  left for later.
+
+The research does not cover how a journal tool should show series or what a reference names; those are design choices.
+Verified: Node tests for forms, locators, series and grouping (`site/test-media-shelf.mjs`) and for tracks and series names
+against saved real MusicBrainz and Wikidata replies (`site/test-media-catalog.mjs`; Wikidata rate-limited this environment, so
+the series replies were taken from its entity-data pages), the Add media suite (an album's track, the series box) and the Media
+journal suite (labels, locators, grouping, phone width). Live catalog checks were not repeated beyond fetching those replies.
+
 ## Book covers from Open Library on a scene's book (6 November 2026)
 
 The owner asked for real covers for books read, naming Open Library's cover service (and Google Books). Covers work like a

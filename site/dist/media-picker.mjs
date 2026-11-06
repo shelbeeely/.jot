@@ -23,9 +23,10 @@ export function setupMediaPicker({ editor, status = () => {}, catalog = createMe
 <label class="media-check"><input id="mediaOnline" type="checkbox"> Search online catalogs</label>
 <p id="mediaHelp" class="small">Only what you type in this box is sent, to the catalog for the kind you chose. Your writing is never sent. Without online search, this finds references already in this journal.</p></form>
 <p id="mediaStatus" role="status" aria-live="polite"></p>
-<div id="mediaBack" hidden><button id="mediaBackBtn" class="quiet" type="button">← Back to results</button><button id="mediaWhole" class="quiet" type="button"></button><label for="mediaFilter">Find an episode</label><input id="mediaFilter" type="search" autocomplete="off" maxlength="80"></div>
+<div id="mediaBack" hidden><button id="mediaBackBtn" class="quiet" type="button">← Back to results</button><button id="mediaWhole" class="quiet" type="button"></button><label for="mediaFilter" id="mediaFilterLabel">Find an episode</label><input id="mediaFilter" type="search" autocomplete="off" maxlength="80"></div>
 <ul id="mediaResults" class="media-results" aria-label="Results"></ul>
 <div id="mediaReview" hidden><h3>Insert</h3><label>What you did (optional) <select id="mediaActivity"></select></label>
+<label id="mediaSeriesChoice" hidden><input type="checkbox" id="mediaSeries"> <span id="mediaSeriesText"></span></label>
 <label for="mediaText">This goes in at your cursor</label><input id="mediaText" readonly>
 <p id="mediaSource" class="small"></p><div class="writer-small-actions"><button id="mediaInsert" class="button primary" type="button">Insert</button><button id="mediaAgain" class="quiet" type="button">Choose another</button></div></div>`;
   doc.body.append(dialog);
@@ -47,7 +48,7 @@ export function setupMediaPicker({ editor, status = () => {}, catalog = createMe
       const title = doc.createElement('strong'); title.textContent = item.label;
       const detail = doc.createElement('span'); detail.textContent = [item.detail, SOURCES[item.source]?.name].filter(Boolean).join(' · ');
       pick.append(title, detail);
-      if (item.hasChildren && !episodes) { const more = doc.createElement('span'); more.className = 'media-more'; more.textContent = item.kind === 'tv' ? 'Episodes →' : 'Episodes →'; pick.append(more); }
+      if (item.hasChildren && !episodes) { const more = doc.createElement('span'); more.className = 'media-more'; more.textContent = item.kind === 'music' ? 'Tracks →' : 'Episodes →'; pick.append(more); }
       pick.onclick = () => item.hasChildren && !episodes ? openChildren(item) : review(item);
       li.append(pick); $('mediaResults').append(li);
     }
@@ -77,12 +78,12 @@ export function setupMediaPicker({ editor, status = () => {}, catalog = createMe
   }
   async function openChildren(item) {
     cancel(); parent = item; children = []; controller = new AbortController(); const signal = controller.signal;
-    $('mediaBack').hidden = false; $('mediaWhole').textContent = 'Use the whole ' + (item.kind === 'tv' ? 'series' : 'podcast'); $('mediaFilter').value = '';
-    show([], { episodes: true }); say('Loading episodes of ' + item.title + '…');
+    $('mediaBack').hidden = false; $('mediaWhole').textContent = 'Use the whole ' + (item.kind === 'tv' ? 'series' : item.kind === 'music' ? 'album' : 'podcast'); $('mediaFilterLabel').textContent = item.kind === 'music' ? 'Find a track' : 'Find an episode'; $('mediaFilter').value = '';
+    show([], { episodes: true }); say('Loading ' + (item.kind === 'music' ? 'the tracks of ' : 'episodes of ') + item.title + '…');
     try {
       children = await catalog.children({ item, signal }); if (signal.aborted) return;
       // Anything typed in the episode box while they loaded still applies.
-      filterEpisodes(); say(children.length + ' episodes. Type to find one.'); if (doc.activeElement !== $('mediaFilter')) $('mediaFilter').focus();
+      filterEpisodes(); say(children.length + (item.kind === 'music' ? ' tracks' : ' episodes') + '. Type to find one.'); if (doc.activeElement !== $('mediaFilter')) $('mediaFilter').focus();
     }
     catch (error) { if (error?.name !== 'AbortError') say(error.message); }
   }
@@ -91,12 +92,15 @@ export function setupMediaPicker({ editor, status = () => {}, catalog = createMe
     const kinds = ACTIVITIES[item.kind] || [];
     $('mediaActivity').replaceChildren(...['', ...kinds].map(v => { const o = doc.createElement('option'); o.value = v; o.textContent = v || 'Just the reference'; return o; }));
     $('mediaActivity').disabled = !kinds.length;
+    // The series it is part of, from Wikidata, noted after it only when the writer leaves this ticked.
+    $('mediaSeriesChoice').hidden = !item.series; $('mediaSeries').checked = !!item.series;
+    $('mediaSeriesText').textContent = item.series ? 'Note the series: ' + item.series.title : '';
     preview();
     $('mediaSource').textContent = (SOURCES[item.source]?.note || '') + ' Mentioning it does not record that you watched, read or played it unless you choose that above.';
     $('mediaInsert').focus();
   }
   function preview() {
-    try { $('mediaText').value = chosen.plain ? chosen.reference : mediaReference(chosen, $('mediaActivity').value); $('mediaInsert').disabled = false; }
+    try { $('mediaText').value = chosen.plain ? chosen.reference : mediaReference(chosen, $('mediaActivity').value, { series: $('mediaSeries').checked }); $('mediaInsert').disabled = false; }
     catch (error) { $('mediaText').value = ''; $('mediaInsert').disabled = true; say(error.message); }
   }
   function open() {
@@ -113,7 +117,7 @@ export function setupMediaPicker({ editor, status = () => {}, catalog = createMe
   $('mediaFilter').addEventListener('input', filterEpisodes);
   $('mediaBackBtn').onclick = () => run($('mediaQuery').value);
   $('mediaWhole').onclick = () => parent && review(parent);
-  $('mediaActivity').onchange = preview;
+  $('mediaActivity').onchange = preview; $('mediaSeries').onchange = preview;
   $('mediaAgain').onclick = () => { $('mediaReview').hidden = true; $('mediaQuery').focus(); };
   $('mediaInsert').onclick = () => {
     const text = $('mediaText').value; if (!text) return;
