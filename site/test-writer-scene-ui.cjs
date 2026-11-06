@@ -19,7 +19,7 @@ Rain at the bus stop. The 42 was late again, so I shared an umbrella with a stra
 Stayed in bed until noon with the cat. The lamp is still on.
 
 ### 2026-10-04 | Sunday
-Watched [The Matrix](imdb:tt0133093) on the old TV.
+Watched [The Matrix](imdb:tt0133093) on the old TV. Reading [Pride and Prejudice](https://openlibrary.org/works/OL66554W) after.
 `;
 // What a model might return for each day: data only, shapes and sentence numbers.
 const box=(position,size,color,extra={})=>({type:'box',position,rotation:[0,0,0],size,color,roughness:0.8,glow:false,...extra});
@@ -33,7 +33,8 @@ const PLACES={
   {name:'The 42',position:[0,0,2.4],rotation:[0,0,0],moments:[2],shapes:[box([0,1.2,0],[5,2.2,1.6],'#c0392b'),box([0,1.6,0.81],[4.4,0.6,0.02],'#dbe7f0')]},
   {name:'Shared umbrella',position:[0.6,0,0.4],rotation:[0,0,0],moments:[2],shapes:[{type:'cone',position:[0,1.9,0],rotation:[0,0,0],size:[0.6,0.3,0.6],color:'#2c3e50',roughness:0.6,glow:false},{type:'cylinder',position:[0,1.2,0],rotation:[0,0,0],size:[0.015,1.4,0.015],color:'#222222',roughness:0.6,glow:false}]}]},
  '2026-10-04':{title:'A film night',sky:'#2b3350',ground:'#6b5a4a',weather:'clear',time:'night',atmosphere:'cosy',camera:{position:[3,2.4,4],target:[0,0.6,0]},objects:[
-  {name:'TV',position:[0,0.45,-0.6],rotation:[0,0,0],motion:'none',moments:[1],shapes:[{type:'tv',position:[0,0,0],rotation:[0,0,0],size:[1.1,0.9,0.25],color:'#2c3350',roughness:0.5,glow:false}]}]},
+  {name:'TV',position:[0,0.45,-0.6],rotation:[0,0,0],motion:'none',moments:[1],shapes:[{type:'tv',position:[0,0,0],rotation:[0,0,0],size:[1.1,0.9,0.25],color:'#2c3350',roughness:0.5,glow:false}]},
+  {name:'Book',position:[0.8,0.02,0.4],rotation:[0,0,0],motion:'none',moments:[2],shapes:[{type:'book',position:[0,0,0],rotation:[0,0,0],size:[0.22,0.04,0.3],color:'#3f6e9a',roughness:0.8,glow:false}]}]},
  '2026-10-03':{title:'Saturday’s bedroom',sky:'#f2d8c9',ground:'#a58d7b',weather:'sun',time:'day',camera:{position:[3.5,2.6,4],target:[0,0.5,0]},objects:[
   {name:'Bed',position:[0,0,0],rotation:[0,0,0],moments:[1],shapes:[box([0,0.25,0],[1.6,0.5,2.1],'#7b5e4a'),box([0,0.55,0.1],[1.5,0.15,1.8],'#f4f0e8'),box([0,0.68,-0.75],[1.2,0.15,0.35],'#ffffff')]},
   {name:'The cat',position:[0.3,0.75,0.4],rotation:[0,0,0],moments:[1],shapes:[{type:'sphere',position:[0,0,0],rotation:[0,0,0],size:[0.18,0.12,0.25],color:'#f0a35e',roughness:0.9,glow:false}]},
@@ -48,13 +49,17 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://127.0.0.1:${server.address().port}`;const browser=await chromium.launch();
  try{
   const context=await browser.newContext({viewport:{width:1280,height:900},reducedMotion:'reduce',locale:'en-GB'}),outside=[],errors=[];
-  const tmdb=[],TMDB=/^https:\/\/(api\.themoviedb\.org|image\.tmdb\.org)\//;
-  context.on('request',r=>{if(TMDB.test(r.url())){tmdb.push({url:r.url(),auth:r.headers().authorization||''});return;}if(!r.url().startsWith(origin)&&!/^(data|blob|about):/.test(r.url()))outside.push(r.url());});
+  const tmdb=[],TMDB=/^https:\/\/(api\.themoviedb\.org|image\.tmdb\.org)\//,ol=[],OL=/^https:\/\/(openlibrary\.org|covers\.openlibrary\.org)\//;
+  context.on('request',r=>{if(TMDB.test(r.url())){tmdb.push({url:r.url(),auth:r.headers().authorization||''});return;}if(OL.test(r.url())){ol.push(r.url());return;}if(!r.url().startsWith(origin)&&!/^(data|blob|about):/.test(r.url()))outside.push(r.url());});
   // TMDb, as saved real replies (site/fixtures/tmdb/); its image host serves a small picture.
   const fixtures=path.join(__dirname,'fixtures','tmdb');
   await context.route(/^https:\/\/api\.themoviedb\.org\//,(route)=>{const u=new URL(route.request().url());const name=u.pathname==='/3/find/tt0133093'?'find-tt0133093.json':u.pathname==='/3/movie/603/images'?'movie-603-images.json':null;
     if(!name)return route.fulfill({status:404,body:'{}'});route.fulfill({status:200,contentType:'application/json',body:fs.readFileSync(path.join(fixtures,name))});});
   await context.route(/^https:\/\/image\.tmdb\.org\//,(route)=>route.fulfill({status:200,contentType:'image/jpeg',body:fs.readFileSync(path.join(fixtures,'still.jpg'))}));
+  // Open Library, as a saved real reply for the work; its cover host serves a small cover.
+  const covers=path.join(__dirname,'fixtures','covers');
+  await context.route(/^https:\/\/openlibrary\.org\//,(route)=>new URL(route.request().url()).pathname==='/works/OL66554W.json'?route.fulfill({status:200,contentType:'application/json',body:fs.readFileSync(path.join(covers,'work-OL66554W.json'))}):route.fulfill({status:404,body:'{}'}));
+  await context.route(/^https:\/\/covers\.openlibrary\.org\//,(route)=>route.fulfill({status:200,contentType:'image/jpeg',body:fs.readFileSync(path.join(covers,'cover-small.jpg'))}));
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto(origin+'/write/');await page.waitForFunction(()=>document.documentElement.hasAttribute('data-archive-ready'));
   await page.evaluate((src)=>{const e=document.getElementById('writing');e.jotSetMode?.('source');e.value=src;e.dispatchEvent(new Event('input',{bubbles:true}));},SOURCE);
@@ -135,10 +140,15 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
   // A still from TMDb comes with the scene: offered in the confirm step for a day that watched something, only the film's id goes,
   // the draft shows it with Another still, and Keep saves it with the scene; the writing gets only the @setting: line.
   await page.locator('#writerScenes [role=tab]').nth(3).click();await page.click('#writerScenesMake');
-  assert.equal(await page.isChecked('#writerScenesWantStill'),true);assert.match(await page.textContent('.writer-scenes-confirm'),/only its identifier \(imdb:tt0133093\) goes to TMDb/);
+  assert.equal(await page.isChecked('#writerScenesWantStill'),true);assert.equal(await page.isChecked('#writerScenesWantCover'),true);
+  assert.match(await page.textContent('.writer-scenes-confirm'),/only its identifier \(https:\/\/openlibrary\.org\/works\/OL66554W\) goes to Open Library/);assert.equal(ol.length,0,'nothing goes to Open Library before Send');assert.match(await page.textContent('.writer-scenes-confirm'),/only its identifier \(imdb:tt0133093\) goes to TMDb/);
   await page.fill('#writerScenesTmdbToken','eyJhbGciOiJIUzI1NiJ9.test.token');assert.equal(tmdb.length,0,'nothing goes to TMDb before Send');
   await page.click('#writerScenesSend');await page.waitForFunction(()=>document.querySelector('.writer-scenes-about')?.textContent.startsWith('A film night'));
-  assert.match(await page.textContent('.writer-scenes-about'),/The still on the screen is from TMDB\./);assert.equal(await page.isVisible('#writerScenesNextStill'),true);
+  assert.match(await page.textContent('.writer-scenes-about'),/The still on the screen is from TMDB\. The book's cover is from Open Library\./);assert.equal(await page.isVisible('#writerScenesNextStill'),true);
+  assert.deepEqual(ol.filter(u=>u.startsWith('https://openlibrary.org')).map(u=>new URL(u).pathname),['/works/OL66554W.json'],'only the work goes to Open Library');
+  assert.equal(ol.filter(u=>u.startsWith('https://covers.openlibrary.org')).length,1,'one cover downloaded');assert.equal(await page.isVisible('#writerScenesNextCover'),true);
+  await page.click('#writerScenesNextCover');await page.waitForFunction(()=>!document.getElementById('writerScenesNextCover').disabled);
+  assert.equal(ol.filter(u=>u.startsWith('https://covers.openlibrary.org')).length,2,'Another cover downloads the next one');
   const api=tmdb.filter(r=>r.url.startsWith('https://api.themoviedb.org'));
   assert.deepEqual(api.map(r=>new URL(r.url).pathname),['/3/find/tt0133093','/3/movie/603/images']);assert.ok(api.every(r=>r.auth==='Bearer eyJhbGciOiJIUzI1NiJ9.test.token'));
   assert.equal(tmdb.filter(r=>r.url.startsWith('https://image.tmdb.org')).length,1,'one still downloaded');
@@ -148,10 +158,10 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
   const before4=await source();await page.click('#writerScenesKeep');
   await page.waitForFunction(()=>/### 2026-10-04 \| Sunday\n@setting: media\//.test(document.getElementById('writing').value));
   assert.doesNotMatch(await source(),/!\[Still/,'the writing gets no still line');
-  await page.waitForFunction(()=>/The still on the screen is from TMDB\./.test(document.querySelector('.writer-scenes-about')?.textContent||''));
-  const stillRequests=tmdb.length;await page.locator('#writerScenes [role=tab]').nth(0).click();await page.locator('#writerScenes [role=tab]').nth(3).click();
-  await page.waitForFunction(()=>/The still on the screen is from TMDB\./.test(document.querySelector('.writer-scenes-about')?.textContent||''));
-  assert.equal(tmdb.length,stillRequests,"a kept still draws from the journal, with no request");void before4;
+  await page.waitForFunction(()=>/The book's cover is from Open Library\./.test(document.querySelector('.writer-scenes-about')?.textContent||''));
+  const stillRequests=tmdb.length+ol.length;await page.locator('#writerScenes [role=tab]').nth(0).click();await page.locator('#writerScenes [role=tab]').nth(3).click();
+  await page.waitForFunction(()=>/The still on the screen is from TMDB\. The book's cover is from Open Library\./.test(document.querySelector('.writer-scenes-about')?.textContent||''));
+  assert.equal(tmdb.length+ol.length,stillRequests,"a kept still draws from the journal, with no request");void before4;
   // Locking clears the view.
   await page.evaluate(()=>{const e=document.getElementById('writing');e.readOnly=true;e.setAttribute('readonly','');});await page.waitForTimeout(100);
   assert.equal(await page.isVisible('#writerScenes'),false);assert.equal(await page.locator('#writerScenes [role=tab]').count(),0);

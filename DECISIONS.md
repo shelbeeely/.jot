@@ -1,5 +1,22 @@
 # Latest Jot v1 decisions
 
+## Book covers from Open Library on a scene's book (6 November 2026)
+
+The owner asked for real covers for books read, naming Open Library's cover service (and Google Books). Covers work like a
+scene's stills (spec 8.1.9 `stills`): when a day says a book was read or is being read (an Open Library work or edition, or an
+ISBN), Make's confirm offers "Also put the cover of … on the book", saying that only that identifier goes to Open Library, which
+hands the picture on from the Internet Archive. The cover arrives with the scene; Another cover tries the next one the work
+lists; Keep saves it as an attachment named by the place, so the writing gets only the `@setting:` line and the cover draws
+offline. Open Library needs no account or key and is already one of Add media's catalogs; Google Books was not added, as it
+would only add a host for the same pictures. The credit "The book's cover is from Open Library" is shown with the scene.
+Publishers' cover art stays in the writer's own journal and is never part of the public demo. The desktop CSP allows Open
+Library's cover host and the Internet Archive's storage hosts it redirects to.
+
+Verified: `site/test-book-covers.mjs` against saved real Open Library replies (`site/fixtures/covers/`: only the identifier goes,
+`-1` placeholders are dropped, only JPEG or PNG is kept), the Scenes Chromium suite (the offer, nothing sent before Send, only
+the work's path, Another cover, the credit, a kept cover drawing with no request) and a live lookup: Pride and Prejudice
+listed 7 covers, and the first downloaded and drew on a scene's book. Not verified: the desktop app with the new hosts.
+
 ## Books that open and turn like a book, and stills from TMDb on a scene's screen (6 November 2026)
 
 The owner asked for the book to read left to right, for scenes to fold away when turning the page, and for stills for films
