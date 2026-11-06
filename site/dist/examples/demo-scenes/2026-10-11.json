@@ -3,713 +3,40 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:14.305Z"
+    "at": "2026-11-06T09:54:53.268Z"
   },
-  "title": "Afternoon Desk with Easel",
+  "title": "Afternoon desk with easel",
   "sky": "#cfe8ff",
-  "ground": "#a8743f",
+  "ground": "#efe6da",
   "weather": "sun",
   "time": "day",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
       1.8,
       1.6,
-      2.6
+      3.2
     ],
     "target": [
-      0,
+      0.2,
       0.8,
       0
     ]
   },
   "objects": [
     {
-      "name": "Desk",
+      "name": "Wall",
       "position": [
         0,
-        0.75,
-        -0.5
+        1.5,
+        -2.8
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.06,
-            0.9
-          ],
-          "color": "#6b4a34",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#4f3728",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#4f3728",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#4f3728",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#4f3728",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Lamp",
-      "position": [
-        -0.45,
-        1.02,
-        -0.25
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug.",
-        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0.8
-          ],
-          "size": [
-            0.03,
-            0.6,
-            0.03
-          ],
-          "color": "#2f2f2f",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0.28,
-            -0.15,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0.6
-          ],
-          "size": [
-            0.12,
-            0.18,
-            0.12
-          ],
-          "color": "#2b2b2b",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.45,
-            -0.13,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.04,
-            0.04
-          ],
-          "color": "#ffd97a",
-          "roughness": 0.1,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        0.15,
-        0.82,
-        -0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug.",
-        "The [faint pencil shade]{highlight=#e3d8bd highlight-style=pencil} is less certain, which suits the afternoon. #drawing #making @desk"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.22,
-            0.02,
-            0.16
-          ],
-          "color": "#f6f3ec",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.012,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.22,
-            0.01,
-            0.16
-          ],
-          "color": "#e3d8bd",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Dry leaf",
-      "position": [
-        0.36,
-        0.83,
-        -0.48
-      ],
-      "rotation": [
-        0,
-        0,
-        0.4
-      ],
-      "moments": [
-        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug.",
-        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
-      ],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.09,
-            0.01,
-            0.06
-          ],
-          "color": "#527744",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug of tea",
-      "position": [
-        -0.05,
-        0.86,
-        -0.4
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.08,
-            0.06
-          ],
-          "color": "#b86b2f",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0.08,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            1.57,
-            0
-          ],
-          "size": [
-            0.02,
-            0.01,
-            0.02
-          ],
-          "color": "#b86b2f",
-          "roughness": 0.4,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Easel",
-      "position": [
-        1.4,
-        0,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I set up the easel by the window and painted the garden tree in three colors."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.9,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            1.8,
-            0.02
-          ],
-          "color": "#5a3f2a",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.12,
-            0.4,
-            0
-          ],
-          "rotation": [
-            0,
-            0.2,
-            0
-          ],
-          "size": [
-            0.02,
-            0.9,
-            0.02
-          ],
-          "color": "#5a3f2a",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.25,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.02,
-            0.02
-          ],
-          "color": "#5a3f2a",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Painting",
-      "position": [
-        1.38,
-        1.05,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0.05
-      ],
-      "moments": [
-        "I set up the easel by the window and painted the garden tree in three colors.",
-        "The sky changed before the paint had even dried.",
-        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.5,
-            0.36,
-            0.02
-          ],
-          "color": "#ffffff",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0.012
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.42,
-            0.01,
-            0.28
-          ],
-          "color": "#f7f2e8",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            -0.08,
-            0,
-            0.013
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.28
-          ],
-          "color": "#9d6b16",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0.12,
-            0,
-            0.013
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.28
-          ],
-          "color": "#b9dbe5",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0.013
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.28
-          ],
-          "color": "#527744",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Palette",
-      "position": [
-        1.05,
-        0.85,
-        0.62
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I set up the easel by the window and painted the garden tree in three colors.",
-        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
-      ],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.01,
-            0.12
-          ],
-          "color": "#d9c8b0",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.06,
-            0.01,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.02,
-            0.02
-          ],
-          "color": "#9d6b16",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.02,
-            0.01,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.02,
-            0.02
-          ],
-          "color": "#b9dbe5",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.09,
-            0.01,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.02,
-            0.02
-          ],
-          "color": "#527744",
-          "roughness": 0.2,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window",
-      "position": [
-        1.6,
-        0,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
+      "motion": "none",
       "moments": [
         "I set up the easel by the window and painted the garden tree in three colors.",
         "The sky changed before the paint had even dried."
@@ -719,7 +46,48 @@
           "type": "box",
           "position": [
             0,
-            1.6,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            8,
+            3,
+            0.12
+          ],
+          "color": "#efe9df",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        1.6,
+        1.6,
+        -2.79
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "I set up the easel by the window and painted the garden tree in three colors.",
+        "The sky changed before the paint had even dried."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
             0
           ],
           "rotation": [
@@ -732,24 +100,25 @@
             1.1,
             0.06
           ],
-          "color": "#dff1ff",
-          "roughness": 0.2,
+          "color": "#d9f0ff",
+          "roughness": 0.05,
           "glow": false
         }
       ]
     },
     {
-      "name": "Chair",
+      "name": "Desk",
       "position": [
-        -0.9,
-        0.45,
-        0.1
+        0,
+        0.75,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug."
       ],
@@ -758,7 +127,7 @@
           "type": "box",
           "position": [
             0,
-            0.2,
+            0,
             0
           ],
           "rotation": [
@@ -767,20 +136,41 @@
             0
           ],
           "size": [
-            0.45,
-            0.04,
-            0.4
+            1.6,
+            0.06,
+            0.9
           ],
-          "color": "#3b2b22",
+          "color": "#8b6b4a",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
           "roughness": 0.8,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0,
-            -0.08,
-            -0.14
+            0.7,
+            -0.39,
+            -0.35
           ],
           "rotation": [
             0,
@@ -788,30 +178,197 @@
             0
           ],
           "size": [
-            0.06,
-            0.6,
-            0.06
+            0.08,
+            0.72,
+            0.08
           ],
-          "color": "#3b2b22",
+          "color": "#5b3f2a",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3f2a",
           "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Pencil",
+      "name": "Tilted lamp",
       "position": [
-        0.25,
-        0.84,
-        -0.55
+        -0.6,
+        0.92,
+        0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "flicker",
       "moments": [
+        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug.",
+        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.28,
+            0.03
+          ],
+          "color": "#333333",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.02,
+            0.19,
+            0.06
+          ],
+          "rotation": [
+            0.2,
+            0.1,
+            0
+          ],
+          "size": [
+            0.12,
+            0.08,
+            0.12
+          ],
+          "color": "#9d6b16",
+          "roughness": 0.3,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Notebook open",
+      "position": [
+        0.05,
+        0.86,
+        -0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug.",
         "The [faint pencil shade]{highlight=#e3d8bd highlight-style=pencil} is less certain, which suits the afternoon. #drawing #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.03,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.01,
+            0.18
+          ],
+          "color": "#fffef7",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.17,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.06
+          ],
+          "size": [
+            0.22,
+            0.01,
+            0.18
+          ],
+          "color": "#fffef7",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea",
+      "position": [
+        0.28,
+        0.88,
+        0.25
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "steam",
+      "moments": [
+        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug."
       ],
       "shapes": [
         {
@@ -824,33 +381,56 @@
           "rotation": [
             0,
             0,
-            1.2
+            0
           ],
           "size": [
-            0.01,
-            0.12,
-            0.01
+            0.06,
+            0.08,
+            0.06
           ],
-          "color": "#6b6b6b",
-          "roughness": 0.6,
+          "color": "#cfa07a",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.05,
+            0.06
+          ],
+          "rotation": [
+            1.57,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.01,
+            0.04
+          ],
+          "color": "#cfa07a",
+          "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Small rug",
+      "name": "Dry leaf",
       "position": [
-        0.2,
-        0,
-        0.6
+        0.12,
+        0.87,
+        0.02
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "The sky changed before the paint had even dried."
+        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug.",
+        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
       ],
       "shapes": [
         {
@@ -866,11 +446,360 @@
             0
           ],
           "size": [
-            1.2,
+            0.06,
             0.01,
-            0.9
+            0.03
           ],
-          "color": "#f2e7d9",
+          "color": "#527744",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Easel",
+      "position": [
+        0.9,
+        0,
+        -0.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I set up the easel by the window and painted the garden tree in three colors."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            2.1,
+            0.02
+          ],
+          "color": "#6a4d33",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.12,
+            0.35,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.7,
+            0.02
+          ],
+          "color": "#6a4d33",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Canvas",
+      "position": [
+        0.9,
+        1.15,
+        -0.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I set up the easel by the window and painted the garden tree in three colors.",
+        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.9,
+            0.04
+          ],
+          "color": "#fffaf0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            -0.08,
+            0.02,
+            0.021
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.01,
+            0.12
+          ],
+          "color": "#9d6b16",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.08,
+            0.02,
+            0.021
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.01,
+            0.12
+          ],
+          "color": "#b9dbe5",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            -0.06,
+            0.021
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.01,
+            0.12
+          ],
+          "color": "#527744",
+          "roughness": 0.2,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Palette",
+      "position": [
+        0.6,
+        0.86,
+        -0.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I set up the easel by the window and painted the garden tree in three colors.",
+        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.02,
+            0.08
+          ],
+          "color": "#e6d9bf",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.04,
+            0.03,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.015,
+            0.015
+          ],
+          "color": "#9d6b16",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.02,
+            0.03,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.015,
+            0.015
+          ],
+          "color": "#b9dbe5",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.08,
+            0.03,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.015,
+            0.015
+          ],
+          "color": "#527744",
+          "roughness": 0.2,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Paintbrush",
+      "position": [
+        0.66,
+        0.86,
+        -0.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I set up the easel by the window and painted the garden tree in three colors."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.12,
+            0.01
+          ],
+          "color": "#3b2b20",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Sky cloud",
+      "position": [
+        1.6,
+        3.1,
+        -2.5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "The sky changed before the paint had even dried."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "color": "#f0f3f5",
           "roughness": 0.9,
           "glow": false
         }

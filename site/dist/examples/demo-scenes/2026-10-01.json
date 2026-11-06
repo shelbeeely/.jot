@@ -3,22 +3,23 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:52:51.280Z"
+    "at": "2026-11-06T09:54:04.287Z"
   },
-  "title": "Rainy kitchen moment",
-  "sky": "#6b7ea8",
-  "ground": "#dcd2c8",
+  "title": "Rainy kitchen table",
+  "sky": "#6b7f8f",
+  "ground": "#6b4f3a",
   "weather": "rain",
   "time": "evening",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
-      0,
+      1.8,
       1.6,
-      4
+      2.6
     ],
     "target": [
       0,
-      1,
+      0.9,
       0
     ]
   },
@@ -35,6 +36,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
@@ -54,8 +56,8 @@
             0.01,
             3.5
           ],
-          "color": "#e9e1d6",
-          "roughness": 0.9,
+          "color": "#6b4f3a",
+          "roughness": 0.8,
           "glow": false
         }
       ]
@@ -72,16 +74,14 @@
         0,
         0
       ],
-      "moments": [
-        "Rain traced crooked lines down the kitchen window while my mug of tea cooled on the wooden table.",
-        "I cut the last slice of bread and watched the garden tree let go of one leaf at a time."
-      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            1.25,
+            1.15,
             0
           ],
           "rotation": [
@@ -91,11 +91,11 @@
           ],
           "size": [
             4.5,
-            2.5,
+            2.3,
             0.08
           ],
-          "color": "#cfc7bf",
-          "roughness": 0.95,
+          "color": "#dcd6c9",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -103,18 +103,18 @@
     {
       "name": "Window",
       "position": [
-        -0.9,
         0,
-        -1.74
+        0,
+        -1.1
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "Rain traced crooked lines down the kitchen window while my mug of tea cooled on the wooden table.",
-        "I cut the last slice of bread and watched the garden tree let go of one leaf at a time."
+        "Rain traced crooked lines down the kitchen window while my mug of tea cooled on the wooden table."
       ],
       "shapes": [
         {
@@ -134,37 +134,79 @@
             1.1,
             0.06
           ],
-          "color": "#bfe0ff",
+          "color": "#cfe6f2",
           "roughness": 0.2,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0,
-            1.6,
-            0.03
+            -0.35,
+            1.3,
+            0.02
           ],
           "rotation": [
-            0,
+            0.2,
             0,
             0
           ],
           "size": [
-            1.46,
-            1.18,
+            0.02,
+            0.6,
+            0.01
+          ],
+          "color": "#7aa0c0",
+          "roughness": 0.1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.15,
+            1.45,
             0.02
           ],
-          "color": "#7f8da0",
-          "roughness": 0.95,
+          "rotation": [
+            -0.15,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.8,
+            0.01
+          ],
+          "color": "#6e97b8",
+          "roughness": 0.1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.45,
+            1.2,
+            0.02
+          ],
+          "rotation": [
+            0.25,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.5,
+            0.01
+          ],
+          "color": "#7da8c6",
+          "roughness": 0.1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Garden tree (outside)",
+      "name": "Garden tree",
       "position": [
-        -0.9,
+        0,
         0,
         -3
       ],
@@ -173,6 +215,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I cut the last slice of bread and watched the garden tree let go of one leaf at a time."
       ],
@@ -181,7 +224,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0.9,
+            0.6,
             0
           ],
           "rotation": [
@@ -190,19 +233,19 @@
             0
           ],
           "size": [
-            0.12,
-            1.4,
-            0.12
+            0.08,
+            1.2,
+            0.08
           ],
-          "color": "#6b4a2a",
-          "roughness": 1,
+          "color": "#5b3d26",
+          "roughness": 0.9,
           "glow": false
         },
         {
           "type": "sphere",
           "position": [
             0,
-            1.8,
+            1.5,
             0
           ],
           "rotation": [
@@ -215,24 +258,25 @@
             0.9,
             0.9
           ],
-          "color": "#2f5f2f",
-          "roughness": 1,
+          "color": "#3b7a3f",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Falling leaf",
+      "name": "Drifting leaf",
       "position": [
-        -0.6,
-        1.25,
-        -1.85
+        0.25,
+        1.1,
+        -1.6
       ],
       "rotation": [
         0,
-        0.1,
-        0.4
+        0,
+        0
       ],
+      "motion": "drift",
       "moments": [
         "I cut the last slice of bread and watched the garden tree let go of one leaf at a time."
       ],
@@ -245,17 +289,17 @@
             0
           ],
           "rotation": [
+            0.4,
             0.2,
-            0.1,
             0
           ],
           "size": [
-            0.06,
-            0.01,
-            0.1
+            0.12,
+            0.02,
+            0.06
           ],
-          "color": "#a86d2f",
-          "roughness": 0.8,
+          "color": "#a86f2b",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -272,12 +316,10 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Rain traced crooked lines down the kitchen window while my mug of tea cooled on the wooden table.",
-        "I wanted a record of the ordinary bits: warm bread, wet leaves, and a whole quiet minute before the kettle clicked.",
-        "That felt like enough to write down. #home @kitchen",
-        "Put a fresh notebook on the table #home",
-        "Buy a second kettle #home"
+        "I wanted a record of the ordinary bits: warm bread, wet leaves, and a whole quiet minute before the kettle clicked."
       ],
       "shapes": [
         {
@@ -297,8 +339,8 @@
             0.06,
             0.9
           ],
-          "color": "#8b5a33",
-          "roughness": 0.85,
+          "color": "#8b5a34",
+          "roughness": 0.95,
           "glow": false
         },
         {
@@ -318,7 +360,7 @@
             0.72,
             0.08
           ],
-          "color": "#6b4223",
+          "color": "#6b4023",
           "roughness": 0.95,
           "glow": false
         },
@@ -339,7 +381,7 @@
             0.72,
             0.08
           ],
-          "color": "#6b4223",
+          "color": "#6b4023",
           "roughness": 0.95,
           "glow": false
         },
@@ -360,7 +402,7 @@
             0.72,
             0.08
           ],
-          "color": "#6b4223",
+          "color": "#6b4023",
           "roughness": 0.95,
           "glow": false
         },
@@ -381,7 +423,7 @@
             0.72,
             0.08
           ],
-          "color": "#6b4223",
+          "color": "#6b4023",
           "roughness": 0.95,
           "glow": false
         }
@@ -390,15 +432,16 @@
     {
       "name": "Mug of tea",
       "position": [
-        -0.25,
+        0.2,
         0.9,
-        0.05
+        0.12
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "steam",
       "moments": [
         "Rain traced crooked lines down the kitchen window while my mug of tea cooled on the wooden table.",
         "I wanted a record of the ordinary bits: warm bread, wet leaves, and a whole quiet minute before the kettle clicked."
@@ -426,31 +469,10 @@
           "glow": false
         },
         {
-          "type": "cylinder",
-          "position": [
-            0.12,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.08,
-            0.02
-          ],
-          "color": "#ffffff",
-          "roughness": 0.95,
-          "glow": false
-        },
-        {
           "type": "sphere",
           "position": [
             0,
-            0.06,
+            0.12,
             0
           ],
           "rotation": [
@@ -459,11 +481,11 @@
             0
           ],
           "size": [
-            0.045,
+            0.048,
             0.02,
-            0.045
+            0.048
           ],
-          "color": "#8b5130",
+          "color": "#c88b5b",
           "roughness": 0.2,
           "glow": false
         }
@@ -472,18 +494,18 @@
     {
       "name": "Lamp",
       "position": [
-        0.45,
-        0.9,
-        -0.15
+        -0.25,
+        0.95,
+        0.18
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "flicker",
       "moments": [
-        "The lamp was still on, a small yellow circle beside the blue notebook.",
-        "I wanted a record of the ordinary bits: warm bread, wet leaves, and a whole quiet minute before the kettle clicked."
+        "The lamp was still on, a small yellow circle beside the blue notebook."
       ],
       "shapes": [
         {
@@ -500,10 +522,10 @@
           ],
           "size": [
             0.04,
-            0.18,
+            0.08,
             0.04
           ],
-          "color": "#6a6a6a",
+          "color": "#5a4b3a",
           "roughness": 0.9,
           "glow": false
         },
@@ -511,7 +533,7 @@
           "type": "cone",
           "position": [
             0,
-            0.14,
+            0.12,
             0
           ],
           "rotation": [
@@ -521,10 +543,10 @@
           ],
           "size": [
             0.18,
-            0.12,
+            0.14,
             0.18
           ],
-          "color": "#ffd46a",
+          "color": "#fff0a8",
           "roughness": 0.1,
           "glow": true
         }
@@ -533,18 +555,18 @@
     {
       "name": "Blue notebook",
       "position": [
-        0.12,
+        0,
         0.88,
-        0.25
+        -0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The lamp was still on, a small yellow circle beside the blue notebook.",
-        "That felt like enough to write down. #home @kitchen",
         "Put a fresh notebook on the table #home"
       ],
       "shapes": [
@@ -561,11 +583,11 @@
             0
           ],
           "size": [
-            0.16,
+            0.22,
             0.02,
-            0.22
+            0.16
           ],
-          "color": "#3b6fb6",
+          "color": "#2b67b3",
           "roughness": 0.7,
           "glow": false
         }
@@ -574,25 +596,26 @@
     {
       "name": "Plate with bread",
       "position": [
-        -0.6,
-        0.88,
-        0.2
+        -0.34,
+        0.9,
+        -0.15
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I cut the last slice of bread and watched the garden tree let go of one leaf at a time.",
         "I wanted a record of the ordinary bits: warm bread, wet leaves, and a whole quiet minute before the kettle clicked."
       ],
       "shapes": [
         {
-          "type": "sphere",
+          "type": "cylinder",
           "position": [
             0,
-            -0.02,
+            0,
             0
           ],
           "rotation": [
@@ -602,11 +625,11 @@
           ],
           "size": [
             0.12,
-            0.03,
+            0.02,
             0.12
           ],
-          "color": "#ffffff",
-          "roughness": 0.95,
+          "color": "#e8e8e8",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -622,34 +645,35 @@
             0
           ],
           "size": [
-            0.12,
-            0.02,
-            0.08
+            0.18,
+            0.03,
+            0.1
           ],
-          "color": "#e7cfae",
-          "roughness": 0.9,
+          "color": "#d9b38a",
+          "roughness": 0.85,
           "glow": false
         }
       ]
     },
     {
-      "name": "Garden key",
+      "name": "Small key dish",
       "position": [
-        0.28,
-        0.88,
-        -0.1
+        0.5,
+        0.85,
+        0.35
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Return the borrowed garden key #garden"
       ],
       "shapes": [
         {
-          "type": "torus",
+          "type": "box",
           "position": [
             0,
             0,
@@ -661,28 +685,50 @@
             0
           ],
           "size": [
+            0.12,
             0.02,
-            0.01,
-            0.02
+            0.12
           ],
-          "color": "#bfa34f",
-          "roughness": 0.3,
+          "color": "#f1e9dd",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.02,
+            0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.01,
+            0.01
+          ],
+          "color": "#b08a2f",
+          "roughness": 0.6,
           "glow": false
         }
       ]
     },
     {
-      "name": "Coat on peg",
+      "name": "Coat on hook",
       "position": [
-        1.8,
-        1.2,
-        0.5
+        0.9,
+        1.4,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "sway",
       "moments": [
         "Mend the loose button on my coat #mending"
       ],
@@ -700,19 +746,19 @@
             0
           ],
           "size": [
-            0.5,
-            0.02,
-            0.1
+            0.28,
+            0.48,
+            0.06
           ],
-          "color": "#6b5550",
-          "roughness": 0.95,
+          "color": "#6a5f57",
+          "roughness": 0.9,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0,
-            -0.35,
+            0.09,
+            -0.18,
             0
           ],
           "rotation": [
@@ -721,12 +767,12 @@
             0
           ],
           "size": [
-            0.36,
-            0.7,
-            0.08
+            0.06,
+            0.06,
+            0.01
           ],
-          "color": "#6b5550",
-          "roughness": 0.95,
+          "color": "#cfc6bf",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -734,15 +780,16 @@
     {
       "name": "Small shelf sketch",
       "position": [
-        1.6,
+        -1.1,
         1.05,
-        0.4
+        -0.35
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Move the shelf sketch to Saturday #making"
       ],
@@ -760,19 +807,19 @@
             0
           ],
           "size": [
-            0.3,
+            0.28,
             0.02,
-            0.18
+            0.12
           ],
-          "color": "#d8d0c5",
-          "roughness": 0.95,
+          "color": "#d3c9bf",
+          "roughness": 0.9,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0,
-            -0.06,
+            0.06,
             0
           ],
           "rotation": [
@@ -781,34 +828,33 @@
             0
           ],
           "size": [
-            0.14,
-            0.06,
-            0.02
+            0.18,
+            0.01,
+            0.12
           ],
-          "color": "#9ea7b0",
+          "color": "#fff7e6",
           "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Calendar note",
+      "name": "Wall lamp glow",
       "position": [
-        0.9,
-        1.15,
-        0.6
+        -0.9,
+        1.6,
+        -0.7
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "Pick up the library reservation on October 4 #reading"
-      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
-          "type": "box",
+          "type": "sphere",
           "position": [
             0,
             0,
@@ -820,13 +866,13 @@
             0
           ],
           "size": [
-            0.12,
-            0.02,
-            0.08
+            0.05,
+            0.05,
+            0.05
           ],
-          "color": "#fff6e8",
-          "roughness": 0.95,
-          "glow": false
+          "color": "#fff2b0",
+          "roughness": 0.1,
+          "glow": true
         }
       ]
     }

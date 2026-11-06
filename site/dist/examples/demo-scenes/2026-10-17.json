@@ -3,28 +3,29 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:34.589Z"
+    "at": "2026-11-06T09:55:46.727Z"
   },
-  "title": "Morning kitchen with market view",
-  "sky": "#cfe8ff",
-  "ground": "#efe6dd",
+  "title": "Market morning, then kitchen",
+  "sky": "#f2e8d5",
+  "ground": "#d9cbb7",
   "weather": "clear",
   "time": "morning",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
-      2.5,
-      1.8,
-      3.5
+      0,
+      2.2,
+      4
     ],
     "target": [
-      0.2,
+      1,
       0.9,
       0
     ]
   },
   "objects": [
     {
-      "name": "Floor",
+      "name": "Ground plane",
       "position": [
         0,
         0,
@@ -35,6 +36,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
@@ -52,27 +54,114 @@
           "size": [
             8,
             0.01,
-            8
+            6
           ],
-          "color": "#efe6dd",
+          "color": "#d9cbb7",
           "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Back wall",
+      "name": "Market stall",
       "position": [
+        -2,
         0,
-        1.6,
-        -3.9
+        -1.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [],
+      "motion": "none",
+      "moments": [
+        "The market stall had apples stacked in shallow wooden boxes and flowers tied in paper."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.8,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.8,
+            0.12,
+            0.9
+          ],
+          "color": "#8b5a2b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.75,
+            -0.06,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.6,
+            0.08
+          ],
+          "color": "#8b5a2b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.75,
+            -0.06,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.6,
+            0.08
+          ],
+          "color": "#8b5a2b",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Wooden box apples",
+      "position": [
+        -2,
+        0.9,
+        -1.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The market stall had apples stacked in shallow wooden boxes and flowers tied in paper.",
+        "The red apples looked especially bright beside the blue mug.",
+        "Keep two apples for tomorrow."
+      ],
       "shapes": [
         {
           "type": "box",
@@ -87,30 +176,259 @@
             0
           ],
           "size": [
-            8,
-            3.2,
-            0.12
+            0.9,
+            0.12,
+            0.45
           ],
-          "color": "#f6f3ef",
-          "roughness": 1,
+          "color": "#c89b6a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.25,
+            0.09,
+            0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.065,
+            0.065
+          ],
+          "color": "#d32f2f",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.05,
+            0.09,
+            -0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.065,
+            0.065
+          ],
+          "color": "#d32f2f",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.35,
+            0.09,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.065,
+            0.065
+          ],
+          "color": "#d32f2f",
+          "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Window",
+      "name": "Paper-wrapped flowers",
       "position": [
-        0,
-        1.6,
-        -3.84
+        -1.5,
+        0.95,
+        -0.9
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The market stall had apples stacked in shallow wooden boxes and flowers tied in paper.",
+        "the stripe on the paper flower wrapper"
+      ],
+      "shapes": [
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.3,
+            0.12
+          ],
+          "color": "#e1b07a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.25,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.18,
+            0.03
+          ],
+          "color": "#f36b9b",
+          "roughness": 0.5,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bicycle leaning on tree",
+      "position": [
+        -3.6,
+        0,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "Behind the stall, a bicycle leaned against a tree with a basket full of folded cloth.",
+        "a bicycle bell from the next stall"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            2.4,
+            0.12
+          ],
+          "color": "#6a5a3a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0.5,
+            0.45,
+            0.25
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.35,
+            0.04,
+            0.35
+          ],
+          "color": "#333333",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            -0.5,
+            0.45,
+            0.25
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.35,
+            0.04,
+            0.35
+          ],
+          "color": "#333333",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.85,
+            0.12
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.12,
+            0.18
+          ],
+          "color": "#886644",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Basket of folded cloth",
+      "position": [
+        -3.2,
+        1.05,
+        -0.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
         "Behind the stall, a bicycle leaned against a tree with a basket full of folded cloth."
       ],
       "shapes": [
@@ -127,163 +445,20 @@
             0
           ],
           "size": [
-            1.4,
-            1.1,
-            0.06
-          ],
-          "color": "#88c8ff",
-          "roughness": 0.2,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Tree outside",
-      "position": [
-        -1.6,
-        0,
-        -5.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Behind the stall, a bicycle leaned against a tree with a basket full of folded cloth.",
-        "a bicycle bell from the next stall"
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            1.2,
-            0.12
-          ],
-          "color": "#6b4a2a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
-          ],
-          "color": "#4aa83a",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Bicycle",
-      "position": [
-        -0.6,
-        0,
-        -4.9
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Behind the stall, a bicycle leaned against a tree with a basket full of folded cloth.",
-        "a bicycle bell from the next stall"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1,
-            0.06,
+            0.5,
+            0.18,
             0.3
           ],
-          "color": "#444444",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            -0.35,
-            0.15,
-            0.15
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.25,
-            0.04,
-            0.25
-          ],
-          "color": "#333333",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0.35,
-            0.15,
-            0.15
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.25,
-            0.04,
-            0.25
-          ],
-          "color": "#333333",
-          "roughness": 1,
+          "color": "#7b5f45",
+          "roughness": 0.7,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.6,
-            0.9,
-            0.12
+            0,
+            0.06,
+            0
           ],
           "rotation": [
             0,
@@ -291,103 +466,60 @@
             0
           ],
           "size": [
-            0.4,
-            0.18,
-            0.28
+            0.42,
+            0.06,
+            0.24
           ],
-          "color": "#8b6b52",
-          "roughness": 1,
+          "color": "#c9d6e6",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.08,
+            0.11,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.04,
+            0.12
+          ],
+          "color": "#e8c9b0",
+          "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Market stall boxes",
+      "name": "Bicycle bell",
       "position": [
-        1.6,
-        0,
-        -5
+        -3.1,
+        0.95,
+        -0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "The market stall had apples stacked in shallow wooden boxes and flowers tied in paper.",
-        "I saved a few ordinary details in a list instead of trying to turn the morning into a story. #food #friends @market",
-        "Keep two apples for tomorrow."
+        "a bicycle bell from the next stall"
       ],
       "shapes": [
         {
-          "type": "box",
-          "position": [
-            0,
-            0.18,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.2,
-            0.36,
-            0.6
-          ],
-          "color": "#b07a4b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.5,
-            0.22
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.14,
-            0.4
-          ],
-          "color": "#b07a4b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.25,
-            0.65,
-            0.28
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.12,
-            0.12
-          ],
-          "color": "#d43b2b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
           "type": "sphere",
           "position": [
             0,
-            0.65,
-            0.22
+            0,
+            0
           ],
           "rotation": [
             0,
@@ -395,60 +527,61 @@
             0
           ],
           "size": [
-            0.12,
-            0.12,
-            0.12
+            0.04,
+            0.04,
+            0.04
           ],
-          "color": "#e34b3b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.25,
-            0.65,
-            0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.12,
-            0.12
-          ],
-          "color": "#d43b2b",
-          "roughness": 1,
+          "color": "#b8a03a",
+          "roughness": 0.3,
           "glow": false
         }
       ]
     },
     {
-      "name": "Paper flowers",
+      "name": "Paper bag small pears",
       "position": [
-        1.3,
-        0,
-        -4.8
+        -1.2,
+        0.9,
+        0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "The market stall had apples stacked in shallow wooden boxes and flowers tied in paper.",
-        "the stripe on the paper flower wrapper"
+        "I balanced a loaf of bread against my notebook while Robin found the smallest bag of pears.",
+        "Put the pears in the bowl."
       ],
       "shapes": [
         {
-          "type": "cone",
+          "type": "box",
           "position": [
             0,
-            0.36,
+            0,
             0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.26,
+            0.12
+          ],
+          "color": "#e8d3b8",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.04,
+            0.12,
+            0.01
           ],
           "rotation": [
             0,
@@ -457,18 +590,59 @@
           ],
           "size": [
             0.06,
-            0.6,
+            0.06,
             0.06
           ],
-          "color": "#ffffff",
-          "roughness": 1,
+          "color": "#a3c63b",
+          "roughness": 0.5,
           "glow": false
         },
         {
           "type": "sphere",
           "position": [
+            0.06,
+            0.12,
+            0.02
+          ],
+          "rotation": [
             0,
-            0.72,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#a3c63b",
+          "roughness": 0.5,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Loaf of bread in bag",
+      "position": [
+        0.6,
+        0.86,
+        -0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I balanced a loaf of bread against my notebook while Robin found the smallest bag of pears.",
+        "bread still warm through the bag"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
             0
           ],
           "rotation": [
@@ -477,12 +651,33 @@
             0
           ],
           "size": [
-            0.12,
-            0.12,
+            0.32,
+            0.16,
             0.12
           ],
-          "color": "#ffb6c1",
-          "roughness": 1,
+          "color": "#cfa37a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.02,
+            0.16
+          ],
+          "color": "#f3e6d8",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -490,7 +685,7 @@
     {
       "name": "Kitchen table",
       "position": [
-        0,
+        2,
         0.75,
         0
       ],
@@ -499,6 +694,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "At home I put the fruit on the kitchen table and made tea.",
         "Put the pears in the bowl.",
@@ -523,8 +719,8 @@
             0.06,
             0.9
           ],
-          "color": "#d8b88a",
-          "roughness": 1,
+          "color": "#7a5238",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -544,8 +740,8 @@
             0.72,
             0.08
           ],
-          "color": "#8b6b52",
-          "roughness": 1,
+          "color": "#7a5238",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -565,8 +761,8 @@
             0.72,
             0.08
           ],
-          "color": "#8b6b52",
-          "roughness": 1,
+          "color": "#7a5238",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -586,8 +782,8 @@
             0.72,
             0.08
           ],
-          "color": "#8b6b52",
-          "roughness": 1,
+          "color": "#7a5238",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -607,168 +803,25 @@
             0.72,
             0.08
           ],
-          "color": "#8b6b52",
-          "roughness": 1,
+          "color": "#7a5238",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Bowl of pears",
+      "name": "Blue mug with tea",
       "position": [
-        -0.35,
-        0.88,
-        0.05
+        2,
+        0.95,
+        0.15
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "I balanced a loaf of bread against my notebook while Robin found the smallest bag of pears.",
-        "Put the pears in the bowl."
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.16,
-            0.16,
-            0.16
-          ],
-          "color": "#f0d28a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.12,
-            0.04,
-            0.06
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.12,
-            0.12
-          ],
-          "color": "#c7a85a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.14,
-            0.03,
-            -0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.12,
-            0.12
-          ],
-          "color": "#c7a85a",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Red apples on table",
-      "position": [
-        0.25,
-        0.88,
-        -0.1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "At home I put the fruit on the kitchen table and made tea.",
-        "The red apples looked especially bright beside the blue mug.",
-        "Keep two apples for tomorrow."
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.09,
-            0.09,
-            0.09
-          ],
-          "color": "#d43b2b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.16,
-            0.02,
-            0.06
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.09,
-            0.09,
-            0.09
-          ],
-          "color": "#e34b3b",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Blue mug",
-      "position": [
-        0.62,
-        0.88,
-        0.18
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
+      "motion": "steam",
       "moments": [
         "At home I put the fruit on the kitchen table and made tea.",
         "The red apples looked especially bright beside the blue mug."
@@ -787,35 +840,35 @@
             0
           ],
           "size": [
+            0.06,
             0.08,
-            0.08,
-            0.08
+            0.06
           ],
-          "color": "#2b6cff",
-          "roughness": 1,
+          "color": "#2f6fd3",
+          "roughness": 0.3,
           "glow": false
         }
       ]
     },
     {
-      "name": "Loaf in bag",
+      "name": "Bowl of pears",
       "position": [
-        -0.02,
-        0.9,
-        -0.25
+        2,
+        0.98,
+        -0.18
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "I balanced a loaf of bread against my notebook while Robin found the smallest bag of pears.",
-        "bread still warm through the bag"
+        "Put the pears in the bowl."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "sphere",
           "position": [
             0,
             0,
@@ -827,18 +880,79 @@
             0
           ],
           "size": [
-            0.28,
-            0.12,
-            0.12
+            0.18,
+            0.09,
+            0.18
           ],
-          "color": "#c58b57",
-          "roughness": 1,
+          "color": "#ffffff",
+          "roughness": 0.7,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "sphere",
           "position": [
+            -0.05,
+            0.06,
+            0.02
+          ],
+          "rotation": [
             0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#a3c63b",
+          "roughness": 0.5,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.06,
+            0.06,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#a3c63b",
+          "roughness": 0.5,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Two apples for tomorrow",
+      "position": [
+        2,
+        0.98,
+        0.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Keep two apples for tomorrow."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
             0.06,
             0
           ],
@@ -848,12 +962,33 @@
             0
           ],
           "size": [
-            0.34,
-            0.12,
-            0.18
+            0.065,
+            0.065,
+            0.065
           ],
-          "color": "#ffffff",
-          "roughness": 1,
+          "color": "#d32f2f",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.06,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.065,
+            0.065
+          ],
+          "color": "#d32f2f",
+          "roughness": 0.4,
           "glow": false
         }
       ]
@@ -861,18 +996,18 @@
     {
       "name": "Notebook",
       "position": [
-        0.05,
+        0.8,
         0.86,
-        0.3
+        0.05
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I balanced a loaf of bread against my notebook while Robin found the smallest bag of pears.",
-        "I saved a few ordinary details in a list instead of trying to turn the morning into a story. #food #friends @market",
         "Leave the notebook on the table."
       ],
       "shapes": [
@@ -889,20 +1024,39 @@
             0
           ],
           "size": [
-            0.22,
+            0.18,
             0.02,
-            0.16
+            0.12
           ],
-          "color": "#f3f3f3",
-          "roughness": 1,
+          "color": "#e6e7e9",
+          "roughness": 0.9,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Stripe on flower wrapper detail",
+      "position": [
+        -1.5,
+        0.95,
+        -0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "the stripe on the paper flower wrapper"
+      ],
+      "shapes": [
         {
           "type": "box",
           "position": [
-            0.09,
             0,
-            0.07
+            0.06,
+            0.02
           ],
           "rotation": [
             0,
@@ -912,92 +1066,10 @@
           "size": [
             0.04,
             0.02,
-            0.08
+            0.02
           ],
-          "color": "#2b6cff",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Spare apple box (shelf)",
-      "position": [
-        0.95,
-        0.92,
-        -0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The market stall had apples stacked in shallow wooden boxes and flowers tied in paper.",
-        "Keep two apples for tomorrow."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.5,
-            0.12,
-            0.32
-          ],
-          "color": "#b07a4b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.12,
-            0.08,
-            0.08
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.08,
-            0.08
-          ],
-          "color": "#d43b2b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.12,
-            0.08,
-            -0.04
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.08,
-            0.08
-          ],
-          "color": "#e34b3b",
-          "roughness": 1,
+          "color": "#2b2b2b",
+          "roughness": 0.9,
           "glow": false
         }
       ]

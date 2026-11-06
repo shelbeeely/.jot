@@ -3,23 +3,24 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:43.998Z"
+    "at": "2026-11-06T09:56:20.254Z"
   },
-  "title": "Riverside café table",
-  "sky": "#a8d8ff",
-  "ground": "#efe6d8",
+  "title": "Riverside café table by the window",
+  "sky": "#a8c8ff",
+  "ground": "#efe7df",
   "weather": "clear",
-  "time": "day",
+  "time": "morning",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
       0.5,
       1.6,
-      4
+      3.5
     ],
     "target": [
-      0,
-      1,
-      0
+      1.2,
+      0.9,
+      0.2
     ]
   },
   "objects": [
@@ -35,6 +36,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
@@ -50,12 +52,12 @@
             0
           ],
           "size": [
-            8,
+            6,
             0.01,
-            6
+            4
           ],
-          "color": "#efe6d8",
-          "roughness": 1,
+          "color": "#efe7df",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -65,20 +67,21 @@
       "position": [
         0,
         -0.01,
-        -2.8
+        -1.9
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            1.25,
+            1.5,
             0
           ],
           "rotation": [
@@ -87,28 +90,29 @@
             0
           ],
           "size": [
-            4,
-            2.5,
+            6,
+            3,
             0.08
           ],
-          "color": "#f4efe6",
-          "roughness": 1,
+          "color": "#f6efe9",
+          "roughness": 0.95,
           "glow": false
         }
       ]
     },
     {
-      "name": "Window pane A",
+      "name": "Window",
       "position": [
-        -1.4,
+        1.6,
         0,
-        -2.79
+        -1.89
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Robin had already found a café table by the window when I arrived.",
         "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
@@ -131,24 +135,67 @@
             1.1,
             0.06
           ],
-          "color": "#dceeff",
-          "roughness": 0.2,
+          "color": "#cfe6ff",
+          "roughness": 0.15,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.15,
+            1.6,
+            0.031
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.18,
+            0.02
+          ],
+          "color": "#b7d4ff",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.25,
+            1.6,
+            0.031
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.16,
+            0.02
+          ],
+          "color": "#b7d4ff",
+          "roughness": 0.12,
           "glow": false
         }
       ]
     },
     {
-      "name": "Window pane B",
+      "name": "Counter",
       "position": [
-        0.2,
-        0,
-        -2.79
+        -1.6,
+        0.9,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
       ],
@@ -157,7 +204,7 @@
           "type": "box",
           "position": [
             0,
-            1.6,
+            0,
             0
           ],
           "rotation": [
@@ -166,28 +213,29 @@
             0
           ],
           "size": [
-            1.4,
-            1.1,
-            0.06
+            2.4,
+            0.9,
+            0.5
           ],
-          "color": "#dceeff",
-          "roughness": 0.2,
+          "color": "#d9c7b8",
+          "roughness": 0.88,
           "glow": false
         }
       ]
     },
     {
-      "name": "Counter lamp",
+      "name": "Lamp (behind counter)",
       "position": [
-        1.6,
-        0.95,
-        -2.2
+        -1.2,
+        1.25,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "flicker",
       "moments": [
         "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
       ],
@@ -206,18 +254,18 @@
           ],
           "size": [
             0.08,
-            0.04,
+            0.45,
             0.08
           ],
-          "color": "#6b4f36",
-          "roughness": 0.8,
+          "color": "#8b6a55",
+          "roughness": 0.7,
           "glow": false
         },
         {
-          "type": "cone",
+          "type": "sphere",
           "position": [
             0,
-            0.18,
+            0.35,
             0
           ],
           "rotation": [
@@ -226,28 +274,29 @@
             0
           ],
           "size": [
-            0.18,
-            0.22,
-            0.18
+            0.12,
+            0.12,
+            0.12
           ],
-          "color": "#ffdca8",
-          "roughness": 0.3,
+          "color": "#fff1cc",
+          "roughness": 0.02,
           "glow": true
         }
       ]
     },
     {
-      "name": "Table",
+      "name": "Table by window",
       "position": [
-        0,
+        1.2,
         0.75,
-        -1
+        0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Robin had already found a café table by the window when I arrived."
       ],
@@ -269,8 +318,8 @@
             0.06,
             0.9
           ],
-          "color": "#7a5a3c",
-          "roughness": 0.7,
+          "color": "#8a5a3b",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -290,7 +339,7 @@
             0.72,
             0.08
           ],
-          "color": "#5d4230",
+          "color": "#6b4028",
           "roughness": 0.9,
           "glow": false
         },
@@ -311,7 +360,7 @@
             0.72,
             0.08
           ],
-          "color": "#5d4230",
+          "color": "#6b4028",
           "roughness": 0.9,
           "glow": false
         },
@@ -332,7 +381,7 @@
             0.72,
             0.08
           ],
-          "color": "#5d4230",
+          "color": "#6b4028",
           "roughness": 0.9,
           "glow": false
         },
@@ -353,46 +402,7 @@
             0.72,
             0.08
           ],
-          "color": "#5d4230",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Chair",
-      "position": [
-        -0.9,
-        0,
-        -0.9
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Robin had already found a café table by the window when I arrived."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.5,
-            0.9,
-            0.5
-          ],
-          "color": "#6b4f36",
+          "color": "#6b4028",
           "roughness": 0.9,
           "glow": false
         }
@@ -401,135 +411,16 @@
     {
       "name": "Mug A",
       "position": [
-        -0.2,
-        0.98,
-        -1
+        1.05,
+        0.85,
+        0.05
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.12,
-            0.07
-          ],
-          "color": "#ffffff",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0.02,
-            0.09
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.02,
-            0.04
-          ],
-          "color": "#ffffff",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug B",
-      "position": [
-        0.2,
-        0.98,
-        -1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.12,
-            0.07
-          ],
-          "color": "#f6e6d6",
-          "roughness": 0.25,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0.02,
-            0.09
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.02,
-            0.04
-          ],
-          "color": "#f6e6d6",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Vase of flowers",
-      "position": [
-        0,
-        1.01,
-        -1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
+      "motion": "steam",
       "moments": [
         "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
       ],
@@ -551,15 +442,15 @@
             0.12,
             0.06
           ],
-          "color": "#c45b8a",
-          "roughness": 0.6,
+          "color": "#ffffff",
+          "roughness": 0.4,
           "glow": false
         },
         {
-          "type": "sphere",
+          "type": "torus",
           "position": [
             0,
-            0.14,
+            0.08,
             0
           ],
           "rotation": [
@@ -568,70 +459,193 @@
             0
           ],
           "size": [
-            0.04,
-            0.04,
-            0.04
+            0.06,
+            0.015,
+            0.06
           ],
-          "color": "#ffd1dc",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.03,
-            0.18,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.03,
-            0.03
-          ],
-          "color": "#ffef86",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.03,
-            0.18,
-            -0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.03,
-            0.03
-          ],
-          "color": "#b8ffda",
-          "roughness": 0.7,
+          "color": "#ffffff",
+          "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Notebook",
+      "name": "Mug B",
       "position": [
-        0,
-        0.86,
-        -1.05
+        1.45,
+        0.85,
+        0.15
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "steam",
+      "moments": [
+        "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.12,
+            0.06
+          ],
+          "color": "#f4e3d6",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.015,
+            0.06
+          ],
+          "color": "#f4e3d6",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Vase of flowers",
+      "position": [
+        1.25,
+        0.9,
+        -0.25
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.12,
+            0.05
+          ],
+          "color": "#6aa84f",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.02,
+            0.16,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.18,
+            0.01
+          ],
+          "color": "#8fbf66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.02,
+            0.32,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.03,
+            0.03
+          ],
+          "color": "#ff8fb2",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.02,
+            0.28,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.025,
+            0.025
+          ],
+          "color": "#ffd27a",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook (closed)",
+      "position": [
+        1.32,
+        0.83,
+        -0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
         "I took the notebook out, then put it away again because the conversation was moving faster than my pencil."
       ],
@@ -649,28 +663,69 @@
             0
           ],
           "size": [
-            0.22,
+            0.18,
             0.02,
-            0.15
+            0.12
           ],
           "color": "#2f2f2f",
-          "roughness": 0.6,
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Stack of reference books",
+      "name": "Chair (Robin)",
       "position": [
-        0.9,
-        0.35,
-        -1.2
+        0.7,
+        0.45,
+        0.25
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
+      "moments": [
+        "Robin had already found a café table by the window when I arrived."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.44,
+            0.9,
+            0.44
+          ],
+          "color": "#5b3f33",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Shelf with books",
+      "position": [
+        -0.2,
+        1.2,
+        -1.86
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
         "I can link Robin and the riverside café to reference books I choose to open separately.",
         "These links keep the names here without copying the books into the journal."
@@ -680,7 +735,7 @@
           "type": "box",
           "position": [
             0,
-            0.18,
+            0,
             0
           ],
           "rotation": [
@@ -689,19 +744,40 @@
             0
           ],
           "size": [
-            0.28,
-            0.36,
+            1,
+            0.08,
             0.18
           ],
-          "color": "#6b8fa3",
-          "roughness": 0.8,
+          "color": "#8c6b5a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.35,
+            0.12,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.2,
+            0.12
+          ],
+          "color": "#d45f59",
+          "roughness": 0.95,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0,
-            0.02,
+            0.12,
             0
           ],
           "rotation": [
@@ -710,38 +786,60 @@
             0
           ],
           "size": [
-            0.28,
-            0.04,
-            0.18
+            0.12,
+            0.2,
+            0.12
           ],
-          "color": "#d9b08b",
-          "roughness": 0.9,
+          "color": "#f2c97d",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.35,
+            0.12,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.2,
+            0.12
+          ],
+          "color": "#7aa2d6",
+          "roughness": 0.95,
           "glow": false
         }
       ]
     },
     {
-      "name": "Small sign",
+      "name": "Window reflections (lamp x2)",
       "position": [
-        1.1,
-        0.6,
-        -1.6
+        1.6,
+        0,
+        -1.88
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "No address book is scanned. #friends @cafe"
+        "Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass."
       ],
       "shapes": [
         {
           "type": "box",
           "position": [
-            0,
-            0,
-            0
+            -0.15,
+            1.6,
+            0.028
           ],
           "rotation": [
             0,
@@ -750,11 +848,32 @@
           ],
           "size": [
             0.18,
-            0.24,
-            0.02
+            0.12,
+            0.01
           ],
-          "color": "#ffffff",
-          "roughness": 0.9,
+          "color": "#fff1c8",
+          "roughness": 0.05,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.25,
+            1.6,
+            0.028
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.16,
+            0.1,
+            0.01
+          ],
+          "color": "#fff1c8",
+          "roughness": 0.05,
           "glow": false
         }
       ]

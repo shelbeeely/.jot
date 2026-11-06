@@ -3,28 +3,29 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:52:54.071Z"
+    "at": "2026-11-06T09:54:20.848Z"
   },
-  "title": "Morning desk with notebook",
-  "sky": "#a8d0ff",
-  "ground": "#f2e9db",
+  "title": "Desk with notebook and flowers",
+  "sky": "#a6d1ff",
+  "ground": "#efe6d9",
   "weather": "clear",
-  "time": "morning",
+  "time": "day",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
+      1.8,
       1.6,
-      1.2,
-      2
+      2.6
     ],
     "target": [
       0,
-      0.8,
+      0.9,
       0
     ]
   },
   "objects": [
     {
-      "name": "Floor and back wall",
+      "name": "Floor",
       "position": [
         0,
         0,
@@ -35,6 +36,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
@@ -50,20 +52,37 @@
             0
           ],
           "size": [
-            4,
+            8,
             0.01,
-            3
+            6
           ],
-          "color": "#efe6d8",
-          "roughness": 0.9,
+          "color": "#efe6d9",
+          "roughness": 1,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Wall with window",
+      "position": [
+        -1.9,
+        1.65,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            1.5,
-            -1.5
+            0,
+            0
           ],
           "rotation": [
             0,
@@ -71,38 +90,20 @@
             0
           ],
           "size": [
-            4,
-            3,
-            0.08
+            0.12,
+            3.3,
+            6
           ],
-          "color": "#f6efe6",
-          "roughness": 0.8,
+          "color": "#f3efe6",
+          "roughness": 0.9,
           "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window",
-      "position": [
-        1.3,
-        0,
-        -1.49
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "A sprig of garden flowers stood in an old mug beside the window."
-      ],
-      "shapes": [
+        },
         {
           "type": "box",
           "position": [
+            0.06,
             0,
-            1.6,
-            0
+            0.4
           ],
           "rotation": [
             0,
@@ -114,29 +115,8 @@
             1.1,
             0.06
           ],
-          "color": "#d8f0ff",
-          "roughness": 0.05,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.6,
-            -0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.48,
-            1.18,
-            0.04
-          ],
-          "color": "#7a6b56",
-          "roughness": 0.9,
+          "color": "#dceefc",
+          "roughness": 0.2,
           "glow": false
         }
       ]
@@ -153,9 +133,9 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "At the desk I pushed the lamp closer and opened my notebook to a blank page.",
-        "The words here use a different pen and green ink. #drawing #making @desk"
+        "At the desk I pushed the lamp closer and opened my notebook to a blank page."
       ],
       "shapes": [
         {
@@ -175,8 +155,8 @@
             0.06,
             0.9
           ],
-          "color": "#8b6a4a",
-          "roughness": 0.6,
+          "color": "#7a5a3e",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -196,7 +176,7 @@
             0.72,
             0.08
           ],
-          "color": "#6d4f39",
+          "color": "#5d4330",
           "roughness": 0.9,
           "glow": false
         },
@@ -217,7 +197,7 @@
             0.72,
             0.08
           ],
-          "color": "#6d4f39",
+          "color": "#5d4330",
           "roughness": 0.9,
           "glow": false
         },
@@ -238,7 +218,7 @@
             0.72,
             0.08
           ],
-          "color": "#6d4f39",
+          "color": "#5d4330",
           "roughness": 0.9,
           "glow": false
         },
@@ -259,117 +239,34 @@
             0.72,
             0.08
           ],
-          "color": "#6d4f39",
+          "color": "#5d4330",
           "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Notebook",
+      "name": "Desk lamp",
       "position": [
-        -0.25,
-        0.86,
-        0.05
+        -0.5,
+        0.95,
+        0.25
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "At the desk I pushed the lamp closer and opened my notebook to a blank page.",
-        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river.",
-        "It is a demonstration drawing, rather than a scan of my notebook.",
-        "The words here use a different pen and green ink. #drawing #making @desk"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.38,
-            0.02,
-            0.26
-          ],
-          "color": "#ffffff",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.011,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.36,
-            0.01,
-            0.24
-          ],
-          "color": "#e6ffe6",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Lamp",
-      "position": [
-        0.55,
-        0.9,
-        -0.15
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
+      "motion": "none",
       "moments": [
         "At the desk I pushed the lamp closer and opened my notebook to a blank page."
       ],
       "shapes": [
         {
-          "type": "box",
-          "position": [
-            0,
-            -0.02,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.04,
-            0.12
-          ],
-          "color": "#3b3b3b",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
           "type": "cylinder",
           "position": [
             0,
-            0.12,
+            0,
             0
           ],
           "rotation": [
@@ -378,19 +275,40 @@
             0
           ],
           "size": [
-            0.03,
-            0.32,
-            0.03
+            0.06,
+            0.28,
+            0.06
           ],
-          "color": "#3b3b3b",
-          "roughness": 0.7,
+          "color": "#2b2b2b",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.09,
+            0.09
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.3,
           "glow": false
         },
         {
           "type": "cone",
           "position": [
             0,
-            0.36,
+            0.32,
             0
           ],
           "rotation": [
@@ -403,31 +321,35 @@
             0.12,
             0.18
           ],
-          "color": "#ffdca8",
-          "roughness": 0.2,
+          "color": "#ffd57a",
+          "roughness": 0.1,
           "glow": true
         }
       ]
     },
     {
-      "name": "Mug with flowers",
+      "name": "Open notebook",
       "position": [
-        1.05,
-        0.86,
-        -0.75
+        0.05,
+        0.88,
+        0.05
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "A sprig of garden flowers stood in an old mug beside the window.",
-        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
+        "At the desk I pushed the lamp closer and opened my notebook to a blank page.",
+        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river.",
+        "It is a demonstration drawing, rather than a scan of my notebook.",
+        "Demonstration handwriting with stored editable pen strokes",
+        "Editable pen strokes"
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "box",
           "position": [
             0,
             0,
@@ -439,143 +361,20 @@
             0
           ],
           "size": [
-            0.07,
-            0.09,
-            0.07
-          ],
-          "color": "#caa472",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.08,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.26,
-            0.01
-          ],
-          "color": "#6a8d4a",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
+            0.34,
             0.02,
-            0.28,
-            0.01
+            0.24
           ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.03,
-            0.03
-          ],
-          "color": "#ffb6c1",
+          "color": "#ffffff",
           "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.02,
-            0.25,
-            -0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.025,
-            0.025,
-            0.025
-          ],
-          "color": "#fff18c",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            -0.03,
-            0.18,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.18,
-            0.01
-          ],
-          "color": "#6a8d4a",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Ink sample",
-      "position": [
-        0.45,
-        0.86,
-        0.18
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The attached ink sample has a picture for reading and a companion file for its pen strokes."
-      ],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.08
-          ],
-          "color": "#e9ffe6",
-          "roughness": 0.5,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0,
-            0.01,
-            0.03
+            -0.01,
+            0.12
           ],
           "rotation": [
             0,
@@ -583,28 +382,50 @@
             0
           ],
           "size": [
-            0.02,
-            0.02,
-            0.06
+            0.34,
+            0.01,
+            0.02
           ],
-          "color": "#2b6d34",
+          "color": "#e0dada",
           "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.01,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.32,
+            0.01,
+            0.22
+          ],
+          "color": "#ffffff",
+          "roughness": 0.5,
           "glow": false
         }
       ]
     },
     {
-      "name": "Pen",
+      "name": "Pencil",
       "position": [
-        -0.02,
-        0.87,
-        0.18
+        0.28,
+        0.9,
+        0.02
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river.",
         "The words here use a different pen and green ink. #drawing #making @desk",
@@ -625,19 +446,101 @@
             0
           ],
           "size": [
-            0.01,
-            0.14,
-            0.01
+            0.015,
+            0.18,
+            0.015
           ],
-          "color": "#1f1f1f",
-          "roughness": 0.7,
+          "color": "#c05b2b",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "cone",
           "position": [
             0,
-            -0.07,
+            0.095,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.02,
+            0.015
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug with flowers",
+      "position": [
+        0.55,
+        0.9,
+        -0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.08,
+            0.06
+          ],
+          "color": "#d1c7b9",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.08,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.05,
+            0.012
+          ],
+          "color": "#d1c7b9",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.08,
             0
           ],
           "rotation": [
@@ -647,34 +550,282 @@
           ],
           "size": [
             0.01,
-            0.02,
+            0.4,
             0.01
           ],
-          "color": "#0b0b0b",
+          "color": "#7aa05a",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.4,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.04,
+            0.04
+          ],
+          "color": "#ff8fb5",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.03,
+            0.48,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.035,
+            0.035,
+            0.035
+          ],
+          "color": "#ffd86b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.03,
+            0.46,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.03,
+            0.03
+          ],
+          "color": "#c8ffb0",
           "roughness": 0.6,
           "glow": false
         }
       ]
     },
     {
-      "name": "Chair",
+      "name": "Ink sample sheet",
       "position": [
-        -0.6,
-        0,
-        0.9
+        -0.05,
+        0.86,
+        0.22
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
+      "moments": [
+        "The attached ink sample has a picture for reading and a companion file for its pen strokes."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.01,
+            0.1
+          ],
+          "color": "#fffef8",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.003,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.01,
+            0.08
+          ],
+          "color": "#d8f2d9",
+          "roughness": 0.5,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Companion USB",
+      "position": [
+        0.12,
+        0.86,
+        0.22
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The attached ink sample has a picture for reading and a companion file for its pen strokes."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.01,
+            0.015
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.5,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.016,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.015
+          ],
+          "color": "#9fb8ff",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Framed picture (demo)",
+      "position": [
+        -0.9,
+        1.05,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The attached ink sample has a picture for reading and a companion file for its pen strokes.",
+        "It is a demonstration drawing, rather than a scan of my notebook."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.12,
+            0.02
+          ],
+          "color": "#e9e6df",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.01,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.16,
+            0.01,
+            0.1
+          ],
+          "color": "#f3f3f3",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Chair back",
+      "position": [
+        0,
+        0.5,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            0.45,
+            0,
             0
           ],
           "rotation": [
@@ -684,10 +835,10 @@
           ],
           "size": [
             0.5,
-            0.06,
-            0.44
+            0.6,
+            0.06
           ],
-          "color": "#5b4a3a",
+          "color": "#5d4330",
           "roughness": 0.9,
           "glow": false
         },
@@ -695,8 +846,8 @@
           "type": "box",
           "position": [
             0,
-            0.15,
-            0
+            0.02,
+            -0.07
           ],
           "rotation": [
             0,
@@ -705,27 +856,127 @@
           ],
           "size": [
             0.4,
-            0.6,
-            0.08
+            0.08,
+            0.5
           ],
-          "color": "#5b4a3a",
+          "color": "#7a5a3e",
           "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Small tray",
+      "name": "Small shelf",
       "position": [
-        0.85,
-        0.86,
-        -0.25
+        -1.6,
+        1.05,
+        0.9
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.06,
+            0.2
+          ],
+          "color": "#7a5a3e",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.22,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.08,
+            0.02
+          ],
+          "color": "#c8d3b8",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Clip holding sample",
+      "position": [
+        -0.06,
+        0.89,
+        0.24
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The attached ink sample has a picture for reading and a companion file for its pen strokes."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.01,
+            0.01
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Soft rug",
+      "position": [
+        0,
+        0.01,
+        -1.5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
@@ -741,12 +992,12 @@
             0
           ],
           "size": [
-            0.18,
+            1.4,
             0.01,
-            0.12
+            1
           ],
-          "color": "#e8ddd0",
-          "roughness": 0.7,
+          "color": "#f6efe6",
+          "roughness": 1,
           "glow": false
         }
       ]

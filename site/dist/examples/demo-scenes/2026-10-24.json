@@ -3,23 +3,24 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:46.684Z"
+    "at": "2026-11-06T09:56:13.586Z"
   },
-  "title": "Riverside morning bench",
-  "sky": "#cfe6ef",
-  "ground": "#a7d08c",
+  "title": "Foggy riverside bench",
+  "sky": "#cfd8e3",
+  "ground": "#7aa05a",
   "weather": "fog",
   "time": "morning",
+  "atmosphere": "wistful",
   "camera": {
     "position": [
       0,
-      2.2,
-      4
+      1.6,
+      3
     ],
     "target": [
       0,
-      0,
-      -1
+      0.9,
+      0
     ]
   },
   "objects": [
@@ -28,13 +29,14 @@
       "position": [
         0,
         0,
-        -5
+        1.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "drift",
       "moments": [
         "Fog softened the far side of the river this morning."
       ],
@@ -54,353 +56,10 @@
           "size": [
             8,
             0.01,
-            3
+            3.2
           ],
-          "color": "#6aa5c8",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "River fog",
-      "position": [
-        0,
-        0.5,
-        -4.3
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Fog softened the far side of the river this morning."
-      ],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            6,
-            0.01,
-            2
-          ],
-          "color": "#eef6f8",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Park bench",
-      "position": [
-        0,
-        0,
-        -1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing.",
-        "An empty space and a zero tell different stories. #walks @park"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.06,
-            0.4
-          ],
-          "color": "#6b4f3a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.75,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.18,
-            0.06
-          ],
-          "color": "#6b4f3a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            0.225,
-            0.17
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.45,
-            0.08
-          ],
-          "color": "#3f2c20",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            0.225,
-            0.17
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.45,
-            0.08
-          ],
-          "color": "#3f2c20",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            0.225,
-            -0.17
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.45,
-            0.08
-          ],
-          "color": "#3f2c20",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            0.225,
-            -0.17
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.45,
-            0.08
-          ],
-          "color": "#3f2c20",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        0,
-        0,
-        -1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            -0.2,
-            0.54,
-            0.04
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.2,
-            0.02,
-            0.14
-          ],
-          "color": "#f7f3e9",
-          "roughness": 0.5,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug of tea",
-      "position": [
-        0,
-        0,
-        -1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0.25,
-            0.54,
-            0.08
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.12,
-            0.05
-          ],
-          "color": "#d98a5b",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.25,
-            0.6,
-            0.08
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.045,
-            0.01,
-            0.045
-          ],
-          "color": "#6d3b2a",
-          "roughness": 0.2,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Tree",
-      "position": [
-        1.8,
-        0,
-        -0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            1,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            2,
-            0.12
-          ],
-          "color": "#7a5538",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            2,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.8,
-            0.8,
-            0.8
-          ],
-          "color": "#3b7a36",
-          "roughness": 0.8,
+          "color": "#6aa0d8",
+          "roughness": 0.3,
           "glow": false
         }
       ]
@@ -408,25 +67,25 @@
     {
       "name": "Boat landing",
       "position": [
-        -2,
+        1.8,
         0,
-        -3.6
+        0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing.",
-        "Fog softened the far side of the river this morning."
+        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing."
       ],
       "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            0.06,
+            0.05,
             0
           ],
           "rotation": [
@@ -436,58 +95,19 @@
           ],
           "size": [
             1.2,
-            0.12,
+            0.1,
             0.6
           ],
-          "color": "#8b6f55",
-          "roughness": 0.9,
+          "color": "#b08b57",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.5,
-            0.01,
-            0.25
-          ],
-          "rotation": [
             0,
-            0,
-            0
-          ],
-          "size": [
-            0.2,
-            0.02,
-            0.08
-          ],
-          "color": "#8b6f55",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Bicycle",
-      "position": [
-        -0.6,
-        0,
-        -0.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "A bicycle went past so quietly that I noticed its light before I heard its wheels."
-      ],
-      "shapes": [
-        {
-          "type": "torus",
-          "position": [
             -0.25,
-            0.12,
-            -0.05
+            -0.25
           ],
           "rotation": [
             0,
@@ -495,118 +115,36 @@
             0
           ],
           "size": [
-            0.28,
-            0.03,
-            0.28
-          ],
-          "color": "#111111",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0.25,
-            0.12,
-            -0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.28,
-            0.03,
-            0.28
-          ],
-          "color": "#111111",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.2,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.04,
+            1.2,
+            0.5,
             0.06
           ],
-          "color": "#2b2b2b",
-          "roughness": 0.9,
+          "color": "#7a5a3a",
+          "roughness": 0.8,
           "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.35,
-            0.3,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.06,
-            0.02
-          ],
-          "color": "#ffd27a",
-          "roughness": 0.1,
-          "glow": true
         }
       ]
     },
     {
-      "name": "Blank sign",
+      "name": "Park bench",
       "position": [
-        0.9,
         0,
-        -0.2
+        0,
+        -0.4
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "I forgot to note the length of the walk, so the distance stays empty."
+        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing.",
+        "There were no new flowers in the little patch by the bench, and I wrote zero for that count because zero is what I meant."
       ],
       "shapes": [
         {
           "type": "box",
-          "position": [
-            0,
-            0.9,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.4,
-            0.18,
-            0.02
-          ],
-          "color": "#f2f2f2",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
           "position": [
             0,
             0.45,
@@ -618,20 +156,267 @@
             0
           ],
           "size": [
-            0.03,
-            0.9,
-            0.03
+            1.6,
+            0.12,
+            0.4
           ],
-          "color": "#6b6b6b",
+          "color": "#8b5a2b",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            0.09,
+            0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.18,
+            0.06
+          ],
+          "color": "#4a2d19",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            0.09,
+            0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.18,
+            0.06
+          ],
+          "color": "#4a2d19",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            0.09,
+            -0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.18,
+            0.06
+          ],
+          "color": "#4a2d19",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            0.09,
+            -0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.18,
+            0.06
+          ],
+          "color": "#4a2d19",
           "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Flower patch",
+      "name": "Notebook",
       "position": [
-        0.6,
+        0.15,
+        0.63,
+        -0.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing.",
+        "An empty space and a zero tell different stories. #walks @park"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.02,
+            0.12
+          ],
+          "color": "#f5f3e6",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea",
+      "position": [
+        -0.35,
+        0.63,
+        -0.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "steam",
+      "moments": [
+        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.09,
+            0.06
+          ],
+          "color": "#d14f4f",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.02,
+            0.06
+          ],
+          "rotation": [
+            1.57,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.02,
+            0.06
+          ],
+          "color": "#d14f4f",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Steam",
+      "position": [
+        -0.35,
+        0.78,
+        -0.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.03,
+            0.03
+          ],
+          "color": "#ffffff",
+          "roughness": 0.1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.025,
+            0.025
+          ],
+          "color": "#ffffff",
+          "roughness": 0.1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tree",
+      "position": [
+        0.9,
         0,
         -1.6
       ],
@@ -640,6 +425,68 @@
         0,
         0
       ],
+      "motion": "sway",
+      "moments": [
+        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            1.2,
+            0.12
+          ],
+          "color": "#6b4423",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            1.4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "color": "#3b7a3b",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small soil patch",
+      "position": [
+        -0.9,
+        0,
+        -0.3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
         "There were no new flowers in the little patch by the bench, and I wrote zero for that count because zero is what I meant."
       ],
@@ -661,16 +508,177 @@
             0.01,
             0.6
           ],
-          "color": "#8fbf73",
+          "color": "#7a5a3a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bicycle",
+      "position": [
+        -2.2,
+        0,
+        0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "turn",
+      "moments": [
+        "A bicycle went past so quietly that I noticed its light before I heard its wheels."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.12,
+            0.04
+          ],
+          "color": "#333333",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.35,
+            0.2,
+            0.25
+          ],
+          "rotation": [
+            0,
+            0,
+            1.57
+          ],
+          "size": [
+            0.22,
+            0.06,
+            0.22
+          ],
+          "color": "#222222",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.35,
+            0.2,
+            0.25
+          ],
+          "rotation": [
+            0,
+            0,
+            1.57
+          ],
+          "size": [
+            0.22,
+            0.06,
+            0.22
+          ],
+          "color": "#222222",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.45,
+            0.6,
+            0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.04,
+            0.04
+          ],
+          "color": "#fff1a8",
+          "roughness": 0.1,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Park ground",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            8,
+            0.01,
+            8
+          ],
+          "color": "#7aa05a",
           "roughness": 1,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Low wall",
+      "position": [
+        0,
+        -0.01,
+        -2.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Fog softened the far side of the river this morning.",
+        "I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing."
+      ],
+      "shapes": [
         {
           "type": "box",
           "position": [
-            -0.15,
-            0.03,
-            0.05
+            0,
+            0.4,
+            0
           ],
           "rotation": [
             0,
@@ -678,20 +686,39 @@
             0
           ],
           "size": [
-            0.06,
-            0.06,
-            0.06
+            8,
+            0.8,
+            0.12
           ],
-          "color": "#6b6b6b",
+          "color": "#bdbdbd",
           "roughness": 0.9,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Fog bank",
+      "position": [
+        0,
+        0.9,
+        1.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "Fog softened the far side of the river this morning."
+      ],
+      "shapes": [
         {
-          "type": "box",
+          "type": "plane",
           "position": [
-            0.2,
-            0.03,
-            -0.05
+            0,
+            0,
+            0
           ],
           "rotation": [
             0,
@@ -699,12 +726,12 @@
             0
           ],
           "size": [
-            0.06,
-            0.06,
-            0.06
+            6,
+            0.01,
+            2.5
           ],
-          "color": "#6b6b6b",
-          "roughness": 0.9,
+          "color": "#e6eef3",
+          "roughness": 0.1,
           "glow": false
         }
       ]

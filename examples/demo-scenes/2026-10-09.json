@@ -3,13 +3,14 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:11.396Z"
+    "at": "2026-11-06T09:54:51.406Z"
   },
-  "title": "Station platform by the river",
-  "sky": "#88cfff",
-  "ground": "#ddddcc",
+  "title": "Station platform under glass roof",
+  "sky": "#bfe9ff",
+  "ground": "#d9d9d9",
   "weather": "clear",
   "time": "day",
+  "atmosphere": "bright",
   "camera": {
     "position": [
       0,
@@ -24,10 +25,10 @@
   },
   "objects": [
     {
-      "name": "Glass canopy",
+      "name": "Glass roof",
       "position": [
         0,
-        3.2,
+        3,
         0
       ],
       "rotation": [
@@ -35,6 +36,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The train slid into the station under a bright glass roof."
       ],
@@ -52,62 +54,62 @@
             0
           ],
           "size": [
-            6,
-            0.12,
-            3
+            6.5,
+            0.08,
+            1
           ],
-          "color": "#cfe9ff",
-          "roughness": 0.2,
+          "color": "#e6f7ff",
+          "roughness": 0.1,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -2.4,
-            -0.6,
-            0.9
+            0,
+            0.35,
+            -0.9
           ],
           "rotation": [
             0,
-            0.25,
+            0,
             0
           ],
           "size": [
-            0.12,
-            1.2,
-            0.12
+            6.5,
+            0.08,
+            1
           ],
-          "color": "#999999",
-          "roughness": 0.6,
+          "color": "#e6f7ff",
+          "roughness": 0.1,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            2.4,
-            -0.6,
-            0.9
+            0,
+            0.7,
+            -1.8
           ],
           "rotation": [
             0,
-            -0.25,
+            0,
             0
           ],
           "size": [
-            0.12,
-            1.2,
-            0.12
+            6.5,
+            0.08,
+            1
           ],
-          "color": "#999999",
-          "roughness": 0.6,
+          "color": "#e6f7ff",
+          "roughness": 0.1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Train carriage",
+      "name": "Train",
       "position": [
-        -3.2,
+        2.2,
         0.6,
         -1.2
       ],
@@ -116,6 +118,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The train slid into the station under a bright glass roof."
       ],
@@ -137,16 +140,16 @@
             1.2,
             1.6
           ],
-          "color": "#ffcc99",
-          "roughness": 0.5,
+          "color": "#c4c4c4",
+          "roughness": 0.3,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0,
-            0.35,
-            -0.68
+            -0.9,
+            0.15,
+            0.7
           ],
           "rotation": [
             0,
@@ -154,28 +157,70 @@
             0
           ],
           "size": [
-            3.6,
-            0.18,
+            0.9,
+            0.4,
             0.06
           ],
-          "color": "#eeeeee",
-          "roughness": 0.4,
+          "color": "#7fb3ff",
+          "roughness": 0.05,
           "glow": false
         }
       ]
     },
     {
-      "name": "Platform bench",
+      "name": "Platform floor",
       "position": [
         0,
-        0.45,
-        0.6
+        0,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
+      "moments": [
+        "The train slid into the station under a bright glass roof.",
+        "Trees, gardens and a red bicycle on a platform passed by in short, disconnected pictures."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            8,
+            0.01,
+            4
+          ],
+          "color": "#f0efe9",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window seat and table",
+      "position": [
+        -1.8,
+        0.75,
+        0.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
         "I found a seat by the window with my notebook on the little table and a mug of tea warming my hands."
       ],
@@ -184,7 +229,7 @@
           "type": "box",
           "position": [
             0,
-            0.25,
+            0,
             0
           ],
           "rotation": [
@@ -194,19 +239,19 @@
           ],
           "size": [
             1.6,
-            0.12,
-            0.4
+            0.06,
+            0.9
           ],
-          "color": "#5b3a29",
-          "roughness": 0.7,
+          "color": "#7a5a3c",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             -0.7,
-            -0.12,
-            -0.16
+            -0.39,
+            -0.35
           ],
           "rotation": [
             0,
@@ -218,16 +263,16 @@
             0.72,
             0.08
           ],
-          "color": "#3b2a20",
-          "roughness": 0.7,
+          "color": "#5a3f2a",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0.7,
-            -0.12,
-            -0.16
+            -0.39,
+            -0.35
           ],
           "rotation": [
             0,
@@ -239,55 +284,16 @@
             0.72,
             0.08
           ],
-          "color": "#3b2a20",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Little table",
-      "position": [
-        0.9,
-        0.75,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I found a seat by the window with my notebook on the little table and a mug of tea warming my hands."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.06,
-            0.4
-          ],
-          "color": "#e6d7c8",
+          "color": "#5a3f2a",
           "roughness": 0.6,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.25,
-            -0.36,
-            -0.14
+            -0.7,
+            -0.39,
+            0.35
           ],
           "rotation": [
             0,
@@ -295,20 +301,20 @@
             0
           ],
           "size": [
-            0.06,
+            0.08,
             0.72,
-            0.06
+            0.08
           ],
-          "color": "#c7b29c",
+          "color": "#5a3f2a",
           "roughness": 0.6,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.25,
-            -0.36,
-            -0.14
+            0.7,
+            -0.39,
+            0.35
           ],
           "rotation": [
             0,
@@ -316,67 +322,29 @@
             0
           ],
           "size": [
-            0.06,
+            0.08,
             0.72,
-            0.06
+            0.08
           ],
-          "color": "#c7b29c",
+          "color": "#5a3f2a",
           "roughness": 0.6,
           "glow": false
         }
       ]
     },
     {
-      "name": "Mug of tea",
+      "name": "Window",
       "position": [
-        0.9,
-        0.9,
-        0.6
+        -2.6,
+        0,
+        0.8
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "I found a seat by the window with my notebook on the little table and a mug of tea warming my hands."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.12,
-            0.07
-          ],
-          "color": "#ffffff",
-          "roughness": 0.3,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        1.05,
-        0.88,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
+      "motion": "none",
       "moments": [
         "I found a seat by the window with my notebook on the little table and a mug of tea warming my hands."
       ],
@@ -385,46 +353,7 @@
           "type": "box",
           "position": [
             0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0.15,
-            0
-          ],
-          "size": [
-            0.28,
-            0.02,
-            0.2
-          ],
-          "color": "#2b2b2b",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window panel",
-      "position": [
-        1.6,
-        1.6,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I found a seat by the window with my notebook on the little table and a mug of tea warming my hands."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
+            1.6,
             0
           ],
           "rotation": [
@@ -437,76 +366,35 @@
             1.1,
             0.06
           ],
-          "color": "#cfe9ff",
+          "color": "#bfe9ff",
           "roughness": 0.05,
           "glow": false
         }
       ]
     },
     {
-      "name": "Trees and gardens",
+      "name": "Mug of tea",
       "position": [
-        2.8,
-        0,
-        -0.6
+        -1.9,
+        0.95,
+        0.8
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "steam",
       "moments": [
-        "Trees, gardens and a red bicycle on a platform passed by in short, disconnected pictures."
+        "I found a seat by the window with my notebook on the little table and a mug of tea warming my hands."
       ],
       "shapes": [
         {
           "type": "cylinder",
           "position": [
-            -0.9,
-            0.4,
-            0.2
-          ],
-          "rotation": [
             0,
             0,
             0
-          ],
-          "size": [
-            0.08,
-            0.8,
-            0.08
-          ],
-          "color": "#6b4b2b",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            -0.9,
-            1.15,
-            0.2
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.45,
-            0.9,
-            0.45
-          ],
-          "color": "#2e8b3a",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.2,
-            0.35,
-            -0.2
           ],
           "rotation": [
             0,
@@ -515,96 +403,15 @@
           ],
           "size": [
             0.06,
-            0.7,
+            0.12,
             0.06
           ],
-          "color": "#6b4b2b",
-          "roughness": 0.8,
+          "color": "#ffffff",
+          "roughness": 0.4,
           "glow": false
         },
         {
-          "type": "cone",
-          "position": [
-            0.2,
-            1,
-            -0.2
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.35,
-            0.8,
-            0.35
-          ],
-          "color": "#2aa34a",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Red bicycle",
-      "position": [
-        1.8,
-        0.5,
-        -0.2
-      ],
-      "rotation": [
-        0,
-        0.2,
-        0
-      ],
-      "moments": [
-        "Trees, gardens and a red bicycle on a platform passed by in short, disconnected pictures."
-      ],
-      "shapes": [
-        {
-          "type": "torus",
-          "position": [
-            -0.4,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.28,
-            0.03,
-            0.28
-          ],
-          "color": "#d4242f",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0.4,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.28,
-            0.03,
-            0.28
-          ],
-          "color": "#d4242f",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
+          "type": "sphere",
           "position": [
             0,
             0.12,
@@ -616,12 +423,237 @@
             0
           ],
           "size": [
-            0.5,
+            0.055,
+            0.055,
+            0.055
+          ],
+          "color": "#000000",
+          "roughness": 0.1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        -1.65,
+        0.88,
+        0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I found a seat by the window with my notebook on the little table and a mug of tea warming my hands."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.02,
+            0.15
+          ],
+          "color": "#f7f3e9",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Red bicycle",
+      "position": [
+        0.8,
+        0.45,
+        1.6
+      ],
+      "rotation": [
+        0,
+        0.2,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Trees, gardens and a red bicycle on a platform passed by in short, disconnected pictures."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.25,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
             0.06,
+            0.05
+          ],
+          "color": "#c62828",
+          "roughness": 0.5,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.35,
+            0,
+            0.28
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.22,
+            0.05,
+            0.22
+          ],
+          "color": "#222222",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.35,
+            0,
+            0.28
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.22,
+            0.05,
+            0.22
+          ],
+          "color": "#222222",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden trees",
+      "position": [
+        3.2,
+        0,
+        0.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "Trees, gardens and a red bicycle on a platform passed by in short, disconnected pictures."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.6,
+            0.35,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.7,
+            0.08
+          ],
+          "color": "#6b4a2a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.6,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.6,
+            0.6
+          ],
+          "color": "#1f7a2b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.2,
+            0.35,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.7,
             0.06
           ],
-          "color": "#aa2b2b",
-          "roughness": 0.7,
+          "color": "#6b4a2a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.2,
+            1,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.45,
+            0.45,
+            0.45
+          ],
+          "color": "#2aa64f",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -629,15 +661,16 @@
     {
       "name": "Market stall",
       "position": [
-        -0.2,
+        2.8,
         0.9,
-        2.2
+        -2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "At the other end Robin met me beside a market stall piled with apples."
       ],
@@ -656,19 +689,19 @@
           ],
           "size": [
             1.2,
-            0.18,
-            0.6
+            0.12,
+            0.7
           ],
-          "color": "#f2e6d6",
-          "roughness": 0.6,
+          "color": "#8b5a2b",
+          "roughness": 0.7,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.52,
-            -0.36,
-            0.22
+            0,
+            0.6,
+            0
           ],
           "rotation": [
             0,
@@ -676,58 +709,80 @@
             0
           ],
           "size": [
-            0.08,
-            0.72,
-            0.08
+            1.3,
+            0.02,
+            0.8
           ],
-          "color": "#8a6a4a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.52,
-            -0.36,
-            0.22
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#8a6a4a",
-          "roughness": 0.7,
+          "color": "#d95a3f",
+          "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Pile of apples",
+      "name": "Crate of apples",
       "position": [
-        -0.2,
-        1.02,
-        2.05
+        2.9,
+        0.95,
+        -2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "At the other end Robin met me beside a market stall piled with apples."
       ],
       "shapes": [
         {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.5,
+            0.12,
+            0.35
+          ],
+          "color": "#6b3f2a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
           "type": "sphere",
           "position": [
-            -0.18,
+            -0.12,
+            0.18,
+            -0.05
+          ],
+          "rotation": [
             0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#d22b2b",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.08,
+            0.18,
             0.05
           ],
           "rotation": [
@@ -740,16 +795,16 @@
             0.06,
             0.06
           ],
-          "color": "#d42b2b",
+          "color": "#e0472d",
           "roughness": 0.4,
           "glow": false
         },
         {
           "type": "sphere",
           "position": [
-            0.02,
-            0,
-            0.08
+            0.2,
+            0.18,
+            -0.06
           ],
           "rotation": [
             0,
@@ -761,84 +816,25 @@
             0.06,
             0.06
           ],
-          "color": "#e0523b",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.18,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#c21f1f",
+          "color": "#cc2a2a",
           "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Robin",
+      "name": "Café table",
       "position": [
-        -0.8,
-        1,
-        2.4
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "At the other end Robin met me beside a market stall piled with apples."
-      ],
-      "shapes": [
-        {
-          "type": "capsule",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.9,
-            0.18
-          ],
-          "color": "#7a6f6f",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Café entrance table",
-      "position": [
-        2.2,
+        1.6,
         0.75,
-        1.8
+        -0.8
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "We carried bread to a café and watched a little boat move along the river."
       ],
@@ -858,18 +854,18 @@
           "size": [
             0.8,
             0.06,
-            0.5
+            0.6
           ],
-          "color": "#d9c7b0",
+          "color": "#684b3b",
           "roughness": 0.6,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.3,
-            -0.36,
-            -0.18
+            0,
+            -0.39,
+            0.25
           ],
           "rotation": [
             0,
@@ -877,20 +873,20 @@
             0
           ],
           "size": [
-            0.06,
+            0.08,
             0.72,
-            0.06
+            0.08
           ],
-          "color": "#b5967e",
-          "roughness": 0.7,
+          "color": "#513726",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.3,
-            -0.36,
-            -0.18
+            0,
+            -0.39,
+            -0.25
           ],
           "rotation": [
             0,
@@ -898,12 +894,12 @@
             0
           ],
           "size": [
-            0.06,
+            0.08,
             0.72,
-            0.06
+            0.08
           ],
-          "color": "#b5967e",
-          "roughness": 0.7,
+          "color": "#513726",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -911,15 +907,16 @@
     {
       "name": "Loaf of bread",
       "position": [
-        2.2,
-        0.95,
-        1.8
+        1.6,
+        0.9,
+        -0.8
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "We carried bread to a café and watched a little boat move along the river."
       ],
@@ -938,27 +935,28 @@
           ],
           "size": [
             0.28,
-            0.1,
+            0.08,
             0.12
           ],
-          "color": "#c88f4a",
+          "color": "#d9a066",
           "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "River plane",
+      "name": "River",
       "position": [
-        4.2,
-        0.02,
-        1
+        4.8,
+        0,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "We carried bread to a café and watched a little boat move along the river."
       ],
@@ -976,11 +974,11 @@
             0
           ],
           "size": [
-            2.2,
+            3.2,
             0.01,
-            1.2
+            2
           ],
-          "color": "#4aa3ff",
+          "color": "#69b6ff",
           "roughness": 0.2,
           "glow": false
         }
@@ -989,15 +987,16 @@
     {
       "name": "Little boat",
       "position": [
-        4.2,
-        0.2,
-        1
+        5.2,
+        0.18,
+        -0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "bob",
       "moments": [
         "We carried bread to a café and watched a little boat move along the river."
       ],
@@ -1017,17 +1016,17 @@
           "size": [
             0.6,
             0.12,
-            0.2
+            0.18
           ],
-          "color": "#8b4513",
-          "roughness": 0.7,
+          "color": "#8a3b2f",
+          "roughness": 0.6,
           "glow": false
         },
         {
-          "type": "cone",
+          "type": "sphere",
           "position": [
             0,
-            0.35,
+            0.12,
             0
           ],
           "rotation": [
@@ -1036,12 +1035,134 @@
             0
           ],
           "size": [
-            0.12,
-            0.5,
-            0.12
+            0.02,
+            0.02,
+            0.02
           ],
           "color": "#ffffff",
-          "roughness": 0.3,
+          "roughness": 0.1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Station sign",
+      "position": [
+        0.2,
+        1.8,
+        -1.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The train slid into the station under a bright glass roof."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            0.12,
+            0.06
+          ],
+          "color": "#ffffff",
+          "roughness": 0.5,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bench near stall",
+      "position": [
+        2.6,
+        0.45,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "At the other end Robin met me beside a market stall piled with apples."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.06,
+            0.28
+          ],
+          "color": "#6b4a3a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.38,
+            -0.15,
+            0.11
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.3,
+            0.08
+          ],
+          "color": "#4a3224",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.38,
+            -0.15,
+            0.11
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.3,
+            0.08
+          ],
+          "color": "#4a3224",
+          "roughness": 0.7,
           "glow": false
         }
       ]

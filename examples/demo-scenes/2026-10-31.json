@@ -3,22 +3,23 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:51:52.146Z"
+    "at": "2026-11-06T09:57:03.322Z"
   },
-  "title": "Morning Table by the Window",
+  "title": "Morning Kitchen Table",
   "sky": "#cfe8ff",
-  "ground": "#efe6dd",
+  "ground": "#efe9de",
   "weather": "sun",
   "time": "morning",
+  "atmosphere": "wistful",
   "camera": {
     "position": [
-      1.5,
+      2.2,
       1.6,
-      3.5
+      2.4
     ],
     "target": [
       0,
-      0.8,
+      0.9,
       0
     ]
   },
@@ -35,6 +36,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "In the morning I spread the notebook, the library book and the folded café napkin across the kitchen table."
       ],
@@ -56,8 +58,8 @@
             0.06,
             0.9
           ],
-          "color": "#8b5a3c",
-          "roughness": 0.6,
+          "color": "#6b4f3a",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -77,7 +79,7 @@
             0.72,
             0.08
           ],
-          "color": "#6b4b36",
+          "color": "#4f3a2d",
           "roughness": 0.7,
           "glow": false
         },
@@ -98,7 +100,7 @@
             0.72,
             0.08
           ],
-          "color": "#6b4b36",
+          "color": "#4f3a2d",
           "roughness": 0.7,
           "glow": false
         },
@@ -119,7 +121,7 @@
             0.72,
             0.08
           ],
-          "color": "#6b4b36",
+          "color": "#4f3a2d",
           "roughness": 0.7,
           "glow": false
         },
@@ -140,7 +142,7 @@
             0.72,
             0.08
           ],
-          "color": "#6b4b36",
+          "color": "#4f3a2d",
           "roughness": 0.7,
           "glow": false
         }
@@ -149,15 +151,16 @@
     {
       "name": "Notebook",
       "position": [
-        -0.35,
+        -0.25,
         0.86,
-        0.05
+        -0.05
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "In the morning I spread the notebook, the library book and the folded café napkin across the kitchen table.",
         "I still like the first morning best, because it did not know what would come next. #home #writing @kitchen"
@@ -176,12 +179,12 @@
             0
           ],
           "size": [
-            0.28,
+            0.22,
             0.02,
-            0.2
+            0.3
           ],
           "color": "#ffffff",
-          "roughness": 0.4,
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -189,18 +192,18 @@
     {
       "name": "Library book",
       "position": [
-        0.28,
+        0.15,
         0.86,
-        -0.15
+        0.12
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "In the morning I spread the notebook, the library book and the folded café napkin across the kitchen table.",
-        "The optional reference books stay separate, and outside links stay links."
+        "In the morning I spread the notebook, the library book and the folded café napkin across the kitchen table."
       ],
       "shapes": [
         {
@@ -216,12 +219,12 @@
             0
           ],
           "size": [
-            0.22,
+            0.18,
             0.03,
-            0.15
+            0.26
           ],
-          "color": "#2b5a7a",
-          "roughness": 0.6,
+          "color": "#b88b58",
+          "roughness": 0.7,
           "glow": false
         }
       ]
@@ -229,15 +232,16 @@
     {
       "name": "Folded napkin",
       "position": [
-        0.02,
+        0.45,
         0.86,
-        0.28
+        -0.15
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "In the morning I spread the notebook, the library book and the folded café napkin across the kitchen table."
       ],
@@ -259,7 +263,7 @@
             0.01,
             0.18
           ],
-          "color": "#f6f1eb",
+          "color": "#f5f5f3",
           "roughness": 0.9,
           "glow": false
         }
@@ -268,15 +272,16 @@
     {
       "name": "Lamp",
       "position": [
-        -0.75,
-        1.05,
-        -0.25
+        -0.65,
+        0.92,
+        0.35
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "flicker",
       "moments": [
         "The lamp was on, the tea mug was warm, and sunlight came through the window onto the clay bowl."
       ],
@@ -294,19 +299,19 @@
             0
           ],
           "size": [
-            0.05,
-            0.4,
-            0.05
+            0.06,
+            0.14,
+            0.06
           ],
-          "color": "#555555",
-          "roughness": 0.7,
+          "color": "#3a3a3a",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "cone",
           "position": [
             0,
-            0.23,
+            0.15,
             0
           ],
           "rotation": [
@@ -319,8 +324,8 @@
             0.12,
             0.18
           ],
-          "color": "#ffd77a",
-          "roughness": 0.3,
+          "color": "#ffdca8",
+          "roughness": 0.15,
           "glow": true
         }
       ]
@@ -328,15 +333,16 @@
     {
       "name": "Mug of tea",
       "position": [
-        0.6,
-        0.87,
-        0.2
+        0.02,
+        0.86,
+        0.25
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "steam",
       "moments": [
         "The lamp was on, the tea mug was warm, and sunlight came through the window onto the clay bowl."
       ],
@@ -354,11 +360,11 @@
             0
           ],
           "size": [
-            0.05,
+            0.06,
             0.08,
-            0.05
+            0.06
           ],
-          "color": "#9c4a2f",
+          "color": "#c77b4b",
           "roughness": 0.5,
           "glow": false
         },
@@ -366,21 +372,21 @@
           "type": "torus",
           "position": [
             0,
-            0.03,
-            0.055
+            0.12,
+            0
           ],
           "rotation": [
             0,
             0,
-            1.2
+            0
           ],
           "size": [
             0.04,
-            0.01,
+            0.02,
             0.04
           ],
-          "color": "#9c4a2f",
-          "roughness": 0.5,
+          "color": "#ffffff",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -388,15 +394,16 @@
     {
       "name": "Clay bowl",
       "position": [
-        0.05,
+        0.35,
         0.86,
-        -0.45
+        0.02
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The lamp was on, the tea mug was warm, and sunlight came through the window onto the clay bowl.",
         "There is a month here now: rain and bread, a little travel, a bowl, some unfinished things."
@@ -415,12 +422,93 @@
             0
           ],
           "size": [
+            0.12,
+            0.12,
+            0.12
+          ],
+          "color": "#9a6b4a",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bread loaf",
+      "position": [
+        0.35,
+        0.94,
+        0.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "There is a month here now: rain and bread, a little travel, a bowl, some unfinished things."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
             0.08,
-            0.04,
             0.08
           ],
-          "color": "#b76b3d",
-          "roughness": 0.8,
+          "color": "#d9a66a",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        -1.1,
+        1.6,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "The lamp was on, the tea mug was warm, and sunlight came through the window onto the clay bowl.",
+        "The bare tree outside made a much simpler drawing than the one I had begun with."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#cfe8ff",
+          "roughness": 0.05,
           "glow": false
         }
       ]
@@ -428,15 +516,16 @@
     {
       "name": "Sun patch",
       "position": [
-        0.05,
-        0.9,
-        -0.45
+        -0.5,
+        0.87,
+        -0.05
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The lamp was on, the tea mug was warm, and sunlight came through the window onto the clay bowl."
       ],
@@ -454,110 +543,29 @@
             0
           ],
           "size": [
-            0.22,
+            0.28,
             0.01,
-            0.14
+            0.18
           ],
-          "color": "#fff7d1",
-          "roughness": 0.1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window",
-      "position": [
-        0,
-        0,
-        -1.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The lamp was on, the tea mug was warm, and sunlight came through the window onto the clay bowl.",
-        "The bare tree outside made a much simpler drawing than the one I had begun with."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            1.1,
-            0.06
-          ],
-          "color": "#cfe8ff",
+          "color": "#fff3c9",
           "roughness": 0,
           "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.69,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            1.1,
-            0.06
-          ],
-          "color": "#6b6b6b",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.69,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            1.1,
-            0.06
-          ],
-          "color": "#6b6b6b",
-          "roughness": 0.9,
-          "glow": false
         }
       ]
     },
     {
-      "name": "Bare tree (outside)",
+      "name": "Bare tree outside",
       "position": [
-        0.8,
+        -1.8,
         0,
-        -3.2
+        0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "sway",
       "moments": [
         "The bare tree outside made a much simpler drawing than the one I had begun with."
       ],
@@ -575,97 +583,81 @@
             0
           ],
           "size": [
-            0.03,
+            0.05,
             1.4,
-            0.03
+            0.05
           ],
-          "color": "#5a4738",
+          "color": "#4a372e",
           "roughness": 0.9,
           "glow": false
         },
         {
-          "type": "sphere",
+          "type": "cylinder",
           "position": [
             0,
-            1.5,
+            1.25,
             0
           ],
           "rotation": [
             0,
             0,
-            0
+            0.6
           ],
           "size": [
             0.02,
-            0.02,
+            0.4,
             0.02
           ],
-          "color": "#5a4738",
+          "color": "#4a372e",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            1.1,
+            -0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            1.1
+          ],
+          "size": [
+            0.02,
+            0.35,
+            0.02
+          ],
+          "color": "#4a372e",
           "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Small rug",
+      "name": "Kitchen wall",
       "position": [
-        0,
-        0.005,
-        0.9
+        -2.6,
+        1.2,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "I still like the first morning best, because it did not know what would come next. #home #writing @kitchen"
-      ],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.2,
-            0.01,
-            0.8
-          ],
-          "color": "#e6d8c8",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Chair",
-      "position": [
-        -0.9,
-        0.45,
-        0.15
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I still like the first morning best, because it did not know what would come next. #home #writing @kitchen"
+        "The lamp was on, the tea mug was warm, and sunlight came through the window onto the clay bowl.",
+        "The bare tree outside made a much simpler drawing than the one I had begun with."
       ],
       "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            0.3,
+            0,
             0
           ],
           "rotation": [
@@ -674,28 +666,29 @@
             0
           ],
           "size": [
-            0.45,
-            0.6,
-            0.45
+            0.12,
+            2.4,
+            4.5
           ],
-          "color": "#7a5a44",
-          "roughness": 0.8,
+          "color": "#efe6df",
+          "roughness": 0.95,
           "glow": false
         }
       ]
     },
     {
-      "name": "Bookshelf (corner)",
+      "name": "Small shelf",
       "position": [
-        -1.6,
-        0,
-        1.8
+        -2.4,
+        1.05,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The optional reference books stay separate, and outside links stay links."
       ],
@@ -704,7 +697,7 @@
           "type": "box",
           "position": [
             0,
-            1,
+            0,
             0
           ],
           "rotation": [
@@ -713,19 +706,19 @@
             0
           ],
           "size": [
-            0.9,
-            2,
-            0.25
+            0.6,
+            0.06,
+            0.18
           ],
-          "color": "#4a3426",
+          "color": "#7a5b45",
           "roughness": 0.8,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0,
-            0.5,
+            -0.26,
+            -0.16,
             0
           ],
           "rotation": [
@@ -734,19 +727,19 @@
             0
           ],
           "size": [
-            0.82,
-            0.06,
-            0.2
+            0.04,
+            0.32,
+            0.04
           ],
-          "color": "#3f2b1e",
-          "roughness": 0.85,
+          "color": "#7a5b45",
+          "roughness": 0.8,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0,
-            1,
+            0.26,
+            -0.16,
             0
           ],
           "rotation": [
@@ -755,52 +748,71 @@
             0
           ],
           "size": [
-            0.82,
-            0.06,
-            0.2
+            0.04,
+            0.32,
+            0.04
           ],
-          "color": "#3f2b1e",
-          "roughness": 0.85,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.5,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.82,
-            0.06,
-            0.2
-          ],
-          "color": "#3f2b1e",
-          "roughness": 0.85,
+          "color": "#7a5b45",
+          "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Loose tag slip",
+      "name": "Chair",
       "position": [
-        -0.05,
-        0.88,
-        0.02
+        0.9,
+        0.45,
+        0.25
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "I can follow a tag or a link instead of reading straight through.",
-        "I can write another line whenever I choose."
+        "I still like the first morning best, because it did not know what would come next. #home #writing @kitchen"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.4,
+            0.9,
+            0.4
+          ],
+          "color": "#6b4f3a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Rug",
+      "position": [
+        0,
+        0.01,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I still like the first morning best, because it did not know what would come next. #home #writing @kitchen"
       ],
       "shapes": [
         {
@@ -816,51 +828,12 @@
             0
           ],
           "size": [
-            0.06,
+            2.2,
             0.01,
-            0.03
+            1.6
           ],
-          "color": "#fff9e6",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Open page marker",
-      "position": [
-        -0.35,
-        0.88,
-        0.05
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "#### A page to leave open"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.01,
-            0.08
-          ],
-          "color": "#ff6b6b",
-          "roughness": 0.6,
+          "color": "#f2e7db",
+          "roughness": 1,
           "glow": false
         }
       ]

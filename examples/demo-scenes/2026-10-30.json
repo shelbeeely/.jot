@@ -3,46 +3,44 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:58.787Z"
+    "at": "2026-11-06T09:57:06.889Z"
   },
-  "title": "Evening kitchen window",
-  "sky": "#3355ff",
-  "ground": "#b68b4b",
+  "title": "Evening kitchen with window ledge",
+  "sky": "#3258d8",
+  "ground": "#d9c6a8",
   "weather": "clear",
   "time": "evening",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
-      -2.5,
+      0,
       1.6,
-      3.5
+      3
     ],
     "target": [
       0,
-      0.9,
+      1,
       0
     ]
   },
   "objects": [
     {
-      "name": "Room back wall",
+      "name": "Floor",
       "position": [
         0,
-        1.5,
-        -2.8
+        0,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
-        "Outside, the garden tree was bare enough to show the blue evening sky between every branch.",
-        "I left the washing up until everyone had gone home. #food #friends @kitchen"
-      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
-          "type": "box",
+          "type": "plane",
           "position": [
             0,
             0,
@@ -54,28 +52,29 @@
             0
           ],
           "size": [
-            5,
-            3,
-            0.12
+            8,
+            0.01,
+            6
           ],
-          "color": "#e9e6e2",
+          "color": "#d9c6a8",
           "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Window",
+      "name": "Back wall",
       "position": [
         0,
-        1.6,
-        -2.74
+        1.5,
+        -1.55
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
         "Outside, the garden tree was bare enough to show the blue evening sky between every branch."
@@ -94,11 +93,73 @@
             0
           ],
           "size": [
+            8,
+            3,
+            0.12
+          ],
+          "color": "#efe6db",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        0,
+        0,
+        -1.49
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
+        "Outside, the garden tree was bare enough to show the blue evening sky between every branch."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
             1.4,
             1.1,
             0.06
           ],
-          "color": "#cfe9ff",
+          "color": "#ffffff",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            1.6,
+            -0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            0.01,
+            0.4
+          ],
+          "color": "#bfe0ff",
           "roughness": 0.1,
           "glow": false
         }
@@ -108,14 +169,15 @@
       "name": "Window ledge",
       "position": [
         0,
-        1.25,
-        -2.7
+        1.1,
+        -1.49
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge."
       ],
@@ -134,17 +196,17 @@
           ],
           "size": [
             1.6,
-            0.06,
-            0.28
+            0.08,
+            0.25
           ],
-          "color": "#d9c9b3",
-          "roughness": 0.7,
+          "color": "#c7a77a",
+          "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Kitchen table",
+      "name": "Table",
       "position": [
         0,
         0.75,
@@ -155,10 +217,10 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
-        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished.",
-        "I left the washing up until everyone had gone home. #food #friends @kitchen"
+        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished."
       ],
       "shapes": [
         {
@@ -174,18 +236,18 @@
             0
           ],
           "size": [
-            1.6,
+            1.2,
             0.06,
-            0.9
+            0.8
           ],
-          "color": "#8b5a2b",
-          "roughness": 0.8,
+          "color": "#8b5e3c",
+          "roughness": 0.9,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.7,
+            -0.54,
             -0.39,
             -0.35
           ],
@@ -199,14 +261,14 @@
             0.72,
             0.08
           ],
-          "color": "#6b4321",
-          "roughness": 0.8,
+          "color": "#6b3f24",
+          "roughness": 0.95,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.7,
+            0.54,
             -0.39,
             -0.35
           ],
@@ -220,14 +282,14 @@
             0.72,
             0.08
           ],
-          "color": "#6b4321",
-          "roughness": 0.8,
+          "color": "#6b3f24",
+          "roughness": 0.95,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.7,
+            -0.54,
             -0.39,
             0.35
           ],
@@ -241,14 +303,14 @@
             0.72,
             0.08
           ],
-          "color": "#6b4321",
-          "roughness": 0.8,
+          "color": "#6b3f24",
+          "roughness": 0.95,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.7,
+            0.54,
             -0.39,
             0.35
           ],
@@ -262,8 +324,111 @@
             0.72,
             0.08
           ],
-          "color": "#6b4321",
-          "roughness": 0.8,
+          "color": "#6b3f24",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea 1",
+      "position": [
+        -0.28,
+        0.85,
+        0.12
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "steam",
+      "moments": [
+        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
+        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.12,
+            0.09
+          ],
+          "color": "#ffffff",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.04,
+            0.04
+          ],
+          "color": "#ffffff",
+          "roughness": 0.1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea 2",
+      "position": [
+        0.38,
+        0.85,
+        -0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "steam",
+      "moments": [
+        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
+        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.12,
+            0.09
+          ],
+          "color": "#f6ead2",
+          "roughness": 0.4,
           "glow": false
         }
       ]
@@ -271,19 +436,19 @@
     {
       "name": "Bread loaf",
       "position": [
-        -0.4,
-        0.88,
-        0.05
+        0.05,
+        0.9,
+        0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
-        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished.",
-        "I left the washing up until everyone had gone home. #food #friends @kitchen"
+        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished."
       ],
       "shapes": [
         {
@@ -299,40 +464,40 @@
             0
           ],
           "size": [
-            0.36,
-            0.18,
-            0.18
+            0.35,
+            0.12,
+            0.14
           ],
-          "color": "#d29a63",
-          "roughness": 0.7,
+          "color": "#d19a5a",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Apples cluster",
+      "name": "Apples",
       "position": [
-        0.15,
-        0.88,
-        0.05
+        0.45,
+        0.9,
+        0.28
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
-        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished.",
-        "I left the washing up until everyone had gone home. #food #friends @kitchen"
+        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished."
       ],
       "shapes": [
         {
           "type": "sphere",
           "position": [
-            -0.06,
             0,
-            0.04
+            0,
+            0
           ],
           "rotation": [
             0,
@@ -344,16 +509,16 @@
             0.06,
             0.06
           ],
-          "color": "#d83a3a",
+          "color": "#d63b2b",
           "roughness": 0.6,
           "glow": false
         },
         {
           "type": "sphere",
           "position": [
-            0.06,
-            0,
-            0.03
+            0.12,
+            0.02,
+            -0.04
           ],
           "rotation": [
             0,
@@ -365,205 +530,25 @@
             0.055,
             0.055
           ],
-          "color": "#e04b2b",
+          "color": "#e24a2f",
           "roughness": 0.6,
           "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug A",
-      "position": [
-        0.55,
-        0.87,
-        -0.15
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
-        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished.",
-        "I left the washing up until everyone had gone home. #food #friends @kitchen"
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.045,
-            0.08,
-            0.045
-          ],
-          "color": "#ffffff",
-          "roughness": 0.4,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug B",
-      "position": [
-        -0.15,
-        0.87,
-        0.25
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge.",
-        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished.",
-        "I left the washing up until everyone had gone home. #food #friends @kitchen"
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.045,
-            0.08,
-            0.045
-          ],
-          "color": "#ffd9b3",
-          "roughness": 0.4,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        0.45,
-        1.25,
-        -2.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.22,
-            0.02,
-            0.15
-          ],
-          "color": "#2b2b2b",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Lamp on ledge",
-      "position": [
-        -0.5,
-        1.35,
-        -2.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.12,
-            0.06
-          ],
-          "color": "#333333",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0,
-            0.18,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.14,
-            0.18
-          ],
-          "color": "#fff2b3",
-          "roughness": 0.2,
-          "glow": true
         }
       ]
     },
     {
       "name": "Clay bowl with flowers",
       "position": [
-        0.9,
-        1.25,
-        -2.6
+        -0.45,
+        0.88,
+        -0.18
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "sway",
       "moments": [
         "Robin put flowers in the clay bowl, which was finally dry."
       ],
@@ -585,16 +570,220 @@
             0.06,
             0.12
           ],
-          "color": "#b36a45",
-          "roughness": 0.9,
+          "color": "#b66f4a",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.14,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#ffd54a",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.03,
+            0.14,
+            -0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#ff8aa1",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.03,
+            0.14,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#ffd54a",
+          "roughness": 0.2,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook on ledge",
+      "position": [
+        0.22,
+        1.14,
+        -1.49
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.02,
+            0.15
+          ],
+          "color": "#ffffff",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lamp on ledge",
+      "position": [
+        -0.3,
+        1.18,
+        -1.49
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "flicker",
+      "moments": [
+        "The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            -0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.14,
+            0.05
+          ],
+          "color": "#3a3a3a",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.14,
+            0.18
+          ],
+          "color": "#fff2d1",
+          "roughness": 0.1,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Stack of plates (sink)",
+      "position": [
+        1.8,
+        0.9,
+        -0.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I left the washing up until everyone had gone home. #food #friends @kitchen"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.06,
+            0.12
+          ],
+          "color": "#f3f3f3",
+          "roughness": 0.4,
           "glow": false
         },
         {
           "type": "cylinder",
           "position": [
-            -0.03,
-            0.08,
-            0.02
+            0,
+            0.06,
+            0
           ],
           "rotation": [
             0,
@@ -602,75 +791,12 @@
             0
           ],
           "size": [
-            0.01,
-            0.12,
-            0.01
+            0.11,
+            0.06,
+            0.11
           ],
-          "color": "#4b842b",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.03,
-            0.2,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.03,
-            0.03
-          ],
-          "color": "#ff6fb3",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.03,
-            0.08,
-            -0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.12,
-            0.01
-          ],
-          "color": "#4b842b",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.03,
-            0.2,
-            -0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.03,
-            0.03
-          ],
-          "color": "#ffd23f",
-          "roughness": 0.3,
+          "color": "#e9e9e9",
+          "roughness": 0.4,
           "glow": false
         }
       ]
@@ -679,14 +805,15 @@
       "name": "Garden tree",
       "position": [
         0,
-        1.5,
-        -5
+        0,
+        -3.4
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Outside, the garden tree was bare enough to show the blue evening sky between every branch."
       ],
@@ -695,7 +822,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0,
+            0.9,
             0
           ],
           "rotation": [
@@ -704,175 +831,75 @@
             0
           ],
           "size": [
-            0.08,
-            1.2,
-            0.08
+            0.07,
+            1.8,
+            0.07
           ],
-          "color": "#5a3b2a",
-          "roughness": 0.9,
+          "color": "#6b4b2f",
+          "roughness": 0.95,
           "glow": false
         },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.7,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.9,
-            0.06
-          ],
-          "color": "#5a3b2a",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.18,
-            0.9,
-            0.06
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.6,
-            0.04
-          ],
-          "color": "#5a3b2a",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.18,
-            0.9,
-            -0.06
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.6,
-            0.04
-          ],
-          "color": "#5a3b2a",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Plate with crumbs",
-      "position": [
-        -0.6,
-        0.86,
-        -0.05
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "We ate slowly and talked about the train trip, the campfire, and the guitar tune we still had not finished.",
-        "I left the washing up until everyone had gone home. #food #friends @kitchen"
-      ],
-      "shapes": [
         {
           "type": "cylinder",
           "position": [
-            0,
-            0,
-            0
+            0.12,
+            1.6,
+            0.02
           ],
           "rotation": [
+            0.4,
             0,
-            0,
-            0
+            0.2
           ],
           "size": [
-            0.12,
             0.02,
-            0.12
+            0.8,
+            0.02
           ],
-          "color": "#ffffff",
-          "roughness": 0.5,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Dish pile (waiting)",
-      "position": [
-        1.2,
-        0.75,
-        0.4
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I left the washing up until everyone had gone home. #food #friends @kitchen"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.12,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.06,
-            0.18
-          ],
-          "color": "#e6e6e6",
-          "roughness": 0.6,
+          "color": "#6b4b2f",
+          "roughness": 0.95,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
-            0,
-            0.28,
-            0
+            -0.14,
+            1.5,
+            -0.08
           ],
           "rotation": [
-            0,
-            0,
-            0
+            -0.6,
+            0.1,
+            -0.3
           ],
           "size": [
-            0.14,
-            0.06,
+            0.02,
+            0.7,
+            0.02
+          ],
+          "color": "#6b4b2f",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.02,
+            1.4,
             0.14
           ],
-          "color": "#dcdcdc",
-          "roughness": 0.6,
+          "rotation": [
+            0.2,
+            0.1,
+            0.5
+          ],
+          "size": [
+            0.02,
+            0.6,
+            0.02
+          ],
+          "color": "#6b4b2f",
+          "roughness": 0.95,
           "glow": false
         }
       ]

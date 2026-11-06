@@ -3,39 +3,43 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:52.706Z"
+    "at": "2026-11-06T09:56:44.576Z"
   },
   "title": "Riverside bench at night",
-  "sky": "#07102b",
-  "ground": "#172216",
+  "sky": "#0b1220",
+  "ground": "#0f1912",
   "weather": "clear",
   "time": "night",
+  "atmosphere": "tender",
   "camera": {
     "position": [
-      -2.5,
-      1.6,
-      3.5
+      -3.2,
+      1.8,
+      4.5
     ],
     "target": [
-      0,
-      1,
-      -1
+      0.2,
+      0.9,
+      0
     ]
   },
   "objects": [
     {
-      "name": "Ground",
+      "name": "River",
       "position": [
         0,
         0,
-        0
+        1.5
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [],
+      "motion": "drift",
+      "moments": [
+        "The river was almost black tonight, except where the park lamp made a long yellow stripe."
+      ],
       "shapes": [
         {
           "type": "plane",
@@ -52,71 +56,33 @@
           "size": [
             8,
             0.01,
-            8
+            3
           ],
-          "color": "#172216",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "River",
-      "position": [
-        0,
-        0.01,
-        -2.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The river was almost black tonight, except where the park lamp made a long yellow stripe."
-      ],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            6,
-            0.01,
-            2.8
-          ],
-          "color": "#02030a",
+          "color": "#030409",
           "roughness": 0.2,
           "glow": false
         }
       ]
     },
     {
-      "name": "Light stripe",
+      "name": "Park lamp",
       "position": [
-        -0.6,
-        0.02,
-        -1.2
+        1.6,
+        1.9,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "flicker",
       "moments": [
         "The river was almost black tonight, except where the park lamp made a long yellow stripe."
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "cylinder",
           "position": [
             0,
             0,
@@ -128,12 +94,54 @@
             0
           ],
           "size": [
-            0.4,
-            0.01,
-            3.2
+            0.06,
+            1.8,
+            0.06
           ],
-          "color": "#fff1a0",
+          "color": "#2b2b2b",
           "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.95,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.18,
+            0.22
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            1.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#fff5c2",
+          "roughness": 0.1,
           "glow": true
         }
       ]
@@ -141,15 +149,16 @@
     {
       "name": "Bench",
       "position": [
-        0.8,
         0,
-        0.6
+        0.5,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Robin and I sat on the bench under the tree with tea mugs from the café."
       ],
@@ -158,7 +167,7 @@
           "type": "box",
           "position": [
             0,
-            0.85,
+            0,
             0
           ],
           "rotation": [
@@ -171,7 +180,7 @@
             0.12,
             0.5
           ],
-          "color": "#4b3b2b",
+          "color": "#6b4b33",
           "roughness": 0.7,
           "glow": false
         },
@@ -179,49 +188,7 @@
           "type": "box",
           "position": [
             -0.7,
-            0.46,
-            -0.2
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.92,
-            0.08
-          ],
-          "color": "#3b2e22",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            0.46,
-            -0.2
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.92,
-            0.08
-          ],
-          "color": "#3b2e22",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            0.46,
+            -0.31,
             0.2
           ],
           "rotation": [
@@ -231,10 +198,10 @@
           ],
           "size": [
             0.08,
-            0.92,
+            0.68,
             0.08
           ],
-          "color": "#3b2e22",
+          "color": "#3f2b20",
           "roughness": 0.7,
           "glow": false
         },
@@ -242,7 +209,7 @@
           "type": "box",
           "position": [
             0.7,
-            0.46,
+            -0.31,
             0.2
           ],
           "rotation": [
@@ -252,11 +219,114 @@
           ],
           "size": [
             0.08,
-            0.92,
+            0.68,
             0.08
           ],
-          "color": "#3b2e22",
+          "color": "#3f2b20",
           "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.31,
+            -0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.68,
+            0.08
+          ],
+          "color": "#3f2b20",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.31,
+            -0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.68,
+            0.08
+          ],
+          "color": "#3f2b20",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tree",
+      "position": [
+        -1.1,
+        0,
+        0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "Robin and I sat on the bench under the tree with tea mugs from the café."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            1.2,
+            0.12
+          ],
+          "color": "#4b3728",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            1.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "color": "#0f2b18",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -264,15 +334,16 @@
     {
       "name": "Mug warm",
       "position": [
-        1.15,
-        0,
-        0.6
+        0.25,
+        0.86,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "steam",
       "moments": [
         "Robin and I sat on the bench under the tree with tea mugs from the café.",
         "This is the part I remembered when I got home: the small sound of the boat, the warm mug, and Robin pointing at a star I had not noticed. #outside #friends @river"
@@ -282,7 +353,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0.97,
+            0,
             0
           ],
           "rotation": [
@@ -291,12 +362,12 @@
             0
           ],
           "size": [
-            0.06,
+            0.07,
             0.12,
-            0.06
+            0.07
           ],
-          "color": "#c96a3d",
-          "roughness": 0.4,
+          "color": "#d97a4c",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -304,15 +375,16 @@
     {
       "name": "Mug Robin",
       "position": [
-        0.45,
-        0,
-        0.6
+        -0.25,
+        0.86,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "steam",
       "moments": [
         "Robin and I sat on the bench under the tree with tea mugs from the café.",
         "This is the part I remembered when I got home: the small sound of the boat, the warm mug, and Robin pointing at a star I had not noticed. #outside #friends @river"
@@ -322,7 +394,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0.97,
+            0,
             0
           ],
           "rotation": [
@@ -331,12 +403,12 @@
             0
           ],
           "size": [
-            0.06,
+            0.07,
             0.12,
-            0.06
+            0.07
           ],
-          "color": "#7aa3c4",
-          "roughness": 0.4,
+          "color": "#c8d8ff",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -344,15 +416,16 @@
     {
       "name": "Notebook",
       "position": [
-        0.8,
         0,
-        0.45
+        0.78,
+        -0.08
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I opened the notebook but could not see the lines, so I closed it again."
       ],
@@ -361,7 +434,7 @@
           "type": "box",
           "position": [
             0,
-            0.88,
+            0,
             0
           ],
           "rotation": [
@@ -370,149 +443,29 @@
             0
           ],
           "size": [
-            0.2,
+            0.28,
             0.02,
-            0.14
+            0.18
           ],
-          "color": "#f6f6f4",
-          "roughness": 0.9,
+          "color": "#2f2f2f",
+          "roughness": 0.6,
           "glow": false
         }
       ]
     },
     {
-      "name": "Tree",
+      "name": "Landing",
       "position": [
-        1.3,
-        0,
-        0.2
+        0.9,
+        0.02,
+        1.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "Robin and I sat on the bench under the tree with tea mugs from the café.",
-        "This is the part I remembered when I got home: the small sound of the boat, the warm mug, and Robin pointing at a star I had not noticed. #outside #friends @river"
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.9,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            1.8,
-            0.12
-          ],
-          "color": "#4a3422",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            1.95,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.7,
-            0.7,
-            0.7
-          ],
-          "color": "#12391f",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Park lamp",
-      "position": [
-        -0.6,
-        0,
-        -0.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The river was almost black tonight, except where the park lamp made a long yellow stripe."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            1.5,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            3,
-            0.05
-          ],
-          "color": "#2b2b2b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            2.2,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            0.15,
-            0.15
-          ],
-          "color": "#fff3c0",
-          "roughness": 0.1,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Dock",
-      "position": [
-        -1.6,
-        0,
-        -1.8
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
+      "motion": "none",
       "moments": [
         "A boat knocked once against the landing and then went quiet; the moon made the bicycle's metal bell look white."
       ],
@@ -521,7 +474,7 @@
           "type": "box",
           "position": [
             0,
-            0.08,
+            0,
             0
           ],
           "rotation": [
@@ -531,27 +484,28 @@
           ],
           "size": [
             1.2,
-            0.16,
+            0.04,
             0.6
           ],
-          "color": "#6b553f",
-          "roughness": 1,
+          "color": "#554433",
+          "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Boat",
+      "name": "Small boat",
       "position": [
-        -1,
-        0,
-        -1.35
+        1.4,
+        0.06,
+        1.6
       ],
       "rotation": [
         0,
-        0,
+        0.2,
         0
       ],
+      "motion": "bob",
       "moments": [
         "A boat knocked once against the landing and then went quiet; the moon made the bicycle's metal bell look white.",
         "This is the part I remembered when I got home: the small sound of the boat, the warm mug, and Robin pointing at a star I had not noticed. #outside #friends @river"
@@ -561,7 +515,7 @@
           "type": "box",
           "position": [
             0,
-            0.15,
+            0,
             0
           ],
           "rotation": [
@@ -570,28 +524,29 @@
             0
           ],
           "size": [
-            0.8,
-            0.25,
-            0.4
+            0.9,
+            0.12,
+            0.35
           ],
-          "color": "#3a2c27",
-          "roughness": 0.8,
+          "color": "#6a3b2a",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Bicycle",
+      "name": "Bicycle (locked)",
       "position": [
-        -0.4,
-        0,
-        -1.6
+        1.1,
+        0.6,
+        1.05
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "A boat knocked once against the landing and then went quiet; the moon made the bicycle's metal bell look white."
       ],
@@ -600,7 +555,7 @@
           "type": "box",
           "position": [
             0,
-            0.35,
+            0,
             0
           ],
           "rotation": [
@@ -609,20 +564,20 @@
             0
           ],
           "size": [
-            0.8,
+            0.9,
             0.06,
-            0.4
+            0.2
           ],
           "color": "#2b2b2b",
-          "roughness": 0.9,
+          "roughness": 0.7,
           "glow": false
         },
         {
           "type": "torus",
           "position": [
+            -0.35,
             -0.28,
-            0.22,
-            -0.05
+            0.08
           ],
           "rotation": [
             0,
@@ -630,20 +585,20 @@
             0
           ],
           "size": [
-            0.26,
+            0.2,
             0.03,
-            0.26
+            0.2
           ],
-          "color": "#0f1220",
-          "roughness": 0.8,
+          "color": "#1a1a1a",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "torus",
           "position": [
-            0.28,
-            0.22,
-            -0.05
+            0.35,
+            -0.28,
+            0.08
           ],
           "rotation": [
             0,
@@ -651,20 +606,20 @@
             0
           ],
           "size": [
-            0.26,
+            0.2,
             0.03,
-            0.26
+            0.2
           ],
-          "color": "#0f1220",
-          "roughness": 0.8,
+          "color": "#1a1a1a",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "sphere",
           "position": [
-            0.35,
             0.45,
-            0.05
+            0.82,
+            0.08
           ],
           "rotation": [
             0,
@@ -672,11 +627,11 @@
             0
           ],
           "size": [
-            0.04,
-            0.04,
-            0.04
+            0.03,
+            0.03,
+            0.03
           ],
-          "color": "#e9e9ea",
+          "color": "#ffffff",
           "roughness": 0.1,
           "glow": false
         }
@@ -685,15 +640,16 @@
     {
       "name": "Moon",
       "position": [
-        2.2,
-        6,
-        -3
+        -2.6,
+        5.2,
+        -1.8
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "drift",
       "moments": [
         "A boat knocked once against the landing and then went quiet; the moon made the bicycle's metal bell look white."
       ],
@@ -711,50 +667,11 @@
             0
           ],
           "size": [
-            0.25,
-            0.25,
-            0.25
+            0.28,
+            0.28,
+            0.28
           ],
-          "color": "#ffffff",
-          "roughness": 0.05,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Star pointed at",
-      "position": [
-        1.6,
-        5.2,
-        -2.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "This is the part I remembered when I got home: the small sound of the boat, the warm mug, and Robin pointing at a star I had not noticed. #outside #friends @river"
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#fff6d8",
+          "color": "#f6f7ff",
           "roughness": 0.05,
           "glow": true
         }

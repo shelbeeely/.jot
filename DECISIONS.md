@@ -38,8 +38,9 @@ the owner chose: the October demo's entries, an upgrade of Writer's Scenes rathe
 Verified: the place module's Node tests (atmosphere and motion lists, defaults for older places, prompt rules) and the
 Scenes Chromium suite (interpretation label with the atmosphere, steam, keyboard turning and zoom, Play motion offered
 under reduced motion, Open journal, phone width, axe). Not verified: phones' GPU performance with shadows and motion,
-and how live models choose atmospheres. The October demo's 31 scenes predate these fields and draw with neutral light and
-no motion of their own (they still open and breathe) until they are made again; the saved OpenRouter key had expired, so they were not re-made in this change.
+and how other live models choose atmospheres. The October demo's 31 scenes were made again through the same pipeline
+(`openai/gpt-5-mini`, Zero Data Retention required, data collection denied): it chose cosy for 18 days, wistful 8, tender 3,
+bright 1 and calm 1, and gave 115 of 427 objects a motion (mostly steam and drift). Every moment is an exact entry sentence.
 
 ## A complete fictional month and text-grounded scenes (5 November 2026)
 
