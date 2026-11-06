@@ -24320,7 +24320,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5921,
-      "sha256": "142e1e724b7b1ba9adcb6a1c3778474d217c3228e8faa26e3a29276ab48bf748"
+      "sha256": "b2d1269e8e1cc04cdbd4a78a45e077659e8bb42832b3b078748d84c585337016"
     },
     {
       "path": "site/dist/page-view-css.mjs",
