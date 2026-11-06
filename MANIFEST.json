@@ -124,8 +124,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 170773,
-      "sha256": "411bf463ae3bb0eac942c7529624770c9082f080491d9636197abc4c97a2d99b"
+      "byteLength": 171133,
+      "sha256": "caf001e4e12c67c4d6f9f8ab6791a34b795171c2606cb982eb40f667106d6656"
     },
     {
       "path": "README.md",
@@ -24325,7 +24325,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5942,
-      "sha256": "70ac51e3add140ca4662da073d7d5ff765d42e22bec43419c40ad060f2719ec4"
+      "sha256": "9df91adf91f24269e6687c6d2f70e5d50d06888325654c95356479456a7f07ad"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -24644,8 +24644,8 @@
     },
     {
       "path": "site/dist/writer-scene-build.mjs",
-      "byteLength": 31736,
-      "sha256": "2e0ddea749646339d7c6cf4b73a0e0cf175550837112a50cefa66e90b03b5111"
+      "byteLength": 32328,
+      "sha256": "405d3207a71dda3a0526a3e3d1de1ae2bcd0f73b1db76933e834190442c48c99"
     },
     {
       "path": "site/dist/writer-scene-parts.mjs",

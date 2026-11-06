@@ -4,8 +4,8 @@ import { PARTS, buildPart } from './writer-scene-parts.mjs';
 // pop-up book: an open book lying flat, read as a book is, with the place and the sky's paper cut-outs rising out of its pages.
 // Only Jot's code runs: the place is data, simple shapes with sizes and colours. Card-stock grain, ink outlines and soft shadows give
 // every day the same paper look; the place's time, weather and atmosphere (the model's reading of the entry's feeling) give each its
-// own light. When a day opens, its pieces rise from the page on hinges; while motion plays the page lives: pieces breathe, motes of
-// light drift over it, the light shifts a little, a piece lifts under the pointer and hops when chosen. With reduced motion (or
+// own light. When a day opens, its pieces rise from the page on hinges; while motion plays the page lives: pieces breathe, paper rain
+// and snow sway from the clouds, the light shifts a little, a piece lifts under the pointer and hops when chosen. With reduced motion (or
 // Pause motion) it all stays still. Each object is a group with userData.object = its index, so a click can find it.
 //
 // media (optional) is the day's own: { screen: { label, title, picture? }, book: { title, picture? }, picture }. A screen shows a kept
@@ -81,7 +81,9 @@ function paperTextures(T, doc, place) {
     const colour = wet ? '#aab3c0' : '#ffffff';
     sky.push({ kind: 'cloud', size: 1.3, aspect: 1.8, map: cut(360, 200, (g) => { g.fillStyle = colour; g.beginPath(); for (const [x, y, r] of [[120, 120, 56], [190, 92, 62], [258, 118, 52], [80, 138, 38], [300, 140, 34], [180, 146, 50]]) { g.moveTo(x + r, y); g.arc(x, y, r, 0, Math.PI * 2); } g.fill(); grain(g, 360, 200, 10); }) });
   }
-  return { card, dots, sky, all: [card, dots, ...sky.map((x) => x.map)] };
+  const flake = cut(128, 128, (g) => { g.strokeStyle = '#ffffff'; g.lineWidth = 9; g.lineCap = 'round'; for (let k = 0; k < 6; k++) { const a = (k * Math.PI) / 3; g.beginPath(); g.moveTo(64, 64); g.lineTo(64 + 50 * Math.cos(a), 64 + 50 * Math.sin(a)); g.stroke(); } });
+  const mist = cut(512, 160, (g) => { g.fillStyle = '#ffffff'; g.beginPath(); g.moveTo(0, 160); for (let x = 0; x <= 512; x += 16) g.lineTo(x, 60 + Math.sin(x / 40) * 18 + Math.sin(x / 13) * 6); g.lineTo(512, 160); g.closePath(); g.fill(); });
+  return { card, dots, sky, flake, mist, all: [card, dots, flake, mist, ...sky.map((x) => x.map)] };
 }
 
 // A card drawn in the page: a small label and a title, wrapped (the entry's words, drawn as pixels; never markup).
@@ -214,56 +216,53 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   const gutter = new T.Mesh(new T.PlaneGeometry(0.16, D), new T.MeshBasicMaterial({ color: '#000000', transparent: true, opacity: 0.16, depthWrite: false }));
   gutter.rotation.x = -Math.PI / 2; gutter.position.y = 0.003; gutter.raycast = () => {}; book.add(gutter); // the fold's soft shadow
   const spine = new T.Mesh(new T.CylinderGeometry(0.1, 0.1, D + 0.3, 16, 1, false, 0, Math.PI), coverMat); spine.rotation.set(Math.PI / 2, 0, Math.PI / 2); spine.position.y = -0.16; spine.raycast = () => {}; book.add(spine);
-  // The sky's cut-outs on stalks along the back of the pages, spread across both; each folds flat toward the gutter with its page.
-  const skyHinges = [];
-  (paper?.sky || []).forEach((piece, i, list) => {
+  // The sky's cut-outs along the back of the pages, spread across both, each held up by a folded paper strut (an A, as pop-up books
+  // do it) and folding flat toward the gutter with its page. Rain and snow hang from the clouds as paper; nothing floats free.
+  const skyHinges = [], hanging = [];
+  const strut = (tall) => { const lean = Math.atan2(0.09, tall), legs = [-1, 1].map((k) => { const leg = slab(0.03, tall / Math.cos(lean), 0.012, edgeMat); leg.position.set(k * 0.045, tall / 2, 0); leg.rotation.z = -k * lean; leg.castShadow = true; leg.raycast = () => {}; return leg; }); return legs; };
+  const skyScale = Math.max(1, W / 2.4); // the sky's cut-outs grow with the book
+  (paper?.sky || []).forEach((raw, i, list) => {
+    const piece = { ...raw, size: raw.size * skyScale };
     const x = (list.length === 1 ? 0.4 : -0.8 + (1.6 * i) / (list.length - 1)) * W * 0.8, z = -D / 2 + 0.3 + seeded(i + 3.7) * 0.4;
     const tall = H * (piece.kind === 'cloud' ? 0.6 + seeded(i + 1.9) * 0.18 : piece.kind === 'star' ? 0.7 + seeded(i + 2.3) * 0.25 : 0.88);
     const hinge = new T.Group(); hinge.position.set(x, 0, z); book.add(hinge);
-    const stalk = slab(0.025, tall, 0.012, edgeMat); stalk.position.y = tall / 2; stalk.castShadow = true;
+    const legs = strut(tall);
     const flat = new T.Mesh(new T.PlaneGeometry(piece.size, piece.size / piece.aspect), new T.MeshStandardMaterial({ map: piece.map, transparent: true, alphaTest: 0.5, side: T.DoubleSide, roughness: 1,
       emissive: piece.glow ? '#ffffff' : '#000000', emissiveMap: piece.glow ? piece.map : null, emissiveIntensity: piece.glow ? 0.3 : 0 }));
     flat.position.y = tall;
-    hinge.add(stalk, flat); for (const m of [stalk, flat]) m.raycast = () => {};
+    hinge.add(...legs, flat); flat.raycast = () => {};
     skyHinges.push({ hinge, sign: x >= 0 ? 1 : -1 });
+    // Rain as paper strips and snow as paper flakes on threads, hung from the cloud; they sway, they never fall.
+    if (piece.kind === 'cloud' && (place.weather === 'rain' || place.weather === 'snow')) {
+      const rain = place.weather === 'rain', w = piece.size, below = tall - piece.size / piece.aspect / 2;
+      for (let k = 0; k < 5; k++) {
+        const length = below * (0.35 + seeded(i * 7 + k) * 0.25), holder = new T.Group(); holder.position.set((k / 4 - 0.5) * w * 0.75, below + 0.02, 0.01);
+        if (rain) { const strip = new T.Mesh(new T.PlaneGeometry(0.035, length), new T.MeshStandardMaterial({ color: '#8fa3bf', roughness: 1, side: T.DoubleSide })); strip.position.y = -length / 2; holder.add(strip); }
+        else {
+          const thread = new T.Mesh(new T.PlaneGeometry(0.008, length), new T.MeshBasicMaterial({ color: '#d8dde6', side: T.DoubleSide })); thread.position.y = -length / 2;
+          const flake = new T.Mesh(new T.PlaneGeometry(0.16, 0.16), new T.MeshStandardMaterial({ map: paper?.flake || null, color: '#ffffff', transparent: true, alphaTest: 0.5, side: T.DoubleSide, roughness: 1 })); flake.position.y = -length;
+          holder.add(thread, flake);
+        }
+        holder.traverse((m) => { if (m.isMesh) m.raycast = () => {}; });
+        hinge.add(holder); hanging.push({ holder, phase: seeded(i + k * 3.1) * 6, rain });
+      }
+    }
   });
+  // Fog as a pale paper band standing across the back of both pages, rising with them.
+  let fogBand = null;
+  if (place.weather === 'fog') {
+    fogBand = new T.Group(); fogBand.position.set(0, 0, -D / 2 + 0.6); book.add(fogBand);
+    const band = new T.Mesh(new T.PlaneGeometry(2 * W * 0.9, H * 0.4), new T.MeshStandardMaterial({ map: paper?.mist || null, color: '#eef1f4', transparent: true, alphaTest: 0.3, opacity: 0.85, side: T.DoubleSide, roughness: 1 }));
+    band.position.y = H * 0.2; band.raycast = () => {}; fogBand.add(band);
+  }
 
   // Key light and its soft shadow, fitted to the book.
   key.position.copy(centre).add(new T.Vector3(0.45, 0.85, 0.35).applyAxisAngle(new T.Vector3(0, 1, 0), book.rotation.y).multiplyScalar(R * 3)); key.target.position.copy(centre);
   rim.position.copy(centre).add(new T.Vector3(-0.5, 0.6, -1).applyAxisAngle(new T.Vector3(0, 1, 0), book.rotation.y).multiplyScalar(R * 3)); rim.target.position.copy(centre);
   Object.assign(key.shadow.camera, { left: -R * 1.4, right: R * 1.4, top: R * 1.4, bottom: -R * 1.4, near: 0.1, far: R * 8 }); key.shadow.camera.updateProjectionMatrix();
 
-  // Weather: rain as falling streaks, snow as drifting points, over the page.
-  if (place.weather === 'rain' || place.weather === 'snow') {
-    const rain = place.weather === 'rain', n = rain ? 700 : 500, pos = new Float32Array(n * (rain ? 6 : 3)), speed = rain ? 6 : 0.7;
-    for (let i = 0; i < n; i++) {
-      const x = (seeded(i) - 0.5) * 1.9 * W, y = seeded(i + 7.1) * H, z = (seeded(i + 3.3) - 0.5) * 0.95 * D; // over the page, in the book's own axes
-      if (rain) pos.set([x, y, z, x - 0.02, y - 0.24, z], i * 6); else pos.set([x, y, z], i * 3);
-    }
-    const geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(pos, 3));
-    const mat = rain ? new T.LineBasicMaterial({ color: '#8fa3bf', transparent: true, opacity: 0.6 }) : new T.PointsMaterial({ color: '#ffffff', size: 0.06, transparent: true, opacity: 0.95 });
-    const drops = rain ? new T.LineSegments(geo, mat) : new T.Points(geo, mat); drops.userData.weather = true; drops.raycast = () => {}; book.add(drops);
-    weather.push((dt) => {
-      const a = geo.attributes.position.array, step = rain ? 6 : 3;
-      for (let i = 0; i < a.length; i += step) {
-        const fall = speed * mood.speed * dt, drift = rain ? 0 : Math.sin((a[i + 1] + i) * 0.7) * 0.15 * dt;
-        a[i + 1] -= fall; a[i] += drift; if (rain) { a[i + 4] -= fall; a[i + 3] += drift; }
-        if (a[i + 1] < 0) { a[i + 1] += H; if (rain) a[i + 4] += H; }
-      }
-      geo.attributes.position.needsUpdate = true;
-    });
-  }
-
-  // Motes of light drifting over the page: warm glints by lamplight and starlight, dust in daylight (rain and snow have their own).
-  let motes = null;
-  if (place.weather !== 'rain' && place.weather !== 'snow') {
-    const n = 56, pos = new Float32Array(n * 3), home = [];
-    for (let i = 0; i < n; i++) { const h = [(seeded(i + 0.31) - 0.5) * 1.7 * W, 0.25 + seeded(i + 5.17) * H * 0.75, (seeded(i + 8.43) - 0.5) * 0.85 * D]; home.push(h); pos.set(h, i * 3); }
-    const geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(pos, 3));
-    const warm = place.time === 'evening' || place.time === 'night', mat = new T.PointsMaterial({ color: warm ? '#ffd98a' : '#fff6dc', size: warm ? 0.07 : 0.045, transparent: true, opacity: warm ? 0.75 : 0.5, depthWrite: false });
-    const points = new T.Points(geo, mat); points.raycast = () => {}; book.add(points);
-    motes = { geo, home, mat, base: mat.opacity };
-  }
+  // Weather moves only what hangs from the pages' clouds: rain strips sway, snowflakes turn on their threads.
+  if (hanging.length) weather.push(() => { for (const h of hanging) { const t = clock * (h.rain ? 1.4 : 0.8) + h.phase; h.holder.rotation.z = Math.sin(t) * (h.rain ? 0.05 : 0.12); if (!h.rain) h.holder.children[1].rotation.y = t; } });
 
   // Steam: a few soft puffs rising from the top of the thing.
   const puff = new T.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.5, depthWrite: false });
@@ -283,6 +282,7 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
     else leftPage.rotation.z = -(enter === 'next' ? Math.PI / 2 : Math.PI) * (1 - turn); // closed, the left page lies over the right half
     const rise = Math.max(0, Math.min(1, (unfold - 0.3) / 0.45)); // the sky's cut-outs, in the book's own axes (its z runs along the gutter)
     for (const sky of skyHinges) sky.hinge.rotation.z = sky.sign * (Math.PI / 2) * (1 - backOut(rise));
+    if (fogBand) fogBand.rotation.x = -(Math.PI / 2) * (1 - backOut(rise)); // the fog band lies back toward the spine until it rises
     hinges.forEach((h, i) => { const start = 0.3 + spots[i].far * 0.3, p = Math.max(0, Math.min(1, (unfold - start) / 0.4)); h.quaternion.setFromAxisAngle(axis, spots[i].sign * (Math.PI / 2) * (1 - backOut(p))); });
   }
   pose();
@@ -290,6 +290,7 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
     const l = Math.min(1, leaving.t += dt / 1.1), down = easeIn(Math.min(1, l / 0.55)), lift = easeIn(Math.max(0, (l - 0.4) / 0.6));
     hinges.forEach((h, i) => { h.quaternion.setFromAxisAngle(axis, spots[i].sign * (Math.PI / 2) * down); h.visible = down < 0.98; });
     for (const sky of skyHinges) { sky.hinge.rotation.z = sky.sign * (Math.PI / 2) * down; sky.hinge.visible = down < 0.98; }
+    if (fogBand) { fogBand.rotation.x = -(Math.PI / 2) * down; fogBand.visible = down < 0.98; }
     if (leaving.direction === 'prev') leftPage.rotation.z = -(Math.PI / 2) * lift; else rightPage.rotation.z = (Math.PI / 2) * lift;
     if (l >= 1) { const done = leaving.resolve; leaving = null; done(); }
   }
@@ -306,11 +307,6 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
     }
     if (!dt) return; // at rest: where things start, before anything moves
     for (const b of idle) { const t = clock * 0.9 + b.phase; b.swing.scale.set(1, 1 + Math.sin(t) * 0.014, 1); b.swing.rotation.z = Math.sin(t * 0.7) * 0.012; }
-    if (motes) {
-      const a = motes.geo.attributes.position.array;
-      motes.home.forEach((h, i) => { const t = clock * 0.35 + i; a[i * 3] = h[0] + Math.sin(t * 0.9) * 0.25; a[i * 3 + 1] = h[1] + Math.sin(t * 0.6 + i) * 0.18; a[i * 3 + 2] = h[2] + Math.cos(t * 0.7) * 0.25; });
-      motes.geo.attributes.position.needsUpdate = true; motes.mat.opacity = motes.base * (0.75 + 0.25 * Math.sin(clock * 1.3));
-    }
     key.intensity = keyBase * (1 + 0.05 * Math.sin(clock * 0.25) * Math.sin(clock * 0.17 + 2)); // light shifting, as if clouds passed
     hinges.forEach((h, i) => { // a piece lifts a little under the pointer; a chosen one hops
       lifted[i] += ((i === over ? 0.06 : 0) - lifted[i]) * Math.min(1, dt * 8);
@@ -326,7 +322,7 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
     // As a book is read: from the reader's side of the table, looking down at the open spread (about 55°).
     frame: { target: new T.Vector3(centre.x, H * 0.18, centre.z), radius: Math.hypot(W * 1.04, D * 0.5, H * 0.3),
       direction: toward.clone().multiplyScalar(Math.cos(0.95)).add(new T.Vector3(0, Math.sin(0.95), 0)).normalize() },
-    fog: place.weather === 'fog' ? { color: `#${new T.Color(CHARCOAL).lerp(new T.Color(place.sky), 0.35).getHexString()}`, near: R * 2.4, far: R * 7.5 } : null,
+    fog: null, // fog is a paper band in the book, not haze in the room
     moving: objects.length > 0, // a living page: something always breathes
     get unfolding() { return unfold < 1; },
     // Advances the opening and, when motion is on, the weather and the things that move. True while another frame is needed.

@@ -26,7 +26,10 @@ saved with the scene.
 - **Read like a book, with no backdrop.** The owner asked for the book to lie flat, seen "like you would read a book", and for
   no backdrop "unless it's popping out of the pages". The spread has a book's proportions (upright pages about 1 : 1.42, sized
   to hold the place), the view looks down at it from the reader's side (about 55°), and the standing sky card is gone: the sun
-  or moon, clouds and stars are paper cut-outs on stalks that rise out of the pages and fold flat with them.
+  or moon, clouds and stars are paper cut-outs that rise out of the pages and fold flat with them. Then: "Everything has to pop
+  from the pages including the sun and such." Each sky cut-out stands on a folded paper strut (an A, as pop-up books do it);
+  rain is paper strips and snow paper flakes on threads, hanging from the clouds and swaying, never falling free; fog is a pale
+  paper band standing across the back; the drifting motes and the room's haze are gone.
 - **Left to right.** A closed book opens as an English book does: the left page lifts off the right half and swings over to
   the left. Choosing a later day turns the page forward (the scene folds flat into the gutter, the sky card lies down, the right
   page stands and the next day comes over from the right); an earlier day turns back. With reduced motion the next day is there.
