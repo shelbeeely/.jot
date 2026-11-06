@@ -3,21 +3,22 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:52:53.087Z"
+    "at": "2026-11-06T10:35:51.461Z"
   },
-  "title": "River path and rainy window",
-  "sky": "#7fa8c9",
-  "ground": "#3b3f45",
+  "title": "Riverside morning and kitchen window",
+  "sky": "#98a8b8",
+  "ground": "#6b6f74",
   "weather": "rain",
   "time": "morning",
+  "atmosphere": "wistful",
   "camera": {
     "position": [
-      -4,
-      2,
-      4
+      -2.2,
+      1.6,
+      2.8
     ],
     "target": [
-      0,
+      0.6,
       0.9,
       0
     ]
@@ -26,7 +27,7 @@
     {
       "name": "River plane",
       "position": [
-        0,
+        0.6,
         0,
         0
       ],
@@ -35,46 +36,7 @@
         0,
         0
       ],
-      "moments": [
-        "The river path was silver with puddles this morning.",
-        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
-      ],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            8,
-            0.01,
-            3
-          ],
-          "color": "#516e86",
-          "roughness": 0.2,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Puddles",
-      "position": [
-        -0.5,
-        0,
-        0.4
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
+      "motion": "drift",
       "moments": [
         "The river path was silver with puddles this morning."
       ],
@@ -83,7 +45,7 @@
           "type": "plane",
           "position": [
             0,
-            0.01,
+            0,
             0
           ],
           "rotation": [
@@ -92,81 +54,21 @@
             0
           ],
           "size": [
-            1.2,
+            6,
             0.01,
-            0.5
+            3
           ],
-          "color": "#cfe6f6",
-          "roughness": 0.05,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0.9,
-            0.01,
-            -0.2
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.01,
-            0.4
-          ],
-          "color": "#d7ecff",
-          "roughness": 0.04,
+          "color": "#455b63",
+          "roughness": 0.6,
           "glow": false
         }
       ]
     },
     {
-      "name": "River landing",
+      "name": "Puddled path",
       "position": [
-        2.4,
+        -1.5,
         0,
-        0.8
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.08,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.16,
-            0.5
-          ],
-          "color": "#7a5a3a",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Little boat",
-      "position": [
-        2.8,
-        0.12,
         1.2
       ],
       "rotation": [
@@ -174,12 +76,13 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+        "The river path was silver with puddles this morning."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "plane",
           "position": [
             0,
             0,
@@ -191,72 +94,12 @@
             0
           ],
           "size": [
-            0.9,
-            0.18,
-            0.4
+            3,
+            0.01,
+            1.6
           ],
-          "color": "#6b4b3a",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            -0.35,
-            0.06,
-            -0.18
-          ],
-          "rotation": [
-            1.57,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.4,
-            0.02
-          ],
-          "color": "#3b2b20",
+          "color": "#7a7f84",
           "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Rope knot",
-      "position": [
-        2.6,
-        0.15,
-        1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            1.2
-          ],
-          "size": [
-            0.03,
-            0.3,
-            0.03
-          ],
-          "color": "#c7a86b",
-          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -264,15 +107,16 @@
     {
       "name": "Park bench",
       "position": [
-        -1.2,
-        0,
-        0.6
+        -1.1,
+        0.45,
+        1.35
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
       ],
@@ -281,151 +125,7 @@
           "type": "box",
           "position": [
             0,
-            0.35,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
             0.12,
-            0.45
-          ],
-          "color": "#5a3d2a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            -0.02,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.06,
-            0.06
-          ],
-          "color": "#5a3d2a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.75,
-            -0.39,
-            0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#3b2b22",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.75,
-            -0.39,
-            0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#3b2b22",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.75,
-            -0.39,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#3b2b22",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.75,
-            -0.39,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#3b2b22",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Tea mug",
-      "position": [
-        -1.2,
-        0.86,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
             0
           ],
           "rotation": [
@@ -434,51 +134,136 @@
             0
           ],
           "size": [
-            0.06,
-            0.12,
-            0.06
-          ],
-          "color": "#d26b3a",
-          "roughness": 0.3,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Boot",
-      "position": [
-        -1.35,
-        0.78,
-        0.45
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
+            1.1,
             0.18,
-            0.12,
-            0.28
+            0.35
           ],
-          "color": "#3e3b3a",
-          "roughness": 0.9,
+          "color": "#6b3f2b",
+          "roughness": 0.5,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.48,
+            -0.24,
+            0.13
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.5,
+            0.08
+          ],
+          "color": "#3f2b22",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.48,
+            -0.24,
+            0.13
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.5,
+            0.08
+          ],
+          "color": "#3f2b22",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.48,
+            -0.24,
+            -0.13
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.5,
+            0.08
+          ],
+          "color": "#3f2b22",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.48,
+            -0.24,
+            -0.13
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.5,
+            0.08
+          ],
+          "color": "#3f2b22",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea",
+      "position": [
+        -1.05,
+        0.86,
+        1.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "steam",
+      "moments": [
+        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
+      ],
+      "shapes": [
+        {
+          "type": "mug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.09
+          ],
+          "color": "#d97b4a",
+          "roughness": 0.3,
           "glow": false
         }
       ]
@@ -488,13 +273,14 @@
       "position": [
         -0.6,
         0,
-        1.6
+        0.9
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "sway",
       "moments": [
         "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
       ],
@@ -503,7 +289,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0.6,
+            0.7,
             0
           ],
           "rotation": [
@@ -512,11 +298,11 @@
             0
           ],
           "size": [
-            0.18,
-            1.2,
-            0.18
+            0.12,
+            1.4,
+            0.12
           ],
-          "color": "#6b4a2e",
+          "color": "#5b3a2b",
           "roughness": 0.9,
           "glow": false
         },
@@ -524,7 +310,7 @@
           "type": "sphere",
           "position": [
             0,
-            1.55,
+            1.6,
             0
           ],
           "rotation": [
@@ -537,34 +323,34 @@
             0.9,
             0.9
           ],
-          "color": "#2f6b39",
-          "roughness": 0.8,
+          "color": "#2f5b3a",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Path bench puddle",
+      "name": "Wooden landing",
       "position": [
-        -1.2,
-        0,
-        0.9
+        1.6,
+        0.12,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "The river path was silver with puddles this morning.",
-        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "box",
           "position": [
             0,
-            0.01,
+            0,
             0
           ],
           "rotation": [
@@ -574,37 +360,37 @@
           ],
           "size": [
             0.9,
-            0.01,
-            0.6
+            0.08,
+            0.5
           ],
-          "color": "#cfe6f6",
-          "roughness": 0.05,
+          "color": "#6b4a36",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Home facade",
+      "name": "Little boat",
       "position": [
-        -3.2,
-        0,
-        -1.6
+        2,
+        0.1,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "bob",
       "moments": [
-        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook.",
-        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river"
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
       ],
       "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            1,
+            0,
             0
           ],
           "rotation": [
@@ -613,28 +399,90 @@
             0
           ],
           "size": [
-            2.2,
-            2,
-            0.12
+            0.9,
+            0.18,
+            0.35
           ],
-          "color": "#dcd6d0",
-          "roughness": 0.9,
+          "color": "#8b5a44",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.36,
+            0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.12,
+            0.03
+          ],
+          "color": "#4a2d21",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Kitchen window",
+      "name": "Rope against landing",
       "position": [
-        -3.2,
-        0,
-        -1.59
+        1.85,
+        0.12,
+        -0.55
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.22,
+            0.01
+          ],
+          "color": "#bca98a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Home exterior wall",
+      "position": [
+        -2.4,
+        1,
+        0.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
         "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
       ],
@@ -643,7 +491,47 @@
           "type": "box",
           "position": [
             0,
-            1.6,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.2,
+            2,
+            0.12
+          ],
+          "color": "#cfcfd1",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Kitchen window",
+      "position": [
+        -2.35,
+        1.6,
+        0.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
+      ],
+      "shapes": [
+        {
+          "type": "window",
+          "position": [
+            0,
+            0,
             0
           ],
           "rotation": [
@@ -656,91 +544,32 @@
             1.1,
             0.06
           ],
-          "color": "#9fb8d0",
-          "roughness": 0.05,
+          "color": "#2b3b46",
+          "roughness": 0.2,
           "glow": false
         }
       ]
     },
     {
-      "name": "Window lamp",
+      "name": "Table near window",
       "position": [
-        -3.2,
-        1.05,
-        -1.4
+        -2.05,
+        0.75,
+        0.9
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.16,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.32,
-            0.06
-          ],
-          "color": "#9a7a56",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.5,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.12,
-            0.12
-          ],
-          "color": "#fff2d8",
-          "roughness": 0.1,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Notebook on sill",
-      "position": [
-        -3.05,
-        0.88,
-        -1.25
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
+      "motion": "none",
       "moments": [
         "Back home, the kitchen window held a blurred reflection of the lamp and the notebook.",
         "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river"
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "table",
           "position": [
             0,
             0,
@@ -752,34 +581,159 @@
             0
           ],
           "size": [
-            0.18,
-            0.02,
-            0.12
+            1.6,
+            0.06,
+            0.9
           ],
-          "color": "#2b2b2b",
+          "color": "#8b6f5a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#6b4a36",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#6b4a36",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#6b4a36",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#6b4a36",
           "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Picture study",
+      "name": "Notebook",
       "position": [
-        -3.05,
-        0.88,
-        -1.05
+        -2,
+        0.92,
+        0.75
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river"
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.04,
+            0.3
+          ],
+          "color": "#2f4b6b",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lamp",
+      "position": [
+        -1.95,
+        1.05,
+        1.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "flicker",
+      "moments": [
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
+      ],
+      "shapes": [
+        {
+          "type": "lamp",
           "position": [
             0,
             0,
@@ -792,37 +746,37 @@
           ],
           "size": [
             0.12,
-            0.18,
-            0.02
+            0.35,
+            0.12
           ],
-          "color": "#a4a3a8",
-          "roughness": 0.6,
-          "glow": false
+          "color": "#e6d8b7",
+          "roughness": 0.2,
+          "glow": true
         }
       ]
     },
     {
-      "name": "Small rug",
+      "name": "Picture study",
       "position": [
-        -0.6,
-        0,
-        0.2
+        -2.15,
+        0.9,
+        0.45
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "The river path was silver with puddles this morning.",
-        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
+        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river"
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "frame",
           "position": [
             0,
-            0.01,
+            0,
             0
           ],
           "rotation": [
@@ -831,11 +785,72 @@
             0
           ],
           "size": [
-            1,
-            0.01,
-            0.5
+            0.36,
+            0.26,
+            0.04
           ],
-          "color": "#4b4d50",
+          "color": "#4b3629",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pot of leaves",
+      "position": [
+        -1.8,
+        0.9,
+        1.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "plant",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.3,
+            0.18
+          ],
+          "color": "#6ea07a",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.14,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.12
+          ],
+          "color": "#8b5a44",
           "roughness": 0.9,
           "glow": false
         }

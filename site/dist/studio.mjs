@@ -390,6 +390,7 @@ const sceneOptions = {
   placeText: (path) => { const a = assets.find((x) => x.path === path); return a && a.data.length <= 1024 * 1024 ? new TextDecoder().decode(a.data) : null; },
   attachPlace: async (text) => (await attachFiles([new File([text], 'scene.json', { type: PLACE_TYPE })], false))[0],
   renderEntry: (source, into) => renderPreview(parse(source), into, { asset: (p) => { const a = assets.find((x) => x.path === p); return a ? { url: assetUrls.get(p), mediaType: a.mediaType } : null; }, style: $('pageStyle').value }),
+  asset: (p) => { const a = assets.find((x) => x.path === p); return a ? { url: assetUrls.get(p), mediaType: a.mediaType } : null; }, // a scene's frames show the entry's own pictures
   ai: { connection: () => aiCompanion?.connection?.() || null, open: () => aiCompanion?.open?.() },
 };
 const writerWorkspace = setupWriterWorkspace({ editor, status, scenes: sceneOptions, showPreview: () => {

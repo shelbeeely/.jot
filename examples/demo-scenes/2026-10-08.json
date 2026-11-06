@@ -3,21 +3,22 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:52:57.448Z"
+    "at": "2026-11-06T10:36:21.608Z"
   },
-  "title": "Rainy kitchen corner",
-  "sky": "#3b4f5f",
-  "ground": "#bfa67a",
+  "title": "Kitchen window on a rainy afternoon",
+  "sky": "#6f88a4",
+  "ground": "#dcd2c4",
   "weather": "rain",
-  "time": "evening",
+  "time": "day",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
-      2,
+      1.5,
       1.6,
-      4
+      2.6
     ],
     "target": [
-      0,
+      0.2,
       0.9,
       0
     ]
@@ -35,6 +36,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
@@ -50,11 +52,11 @@
             0
           ],
           "size": [
-            6,
+            4,
             0.01,
-            5
+            3
           ],
-          "color": "#bfa67a",
+          "color": "#efe8df",
           "roughness": 0.9,
           "glow": false
         }
@@ -64,19 +66,16 @@
       "name": "Back wall",
       "position": [
         0,
-        1.1,
-        -2.5
+        1.3,
+        -1.4
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "Rain drummed on the kitchen window all afternoon.",
-        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches.",
-        "Generated demonstration clip of rain at a window"
-      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
           "type": "box",
@@ -91,16 +90,37 @@
             0
           ],
           "size": [
-            6,
-            2.2,
-            0.08
+            4,
+            2.6,
+            0.12
           ],
-          "color": "#e6ddd3",
-          "roughness": 0.8,
+          "color": "#cfc6bb",
+          "roughness": 0.85,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Kitchen window",
+      "position": [
+        0.9,
+        1.6,
+        -1.36
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "Rain drummed on the kitchen window all afternoon.",
+        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches.",
+        "Generated demonstration clip of rain at a window"
+      ],
+      "shapes": [
         {
-          "type": "box",
+          "type": "window",
           "position": [
             0,
             0,
@@ -116,35 +136,16 @@
             1.1,
             0.06
           ],
-          "color": "#86a0b3",
-          "roughness": 0.2,
+          "color": "#5a6b7a",
+          "roughness": 0.1,
           "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window drip",
-      "position": [
-        0,
-        1.1,
-        -2.47
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Rain drummed on the kitchen window all afternoon.",
-        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches."
-      ],
-      "shapes": [
+        },
         {
           "type": "box",
           "position": [
             0,
-            -0.25,
-            0.08
+            0,
+            -0.05
           ],
           "rotation": [
             0,
@@ -152,78 +153,18 @@
             0
           ],
           "size": [
-            0.06,
-            0.5,
-            0.06
+            1.3,
+            0.02,
+            0.02
           ],
-          "color": "#3b4b56",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Garden tree",
-      "position": [
-        -1.6,
-        0,
-        -4.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.4,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.8,
-            0.08
-          ],
-          "color": "#5a3b2a",
+          "color": "#a48b6d",
           "roughness": 0.9,
           "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            1.15,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.7,
-            0.7,
-            0.7
-          ],
-          "color": "#2f6b32",
-          "roughness": 0.8,
-          "glow": false
         }
       ]
     },
     {
-      "name": "Table",
+      "name": "Wooden table",
       "position": [
         0,
         0.75,
@@ -234,9 +175,9 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
-        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches.",
-        "The tea mug made a tiny round clearing in the crumbs from lunch."
+        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches."
       ],
       "shapes": [
         {
@@ -256,7 +197,7 @@
             0.06,
             0.9
           ],
-          "color": "#8b5a33",
+          "color": "#8b5a3c",
           "roughness": 0.7,
           "glow": false
         },
@@ -277,8 +218,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b3f24",
-          "roughness": 0.9,
+          "color": "#8b5a3c",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -298,8 +239,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b3f24",
-          "roughness": 0.9,
+          "color": "#8b5a3c",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -319,8 +260,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b3f24",
-          "roughness": 0.9,
+          "color": "#8b5a3c",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -340,8 +281,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b3f24",
-          "roughness": 0.9,
+          "color": "#8b5a3c",
+          "roughness": 0.7,
           "glow": false
         }
       ]
@@ -349,8 +290,8 @@
     {
       "name": "Lamp",
       "position": [
-        0.7,
-        0.95,
+        -0.4,
+        1.05,
         0.25
       ],
       "rotation": [
@@ -358,13 +299,13 @@
         0,
         0
       ],
+      "motion": "flicker",
       "moments": [
-        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches.",
-        "I wanted sound and movement beside this entry as well as words."
+        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches."
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "lamp",
           "position": [
             0,
             0,
@@ -376,33 +317,12 @@
             0
           ],
           "size": [
-            0.06,
-            0.12,
-            0.06
-          ],
-          "color": "#2b2b2b",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0,
-            0.25,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
             0.18,
-            0.18,
+            0.42,
             0.18
           ],
-          "color": "#ffdca8",
-          "roughness": 0.1,
+          "color": "#e6d8c2",
+          "roughness": 0.3,
           "glow": true
         }
       ]
@@ -410,7 +330,7 @@
     {
       "name": "Notebook",
       "position": [
-        -0.25,
+        0.35,
         0.86,
         0.05
       ],
@@ -419,12 +339,13 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "book",
           "position": [
             0,
             0,
@@ -437,10 +358,10 @@
           ],
           "size": [
             0.22,
-            0.02,
-            0.16
+            0.04,
+            0.3
           ],
-          "color": "#d7d7d2",
+          "color": "#3b5b4a",
           "roughness": 0.6,
           "glow": false
         }
@@ -449,68 +370,8 @@
     {
       "name": "Mug of tea",
       "position": [
-        0.15,
-        0.9,
-        -0.15
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The tea mug made a tiny round clearing in the crumbs from lunch."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.08,
-            0.06
-          ],
-          "color": "#ffffff",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0.07,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            1.57,
-            0
-          ],
-          "size": [
-            0.03,
-            0.01,
-            0.03
-          ],
-          "color": "#ffffff",
-          "roughness": 0.3,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Crumbs",
-      "position": [
-        0.05,
-        0.88,
+        -0.05,
+        0.86,
         -0.05
       ],
       "rotation": [
@@ -518,16 +379,17 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "The tea mug made a tiny round clearing in the crumbs from lunch."
       ],
       "shapes": [
         {
-          "type": "sphere",
+          "type": "mug",
           "position": [
-            -0.05,
             0,
-            0.03
+            0,
+            0
           ],
           "rotation": [
             0,
@@ -535,20 +397,39 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            0.01
+            0.12,
+            0.12,
+            0.09
           ],
-          "color": "#c28b4a",
-          "roughness": 0.9,
+          "color": "#d96b3a",
+          "roughness": 0.25,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Crumbs on table",
+      "position": [
+        0.05,
+        0.83,
+        0.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The tea mug made a tiny round clearing in the crumbs from lunch."
+      ],
+      "shapes": [
         {
-          "type": "sphere",
+          "type": "papers",
           "position": [
-            0.03,
             0,
-            0.02
+            0,
+            0
           ],
           "rotation": [
             0,
@@ -556,32 +437,11 @@
             0
           ],
           "size": [
-            0.012,
-            0.012,
-            0.012
-          ],
-          "color": "#b77b3c",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.07,
-            0,
-            -0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
+            0.18,
             0.01,
-            0.01,
-            0.01
+            0.12
           ],
-          "color": "#caa06b",
+          "color": "#f4eeda",
           "roughness": 0.9,
           "glow": false
         }
@@ -592,19 +452,20 @@
       "position": [
         -0.9,
         0.45,
-        0.25
+        0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "chair",
           "position": [
             0,
             0,
@@ -617,117 +478,96 @@
           ],
           "size": [
             0.5,
-            0.06,
-            0.45
+            0.9,
+            0.5
           ],
-          "color": "#6b4b33",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.22,
-            -0.27,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.54,
-            0.06
-          ],
-          "color": "#6b4b33",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.22,
-            -0.27,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.54,
-            0.06
-          ],
-          "color": "#6b4b33",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.22,
-            -0.27,
-            0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.54,
-            0.06
-          ],
-          "color": "#6b4b33",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.22,
-            -0.27,
-            0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.54,
-            0.06
-          ],
-          "color": "#6b4b33",
+          "color": "#6b4f3a",
           "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Counter shelf",
+      "name": "Garden tree (visible)",
       "position": [
-        1.8,
-        0.9,
-        -0.8
+        -1.6,
+        0,
+        -3.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "sway",
       "moments": [
+        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            1.2,
+            0.08
+          ],
+          "color": "#6b4a33",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            1.5,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "color": "#2f6b3f",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Phone (player)",
+      "position": [
+        0.6,
+        0.86,
+        0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I wanted sound and movement beside this entry as well as words.",
         "They stay quiet until I press play. #home #listening @kitchen"
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "phone",
           "position": [
             0,
             0,
@@ -739,39 +579,57 @@
             0
           ],
           "size": [
-            1.2,
-            0.18,
-            0.5
+            0.08,
+            0.015,
+            0.15
           ],
-          "color": "#d9d2c8",
-          "roughness": 0.85,
+          "color": "#1e1e25",
+          "roughness": 0.15,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.01,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.01,
+            0.12
+          ],
+          "color": "#0a2233",
+          "roughness": 0.1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Window rain streaks",
+      "name": "Small shelf",
       "position": [
-        0,
         1.6,
-        -2.47
+        1,
+        -0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "Rain drummed on the kitchen window all afternoon.",
-        "Generated demonstration rain-like sound",
-        "Generated demonstration clip of rain at a window"
-      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
           "type": "box",
           "position": [
-            -0.35,
-            -0.05,
+            0,
+            0,
             0
           ],
           "rotation": [
@@ -780,19 +638,19 @@
             0
           ],
           "size": [
-            0.02,
-            0.6,
-            0.01
+            0.7,
+            0.12,
+            0.2
           ],
-          "color": "#abc3d0",
-          "roughness": 0.1,
+          "color": "#9c7a5a",
+          "roughness": 0.9,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "book",
           "position": [
-            0.2,
-            0,
+            0.18,
+            0.06,
             0
           ],
           "rotation": [
@@ -801,19 +659,38 @@
             0
           ],
           "size": [
-            0.015,
-            0.5,
-            0.01
+            0.22,
+            0.04,
+            0.3
           ],
-          "color": "#9fb8c6",
-          "roughness": 0.1,
+          "color": "#b64d4d",
+          "roughness": 0.6,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Wall frame",
+      "position": [
+        -0.8,
+        1.2,
+        -1.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches."
+      ],
+      "shapes": [
         {
-          "type": "box",
+          "type": "frame",
           "position": [
-            0.45,
-            -0.02,
+            0,
+            0,
             0
           ],
           "rotation": [
@@ -822,12 +699,12 @@
             0
           ],
           "size": [
-            0.01,
             0.4,
-            0.01
+            0.5,
+            0.04
           ],
-          "color": "#9fb8c6",
-          "roughness": 0.1,
+          "color": "#7a5a47",
+          "roughness": 0.9,
           "glow": false
         }
       ]

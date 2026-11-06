@@ -3,708 +3,41 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:31.219Z"
+    "at": "2026-11-06T10:37:32.085Z"
   },
-  "title": "Riverside Camp",
-  "sky": "#1e2740",
-  "ground": "#2b5a2b",
+  "title": "Riverside Camp at Dusk",
+  "sky": "#22334d",
+  "ground": "#2d2b21",
   "weather": "clear",
   "time": "evening",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
       -3,
-      2.2,
-      4.5
+      1.8,
+      3.5
     ],
     "target": [
-      0.4,
-      0.6,
-      1.8
+      0,
+      1,
+      0
     ]
   },
   "objects": [
     {
-      "name": "Tree",
+      "name": "Ground plane",
       "position": [
-        -1.6,
         0,
-        2.8
+        0,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "moments": [
-        "By evening the tent was up beneath a tree near the river."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.9,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            1.8,
-            0.18
-          ],
-          "color": "#6b3f25",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            1.9,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
-          ],
-          "color": "#2f7a2f",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Tent",
-      "position": [
-        0.4,
-        0,
-        1.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "By evening the tent was up beneath a tree near the river.",
-        "The tent looked very bright from outside, although there was only one light in it."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.5,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            1,
-            1.2
-          ],
-          "color": "#d45a3a",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.5,
-            0
-          ],
-          "rotation": [
-            0,
-            0.9,
-            0
-          ],
-          "size": [
-            1.6,
-            0.06,
-            1.2
-          ],
-          "color": "#b33b2a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.12,
-            0.12
-          ],
-          "color": "#ffd98a",
-          "roughness": 0.2,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Bench",
-      "position": [
-        -0.9,
-        0,
-        0.1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table.",
-        "When it grew dark we carried tea mugs to the bench and stopped talking for a while."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.2,
-            0.06,
-            0.34
-          ],
-          "color": "#6b4a31",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.52,
-            -0.39,
-            -0.12
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#6b4a31",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.52,
-            -0.39,
-            -0.12
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#6b4a31",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Lamp on bench",
-      "position": [
-        -0.35,
-        0.85,
-        0.08
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.18,
-            0.06
-          ],
-          "color": "#555555",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.18,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.09,
-            0.09,
-            0.09
-          ],
-          "color": "#fff2c2",
-          "roughness": 0.1,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Camp table",
-      "position": [
-        0.7,
-        0,
-        0.5
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table.",
-        "I wrote two lines in the notebook and put it away. #outside #friends @camp"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.75,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.2,
-            0.06,
-            0.7
-          ],
-          "color": "#7a5236",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.55,
-            0.36,
-            -0.28
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#7a5236",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.55,
-            0.36,
-            -0.28
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#7a5236",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.55,
-            0.36,
-            0.28
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#7a5236",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.55,
-            0.36,
-            0.28
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#7a5236",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Bread and apples",
-      "position": [
-        0.7,
-        0.95,
-        0.5
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            -0.18,
-            -0.05,
-            0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.32,
-            0.06,
-            0.14
-          ],
-          "color": "#f0d7b0",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.12,
-            0.02,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#d43b2b",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.22,
-            0.02,
-            -0.06
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#d43b2b",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug A",
-      "position": [
-        -0.6,
-        0.86,
-        0.08
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "When it grew dark we carried tea mugs to the bench and stopped talking for a while."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.08,
-            0.05
-          ],
-          "color": "#6b8aa3",
-          "roughness": 0.5,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug B",
-      "position": [
-        -1.05,
-        0.86,
-        0.08
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "When it grew dark we carried tea mugs to the bench and stopped talking for a while."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.08,
-            0.05
-          ],
-          "color": "#7f5f9a",
-          "roughness": 0.5,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Fire ring",
-      "position": [
-        0.2,
-        0,
-        0.95
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "A small fire glowed in the stone ring, with the blue boat pulled up safely on the bank beyond it."
-      ],
-      "shapes": [
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0.05,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.12,
-            0.6
-          ],
-          "color": "#7a6f65",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.18,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.18,
-            0.18
-          ],
-          "color": "#ff8a3b",
-          "roughness": 0.2,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Blue boat",
-      "position": [
-        2.1,
-        0.3,
-        3
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "A small fire glowed in the stone ring, with the blue boat pulled up safely on the bank beyond it."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.15,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.3,
-            0.5
-          ],
-          "color": "#2b6ea3",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "River patch",
-      "position": [
-        0,
-        0,
-        3.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "By evening the tent was up beneath a tree near the river.",
-        "A small fire glowed in the stone ring, with the blue boat pulled up safely on the bank beyond it."
-      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
           "type": "plane",
@@ -721,10 +54,767 @@
           "size": [
             8,
             0.01,
-            1.6
+            6
           ],
-          "color": "#274b7a",
+          "color": "#2d2b21",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "River bank",
+      "position": [
+        2,
+        0,
+        1.5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "By evening the tent was up beneath a tree near the river."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.15,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            3,
+            0.3,
+            2
+          ],
+          "color": "#4b5a52",
           "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tree",
+      "position": [
+        -1.6,
+        0,
+        0.5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "By evening the tent was up beneath a tree near the river."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            1.2,
+            0.12
+          ],
+          "color": "#5a3d2b",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            1.5,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.6,
+            0.6
+          ],
+          "color": "#274b2f",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.5,
+            1.45,
+            0.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.44,
+            0.44,
+            0.44
+          ],
+          "color": "#2f5a32",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tent",
+      "position": [
+        0.5,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "By evening the tent was up beneath a tree near the river.",
+        "The tent looked very bright from outside, although there was only one light in it."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.2,
+            0.9,
+            0.9
+          ],
+          "color": "#c84f3b",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.95,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.02,
+            0.02,
+            0.6
+          ],
+          "color": "#8c2f22",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            1.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.5,
+            0.6
+          ],
+          "color": "#ffd98a",
+          "roughness": 0.3,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Inner tent light",
+      "position": [
+        0.2,
+        1.05,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The tent looked very bright from outside, although there was only one light in it."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.12
+          ],
+          "color": "#fff0c2",
+          "roughness": 0.1,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Wooden bench",
+      "position": [
+        -0.6,
+        0.4,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table.",
+        "When it grew dark we carried tea mugs to the bench and stopped talking for a while."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.35,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.2,
+            0.12,
+            0.35
+          ],
+          "color": "#6b4a32",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.5,
+            0,
+            0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.6,
+            0.08
+          ],
+          "color": "#5a3f2b",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.5,
+            0,
+            0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.6,
+            0.08
+          ],
+          "color": "#5a3f2b",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lamp on bench",
+      "position": [
+        -0.15,
+        0.85,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "flicker",
+      "moments": [
+        "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table.",
+        "The tent looked very bright from outside, although there was only one light in it."
+      ],
+      "shapes": [
+        {
+          "type": "lamp",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.3,
+            0.12
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.2,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Camp table",
+      "position": [
+        0.4,
+        0.75,
+        -0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table.",
+        "I wrote two lines in the notebook and put it away. #outside #friends @camp"
+      ],
+      "shapes": [
+        {
+          "type": "table",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            0.75,
+            0.8
+          ],
+          "color": "#7a5336",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Plate with bread and apples",
+      "position": [
+        0.4,
+        0.95,
+        -0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table."
+      ],
+      "shapes": [
+        {
+          "type": "plate",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.02,
+            0.2
+          ],
+          "color": "#e9e1d3",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.03,
+            0.03,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.04,
+            0.08
+          ],
+          "color": "#d9b38f",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.06,
+            0.03,
+            0.04
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.05,
+            0.05
+          ],
+          "color": "#c03b2b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.09,
+            0.03,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.05,
+            0.05
+          ],
+          "color": "#d84f2f",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tea mug A",
+      "position": [
+        -0.35,
+        0.86,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "When it grew dark we carried tea mugs to the bench and stopped talking for a while."
+      ],
+      "shapes": [
+        {
+          "type": "mug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.09
+          ],
+          "color": "#ffffff",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tea mug B",
+      "position": [
+        0.05,
+        0.86,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "When it grew dark we carried tea mugs to the bench and stopped talking for a while."
+      ],
+      "shapes": [
+        {
+          "type": "mug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.09
+          ],
+          "color": "#ffe4b5",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Stone fire ring",
+      "position": [
+        0.9,
+        0.05,
+        0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "flicker",
+      "moments": [
+        "A small fire glowed in the stone ring, with the blue boat pulled up safely on the bank beyond it."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.18,
+            0.05,
+            0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.1,
+            0.12
+          ],
+          "color": "#5a5a5a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.18,
+            0.05,
+            0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.1,
+            0.12
+          ],
+          "color": "#5a5a5a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.05,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.1,
+            0.12
+          ],
+          "color": "#5a5a5a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.36,
+            0.18
+          ],
+          "color": "#ff7a2b",
+          "roughness": 0.2,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Blue boat on bank",
+      "position": [
+        2.1,
+        0.2,
+        1.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A small fire glowed in the stone ring, with the blue boat pulled up safely on the bank beyond it."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            0.2,
+            0.45
+          ],
+          "color": "#2b6aa3",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.38,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.2,
+            0.02,
+            0.35
+          ],
+          "color": "#1f4f78",
+          "roughness": 1,
           "glow": false
         }
       ]
@@ -732,21 +822,22 @@
     {
       "name": "Notebook",
       "position": [
-        0.85,
-        0.92,
-        0.38
+        0.25,
+        0.86,
+        -0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "I wrote two lines in the notebook and put it away. #outside #friends @camp"
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "notebook",
           "position": [
             0,
             0,
@@ -758,38 +849,39 @@
             0
           ],
           "size": [
-            0.16,
-            0.02,
-            0.11
+            0.22,
+            0.04,
+            0.3
           ],
-          "color": "#ffffff",
-          "roughness": 0.6,
+          "color": "#2e2b3b",
+          "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Camp blanket",
+      "name": "Small lantern on table",
       "position": [
-        0.05,
-        0,
-        0.4
+        0.55,
+        0.9,
+        -0.2
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "flicker",
       "moments": [
         "Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table.",
-        "When it grew dark we carried tea mugs to the bench and stopped talking for a while."
+        "The tent looked very bright from outside, although there was only one light in it."
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "lamp",
           "position": [
             0,
-            0.01,
+            0,
             0
           ],
           "rotation": [
@@ -798,13 +890,13 @@
             0
           ],
           "size": [
-            1.6,
-            0.01,
-            1.1
+            0.08,
+            0.2,
+            0.08
           ],
-          "color": "#8a4b3d",
-          "roughness": 0.8,
-          "glow": false
+          "color": "#3a2f2a",
+          "roughness": 0.3,
+          "glow": true
         }
       ]
     }

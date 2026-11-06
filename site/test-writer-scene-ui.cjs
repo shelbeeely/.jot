@@ -21,9 +21,9 @@ Stayed in bed until noon with the cat. The lamp is still on.
 // What a model might return for each day: data only, shapes and sentence numbers.
 const box=(position,size,color,extra={})=>({type:'box',position,rotation:[0,0,0],size,color,roughness:0.8,glow:false,...extra});
 const PLACES={
- '2026-10-01':{title:'A cluttered desk',sky:'#d9d2c3',ground:'#7a6a58',weather:'clear',time:'evening',camera:{position:[3,2.6,4],target:[0,0.8,0]},objects:[
+ '2026-10-01':{title:'A cluttered desk',sky:'#d9d2c3',ground:'#7a6a58',weather:'clear',time:'evening',atmosphere:'cosy',camera:{position:[3,2.6,4],target:[0,0.8,0]},objects:[
   {name:'Desk',position:[0,0,0],rotation:[0,0,0],moments:[1],shapes:[box([0,0.75,0],[2,0.08,1],'#8a5a3b'),box([-0.9,0.37,0.4],[0.08,0.74,0.08],'#6d4630'),box([0.9,0.37,0.4],[0.08,0.74,0.08],'#6d4630'),box([-0.9,0.37,-0.4],[0.08,0.74,0.08],'#6d4630'),box([0.9,0.37,-0.4],[0.08,0.74,0.08],'#6d4630')]},
-  {name:'Mug of tea',position:[0.5,0.85,0.1],rotation:[0,0,0],moments:[2],shapes:[{type:'cylinder',position:[0,0,0],rotation:[0,0,0],size:[0.07,0.14,0.07],color:'#e9e4dc',roughness:0.5,glow:false}]},
+  {name:'Mug of tea',position:[0.5,0.85,0.1],rotation:[0,0,0],motion:'steam',moments:[2],shapes:[{type:'cylinder',position:[0,0,0],rotation:[0,0,0],size:[0.07,0.14,0.07],color:'#e9e4dc',roughness:0.5,glow:false}]},
   {name:'Desk lamp',position:[-0.7,0.8,-0.2],rotation:[0,0,0],moments:[],shapes:[{type:'cone',position:[0,0.35,0],rotation:[0,0,0],size:[0.16,0.2,0.16],color:'#ffd27a',roughness:0.4,glow:true},{type:'cylinder',position:[0,0.15,0],rotation:[0,0,0],size:[0.02,0.3,0.02],color:'#333333',roughness:0.6,glow:false}]}]},
  '2026-10-02':{title:'A rainy bus stop',sky:'#7d8896',ground:'#3d4146',weather:'rain',time:'evening',camera:{position:[4,2.4,5],target:[0,1,0]},objects:[
   {name:'Bus shelter',position:[0,0,0],rotation:[0,0,0],moments:[1],shapes:[box([0,2.2,0],[3,0.1,1.2],'#556270'),box([-1.4,1.1,0],[0.08,2.2,0.08],'#9aa5b1'),box([1.4,1.1,0],[0.08,2.2,0.08],'#9aa5b1'),box([0,1.1,-0.55],[2.8,2,0.04],'#a9c4d6',{roughness:0.1})]},
@@ -73,6 +73,16 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
   assert.deepEqual(await page.locator('.writer-scenes-things button').allTextContents(),['Desk','Mug of tea']);
   await page.click('.writer-scenes-things button:has-text("Mug of tea")');
   assert.equal(await page.textContent('.writer-scenes-moment h3'),'Mug of tea');assert.deepEqual(await page.locator('.writer-scenes-moment li').allTextContents(),['The tea went cold while I read the same page three times.']);
+  // Told as an interpretation, with the model's reading of the feel; the moments stay the entry's own words.
+  assert.match(await page.textContent('.writer-scenes-about'),/^A cluttered desk\. Imagined by mock-scenes from this entry's words, with a cosy feel: the look is an interpretation; the moments are the entry's own sentences\./);
+  // Keyboard: the focused scene turns with the arrow keys and zooms with + and −.
+  await page.focus('.writer-scenes-canvas');const shot=await page.locator('.writer-scenes-canvas').screenshot();await page.keyboard.press('ArrowRight');await page.keyboard.press('+');await page.waitForTimeout(150);
+  assert.notDeepEqual(await page.locator('.writer-scenes-canvas').screenshot(),shot,'arrow keys and + move the view');
+  await page.click('#writerScenesReset');
+  // Steam is a motion: with reduced motion everything starts still, and Play motion is offered.
+  assert.equal(await page.isVisible('#writerScenesPause'),true);assert.equal(await page.textContent('#writerScenesPause'),'Play motion');
+  // The whole entry is always a click away, not only after choosing a thing.
+  assert.equal(await page.isVisible('#writerScenesJournal'),true);
   if(shots)await page.locator('#writerScenes').screenshot({path:path.join(shots,'scenes-desk-draft.png')});
   // Discard leaves the journal alone; Keep adds the attachment and one @setting: line, and Undo takes the line back.
   await page.click('#writerScenesDiscard');assert.equal(await page.isVisible('.writer-scenes-canvas'),false);assert.equal(await source(),SOURCE);
@@ -97,17 +107,20 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
   }
   // A kept scene draws again with no request; arrow keys move between days.
   const before=requests.length;await page.locator('#writerScenes [role=tab]').nth(2).focus();await page.keyboard.press('Home');
-  await page.waitForFunction(()=>document.querySelector('.writer-scenes-about')?.textContent.startsWith('A cluttered desk. Made by mock-scenes.'));
+  await page.waitForFunction(()=>document.querySelector('.writer-scenes-about')?.textContent.startsWith('A cluttered desk. Imagined by mock-scenes from this entry'));
   assert.equal(requests.length,before,'a kept scene needs no model');assert.equal(await page.getAttribute('#writerScenes [role=tab] >> nth=0','aria-selected'),'true');
   // Open journal shows the whole entry; Go to this entry returns to the writing.
   await page.click('.writer-scenes-things button:has-text("Desk")');await page.click('.writer-scenes-open');
   assert.match(await page.textContent('.writer-scenes-page'),/Papers everywhere on my desk\./);assert.doesNotMatch(await page.textContent('.writer-scenes-page'),/scratch note/);
+  assert.equal(await page.evaluate(()=>document.querySelector('.writer-scenes-journal').open),true,'the entry opens in a dialog');
+  if(shots)await page.screenshot({path:path.join(shots,'scenes-journal.png')});
+  await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.querySelector('.writer-scenes-journal').open),false,'Escape returns to the scene');
   // Editing the entry: a moment whose sentence is gone says so.
   await page.evaluate(()=>{const e=document.getElementById('writing');e.value=e.value.replace('The tea went cold','The coffee went cold');e.dispatchEvent(new Event('input',{bubbles:true}));});
   await page.waitForTimeout(700);await page.click('.writer-scenes-things button:has-text("Mug of tea")');
   assert.match(await page.textContent('.writer-scenes-moment'),/\(no longer in this entry\)/);
   await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});
-  assert.deepEqual(await page.evaluate(async()=>(await axe.run(document.getElementById('writerScenes'))).violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>v.id)),[]);
+  {const v=await page.evaluate(async()=>(await axe.run(document.getElementById('writerScenes'))).violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target.join(' ')+' '+(n.any[0]?.message||'')).slice(0,4)})));if(v.length)console.log(JSON.stringify(v,null,1));assert.deepEqual(v.map(x=>x.id),[]);}
   // Locking clears the view.
   await page.evaluate(()=>{const e=document.getElementById('writing');e.readOnly=true;e.setAttribute('readonly','');});await page.waitForTimeout(100);
   assert.equal(await page.isVisible('#writerScenes'),false);assert.equal(await page.locator('#writerScenes [role=tab]').count(),0);

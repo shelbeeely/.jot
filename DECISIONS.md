@@ -1,5 +1,80 @@
 # Latest Jot v1 decisions
 
+## Scenes in a theatre: crafted parts, a two-page book, media on screens, and October in scenes (6 November 2026)
+
+The owner shared a reference site (a full-screen, art-directed week of journal dioramas) and asked for "more like this". Asked to
+choose, the owner chose: both a demo page and Writer's Scenes, a kit of crafted parts, and Jot's own brand. The owner then asked
+for the scene to go across both pages of the pop-up book, opening toward the camera, and for media to show on a screen when
+something is watched.
+
+- **The theatre** (`writer-scene.mjs`, `writer-scenes.css`): Jot's charcoal room with the light ink and cream paper
+  (`docs/brand/README.md`, "Approved pairs"). Over the scene: the date, the day's own title as the headline and its first
+  sentence in Jot Script, all the writer's words; the model's title and atmosphere stay in the small interpretation note.
+  Things that hold moments sit beside the scene; the chosen moment is a cream card in blue ink; Open journal shows the whole
+  entry in a paper dialog with previous and next; a pill of days with ← and → and a "01 / 31" counter; Full screen. On a
+  phone the overlays stack below the scene.
+- **October in scenes** (`examples/scenes.html`, `scenes-page.mjs`): the same view, read-only, on the demo journal: nothing
+  is made, sent or kept; attachments stay in page memory; the entry dialog is written by hand on a dot grid.
+- **Crafted parts** (`writer-scene-parts.mjs`, spec 8.1.9): 30 named parts (a mug with a handle, an open ruled notebook, a
+  plant with leaves, a window with panes, a shelf of books, a tv, a bus shelter…) drawn by Jot's own code from a box-sized
+  `size` and one main colour. They are shape types, so a place stays data; an unknown name is dropped like any unknown shape.
+- **A two-page book**: the book lies open toward the reader with the gutter running toward them, the place stands across both
+  pages, and the sky is a pop-up card standing along the far edge. As a day opens the right page swings over, the card stands
+  and the pieces rise out of the gutter; with reduced motion it is already open.
+- **Media on surfaces**: a tv, laptop or phone shows the title of something the entry says was watched, played or listened to
+  (`mediaMentions`, never "want to"); a book's cover shows the book it is reading; a frame shows the entry's own first
+  attached picture. Titles are the entry's words drawn as pixels; pictures are its own bytes; nothing is fetched and nothing
+  is stored in the place. The prompt asks for the screen, book or frame where the entry did these things. The research says
+  nothing about media in scenes; this is a design choice.
+
+The 31 demo scenes were made again through the same pipeline (`openai/gpt-5-mini`, Zero Data Retention required) with the
+parts prompt. Verified: the place module's Node tests (parts list, validation, every part builds, surfaces marked), the Scenes
+Chromium suite (theatre, dialog, keyboard, axe, phone) and the new October in scenes suite (31 days, the day's titles, exact
+moments, read-only, no outside requests, phone width, axe). Not verified: phone GPUs with shadows and parts, other browsers'
+full-screen behaviour, and how other models use the parts.
+
+## Living pages: scenes as a pop-up book, with atmosphere and motion (6 November 2026)
+
+The owner asked for journal entries to come alive as explorable miniature scenes, with places, objects, events and
+emotions guiding environment, lighting, colour and animation, then for "living and breathing" entries. Asked to choose,
+the owner chose: the October demo's entries, an upgrade of Writer's Scenes rather than a separate page, and adding mood.
+
+- **One look, each day its own light.** `writer-scene-build.mjs` draws every place as an open pop-up book: the floor page
+  (dot grid, the place's ground colour) carries the place; the back page stands at the fold, painted with the sky, sun or
+  moon, clouds and stars. Card-stock grain, ink outlines and soft shadows are the same every day; time, weather and
+  atmosphere change the light. The paper is made in the page; nothing is fetched. The three.js bundle gained six exports
+  for this (`tools/vendor-three/entry.mjs`; new hash in `parser/vendor/three-README.md`).
+- **Living pages.** When a day opens its pieces rise from the page on hinges, back first. While motion plays, pieces
+  breathe, motes of light drift, the light shifts a little, a piece lifts under the pointer and hops when chosen, and the
+  view glides to it; the chosen moment inks itself in, in Jot Script. Arrow keys turn the scene and + or − zoom.
+- **Format (spec 8.1.9).** A place gains an optional `atmosphere` (`neutral`, `calm`, `cosy`, `bright`, `lively`, `tender`,
+  `wistful`, `heavy`, `tense`) and each object an optional `motion` (`none`, `steam`, `flicker`, `sway`, `drift`, `turn`,
+  `bob`): fixed lists drawn by Jot's code, never animation data or code. Places kept earlier read as `neutral` with no
+  motion of their own, so `version` stays 1.
+- **Mood as atmosphere, not a mood record.** `docs/methods/free-diary.md`, line 284 says "Do not infer mood". The owner
+  asked for emotion to shape the scenes, so this goes against that advice in a bounded way: the model chooses how the
+  *place* is drawn from the feeling of the entry's words, `neutral` when they do not make a feeling clear, and the prompt
+  says it is "not a diagnosis of the writer". Writer shows it only beside the scene, as "the look is an interpretation",
+  never as the writer's mood, and nothing collects, charts or summarizes it across days (the spec forbids that). Mood
+  tracking's warning about people who "feel judged by a low number" (`docs/methods/mood-tracking-year-in-pixels.md`,
+  line 35) is why there is no rating or scale. The research does not cover model-chosen atmospheres; whether writers find
+  this welcome or intrusive needs evaluation with willing writers.
+- **No invented events.** The prompt now says to depict only what the entry mentions plus quiet setting details, and
+  never to add people, visitors, gifts, accidents, celebrations or other events. Moments remain the entry's own
+  sentences; decoration is labelled as interpretation.
+- **Stillness is always available.** The guides treat reduced motion and calm pages as valid choices
+  (`docs/methods/digital-daily-notes.md`, line 504; `docs/methods/moodboard-and-palette.md`, line 218). With the system's
+  reduced-motion setting or Writer's own preference, nothing moves: the book opens already standing, the moment appears
+  without the ink reveal, and the view moves at once. Pause motion stops everything else; Open journal is always beside
+  the scene for the complete entry.
+
+Verified: the place module's Node tests (atmosphere and motion lists, defaults for older places, prompt rules) and the
+Scenes Chromium suite (interpretation label with the atmosphere, steam, keyboard turning and zoom, Play motion offered
+under reduced motion, Open journal, phone width, axe). Not verified: phones' GPU performance with shadows and motion,
+and how other live models choose atmospheres. The October demo's 31 scenes were made again through the same pipeline
+(`openai/gpt-5-mini`, Zero Data Retention required, data collection denied): it chose cosy for 18 days, wistful 8, tender 3,
+bright 1 and calm 1, and gave 115 of 427 objects a motion (mostly steam and drift). Every moment is an exact entry sentence.
+
 ## A complete fictional month and text-grounded scenes (5 November 2026)
 
 The October demo contains 31 fictional entries, bundled media, interactive cards, editable annotations, 3D models,

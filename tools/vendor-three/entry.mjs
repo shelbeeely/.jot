@@ -5,10 +5,10 @@
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Color, HemisphereLight, DirectionalLight, AmbientLight, Box3, Vector3, Sphere,
   AnimationMixer, Timer, LoadingManager, PMREMGenerator, SRGBColorSpace, NeutralToneMapping, MathUtils, REVISION,
-  // journal places (site/dist/writer-scene-build.mjs): drawn from simple shapes, with weather
+  // journal places (site/dist/writer-scene-build.mjs): drawn from simple shapes, with weather, as a paper pop-up book
   Mesh, Group, BoxGeometry, CylinderGeometry, SphereGeometry, ConeGeometry, TorusGeometry, PlaneGeometry, CapsuleGeometry,
   MeshStandardMaterial, Raycaster, Vector2, Fog, BufferGeometry, BufferAttribute, LineSegments, LineBasicMaterial, Points,
-  PointsMaterial, PointLight, DoubleSide,
+  PointsMaterial, PointLight, DoubleSide, CanvasTexture, RepeatWrapping, EdgesGeometry, MeshBasicMaterial, Spherical, PCFSoftShadowMap,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -22,6 +22,6 @@ globalThis.JotThree = Object.freeze({
   AnimationMixer, Timer, LoadingManager, PMREMGenerator, SRGBColorSpace, NeutralToneMapping, MathUtils, REVISION,
   Mesh, Group, BoxGeometry, CylinderGeometry, SphereGeometry, ConeGeometry, TorusGeometry, PlaneGeometry, CapsuleGeometry,
   MeshStandardMaterial, Raycaster, Vector2, Fog, BufferGeometry, BufferAttribute, LineSegments, LineBasicMaterial, Points,
-  PointsMaterial, PointLight, DoubleSide,
+  PointsMaterial, PointLight, DoubleSide, CanvasTexture, RepeatWrapping, EdgesGeometry, MeshBasicMaterial, Spherical, PCFSoftShadowMap,
   GLTFLoader, OrbitControls, RoomEnvironment, DRACOLoader, KTX2Loader, MeshoptDecoder,
 });

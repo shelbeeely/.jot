@@ -3,18 +3,19 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-05T09:53:52.349Z"
+    "at": "2026-11-06T10:38:09.586Z"
   },
-  "title": "Rainy kitchen table",
-  "sky": "#8899aa",
-  "ground": "#d9d2c7",
+  "title": "Rainy kitchen desk",
+  "sky": "#6b7ea8",
+  "ground": "#dcd6cc",
   "weather": "rain",
-  "time": "morning",
+  "time": "evening",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
-      1.8,
+      -1.8,
       1.6,
-      2.6
+      2.2
     ],
     "target": [
       0,
@@ -35,6 +36,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
@@ -50,12 +52,12 @@
             0
           ],
           "size": [
-            8,
+            4.5,
             0.01,
-            6
+            3.5
           ],
-          "color": "#e9e4dd",
-          "roughness": 1,
+          "color": "#cbc5b8",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -64,21 +66,22 @@
       "name": "Back wall",
       "position": [
         0,
-        0,
-        -2.9
+        1.6,
+        -1.75
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "none",
       "moments": [],
       "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            1.5,
+            0,
             0
           ],
           "rotation": [
@@ -87,12 +90,12 @@
             0
           ],
           "size": [
-            8,
-            3,
+            4.5,
+            3.2,
             0.12
           ],
-          "color": "#f4efe8",
-          "roughness": 1,
+          "color": "#e9e6e2",
+          "roughness": 0.95,
           "glow": false
         }
       ]
@@ -101,23 +104,24 @@
       "name": "Kitchen window",
       "position": [
         -0.9,
-        0,
-        -2.89
+        1.6,
+        -1.7
       ],
       "rotation": [
         0,
         0,
         0
       ],
+      "motion": "drift",
       "moments": [
         "Rain ran down the kitchen window while I sat with the tea mug between both hands."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "window",
           "position": [
             0,
-            1.6,
+            0,
             0
           ],
           "rotation": [
@@ -130,16 +134,16 @@
             1.1,
             0.06
           ],
-          "color": "#cfe3f0",
-          "roughness": 0.1,
+          "color": "#7aa0c8",
+          "roughness": 0.2,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "plane",
           "position": [
             0,
-            1.6,
-            0.035
+            -0.02,
+            0.03
           ],
           "rotation": [
             0,
@@ -148,98 +152,17 @@
           ],
           "size": [
             1.4,
-            1.1,
-            0.01
+            0.01,
+            1.1
           ],
-          "color": "#b6d4e8",
-          "roughness": 0.3,
+          "color": "#2e6a88",
+          "roughness": 0.6,
           "glow": false
         }
       ]
     },
     {
-      "name": "Raindrops",
-      "position": [
-        -0.9,
-        0,
-        -2.85
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Rain ran down the kitchen window while I sat with the tea mug between both hands."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            -0.25,
-            1.35,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.06,
-            0.01
-          ],
-          "color": "#7fb0d6",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.05,
-            1.45,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.05,
-            0.01
-          ],
-          "color": "#7fb0d6",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.28,
-            1.5,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.04,
-            0.01
-          ],
-          "color": "#7fb0d6",
-          "roughness": 0.2,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Table",
+      "name": "Kitchen table",
       "position": [
         0,
         0.75,
@@ -250,6 +173,7 @@
         0,
         0
       ],
+      "motion": "none",
       "moments": [
         "Rain ran down the kitchen window while I sat with the tea mug between both hands.",
         "The notebook lay open under the lamp, with a sketch of the garden tree taking up most of the page."
@@ -273,7 +197,7 @@
             0.9
           ],
           "color": "#8b5a3c",
-          "roughness": 0.8,
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -293,8 +217,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b4630",
-          "roughness": 1,
+          "color": "#8b5a3c",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -314,8 +238,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b4630",
-          "roughness": 1,
+          "color": "#8b5a3c",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -335,8 +259,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b4630",
-          "roughness": 1,
+          "color": "#8b5a3c",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -356,8 +280,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b4630",
-          "roughness": 1,
+          "color": "#8b5a3c",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -365,8 +289,8 @@
     {
       "name": "Mug of tea",
       "position": [
-        -0.25,
-        0.85,
+        -0.08,
+        0.83,
         0.05
       ],
       "rotation": [
@@ -374,453 +298,13 @@
         0,
         0
       ],
+      "motion": "steam",
       "moments": [
         "Rain ran down the kitchen window while I sat with the tea mug between both hands."
       ],
       "shapes": [
         {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.08,
-            0.06
-          ],
-          "color": "#ffffff",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0.07,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            1.57,
-            0
-          ],
-          "size": [
-            0.03,
-            0.01,
-            0.03
-          ],
-          "color": "#ffffff",
-          "roughness": 0.4,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Saucer",
-      "position": [
-        -0.25,
-        0.82,
-        0.05
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "Rain ran down the kitchen window while I sat with the tea mug between both hands."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.02,
-            0.12
-          ],
-          "color": "#f1e6df",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Lamp",
-      "position": [
-        0.55,
-        0.95,
-        0.25
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The notebook lay open under the lamp, with a sketch of the garden tree taking up most of the page."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.22,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.16,
-            0.02,
-            0.16
-          ],
-          "color": "#222222",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.5,
-            0.03
-          ],
-          "color": "#333333",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.045,
-            0.045,
-            0.045
-          ],
-          "color": "#fff0c0",
-          "roughness": 0.1,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        0.05,
-        0.85,
-        0.15
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The notebook lay open under the lamp, with a sketch of the garden tree taking up most of the page.",
-        "I jotted a few rough words before I knew what I wanted to say.",
-        "Later I wrote this paragraph underneath.",
-        "The rough version can stay in the scratchpad without appearing on the finished page.",
-        "It is still in the journal file, so I would review it before sharing. #home #writing @kitchen"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.25,
-            0.02,
-            0.18
-          ],
-          "color": "#fbf9f6",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.01,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.25,
-            0.01,
-            0.18
-          ],
-          "color": "#d7d2c8",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Pen",
-      "position": [
-        0.18,
-        0.88,
-        0.02
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "I jotted a few rough words before I knew what I wanted to say."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.08,
-            0.01
-          ],
-          "color": "#1f2b2f",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Chair",
-      "position": [
-        -0.6,
-        0.4,
-        0.35
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.28,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.5,
-            0.06,
-            0.5
-          ],
-          "color": "#6b4a32",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            -0.05,
-            -0.22
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.5,
-            0.04
-          ],
-          "color": "#6b4a32",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            -0.05,
-            0.22
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.5,
-            0.04
-          ],
-          "color": "#6b4a32",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.22,
-            0.48,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.52,
-            0.04
-          ],
-          "color": "#6b4a32",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window sill plant",
-      "position": [
-        -0.9,
-        0.9,
-        -2.8
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.08,
-            0.12
-          ],
-          "color": "#6a4b3a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.08,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.05,
-            0.05
-          ],
-          "color": "#3a7b45",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Sketch scrap",
-      "position": [
-        0.05,
-        0.87,
-        0.06
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "moments": [
-        "The notebook lay open under the lamp, with a sketch of the garden tree taking up most of the page."
-      ],
-      "shapes": [
-        {
-          "type": "plane",
+          "type": "mug",
           "position": [
             0,
             0,
@@ -833,11 +317,316 @@
           ],
           "size": [
             0.12,
+            0.12,
+            0.09
+          ],
+          "color": "#d96f4a",
+          "roughness": 0.25,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook (open)",
+      "position": [
+        0.32,
+        0.83,
+        -0.08
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The notebook lay open under the lamp, with a sketch of the garden tree taking up most of the page.",
+        "I jotted a few rough words before I knew what I wanted to say.",
+        "Later I wrote this paragraph underneath.",
+        "The rough version can stay in the scratchpad without appearing on the finished page.",
+        "It is still in the journal file, so I would review it before sharing. #home #writing @kitchen"
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.04,
+            0.3
+          ],
+          "color": "#3b3f4a",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.03,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
             0.01,
-            0.08
+            0.28
+          ],
+          "color": "#f7f5f2",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Desk lamp",
+      "position": [
+        0.62,
+        0.98,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "flicker",
+      "moments": [
+        "The notebook lay open under the lamp, with a sketch of the garden tree taking up most of the page."
+      ],
+      "shapes": [
+        {
+          "type": "lamp",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.36,
+            0.14
+          ],
+          "color": "#3a3a3a",
+          "roughness": 0.25,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Chair",
+      "position": [
+        -0.25,
+        0.9,
+        -0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Rain ran down the kitchen window while I sat with the tea mug between both hands."
+      ],
+      "shapes": [
+        {
+          "type": "chair",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.5,
+            0.9,
+            0.5
+          ],
+          "color": "#2f2b27",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small shelf",
+      "position": [
+        1.6,
+        1.1,
+        -1.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.8,
+            0.12,
+            0.25
+          ],
+          "color": "#a17b57",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.35,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.7,
+            0.02
+          ],
+          "color": "#a17b57",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.4,
+            0.35,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.7,
+            0.02
+          ],
+          "color": "#a17b57",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Wall clock frame",
+      "position": [
+        0.9,
+        1.45,
+        -1.74
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "It is still in the journal file, so I would review it before sharing. #home #writing @kitchen"
+      ],
+      "shapes": [
+        {
+          "type": "frame",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.22,
+            0.04
+          ],
+          "color": "#7b4f3a",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tea steam trace",
+      "position": [
+        -0.08,
+        0.95,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "Rain ran down the kitchen window while I sat with the tea mug between both hands."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.2,
+            0.02
           ],
           "color": "#ffffff",
-          "roughness": 1,
+          "roughness": 0.1,
           "glow": false
         }
       ]
