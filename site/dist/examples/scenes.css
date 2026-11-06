@@ -5,3 +5,11 @@
 .scenes-page .writer-scenes{max-width:none;padding:0;color:var(--jot-ink,#1f3a8a)}
 .scenes-page .writer-scenes-summary{color:var(--jot-muted,#5d6478)}
 .scenes-page .writer-scenes-theatre{min-height:calc(100vh - 150px)}
+/* The site header, as on the home page (this page does not load home.css). */
+.scenes-page .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px max(16px,5%);border-bottom:1px solid #d6d9cf;flex-wrap:wrap;font:16px/1.5 ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif}
+.scenes-page .brand{display:flex;align-items:center;gap:10px;color:#242927;text-decoration:none;min-height:44px}
+.scenes-page .brand svg{display:block;fill:currentColor}.scenes-page .brand-word{height:30px;width:41px}
+.scenes-page .top nav{display:flex;gap:4px;flex-wrap:wrap}
+.scenes-page .top nav a{color:#5f675f;text-decoration:none;padding:10px 12px;min-height:44px;display:inline-flex;align-items:center;font-size:15px}
+.scenes-page .top nav a[aria-current]{color:#242927;box-shadow:inset 0 -2px 0 #6b4fa8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .scenes-page .brand,:root:not([data-theme="light"]) .scenes-page .top nav a[aria-current]{color:#e8eae4}:root:not([data-theme="light"]) .scenes-page .top nav a{color:#a8afa6}:root:not([data-theme="light"]) .scenes-page .top{border-color:#343a35}}
