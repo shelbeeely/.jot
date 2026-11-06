@@ -3,145 +3,27 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:54:28.424Z"
+    "at": "2026-11-06T10:36:21.496Z"
   },
-  "title": "Desk by the window, a park beyond",
-  "sky": "#cfe8ff",
-  "ground": "#dfe6d6",
+  "title": "Desk with the pressed leaf",
+  "sky": "#87ceeb",
+  "ground": "#cfc7b7",
   "weather": "clear",
   "time": "day",
-  "atmosphere": "tender",
+  "atmosphere": "wistful",
   "camera": {
     "position": [
-      0,
-      1.2,
-      3
+      1.5,
+      1.6,
+      2.5
     ],
     "target": [
-      0,
+      0.1,
       1,
       0
     ]
   },
   "objects": [
-    {
-      "name": "Room floor",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            6,
-            0.01,
-            4
-          ],
-          "color": "#efece6",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Back wall",
-      "position": [
-        0,
-        1.6,
-        -2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            6,
-            3.2,
-            0.12
-          ],
-          "color": "#f7f3ee",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window",
-      "position": [
-        0,
-        1.6,
-        -1.94
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I picked up a yellow leaf under the tree and held it against the sky until I could see its little branches of veins.",
-        "The river beyond the flowers was moving faster than it looked from the bridge.",
-        "The park bench was dry enough for a book and a notebook this afternoon."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            1.1,
-            0.06
-          ],
-          "color": "#9ed0ff",
-          "roughness": 0.2,
-          "glow": false
-        }
-      ]
-    },
     {
       "name": "Desk",
       "position": [
@@ -177,7 +59,7 @@
             0.06,
             0.9
           ],
-          "color": "#cba878",
+          "color": "#8b5a2b",
           "roughness": 0.6,
           "glow": false
         },
@@ -198,8 +80,8 @@
             0.72,
             0.08
           ],
-          "color": "#7a5036",
-          "roughness": 0.9,
+          "color": "#6b4426",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -219,8 +101,8 @@
             0.72,
             0.08
           ],
-          "color": "#7a5036",
-          "roughness": 0.9,
+          "color": "#6b4426",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -240,8 +122,8 @@
             0.72,
             0.08
           ],
-          "color": "#7a5036",
-          "roughness": 0.9,
+          "color": "#6b4426",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -261,120 +143,18 @@
             0.72,
             0.08
           ],
-          "color": "#7a5036",
-          "roughness": 0.9,
+          "color": "#6b4426",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Desk lamp",
+      "name": "Chair",
       "position": [
-        0.5,
-        0.95,
-        0.2
-      ],
-      "rotation": [
-        0,
-        0,
+        -0.5,
+        0.45,
         0
-      ],
-      "motion": "none",
-      "moments": [
-        "At home I left the leaf beside the desk lamp and made a question card from something I had been reading."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.18,
-            0.05
-          ],
-          "color": "#444444",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.13,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.01,
-            0.01
-          ],
-          "color": "#ffffff",
-          "roughness": 0.2,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Leaf on desk",
-      "position": [
-        0.2,
-        0.86,
-        0.05
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "At home I left the leaf beside the desk lamp and made a question card from something I had been reading.",
-        "I picked up a yellow leaf under the tree and held it against the sky until I could see its little branches of veins."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0.2,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.01,
-            0.09
-          ],
-          "color": "#f2c849",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Question card",
-      "position": [
-        -0.15,
-        0.86,
-        0.18
       ],
       "rotation": [
         0,
@@ -388,7 +168,7 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "chair",
           "position": [
             0,
             0,
@@ -400,35 +180,35 @@
             0
           ],
           "size": [
-            0.08,
-            0.01,
-            0.06
+            0.5,
+            0.9,
+            0.5
           ],
-          "color": "#ffffff",
-          "roughness": 0.95,
+          "color": "#5a4b3a",
+          "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Reading book (desk)",
+      "name": "Desk lamp",
       "position": [
-        -0.35,
-        0.86,
-        -0.1
+        0.55,
+        0.95,
+        0.15
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "none",
+      "motion": "flicker",
       "moments": [
         "At home I left the leaf beside the desk lamp and made a question card from something I had been reading."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "lamp",
           "position": [
             0,
             0,
@@ -441,21 +221,187 @@
           ],
           "size": [
             0.12,
-            0.02,
-            0.18
+            0.36,
+            0.12
           ],
-          "color": "#7b9fbf",
+          "color": "#d9c99b",
+          "roughness": 0.2,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Book - Field Notes",
+      "position": [
+        -0.15,
+        0.88,
+        -0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The park bench was dry enough for a book and a notebook this afternoon.",
+        "At home I left the leaf beside the desk lamp and made a question card from something I had been reading.",
+        "Turning it over is more fun than immediately looking up the answer. #learning #walks @park"
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.04,
+            0.3
+          ],
+          "color": "#f2d16b",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        0.3,
+        0.86,
+        0.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The park bench was dry enough for a book and a notebook this afternoon.",
+        "At home I left the leaf beside the desk lamp and made a question card from something I had been reading.",
+        "Turning it over is more fun than immediately looking up the answer. #learning #walks @park"
+      ],
+      "shapes": [
+        {
+          "type": "notebook",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.02,
+            0.28
+          ],
+          "color": "#e9e1d6",
           "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Park ground (outside)",
+      "name": "Question card",
       "position": [
         0,
+        0.86,
+        0.22
+      ],
+      "rotation": [
         0,
-        -3.5
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "At home I left the leaf beside the desk lamp and made a question card from something I had been reading.",
+        "Turning it over is more fun than immediately looking up the answer. #learning #walks @park"
+      ],
+      "shapes": [
+        {
+          "type": "papers",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.01,
+            0.08
+          ],
+          "color": "#ffffff",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pressed leaf",
+      "position": [
+        -0.25,
+        0.87,
+        -0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I picked up a yellow leaf under the tree and held it against the sky until I could see its little branches of veins.",
+        "At home I left the leaf beside the desk lamp and made a question card from something I had been reading."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.01,
+            0.08
+          ],
+          "color": "#f2c94c",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Framed photo - park bench",
+      "position": [
+        0,
+        1.5,
+        -1
       ],
       "rotation": [
         0,
@@ -470,7 +416,7 @@
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "frame",
           "position": [
             0,
             0,
@@ -482,140 +428,59 @@
             0
           ],
           "size": [
-            6,
-            0.01,
-            3.5
+            0.7,
+            0.5,
+            0.04
           ],
-          "color": "#cfe6c9",
+          "color": "#6b4f3b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.01,
+            0.4
+          ],
+          "color": "#9ecf8f",
           "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Tree",
+      "name": "Window",
       "position": [
-        -1.8,
-        0,
-        -3.8
+        1.2,
+        1.6,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "sway",
-      "moments": [
-        "I picked up a yellow leaf under the tree and held it against the sky until I could see its little branches of veins.",
-        "The park bench was dry enough for a book and a notebook this afternoon."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.9,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            1.8,
-            0.08
-          ],
-          "color": "#6b4b32",
-          "roughness": 0.95,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            2.05,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
-          ],
-          "color": "#3a8032",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Yellow leaf under tree",
-      "position": [
-        -1.6,
-        0.02,
-        -3.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
+      "motion": "drift",
       "moments": [
         "I picked up a yellow leaf under the tree and held it against the sky until I could see its little branches of veins."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "window",
           "position": [
             0,
             0,
-            0
-          ],
-          "rotation": [
-            0.1,
-            0.2,
-            0
-          ],
-          "size": [
-            0.05,
-            0.01,
-            0.08
-          ],
-          "color": "#f2c849",
-          "roughness": 0.85,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Park bench",
-      "position": [
-        -0.8,
-        0,
-        -3.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The park bench was dry enough for a book and a notebook this afternoon."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.3,
             0
           ],
           "rotation": [
@@ -625,63 +490,21 @@
           ],
           "size": [
             1.4,
-            0.12,
-            0.35
+            1.1,
+            0.06
           ],
-          "color": "#8a5b3c",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.6,
-            0,
-            -0.14
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.4,
-            0.08
-          ],
-          "color": "#5b3f2a",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.6,
-            0,
-            -0.14
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.4,
-            0.08
-          ],
-          "color": "#5b3f2a",
-          "roughness": 0.9,
+          "color": "#4f83c7",
+          "roughness": 0.05,
           "glow": false
         }
       ]
     },
     {
-      "name": "Book on bench",
+      "name": "Small shelf",
       "position": [
-        -0.8,
-        0.55,
-        -3.2
+        -1.1,
+        1.05,
+        -0.8
       ],
       "rotation": [
         0,
@@ -690,7 +513,7 @@
       ],
       "motion": "none",
       "moments": [
-        "The park bench was dry enough for a book and a notebook this afternoon."
+        "At home I left the leaf beside the desk lamp and made a question card from something I had been reading."
       ],
       "shapes": [
         {
@@ -706,100 +529,20 @@
             0
           ],
           "size": [
-            0.14,
-            0.02,
+            0.6,
+            0.06,
             0.2
           ],
-          "color": "#6d9bb0",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Notebook on bench",
-      "position": [
-        -0.62,
-        0.53,
-        -3.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The park bench was dry enough for a book and a notebook this afternoon."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.11,
-            0.01,
-            0.16
-          ],
-          "color": "#ffffff",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Flowers",
-      "position": [
-        0.8,
-        0,
-        -3.4
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The river beyond the flowers was moving faster than it looked from the bridge."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            -0.15,
-            0.1,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.2,
-            0.03
-          ],
-          "color": "#ff6f91",
-          "roughness": 0.9,
+          "color": "#8b5a2b",
+          "roughness": 0.7,
           "glow": false
         },
         {
-          "type": "cylinder",
+          "type": "book",
           "position": [
-            0.15,
-            0.1,
-            0.05
+            -0.18,
+            0.08,
+            0
           ],
           "rotation": [
             0,
@@ -807,32 +550,30 @@
             0
           ],
           "size": [
+            0.18,
             0.03,
-            0.2,
-            0.03
+            0.26
           ],
-          "color": "#ffd26f",
-          "roughness": 0.9,
+          "color": "#c86b6b",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "River",
+      "name": "Floor rug",
       "position": [
         0,
-        0,
-        -4.2
+        0.02,
+        0.6
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "drift",
-      "moments": [
-        "The river beyond the flowers was moving faster than it looked from the bridge."
-      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
           "type": "plane",
@@ -847,94 +588,12 @@
             0
           ],
           "size": [
-            6,
+            1,
             0.01,
-            1.2
+            0.6
           ],
-          "color": "#6fc2ff",
-          "roughness": 0.3,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Bridge (distant)",
-      "position": [
-        0,
-        0,
-        -3.9
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The river beyond the flowers was moving faster than it looked from the bridge."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            2.2,
-            0.1,
-            0.2
-          ],
-          "color": "#8b7a6b",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -1.05,
-            0.05,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.1,
-            0.9,
-            0.1
-          ],
-          "color": "#7a6a5b",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            1.05,
-            0.05,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.1,
-            0.9,
-            0.1
-          ],
-          "color": "#7a6a5b",
-          "roughness": 0.9,
+          "color": "#f4ead2",
+          "roughness": 0.95,
           "glow": false
         }
       ]

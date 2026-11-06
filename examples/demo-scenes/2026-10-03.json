@@ -3,23 +3,23 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:53:52.389Z"
+    "at": "2026-11-06T10:35:50.807Z"
   },
-  "title": "Café table by the window",
-  "sky": "#cfe8ff",
-  "ground": "#efe6dc",
-  "weather": "sun",
+  "title": "Steamed café corner",
+  "sky": "#cfeefc",
+  "ground": "#efe6dd",
+  "weather": "clear",
   "time": "morning",
   "atmosphere": "cosy",
   "camera": {
     "position": [
       1.6,
-      1.4,
-      2
+      1.3,
+      2.2
     ],
     "target": [
       0,
-      0.9,
+      0.8,
       0
     ]
   },
@@ -52,11 +52,11 @@
             0
           ],
           "size": [
-            4.5,
+            4,
             0.01,
-            3.5
+            3
           ],
-          "color": "#efe6dc",
+          "color": "#efe6dd",
           "roughness": 0.9,
           "glow": false
         }
@@ -65,92 +65,9 @@
     {
       "name": "Back wall with window",
       "position": [
-        -1.6,
         0,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The café window had steamed over, except for a clear patch just above our table.",
-        "Start with the space beside the window, then check where the lamp plugs in."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.2,
-            -0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            3.2,
-            2.4,
-            0.06
-          ],
-          "color": "#f5efe8",
-          "roughness": 0.95,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.6,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            1.1,
-            0.06
-          ],
-          "color": "#bfe1ff",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.9,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            0.2,
-            0.06
-          ],
-          "color": "#f5efe8",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window mist patch",
-      "position": [
-        -1.6,
-        0,
-        0
+        1.6,
+        -1.4
       ],
       "rotation": [
         0,
@@ -163,11 +80,32 @@
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "box",
           "position": [
             0,
-            1.47,
-            0.031
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4,
+            2.8,
+            0.12
+          ],
+          "color": "#f4efe8",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "window",
+          "position": [
+            0,
+            0,
+            0.06
           ],
           "rotation": [
             0,
@@ -176,19 +114,19 @@
           ],
           "size": [
             1.4,
-            0.01,
-            0.9
+            1.1,
+            0.06
           ],
-          "color": "#ffffff",
+          "color": "#d9e6ee",
           "roughness": 0.1,
           "glow": false
         },
         {
-          "type": "plane",
+          "type": "box",
           "position": [
             0,
-            1.9,
-            0.031
+            0.25,
+            0.065
           ],
           "rotation": [
             0,
@@ -197,11 +135,11 @@
           ],
           "size": [
             0.5,
-            0.01,
-            0.35
+            0.3,
+            0.02
           ],
-          "color": "#bfe1ff",
-          "roughness": 0.1,
+          "color": "#8fbcd6",
+          "roughness": 0.02,
           "glow": false
         }
       ]
@@ -242,7 +180,7 @@
             0.06,
             0.9
           ],
-          "color": "#8b5a2b",
+          "color": "#8b5a3c",
           "roughness": 0.6,
           "glow": false
         },
@@ -263,8 +201,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b3f23",
-          "roughness": 0.8,
+          "color": "#6b4228",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -284,8 +222,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b3f23",
-          "roughness": 0.8,
+          "color": "#6b4228",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -305,8 +243,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b3f23",
-          "roughness": 0.8,
+          "color": "#6b4228",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -326,8 +264,8 @@
             0.72,
             0.08
           ],
-          "color": "#6b3f23",
-          "roughness": 0.8,
+          "color": "#6b4228",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -335,9 +273,9 @@
     {
       "name": "Mug of tea",
       "position": [
-        0,
-        0.85,
-        0.15
+        -0.15,
+        0.86,
+        0.05
       ],
       "rotation": [
         0,
@@ -346,12 +284,11 @@
       ],
       "motion": "steam",
       "moments": [
-        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands.",
-        "The useful part of the morning was having time to sit there. #making #friends @cafe"
+        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands."
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "mug",
           "position": [
             0,
             0,
@@ -363,43 +300,22 @@
             0
           ],
           "size": [
-            0.035,
-            0.09,
-            0.035
+            0.12,
+            0.12,
+            0.09
           ],
-          "color": "#e9f7ff",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0.04,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.035,
-            0.01,
-            0.035
-          ],
-          "color": "#d9f0ff",
+          "color": "#ffffff",
           "roughness": 0.2,
           "glow": false
         }
       ]
     },
     {
-      "name": "Napkin with drawing",
+      "name": "Napkin with sketch",
       "position": [
-        0.18,
-        0.86,
-        0.05
+        0.05,
+        0.84,
+        0.12
       ],
       "rotation": [
         0,
@@ -415,7 +331,7 @@
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "papers",
           "position": [
             0,
             0,
@@ -431,29 +347,8 @@
             0.01,
             0.12
           ],
-          "color": "#fffdf6",
-          "roughness": 0.95,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.005,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.09,
-            0.01,
-            0.02
-          ],
-          "color": "#d7c9a6",
-          "roughness": 0.95,
+          "color": "#fff9f0",
+          "roughness": 0.8,
           "glow": false
         }
       ]
@@ -461,9 +356,9 @@
     {
       "name": "Notebook",
       "position": [
-        0.26,
-        0.86,
-        -0.12
+        0.32,
+        0.82,
+        0.06
       ],
       "rotation": [
         0,
@@ -473,11 +368,51 @@
       "motion": "none",
       "moments": [
         "I took the napkin home inside my notebook, next to the question from Thursday.",
+        "| Shelf idea | What I liked | What can wait |"
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.04,
+            0.3
+          ],
+          "color": "#3b4254",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Chair",
+      "position": [
+        0,
+        0.45,
+        0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
         "The useful part of the morning was having time to sit there. #making #friends @cafe"
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "chair",
           "position": [
             0,
             0,
@@ -489,33 +424,12 @@
             0
           ],
           "size": [
-            0.18,
-            0.02,
-            0.12
+            0.5,
+            0.9,
+            0.5
           ],
-          "color": "#2f2f2f",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0.011,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.16,
-            0.01,
-            0.1
-          ],
-          "color": "#fffdf6",
-          "roughness": 0.95,
+          "color": "#5a4436",
+          "roughness": 0.7,
           "glow": false
         }
       ]
@@ -523,9 +437,9 @@
     {
       "name": "Counter",
       "position": [
-        0.9,
-        0,
-        0.9
+        1.2,
+        0.95,
+        -1
       ],
       "rotation": [
         0,
@@ -542,7 +456,7 @@
           "type": "box",
           "position": [
             0,
-            0.9,
+            0,
             0
           ],
           "rotation": [
@@ -551,43 +465,22 @@
             0
           ],
           "size": [
-            2,
+            1.6,
             0.9,
             0.6
           ],
-          "color": "#e4d6c8",
-          "roughness": 0.95,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.9,
-            1.3,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.4,
-            0.06,
-            0.4
-          ],
-          "color": "#b38f6b",
-          "roughness": 0.9,
+          "color": "#6f5c4b",
+          "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Lamp behind counter",
+      "name": "Lamp on counter",
       "position": [
         0.9,
-        1.25,
-        0.9
+        1.45,
+        -1
       ],
       "rotation": [
         0,
@@ -601,7 +494,7 @@
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "lamp",
           "position": [
             0,
             0,
@@ -613,33 +506,12 @@
             0
           ],
           "size": [
-            0.06,
-            0.28,
-            0.06
-          ],
-          "color": "#4a3a2a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0,
-            0.22,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
             0.12,
-            0.18
+            0.35,
+            0.12
           ],
-          "color": "#ffd8a8",
-          "roughness": 0.15,
+          "color": "#d3b27a",
+          "roughness": 0.4,
           "glow": true
         }
       ]
@@ -647,9 +519,9 @@
     {
       "name": "Vase of flowers",
       "position": [
-        0.7,
         1.05,
-        0.9
+        1.05,
+        -0.85
       ],
       "rotation": [
         0,
@@ -662,7 +534,7 @@
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "bottle",
           "position": [
             0,
             0,
@@ -674,16 +546,16 @@
             0
           ],
           "size": [
-            0.06,
-            0.14,
-            0.06
+            0.12,
+            0.18,
+            0.12
           ],
-          "color": "#d9f0e6",
-          "roughness": 0.6,
+          "color": "#9fc4b7",
+          "roughness": 0.3,
           "glow": false
         },
         {
-          "type": "sphere",
+          "type": "plant",
           "position": [
             0,
             0.18,
@@ -695,43 +567,22 @@
             0
           ],
           "size": [
-            0.03,
-            0.03,
-            0.03
+            0.08,
+            0.22,
+            0.08
           ],
-          "color": "#ff6b94",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.03,
-            0.14,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.025,
-            0.025,
-            0.025
-          ],
-          "color": "#ffd36b",
-          "roughness": 0.6,
+          "color": "#ff6f9a",
+          "roughness": 0.5,
           "glow": false
         }
       ]
     },
     {
-      "name": "Chair (empty)",
+      "name": "Small shelf (sketch target)",
       "position": [
-        -0.6,
-        0.45,
-        0.7
+        0.85,
+        1,
+        -0.7
       ],
       "rotation": [
         0,
@@ -740,7 +591,9 @@
       ],
       "motion": "none",
       "moments": [
-        "The useful part of the morning was having time to sit there. #making #friends @cafe"
+        "We decided the shelf could wait until we found wood we liked.",
+        "Measure the kitchen wall #making",
+        "Start with the space beside the window, then check where the lamp plugs in."
       ],
       "shapes": [
         {
@@ -756,22 +609,64 @@
             0
           ],
           "size": [
-            0.45,
-            0.9,
-            0.45
+            0.6,
+            0.12,
+            0.18
           ],
-          "color": "#7a5a44",
-          "roughness": 0.9,
+          "color": "#8b5a3c",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.3,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.4,
+            0.05
+          ],
+          "color": "#6b4228",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.25,
+            -0.3,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.4,
+            0.05
+          ],
+          "color": "#6b4228",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Wall outlet and cord",
+      "name": "Wall plug near lamp",
       "position": [
         0.95,
-        0.7,
-        0.9
+        0.5,
+        -0.85
       ],
       "rotation": [
         0,
@@ -800,39 +695,18 @@
             0.06,
             0.02
           ],
-          "color": "#d1cfcf",
-          "roughness": 0.95,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.02,
-            -0.15,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.3,
-            0.02
-          ],
-          "color": "#2f2f2f",
-          "roughness": 0.95,
+          "color": "#2b2b2b",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Small shelf peg (sketch idea)",
+      "name": "Rug under table",
       "position": [
-        -0.4,
-        1.1,
-        0.02
+        0,
+        0.01,
+        0
       ],
       "rotation": [
         0,
@@ -841,14 +715,11 @@
       ],
       "motion": "none",
       "moments": [
-        "We decided the shelf could wait until we found wood we liked.",
-        "| Shelf idea | What I liked | What can wait |",
-        "| Narrow, by the window | Room for one notebook | Choosing the wood |",
-        "| Hooks underneath | A place for the garden key | Measuring the wall |"
+        "The useful part of the morning was having time to sit there. #making #friends @cafe"
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "plane",
           "position": [
             0,
             0,
@@ -860,12 +731,12 @@
             0
           ],
           "size": [
-            0.18,
-            0.04,
-            0.06
+            1.2,
+            0.01,
+            0.9
           ],
-          "color": "#9c7a57",
-          "roughness": 0.9,
+          "color": "#f2d9c8",
+          "roughness": 0.95,
           "glow": false
         }
       ]

@@ -3,19 +3,19 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:55:20.350Z"
+    "at": "2026-11-06T10:40:39.463Z"
   },
-  "title": "Evening kitchen table",
-  "sky": "#485a6b",
-  "ground": "#dcd6cf",
+  "title": "Rainy evening kitchen",
+  "sky": "#2b3240",
+  "ground": "#6b5a47",
   "weather": "rain",
   "time": "evening",
   "atmosphere": "cosy",
   "camera": {
     "position": [
-      1.8,
-      1.4,
-      3.2
+      2.2,
+      1.6,
+      2.8
     ],
     "target": [
       0,
@@ -25,187 +25,10 @@
   },
   "objects": [
     {
-      "name": "Floor",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            4.5,
-            0.01,
-            3.5
-          ],
-          "color": "#efe9e2",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Back wall",
-      "position": [
-        0,
-        0,
-        -1.75
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.25,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            4.5,
-            2.5,
-            0.06
-          ],
-          "color": "#e8e3df",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window",
-      "position": [
-        1.2,
-        0,
-        -1.74
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Rain darkened the window as I put the last loaf of bread beside the oven."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            1.1,
-            0.06
-          ],
-          "color": "#2f3b45",
-          "roughness": 0.4,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Oven",
+      "name": "Kitchen wall with window",
       "position": [
         -1.6,
-        0,
-        -0.7
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Rain darkened the window as I put the last loaf of bread beside the oven."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.55,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            1.1,
-            0.7
-          ],
-          "color": "#6b6b6b",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.95,
-            0.32
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.08,
-            0.2
-          ],
-          "color": "#2b2b2b",
-          "roughness": 0.3,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Loaf of bread",
-      "position": [
-        -0.9,
-        0.86,
+        1.6,
         -0.6
       ],
       "rotation": [
@@ -231,12 +54,134 @@
             0
           ],
           "size": [
-            0.26,
+            3.2,
+            2.8,
+            0.06
+          ],
+          "color": "#6b6863",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.8,
+            0,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#6a7c88",
+          "roughness": 0.2,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Oven",
+      "position": [
+        -0.6,
+        0.45,
+        -0.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Rain darkened the window as I put the last loaf of bread beside the oven."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.6
+          ],
+          "color": "#b4b4b6",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.18,
+            0.23
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.28,
+            0.02
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Loaf of bread",
+      "position": [
+        -0.05,
+        0.86,
+        -0.74
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Rain darkened the window as I put the last loaf of bread beside the oven."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
             0.12,
             0.12
           ],
-          "color": "#b57745",
-          "roughness": 0.8,
+          "color": "#b77b44",
+          "roughness": 0.7,
           "glow": false
         }
       ]
@@ -255,6 +200,7 @@
       ],
       "motion": "none",
       "moments": [
+        "The kitchen lamp reflected in the tea mug, and the notebook lay open at a list of films Robin had mentioned.",
         "I moved everything to the little table and stayed there for the evening."
       ],
       "shapes": [
@@ -275,7 +221,7 @@
             0.06,
             0.9
           ],
-          "color": "#7a5a3e",
+          "color": "#855e39",
           "roughness": 0.6,
           "glow": false
         },
@@ -296,8 +242,8 @@
             0.72,
             0.08
           ],
-          "color": "#6a4f38",
-          "roughness": 0.8,
+          "color": "#6b4a2e",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -317,8 +263,8 @@
             0.72,
             0.08
           ],
-          "color": "#6a4f38",
-          "roughness": 0.8,
+          "color": "#6b4a2e",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -338,8 +284,8 @@
             0.72,
             0.08
           ],
-          "color": "#6a4f38",
-          "roughness": 0.8,
+          "color": "#6b4a2e",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -359,8 +305,8 @@
             0.72,
             0.08
           ],
-          "color": "#6a4f38",
-          "roughness": 0.8,
+          "color": "#6b4a2e",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -368,8 +314,8 @@
     {
       "name": "Mug of tea",
       "position": [
-        0.12,
-        0.85,
+        0.26,
+        0.86,
         0.05
       ],
       "rotation": [
@@ -383,7 +329,7 @@
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "mug",
           "position": [
             0,
             0,
@@ -395,33 +341,12 @@
             0
           ],
           "size": [
-            0.06,
             0.12,
-            0.06
+            0.12,
+            0.09
           ],
-          "color": "#ffffff",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0.06,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.045,
-            0.01,
-            0.045
-          ],
-          "color": "#5a3f37",
-          "roughness": 0.6,
+          "color": "#d9c9b3",
+          "roughness": 0.25,
           "glow": false
         }
       ]
@@ -429,9 +354,9 @@
     {
       "name": "Table lamp",
       "position": [
-        -0.35,
+        -0.36,
         0.95,
-        0.18
+        0.22
       ],
       "rotation": [
         0,
@@ -444,10 +369,10 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "lamp",
           "position": [
             0,
-            -0.08,
+            0,
             0
           ],
           "rotation": [
@@ -456,33 +381,12 @@
             0
           ],
           "size": [
-            0.12,
-            0.16,
-            0.12
-          ],
-          "color": "#33302e",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0,
-            0.12,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.16,
             0.18,
-            0.16
+            0.36,
+            0.18
           ],
-          "color": "#ffefd5",
-          "roughness": 0.1,
+          "color": "#2f2b2b",
+          "roughness": 0.3,
           "glow": true
         }
       ]
@@ -490,9 +394,9 @@
     {
       "name": "Open notebook",
       "position": [
-        0.25,
-        0.82,
-        -0.12
+        0.02,
+        0.85,
+        0.28
       ],
       "rotation": [
         0,
@@ -506,11 +410,11 @@
         "Watching Severance.",
         "Watched Severance S1E1: Good News About Hell.",
         "Want to watch Frieren: Beyond Journey's End.",
-        "Listened to Radiolab."
+        "Listened to Yesterday by The Beatles."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "notebook",
           "position": [
             0,
             0,
@@ -524,18 +428,18 @@
           "size": [
             0.22,
             0.02,
-            0.15
+            0.3
           ],
-          "color": "#f8f4ee",
-          "roughness": 0.9,
+          "color": "#3a3f45",
+          "roughness": 0.7,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "papers",
           "position": [
             0,
             0.01,
-            0.03
+            0.01
           ],
           "rotation": [
             0,
@@ -543,22 +447,22 @@
             0
           ],
           "size": [
-            0.2,
+            0.18,
             0.01,
-            0.06
+            0.26
           ],
-          "color": "#ffffff",
-          "roughness": 0.95,
+          "color": "#f7f6f2",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Pride & Prejudice book",
+      "name": "Book: Pride and Prejudice",
       "position": [
-        0.4,
-        0.83,
-        0.28
+        0.48,
+        0.82,
+        -0.12
       ],
       "rotation": [
         0,
@@ -571,7 +475,7 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "book",
           "position": [
             0,
             0,
@@ -583,177 +487,12 @@
             0
           ],
           "size": [
-            0.13,
-            0.02,
-            0.2
+            0.22,
+            0.04,
+            0.3
           ],
-          "color": "#8b5a4b",
-          "roughness": 0.85,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Small screen",
-      "position": [
-        0.9,
-        1.1,
-        -1.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Watched The Matrix, then wrote about the color of its corridors rather than trying to explain the whole story."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.36,
-            0.04
-          ],
-          "color": "#0b0f12",
-          "roughness": 0.05,
-          "glow": true
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            -0.06,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.5,
-            0.02,
-            0.06
-          ],
-          "color": "#2b2b2b",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Wall shelf with books",
-      "position": [
-        -0.6,
-        1.35,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "#### Other titles in the notebook",
-        "Want to watch Frieren: Beyond Journey's End."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1,
-            0.06,
-            0.2
-          ],
-          "color": "#6b4f3a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.28,
-            0.08,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.18,
-            0.18
-          ],
-          "color": "#c66a4a",
-          "roughness": 0.85,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.08,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.18,
-            0.18
-          ],
-          "color": "#4a7b6f",
-          "roughness": 0.85,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.28,
-            0.08,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.18,
-            0.18
-          ],
-          "color": "#3b5a8a",
-          "roughness": 0.85,
+          "color": "#7a2b3a",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -762,8 +501,8 @@
       "name": "Chair",
       "position": [
         0,
-        0.44,
-        0.9
+        0.45,
+        0.95
       ],
       "rotation": [
         0,
@@ -776,10 +515,10 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "chair",
           "position": [
             0,
-            0.26,
+            0,
             0
           ],
           "rotation": [
@@ -788,12 +527,197 @@
             0
           ],
           "size": [
-            0.46,
-            0.52,
-            0.46
+            0.5,
+            0.9,
+            0.5
           ],
-          "color": "#5a4030",
-          "roughness": 0.85,
+          "color": "#4b3728",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Shelf with books",
+      "position": [
+        1.6,
+        1,
+        -0.3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "#### Other titles in the notebook"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.1,
+            0.25
+          ],
+          "color": "#6b4a2e",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            -0.28,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.03,
+            0.28
+          ],
+          "color": "#2b6b8a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            0.06,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.03,
+            0.26
+          ],
+          "color": "#8a3b2f",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "TV",
+      "position": [
+        0,
+        1.1,
+        -1.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Watched The Matrix, then wrote about the color of its corridors rather than trying to explain the whole story.",
+        "Watched Severance S1E1: Good News About Hell."
+      ],
+      "shapes": [
+        {
+          "type": "tv",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            0.6,
+            0.06
+          ],
+          "color": "#0b0b0d",
+          "roughness": 0.2,
+          "glow": true
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.01,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.01,
+            0.5
+          ],
+          "color": "#0f1620",
+          "roughness": 0.1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "TV screen title",
+      "position": [
+        0,
+        1.07,
+        -1.17
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Watched The Matrix, then wrote about the color of its corridors rather than trying to explain the whole story.",
+        "Watched Severance S1E1: Good News About Hell."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.7,
+            0.01,
+            0.38
+          ],
+          "color": "#112233",
+          "roughness": 0.1,
           "glow": false
         }
       ]

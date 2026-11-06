@@ -1,5 +1,38 @@
 # Latest Jot v1 decisions
 
+## Scenes in a theatre: crafted parts, a two-page book, media on screens, and October in scenes (6 November 2026)
+
+The owner shared a reference site (a full-screen, art-directed week of journal dioramas) and asked for "more like this". Asked to
+choose, the owner chose: both a demo page and Writer's Scenes, a kit of crafted parts, and Jot's own brand. The owner then asked
+for the scene to go across both pages of the pop-up book, opening toward the camera, and for media to show on a screen when
+something is watched.
+
+- **The theatre** (`writer-scene.mjs`, `writer-scenes.css`): Jot's charcoal room with the light ink and cream paper
+  (`docs/brand/README.md`, "Approved pairs"). Over the scene: the date, the day's own title as the headline and its first
+  sentence in Jot Script, all the writer's words; the model's title and atmosphere stay in the small interpretation note.
+  Things that hold moments sit beside the scene; the chosen moment is a cream card in blue ink; Open journal shows the whole
+  entry in a paper dialog with previous and next; a pill of days with ← and → and a "01 / 31" counter; Full screen. On a
+  phone the overlays stack below the scene.
+- **October in scenes** (`examples/scenes.html`, `scenes-page.mjs`): the same view, read-only, on the demo journal: nothing
+  is made, sent or kept; attachments stay in page memory; the entry dialog is written by hand on a dot grid.
+- **Crafted parts** (`writer-scene-parts.mjs`, spec 8.1.9): 30 named parts (a mug with a handle, an open ruled notebook, a
+  plant with leaves, a window with panes, a shelf of books, a tv, a bus shelter…) drawn by Jot's own code from a box-sized
+  `size` and one main colour. They are shape types, so a place stays data; an unknown name is dropped like any unknown shape.
+- **A two-page book**: the book lies open toward the reader with the gutter running toward them, the place stands across both
+  pages, and the sky is a pop-up card standing along the far edge. As a day opens the right page swings over, the card stands
+  and the pieces rise out of the gutter; with reduced motion it is already open.
+- **Media on surfaces**: a tv, laptop or phone shows the title of something the entry says was watched, played or listened to
+  (`mediaMentions`, never "want to"); a book's cover shows the book it is reading; a frame shows the entry's own first
+  attached picture. Titles are the entry's words drawn as pixels; pictures are its own bytes; nothing is fetched and nothing
+  is stored in the place. The prompt asks for the screen, book or frame where the entry did these things. The research says
+  nothing about media in scenes; this is a design choice.
+
+The 31 demo scenes were made again through the same pipeline (`openai/gpt-5-mini`, Zero Data Retention required) with the
+parts prompt. Verified: the place module's Node tests (parts list, validation, every part builds, surfaces marked), the Scenes
+Chromium suite (theatre, dialog, keyboard, axe, phone) and the new October in scenes suite (31 days, the day's titles, exact
+moments, read-only, no outside requests, phone width, axe). Not verified: phone GPUs with shadows and parts, other browsers'
+full-screen behaviour, and how other models use the parts.
+
 ## Living pages: scenes as a pop-up book, with atmosphere and motion (6 November 2026)
 
 The owner asked for journal entries to come alive as explorable miniature scenes, with places, objects, events and

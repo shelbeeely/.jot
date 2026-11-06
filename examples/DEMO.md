@@ -18,9 +18,10 @@ original bytes and readable names, while archive members use UUID identities.
 
 ## Look around
 
-1. Open **Scenes**, choose a day and turn its place. Choose a named thing below it to read the sentences it holds.
+1. Open **Scenes**, choose a day and turn its place. Choose a named thing beside it to read the sentences it holds.
    **Open journal** shows the corresponding entry; **Go to this entry** returns to the writing. Try a rainy day and
-   **Pause weather**, or use reduced motion in Writing preferences.
+   **Pause motion**, or use reduced motion in Writing preferences. [See the month as scenes](scenes.html) shows the same
+   scenes on their own, without Writer.
 2. Open **Map** to follow the month, cross-entry links and tag threads. Choose an entry, then **Open in writing**.
 3. Open **Media** to browse the book, film, series, anime, podcast, game and music references. Compare a mention with
    an explicit activity such as Reading or Watched. **Download media journal** saves a separate writing-only copy.

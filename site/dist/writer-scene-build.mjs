@@ -1,3 +1,5 @@
+import { PARTS, buildPart } from './writer-scene-parts.mjs';
+
 // Draws a journal place (scene-journal-core.mjs validatePlace / readPlaceFile) with the bundled three.js (globalThis.JotThree), as a
 // pop-up book: an open spread whose floor page carries the place and whose back page stands at the fold, painted with the sky.
 // Only Jot's code runs: the place is data, simple shapes with sizes and colours. Card-stock grain, ink outlines and soft shadows give
@@ -6,7 +8,10 @@
 // light drift over it, the light shifts a little, a piece lifts under the pointer and hops when chosen. With reduced motion (or
 // Pause motion) it all stays still. Each object is a group with userData.object = its index, so a click can find it.
 //
-//   buildPlace(T, place, { reduced, document }) -> { root, objects: [Group], background, bounds, frame: { target, direction, radius },
+// media (optional) is the day's own: { screen: { label, title }, book: { title }, picture: an image of an attached picture }. Screens
+// show what the entry says was watched or listened to, a book's cover the book it is reading, a frame its picture; nothing is fetched.
+//
+//   buildPlace(T, place, { reduced, document, media }) -> { root, objects: [Group], background, bounds, frame: { target, direction, radius },
 //     fog: { color, near, far } | null, moving, update(seconds, { motion }) -> needs another frame, settle(), highlight(index),
 //     hover(index | -1), hop(index), dispose() }
 
@@ -25,7 +30,8 @@ const ATMOSPHERE = {
   heavy: { key: '#c7d0e0', keyScale: 0.7, fill: 0.85, sat: -0.22, light: -0.05, glow: 0.8, speed: 0.5 },
   tense: { key: '#e6edff', keyScale: 1.15, fill: 0.7, sat: -0.05, light: -0.03, glow: 1, speed: 1.3 },
 };
-const PAPER = '#f3ecdc', COVER = '#2f3b5c', INK = '#3a3226', TABLE = '#e8e0cf'; // every day's book lies on the same warm table
+// Jot's brand (docs/brand/README.md): ink blue covers, cream paper, a charcoal room lit with the light ink.
+const PAPER = '#f3ecdc', COVER = '#1f3a8a', INK = '#3a3226', CHARCOAL = '#242622', LIGHT_INK = '#cbd5eb';
 
 function geometry(T, s) {
   const [x, y, z] = s.size;
@@ -83,17 +89,44 @@ function paperTextures(T, doc, place, mood) {
   return { card, dots, sky, all: [card, dots, sky] };
 }
 
-export function buildPlace(T, place, { reduced = false, document: doc = globalThis.document } = {}) {
+// A card drawn in the page: a small label and a title, wrapped (the entry's words, drawn as pixels; never markup).
+function titleCard(T, doc, { label = '', title = '', colour = '#1f3a8a', aspect = 1.6, glyph = '' }) {
+  const c = doc.createElement('canvas'); c.width = 512; c.height = Math.max(96, Math.min(1024, Math.round(512 / aspect)));
+  const g = c.getContext('2d'), pad = 40, room = c.width - 2 * pad, base = Math.min(c.width, c.height);
+  const grad = g.createLinearGradient(0, 0, c.width, c.height); grad.addColorStop(0, colour); grad.addColorStop(1, `#${new T.Color(colour).offsetHSL(0, 0, -0.12).getHexString()}`);
+  g.fillStyle = grad; g.fillRect(0, 0, c.width, c.height); g.textBaseline = 'top';
+  let y = pad;
+  if (label) { g.fillStyle = '#cbd5eb'; g.font = `700 ${Math.round(base * 0.075)}px "Jot Sans", sans-serif`; g.fillText(label.toUpperCase(), pad, y, room); y += base * 0.16; }
+  const size = Math.round(base * (label ? 0.12 : 0.11)); g.font = `700 ${size}px "Jot Sans", sans-serif`; g.fillStyle = '#fffdf6';
+  const lines = []; let line = '';
+  for (const word of String(title).split(/\s+/).filter(Boolean)) { const t = line ? `${line} ${word}` : word; if (line && g.measureText(t).width > room) { lines.push(line); line = word; } else line = t; }
+  if (line) lines.push(line);
+  lines.slice(0, 4).forEach((l, i) => g.fillText(l, pad, y + i * size * 1.18, room));
+  if (glyph) { g.font = `${Math.round(base * 0.13)}px sans-serif`; g.fillText(glyph, c.width - pad - base * 0.13, c.height - pad - base * 0.13); }
+  const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; return t;
+}
+function pictureTexture(T, doc, image, aspect) { // the picture, cropped to fill its frame
+  const c = doc.createElement('canvas'); c.width = 512; c.height = Math.max(64, Math.min(1024, Math.round(512 / aspect)));
+  const g = c.getContext('2d'), iw = image.naturalWidth || image.width, ih = image.naturalHeight || image.height, k = Math.max(c.width / iw, c.height / ih);
+  g.drawImage(image, (c.width - iw * k) / 2, (c.height - ih * k) / 2, iw * k, ih * k);
+  const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; return t;
+}
+
+export function buildPlace(T, place, { reduced = false, document: doc = globalThis.document, media = null } = {}) {
   const root = new T.Group(), objects = [], hinges = [], lights = [], weather = [], motions = [], textures = [], idle = [];
   const mood = ATMOSPHERE[place.atmosphere] || ATMOSPHERE.neutral;
   const [tint, sun, hemi] = LIGHT[place.time] || LIGHT.day, glow = (GLOW[place.time] ?? 0.4) * mood.glow;
   const paper = doc?.createElement ? paperTextures(T, doc, place, mood) : null; if (paper) textures.push(...paper.all);
-  const grade = (c) => new T.Color(c).offsetHSL(0, mood.sat, mood.light);
+  // The model's colours, graded by the atmosphere and drawn a little toward cream paper, so every day is one pastel diorama.
+  const grade = (c) => new T.Color(c).offsetHSL(0, mood.sat, mood.light).lerp(new T.Color(PAPER), 0.14);
+  const material = (c, extra = {}) => new T.MeshStandardMaterial({ color: grade(c), roughness: 0.82, metalness: 0, flatShading: true, map: paper?.card || null,
+    ...extra, ...(extra.emissive ? { emissive: grade(extra.emissive) } : {}) });
   const lift = (c) => grade(c).lerp(new T.Color('#ffffff'), 0.55); // fill light from the sky and ground colours, lightened so dark places stay readable
   root.add(new T.HemisphereLight(lift(place.sky), lift(place.ground), hemi * mood.fill));
   const key = new T.DirectionalLight(new T.Color(tint).multiply(new T.Color(mood.key)), sun * mood.keyScale);
   key.castShadow = true; key.shadow.mapSize.set(1024, 1024); key.shadow.bias = -0.0006; key.shadow.normalBias = 0.02; root.add(key, key.target);
   if (place.weather === 'sun') { const warm = new T.DirectionalLight('#fff2cf', 0.8); warm.position.set(-5, 6, 2); root.add(warm); }
+  const rim = new T.DirectionalLight(LIGHT_INK, 1.1); root.add(rim, rim.target); // a cool edge from behind, as on a stage
   const ink = new T.LineBasicMaterial({ color: INK, transparent: true, opacity: 0.45 });
   const outline = (mesh) => { const line = new T.LineSegments(new T.EdgesGeometry(mesh.geometry, 35), ink); line.raycast = () => {}; mesh.add(line); };
 
@@ -104,20 +137,42 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
     group.userData.object = index; group.name = o.name;
     const glowing = [];
     for (const s of o.shapes) {
-      const material = new T.MeshStandardMaterial({ color: grade(s.color), roughness: Math.max(0.55, s.roughness), metalness: 0, flatShading: true, map: paper?.card || null,
-        emissive: s.glow ? s.color : '#000000', emissiveIntensity: s.glow ? glow : 0, ...(s.type === 'plane' ? { side: T.DoubleSide } : {}) });
-      const mesh = new T.Mesh(geometry(T, s), material);
-      mesh.position.set(...s.position); mesh.rotation.set(...s.rotation);
-      if (s.type === 'sphere') mesh.scale.set(...s.size);
-      mesh.castShadow = s.type !== 'plane' && !s.glow; mesh.receiveShadow = true;
-      mesh.userData.base = { emissive: material.emissive.getHex(), intensity: material.emissiveIntensity };
-      outline(mesh); group.add(mesh);
-      if (s.glow) glowing.push(material);
-      if (s.glow && lights.length < 6) { const l = new T.PointLight(s.color, glow * 3, 6, 2); l.position.set(...s.position); group.add(l); lights.push(l); glowing.push(l); }
+      const part = PARTS.includes(s.type) ? buildPart(T, s.type, s.size, s.color, { material, glow: s.glow }) : null;
+      let piece;
+      if (part) piece = part; // a crafted part: Jot's own pieces, sized to its box
+      else {
+        piece = new T.Mesh(geometry(T, s), material(s.color, { roughness: Math.max(0.55, s.roughness), emissive: s.glow ? s.color : '#000000', emissiveIntensity: s.glow ? glow : 0,
+          ...(s.type === 'plane' ? { side: T.DoubleSide } : {}) }));
+        if (s.type === 'sphere') piece.scale.set(...s.size);
+      }
+      piece.position.set(...s.position); piece.rotation.set(...s.rotation); group.add(piece);
+      piece.traverse((mesh) => {
+        if (!mesh.isMesh) return;
+        mesh.castShadow = s.type !== 'plane' && s.type !== 'rug' && !s.glow; mesh.receiveShadow = true;
+        mesh.userData.base = { emissive: mesh.material.emissive.getHex(), intensity: mesh.material.emissiveIntensity };
+        if (s.glow && mesh.material.emissiveIntensity > 0.5) glowing.push(mesh.material);
+        if (!part || mesh.geometry.type === 'BoxGeometry' || mesh.geometry.type === 'CylinderGeometry') outline(mesh);
+      });
+      if (!part && s.glow) glowing.push(piece.material);
+      if (s.glow && lights.length < 6) { const l = new T.PointLight(s.color, glow * 3, 6, 2); l.position.set(...s.position); if (part) l.position.y += s.size[1] * 0.2; group.add(l); lights.push(l); glowing.push(l); }
     }
     swing.add(group); hinge.add(swing); root.add(hinge); objects.push(group); hinges.push(hinge);
     if (o.motion && o.motion !== 'none') motions.push({ index, motion: o.motion, hinge, swing, group, glowing, base: group.rotation.y, phase: seeded(index + 0.7) * 6 });
     else idle.push({ swing, phase: seeded(index + 2.9) * 6 }); // the rest breathe
+  });
+
+  // The day's own media on the surfaces that can show it.
+  if (media && doc?.createElement) for (const g of objects) g.traverse((m) => {
+    const kind = m.userData?.surface; if (!m.isMesh || !kind) return;
+    const p = m.geometry.parameters || {}, aspect = (p.width || 1) / (p.height || p.depth || 1);
+    let map = null;
+    if (kind === 'screen' && media.screen) map = titleCard(T, doc, { label: media.screen.label, title: media.screen.title, aspect, glyph: '▶' });
+    else if (kind === 'cover' && media.book) map = titleCard(T, doc, { title: media.book.title, colour: `#${m.material.color.getHexString()}`, aspect });
+    else if (kind === 'picture' && media.picture) { try { map = pictureTexture(T, doc, media.picture, aspect); } catch { map = null; } }
+    if (!map) return;
+    textures.push(map); m.material.map = map; m.material.color.set('#ffffff');
+    if (kind === 'screen') { m.material.emissive.set('#ffffff'); m.material.emissiveMap = map; m.material.emissiveIntensity = 0.8; }
+    m.material.needsUpdate = true; m.userData.base = { emissive: m.material.emissive.getHex(), intensity: m.material.emissiveIntensity }; m.userData.shows = kind;
   });
 
   // How big the place is (objects only): the book is sized to all of it; the view is framed on what the day is about, the things
@@ -129,30 +184,41 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   const whole = all.isEmpty() ? new T.Sphere(new T.Vector3(), 2) : all.getBoundingSphere(new T.Sphere());
   const centre = new T.Vector3(whole.center.x, 0, whole.center.z), R = Math.max(2, whole.radius * 0.95 + 0.25), H = Math.max(2.4, (all.isEmpty() ? 0 : all.max.y) + 0.8, R * 0.9);
 
-  // The reader's side: where the model put the camera. The fold runs across the far side, so the back page stands behind the place.
+  // The reader's side: where the model put the camera. The book lies open toward it: a left and a right page with the gutter running
+  // toward the reader, the place standing across both, and a painted sky card standing along the far edge.
   const toward = new T.Vector3(place.camera.position[0] - place.camera.target[0], 0, place.camera.position[2] - place.camera.target[2]);
   if (toward.lengthSq() < 1e-6) toward.set(0, 0, 1); toward.normalize();
   const book = new T.Group(); book.position.copy(centre); book.rotation.y = Math.atan2(toward.x, toward.z); root.add(book);
-  const axis = new T.Vector3(1, 0, 0).applyAxisAngle(new T.Vector3(0, 1, 0), book.rotation.y); // the fold's direction, about which things rise
+  const up = new T.Vector3(0, 1, 0), axis = new T.Vector3(0, 0, 1).applyAxisAngle(up, book.rotation.y); // the gutter's direction, about which things rise
   const slab = (w, h, d, material) => { const m = new T.Mesh(new T.BoxGeometry(w, h, d), material); m.receiveShadow = true; return m; };
   const floorTint = grade(place.ground).lerp(new T.Color(PAPER), 0.3);
-  const dots = paper?.dots; if (dots) dots.repeat.set(R, R);
-  const floor = slab(2 * R, 0.05, 2 * R, new T.MeshStandardMaterial({ color: floorTint, roughness: place.weather === 'rain' ? 0.55 : 1, map: dots || null, flatShading: true }));
-  floor.position.y = -0.025;
-  const margin = slab(2 * R + 0.3, 0.04, 2 * R + 0.15, new T.MeshStandardMaterial({ color: PAPER, roughness: 1, map: paper?.card || null })); margin.position.set(0, -0.05, 0.04);
-  const cover = slab(2 * R + 0.55, 0.06, 2 * R + 0.35, new T.MeshStandardMaterial({ color: COVER, roughness: 0.9 })); cover.position.set(0, -0.1, 0.06);
-  book.add(floor, margin, cover);
-  // The back page, hinged at the fold: lying flat behind the place until the book opens.
-  const backPage = new T.Group(); backPage.position.set(0, 0, -R); book.add(backPage);
-  const painted = new T.Mesh(new T.PlaneGeometry(2 * R, H), new T.MeshStandardMaterial({ color: paper ? '#ffffff' : grade(place.sky), map: paper?.sky || null, roughness: 1 }));
-  painted.position.set(0, H / 2, 0.03); painted.receiveShadow = true;
-  const backMargin = slab(2 * R + 0.3, H + 0.15, 0.04, new T.MeshStandardMaterial({ color: PAPER, roughness: 1, map: paper?.card || null })); backMargin.position.set(0, H / 2 + 0.02, -0.01);
-  const backCover = slab(2 * R + 0.55, H + 0.3, 0.06, new T.MeshStandardMaterial({ color: COVER, roughness: 0.9 })); backCover.position.set(0, H / 2 + 0.04, -0.07);
-  backPage.add(painted, backMargin, backCover);
-  for (const m of [floor, margin, cover, painted, backMargin, backCover]) m.raycast = () => {};
+  const dots = paper?.dots; if (dots) dots.repeat.set(R / 2, R);
+  const pageMat = new T.MeshStandardMaterial({ color: floorTint, roughness: place.weather === 'rain' ? 0.55 : 1, map: dots || null, flatShading: true });
+  const edgeMat = new T.MeshStandardMaterial({ color: PAPER, roughness: 1, map: paper?.card || null }), coverMat = new T.MeshStandardMaterial({ color: COVER, roughness: 0.9 });
+  const W = R; // each page is half the spread
+  const side = (sign) => { // one page: the page, the block of pages under it, the cover under that
+    const g = new T.Group();
+    const page = slab(W, 0.05, 2 * R, pageMat); page.position.set(sign * W / 2, -0.025, 0);
+    const block = slab(W + 0.12, 0.08, 2 * R + 0.14, edgeMat); block.position.set(sign * (W / 2 + 0.06), -0.07, 0);
+    const board = slab(W + 0.26, 0.05, 2 * R + 0.3, coverMat); board.position.set(sign * (W / 2 + 0.12), -0.135, 0);
+    g.add(page, block, board); for (const m of [page, block, board]) m.raycast = () => {};
+    return g;
+  };
+  const leftPage = side(-1), rightPage = side(1); book.add(leftPage, rightPage);
+  const gutter = new T.Mesh(new T.PlaneGeometry(0.16, 2 * R), new T.MeshBasicMaterial({ color: '#000000', transparent: true, opacity: 0.16, depthWrite: false }));
+  gutter.rotation.x = -Math.PI / 2; gutter.position.y = 0.003; gutter.raycast = () => {}; book.add(gutter); // the fold's soft shadow
+  const spine = new T.Mesh(new T.CylinderGeometry(0.1, 0.1, 2 * R + 0.3, 16, 1, false, 0, Math.PI), coverMat); spine.rotation.set(Math.PI / 2, 0, Math.PI / 2); spine.position.y = -0.16; spine.raycast = () => {}; book.add(spine);
+  // The sky card: a pop-up layer standing along the far edge of both pages, folded flat until the book opens.
+  const backPage = new T.Group(); backPage.position.set(0, 0, -R + 0.05); book.add(backPage);
+  const painted = new T.Mesh(new T.PlaneGeometry(2 * W * 0.96, H), new T.MeshStandardMaterial({ color: paper ? '#ffffff' : grade(place.sky), map: paper?.sky || null, roughness: 1, side: T.DoubleSide }));
+  painted.position.set(0, H / 2, 0.025); painted.receiveShadow = true;
+  const backMargin = slab(2 * W * 0.96 + 0.12, H + 0.1, 0.035, edgeMat); backMargin.position.set(0, H / 2 + 0.02, 0);
+  backPage.add(painted, backMargin);
+  for (const m of [painted, backMargin]) m.raycast = () => {};
 
   // Key light and its soft shadow, fitted to the book.
   key.position.copy(centre).add(new T.Vector3(0.45, 0.85, 0.35).applyAxisAngle(new T.Vector3(0, 1, 0), book.rotation.y).multiplyScalar(R * 3)); key.target.position.copy(centre);
+  rim.position.copy(centre).add(new T.Vector3(-0.5, 0.6, -1).applyAxisAngle(new T.Vector3(0, 1, 0), book.rotation.y).multiplyScalar(R * 3)); rim.target.position.copy(centre);
   Object.assign(key.shadow.camera, { left: -R * 1.4, right: R * 1.4, top: R * 1.4, bottom: -R * 1.4, near: 0.1, far: R * 8 }); key.shadow.camera.updateProjectionMatrix();
 
   // Weather: rain as falling streaks, snow as drifting points, over the page.
@@ -197,11 +263,13 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
 
   let clock = 0, unfold = reduced ? 1 : 0, lit = -1, over = -1;
   const lifted = hinges.map(() => 0), hops = new Map(), keyBase = key.intensity;
-  // How far each piece stands from the fold (0 at the back page, 1 at the front edge): the back rises first.
-  const depth = hinges.map((h) => { const local = book.worldToLocal(h.getWorldPosition(new T.Vector3())); return Math.max(0, Math.min(1, (local.z + R) / (2 * R))); });
-  function pose() { // the book opening: back page first, then each piece rising from the back of the page to the front
-    backPage.rotation.x = -(Math.PI / 2) * (1 - easeOut(Math.min(1, unfold / 0.45)));
-    hinges.forEach((h, i) => { const start = 0.2 + depth[i] * 0.35, p = Math.max(0, Math.min(1, (unfold - start) / 0.45)); h.quaternion.setFromAxisAngle(axis, (Math.PI / 2) * (1 - backOut(p))); });
+  // Where each piece stands: which side of the gutter (it folds toward the gutter) and how far from it (the nearest rise first).
+  const spots = hinges.map((h) => { const local = book.worldToLocal(h.getWorldPosition(new T.Vector3())); return { sign: local.x >= 0 ? 1 : -1, far: Math.min(1, Math.abs(local.x) / R) }; });
+  function pose() { // the book opening toward the reader: the right page swings over, the sky card stands, the pieces rise out of the gutter
+    const turn = easeOut(Math.min(1, unfold / 0.5));
+    rightPage.rotation.z = Math.PI * (1 - turn); // closed, the right page lies over the left one
+    backPage.rotation.x = -(Math.PI / 2) * (1 - easeOut(Math.max(0, Math.min(1, (unfold - 0.25) / 0.45)))); // in the book's own axes
+    hinges.forEach((h, i) => { const start = 0.3 + spots[i].far * 0.3, p = Math.max(0, Math.min(1, (unfold - start) / 0.4)); h.quaternion.setFromAxisAngle(axis, spots[i].sign * (Math.PI / 2) * (1 - backOut(p))); });
   }
   pose();
   function animate(dt) {
@@ -233,17 +301,17 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
 
   return {
     root, objects, bounds, sky: place.sky,
-    background: `#${new T.Color(TABLE).lerp(grade(place.sky), 0.15).getHexString()}`,
+    background: `#${new T.Color(CHARCOAL).lerp(new T.Color(place.sky), 0.05).getHexString()}`, // every day in the same dark room
     // The whole open book, seen from the reader's side of the place, a little above it, as a book is read.
-    frame: { target: new T.Vector3(centre.x, H * 0.3, centre.z), radius: Math.hypot(R * 1.05, H * 0.5),
+    frame: { target: new T.Vector3(centre.x, H * 0.28, centre.z), radius: Math.hypot(R * 0.96, H * 0.5),
       direction: toward.clone().multiplyScalar(Math.cos(0.6)).add(new T.Vector3(0, Math.sin(0.6), 0)).normalize() },
-    fog: place.weather === 'fog' ? { color: `#${new T.Color(TABLE).lerp(grade(place.sky), 0.4).getHexString()}`, near: R * 2.2, far: R * 7 } : null,
+    fog: place.weather === 'fog' ? { color: `#${new T.Color(CHARCOAL).lerp(new T.Color(place.sky), 0.35).getHexString()}`, near: R * 2.4, far: R * 7.5 } : null,
     moving: objects.length > 0, // a living page: something always breathes
     get unfolding() { return unfold < 1; },
     // Advances the opening and, when motion is on, the weather and the things that move. True while another frame is needed.
     update(dt, { motion = true } = {}) {
       dt = Math.min(dt, 0.1);
-      if (unfold < 1) { unfold = Math.min(1, unfold + dt / 1.4); pose(); }
+      if (unfold < 1) { unfold = Math.min(1, unfold + dt / 1.8); pose(); }
       if (motion) { for (const f of weather) f(dt); animate(dt); }
       return unfold < 1 || (motion && objects.length > 0);
     },

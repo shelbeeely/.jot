@@ -3,18 +3,18 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:56:17.972Z"
+    "at": "2026-11-06T10:37:50.436Z"
   },
-  "title": "Riverside bench and café door",
-  "sky": "#a8d8ff",
-  "ground": "#4f6b3a",
-  "weather": "clear",
+  "title": "Riverside bench with bicycle",
+  "sky": "#8fb6d6",
+  "ground": "#6b7054",
+  "weather": "rain",
   "time": "day",
   "atmosphere": "calm",
   "camera": {
     "position": [
-      -3,
-      1.8,
+      -2.5,
+      1.6,
       2.5
     ],
     "target": [
@@ -25,11 +25,49 @@
   },
   "objects": [
     {
+      "name": "Ground plane",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            8,
+            0.01,
+            6
+          ],
+          "color": "#6b7054",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
       "name": "River",
       "position": [
         0,
         0,
-        3.2
+        1.6
       ],
       "rotation": [
         0,
@@ -56,20 +94,20 @@
           "size": [
             8,
             0.01,
-            3.2
+            1.2
           ],
-          "color": "#4aa0e1",
+          "color": "#2b6f9e",
           "roughness": 0.2,
           "glow": false
         }
       ]
     },
     {
-      "name": "Park path",
+      "name": "Path with wet leaves",
       "position": [
+        0.6,
         0,
-        0,
-        0.5
+        -1.2
       ],
       "rotation": [
         0,
@@ -94,18 +132,18 @@
             0
           ],
           "size": [
-            3.2,
+            2.4,
             0.01,
-            1.2
+            1.6
           ],
-          "color": "#7b6b4a",
+          "color": "#4a3d2f",
           "roughness": 0.9,
           "glow": false
         },
         {
           "type": "plane",
           "position": [
-            -0.4,
+            0,
             0.01,
             0.2
           ],
@@ -115,20 +153,39 @@
             0
           ],
           "size": [
-            0.6,
+            2.4,
             0.01,
-            0.4
+            1.6
           ],
-          "color": "#3f2e1f",
-          "roughness": 0.95,
+          "color": "#3b5a3a",
+          "roughness": 0.6,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Tree",
+      "position": [
+        -1.2,
+        0,
+        0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "A fallen branch from the tree had caught in the flowers, and the path was patched with wet leaves."
+      ],
+      "shapes": [
         {
-          "type": "plane",
+          "type": "cylinder",
           "position": [
-            0.8,
-            0.01,
-            -0.1
+            0,
+            0.6,
+            0
           ],
           "rotation": [
             0,
@@ -136,22 +193,520 @@
             0
           ],
           "size": [
-            0.5,
-            0.01,
-            0.35
+            0.14,
+            1.2,
+            0.14
           ],
-          "color": "#3b2a1c",
-          "roughness": 0.95,
+          "color": "#7a4e2f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            1.35,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "color": "#27603a",
+          "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Wet leaves patch",
+      "name": "Fallen branch",
+      "position": [
+        -0.6,
+        0.15,
+        -0.1
+      ],
+      "rotation": [
+        0,
+        0.3,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A fallen branch from the tree had caught in the flowers, and the path was patched with wet leaves."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.06,
+            0.08
+          ],
+          "color": "#6b4b36",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Flower patch",
+      "position": [
+        -0.6,
+        0.05,
+        0.12
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A fallen branch from the tree had caught in the flowers, and the path was patched with wet leaves."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.08,
+            0.05,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.1,
+            0.03
+          ],
+          "color": "#e07a5f",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.08,
+            0.05,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.1,
+            0.03
+          ],
+          "color": "#f2c14e",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.05,
+            -0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.1,
+            0.03
+          ],
+          "color": "#ef476f",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Park bench",
+      "position": [
+        0,
+        0.45,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I wheeled the bicycle down to the park bench beside the river.",
+        "I put the notebook on the bench and tightened the little screw under the bell until it rang clearly again."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.12,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.12,
+            0.4
+          ],
+          "color": "#6a4f3a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.32,
+            -0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.18,
+            0.12
+          ],
+          "color": "#5b3f2d",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.76,
+            0,
+            0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.9,
+            0.08
+          ],
+          "color": "#3f2f23",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.76,
+            0,
+            0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.9,
+            0.08
+          ],
+          "color": "#3f2f23",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook on bench",
+      "position": [
+        0.18,
+        0.68,
+        0.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I put the notebook on the bench and tightened the little screw under the bell until it rang clearly again.",
+        "I had fixed a sound, which seemed a nice thing to have done. #mending #walks @park"
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.04,
+            0.3
+          ],
+          "color": "#2f4858",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bicycle",
+      "position": [
+        0.9,
+        0.35,
+        -0.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I wheeled the bicycle down to the park bench beside the river.",
+        "I put the notebook on the bench and tightened the little screw under the bell until it rang clearly again.",
+        "The ride home was short and slow.",
+        "At the café I leaned the bicycle below the window and carried a tea mug out to the small table by the door."
+      ],
+      "shapes": [
+        {
+          "type": "torus",
+          "position": [
+            0.45,
+            -0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.34,
+            0.03,
+            0.34
+          ],
+          "color": "#111111",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            -0.45,
+            -0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.34,
+            0.03,
+            0.34
+          ],
+          "color": "#111111",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.9,
+            0.06,
+            0.06
+          ],
+          "color": "#d47d22",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.2,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.18,
+            0.06
+          ],
+          "color": "#d47d22",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.6,
+            0.26,
+            0
+          ],
+          "rotation": [
+            1.57,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.06,
+            0.03
+          ],
+          "color": "#bcbcbc",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.72,
+            0.33,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.04,
+            0.02
+          ],
+          "color": "#c5c5c5",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bicycle bell",
+      "position": [
+        0.78,
+        0.4,
+        -0.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I put the notebook on the bench and tightened the little screw under the bell until it rang clearly again.",
+        "Tighten the bicycle bell #mending"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.03,
+            0.03
+          ],
+          "color": "#cfae4a",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.01,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.01,
+            0.03
+          ],
+          "color": "#8b6b33",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Wet leaves cluster",
       "position": [
         0.2,
-        0,
-        0.6
+        0.01,
+        -0.6
       ],
       "rotation": [
         0,
@@ -176,370 +731,22 @@
             0
           ],
           "size": [
-            0.8,
+            0.6,
             0.01,
             0.6
           ],
-          "color": "#6b4826",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Tree",
-      "position": [
-        -1.8,
-        0,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "sway",
-      "moments": [
-        "A fallen branch from the tree had caught in the flowers, and the path was patched with wet leaves."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.9,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            1.8,
-            0.15
-          ],
-          "color": "#6b4a2a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            1.9,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
-          ],
-          "color": "#2e6b2e",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Fallen branch",
-      "position": [
-        -1.55,
-        0.22,
-        0.9
-      ],
-      "rotation": [
-        0,
-        0.9,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "A fallen branch from the tree had caught in the flowers, and the path was patched with wet leaves."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.9,
-            0.05
-          ],
-          "color": "#5a3f2a",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Flower patch",
-      "position": [
-        -1.2,
-        0.05,
-        1.05
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "A fallen branch from the tree had caught in the flowers, and the path was patched with wet leaves."
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            -0.18,
-            0.08,
-            0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#ff6fb2",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.05,
-            0.08,
-            -0.12
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#ffd27a",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.17,
-            0.08,
-            0.06
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#9fe3a8",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Bench",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I wheeled the bicycle down to the park bench beside the river.",
-        "I put the notebook on the bench and tightened the little screw under the bell until it rang clearly again."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.18,
-            0.4
-          ],
-          "color": "#8b5a3c",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.09,
-            0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.1,
-            0.18,
-            0.1
-          ],
-          "color": "#5a3f2a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.09,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.1,
-            0.18,
-            0.1
-          ],
-          "color": "#5a3f2a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.9,
-            0.08
-          ],
-          "color": "#4a2f1f",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            0.45,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.9,
-            0.08
-          ],
-          "color": "#4a2f1f",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        0,
-        0.56,
-        0.05
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I put the notebook on the bench and tightened the little screw under the bell until it rang clearly again."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.25,
-            0.02,
-            0.18
-          ],
-          "color": "#f2f0e8",
+          "color": "#283d2b",
           "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Bicycle",
+      "name": "Small snagged twigs among flowers",
       "position": [
-        1.2,
-        0,
-        0.2
+        -0.58,
+        0.08,
+        0.14
       ],
       "rotation": [
         0,
@@ -548,174 +755,7 @@
       ],
       "motion": "none",
       "moments": [
-        "I wheeled the bicycle down to the park bench beside the river.",
-        "The ride home was short and slow.",
-        "At the café I leaned the bicycle below the window and carried a tea mug out to the small table by the door."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0.65,
-            0.345,
-            0.15
-          ],
-          "rotation": [
-            1.5708,
-            0,
-            0
-          ],
-          "size": [
-            0.33,
-            0.06,
-            0.33
-          ],
-          "color": "#222222",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            -0.65,
-            0.345,
-            0.15
-          ],
-          "rotation": [
-            1.5708,
-            0,
-            0
-          ],
-          "size": [
-            0.33,
-            0.06,
-            0.33
-          ],
-          "color": "#222222",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.55,
-            0.15
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.06,
-            0.12
-          ],
-          "color": "#b02e2e",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.2,
-            0.75,
-            0.15
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.02,
-            0.12
-          ],
-          "color": "#444444",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Bell",
-      "position": [
-        1.38,
-        0.84,
-        0.15
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I put the notebook on the bench and tightened the little screw under the bell until it rang clearly again.",
-        "Tighten the bicycle bell #mending"
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.04,
-            0.04
-          ],
-          "color": "#d9c27a",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            -0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.02,
-            0.01
-          ],
-          "color": "#7a6b4a",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Basket with frayed tie",
-      "position": [
-        1.08,
-        0.62,
-        0.18
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Replace the frayed basket tie #mending"
+        "A fallen branch from the tree had caught in the flowers, and the path was patched with wet leaves."
       ],
       "shapes": [
         {
@@ -726,222 +766,17 @@
             0
           ],
           "rotation": [
-            0,
+            0.25,
             0,
             0
           ],
           "size": [
-            0.26,
             0.18,
-            0.16
-          ],
-          "color": "#7a5a3a",
-          "roughness": 0.95,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.09,
-            0.06,
-            0.06
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.02,
+            0.04,
             0.02
           ],
-          "color": "#c96b4b",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Café window",
-      "position": [
-        2.2,
-        0,
-        0.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "At the café I leaned the bicycle below the window and carried a tea mug out to the small table by the door."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            1.1,
-            0.06
-          ],
-          "color": "#9ec7ff",
-          "roughness": 0.1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.55,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.06,
-            0.05
-          ],
-          "color": "#c3976a",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Small café table",
-      "position": [
-        2.05,
-        0,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "At the café I leaned the bicycle below the window and carried a tea mug out to the small table by the door."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.75,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.06,
-            0.6
-          ],
-          "color": "#6b4b37",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.33,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.6,
-            0.05
-          ],
-          "color": "#4a3728",
+          "color": "#6b4b36",
           "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug of tea",
-      "position": [
-        2.05,
-        0.86,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "steam",
-      "moments": [
-        "At the café I leaned the bicycle below the window and carried a tea mug out to the small table by the door.",
-        "I had fixed a sound, which seemed a nice thing to have done. #mending #walks @park"
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.08,
-            0.07
-          ],
-          "color": "#ffffff",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.12,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.02,
-            0.02
-          ],
-          "color": "#ffffff",
-          "roughness": 0.6,
           "glow": false
         }
       ]

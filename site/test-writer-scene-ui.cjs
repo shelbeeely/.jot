@@ -112,12 +112,15 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
   // Open journal shows the whole entry; Go to this entry returns to the writing.
   await page.click('.writer-scenes-things button:has-text("Desk")');await page.click('.writer-scenes-open');
   assert.match(await page.textContent('.writer-scenes-page'),/Papers everywhere on my desk\./);assert.doesNotMatch(await page.textContent('.writer-scenes-page'),/scratch note/);
+  assert.equal(await page.evaluate(()=>document.querySelector('.writer-scenes-journal').open),true,'the entry opens in a dialog');
+  if(shots)await page.screenshot({path:path.join(shots,'scenes-journal.png')});
+  await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.querySelector('.writer-scenes-journal').open),false,'Escape returns to the scene');
   // Editing the entry: a moment whose sentence is gone says so.
   await page.evaluate(()=>{const e=document.getElementById('writing');e.value=e.value.replace('The tea went cold','The coffee went cold');e.dispatchEvent(new Event('input',{bubbles:true}));});
   await page.waitForTimeout(700);await page.click('.writer-scenes-things button:has-text("Mug of tea")');
   assert.match(await page.textContent('.writer-scenes-moment'),/\(no longer in this entry\)/);
   await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});
-  assert.deepEqual(await page.evaluate(async()=>(await axe.run(document.getElementById('writerScenes'))).violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>v.id)),[]);
+  {const v=await page.evaluate(async()=>(await axe.run(document.getElementById('writerScenes'))).violations.filter(v=>['serious','critical'].includes(v.impact)).map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target.join(' ')+' '+(n.any[0]?.message||'')).slice(0,4)})));if(v.length)console.log(JSON.stringify(v,null,1));assert.deepEqual(v.map(x=>x.id),[]);}
   // Locking clears the view.
   await page.evaluate(()=>{const e=document.getElementById('writing');e.readOnly=true;e.setAttribute('readonly','');});await page.waitForTimeout(100);
   assert.equal(await page.isVisible('#writerScenes'),false);assert.equal(await page.locator('#writerScenes [role=tab]').count(),0);

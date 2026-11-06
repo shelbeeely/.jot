@@ -3,225 +3,27 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:56:29.585Z"
+    "at": "2026-11-06T10:38:14.023Z"
   },
   "title": "Kitchen table with cooling loaf",
-  "sky": "#cfe9ff",
-  "ground": "#f2e9df",
+  "sky": "#b6d7ff",
+  "ground": "#f6f3ef",
   "weather": "clear",
   "time": "morning",
   "atmosphere": "cosy",
   "camera": {
     "position": [
-      2,
-      1.2,
-      3
+      1.8,
+      1.6,
+      2.5
     ],
     "target": [
       0,
-      0.85,
+      0.9,
       0
     ]
   },
   "objects": [
-    {
-      "name": "Floor",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            6,
-            0.01,
-            4
-          ],
-          "color": "#f7efe6",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Back wall",
-      "position": [
-        0,
-        0,
-        -1.95
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.25,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            6,
-            2.5,
-            0.12
-          ],
-          "color": "#efe6dd",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window",
-      "position": [
-        -1.2,
-        0,
-        -1.94
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The tea mug had left a pale ring near the lamp, and outside the window the garden tree was holding on to a few orange leaves."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            1.1,
-            0.06
-          ],
-          "color": "#d8f0ff",
-          "roughness": 0.1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.9,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            1.5,
-            0.06
-          ],
-          "color": "#bfa78a",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Garden tree",
-      "position": [
-        -2.2,
-        0,
-        -4
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "sway",
-      "moments": [
-        "The tea mug had left a pale ring near the lamp, and outside the window the garden tree was holding on to a few orange leaves."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            1.2,
-            0.08
-          ],
-          "color": "#6b4b2a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            1.5,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
-          ],
-          "color": "#a34f15",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
     {
       "name": "Table",
       "position": [
@@ -257,8 +59,8 @@
             0.06,
             0.9
           ],
-          "color": "#e0c9a3",
-          "roughness": 0.85,
+          "color": "#8b5a33",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -278,8 +80,8 @@
             0.72,
             0.08
           ],
-          "color": "#a87a50",
-          "roughness": 1,
+          "color": "#6b4528",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -299,8 +101,8 @@
             0.72,
             0.08
           ],
-          "color": "#a87a50",
-          "roughness": 1,
+          "color": "#6b4528",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -320,8 +122,8 @@
             0.72,
             0.08
           ],
-          "color": "#a87a50",
-          "roughness": 1,
+          "color": "#6b4528",
+          "roughness": 0.6,
           "glow": false
         },
         {
@@ -341,174 +143,8 @@
             0.72,
             0.08
           ],
-          "color": "#a87a50",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Loaf of bread",
-      "position": [
-        -0.25,
-        0.86,
-        0.1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I set a loaf of bread on the kitchen table and drew a rough graph in the notebook while it cooled.",
-        "A number records one part of a day; the bread and the light belong in sentences. #food #home @kitchen"
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.18,
-            0.18
-          ],
-          "color": "#d8a66a",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.03,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.34,
-            0.06,
-            0.18
-          ],
-          "color": "#c98f58",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        0.35,
-        0.86,
-        -0.1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I set a loaf of bread on the kitchen table and drew a rough graph in the notebook while it cooled.",
-        "The bars below show these fictional distances, including the blank left for yesterday.",
-        "I like that a gap can stay a gap."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.22,
-            0.02,
-            0.16
-          ],
-          "color": "#ffffff",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0.011,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.01,
-            0.12
-          ],
-          "color": "#f6f0e8",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Empty bar (gap)",
-      "position": [
-        0.35,
-        0.88,
-        0.05
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The bars below show these fictional distances, including the blank left for yesterday.",
-        "I like that a gap can stay a gap."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.14,
-            0.01,
-            0.02
-          ],
-          "color": "#bfbfbf",
-          "roughness": 0.95,
+          "color": "#6b4528",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -516,9 +152,9 @@
     {
       "name": "Mug of tea",
       "position": [
-        0.05,
-        0.86,
-        -0.25
+        0.25,
+        0.84,
+        0.15
       ],
       "rotation": [
         0,
@@ -532,7 +168,7 @@
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "mug",
           "position": [
             0,
             0,
@@ -544,60 +180,246 @@
             0
           ],
           "size": [
-            0.09,
-            0.09,
+            0.12,
+            0.12,
             0.09
           ],
-          "color": "#e8d6c8",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0.05,
-            0.06
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.09,
-            0.02,
-            0.04
-          ],
-          "color": "#e8d6c8",
-          "roughness": 0.9,
+          "color": "#d96d48",
+          "roughness": 0.35,
           "glow": false
         }
       ]
     },
     {
-      "name": "Table lamp",
+      "name": "Loaf of bread",
       "position": [
-        0.45,
-        0.98,
-        0.28
+        -0.25,
+        0.84,
+        0
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "flicker",
+      "motion": "none",
+      "moments": [
+        "I set a loaf of bread on the kitchen table and drew a rough graph in the notebook while it cooled.",
+        "A number records one part of a day; the bread and the light belong in sentences. #food #home @kitchen"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.12,
+            0.12
+          ],
+          "color": "#c48b4a",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        0,
+        0.8,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I set a loaf of bread on the kitchen table and drew a rough graph in the notebook while it cooled.",
+        "The bars below show these fictional distances, including the blank left for yesterday."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.04,
+            0.3
+          ],
+          "color": "#2f4f4f",
+          "roughness": 0.5,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Paper bars",
+      "position": [
+        0.05,
+        0.82,
+        0.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The bars below show these fictional distances, including the blank left for yesterday.",
+        "I like that a gap can stay a gap."
+      ],
+      "shapes": [
+        {
+          "type": "papers",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.01,
+            0.22
+          ],
+          "color": "#ffffff",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.06,
+            0.011,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.022,
+            0.04
+          ],
+          "color": "#4b6fb1",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.02,
+            0.011,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.022,
+            0.04
+          ],
+          "color": "#4b6fb1",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.1,
+            0.011,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.022,
+            0.04
+          ],
+          "color": "#4b6fb1",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.04,
+            0.011,
+            0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.022,
+            0.03
+          ],
+          "color": "#ffffff",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lamp",
+      "position": [
+        0.42,
+        0.95,
+        -0.12
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
         "The tea mug had left a pale ring near the lamp, and outside the window the garden tree was holding on to a few orange leaves.",
         "A number records one part of a day; the bread and the light belong in sentences. #food #home @kitchen"
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "lamp",
           "position": [
             0,
-            -0.12,
+            0,
             0
           ],
           "rotation": [
@@ -606,43 +428,123 @@
             0
           ],
           "size": [
-            0.05,
-            0.24,
-            0.05
-          ],
-          "color": "#7a5b3a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0,
-            0.08,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.14,
             0.12,
-            0.14
+            0.5,
+            0.12
           ],
-          "color": "#ffdca6",
-          "roughness": 0.1,
-          "glow": true
+          "color": "#e8d9b8",
+          "roughness": 0.2,
+          "glow": false
         }
       ]
     },
     {
-      "name": "Oven (warm source)",
+      "name": "Window",
       "position": [
-        1.6,
         0,
-        -1.2
+        1.6,
+        -1.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The tea mug had left a pale ring near the lamp, and outside the window the garden tree was holding on to a few orange leaves."
+      ],
+      "shapes": [
+        {
+          "type": "window",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#476b8a",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden tree",
+      "position": [
+        -0.6,
+        1,
+        -3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "The tea mug had left a pale ring near the lamp, and outside the window the garden tree was holding on to a few orange leaves."
+      ],
+      "shapes": [
+        {
+          "type": "tree",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            2,
+            0.6
+          ],
+          "color": "#5a6b2e",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.6,
+            0.18
+          ],
+          "color": "#6b4b31",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Oven (closed)",
+      "position": [
+        1.2,
+        0.45,
+        0.6
       ],
       "rotation": [
         0,
@@ -658,7 +560,7 @@
           "type": "box",
           "position": [
             0,
-            0.5,
+            0,
             0
           ],
           "rotation": [
@@ -667,20 +569,20 @@
             0
           ],
           "size": [
+            0.7,
             0.9,
-            1,
             0.6
           ],
-          "color": "#d9dfe6",
-          "roughness": 0.95,
+          "color": "#3b3b3b",
+          "roughness": 0.6,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0,
-            0.35,
-            0.27
+            -0.18,
+            0.25
           ],
           "rotation": [
             0,
@@ -688,12 +590,12 @@
             0
           ],
           "size": [
-            0.5,
-            0.18,
+            0.3,
+            0.06,
             0.06
           ],
-          "color": "#b0a6a0",
-          "roughness": 1,
+          "color": "#222222",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -702,8 +604,8 @@
       "name": "Chair",
       "position": [
         -0.9,
-        0,
-        0.5
+        0.45,
+        0.15
       ],
       "rotation": [
         0,
@@ -712,14 +614,14 @@
       ],
       "motion": "none",
       "moments": [
-        "I set a loaf of bread on the kitchen table and drew a rough graph in the notebook while it cooled."
+        "A number records one part of a day; the bread and the light belong in sentences. #food #home @kitchen"
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "chair",
           "position": [
             0,
-            0.45,
+            0,
             0
           ],
           "rotation": [
@@ -732,18 +634,18 @@
             0.9,
             0.5
           ],
-          "color": "#c9a27a",
-          "roughness": 1,
+          "color": "#7a5b3d",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Small shelf",
+      "name": "Rug",
       "position": [
-        1.4,
-        0.9,
-        -1.8
+        0,
+        0.01,
+        0.4
       ],
       "rotation": [
         0,
@@ -751,12 +653,10 @@
         0
       ],
       "motion": "none",
-      "moments": [
-        "The whole room smelled like the oven."
-      ],
+      "moments": [],
       "shapes": [
         {
-          "type": "box",
+          "type": "plane",
           "position": [
             0,
             0,
@@ -768,73 +668,12 @@
             0
           ],
           "size": [
-            0.6,
-            0.06,
-            0.18
+            1.2,
+            0.01,
+            0.9
           ],
-          "color": "#b9926b",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            -0.2,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.4,
-            0.04
-          ],
-          "color": "#8b6b4f",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Kitchen air",
-      "position": [
-        0,
-        1.2,
-        0.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "drift",
-      "moments": [
-        "The whole room smelled like the oven."
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.6,
-            0.6
-          ],
-          "color": "#fff3e8",
-          "roughness": 1,
+          "color": "#f1d7c2",
+          "roughness": 0.9,
           "glow": false
         }
       ]

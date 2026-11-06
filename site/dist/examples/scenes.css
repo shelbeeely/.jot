@@ -1,0 +1,7 @@
+/* October in scenes (scenes.html): the demo journal in Jot's charcoal theatre, on the site's own paper. */
+.scenes-main{max-width:1400px;margin:0 auto;padding:12px 12px 28px}
+.scenes-intro{max-width:76ch;margin:6px 4px 14px;font:16px/1.6 "Jot Sans",ui-sans-serif,system-ui,sans-serif;color:var(--jot-ink,#1f3a8a)}
+.scenes-status{margin:12px 4px;font:15px/1.5 "Jot Sans",ui-sans-serif,system-ui,sans-serif;color:var(--jot-ink,#1f3a8a)}.scenes-status:empty{display:none}
+.scenes-page .writer-scenes{max-width:none;padding:0;color:var(--jot-ink,#1f3a8a)}
+.scenes-page .writer-scenes-summary{color:var(--jot-muted,#5d6478)}
+.scenes-page .writer-scenes-theatre{min-height:calc(100vh - 150px)}

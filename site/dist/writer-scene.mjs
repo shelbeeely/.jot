@@ -4,25 +4,35 @@
 // interpretation of the entry, and the view says so. Nothing is sent until Make this day's scene, after the writer sees exactly what goes where; a made scene is a
 // draft until Keep it, which saves it as an attachment and one `@setting:` line (with Undo). Kept scenes draw with no model.
 // It loads three.js only when shown, never edits the writing on its own, and clears when the journal locks.
+// The view is a theatre (Jot's charcoal room, light ink, cream paper): the day's own title and first sentence over the scene, the
+// things that hold moments beside it, a paper card for the chosen moment, the whole entry in a paper dialog, a pill of days below
+// and Full screen. With readOnly (the site's demo page) it only shows kept scenes: nothing is made, sent or kept.
 import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, PLACE_SCHEMA } from './scene-journal-core.mjs';
 import { buildPlace } from './writer-scene-build.mjs';
 import { requestJSON } from './ai-client.mjs';
+import { mediaMentions } from './media-shelf-core.mjs';
 
-export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText = () => null, attachPlace, renderEntry, ai }) {
+export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = () => null, attachPlace, renderEntry, ai, asset = () => null, readOnly = false, heading = 'Scenes', eyebrow = '', mount = null }) {
   const doc = editor.ownerDocument, win = doc.defaultView;
   const el = (tag, text, attributes = {}) => { const n = doc.createElement(tag); if (text !== undefined) n.textContent = text; for (const [k, v] of Object.entries(attributes)) n.setAttribute(k, v); return n; };
   const button = (text, attributes = {}) => el('button', text, { type: 'button', ...attributes });
   const section = el('section', undefined, { id: 'writerScenes', class: 'writer-scenes', 'aria-labelledby': 'writerScenesTitle' }); section.hidden = true;
   const summary = el('p', '', { id: 'writerScenesSummary', class: 'writer-scenes-summary', role: 'status' });
-  const head = el('div', undefined, { class: 'writer-scenes-head' }); head.append(el('h2', 'Scenes', { id: 'writerScenesTitle' }), summary);
+  const head = el('div', undefined, { class: 'writer-scenes-head' }); head.append(el('h2', heading, { id: 'writerScenesTitle' }), summary);
   const tabs = el('div', undefined, { class: 'writer-scenes-tabs', role: 'tablist', 'aria-label': 'Days' });
   const panel = el('div', undefined, { id: 'writerScenesPanel', class: 'writer-scenes-panel', role: 'tabpanel' });
+  // Over the scene: the date, the day's own title, its first sentence (the writer's words) and what the scene is.
+  const lede = el('div', undefined, { class: 'writer-scenes-lede' });
+  const dateLine = el('p', '', { class: 'writer-scenes-eyebrow' }), headline = el('h3', '', { class: 'writer-scenes-headline' }), first = el('p', '', { class: 'writer-scenes-first' });
   const about = el('p', '', { class: 'writer-scenes-about' });
+  lede.append(dateLine, headline, first, about);
   const stage = el('div', undefined, { class: 'writer-scenes-stage' }); stage.hidden = true;
   const tools = el('div', undefined, { class: 'writer-scenes-tools' });
   const pause = button('Pause motion', { 'aria-pressed': 'false', id: 'writerScenesPause' }), resetView = button('Reset view', { id: 'writerScenesReset' });
-  const readEntry = button('Open journal', { id: 'writerScenesJournal' });
-  tools.append(resetView, pause, readEntry);
+  const full = button('Full screen', { id: 'writerScenesFull', 'aria-pressed': 'false' });
+  const readEntry = button('Open journal ↗', { id: 'writerScenesJournal', class: 'accent' });
+  tools.append(resetView, pause, full, readEntry);
+  const hint = el('p', 'Choose a thing to read its moment. Drag to turn · scroll to zoom', { class: 'writer-scenes-hint' });
   const draftBar = el('div', undefined, { class: 'writer-scenes-draft', role: 'group', 'aria-label': 'This scene is a draft' }); draftBar.hidden = true;
   const keep = button('Keep it', { id: 'writerScenesKeep', class: 'button' }), again = button('Try again', { id: 'writerScenesAgain' }), discard = button('Discard', { id: 'writerScenesDiscard', class: 'quiet' });
   draftBar.append(el('span', 'A draft: nothing is saved until you keep it.'), keep, again, discard);
@@ -30,15 +40,37 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   const confirm = el('div', undefined, { class: 'writer-scenes-confirm', role: 'group', 'aria-labelledby': 'writerScenesConfirmTitle' }); confirm.hidden = true;
   const things = el('ul', undefined, { class: 'writer-scenes-things', 'aria-label': 'Things in this scene' });
   const moment = el('div', undefined, { class: 'writer-scenes-moment', role: 'region', 'aria-live': 'polite', 'aria-label': 'Moment' });
-  const journal = el('div', undefined, { class: 'writer-scenes-journal', role: 'region', 'aria-label': 'The whole entry' }); journal.hidden = true;
-  panel.append(about, make, confirm, stage, tools, draftBar, things, moment, journal);
-  section.append(head, tabs, panel);
-  (doc.querySelector('.writing-grid') || doc.body).after(section);
+  const journal = el('dialog', undefined, { class: 'writer-scenes-journal', 'aria-label': 'The whole entry' });
+  // Below the scene: the day counter and title, and the pill of days with previous and next.
+  const counter = el('span', '', { class: 'writer-scenes-counter' }), caption = el('p', undefined, { class: 'writer-scenes-caption' }), captionTitle = el('span', '');
+  caption.append(counter, captionTitle);
+  const prev = button('←', { class: 'writer-scenes-step', 'aria-label': 'Previous day' }), next = button('→', { class: 'writer-scenes-step', 'aria-label': 'Next day' });
+  const pill = el('div', undefined, { class: 'writer-scenes-pill' }); pill.append(prev, tabs, next);
+  const nav = el('nav', undefined, { class: 'writer-scenes-nav', 'aria-label': 'Days' }); nav.append(caption, pill);
+  panel.append(stage, lede, tools, things, moment, make, hint);
+  const theatre = el('div', undefined, { class: 'writer-scenes-theatre' }); theatre.append(panel, nav);
+  section.append(head, theatre, confirm, draftBar, journal);
+  if (mount) mount.append(section); else (doc.querySelector('.writing-grid') || doc.body).after(section);
+  if (!doc.fullscreenEnabled || !theatre.requestFullscreen) full.hidden = true;
+  full.onclick = async () => { try { if (doc.fullscreenElement) await doc.exitFullscreen(); else await theatre.requestFullscreen(); } catch { /* the browser said no */ } };
+  doc.addEventListener('fullscreenchange', () => { const on = doc.fullscreenElement === theatre; full.setAttribute('aria-pressed', String(on)); full.textContent = on ? 'Leave full screen' : 'Full screen'; });
+  prev.onclick = () => { if (current > 0) select(current - 1); };
+  next.onclick = () => { if (current < days.length - 1) select(current + 1); };
 
   // Still pages: the system's reduced-motion setting, or Writer's own (Preferences → Reduce motion).
   const media = win.matchMedia('(prefers-reduced-motion: reduce)'), reduced = { get matches() { return media.matches || doc.documentElement.hasAttribute('data-pref-motion'); } };
   const dateFormat = new Intl.DateTimeFormat(undefined, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
   const dayName = (d) => { const t = new Date(d.date + 'T12:00:00Z'); return Number.isNaN(+t) ? d.date : dateFormat.format(t); };
+  const longDate = new Intl.DateTimeFormat(undefined, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  const dayLong = (d) => { const t = new Date(d.date + 'T12:00:00Z'); return Number.isNaN(+t) ? d.date : longDate.format(t); };
+  function setLede(day, place = null) { // the writer's own words first: the day's title and its first sentence
+    dateLine.textContent = day ? `${dayLong(day)}${eyebrow ? ` · ${eyebrow}` : ''}` : '';
+    headline.textContent = day ? day.label || place?.title || dayName(day) : '';
+    first.textContent = day?.sentences[0] || '';
+    counter.textContent = day ? `${String(current + 1).padStart(2, '0')} / ${String(days.length).padStart(2, '0')}` : '';
+    captionTitle.textContent = day ? day.label || dayName(day) : '';
+    prev.disabled = current <= 0; next.disabled = current >= days.length - 1;
+  }
   let days = [], current = 0, drafts = new Map(), view = null, three = null, controller = null, timer = 0, shown = false, paused = reduced.matches, frame = 0, last = 0, key = '', glide = null;
   const keyOf = (d) => `${d.date}#${days.filter((x) => x.date === d.date).indexOf(d)}`; // the same date can hold more than one entry
 
@@ -48,7 +80,7 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     await import('./jot/vendor/three.mjs');
     const T = globalThis.JotThree, canvas = el('canvas', undefined, { class: 'writer-scenes-canvas', role: 'img', tabindex: '0' });
     const renderer = new T.WebGLRenderer({ canvas, antialias: true }); renderer.outputColorSpace = T.SRGBColorSpace; renderer.setPixelRatio(Math.min(win.devicePixelRatio || 1, 2));
-    renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap; renderer.toneMapping = T.NeutralToneMapping; renderer.toneMappingExposure = 1.08;
     const scene = new T.Scene(), camera = new T.PerspectiveCamera(45, 16 / 10, 0.05, 200), controls = new T.OrbitControls(camera, canvas);
     controls.enableDamping = false; controls.maxPolarAngle = Math.PI * 0.49; controls.minDistance = 1.2; controls.maxDistance = 30;
     controls.addEventListener('change', draw); controls.addEventListener('start', () => { glide = null; }); // a drag takes over from a glide
@@ -96,18 +128,36 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   }
   function clearView() {
     if (view) { three.scene.remove(view.built.root); view.built.dispose(); }
-    view = null; things.replaceChildren(); moment.replaceChildren(); stage.hidden = true; tools.hidden = true; draftBar.hidden = true;
+    view = null; things.replaceChildren(); moment.replaceChildren(); stage.hidden = true; tools.hidden = true; draftBar.hidden = true; hint.hidden = true; things.hidden = true;
   }
 
-  async function show3D(place, { draft = false, model = '' } = {}) {
-    const t = await engine(), { T } = t;
+  // The day's own media for the scene's screens, covers and frames: titles the entry names with what was done (Watched, Listened to,
+  // Reading; never "want to"), and the first picture it attaches, read from the journal's own bytes. Nothing is fetched.
+  const SCREEN_KINDS = new Set(['film', 'tv', 'video', 'anime', 'game-or-film', 'music', 'podcast']);
+  async function mediaOf(day) {
+    if (!day) return null;
+    let mentions = [];
+    try { mentions = mediaMentions(editor.value).filter((m) => m.position >= day.start && m.position < day.end && m.status !== 'want'); } catch { /* no media */ }
+    const watched = mentions.find((m) => SCREEN_KINDS.has(m.kind)), reading = mentions.find((m) => m.kind === 'book');
+    let picture = null;
+    for (const m of editor.value.slice(day.start, day.end).matchAll(/!\[[^\]]*\]\((media\/[^\s)]+)\)/g)) {
+      const a = asset(m[1]); if (!a?.url || !/^image\//.test(a.mediaType || '')) continue;
+      const image = new win.Image(); image.src = a.url;
+      try { await Promise.race([image.decode(), new Promise((_, no) => win.setTimeout(() => no(new Error('slow')), 3000))]); picture = image; } catch { /* left blank */ }
+      break;
+    }
+    return { screen: watched ? { label: watched.activity || 'Mentioned', title: watched.title } : null, book: reading ? { title: reading.title } : null, picture };
+  }
+
+  async function show3D(place, { draft = false, model = '', day = null } = {}) {
+    const t = await engine(), { T } = t, media = await mediaOf(day);
     if (view) clearView();
-    const built = buildPlace(T, place, { reduced: reduced.matches, document: doc });
-    t.scene.add(built.root); t.scene.background = new T.Color(built.background);
+    const built = buildPlace(T, place, { reduced: reduced.matches, document: doc, media });
+    t.scene.add(built.root); t.scene.background = new T.Color(built.background); theatre.style.background = built.background; // the room and the scene are one colour
     t.scene.fog = built.fog ? new T.Fog(built.fog.color, built.fog.near, built.fog.far) : null;
     view = { place, built, draft };
-    stage.hidden = false; tools.hidden = false; draftBar.hidden = !draft; pause.hidden = !built.moving;
-    t.canvas.setAttribute('aria-label', `${place.title}: a pop-up scene of this day. Drag or use the arrow keys to turn it; scroll or press + and − to zoom. The things in it are listed below.`);
+    stage.hidden = false; tools.hidden = false; draftBar.hidden = !draft; pause.hidden = !built.moving; hint.hidden = false; things.hidden = false;
+    t.canvas.setAttribute('aria-label', `${place.title}: a pop-up scene of this day. Drag or use the arrow keys to turn it; scroll or press + and − to zoom. The things in it are listed beside it.`);
     reset3D(true);
     const by = draft ? model : place.made?.model || '', feel = place.atmosphere && place.atmosphere !== 'neutral' ? `, with a ${place.atmosphere} feel` : '';
     about.textContent = `${place.title}. ${by ? `Imagined by ${by}` : 'Imagined'} from this entry's words${feel}: the look is an interpretation; the moments are the entry's own sentences. ${draft ? 'Made just now. ' : ''}Choose a thing to read its moment.`;
@@ -150,25 +200,32 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     moment.classList.remove('is-inking'); void moment.offsetWidth; moment.classList.add('is-inking');
     if (!o.moments.length) moment.append(el('p', 'Nothing in the entry is tied to this.'));
     else { const ul = el('ul'); for (const m of o.moments) { const text = typeof m === 'string' ? m : m.text; const li = el('li', text); if (m.missing) li.append(el('span', ' (no longer in this entry)', { class: 'writer-scenes-missing' })); ul.append(li); } moment.append(ul); }
-    const day = days[current], open = button('Open journal', { class: 'writer-scenes-open' }), go = button('Go to this entry', { class: 'quiet' });
-    open.onclick = () => openJournal(); go.onclick = () => jumpTo(day.start, dayName(day));
-    moment.append(open, go);
+    const day = days[current], open = button('Open journal', { class: 'writer-scenes-open' }); open.onclick = () => openJournal(); moment.append(open);
+    if (jumpTo) { const go = button('Go to this entry', { class: 'quiet' }); go.onclick = () => jumpTo(day.start, dayName(day)); moment.append(go); }
     if (fromList) moment.querySelector('h3').scrollIntoView?.({ block: 'nearest' });
   }
-  function openJournal() {
+  function openJournal() { // the whole entry on cream paper, as the journal renders it; Escape or Close returns to the scene
     const day = days[current]; if (!day) return;
-    journal.hidden = false; journal.replaceChildren();
-    const close = button('Close the entry', { class: 'quiet' }), page = el('article', undefined, { class: 'writer-scenes-page' });
-    close.onclick = () => { journal.hidden = true; journal.replaceChildren(); };
-    journal.append(close, page);
+    journal.replaceChildren();
+    const top = el('div', undefined, { class: 'writer-scenes-journal-top' }), close = button('Close the entry', { class: 'quiet' }), page = el('article', undefined, { class: 'writer-scenes-page' });
+    top.append(el('span', dayLong(day)), close);
+    close.onclick = () => journal.close();
+    const step = el('div', undefined, { class: 'writer-scenes-journal-nav' }), back = button('← Previous', {}), on = button('Next →', {});
+    back.disabled = current <= 0; on.disabled = current >= days.length - 1;
+    back.onclick = async () => { journal.close(); await select(current - 1); openJournal(); }; on.onclick = async () => { journal.close(); await select(current + 1); openJournal(); };
+    step.append(back, on);
+    journal.append(top, page, step);
     try { renderEntry?.(editor.value.slice(day.start, day.end), page); } catch { page.textContent = day.text; }
+    if (!journal.open) { if (journal.showModal) journal.showModal(); else journal.setAttribute('open', ''); }
     close.focus();
   }
+  journal.addEventListener('close', () => journal.replaceChildren());
 
   // A day without a scene: its words, and Make this day's scene (after showing exactly what is sent, and where).
   function showMake(day, note = '') {
     make.hidden = false; make.replaceChildren();
     if (!day.sentences.length) { make.append(el('p', 'This day has no writing to make a scene from yet.')); return; }
+    if (readOnly) { const read = button('Open journal', { class: 'button' }); read.onclick = () => openJournal(); make.append(el('p', note || 'No scene was kept for this day.'), read); return; }
     make.append(el('p', note || 'This day has no scene yet.'));
     const go = button('Make this day\'s scene', { class: 'button', id: 'writerScenesMake' }); go.onclick = () => ask(day);
     const read = button('Open journal', { class: 'quiet' }); read.onclick = () => openJournal(); make.append(go, read);
@@ -230,20 +287,24 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     });
     panel.setAttribute('aria-labelledby', `writerScenesTab${current}`);
   }
-  async function select(i, focus = false) { current = i; drawTabs(); if (focus) tabs.children[i]?.focus(); journal.hidden = true; confirm.hidden = true; await render(); }
+  async function select(i, focus = false) {
+    current = i; drawTabs(); tabs.children[i]?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' }); if (focus) tabs.children[i]?.focus();
+    if (journal.open) journal.close(); confirm.hidden = true; await render();
+  }
   async function render() {
     const day = days[current];
+    setLede(day);
     if (!day) { make.hidden = true; clearView(); about.textContent = 'Dated entries become scenes here. Write a date heading such as ### 2026-10-03 to begin.'; return; }
     const draft = drafts.get(keyOf(day)), now = `${keyOf(day)}|${draft ? 'draft' : day.setting?.path || ''}|${day.sentences.join('\n')}`;
     if (now === key) return; // nothing changed: what is shown stays, the Make button included
     key = now; make.hidden = true;
-    if (draft) { await show3D(draft.place, { draft: true, model: draft.model }); return; }
+    if (draft) { await show3D(draft.place, { draft: true, model: draft.model, day }); setLede(day, draft.place); return; }
     if (day.setting) {
       const text = placeText(day.setting.path);
-      try { if (text == null) throw new Error(`${day.setting.path} is not attached`); await show3D(readPlaceFile(text, day)); return; }
+      try { if (text == null) throw new Error(`${day.setting.path} is not attached`); const place = readPlaceFile(text, day); await show3D(place, { day }); setLede(day, place); return; }
       catch (e) { clearView(); about.textContent = ''; showMake(day, `The kept scene could not be shown: ${e.message}.`); return; }
     }
-    clearView(); about.textContent = `${dayName(day)}${day.label ? ` · ${day.label}` : ''}`; showMake(day);
+    clearView(); about.textContent = ''; showMake(day);
   }
   async function compute(force = false) {
     const before = days[current] && keyOf(days[current]);
@@ -251,7 +312,7 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     const again = days.findIndex((d) => keyOf(d) === before);
     current = again >= 0 ? again : Math.min(current, Math.max(0, days.length - 1));
     const kept = days.filter((d) => d.setting).length;
-    summary.textContent = days.length ? `${days.length} ${days.length === 1 ? 'day' : 'days'}; ${kept} with a kept scene.` : 'No dated entries yet.';
+    summary.textContent = days.length ? `${days.length} ${days.length === 1 ? 'day' : 'days'}; ${kept} with a ${readOnly ? '' : 'kept '}scene.` : 'No dated entries yet.';
     if (force) key = '';
     drawTabs(); await render();
   }
@@ -267,7 +328,8 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     // Locking clears everything the view drew or held: drafts, the request, the 3D scene.
     reset() {
       section.hidden = true; shown = false; controller?.abort(); controller = null; drafts = new Map(); days = []; current = 0; key = '';
-      if (three) clearView(); about.textContent = ''; summary.textContent = ''; tabs.replaceChildren(); make.replaceChildren(); confirm.replaceChildren(); confirm.hidden = true; journal.replaceChildren(); journal.hidden = true;
+      if (three) clearView(); about.textContent = ''; summary.textContent = ''; tabs.replaceChildren(); make.replaceChildren(); confirm.replaceChildren(); confirm.hidden = true;
+      if (journal.open) journal.close(); journal.replaceChildren(); setLede(null);
     },
   };
 }

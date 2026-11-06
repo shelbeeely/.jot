@@ -3,23 +3,23 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:55:17.952Z"
+    "at": "2026-11-06T10:37:13.077Z"
   },
-  "title": "Desk by the window",
-  "sky": "#cfe9ff",
-  "ground": "#e9e3d7",
+  "title": "Evening desk with labels",
+  "sky": "#0f1724",
+  "ground": "#efe7d6",
   "weather": "clear",
   "time": "evening",
   "atmosphere": "cosy",
   "camera": {
     "position": [
+      2.2,
       1.6,
-      1.2,
-      2.2
+      2.6
     ],
     "target": [
       0,
-      1,
+      0.9,
       0
     ]
   },
@@ -58,7 +58,7 @@
             0.06,
             0.9
           ],
-          "color": "#8b6b4a",
+          "color": "#6b4f3b",
           "roughness": 0.6,
           "glow": false
         },
@@ -79,8 +79,8 @@
             0.72,
             0.08
           ],
-          "color": "#7a5a3f",
-          "roughness": 0.6,
+          "color": "#5a3f2e",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -100,8 +100,8 @@
             0.72,
             0.08
           ],
-          "color": "#7a5a3f",
-          "roughness": 0.6,
+          "color": "#5a3f2e",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -121,8 +121,8 @@
             0.72,
             0.08
           ],
-          "color": "#7a5a3f",
-          "roughness": 0.6,
+          "color": "#5a3f2e",
+          "roughness": 0.7,
           "glow": false
         },
         {
@@ -142,8 +142,8 @@
             0.72,
             0.08
           ],
-          "color": "#7a5a3f",
-          "roughness": 0.6,
+          "color": "#5a3f2e",
+          "roughness": 0.7,
           "glow": false
         }
       ]
@@ -151,9 +151,9 @@
     {
       "name": "Lamp",
       "position": [
-        0.65,
-        0.92,
-        -0.25
+        0.6,
+        0.98,
+        0.2
       ],
       "rotation": [
         0,
@@ -166,7 +166,7 @@
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "lamp",
           "position": [
             0,
             0,
@@ -178,32 +178,11 @@
             0
           ],
           "size": [
-            0.03,
-            0.4,
-            0.03
-          ],
-          "color": "#2f2f2f",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0,
             0.18,
-            0
+            0.4,
+            0.18
           ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            0.14,
-            0.15
-          ],
-          "color": "#ffdca6",
+          "color": "#cfc1a6",
           "roughness": 0.2,
           "glow": true
         }
@@ -212,9 +191,9 @@
     {
       "name": "Mug of tea",
       "position": [
-        -0.35,
-        0.86,
-        0.18
+        -0.18,
+        0.84,
+        0.12
       ],
       "rotation": [
         0,
@@ -227,7 +206,7 @@
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "mug",
           "position": [
             0,
             0,
@@ -239,43 +218,22 @@
             0
           ],
           "size": [
-            0.06,
-            0.09,
-            0.06
+            0.12,
+            0.12,
+            0.09
           ],
-          "color": "#ffffff",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0.07,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.02,
-            0.06
-          ],
-          "color": "#ffffff",
-          "roughness": 0.4,
+          "color": "#e8d6c2",
+          "roughness": 0.3,
           "glow": false
         }
       ]
     },
     {
-      "name": "Blue notebook",
+      "name": "Book",
       "position": [
-        0.02,
-        0.86,
-        0.2
+        0.12,
+        0.8,
+        0.18
       ],
       "rotation": [
         0,
@@ -288,7 +246,7 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "book",
           "position": [
             0,
             0,
@@ -301,21 +259,21 @@
           ],
           "size": [
             0.22,
-            0.02,
-            0.16
+            0.04,
+            0.3
           ],
-          "color": "#4a78c2",
-          "roughness": 0.6,
+          "color": "#3b5ea3",
+          "roughness": 0.5,
           "glow": false
         }
       ]
     },
     {
-      "name": "Book",
+      "name": "Blue notebook",
       "position": [
-        -0.08,
-        0.86,
-        -0.25
+        -0.48,
+        0.8,
+        0.05
       ],
       "rotation": [
         0,
@@ -328,7 +286,7 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "book",
           "position": [
             0,
             0,
@@ -340,22 +298,22 @@
             0
           ],
           "size": [
-            0.16,
-            0.02,
-            0.22
+            0.22,
+            0.04,
+            0.3
           ],
-          "color": "#c9b79a",
-          "roughness": 0.6,
+          "color": "#2b6fb6",
+          "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Screen",
+      "name": "Laptop screen",
       "position": [
         0,
-        1.03,
-        0.35
+        0.88,
+        -0.32
       ],
       "rotation": [
         0,
@@ -371,7 +329,7 @@
           "type": "box",
           "position": [
             0,
-            0,
+            0.01,
             0
           ],
           "rotation": [
@@ -380,20 +338,20 @@
             0
           ],
           "size": [
-            0.45,
-            0.28,
-            0.03
+            0.32,
+            0.02,
+            0.24
           ],
-          "color": "#102636",
-          "roughness": 0.1,
+          "color": "#202226",
+          "roughness": 0.7,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0,
-            0.06,
-            0.016
+            0.12,
+            -0.11
           ],
           "rotation": [
             0,
@@ -401,11 +359,11 @@
             0
           ],
           "size": [
-            0.44,
-            0.18,
-            0.01
+            0.32,
+            0.22,
+            0.02
           ],
-          "color": "#274a36",
+          "color": "#0c1014",
           "roughness": 0.05,
           "glow": false
         }
@@ -414,7 +372,7 @@
     {
       "name": "Window",
       "position": [
-        -1.9,
+        -1.4,
         1.6,
         -0.6
       ],
@@ -445,8 +403,29 @@
             1.1,
             0.06
           ],
-          "color": "#bfe6ff",
-          "roughness": 0.2,
+          "color": "#ffffff",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.035
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.01
+          ],
+          "color": "#bcd4ff",
+          "roughness": 0.05,
           "glow": false
         }
       ]
@@ -454,16 +433,16 @@
     {
       "name": "Garden tree",
       "position": [
-        -1.9,
-        0.4,
-        -2
+        -2.1,
+        0.9,
+        -1.8
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "none",
+      "motion": "sway",
       "moments": [
         "The garden tree outside the window was reflected faintly in the screen."
       ],
@@ -472,7 +451,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0,
+            -0.25,
             0
           ],
           "rotation": [
@@ -482,10 +461,10 @@
           ],
           "size": [
             0.08,
-            0.8,
+            1,
             0.08
           ],
-          "color": "#6b4a2f",
+          "color": "#6b4328",
           "roughness": 0.8,
           "glow": false
         },
@@ -493,7 +472,7 @@
           "type": "sphere",
           "position": [
             0,
-            0.8,
+            0.45,
             0
           ],
           "rotation": [
@@ -502,12 +481,12 @@
             0
           ],
           "size": [
-            0.6,
-            0.6,
-            0.6
+            0.7,
+            0.7,
+            0.7
           ],
-          "color": "#357a3f",
-          "roughness": 0.7,
+          "color": "#2e7b3a",
+          "roughness": 0.6,
           "glow": false
         }
       ]
@@ -516,8 +495,8 @@
       "name": "Shelf",
       "position": [
         1.6,
-        1.5,
-        -0.9
+        1.2,
+        -0.2
       ],
       "rotation": [
         0,
@@ -543,18 +522,18 @@
           ],
           "size": [
             0.9,
-            0.06,
-            0.18
+            0.12,
+            0.2
           ],
-          "color": "#8b6b4a",
-          "roughness": 0.6,
+          "color": "#7a5a43",
+          "roughness": 0.7,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0,
-            -0.48,
+            -0.28,
             0
           ],
           "rotation": [
@@ -563,22 +542,22 @@
             0
           ],
           "size": [
-            0.06,
             0.9,
-            0.06
+            0.12,
+            0.2
           ],
-          "color": "#8b6b4a",
-          "roughness": 0.6,
+          "color": "#7a5a43",
+          "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Labels strip",
+      "name": "Shelf labels",
       "position": [
         1.6,
-        1.55,
-        -0.82
+        1.15,
+        -0.08
       ],
       "rotation": [
         0,
@@ -589,7 +568,6 @@
       "moments": [
         "I wanted the small labels for the shelf to stay readable, even if my handwriting got ambitious.",
         "The first label said important objects things I reach for.",
-        "I tried [a bright marker stroke]{highlight=#ffe680 highlight-style=marker} beneath it and [one red correction]{strike=#b94635}.",
         "A question mark painted on a label stays a literal line here.",
         "Label text, saved as a small attachment"
       ],
@@ -597,8 +575,8 @@
         {
           "type": "box",
           "position": [
-            0,
-            0,
+            -0.28,
+            0.02,
             0
           ],
           "rotation": [
@@ -607,20 +585,41 @@
             0
           ],
           "size": [
-            0.6,
-            0.04,
+            0.14,
+            0.03,
             0.06
           ],
-          "color": "#fffef0",
-          "roughness": 0.5,
+          "color": "#fff8e6",
+          "roughness": 0.9,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.18,
-            0.01,
-            0.001
+            0,
+            0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.03,
+            0.06
+          ],
+          "color": "#fff8e6",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.32,
+            0.02,
+            0
           ],
           "rotation": [
             0,
@@ -630,83 +629,20 @@
           "size": [
             0.12,
             0.03,
-            0.02
+            0.06
           ],
-          "color": "#ffd680",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.08,
-            0.01,
-            0.001
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.03,
-            0.02
-          ],
-          "color": "#ffffff",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.34,
-            0.01,
-            0.001
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.03,
-            0.02
-          ],
-          "color": "#ffe680",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.34,
-            0.01,
-            0.001
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.04,
-            0.01,
-            0.02
-          ],
-          "color": "#b94635",
-          "roughness": 0.5,
+          "color": "#fff8e6",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Question label",
+      "name": "Marker",
       "position": [
-        1.6,
-        1.57,
-        -0.82
+        0.02,
+        0.82,
+        0.23
       ],
       "rotation": [
         0,
@@ -715,11 +651,11 @@
       ],
       "motion": "none",
       "moments": [
-        "A question mark painted on a label stays a literal line here."
+        "I tried [a bright marker stroke]{highlight=#ffe680 highlight-style=marker} beneath it and [one red correction]{strike=#b94635}."
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
             0,
             0,
@@ -731,43 +667,62 @@
             0
           ],
           "size": [
-            0.08,
-            0.02,
-            0.02
+            0.015,
+            0.12,
+            0.015
           ],
-          "color": "#fffef0",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0.012,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.01,
-            0.01
-          ],
-          "color": "#1f1f1f",
-          "roughness": 0.2,
+          "color": "#ffe680",
+          "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Floor patch",
+      "name": "Red correction pen",
       "position": [
-        0.9,
+        0.06,
+        0.82,
+        0.16
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I tried [a bright marker stroke]{highlight=#ffe680 highlight-style=marker} beneath it and [one red correction]{strike=#b94635}."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.12,
+            0.012
+          ],
+          "color": "#b94635",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Workshop floor patch",
+      "position": [
+        -0.8,
         0.01,
-        -0.2
+        1.9
       ],
       "rotation": [
         0,
@@ -796,7 +751,47 @@
             0.01,
             1
           ],
-          "color": "#dfe6d6",
+          "color": "#d8cbb4",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Question label",
+      "position": [
+        1.6,
+        1.15,
+        -0.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A question mark painted on a label stays a literal line here."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.46,
+            0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.03,
+            0.05
+          ],
+          "color": "#fff8e6",
           "roughness": 0.9,
           "glow": false
         }
@@ -805,9 +800,9 @@
     {
       "name": "Attachment paper",
       "position": [
-        1.62,
-        1.52,
-        -0.78
+        1.6,
+        1.05,
+        0.02
       ],
       "rotation": [
         0,
@@ -832,33 +827,12 @@
             0
           ],
           "size": [
-            0.05,
+            0.06,
             0.01,
-            0.035
+            0.04
           ],
-          "color": "#ffffff",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.006,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.01,
-            0.02
-          ],
-          "color": "#000000",
-          "roughness": 0.2,
+          "color": "#f7f5ee",
+          "roughness": 0.95,
           "glow": false
         }
       ]

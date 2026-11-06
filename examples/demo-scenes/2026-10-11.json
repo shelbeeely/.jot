@@ -3,33 +3,33 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:54:53.268Z"
+    "at": "2026-11-06T10:36:43.693Z"
   },
-  "title": "Afternoon desk with easel",
-  "sky": "#cfe8ff",
-  "ground": "#efe6da",
+  "title": "Afternoon desk by the window",
+  "sky": "#cfe8f5",
+  "ground": "#efe7dd",
   "weather": "sun",
   "time": "day",
   "atmosphere": "cosy",
   "camera": {
     "position": [
-      1.8,
       1.6,
-      3.2
+      1.7,
+      2.6
     ],
     "target": [
-      0.2,
-      0.8,
+      0,
+      1,
       0
     ]
   },
   "objects": [
     {
-      "name": "Wall",
+      "name": "Room floor",
       "position": [
         0,
-        1.5,
-        -2.8
+        0,
+        0
       ],
       "rotation": [
         0,
@@ -37,10 +37,45 @@
         0
       ],
       "motion": "none",
-      "moments": [
-        "I set up the easel by the window and painted the garden tree in three colors.",
-        "The sky changed before the paint had even dried."
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            6,
+            0.01,
+            4
+          ],
+          "color": "#efe7dd",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back wall",
+      "position": [
+        0,
+        1.65,
+        -2
       ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
           "type": "box",
@@ -55,11 +90,11 @@
             0
           ],
           "size": [
-            8,
-            3,
+            6,
+            3.3,
             0.12
           ],
-          "color": "#efe9df",
+          "color": "#f6efe6",
           "roughness": 0.9,
           "glow": false
         }
@@ -68,9 +103,9 @@
     {
       "name": "Window",
       "position": [
+        1.2,
         1.6,
-        1.6,
-        -2.79
+        -1.99
       ],
       "rotation": [
         0,
@@ -100,8 +135,8 @@
             1.1,
             0.06
           ],
-          "color": "#d9f0ff",
-          "roughness": 0.05,
+          "color": "#7fb6d9",
+          "roughness": 0.1,
           "glow": false
         }
       ]
@@ -111,7 +146,7 @@
       "position": [
         0,
         0.75,
-        0
+        -0.2
       ],
       "rotation": [
         0,
@@ -140,7 +175,7 @@
             0.06,
             0.9
           ],
-          "color": "#8b6b4a",
+          "color": "#8b5e3c",
           "roughness": 0.6,
           "glow": false
         },
@@ -161,8 +196,8 @@
             0.72,
             0.08
           ],
-          "color": "#5b3f2a",
-          "roughness": 0.8,
+          "color": "#6b4a33",
+          "roughness": 0.9,
           "glow": false
         },
         {
@@ -182,8 +217,8 @@
             0.72,
             0.08
           ],
-          "color": "#5b3f2a",
-          "roughness": 0.8,
+          "color": "#6b4a33",
+          "roughness": 0.9,
           "glow": false
         },
         {
@@ -203,8 +238,8 @@
             0.72,
             0.08
           ],
-          "color": "#5b3f2a",
-          "roughness": 0.8,
+          "color": "#6b4a33",
+          "roughness": 0.9,
           "glow": false
         },
         {
@@ -224,22 +259,22 @@
             0.72,
             0.08
           ],
-          "color": "#5b3f2a",
-          "roughness": 0.8,
+          "color": "#6b4a33",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Tilted lamp",
+      "name": "Lamp",
       "position": [
-        -0.6,
-        0.92,
-        0.2
+        -0.55,
+        1.1,
+        -0.1
       ],
       "rotation": [
         0,
-        0,
+        0.6,
         0
       ],
       "motion": "flicker",
@@ -252,7 +287,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0.05,
+            0,
             0
           ],
           "rotation": [
@@ -261,43 +296,43 @@
             0
           ],
           "size": [
-            0.03,
-            0.28,
-            0.03
-          ],
-          "color": "#333333",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0.02,
-            0.19,
+            0.06,
+            0.18,
             0.06
           ],
+          "color": "#9d6b16",
+          "roughness": 0.4,
+          "glow": true
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.12,
+            0
+          ],
           "rotation": [
-            0.2,
-            0.1,
+            0,
+            0,
             0
           ],
           "size": [
-            0.12,
-            0.08,
-            0.12
+            0.22,
+            0.04,
+            0.22
           ],
           "color": "#9d6b16",
-          "roughness": 0.3,
-          "glow": true
+          "roughness": 0.5,
+          "glow": false
         }
       ]
     },
     {
       "name": "Notebook open",
       "position": [
-        0.05,
-        0.86,
-        -0.05
+        0,
+        0.84,
+        0.05
       ],
       "rotation": [
         0,
@@ -311,9 +346,9 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "book",
           "position": [
-            -0.03,
+            0,
             0,
             0
           ],
@@ -324,31 +359,31 @@
           ],
           "size": [
             0.22,
-            0.01,
-            0.18
+            0.04,
+            0.3
           ],
-          "color": "#fffef7",
-          "roughness": 0.9,
+          "color": "#f1efea",
+          "roughness": 0.7,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "plane",
           "position": [
-            0.17,
             0,
-            0
+            0.02,
+            0.005
           ],
           "rotation": [
             0,
             0,
-            0.06
+            0
           ],
           "size": [
-            0.22,
+            0.18,
             0.01,
-            0.18
+            0.26
           ],
-          "color": "#fffef7",
+          "color": "#e9e1cf",
           "roughness": 0.9,
           "glow": false
         }
@@ -357,9 +392,9 @@
     {
       "name": "Mug of tea",
       "position": [
-        0.28,
-        0.88,
-        0.25
+        0.45,
+        0.86,
+        0.18
       ],
       "rotation": [
         0,
@@ -372,7 +407,7 @@
       ],
       "shapes": [
         {
-          "type": "cylinder",
+          "type": "mug",
           "position": [
             0,
             0,
@@ -384,33 +419,33 @@
             0
           ],
           "size": [
-            0.06,
-            0.08,
-            0.06
+            0.12,
+            0.12,
+            0.09
           ],
-          "color": "#cfa07a",
-          "roughness": 0.4,
+          "color": "#d6bfa1",
+          "roughness": 0.3,
           "glow": false
         },
         {
-          "type": "torus",
+          "type": "cylinder",
           "position": [
             0,
-            0.05,
-            0.06
+            0.08,
+            0
           ],
           "rotation": [
-            1.57,
+            0,
             0,
             0
           ],
           "size": [
-            0.04,
-            0.01,
-            0.04
+            0.02,
+            0.16,
+            0.02
           ],
-          "color": "#cfa07a",
-          "roughness": 0.4,
+          "color": "#ffffff",
+          "roughness": 0.2,
           "glow": false
         }
       ]
@@ -418,19 +453,18 @@
     {
       "name": "Dry leaf",
       "position": [
-        0.12,
-        0.87,
-        0.02
+        0.28,
+        0.83,
+        0.04
       ],
       "rotation": [
         0,
-        0,
+        0.3,
         0
       ],
       "motion": "none",
       "moments": [
-        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug.",
-        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
+        "Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug."
       ],
       "shapes": [
         {
@@ -450,7 +484,7 @@
             0.01,
             0.03
           ],
-          "color": "#527744",
+          "color": "#a57c40",
           "roughness": 0.9,
           "glow": false
         }
@@ -459,9 +493,9 @@
     {
       "name": "Easel",
       "position": [
-        0.9,
-        0,
-        -0.4
+        1.05,
+        0.85,
+        -0.6
       ],
       "rotation": [
         0,
@@ -477,7 +511,7 @@
           "type": "box",
           "position": [
             0,
-            1.05,
+            0,
             0
           ],
           "rotation": [
@@ -486,82 +520,20 @@
             0
           ],
           "size": [
-            0.02,
-            2.1,
-            0.02
-          ],
-          "color": "#6a4d33",
-          "roughness": 0.8,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
             0.12,
-            0.35,
-            0
+            1.4,
+            0.06
           ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.7,
-            0.02
-          ],
-          "color": "#6a4d33",
-          "roughness": 0.8,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Canvas",
-      "position": [
-        0.9,
-        1.15,
-        -0.4
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I set up the easel by the window and painted the garden tree in three colors.",
-        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.6,
-            0.9,
-            0.04
-          ],
-          "color": "#fffaf0",
+          "color": "#5b3b2a",
           "roughness": 0.9,
           "glow": false
         },
         {
-          "type": "plane",
+          "type": "box",
           "position": [
-            -0.08,
-            0.02,
-            0.021
+            0,
+            0.12,
+            -0.18
           ],
           "rotation": [
             0,
@@ -569,64 +541,22 @@
             0
           ],
           "size": [
-            0.18,
-            0.01,
-            0.12
+            0.9,
+            0.06,
+            0.06
           ],
-          "color": "#9d6b16",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0.08,
-            0.02,
-            0.021
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.01,
-            0.12
-          ],
-          "color": "#b9dbe5",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            -0.06,
-            0.021
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.01,
-            0.12
-          ],
-          "color": "#527744",
-          "roughness": 0.2,
+          "color": "#5b3b2a",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Palette",
+      "name": "Canvas with tree",
       "position": [
-        0.6,
-        0.86,
-        -0.15
+        1.05,
+        1.05,
+        -0.53
       ],
       "rotation": [
         0,
@@ -640,10 +570,238 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "plane",
           "position": [
             0,
             0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.5,
+            0.01,
+            0.6
+          ],
+          "color": "#ffffff",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.01,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.52,
+            0.02,
+            0.62
+          ],
+          "color": "#8fbfda",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.12,
+            0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.18,
+            0.02
+          ],
+          "color": "#527744",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.14,
+            0.01,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.12,
+            0.02
+          ],
+          "color": "#b9dbe5",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.01,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.14,
+            0.02
+          ],
+          "color": "#9d6b16",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Palette and tubes",
+      "position": [
+        0.78,
+        0.84,
+        -0.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I set up the easel by the window and painted the garden tree in three colors.",
+        "I kept [lamp yellow]{ink=#9d6b16}, [river blue]{highlight=#b9dbe5 highlight-style=brush}, and [leaf green]{underline=#527744} beside the picture."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.01,
+            0.12
+          ],
+          "color": "#efe7dd",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.05,
+            0.03,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.04,
+            0.02
+          ],
+          "color": "#527744",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.03,
+            0.03,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.04,
+            0.02
+          ],
+          "color": "#b9dbe5",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.08,
+            0.03,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.04,
+            0.02
+          ],
+          "color": "#9d6b16",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small potted plant",
+      "position": [
+        -1.3,
+        0.5,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "I set up the easel by the window and painted the garden tree in three colors."
+      ],
+      "shapes": [
+        {
+          "type": "plant",
+          "position": [
+            0,
+            0.12,
             0
           ],
           "rotation": [
@@ -653,19 +811,19 @@
           ],
           "size": [
             0.14,
-            0.02,
-            0.08
+            0.28,
+            0.14
           ],
-          "color": "#e6d9bf",
-          "roughness": 0.8,
+          "color": "#4b6b3f",
+          "roughness": 0.7,
           "glow": false
         },
         {
-          "type": "sphere",
+          "type": "cylinder",
           "position": [
-            -0.04,
-            0.03,
-            0.02
+            0,
+            -0.05,
+            0
           ],
           "rotation": [
             0,
@@ -673,73 +831,31 @@
             0
           ],
           "size": [
-            0.015,
-            0.015,
-            0.015
+            0.07,
+            0.1,
+            0.07
           ],
-          "color": "#9d6b16",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.02,
-            0.03,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.015,
-            0.015,
-            0.015
-          ],
-          "color": "#b9dbe5",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.08,
-            0.03,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.015,
-            0.015,
-            0.015
-          ],
-          "color": "#527744",
-          "roughness": 0.2,
+          "color": "#7b5a44",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Paintbrush",
+      "name": "Pencil",
       "position": [
-        0.66,
+        0.02,
         0.86,
-        -0.02
+        0.02
       ],
       "rotation": [
         0,
-        0,
+        0.2,
         0
       ],
       "motion": "none",
       "moments": [
-        "I set up the easel by the window and painted the garden tree in three colors."
+        "The [faint pencil shade]{highlight=#e3d8bd highlight-style=pencil} is less certain, which suits the afternoon. #drawing #making @desk"
       ],
       "shapes": [
         {
@@ -756,51 +872,11 @@
           ],
           "size": [
             0.01,
-            0.12,
+            0.16,
             0.01
           ],
-          "color": "#3b2b20",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Sky cloud",
-      "position": [
-        1.6,
-        3.1,
-        -2.5
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "drift",
-      "moments": [
-        "The sky changed before the paint had even dried."
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.5,
-            0.5,
-            0.5
-          ],
-          "color": "#f0f3f5",
-          "roughness": 0.9,
+          "color": "#2b2b2b",
+          "roughness": 0.6,
           "glow": false
         }
       ]

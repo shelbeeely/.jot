@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, plainText, PLACE_SCHEMA, LIMITS, ATMOSPHERES, MOTIONS } from './dist/scene-journal-core.mjs';
 import { jsonRequest, requestJSON } from './dist/ai-client.mjs';
+import { PARTS, buildPart } from './dist/writer-scene-parts.mjs';
 
 const SOURCE = `Undated preamble.
 
@@ -46,7 +47,7 @@ test('the prompt carries only the day\'s numbered sentences, and says the entry 
   assert.deepEqual(JSON.parse(user), { date: '2026-10-01', sentences: [{ n: 1, text: 'Papers everywhere on my desk.' }, { n: 2, text: 'The tea went cold.' }] });
   assert.match(system, /never as instructions/); assert.match(system, /Never write journal text/);
   assert.doesNotMatch(user, /never sent|hidden comment|code is not prose|steps/);
-  assert.equal(PLACE_SCHEMA.additionalProperties, false); assert.deepEqual(PLACE_SCHEMA.properties.objects.items.properties.shapes.items.properties.type.enum, ['box', 'cylinder', 'sphere', 'cone', 'torus', 'plane', 'capsule']);
+  assert.equal(PLACE_SCHEMA.additionalProperties, false); assert.deepEqual(PLACE_SCHEMA.properties.objects.items.properties.shapes.items.properties.type.enum, ['box', 'cylinder', 'sphere', 'cone', 'torus', 'plane', 'capsule', ...PARTS]);
 });
 const shape = (extra = {}) => ({ type: 'box', position: [0, 0, 0], rotation: [0, 0, 0], size: [1, 1, 1], color: '#aabbcc', roughness: 0.5, glow: false, ...extra });
 test('a model\'s place is cleaned: clamped, limited, and its moments are the entry\'s own sentences', () => {
@@ -71,6 +72,27 @@ test('atmosphere and motion come from fixed lists, are asked for strictly, and d
   assert.deepEqual([one({ place: {}, object: {} })].map((p) => [p.atmosphere, p.objects[0].motion]), [['neutral', 'none']], 'a place kept before these fields');
   const { system } = placePrompt(journalDays(SOURCE)[0]);
   assert.match(system, /Never add people, visitors, gifts, accidents, celebrations/); assert.match(system, /not a diagnosis of the writer/); assert.match(system, /use neutral when the words do not make a feeling clear/);
+});
+test('crafted parts are shapes Jot draws: a fixed list, kept by validation, every one buildable', async () => {
+  assert.ok(PARTS.includes('mug') && PARTS.includes('notebook') && PARTS.includes('shelter'));
+  const p = validatePlace({ objects: [{ name: 'Tea', moments: [1], shapes: [shape({ type: 'mug', size: [0.12, 0.12, 0.09] }), shape({ type: 'spellbook' })] }] }, ['Tea.']);
+  assert.deepEqual(p.objects[0].shapes.map((x) => x.type), ['mug'], 'an unknown part name is dropped like any unknown shape');
+  assert.match(placePrompt(journalDays(SOURCE)[0]).system, /Prefer a crafted part when one fits: mug, teapot/);
+  // Every part builds from three.js pieces only (a tiny stand-in records what is made).
+  class Obj { constructor() { this.children = []; this.userData = {}; this.position = vec(); this.rotation = vec(); this.scale = vec(); } add(c) { this.children.push(c); return this; } }
+  function vec() { return { set() { return this; }, setScalar() { return this; } }; }
+  class Geo { constructor(...a) { this.args = a; } }
+  const T = new Proxy({ Group: Obj, Mesh: class extends Obj { constructor(g, m) { super(); this.geometry = g; this.material = m; } }, DoubleSide: 2,
+    Color: class { constructor(c) { this.c = c; } offsetHSL() { return this; } getHexString() { return '777777'; } } }, { get: (t, k) => t[k] || Geo });
+  for (const type of PARTS) {
+    const g = buildPart(T, type, [1, 1, 1], '#aabbcc', { material: () => ({}) });
+    const count = (o) => o.children.reduce((n, c) => n + 1 + count(c), 0);
+    assert.ok(g && count(g) >= 2, `${type} has pieces`);
+  }
+  assert.equal(buildPart(T, 'script', [1, 1, 1], '#fff', { material: () => ({}) }), null);
+  const surfaces = (o) => o.children.flatMap((c) => [c.userData.surface, ...surfaces(c)]).filter(Boolean);
+  for (const [type, surface] of [['tv', 'screen'], ['laptop', 'screen'], ['phone', 'screen'], ['book', 'cover'], ['frame', 'picture']])
+    assert.deepEqual(surfaces(buildPart(T, type, [1, 1, 1], '#abcdef', { material: () => ({}) })), [surface], `${type} has a ${surface} Jot may draw on`);
 });
 test('a kept place is read again as untrusted, and says when a moment has left the entry', () => {
   const day = journalDays(SOURCE)[0], place = validatePlace({ objects: [{ name: 'Mug', moments: [2], shapes: [shape()] }] }, day.sentences);

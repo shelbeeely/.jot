@@ -3,19 +3,19 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:56:06.595Z"
+    "at": "2026-11-06T10:37:50.512Z"
   },
-  "title": "Desk by the rainy window",
-  "sky": "#3a4652",
-  "ground": "#a88a6a",
+  "title": "Evening desk by the rain",
+  "sky": "#223344",
+  "ground": "#2b2b2b",
   "weather": "rain",
   "time": "evening",
   "atmosphere": "wistful",
   "camera": {
     "position": [
-      0,
+      0.8,
       1.6,
-      3
+      2.6
     ],
     "target": [
       0,
@@ -25,7 +25,7 @@
   },
   "objects": [
     {
-      "name": "Floor",
+      "name": "Room floor",
       "position": [
         0,
         0,
@@ -56,7 +56,7 @@
             0.01,
             3.5
           ],
-          "color": "#d7c9b6",
+          "color": "#3a3530",
           "roughness": 0.9,
           "glow": false
         }
@@ -66,7 +66,763 @@
       "name": "Back wall",
       "position": [
         0,
-        1.25,
+        0,
+        -1.75
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            2.2,
+            0.08
+          ],
+          "color": "#3b2f2a",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window",
+      "position": [
+        0,
+        1.6,
+        -1.723
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            1.1,
+            0.06
+          ],
+          "color": "#8aa6c8",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            -0.45,
+            0.035
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            0.01,
+            0.12
+          ],
+          "color": "#1b2430",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden tree",
+      "position": [
+        -1.8,
+        0,
+        -3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "The tree in the garden looked much thinner than it had on the first morning."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.85,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            1.7,
+            0.08
+          ],
+          "color": "#6b4b33",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            1.8,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.45,
+            0.45,
+            0.45
+          ],
+          "color": "#2f4f2b",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Desk table",
+      "position": [
+        -0.8,
+        0.75,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The desk lamp was on before the sky had quite turned dark.",
+        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window.",
+        "I read the note about the clay bowl and liked that it still sounded unfinished.",
+        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.06,
+            0.9
+          ],
+          "color": "#5b3b2a",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3b2a",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3b2a",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3b2a",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#5b3b2a",
+          "roughness": 0.6,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Desk lamp",
+      "position": [
+        -0.2,
+        1.05,
+        0.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "flicker",
+      "moments": [
+        "The desk lamp was on before the sky had quite turned dark."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.9,
+            0.03
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.55,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.18,
+            0.12
+          ],
+          "color": "#d9c89f",
+          "roughness": 0.3,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea (desk)",
+      "position": [
+        0.15,
+        0.855,
+        -0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "steam",
+      "moments": [
+        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window."
+      ],
+      "shapes": [
+        {
+          "type": "mug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.09
+          ],
+          "color": "#c76b4b",
+          "roughness": 0.45,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.01,
+            0.05
+          ],
+          "color": "#5b3b2a",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Open notebook",
+      "position": [
+        -0.45,
+        0.86,
+        0.08
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window.",
+        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "notebook",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.02,
+            0.3
+          ],
+          "color": "#f2e9d8",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Closed book",
+      "position": [
+        -0.05,
+        0.86,
+        -0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I read the note about the clay bowl and liked that it still sounded unfinished.",
+        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.04,
+            0.3
+          ],
+          "color": "#2f5a6a",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Clay bowl (note)",
+      "position": [
+        0.45,
+        0.86,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I read the note about the clay bowl and liked that it still sounded unfinished."
+      ],
+      "shapes": [
+        {
+          "type": "plate",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.06,
+            0.18
+          ],
+          "color": "#8d6b58",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Kitchen table",
+      "position": [
+        1.5,
+        0.75,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.6,
+            0.06,
+            0.9
+          ],
+          "color": "#6a5a4a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#6a5a4a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#6a5a4a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#6a5a4a",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            -0.39,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.72,
+            0.08
+          ],
+          "color": "#6a5a4a",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug of tea (kitchen)",
+      "position": [
+        1.5,
+        0.86,
+        -0.55
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "steam",
+      "moments": [
+        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "mug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.09
+          ],
+          "color": "#ffffff",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Framed picture",
+      "position": [
+        0.9,
+        1.2,
+        -1.72
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Some days leave a picture rather than a lesson."
+      ],
+      "shapes": [
+        {
+          "type": "frame",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.4,
+            0.4,
+            0.04
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.01,
+            0.36
+          ],
+          "color": "#7a5f6a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small shelf",
+      "position": [
+        0.3,
+        1,
         -1.6
       ],
       "rotation": [
@@ -90,850 +846,12 @@
             0
           ],
           "size": [
-            4.5,
-            2.5,
-            0.08
-          ],
-          "color": "#f5f3f0",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window",
-      "position": [
-        -0.8,
-        0,
-        -1.59
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "drift",
-      "moments": [
-        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            1.1,
-            0.06
-          ],
-          "color": "#cfe6f2",
-          "roughness": 0.05,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0.08,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.2,
-            0.01,
-            0.06
-          ],
-          "color": "#233342",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Rain puddle",
-      "position": [
-        -0.8,
-        0,
-        -1.53
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "drift",
-      "moments": [
-        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window."
-      ],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0.01,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.01,
-            0.12
-          ],
-          "color": "#2b3a47",
-          "roughness": 0.2,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Desk",
-      "position": [
-        0,
-        0.75,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The desk lamp was on before the sky had quite turned dark.",
-        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window.",
-        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
+            0.8,
             0.06,
-            0.9
+            0.2
           ],
-          "color": "#7a5a3f",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5b432f",
+          "color": "#4a3a33",
           "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5b432f",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5b432f",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5b432f",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Desk lamp",
-      "position": [
-        0.55,
-        0.95,
-        -0.25
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "flicker",
-      "moments": [
-        "The desk lamp was on before the sky had quite turned dark."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.18,
-            0.07
-          ],
-          "color": "#3b3b3b",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0,
-            0.18,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.12,
-            0.18
-          ],
-          "color": "#2b2b2b",
-          "roughness": 0.3,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Open notebook",
-      "position": [
-        -0.18,
-        0.85,
-        0.05
-      ],
-      "rotation": [
-        0.1,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0.1,
-            0,
-            0
-          ],
-          "size": [
-            0.28,
-            0.02,
-            0.22
-          ],
-          "color": "#f8f6f2",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Closed book",
-      "position": [
-        -0.4,
-        0.85,
-        -0.2
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk",
-        "I read the note about the clay bowl and liked that it still sounded unfinished."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.2,
-            0.03,
-            0.14
-          ],
-          "color": "#6b4f3a",
-          "roughness": 0.85,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Shelf",
-      "position": [
-        -1.8,
-        1.1,
-        -0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I read the note about the clay bowl and liked that it still sounded unfinished."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1,
-            0.08,
-            0.25
-          ],
-          "color": "#8b6a50",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Clay bowl",
-      "position": [
-        -1.6,
-        1.18,
-        -0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I read the note about the clay bowl and liked that it still sounded unfinished."
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.09,
-            0.09,
-            0.09
-          ],
-          "color": "#b87f62",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Kitchen table",
-      "position": [
-        1.6,
-        0.75,
-        0.5
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.06,
-            0.9
-          ],
-          "color": "#7a5a3f",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5b432f",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5b432f",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5b432f",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5b432f",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Mug of tea",
-      "position": [
-        1.6,
-        0.86,
-        0.55
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "steam",
-      "moments": [
-        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window.",
-        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.08,
-            0.05
-          ],
-          "color": "#e6e0d8",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Tea steam",
-      "position": [
-        1.6,
-        0.98,
-        0.55
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "steam",
-      "moments": [
-        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window.",
-        "Then I closed the book, moved the mug to the kitchen table, and made a list of things that could stay exactly where they were. #home #making @desk"
-      ],
-      "shapes": [
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.02,
-            0.06
-          ],
-          "color": "#f1efe9",
-          "roughness": 0.1,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            0,
-            0.06,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.05,
-            0.015,
-            0.05
-          ],
-          "color": "#f1efe9",
-          "roughness": 0.1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Garden tree",
-      "position": [
-        -0.8,
-        0.6,
-        -3.8
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The tree in the garden looked much thinner than it had on the first morning."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            1.2,
-            0.06
-          ],
-          "color": "#6a4a32",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            1.05,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.35,
-            0.35,
-            0.35
-          ],
-          "color": "#284132",
-          "roughness": 0.95,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.18,
-            1,
-            0.12
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.22,
-            0.22,
-            0.22
-          ],
-          "color": "#27402e",
-          "roughness": 0.95,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Window frame sill",
-      "position": [
-        -0.8,
-        0.95,
-        -1.59
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            0.06,
-            0.12
-          ],
-          "color": "#d9d9d9",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Small picture",
-      "position": [
-        0.9,
-        1.1,
-        -1.56
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Some days leave a picture rather than a lesson."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.25,
-            0.18,
-            0.02
-          ],
-          "color": "#bfae9a",
-          "roughness": 0.95,
           "glow": false
         }
       ]

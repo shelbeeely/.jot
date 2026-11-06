@@ -3,24 +3,24 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T09:54:24.121Z"
+    "at": "2026-11-06T10:36:17.610Z"
   },
-  "title": "Morning garden bench",
-  "sky": "#dfefff",
-  "ground": "#b7d7a8",
-  "weather": "sun",
+  "title": "Morning garden bench and raised bed",
+  "sky": "#cfe9ff",
+  "ground": "#8bbf6a",
+  "weather": "clear",
   "time": "morning",
-  "atmosphere": "tender",
+  "atmosphere": "calm",
   "camera": {
     "position": [
-      2,
+      -2.2,
       1.6,
-      3
+      2.6
     ],
     "target": [
-      0,
-      0.8,
-      0
+      0.2,
+      0.6,
+      -0.2
     ]
   },
   "objects": [
@@ -28,8 +28,8 @@
       "name": "Wooden bench",
       "position": [
         0,
-        0.45,
-        -1
+        0.5,
+        -1.2
       ],
       "rotation": [
         0,
@@ -43,10 +43,10 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "bench",
           "position": [
             0,
-            0.18,
+            0,
             0
           ],
           "rotation": [
@@ -55,219 +55,12 @@
             0
           ],
           "size": [
-            1.6,
-            0.08,
+            1.2,
+            0.5,
             0.5
           ],
           "color": "#8b5a2b",
           "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.48,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.6,
-            0.5,
-            0.08
-          ],
-          "color": "#7a4f2a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.27,
-            0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.54,
-            0.08
-          ],
-          "color": "#5c3a21",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.27,
-            0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.54,
-            0.08
-          ],
-          "color": "#5c3a21",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.27,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.54,
-            0.08
-          ],
-          "color": "#5c3a21",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.27,
-            -0.18
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.54,
-            0.08
-          ],
-          "color": "#5c3a21",
-          "roughness": 0.7,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        -0.35,
-        0.86,
-        -1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.18,
-            0.02,
-            0.13
-          ],
-          "color": "#ffffff",
-          "roughness": 0.4,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Small digital model",
-      "position": [
-        0.25,
-        0.86,
-        -1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling.",
-        "The model is its own attached object; the day's scene also comes from these sentences. #garden #making @garden"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.02,
-            0.09
-          ],
-          "color": "#303030",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.01,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.1,
-            0.01,
-            0.07
-          ],
-          "color": "#a8d0ff",
-          "roughness": 0.1,
           "glow": false
         }
       ]
@@ -275,9 +68,9 @@
     {
       "name": "Raised bed",
       "position": [
-        0,
+        0.6,
         0.25,
-        0.8
+        0.2
       ],
       "rotation": [
         0,
@@ -294,7 +87,7 @@
           "type": "box",
           "position": [
             0,
-            0.25,
+            0,
             0
           ],
           "rotation": [
@@ -303,11 +96,11 @@
             0
           ],
           "size": [
-            2,
+            1.2,
             0.5,
-            1
+            0.8
           ],
-          "color": "#8a5a3b",
+          "color": "#6b3f2b",
           "roughness": 0.7,
           "glow": false
         },
@@ -315,150 +108,7 @@
           "type": "plane",
           "position": [
             0,
-            0.5,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.8,
-            0.01,
-            0.8
-          ],
-          "color": "#4a2f1a",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Seedlings",
-      "position": [
-        -0.4,
-        0.66,
-        0.8
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.08,
-            0.01
-          ],
-          "color": "#7dbb5a",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.25,
-            0,
-            0.1
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.08,
-            0.01
-          ],
-          "color": "#78b755",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.55,
-            0,
-            0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.08,
-            0.01
-          ],
-          "color": "#75b452",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "First seedling marker",
-      "position": [
-        -0.44,
-        0.72,
-        0.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
             0.12,
-            0.01
-          ],
-          "color": "#c76b2a",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.06,
             0
           ],
           "rotation": [
@@ -467,12 +117,12 @@
             0
           ],
           "size": [
-            0.06,
-            0.02,
-            0.02
+            1.08,
+            0.01,
+            0.68
           ],
-          "color": "#ffd580",
-          "roughness": 0.3,
+          "color": "#3b5f2a",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -480,9 +130,9 @@
     {
       "name": "Apple tree",
       "position": [
-        0.9,
-        0,
-        1.6
+        -1.6,
+        0.8,
+        0.6
       ],
       "rotation": [
         0,
@@ -498,7 +148,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0.75,
+            0,
             0
           ],
           "rotation": [
@@ -507,11 +157,11 @@
             0
           ],
           "size": [
-            0.06,
-            1.5,
-            0.06
+            0.12,
+            1.6,
+            0.12
           ],
-          "color": "#6b4328",
+          "color": "#6d4b2b",
           "roughness": 0.8,
           "glow": false
         },
@@ -519,7 +169,7 @@
           "type": "sphere",
           "position": [
             0,
-            1.7,
+            1.05,
             0
           ],
           "rotation": [
@@ -532,39 +182,18 @@
             0.9,
             0.9
           ],
-          "color": "#3a8b3a",
+          "color": "#4fa24f",
           "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.3,
-            1.55,
-            0.2
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.07,
-            0.07
-          ],
-          "color": "#d84b3a",
-          "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Garden flowers",
+      "name": "Flower patch",
       "position": [
-        -1.6,
-        0.15,
-        -0.6
+        -1.2,
+        0.12,
+        -0.8
       ],
       "rotation": [
         0,
@@ -574,212 +203,6 @@
       "motion": "none",
       "moments": [
         "Sun caught the edges of the garden flowers before it reached the wooden bench."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.05,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.15,
-            0.02
-          ],
-          "color": "#4a7a2e",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.18,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#ffd1e0",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.3,
-            0.05,
-            0.07
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.15,
-            0.02
-          ],
-          "color": "#4a7a2e",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.3,
-            0.18,
-            0.07
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#fff08a",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.6,
-            0.05,
-            -0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.02,
-            0.15,
-            0.02
-          ],
-          "color": "#4a7a2e",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.6,
-            0.18,
-            -0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.06,
-            0.06
-          ],
-          "color": "#ffb3c6",
-          "roughness": 0.3,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Watering can",
-      "position": [
-        0.5,
-        0.12,
-        0.1
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
-      ],
-      "shapes": [
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.12,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.12,
-            0.12
-          ],
-          "color": "#6aa3d6",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0.18,
-            0.12,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            1.57
-          ],
-          "size": [
-            0.02,
-            0.06,
-            0.02
-          ],
-          "color": "#6aa3d6",
-          "roughness": 0.4,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Garden path",
-      "position": [
-        0,
-        0.01,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
       ],
       "shapes": [
         {
@@ -797,20 +220,248 @@
           "size": [
             0.8,
             0.01,
-            2.8
+            0.6
           ],
-          "color": "#c9b69b",
+          "color": "#2f6b2a",
           "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.25,
+            0.06,
+            -0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.12,
+            0.03
+          ],
+          "color": "#ff6b6b",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.05,
+            0.06,
+            0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.12,
+            0.03
+          ],
+          "color": "#ffd166",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.25,
+            0.06,
+            -0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.12,
+            0.03
+          ],
+          "color": "#9be564",
+          "roughness": 0.3,
           "glow": false
         }
       ]
     },
     {
-      "name": "Gloves on bench",
+      "name": "Seedlings (three)",
       "position": [
-        0.02,
-        0.85,
-        -1.05
+        0.45,
+        0.32,
+        0.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "sway",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree.",
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.18,
+            0,
+            0.12
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#2f8b3b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#2f8b3b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.18,
+            0,
+            -0.12
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#2f8b3b",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.18,
+            0,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.2,
+            0.01
+          ],
+          "color": "#7a4b2b",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Marker stake",
+      "position": [
+        0.6,
+        0.45,
+        0.48
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.4,
+            0.015
+          ],
+          "color": "#8b4a2b",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.06,
+            0.01
+          ],
+          "color": "#fff2cc",
+          "roughness": 0.2,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Watering can",
+      "position": [
+        1.2,
+        0.16,
+        0.6
       ],
       "rotation": [
         0,
@@ -835,22 +486,43 @@
             0
           ],
           "size": [
-            0.08,
-            0.02,
-            0.04
+            0.28,
+            0.12,
+            0.18
           ],
-          "color": "#6e3f2b",
-          "roughness": 0.8,
+          "color": "#5aa0d6",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.12,
+            0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            1.57,
+            0
+          ],
+          "size": [
+            0.03,
+            0.18,
+            0.03
+          ],
+          "color": "#5aa0d6",
+          "roughness": 0.4,
           "glow": false
         }
       ]
     },
     {
-      "name": "Low shelf",
+      "name": "Notebook",
       "position": [
-        -1.9,
-        0.35,
-        1.8
+        0.02,
+        0.78,
+        -1.2
       ],
       "rotation": [
         0,
@@ -858,7 +530,49 @@
         0
       ],
       "motion": "none",
-      "moments": [],
+      "moments": [
+        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
+      ],
+      "shapes": [
+        {
+          "type": "notebook",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.04,
+            0.3
+          ],
+          "color": "#e3d3b8",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Gloves",
+      "position": [
+        -0.28,
+        0.74,
+        -1.12
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
+      ],
       "shapes": [
         {
           "type": "box",
@@ -873,12 +587,113 @@
             0
           ],
           "size": [
-            0.6,
-            0.1,
-            0.2
+            0.12,
+            0.04,
+            0.18
           ],
-          "color": "#7b5b3a",
+          "color": "#6b6b6b",
           "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Laptop (Garden model)",
+      "position": [
+        0.18,
+        0.78,
+        -1.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
+      ],
+      "shapes": [
+        {
+          "type": "laptop",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.33,
+            0.02,
+            0.22
+          ],
+          "color": "#2b2b2b",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0.01,
+            -0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.01,
+            0.18
+          ],
+          "color": "#0b2f12",
+          "roughness": 0,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden path",
+      "position": [
+        1,
+        0.02,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.01,
+            1.8
+          ],
+          "color": "#c9b29a",
+          "roughness": 0.9,
           "glow": false
         }
       ]
