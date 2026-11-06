@@ -51,7 +51,7 @@ const backOut = (x) => { const c = 1.6; return 1 + (c + 1) * (x - 1) ** 3 + c * 
 const easeOut = (x) => 1 - (1 - x) ** 3, easeIn = (x) => x * x * x;
 
 // Paper made in the page (nothing is fetched): card-stock grain, a dot-grid page and the sky's paper cut-outs.
-function paperTextures(T, doc, place, mood) {
+function paperTextures(T, doc, place) {
   const make = (w, h, paint) => { const c = doc.createElement('canvas'); c.width = w; c.height = h; paint(c.getContext('2d'), w, h); const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; return t; };
   const grain = (g, w, h, spread = 19) => {
     const img = g.getImageData(0, 0, w, h);
@@ -113,7 +113,7 @@ export function buildPlace(T, place, { reduced = false, document: doc = globalTh
   const root = new T.Group(), objects = [], hinges = [], lights = [], weather = [], motions = [], textures = [], idle = [];
   const mood = ATMOSPHERE[place.atmosphere] || ATMOSPHERE.neutral;
   const [tint, sun, hemi] = LIGHT[place.time] || LIGHT.day, glow = (GLOW[place.time] ?? 0.4) * mood.glow;
-  const paper = doc?.createElement ? paperTextures(T, doc, place, mood) : null; if (paper) textures.push(...paper.all);
+  const paper = doc?.createElement ? paperTextures(T, doc, place) : null; if (paper) textures.push(...paper.all);
   // The model's colours, graded by the atmosphere and drawn a little toward cream paper, so every day is one pastel diorama.
   const grade = (c) => new T.Color(c).offsetHSL(0, mood.sat, mood.light).lerp(new T.Color(PAPER), 0.14);
   const material = (c, extra = {}) => new T.MeshStandardMaterial({ color: grade(c), roughness: 0.82, metalness: 0, flatShading: true, map: paper?.card || null,

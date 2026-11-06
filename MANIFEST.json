@@ -24639,8 +24639,8 @@
     },
     {
       "path": "site/dist/writer-scene-build.mjs",
-      "byteLength": 31748,
-      "sha256": "e0befbc06c61c8ea20a8bfff34a25bbd312d642a78784421686a03cc395c5c86"
+      "byteLength": 31736,
+      "sha256": "2e0ddea749646339d7c6cf4b73a0e0cf175550837112a50cefa66e90b03b5111"
     },
     {
       "path": "site/dist/writer-scene-parts.mjs",
