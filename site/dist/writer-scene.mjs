@@ -1,6 +1,7 @@
 // The Scenes view: each dated entry as a small 3D place a model designs from the entry's words (spec 8.1.9). Drag to turn it,
-// scroll to zoom, choose a thing to read the moments it holds (the writer's own sentences), switch days with the tabs, and open
-// the whole entry. Nothing is sent until Make this day's scene, after the writer sees exactly what goes where; a made scene is a
+// scroll to zoom (or arrow keys and + or −), choose a thing to read the moments it holds (the writer's own sentences), switch days
+// with the tabs, and open the whole entry. Each place is drawn as a pop-up book (writer-scene-build.mjs); its look is the model's
+// interpretation of the entry, and the view says so. Nothing is sent until Make this day's scene, after the writer sees exactly what goes where; a made scene is a
 // draft until Keep it, which saves it as an attachment and one `@setting:` line (with Undo). Kept scenes draw with no model.
 // It loads three.js only when shown, never edits the writing on its own, and clears when the journal locks.
 import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, PLACE_SCHEMA } from './scene-journal-core.mjs';
@@ -19,8 +20,9 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   const about = el('p', '', { class: 'writer-scenes-about' });
   const stage = el('div', undefined, { class: 'writer-scenes-stage' }); stage.hidden = true;
   const tools = el('div', undefined, { class: 'writer-scenes-tools' });
-  const pause = button('Pause weather', { 'aria-pressed': 'false', id: 'writerScenesPause' }), resetView = button('Reset view', { id: 'writerScenesReset' });
-  tools.append(resetView, pause);
+  const pause = button('Pause motion', { 'aria-pressed': 'false', id: 'writerScenesPause' }), resetView = button('Reset view', { id: 'writerScenesReset' });
+  const readEntry = button('Open journal', { id: 'writerScenesJournal' });
+  tools.append(resetView, pause, readEntry);
   const draftBar = el('div', undefined, { class: 'writer-scenes-draft', role: 'group', 'aria-label': 'This scene is a draft' }); draftBar.hidden = true;
   const keep = button('Keep it', { id: 'writerScenesKeep', class: 'button' }), again = button('Try again', { id: 'writerScenesAgain' }), discard = button('Discard', { id: 'writerScenesDiscard', class: 'quiet' });
   draftBar.append(el('span', 'A draft: nothing is saved until you keep it.'), keep, again, discard);
@@ -33,10 +35,11 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   section.append(head, tabs, panel);
   (doc.querySelector('.writing-grid') || doc.body).after(section);
 
-  const reduced = win.matchMedia('(prefers-reduced-motion: reduce)');
+  // Still pages: the system's reduced-motion setting, or Writer's own (Preferences → Reduce motion).
+  const media = win.matchMedia('(prefers-reduced-motion: reduce)'), reduced = { get matches() { return media.matches || doc.documentElement.hasAttribute('data-pref-motion'); } };
   const dateFormat = new Intl.DateTimeFormat(undefined, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
   const dayName = (d) => { const t = new Date(d.date + 'T12:00:00Z'); return Number.isNaN(+t) ? d.date : dateFormat.format(t); };
-  let days = [], current = 0, drafts = new Map(), view = null, three = null, controller = null, timer = 0, shown = false, paused = reduced.matches, frame = 0, last = 0, key = '';
+  let days = [], current = 0, drafts = new Map(), view = null, three = null, controller = null, timer = 0, shown = false, paused = reduced.matches, frame = 0, last = 0, key = '', glide = null;
   const keyOf = (d) => `${d.date}#${days.filter((x) => x.date === d.date).indexOf(d)}`; // the same date can hold more than one entry
 
   // three.js, its renderer and controls: made once, on first show.
@@ -45,19 +48,35 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     await import('./jot/vendor/three.mjs');
     const T = globalThis.JotThree, canvas = el('canvas', undefined, { class: 'writer-scenes-canvas', role: 'img', tabindex: '0' });
     const renderer = new T.WebGLRenderer({ canvas, antialias: true }); renderer.outputColorSpace = T.SRGBColorSpace; renderer.setPixelRatio(Math.min(win.devicePixelRatio || 1, 2));
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
     const scene = new T.Scene(), camera = new T.PerspectiveCamera(45, 16 / 10, 0.05, 200), controls = new T.OrbitControls(camera, canvas);
     controls.enableDamping = false; controls.maxPolarAngle = Math.PI * 0.49; controls.minDistance = 1.2; controls.maxDistance = 30;
-    controls.addEventListener('change', draw);
+    controls.addEventListener('change', draw); controls.addEventListener('start', () => { glide = null; }); // a drag takes over from a glide
+    // Keys on the focused scene: arrows turn it around what it looks at, + and − (or Page Up and Page Down) zoom.
+    canvas.addEventListener('keydown', (e) => {
+      const turn = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key], zoom = { '+': 0.85, '=': 0.85, PageUp: 0.85, '-': 1.18, _: 1.18, PageDown: 1.18 }[e.key];
+      if (!turn && !zoom) return; e.preventDefault();
+      const offset = camera.position.clone().sub(controls.target), sphere = new T.Spherical().setFromVector3(offset);
+      if (turn) { sphere.theta += turn[0] * 0.18; sphere.phi = Math.max(0.15, Math.min(controls.maxPolarAngle, sphere.phi + turn[1] * 0.12)); }
+      if (zoom) sphere.radius = Math.max(controls.minDistance, Math.min(controls.maxDistance, sphere.radius * zoom));
+      camera.position.copy(controls.target).add(new T.Vector3().setFromSpherical(sphere)); controls.update(); draw();
+    });
     stage.append(canvas);
     new win.ResizeObserver(() => { const w = stage.clientWidth || 640, h = stage.clientHeight || 400; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); draw(); }).observe(stage);
-    // A click (not a drag) chooses the thing under the pointer.
+    // A click (not a drag) chooses the thing under the pointer; the thing under a resting pointer lifts a little.
     let down = null;
+    const under = (e) => {
+      const r = canvas.getBoundingClientRect(), ray = new T.Raycaster();
+      ray.setFromCamera(new T.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
+      for (const hit of ray.intersectObjects(view.built.objects, true)) { let o = hit.object; while (o && o.userData.object === undefined) o = o.parent; if (o) return o.userData.object; }
+      return -1;
+    };
+    canvas.addEventListener('pointermove', (e) => { if (!view || e.buttons) return; const i = under(e); canvas.style.cursor = i >= 0 ? 'pointer' : ''; view.built.hover(i); draw(); });
+    canvas.addEventListener('pointerleave', () => { if (view) { view.built.hover(-1); draw(); } });
     canvas.addEventListener('pointerdown', (e) => { down = [e.clientX, e.clientY]; });
     canvas.addEventListener('pointerup', (e) => {
       if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 5 || !view) return;
-      const r = canvas.getBoundingClientRect(), ray = new T.Raycaster();
-      ray.setFromCamera(new T.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
-      for (const hit of ray.intersectObjects(view.built.objects, true)) { let o = hit.object; while (o && o.userData.object === undefined) o = o.parent; if (o) { choose(o.userData.object); return; } }
+      const i = under(e); if (i >= 0) choose(i);
     });
     three = { T, renderer, scene, camera, controls, canvas };
     return three;
@@ -66,7 +85,13 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   function tick(now) {
     frame = 0; if (!three || !view) return;
     const dt = last ? (now - last) / 1000 : 0; last = now;
-    if (view.built.moving && !paused) { view.built.tick(dt); draw(); } else last = 0;
+    let more = view.built.update(dt, { motion: !paused }); // the opening always finishes; weather and movement only when playing
+    if (glide) { // the view gliding toward a chosen thing (or back to the whole book)
+      glide.t = Math.min(1, glide.t + dt / 0.9); const k = 1 - (1 - glide.t) ** 3;
+      three.camera.position.lerpVectors(glide.from, glide.to, k); three.controls.target.lerpVectors(glide.fromTarget, glide.toTarget, k); three.controls.update();
+      if (glide.t >= 1) glide = null; else more = true;
+    }
+    if (more) draw(); else last = 0;
     three.renderer.render(three.scene, three.camera);
   }
   function clearView() {
@@ -77,34 +102,52 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   async function show3D(place, { draft = false, model = '' } = {}) {
     const t = await engine(), { T } = t;
     if (view) clearView();
-    const built = buildPlace(T, place);
-    t.scene.add(built.root); t.scene.background = new T.Color(built.sky);
+    const built = buildPlace(T, place, { reduced: reduced.matches, document: doc });
+    t.scene.add(built.root); t.scene.background = new T.Color(built.background);
     t.scene.fog = built.fog ? new T.Fog(built.fog.color, built.fog.near, built.fog.far) : null;
     view = { place, built, draft };
     stage.hidden = false; tools.hidden = false; draftBar.hidden = !draft; pause.hidden = !built.moving;
-    t.canvas.setAttribute('aria-label', `${place.title}: a 3D scene of this day. Drag to turn it, scroll to zoom; the things in it are listed below.`);
-    reset3D();
-    about.textContent = `${place.title}. ${draft ? `Made just now by ${model}. ` : place.made?.model ? `Made by ${place.made.model}. ` : ''}Choose a thing to read its moment.`;
+    t.canvas.setAttribute('aria-label', `${place.title}: a pop-up scene of this day. Drag or use the arrow keys to turn it; scroll or press + and − to zoom. The things in it are listed below.`);
+    reset3D(true);
+    const by = draft ? model : place.made?.model || '', feel = place.atmosphere && place.atmosphere !== 'neutral' ? `, with a ${place.atmosphere} feel` : '';
+    about.textContent = `${place.title}. ${by ? `Imagined by ${by}` : 'Imagined'} from this entry's words${feel}: the look is an interpretation; the moments are the entry's own sentences. ${draft ? 'Made just now. ' : ''}Choose a thing to read its moment.`;
     const held = place.objects.map((o, i) => [o, i]).filter(([o]) => o.moments.length);
     for (const [o, i] of held) { const li = el('li'), b = button(o.name, { 'data-object': String(i) }); b.onclick = () => choose(i, true); li.append(b); things.append(li); }
     if (!held.length) things.append(el('li', 'Nothing in this scene is tied to a sentence yet.'));
     draw();
   }
-  function reset3D() { // the model's camera, moved to fit the whole place when it stands inside it or too far away
+  function reset3D(instant = false) { // the whole open book from the reader's side (or the model's camera, moved to fit the place)
     if (!view || !three) return;
-    const { T, camera, controls } = three, target = new T.Vector3(...view.place.camera.target), from = new T.Vector3(...view.place.camera.position), b = view.built.bounds;
-    if (b) {
+    const { T, camera, controls } = three, target = new T.Vector3(...view.place.camera.target), from = new T.Vector3(...view.place.camera.position), b = view.built.bounds, f = view.built.frame;
+    if (f) { // fit the book in the narrower of the view's two directions, so a phone held upright sees all of it too
+      const half = Math.min((camera.fov * Math.PI) / 360, Math.atan(Math.tan((camera.fov * Math.PI) / 360) * camera.aspect)), d = (f.radius / Math.sin(half)) * 1.02;
+      target.copy(f.target); from.copy(f.target).add(f.direction.clone().multiplyScalar(d)); controls.maxDistance = Math.max(30, d * 2.5);
+    } else if (b) {
       const need = (b.radius / Math.sin((camera.fov * Math.PI) / 360)) * 1.05, dir = from.clone().sub(target);
       if (dir.lengthSq() < 1e-6) dir.set(1, 0.6, 1);
       // From the model's side, at the distance that fits the whole place: never inside it, never so far it is a speck.
       const d = from.distanceTo(b.center); if (d < need || d > need * 1.6) { target.copy(b.center); from.copy(b.center).add(dir.normalize().multiplyScalar(need)); }
     }
-    camera.position.copy(from); controls.target.copy(target); controls.update(); draw();
+    move(from, target, instant);
+  }
+  // Moves the view: a glide while motion plays, at once with reduced motion or Pause motion.
+  function move(to, toTarget, instant = false) {
+    const { camera, controls } = three; glide = null;
+    if (instant || paused || !camera.position.distanceToSquared(to)) { camera.position.copy(to); controls.target.copy(toTarget); controls.update(); draw(); return; }
+    glide = { t: 0, from: camera.position.clone(), to: to.clone(), fromTarget: controls.target.clone(), toTarget: toTarget.clone() }; last = 0; draw();
+  }
+  function lookAt(index) { // closer to a chosen thing, from the side the reader is already looking from
+    const { T, camera, controls } = three, g = view.built.objects[index]; if (!g) return;
+    const s = new T.Box3().expandByObject(g).getBoundingSphere(new T.Sphere()), dir = camera.position.clone().sub(controls.target).normalize();
+    const d = Math.max(controls.minDistance * 1.2, (Math.max(s.radius, 0.25) / Math.sin((camera.fov * Math.PI) / 360)) * 2.2);
+    move(s.center.clone().add(dir.multiplyScalar(d)), s.center);
   }
   function choose(index, fromList = false) {
     if (!view) return; const o = view.place.objects[index]; if (!o) return;
-    view.built.highlight(index); draw();
+    view.built.highlight(index); view.built.hop(index); lookAt(index); draw();
     moment.replaceChildren(el('h3', o.name));
+    // The moment writes itself in ink (a CSS reveal; shown at once with reduced motion). The words are the entry's own.
+    moment.classList.remove('is-inking'); void moment.offsetWidth; moment.classList.add('is-inking');
     if (!o.moments.length) moment.append(el('p', 'Nothing in the entry is tied to this.'));
     else { const ul = el('ul'); for (const m of o.moments) { const text = typeof m === 'string' ? m : m.text; const li = el('li', text); if (m.missing) li.append(el('span', ' (no longer in this entry)', { class: 'writer-scenes-missing' })); ul.append(li); } moment.append(ul); }
     const day = days[current], open = button('Open journal', { class: 'writer-scenes-open' }), go = button('Go to this entry', { class: 'quiet' });
@@ -127,7 +170,8 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
     make.hidden = false; make.replaceChildren();
     if (!day.sentences.length) { make.append(el('p', 'This day has no writing to make a scene from yet.')); return; }
     make.append(el('p', note || 'This day has no scene yet.'));
-    const go = button('Make this day\'s scene', { class: 'button', id: 'writerScenesMake' }); go.onclick = () => ask(day); make.append(go);
+    const go = button('Make this day\'s scene', { class: 'button', id: 'writerScenesMake' }); go.onclick = () => ask(day);
+    const read = button('Open journal', { class: 'quiet' }); read.onclick = () => openJournal(); make.append(go, read);
   }
   function ask(day) {
     const conn = ai?.connection?.();
@@ -170,9 +214,10 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   };
   again.onclick = () => { const day = days[current]; if (day) ask(day); };
   discard.onclick = async () => { const day = days[current]; if (!day) return; drafts.delete(keyOf(day)); key = ''; summary.textContent = 'The draft is gone. Your journal is unchanged.'; await render(); };
-  pause.onclick = () => { paused = !paused; pause.setAttribute('aria-pressed', String(paused)); pause.textContent = paused ? 'Play weather' : 'Pause weather'; draw(); };
-  pause.setAttribute('aria-pressed', String(paused)); pause.textContent = paused ? 'Play weather' : 'Pause weather';
+  pause.onclick = () => { paused = !paused; pause.setAttribute('aria-pressed', String(paused)); pause.textContent = paused ? 'Play motion' : 'Pause motion'; draw(); };
+  pause.setAttribute('aria-pressed', String(paused)); pause.textContent = paused ? 'Play motion' : 'Pause motion';
   resetView.onclick = () => reset3D();
+  readEntry.onclick = () => openJournal();
 
   function drawTabs() {
     tabs.replaceChildren();
@@ -213,7 +258,11 @@ export function setupWriterScene({ editor, jumpTo = () => {}, rewrite, placeText
   editor.addEventListener('input', () => { if (section.hidden) return; win.clearTimeout(timer); timer = win.setTimeout(() => compute(), 400); });
 
   return {
-    async show() { if (editor.readOnly) return; section.hidden = false; shown = true; await compute(true); draw(); },
+    async show() {
+      if (editor.readOnly) return;
+      if (reduced.matches && !paused) { paused = true; pause.setAttribute('aria-pressed', 'true'); pause.textContent = 'Play motion'; } // a preference changed since
+      section.hidden = false; shown = true; await compute(true); draw();
+    },
     hide() { section.hidden = true; shown = false; controller?.abort(); },
     // Locking clears everything the view drew or held: drafts, the request, the 3D scene.
     reset() {

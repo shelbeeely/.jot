@@ -393,7 +393,8 @@ dialog.page-view{width:min(1100px,calc(100vw - 16px));height:calc(100dvh - 16px)
 .writer-scenes-tabs [role=tab]{flex:none;min-height:44px;padding:6px 14px;border:1px solid var(--writer-border,var(--jot-edge));border-radius:999px;background:var(--writer-bg,var(--jot-paper));color:inherit;font:inherit;cursor:pointer}
 .writer-scenes-tabs [role=tab][aria-selected=true]{background:var(--jot-ink);color:var(--jot-paper);border-color:var(--jot-ink)}.writer-scenes-tabs [role=tab].has-scene::after{content:" ◆";font-size:.7em}
 .writer-scenes-about{margin:6px 0 10px}
-.writer-scenes-stage{position:relative;width:100%;aspect-ratio:16/10;max-height:70vh;border-radius:12px;overflow:hidden;background:#222;touch-action:none}.writer-scenes-stage[hidden]{display:none}
+.writer-scenes-stage{position:relative;width:100%;aspect-ratio:16/10;max-height:70vh;border-radius:12px;overflow:hidden;background:#efe7d6;touch-action:none}.writer-scenes-stage[hidden]{display:none}
+@media (max-width:640px){.writer-scenes-stage{aspect-ratio:4/5;max-height:62vh}.writer-scenes{padding:0 12px}}
 .writer-scenes-canvas{display:block;width:100%;height:100%}.writer-scenes-canvas:focus-visible{outline:3px solid var(--jot-accent,#65508f);outline-offset:-3px}
 .writer-scenes-tools,.writer-scenes-draft{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}.writer-scenes-tools[hidden],.writer-scenes-draft[hidden],.writer-scenes-confirm[hidden],.writer-scenes-make[hidden],.writer-scenes-journal[hidden]{display:none}
 .writer-scenes button{min-height:44px;padding:6px 14px;font:inherit;border-radius:999px;border:1px solid var(--writer-border,var(--jot-edge));background:transparent;color:inherit;cursor:pointer}
@@ -402,7 +403,11 @@ dialog.page-view{width:min(1100px,calc(100vw - 16px));height:calc(100dvh - 16px)
 .writer-scenes-confirm,.writer-scenes-make{margin:10px 0;padding:12px 14px;border:1px solid var(--writer-border,var(--jot-edge));border-radius:10px}.writer-scenes-confirm h3{margin:0 0 6px;font-size:18px}
 .writer-scenes-sent{max-height:220px;overflow:auto;margin:8px 0;padding-left:1.6em;font-size:15px}
 .writer-scenes-things{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;padding:0}
-.writer-scenes-moment{margin:8px 0}.writer-scenes-moment h3{margin:4px 0;font-size:18px}.writer-scenes-moment ul{margin:4px 0 8px;padding-left:1.2em}.writer-scenes-missing{font-style:italic;opacity:.75}
+.writer-scenes-moment{margin:8px 0}.writer-scenes-moment h3{margin:4px 0;font-size:18px}.writer-scenes-moment ul{margin:4px 0 8px;padding-left:1.2em;font:22px/1.45 "Jot Script","Jot Sans",cursive;color:#24386b}
+.writer-scenes-moment.is-inking li{animation:jot-ink 1.6s cubic-bezier(.3,.6,.4,1) both}.writer-scenes-moment.is-inking li+li{animation-delay:.5s}
+@keyframes jot-ink{from{clip-path:inset(0 100% 0 0);opacity:.35;filter:blur(.6px)}to{clip-path:inset(0 0 0 0);opacity:1;filter:none}}
+@media (prefers-reduced-motion:reduce){.writer-scenes-moment.is-inking li{animation:none}}:root[data-pref-motion] .writer-scenes-moment.is-inking li{animation:none}
+:root[data-theme=dark] .writer-scenes-moment ul{color:#b9c8f2}@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .writer-scenes-moment ul{color:#b9c8f2}}.writer-scenes-missing{font-style:italic;opacity:.75}
 .writer-scenes-journal{margin:12px 0;padding:12px;border:1px solid var(--writer-border,var(--jot-edge));border-radius:10px;background:var(--jot-paper)}
 .writer-scenes-page{margin-top:8px}
 @media print{.writer-scenes{display:none!important}}

@@ -1,7 +1,7 @@
 // Journal places (scene-journal-core.mjs, spec 8.1.9): what is sent, what comes back, what is kept, and the one line that changes.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, plainText, PLACE_SCHEMA, LIMITS } from './dist/scene-journal-core.mjs';
+import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, plainText, PLACE_SCHEMA, LIMITS, ATMOSPHERES, MOTIONS } from './dist/scene-journal-core.mjs';
 import { jsonRequest, requestJSON } from './dist/ai-client.mjs';
 
 const SOURCE = `Undated preamble.
@@ -54,12 +54,23 @@ test('a model\'s place is cleaned: clamped, limited, and its moments are the ent
   const p = validatePlace({ title: 'A <b>desk</b>', sky: 'blue', ground: '#123456', weather: 'hail', time: 'night', camera: { position: [1, 2, 999], target: 'x' },
     objects: [{ name: 'Mug', position: [0, 0, 0], rotation: [0, 99, 0], moments: [2, 2, 3, 0, 1.5, '1'], shapes: [shape({ size: [0, 500, 1], roughness: 7, glow: 'yes', color: 'red' }), { type: 'script' }] },
       { name: 'Empty', position: [0, 0, 0], rotation: [0, 0, 0], moments: [1], shapes: [] }, 'nonsense'] }, list);
-  assert.deepEqual(p, { title: 'A b desk /b', sky: '#b8c7d6', ground: '#123456', weather: 'clear', time: 'night', camera: { position: [1, 2, 50], target: [0, 0.6, 0] },
-    objects: [{ name: 'Mug', position: [0, 0, 0], rotation: [0, Math.PI * 2, 0], moments: ['Two.'], shapes: [{ type: 'box', position: [0, 0, 0], rotation: [0, 0, 0], size: [0.01, 20, 1], color: '#9a958c', roughness: 1, glow: false }] }] });
+  assert.deepEqual(p, { title: 'A b desk /b', sky: '#b8c7d6', ground: '#123456', weather: 'clear', time: 'night', atmosphere: 'neutral', camera: { position: [1, 2, 50], target: [0, 0.6, 0] },
+    objects: [{ name: 'Mug', position: [0, 0, 0], rotation: [0, Math.PI * 2, 0], motion: 'none', moments: ['Two.'], shapes: [{ type: 'box', position: [0, 0, 0], rotation: [0, 0, 0], size: [0.01, 20, 1], color: '#9a958c', roughness: 1, glow: false }] }] });
   assert.throws(() => validatePlace({ objects: [] }, list), /nothing in it/); assert.throws(() => validatePlace('a script', list), /did not describe/);
   const many = validatePlace({ objects: Array.from({ length: 80 }, () => ({ name: 'x', shapes: Array.from({ length: 12 }, () => shape()), moments: [] })) }, list);
   assert.equal(many.objects.length, Math.floor(LIMITS.total / LIMITS.shapes) + 1); assert.ok(many.objects.every((o) => o.shapes.length <= LIMITS.shapes));
   assert.equal(many.objects.reduce((n, o) => n + o.shapes.length, 0), LIMITS.total);
+});
+test('atmosphere and motion come from fixed lists, are asked for strictly, and default for older places', () => {
+  const obj = PLACE_SCHEMA.properties.objects.items;
+  assert.ok(PLACE_SCHEMA.required.includes('atmosphere') && obj.required.includes('motion'), 'strict structured output lists every field');
+  assert.deepEqual(PLACE_SCHEMA.properties.atmosphere.enum, ATMOSPHERES); assert.deepEqual(obj.properties.motion.enum, MOTIONS);
+  const one = (extra) => validatePlace({ objects: [{ name: 'Cup', shapes: [shape()], moments: [1], ...extra.object }], ...extra.place }, ['Tea.']);
+  assert.deepEqual([one({ place: { atmosphere: 'cosy' }, object: { motion: 'steam' } })].map((p) => [p.atmosphere, p.objects[0].motion]), [['cosy', 'steam']]);
+  assert.deepEqual([one({ place: { atmosphere: 'furious' }, object: { motion: 'explode' } })].map((p) => [p.atmosphere, p.objects[0].motion]), [['neutral', 'none']]);
+  assert.deepEqual([one({ place: {}, object: {} })].map((p) => [p.atmosphere, p.objects[0].motion]), [['neutral', 'none']], 'a place kept before these fields');
+  const { system } = placePrompt(journalDays(SOURCE)[0]);
+  assert.match(system, /Never add people, visitors, gifts, accidents, celebrations/); assert.match(system, /not a diagnosis of the writer/); assert.match(system, /use neutral when the words do not make a feeling clear/);
 });
 test('a kept place is read again as untrusted, and says when a moment has left the entry', () => {
   const day = journalDays(SOURCE)[0], place = validatePlace({ objects: [{ name: 'Mug', moments: [2], shapes: [shape()] }] }, day.sentences);
