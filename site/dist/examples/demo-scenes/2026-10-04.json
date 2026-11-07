@@ -3,24 +3,24 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-6.1-sol",
-    "at": "2026-11-07T01:22:07.316Z"
+    "at": "2026-11-07T02:49:37.751Z"
   },
   "title": "Rainy library corner",
-  "sky": "#9ca9b1",
-  "ground": "#c3beb5",
+  "sky": "#8d9ba3",
+  "ground": "#6c766e",
   "weather": "rain",
   "time": "day",
   "atmosphere": "calm",
   "camera": {
     "position": [
-      5.2,
-      4.7,
-      6.5
+      5.4,
+      4.3,
+      6.4
     ],
     "target": [
-      0,
-      1.12,
-      -0.65
+      -0.15,
+      1.23,
+      -0.75
     ]
   },
   "objects": [
@@ -28,8 +28,8 @@
       "name": "Library floor",
       "position": [
         0,
-        0.06,
-        0
+        0,
+        -0.6
       ],
       "rotation": [
         0,
@@ -43,7 +43,7 @@
           "type": "box",
           "position": [
             0,
-            0,
+            0.06,
             0
           ],
           "rotation": [
@@ -52,19 +52,19 @@
             0
           ],
           "size": [
-            5.2,
+            6.6,
             0.12,
-            4.4
+            3.6
           ],
-          "color": "#b99b78",
-          "roughness": 0.88,
+          "color": "#795b43",
+          "roughness": 0.95,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -2.16,
-            0.0605,
+            -2.952,
+            0.14,
             0
           ],
           "rotation": [
@@ -73,19 +73,19 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            4.26
+            0.65,
+            0.04,
+            3.58
           ],
-          "color": "#a88a68",
-          "roughness": 0.95,
+          "color": "#b99570",
+          "roughness": 0.86,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -1.44,
-            0.0605,
+            -2.296,
+            0.14,
             0
           ],
           "rotation": [
@@ -94,19 +94,19 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            4.26
+            0.65,
+            0.04,
+            3.58
           ],
-          "color": "#a88a68",
-          "roughness": 0.95,
+          "color": "#bc9b75",
+          "roughness": 0.86,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.72,
-            0.0605,
+            -1.64,
+            0.14,
             0
           ],
           "rotation": [
@@ -115,19 +115,19 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            4.26
+            0.65,
+            0.04,
+            3.58
           ],
-          "color": "#a88a68",
-          "roughness": 0.95,
+          "color": "#b18f6a",
+          "roughness": 0.86,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0,
-            0.0605,
+            -0.984,
+            0.14,
             0
           ],
           "rotation": [
@@ -136,19 +136,19 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            4.26
+            0.65,
+            0.04,
+            3.58
           ],
-          "color": "#a88a68",
-          "roughness": 0.95,
+          "color": "#c1a07c",
+          "roughness": 0.86,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.72,
-            0.0605,
+            -0.328,
+            0.14,
             0
           ],
           "rotation": [
@@ -157,19 +157,19 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            4.26
+            0.65,
+            0.04,
+            3.58
           ],
-          "color": "#a88a68",
-          "roughness": 0.95,
+          "color": "#b79570",
+          "roughness": 0.86,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            1.44,
-            0.0605,
+            0.328,
+            0.14,
             0
           ],
           "rotation": [
@@ -178,19 +178,19 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            4.26
+            0.65,
+            0.04,
+            3.58
           ],
-          "color": "#a88a68",
-          "roughness": 0.95,
+          "color": "#bea07b",
+          "roughness": 0.86,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            2.16,
-            0.0605,
+            0.984,
+            0.14,
             0
           ],
           "rotation": [
@@ -199,22 +199,85 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            4.26
+            0.65,
+            0.04,
+            3.58
           ],
-          "color": "#a88a68",
-          "roughness": 0.95,
+          "color": "#b6926c",
+          "roughness": 0.86,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.64,
+            0.14,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.65,
+            0.04,
+            3.58
+          ],
+          "color": "#c2a17e",
+          "roughness": 0.86,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            2.296,
+            0.14,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.65,
+            0.04,
+            3.58
+          ],
+          "color": "#b99873",
+          "roughness": 0.86,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            2.952,
+            0.14,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.65,
+            0.04,
+            3.58
+          ],
+          "color": "#bd9c77",
+          "roughness": 0.86,
           "glow": false
         }
       ]
     },
     {
-      "name": "Back wall",
+      "name": "Library wall",
       "position": [
         0,
-        1.495,
-        -2.14
+        0.16,
+        -2.34
       ],
       "rotation": [
         0,
@@ -227,8 +290,8 @@
         {
           "type": "box",
           "position": [
-            -1.025,
-            0,
+            -1.33,
+            1.56,
             0
           ],
           "rotation": [
@@ -237,19 +300,19 @@
             0
           ],
           "size": [
-            3.15,
-            2.75,
+            3.94,
+            3.12,
             0.12
           ],
-          "color": "#e1dbc9",
-          "roughness": 0.96,
+          "color": "#ded8c9",
+          "roughness": 1,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            2.285,
-            0,
+            2.88,
+            1.56,
             0
           ],
           "rotation": [
@@ -258,19 +321,19 @@
             0
           ],
           "size": [
-            0.63,
-            2.75,
+            0.84,
+            3.12,
             0.12
           ],
-          "color": "#e1dbc9",
-          "roughness": 0.96,
+          "color": "#ded8c9",
+          "roughness": 1,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            1.26,
-            -0.9,
+            1.55,
+            0.4,
             0
           ],
           "rotation": [
@@ -279,19 +342,19 @@
             0
           ],
           "size": [
-            1.42,
-            0.95,
+            1.82,
+            0.8,
             0.12
           ],
-          "color": "#e1dbc9",
-          "roughness": 0.96,
+          "color": "#ded8c9",
+          "roughness": 1,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            1.26,
-            1.075,
+            1.55,
+            2.81,
             0
           ],
           "rotation": [
@@ -300,12 +363,12 @@
             0
           ],
           "size": [
-            1.42,
-            0.6,
+            1.82,
+            0.62,
             0.12
           ],
-          "color": "#e1dbc9",
-          "roughness": 0.96,
+          "color": "#ded8c9",
+          "roughness": 1,
           "glow": false
         }
       ]
@@ -313,9 +376,9 @@
     {
       "name": "Side wall",
       "position": [
-        -2.54,
-        1.495,
-        -0.06
+        -3.24,
+        1.72,
+        -0.54
       ],
       "rotation": [
         0,
@@ -339,20 +402,20 @@
           ],
           "size": [
             0.12,
-            2.75,
-            4.28
+            3.12,
+            3.48
           ],
-          "color": "#ded6c2",
-          "roughness": 0.96,
+          "color": "#d2cabb",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Wood trim",
+      "name": "Wood skirting",
       "position": [
         0,
-        0.205,
+        0.235,
         0
       ],
       "rotation": [
@@ -368,7 +431,7 @@
           "position": [
             0,
             0,
-            -2.055
+            -2.2625
           ],
           "rotation": [
             0,
@@ -376,163 +439,20 @@
             0
           ],
           "size": [
-            5.04,
-            0.17,
-            0.06
+            6.36,
+            0.15,
+            0.035
           ],
-          "color": "#bca58a",
-          "roughness": 0.84,
+          "color": "#a58a67",
+          "roughness": 0.85,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -2.455,
+            -3.1625,
             0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.17,
-            4.1
-          ],
-          "color": "#bca58a",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            2.63,
-            -2.055
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            5.12,
-            0.07,
-            0.055
-          ],
-          "color": "#c9b79c",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -2.455,
-            2.63,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.055,
-            0.07,
-            4.1
-          ],
-          "color": "#c9b79c",
-          "roughness": 0.84,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Reading rug",
-      "position": [
-        0,
-        0.123,
-        0.15
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            3.35,
-            0.01,
-            2.4
-          ],
-          "color": "#899b91",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0.001,
-            -1.12
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            3.18,
-            0.01,
-            0.04
-          ],
-          "color": "#bdc5b4",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            0,
-            0.001,
-            1.12
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            3.18,
-            0.01,
-            0.04
-          ],
-          "color": "#bdc5b4",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            -1.59,
-            0.001,
-            0
+            -0.5225
           ],
           "rotation": [
             0,
@@ -541,2316 +461,21 @@
           ],
           "size": [
             0.035,
-            0.01,
-            2.25
+            0.15,
+            3.445
           ],
-          "color": "#bdc5b4",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "plane",
-          "position": [
-            1.59,
-            0.001,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.035,
-            0.01,
-            2.25
-          ],
-          "color": "#bdc5b4",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Tall bookshelf",
-      "position": [
-        -1.57,
-        0.12,
-        -1.76
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            -0.6775,
-            1.23,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.065,
-            2.46,
-            0.46
-          ],
-          "color": "#896b50",
+          "color": "#a58a67",
           "roughness": 0.85,
           "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.6775,
-            1.23,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.065,
-            2.46,
-            0.46
-          ],
-          "color": "#896b50",
-          "roughness": 0.85,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.245,
-            -0.211
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            2.31,
-            0.038
-          ],
-          "color": "#715741",
-          "roughness": 0.92,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.0525,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.105,
-            0.42
-          ],
-          "color": "#785b44",
-          "roughness": 0.87,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.14,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.07,
-            0.44
-          ],
-          "color": "#987657",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.68,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.06,
-            0.44
-          ],
-          "color": "#987657",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.22,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.06,
-            0.44
-          ],
-          "color": "#987657",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.76,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.06,
-            0.44
-          ],
-          "color": "#987657",
-          "roughness": 0.84,
-          "glow": false
         }
       ]
     },
     {
-      "name": "Bookshelf crown",
+      "name": "Upper moulding",
       "position": [
-        -1.57,
-        2.5425,
-        -1.76
-      ],
-      "rotation": [
         0,
-        0,
+        3.14,
         0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.42,
-            0.075,
-            0.46
-          ],
-          "color": "#896b50",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.07,
-            0.01
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.51,
-            0.065,
-            0.5
-          ],
-          "color": "#a0805d",
-          "roughness": 0.84,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Shelf edges",
-      "position": [
-        -1.57,
-        0.12,
-        -1.76
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.15,
-            0.2275
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.026,
-            0.015
-          ],
-          "color": "#b19371",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.695,
-            0.2275
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.026,
-            0.015
-          ],
-          "color": "#b19371",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.235,
-            0.2275
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.026,
-            0.015
-          ],
-          "color": "#b19371",
-          "roughness": 0.84,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            1.775,
-            0.2275
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.29,
-            0.026,
-            0.015
-          ],
-          "color": "#b19371",
-          "roughness": 0.84,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Lower shelf books",
-      "position": [
-        -1.94,
-        0.295,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0.15,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.23,
-            0.045,
-            0.3
-          ],
-          "color": "#6d7e84",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.057,
-            0.17,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.05,
-            0.34
-          ],
-          "color": "#a97964",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.115,
-            0.145,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.23,
-            0.043,
-            0.29
-          ],
-          "color": "#aab095",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.17,
-            0.16,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.245,
-            0.048,
-            0.32
-          ],
-          "color": "#827187",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.227,
-            0.155,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.046,
-            0.31
-          ],
-          "color": "#c3b084",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Lower book stack",
-      "position": [
-        -1.2,
-        0.295,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0.023,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.27,
-            0.046,
-            0.25
-          ],
-          "color": "#b09170",
-          "roughness": 0.91,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.012,
-            0.066,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.245,
-            0.04,
-            0.235
-          ],
-          "color": "#78918e",
-          "roughness": 0.91,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            -0.012,
-            0.104,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.255,
-            0.036,
-            0.24
-          ],
-          "color": "#b57d6a",
-          "roughness": 0.91,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Middle shelf books",
-      "position": [
-        -2.12,
-        0.83,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0.175,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.05,
-            0.35
-          ],
-          "color": "#8f9990",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.061,
-            0.15,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.045,
-            0.3
-          ],
-          "color": "#ba9a73",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.12,
-            0.19,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.25,
-            0.05,
-            0.38
-          ],
-          "color": "#76849b",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.181,
-            0.165,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.046,
-            0.33
-          ],
-          "color": "#ae7760",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.24,
-            0.18,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.05,
-            0.36
-          ],
-          "color": "#9a9273",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.301,
-            0.16,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.048,
-            0.32
-          ],
-          "color": "#758477",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Slim shelf books",
-      "position": [
-        -1.52,
-        0.83,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0.145,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.038,
-            0.29
-          ],
-          "color": "#bbaf98",
-          "roughness": 0.92,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.048,
-            0.17,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.041,
-            0.34
-          ],
-          "color": "#8c6673",
-          "roughness": 0.92,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.1,
-            0.16,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.043,
-            0.32
-          ],
-          "color": "#77898f",
-          "roughness": 0.92,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.152,
-            0.175,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.04,
-            0.35
-          ],
-          "color": "#ad986d",
-          "roughness": 0.92,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Upper shelf books",
-      "position": [
-        -2.1,
-        1.37,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0.17,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.046,
-            0.34
-          ],
-          "color": "#768d87",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.057,
-            0.18,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.245,
-            0.05,
-            0.36
-          ],
-          "color": "#b29572",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.119,
-            0.155,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.045,
-            0.31
-          ],
-          "color": "#a47c79",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.18,
-            0.185,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.25,
-            0.053,
-            0.37
-          ],
-          "color": "#788297",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.244,
-            0.16,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.049,
-            0.32
-          ],
-          "color": "#b0b194",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.304,
-            0.175,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.045,
-            0.35
-          ],
-          "color": "#897683",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Upper book stack",
-      "position": [
-        -1.22,
-        1.37,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0.022,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.28,
-            0.044,
-            0.25
-          ],
-          "color": "#6f8b84",
-          "roughness": 0.92,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.01,
-            0.066,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.25,
-            0.044,
-            0.23
-          ],
-          "color": "#c0a178",
-          "roughness": 0.92,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Top shelf books",
-      "position": [
-        -2.13,
-        1.91,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0.17,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.047,
-            0.34
-          ],
-          "color": "#ad856e",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.058,
-            0.2,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.25,
-            0.052,
-            0.4
-          ],
-          "color": "#7f8b9c",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.121,
-            0.185,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.052,
-            0.37
-          ],
-          "color": "#b4b292",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.184,
-            0.165,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.048,
-            0.33
-          ],
-          "color": "#877184",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.244,
-            0.205,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.25,
-            0.05,
-            0.41
-          ],
-          "color": "#779286",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.305,
-            0.18,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.05,
-            0.36
-          ],
-          "color": "#b3a178",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Top shelf volumes",
-      "position": [
-        -1.49,
-        1.91,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0.175,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.048,
-            0.35
-          ],
-          "color": "#849279",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.061,
-            0.185,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.05,
-            0.37
-          ],
-          "color": "#b39165",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.122,
-            0.16,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.235,
-            0.05,
-            0.32
-          ],
-          "color": "#7c8794",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "book",
-          "position": [
-            0.183,
-            0.18,
-            0
-          ],
-          "rotation": [
-            -1.5708,
-            0,
-            1.5708
-          ],
-          "size": [
-            0.24,
-            0.05,
-            0.36
-          ],
-          "color": "#9c7472",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Bookends",
-      "position": [
-        -1.7,
-        0.83,
-        -1.72
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            -0.02,
-            0.003,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.01,
-            0.25
-          ],
-          "color": "#747a6f",
-          "roughness": 0.55,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.055,
-            0.116,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.22,
-            0.25
-          ],
-          "color": "#747a6f",
-          "roughness": 0.55,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.465,
-            1.083,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.01,
-            0.25
-          ],
-          "color": "#747a6f",
-          "roughness": 0.55,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.43,
-            1.196,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.22,
-            0.25
-          ],
-          "color": "#747a6f",
-          "roughness": 0.55,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Green chair",
-      "position": [
-        -0.14,
-        0.64,
-        -0.82
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window.",
-        "I sat there with a book open on my knees while the rain tapped the glass."
-      ],
-      "shapes": [
-        {
-          "type": "chair",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.8,
-            1.04,
-            0.82
-          ],
-          "color": "#5d7c5f",
-          "roughness": 0.94,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Seat cushion",
-      "position": [
-        -0.14,
-        0.645,
-        -0.73
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The library had a green chair between a tall bookshelf and the window.",
-        "I sat there with a book open on my knees while the rain tapped the glass."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.64,
-            0.065,
-            0.57
-          ],
-          "color": "#819976",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            -0.01,
-            0.28
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.61,
-            0.012,
-            0.012
-          ],
-          "color": "#607d5e",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Pride and Prejudice",
-      "position": [
-        -0.14,
-        0.6975,
-        -0.67
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I sat there with a book open on my knees while the rain tapped the glass.",
-        "Reading Pride and Prejudice again, slowly.",
-        "I had forgotten how much of it happens in conversations that seem to be about something else."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.37,
-            0.04,
-            0.255
-          ],
-          "color": "#7b5260",
-          "roughness": 0.91,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.091,
-            0.032,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0.06
-          ],
-          "size": [
-            0.175,
-            0.014,
-            0.235
-          ],
-          "color": "#f1ead6",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.091,
-            0.032,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.06
-          ],
-          "size": [
-            0.175,
-            0.014,
-            0.235
-          ],
-          "color": "#f5eedb",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.026,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.012,
-            0.014,
-            0.238
-          ],
-          "color": "#d4cab3",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.091,
-            0.0395,
-            -0.07
-          ],
-          "rotation": [
-            0,
-            0,
-            0.06
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.091,
-            0.0395,
-            -0.035
-          ],
-          "rotation": [
-            0,
-            0,
-            0.06
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.091,
-            0.0395,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0.06
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.091,
-            0.0395,
-            0.035
-          ],
-          "rotation": [
-            0,
-            0,
-            0.06
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Book page details",
-      "position": [
-        -0.14,
-        0.6975,
-        -0.67
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I sat there with a book open on my knees while the rain tapped the glass.",
-        "Reading Pride and Prejudice again, slowly.",
-        "I had forgotten how much of it happens in conversations that seem to be about something else."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            -0.091,
-            0.0395,
-            0.07
-          ],
-          "rotation": [
-            0,
-            0,
-            0.06
-          ],
-          "size": [
-            0.1,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.091,
-            0.0395,
-            -0.07
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.06
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.091,
-            0.0395,
-            -0.035
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.06
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.091,
-            0.0395,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.06
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.091,
-            0.0395,
-            0.035
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.06
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.091,
-            0.0395,
-            0.07
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.06
-          ],
-          "size": [
-            0.1,
-            0.01,
-            0.01
-          ],
-          "color": "#b0aa99",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Low table",
-      "position": [
-        0.96,
-        0.34,
-        0.6
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Someone had left a tiny paper boat on the low table, so I turned it carefully and put it back where it was."
-      ],
-      "shapes": [
-        {
-          "type": "table",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.34,
-            0.44,
-            0.86
-          ],
-          "color": "#b59371",
-          "roughness": 0.84,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Paper boat",
-      "position": [
-        1.28,
-        0.56,
-        0.43
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Someone had left a tiny paper boat on the low table, so I turned it carefully and put it back where it was."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.0015,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.01,
-            0.013
-          ],
-          "color": "#d9ddd5",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.014,
-            0.018
-          ],
-          "rotation": [
-            -0.55,
-            0,
-            0
-          ],
-          "size": [
-            0.14,
-            0.01,
-            0.042
-          ],
-          "color": "#f3f0dc",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.014,
-            -0.018
-          ],
-          "rotation": [
-            0.55,
-            0,
-            0
-          ],
-          "size": [
-            0.14,
-            0.01,
-            0.042
-          ],
-          "color": "#deded5",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.016,
-            0.031,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0.75
-          ],
-          "size": [
-            0.052,
-            0.01,
-            0.038
-          ],
-          "color": "#ecebdf",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.016,
-            0.031,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.75
-          ],
-          "size": [
-            0.052,
-            0.01,
-            0.038
-          ],
-          "color": "#faf6e6",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0.062,
-            0.02,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -1.18
-          ],
-          "size": [
-            0.01,
-            0.044,
-            0.028
-          ],
-          "color": "#f3f0dc",
-          "roughness": 0.98,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            -0.062,
-            0.02,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            1.18
-          ],
-          "size": [
-            0.01,
-            0.044,
-            0.028
-          ],
-          "color": "#ecebdf",
-          "roughness": 0.98,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Notebook",
-      "position": [
-        0.61,
-        0.581,
-        0.62
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library"
-      ],
-      "shapes": [
-        {
-          "type": "notebook",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.22,
-            0.042,
-            0.29
-          ],
-          "color": "#657482",
-          "roughness": 0.93,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.004,
-            0.022,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.192,
-            0.01,
-            0.267
-          ],
-          "color": "#eeeadd",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.006,
-            0.0235,
-            -0.085
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            0.01,
-            0.01
-          ],
-          "color": "#b5bdb8",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.006,
-            0.0235,
-            -0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            0.01,
-            0.01
-          ],
-          "color": "#b5bdb8",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.006,
-            0.0235,
-            -0.015
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            0.01,
-            0.01
-          ],
-          "color": "#b5bdb8",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.006,
-            0.0235,
-            0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            0.01,
-            0.01
-          ],
-          "color": "#b5bdb8",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.006,
-            0.0235,
-            0.055
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            0.01,
-            0.01
-          ],
-          "color": "#b5bdb8",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.006,
-            0.0235,
-            0.09
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.15,
-            0.01,
-            0.01
-          ],
-          "color": "#b5bdb8",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Pencil",
-      "position": [
-        0.9,
-        0.5645,
-        0.79
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library"
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -1.5708
-          ],
-          "size": [
-            0.01,
-            0.18,
-            0.01
-          ],
-          "color": "#bc9955",
-          "roughness": 0.88,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0.102,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -1.5708
-          ],
-          "size": [
-            0.01,
-            0.024,
-            0.01
-          ],
-          "color": "#d7ba8e",
-          "roughness": 0.94,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0.116,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -1.5708
-          ],
-          "size": [
-            0.01,
-            0.01,
-            0.01
-          ],
-          "color": "#555650",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Eraser",
-      "position": [
-        0.81,
-        0.569,
-        0.94
       ],
       "rotation": [
         0,
@@ -2865,7 +490,7 @@
           "position": [
             0,
             0,
-            0
+            -2.255
           ],
           "rotation": [
             0,
@@ -2873,58 +498,20 @@
             0
           ],
           "size": [
-            0.044,
-            0.018,
-            0.028
+            6.36,
+            0.11,
+            0.05
           ],
-          "color": "#d0bea0",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Reading lamp",
-      "position": [
-        1.3,
-        0.795,
-        0.83
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [],
-      "shapes": [
-        {
-          "type": "lamp",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.27,
-            0.47,
-            0.25
-          ],
-          "color": "#d8c8a8",
-          "roughness": 0.68,
+          "color": "#baaa8e",
+          "roughness": 0.9,
           "glow": false
         },
         {
-          "type": "sphere",
+          "type": "box",
           "position": [
+            -3.155,
             0,
-            0.152,
-            0
+            -0.515
           ],
           "rotation": [
             0,
@@ -2932,22 +519,22 @@
             0
           ],
           "size": [
-            0.026,
-            0.026,
-            0.026
+            0.05,
+            0.11,
+            3.43
           ],
-          "color": "#ffe0b1",
-          "roughness": 0.32,
-          "glow": true
+          "color": "#baaa8e",
+          "roughness": 0.9,
+          "glow": false
         }
       ]
     },
     {
       "name": "Window",
       "position": [
-        1.26,
-        1.67,
-        -2.14
+        1.55,
+        1.81,
+        -2.34
       ],
       "rotation": [
         0,
@@ -2973,20 +560,39 @@
             0
           ],
           "size": [
-            1.42,
-            1.2,
-            0.1
+            1.82,
+            1.7,
+            0.12
           ],
-          "color": "#e7e5d7",
-          "roughness": 0.7,
+          "color": "#eee7d5",
+          "roughness": 0.55,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Rainy window view",
+      "position": [
+        1.55,
+        1.81,
+        -2.411
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I sat there with a book open on my knees while the rain tapped the glass."
+      ],
+      "shapes": [
         {
           "type": "box",
           "position": [
             0,
             0,
-            -0.056
+            0
           ],
           "rotation": [
             0,
@@ -2994,12 +600,241 @@
             0
           ],
           "size": [
-            1.29,
-            1.06,
+            1.64,
+            1.51,
+            0.012
+          ],
+          "color": "#91a0a7",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Rain on glass",
+      "position": [
+        1.55,
+        1.81,
+        -2.268
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I sat there with a book open on my knees while the rain tapped the glass."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.66,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.07
+          ],
+          "size": [
+            0.01,
+            0.09,
             0.01
           ],
-          "color": "#9dabaf",
-          "roughness": 0.18,
+          "color": "#d1dce0",
+          "roughness": 0.25,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.53,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.04
+          ],
+          "size": [
+            0.01,
+            0.13,
+            0.01
+          ],
+          "color": "#c5d3d9",
+          "roughness": 0.25,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.34,
+            -0.42,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.08
+          ],
+          "size": [
+            0.01,
+            0.11,
+            0.01
+          ],
+          "color": "#d1dce0",
+          "roughness": 0.25,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.18,
+            0.53,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.05
+          ],
+          "size": [
+            0.01,
+            0.18,
+            0.01
+          ],
+          "color": "#c5d3d9",
+          "roughness": 0.25,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.19,
+            0.27,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.06
+          ],
+          "size": [
+            0.01,
+            0.13,
+            0.01
+          ],
+          "color": "#d1dce0",
+          "roughness": 0.25,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.37,
+            -0.16,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.04
+          ],
+          "size": [
+            0.01,
+            0.18,
+            0.01
+          ],
+          "color": "#c5d3d9",
+          "roughness": 0.25,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.59,
+            -0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.08
+          ],
+          "size": [
+            0.01,
+            0.1,
+            0.01
+          ],
+          "color": "#d1dce0",
+          "roughness": 0.25,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.69,
+            0.43,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.04
+          ],
+          "size": [
+            0.01,
+            0.12,
+            0.01
+          ],
+          "color": "#c5d3d9",
+          "roughness": 0.25,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.45,
+            -0.14,
+            0.004
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#d6e0e3",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.45,
+            0.57,
+            0.004
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#d6e0e3",
+          "roughness": 0.2,
           "glow": false
         }
       ]
@@ -3007,9 +842,9 @@
     {
       "name": "Window sill",
       "position": [
-        1.26,
-        1.045,
-        -2.005
+        1.55,
+        0.925,
+        -2.22
       ],
       "rotation": [
         0,
@@ -3035,312 +870,64 @@
             0
           ],
           "size": [
-            1.6,
+            2,
             0.07,
-            0.29
+            0.38
           ],
-          "color": "#cfbea2",
-          "roughness": 0.84,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Rain on glass",
-      "position": [
-        1.26,
-        1.67,
-        -2.084
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "drift",
-      "moments": [
-        "I sat there with a book open on my knees while the rain tapped the glass."
-      ],
-      "shapes": [
-        {
-          "type": "capsule",
-          "position": [
-            -0.5,
-            0.34,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.12
-          ],
-          "size": [
-            0.01,
-            0.062,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
+          "color": "#d4c3a3",
+          "roughness": 0.8,
           "glow": false
         },
         {
-          "type": "capsule",
+          "type": "box",
           "position": [
-            -0.32,
-            0.18,
-            0
+            -0.7,
+            -0.095,
+            0.06
           ],
           "rotation": [
             0,
             0,
-            -0.1
-          ],
-          "size": [
-            0.01,
-            0.04,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        },
-        {
-          "type": "capsule",
-          "position": [
-            -0.13,
-            0.39,
             0
           ],
-          "rotation": [
-            0,
-            0,
-            -0.12
-          ],
           "size": [
-            0.01,
-            0.075,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        },
-        {
-          "type": "capsule",
-          "position": [
-            0.08,
-            0.14,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.1
-          ],
-          "size": [
-            0.01,
-            0.046,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        },
-        {
-          "type": "capsule",
-          "position": [
-            0.29,
-            0.31,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.12
-          ],
-          "size": [
-            0.01,
             0.055,
-            0.01
+            0.12,
+            0.24
           ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
+          "color": "#b8a487",
+          "roughness": 0.85,
           "glow": false
         },
         {
-          "type": "capsule",
+          "type": "box",
           "position": [
-            0.48,
-            -0.1,
-            0
+            0.7,
+            -0.095,
+            0.06
           ],
           "rotation": [
             0,
             0,
-            -0.1
-          ],
-          "size": [
-            0.01,
-            0.081,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        },
-        {
-          "type": "capsule",
-          "position": [
-            -0.43,
-            -0.27,
             0
           ],
-          "rotation": [
-            0,
-            0,
-            -0.12
-          ],
           "size": [
-            0.01,
-            0.05,
-            0.01
+            0.055,
+            0.12,
+            0.24
           ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        },
-        {
-          "type": "capsule",
-          "position": [
-            -0.18,
-            -0.16,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.1
-          ],
-          "size": [
-            0.01,
-            0.048,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
+          "color": "#b8a487",
+          "roughness": 0.85,
           "glow": false
         }
       ]
     },
     {
-      "name": "Small rain beads",
+      "name": "Window plant",
       "position": [
-        1.26,
-        1.67,
-        -2.084
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "drift",
-      "moments": [
-        "I sat there with a book open on my knees while the rain tapped the glass."
-      ],
-      "shapes": [
-        {
-          "type": "capsule",
-          "position": [
-            0.09,
-            -0.35,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.12
-          ],
-          "size": [
-            0.01,
-            0.066,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        },
-        {
-          "type": "capsule",
-          "position": [
-            0.33,
-            -0.26,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.1
-          ],
-          "size": [
-            0.01,
-            0.04,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        },
-        {
-          "type": "capsule",
-          "position": [
-            0.49,
-            0.46,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.12
-          ],
-          "size": [
-            0.01,
-            0.042,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        },
-        {
-          "type": "capsule",
-          "position": [
-            -0.08,
-            -0.44,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.1
-          ],
-          "size": [
-            0.01,
-            0.042,
-            0.01
-          ],
-          "color": "#b6c8cd",
-          "roughness": 0.14,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Sill plant",
-      "position": [
-        1.75,
-        1.245,
-        -1.99
+        2.17,
+        1.17,
+        -2.145
       ],
       "rotation": [
         0,
@@ -3364,21 +951,336 @@
           ],
           "size": [
             0.22,
-            0.33,
-            0.22
+            0.42,
+            0.21
           ],
-          "color": "#b58b6f",
-          "roughness": 0.92,
+          "color": "#9c7b62",
+          "roughness": 0.95,
           "glow": false
         }
       ]
     },
     {
-      "name": "Wall clock",
+      "name": "Tall bookshelf",
       "position": [
-        -0.25,
-        2.27,
-        -2.057
+        -1.91,
+        0.16,
+        -1.98
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.43,
+            -0.205
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.46,
+            2.86,
+            0.045
+          ],
+          "color": "#806043",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            1.43,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            2.86,
+            0.46
+          ],
+          "color": "#94704f",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7,
+            1.43,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            2.86,
+            0.46
+          ],
+          "color": "#94704f",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.055,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.46,
+            0.11,
+            0.46
+          ],
+          "color": "#997551",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            2.815,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.5,
+            0.09,
+            0.5
+          ],
+          "color": "#a27c55",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.51,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.34,
+            0.055,
+            0.46
+          ],
+          "color": "#bc936b",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.03,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.34,
+            0.055,
+            0.46
+          ],
+          "color": "#bc936b",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.55,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.34,
+            0.055,
+            0.46
+          ],
+          "color": "#bc936b",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            2.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.34,
+            0.055,
+            0.46
+          ],
+          "color": "#bc936b",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            2.59,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.34,
+            0.055,
+            0.46
+          ],
+          "color": "#bc936b",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Green chair",
+      "position": [
+        -0.13,
+        0.172,
+        -1.09
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window.",
+        "I sat there with a book open on my knees while the rain tapped the glass.",
+        "Reading Pride and Prejudice again, slowly.",
+        "I had forgotten how much of it happens in conversations that seem to be about something else.",
+        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library"
+      ],
+      "shapes": [
+        {
+          "type": "chair",
+          "position": [
+            0,
+            0.53,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.78,
+            1.06,
+            0.8
+          ],
+          "color": "#3f6a4d",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.46,
+            0.04
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.62,
+            0.07,
+            0.6
+          ],
+          "color": "#608566",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.78,
+            -0.3
+          ],
+          "rotation": [
+            -0.06,
+            0,
+            0
+          ],
+          "size": [
+            0.6,
+            0.43,
+            0.07
+          ],
+          "color": "#517a5d",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Reading rug",
+      "position": [
+        0.42,
+        0.166,
+        -0.58
       ],
       "rotation": [
         0,
@@ -3389,7 +1291,1501 @@
       "moments": [],
       "shapes": [
         {
-          "type": "clock",
+          "type": "rug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.75,
+            0.012,
+            1.92
+          ],
+          "color": "#c5b596",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.28,
+            0.0065,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.01,
+            1.702
+          ],
+          "color": "#8b936f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.28,
+            0.0065,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.01,
+            1.702
+          ],
+          "color": "#8b936f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0065,
+            -0.864
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.586,
+            0.01,
+            0.026
+          ],
+          "color": "#8b936f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0065,
+            0.864
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.586,
+            0.01,
+            0.026
+          ],
+          "color": "#8b936f",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Low table",
+      "position": [
+        1.15,
+        0.632,
+        -0.18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Someone had left a tiny paper boat on the low table, so I turned it carefully and put it back where it was.",
+        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.1,
+            0.06,
+            0.78
+          ],
+          "color": "#bf956b",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.45,
+            -0.245,
+            -0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.43,
+            0.065
+          ],
+          "color": "#9d7551",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.45,
+            -0.245,
+            -0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.43,
+            0.065
+          ],
+          "color": "#9d7551",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.45,
+            -0.245,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.43,
+            0.065
+          ],
+          "color": "#9d7551",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.45,
+            -0.245,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.43,
+            0.065
+          ],
+          "color": "#9d7551",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.085,
+            -0.31
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.95,
+            0.11,
+            0.04
+          ],
+          "color": "#b18b61",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.085,
+            0.31
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.95,
+            0.11,
+            0.04
+          ],
+          "color": "#b18b61",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pride and Prejudice",
+      "position": [
+        -0.13,
+        0.67,
+        -0.885
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I sat there with a book open on my knees while the rain tapped the glass.",
+        "Reading Pride and Prejudice again, slowly.",
+        "I had forgotten how much of it happens in conversations that seem to be about something else."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.062,
+            0.006,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.09
+          ],
+          "size": [
+            0.124,
+            0.01,
+            0.234
+          ],
+          "color": "#9a5b54",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.062,
+            0.006,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.09
+          ],
+          "size": [
+            0.124,
+            0.01,
+            0.234
+          ],
+          "color": "#9a5b54",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            -0.062,
+            0.016,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.09
+          ],
+          "size": [
+            0.12,
+            0.014,
+            0.228
+          ],
+          "color": "#9a5b54",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            0.062,
+            0.016,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.09
+          ],
+          "size": [
+            0.12,
+            0.014,
+            0.228
+          ],
+          "color": "#9a5b54",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "papers",
+          "position": [
+            -0.062,
+            0.0245,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.09
+          ],
+          "size": [
+            0.114,
+            0.01,
+            0.218
+          ],
+          "color": "#f0e7d4",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "papers",
+          "position": [
+            0.062,
+            0.0245,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.09
+          ],
+          "size": [
+            0.114,
+            0.01,
+            0.218
+          ],
+          "color": "#f0e7d4",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.01,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.013,
+            0.228
+          ],
+          "color": "#d6c7a8",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tiny paper boat",
+      "position": [
+        1.43,
+        0.662,
+        -0.055
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Someone had left a tiny paper boat on the low table, so I turned it carefully and put it back where it was."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.002,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.094,
+            0.01,
+            0.022
+          ],
+          "color": "#eeeade",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.018,
+            -0.02
+          ],
+          "rotation": [
+            0.58,
+            0,
+            0
+          ],
+          "size": [
+            0.154,
+            0.01,
+            0.047
+          ],
+          "color": "#f3f0e6",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.018,
+            0.02
+          ],
+          "rotation": [
+            -0.58,
+            0,
+            0
+          ],
+          "size": [
+            0.154,
+            0.01,
+            0.047
+          ],
+          "color": "#e7e3d8",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.062,
+            0.022,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.48
+          ],
+          "size": [
+            0.046,
+            0.01,
+            0.049
+          ],
+          "color": "#f0ece1",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.062,
+            0.022,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.48
+          ],
+          "size": [
+            0.046,
+            0.01,
+            0.049
+          ],
+          "color": "#eee9dd",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.02,
+            0.0285,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.95
+          ],
+          "size": [
+            0.058,
+            0.01,
+            0.04
+          ],
+          "color": "#faf6eb",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.02,
+            0.0285,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.95
+          ],
+          "size": [
+            0.058,
+            0.01,
+            0.04
+          ],
+          "color": "#e8e2d4",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0525,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.046
+          ],
+          "color": "#f8f4e9",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook",
+      "position": [
+        1.02,
+        0.673,
+        0.005
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library"
+      ],
+      "shapes": [
+        {
+          "type": "notebook",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.19,
+            0.022,
+            0.265
+          ],
+          "color": "#bca576",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "papers",
+          "position": [
+            0,
+            0.013,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.168,
+            0.01,
+            0.239
+          ],
+          "color": "#f1ead9",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pencil",
+      "position": [
+        1.22,
+        0.6652,
+        0.015
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I wrote read the awkward pauses too in the notebook.[^library-chair] #reading @library"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            1.5707963,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.17,
+            0.01
+          ],
+          "color": "#c29b50",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            0.094
+          ],
+          "rotation": [
+            1.5707963,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.018,
+            0.01
+          ],
+          "color": "#c8ac81",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            0.1025
+          ],
+          "rotation": [
+            1.5707963,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#45443e",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            -0.094
+          ],
+          "rotation": [
+            1.5707963,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.018,
+            0.01
+          ],
+          "color": "#ad8173",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Reading lamp",
+      "position": [
+        0.8,
+        0.862,
+        -0.39
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "lamp",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.4,
+            0.22
+          ],
+          "color": "#a08a5f",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.135,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "color": "#ffe0a3",
+          "roughness": 0.3,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Bookmark",
+      "position": [
+        1.43,
+        0.663,
+        0.13
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.031,
+            0.01,
+            0.124
+          ],
+          "color": "#6d8065",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Radiator",
+      "position": [
+        1.7,
+        0.55,
+        -2.145
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.27,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.92,
+            0.055,
+            0.12
+          ],
+          "color": "#e3ded2",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.26,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.92,
+            0.055,
+            0.12
+          ],
+          "color": "#d2cec3",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.39,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.082,
+            0.49,
+            0.1
+          ],
+          "color": "#e9e4d8",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.26,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.082,
+            0.49,
+            0.1
+          ],
+          "color": "#e3ded2",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.13,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.082,
+            0.49,
+            0.1
+          ],
+          "color": "#e9e4d8",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.082,
+            0.49,
+            0.1
+          ],
+          "color": "#e3ded2",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.13,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.082,
+            0.49,
+            0.1
+          ],
+          "color": "#e9e4d8",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.26,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.082,
+            0.49,
+            0.1
+          ],
+          "color": "#e3ded2",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.39,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.082,
+            0.49,
+            0.1
+          ],
+          "color": "#e9e4d8",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.18,
+            -0.0975
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.64,
+            0.035,
+            0.075
+          ],
+          "color": "#aaa79d",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.18,
+            -0.0975
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.64,
+            0.035,
+            0.075
+          ],
+          "color": "#aaa79d",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Brass window catch",
+      "position": [
+        1.58,
+        1.81,
+        -2.245
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.025,
+            0.012
+          ],
+          "color": "#b49a6f",
+          "roughness": 0.55,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.01,
+            -0.03,
+            0.012
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.07,
+            0.018
+          ],
+          "color": "#a48b61",
+          "roughness": 0.55,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lower bookend",
+      "position": [
+        -1.823,
+        0.6975,
+        -1.91
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.2,
+            0.245
+          ],
+          "color": "#716d5d",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.051,
+            0.006,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.086,
+            0.012,
+            0.26
+          ],
+          "color": "#716d5d",
+          "roughness": 0.65,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Upper bookend",
+      "position": [
+        -1.378,
+        1.7375,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.095,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.19,
+            0.25
+          ],
+          "color": "#777264",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.055,
+            0.006,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.094,
+            0.012,
+            0.27
+          ],
+          "color": "#777264",
+          "roughness": 0.65,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lower shelf volumes",
+      "position": [
+        -2.3,
+        0.27,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            -0.17,
+            0.15,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.25,
+            0.075,
+            0.3
+          ],
+          "color": "#6b7864",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            0,
+            0.1675,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.09,
+            0.335
+          ],
+          "color": "#8b5e50",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            0.17,
+            0.155,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.08,
+            0.31
+          ],
+          "color": "#496471",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lower reference book",
+      "position": [
+        -1.55,
+        0.295,
+        -1.965
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.4,
+            0.05,
+            0.31
+          ],
+          "color": "#8b8267",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Cloth reference book",
+      "position": [
+        -1.53,
+        0.341,
+        -1.95
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.34,
+            0.042,
+            0.29
+          ],
+          "color": "#64756b",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small reference book",
+      "position": [
+        -1.54,
+        0.381,
+        -1.94
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
           "position": [
             0,
             0,
@@ -3402,11 +2798,1419 @@
           ],
           "size": [
             0.3,
-            0.3,
-            0.048
+            0.038,
+            0.28
           ],
-          "color": "#9a8970",
-          "roughness": 0.72,
+          "color": "#9f7d60",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Forest book",
+      "position": [
+        -2.51,
+        0.875,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.075,
+            0.355
+          ],
+          "color": "#375a46",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Ochre book",
+      "position": [
+        -2.405,
+        0.8575,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.23,
+            0.065,
+            0.32
+          ],
+          "color": "#9a7651",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Wine book",
+      "position": [
+        -2.3,
+        0.8875,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.245,
+            0.07,
+            0.38
+          ],
+          "color": "#6e4c4a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Blue cloth book",
+      "position": [
+        -2.195,
+        0.87,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.065,
+            0.345
+          ],
+          "color": "#4e6974",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Cream book",
+      "position": [
+        -2.09,
+        0.8525,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.225,
+            0.065,
+            0.31
+          ],
+          "color": "#aaa084",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Olive book",
+      "position": [
+        -1.985,
+        0.88,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.245,
+            0.07,
+            0.365
+          ],
+          "color": "#6f765d",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Rust book",
+      "position": [
+        -1.88,
+        0.8625,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.23,
+            0.066,
+            0.33
+          ],
+          "color": "#8c6252",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "First shelf book stack",
+      "position": [
+        -1.55,
+        0.6975,
+        -1.94
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0.021,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.34,
+            0.042,
+            0.3
+          ],
+          "color": "#778679",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            -0.015,
+            0.061,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.31,
+            0.038,
+            0.29
+          ],
+          "color": "#aa8b66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            0.012,
+            0.098,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.29,
+            0.036,
+            0.28
+          ],
+          "color": "#77606a",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Sage book",
+      "position": [
+        -2.5,
+        1.4075,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.25,
+            0.085,
+            0.38
+          ],
+          "color": "#5d7569",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tan book",
+      "position": [
+        -2.38,
+        1.3875,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.09,
+            0.34
+          ],
+          "color": "#b18a57",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Plum book",
+      "position": [
+        -2.26,
+        1.3975,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.23,
+            0.082,
+            0.36
+          ],
+          "color": "#7b5962",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Slate book",
+      "position": [
+        -2.14,
+        1.4175,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.255,
+            0.08,
+            0.4
+          ],
+          "color": "#596f85",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Stone book",
+      "position": [
+        -2.02,
+        1.3825,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.225,
+            0.078,
+            0.33
+          ],
+          "color": "#8d8d72",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Grey reference book",
+      "position": [
+        -1.55,
+        1.2375,
+        -1.945
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.3,
+            0.04,
+            0.3
+          ],
+          "color": "#817c69",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Sand reference book",
+      "position": [
+        -1.55,
+        1.275,
+        -1.945
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.035,
+            0.285
+          ],
+          "color": "#b6946b",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Reserved book",
+      "position": [
+        -1.54,
+        1.315,
+        -1.94
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Pick up the reserved book #reading"
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.24,
+            0.045,
+            0.31
+          ],
+          "color": "#55717e",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0235,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.028,
+            0.01,
+            0.3
+          ],
+          "color": "#ece4d1",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Gold book",
+      "position": [
+        -2.51,
+        1.9175,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.075,
+            0.36
+          ],
+          "color": "#887654",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Green cloth book",
+      "position": [
+        -2.405,
+        1.935,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.25,
+            0.065,
+            0.395
+          ],
+          "color": "#456b58",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Red cloth book",
+      "position": [
+        -2.3,
+        1.91,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.23,
+            0.072,
+            0.345
+          ],
+          "color": "#835356",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Ivory book",
+      "position": [
+        -2.195,
+        1.925,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.245,
+            0.07,
+            0.375
+          ],
+          "color": "#b1a083",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Blue book",
+      "position": [
+        -2.09,
+        1.905,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.235,
+            0.065,
+            0.335
+          ],
+          "color": "#617783",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Moss book",
+      "position": [
+        -1.985,
+        1.9225,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.078,
+            0.37
+          ],
+          "color": "#7c8064",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Upper shelf volumes",
+      "position": [
+        -1.51,
+        1.7375,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            -0.08,
+            0.19,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.25,
+            0.08,
+            0.38
+          ],
+          "color": "#6b5562",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            0.08,
+            0.17,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.085,
+            0.34
+          ],
+          "color": "#a1845e",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Dark green book",
+      "position": [
+        -2.505,
+        2.4375,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.245,
+            0.085,
+            0.36
+          ],
+          "color": "#476858",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Taupe book",
+      "position": [
+        -2.38,
+        2.455,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.24,
+            0.085,
+            0.395
+          ],
+          "color": "#a68b65",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Navy book",
+      "position": [
+        -2.255,
+        2.4425,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.245,
+            0.09,
+            0.37
+          ],
+          "color": "#516c7d",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Clay book",
+      "position": [
+        -2.13,
+        2.4275,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.23,
+            0.08,
+            0.34
+          ],
+          "color": "#8a5b53",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Grey green book",
+      "position": [
+        -2.015,
+        2.4475,
+        -1.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -1.5707963,
+            0,
+            1.5707963
+          ],
+          "size": [
+            0.245,
+            0.075,
+            0.38
+          ],
+          "color": "#838269",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Upper book stack",
+      "position": [
+        -1.55,
+        2.2575,
+        -1.94
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.04,
+            0.3
+          ],
+          "color": "#725d61",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            0.01,
+            0.059,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.32,
+            0.038,
+            0.29
+          ],
+          "color": "#b4a68e",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            -0.01,
+            0.094,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.3,
+            0.032,
+            0.27
+          ],
+          "color": "#536b60",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Top left books",
+      "position": [
+        -2.27,
+        2.7775,
+        -1.95
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0.019,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.038,
+            0.28
+          ],
+          "color": "#8f785c",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            0.012,
+            0.058,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.32,
+            0.04,
+            0.27
+          ],
+          "color": "#9e9c82",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Top right books",
+      "position": [
+        -1.57,
+        2.7775,
+        -1.95
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The library had a green chair between a tall bookshelf and the window."
+      ],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            0,
+            0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.38,
+            0.04,
+            0.29
+          ],
+          "color": "#5a7264",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            -0.012,
+            0.058,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.335,
+            0.036,
+            0.275
+          ],
+          "color": "#a58970",
+          "roughness": 0.9,
           "glow": false
         }
       ]

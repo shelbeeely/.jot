@@ -6,7 +6,7 @@
 <main><div class="guide-wrap" id="demo" style="grid-template-columns:minmax(0,760px);justify-content:center"><article class="guide"><h1>Small things in October</h1>
 <p class="demo-open" style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="scenes.html">See the first week as scenes</a> <a class="btn" href="../write/?open=examples/demo-month.jotz">Open the demo in Writer</a> <a class="btn" href="../write/?open=examples/demo-month-mixed.jotz">Open the protected copy</a></p>
 <p>A fictional journal for 1–31 October 2026, with one entry for every day and a saved 3D scene for each day of
-the first week (1–7 October). Names, experiences,
+2 to 7 October. Names, experiences,
 measurements and recordings are demonstration material. Nothing here describes a real person&#39;s journal.</p>
 <p>Open <a href="demo-month.jotz">demo-month.jotz</a> in <strong>Write → Open</strong>. It carries the writing and attached files together, including
 the saved scenes. Reading it does not need an AI connection or a provider account. Prepare Writer for offline use once,
@@ -20,7 +20,7 @@ may omit an unnecessary small-journal index; local search still reads the same s
 original bytes and readable names, while archive members use UUID identities.</p>
 <h2>Look around</h2>
 <ol>
-<li>Open <strong>Scenes</strong>, choose a day from 1–7 October and turn its place. Choose a named thing beside it to read the sentences it holds.
+<li>Open <strong>Scenes</strong>, choose a day from 2 to 7 October and turn its place. Choose a named thing beside it to read the sentences it holds.
 <strong>Open journal</strong> shows the corresponding entry; <strong>Go to this entry</strong> returns to the writing. Try a rainy day and
 <strong>Pause motion</strong>, or use reduced motion in Writing preferences. <a href="scenes.html">See the first week as scenes</a> shows the same
 scenes on their own, without Writer.</li>
@@ -147,7 +147,7 @@ then try <strong>Page view</strong>, <strong>Download page</strong>, <strong>EPU
 </tr>
 <tr>
 <td>An independently readable saved scene tied to the day&#39;s own sentences</td>
-<td>1–7 October in Scenes; the other days show how a day without a scene looks</td>
+<td>2–7 October in Scenes; the other days show how a day without a scene looks</td>
 </tr>
 <tr>
 <td>A5 page settings and a bounded block layout hint</td>
@@ -158,8 +158,8 @@ then try <strong>Page view</strong>, <strong>Download page</strong>, <strong>EPU
 numbers its sentences, <code>requestJSON</code> asks OpenRouter for scene data, and <code>validatePlace</code> replaces sentence numbers with
 the entry&#39;s exact words. Scratchpads, hidden comments, code and records are excluded. Model-returned text never replaces
 the journal&#39;s writing. Saved scenes live in <a href="demo-scenes/index.json">demo-scenes/</a> and carry the model and generation time.
-The seven saved scenes were generated through OpenRouter with <code>openai/gpt-6.1-sol</code> at <code>max</code> reasoning effort, using the
-scene prompt&#39;s <code>rich</code> detail level (20 to 45 objects instead of Writer&#39;s usual 8 to 20), with Zero Data Retention required and
+The six saved scenes (2 to 7 October; 1 October&#39;s is to be remade the same way) were generated through OpenRouter with <code>openai/gpt-6.1-sol</code>, asked for exactly as Writer&#39;s <strong>Make this
+day&#39;s scene</strong> asks (the same prompt for 40 to 100 objects, <code>max</code> reasoning effort, a 128,000-token budget), with Zero Data Retention required and
 data collection denied. Each scene&#39;s object, shape and exact sentence-link counts, generation time and hashes are
 recorded in <a href="demo-scenes/index.json">the provenance index</a>.</p>
 <p>Choose an object to see its saved sentences. Editing a sentence later leaves its saved scene unchanged, and Writer
@@ -257,8 +257,8 @@ node cli/jot.mjs check --strict examples/demo-month.jot examples/demo-month.jotz
 node tools/build-demo-journal.mjs
 </code></pre>
 <p>This explicit command sends the extracted prose of each day whose entry has an <code>@setting:</code> line to OpenRouter using the model selected with <code>--model</code> or
-<code>OPENROUTER_MODEL</code> (default <code>openai/gpt-6.1-sol</code>), at <code>--reasoning</code> effort <code>max</code> and <code>--detail rich</code> by default; <code>--max-tokens</code> (default
-100000) is the output budget, reasoning included. Zero Data Retention is required by default and data collection is denied. It saves successful days
+<code>OPENROUTER_MODEL</code> (default <code>openai/gpt-6.1-sol</code>), with Writer&#39;s own scene prompt and request settings (<code>SCENE_REQUEST</code> in
+<code>site/dist/scene-journal-core.mjs</code>); there are no options to ask differently. Zero Data Retention is required by default and data collection is denied. It saves successful days
 as it goes; rerunning reuses only scenes whose model, privacy policy, prompt, sentences and saved bytes still match.
 The provenance index records those hashes and generation times without credentials. Missing credentials or failed
 requests stop generation; no substitute scenes or silent model/privacy fallback is used. Review generated places in

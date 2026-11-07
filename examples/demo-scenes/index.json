@@ -2,21 +2,6 @@
   "format": "jot-demo-scene-provenance",
   "version": 1,
   "scenes": {
-    "2026-10-01": {
-      "date": "2026-10-01",
-      "provider": "openrouter",
-      "model": "openai/gpt-6.1-sol",
-      "reasoning": "max",
-      "zdr": true,
-      "dataCollection": "deny",
-      "at": "2026-11-07T01:23:27.540Z",
-      "promptSha256": "ad62debf71cea52b132416294dbf009456eaccd927811afb4deadf56c8d8fb78",
-      "sourceSha256": "9b3679c699c3b4c143bfc46040a88be409a14531067afcc59d5884cc62bf7334",
-      "sceneSha256": "52bca66533c1b23d303e858205ddae45b1269935c024ba717ca8b430a126672e",
-      "objects": 39,
-      "shapes": 137,
-      "moments": 49
-    },
     "2026-10-02": {
       "date": "2026-10-02",
       "provider": "openrouter",

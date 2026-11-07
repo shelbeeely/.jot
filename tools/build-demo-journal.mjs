@@ -14,7 +14,7 @@ import { brandLink, iconLinks } from './sync-brand.mjs';
 import { siteNavigation, navigationStyles } from './sync-navigation.mjs';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
-export const SCENE_DAYS = Array.from({ length: 7 }, (_, i) => `2026-10-0${i + 1}`);
+export const SCENE_DAYS = Array.from({ length: 6 }, (_, i) => `2026-10-0${i + 2}`); // 1 October waits to be remade (DEMO.md)
 export const DEMO_PASSPHRASE = 'jot-demo-only'; // Published fictional fixture, never a real secret.
 const sourcePath = path.join(ROOT, 'examples/demo-month.jot');
 const output = path.join(ROOT, 'site/dist/examples');
@@ -31,8 +31,8 @@ export async function demoInputs() {
   assert.deepEqual(days.map((d) => d.date), Array.from({ length: 31 }, (_, i) => `2026-10-${String(i + 1).padStart(2, '0')}`));
   const provenance = JSON.parse(fs.readFileSync(path.join(ROOT, 'examples/demo-scenes/index.json'), 'utf8'));
   const assets = await demoAssets();
-  // The first week carries kept scenes; the rest of the month is writing only.
-  assert.deepEqual(days.filter((d) => d.setting).map((d) => d.date), SCENE_DAYS, 'Scenes are kept for 1–7 October only.');
+  // The first week carries kept scenes (2 to 7 October for now); the rest of the month is writing only.
+  assert.deepEqual(days.filter((d) => d.setting).map((d) => d.date), SCENE_DAYS, 'Scenes are kept for 2–7 October only.');
   for (const day of days.filter((d) => d.setting)) {
     const name = `scene-${day.date}.json`, text = fs.readFileSync(path.join(ROOT, 'examples/demo-scenes', day.date + '.json'), 'utf8');
     const item = provenance.scenes[day.date];
