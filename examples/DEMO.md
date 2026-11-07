@@ -71,7 +71,7 @@ numbers its sentences, `requestJSON` asks OpenRouter for scene data, and `valida
 the entry's exact words. Scratchpads, hidden comments, code and records are excluded. Model-returned text never replaces
 the journal's writing. Saved scenes live in [demo-scenes/](demo-scenes/) and carry the model and generation time.
 The seven saved scenes were generated through OpenRouter with `openai/gpt-6.1-sol` at `max` reasoning effort, using the
-scene prompt's `rich` detail level (20 to 45 objects instead of Writer's usual 8 to 20), with Zero Data Retention required and
+scene prompt's `rich` detail level (40 to 100 objects and up to 600 shapes instead of Writer's usual 8 to 20 objects and 80 shapes), with Zero Data Retention required and
 data collection denied. Each scene's object, shape and exact sentence-link counts, generation time and hashes are
 recorded in [the provenance index](demo-scenes/index.json).
 
@@ -147,7 +147,7 @@ node tools/build-demo-journal.mjs
 
 This explicit command sends the extracted prose of each day whose entry has an `@setting:` line to OpenRouter using the model selected with `--model` or
 `OPENROUTER_MODEL` (default `openai/gpt-6.1-sol`), at `--reasoning` effort `max` and `--detail rich` by default; `--max-tokens` (default
-100000) is the output budget, reasoning included. Zero Data Retention is required by default and data collection is denied. It saves successful days
+128000) is the output budget, reasoning included. Zero Data Retention is required by default and data collection is denied. It saves successful days
 as it goes; rerunning reuses only scenes whose model, privacy policy, prompt, sentences and saved bytes still match.
 The provenance index records those hashes and generation times without credentials. Missing credentials or failed
 requests stop generation; no substitute scenes or silent model/privacy fallback is used. Review generated places in

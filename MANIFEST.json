@@ -124,8 +124,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 173890,
-      "sha256": "c5951fa752e5d933bbd71ac96325a47da54775695fdc238b1e123341dedc551f"
+      "byteLength": 175385,
+      "sha256": "dd2d59e039aada9c7e6899521d571a6edf8452a417c6f930dfa8420c07d5a915"
     },
     {
       "path": "README.md",
@@ -1364,8 +1364,8 @@
     },
     {
       "path": "examples/DEMO.md",
-      "byteLength": 12344,
-      "sha256": "c5d4c825949069fcdf4c96a8ccffb9627ffbf8724e4f8fdcede19dce4c8c05ca"
+      "byteLength": 12388,
+      "sha256": "8dfd75ca6b056eb12cd6989b81ada975dc0a341d970be4e2813a605ddc9366c0"
     },
     {
       "path": "examples/README.md",
@@ -1419,38 +1419,38 @@
     },
     {
       "path": "examples/demo-scenes/2026-10-02.json",
-      "byteLength": 49734,
-      "sha256": "9f19bebfdb550183bc47d5aabad21a75276343919ae9b5303306676f8d31e750"
+      "byteLength": 114852,
+      "sha256": "640acfd78d9c30990c072de527105c028647c3e6a857dc0ed57ce2dbc09df557"
     },
     {
       "path": "examples/demo-scenes/2026-10-03.json",
-      "byteLength": 47420,
-      "sha256": "c56d31ca3c708812d0cf0f3fa134ab5f1b74f9d1c1b50c8f9a09823b02740137"
+      "byteLength": 79039,
+      "sha256": "0cbe99bf71f001d862cc7fa0fb96f63fea862f884ca07b9856d3adc27d69fd90"
     },
     {
       "path": "examples/demo-scenes/2026-10-04.json",
-      "byteLength": 62537,
-      "sha256": "82041e3e089fe41a9672808686a71b338b3a53e5c28d5d7c3a0190acc551c4ab"
+      "byteLength": 76655,
+      "sha256": "ea556675f5d88edfc533532ad078cd4e6fb4d67f73a1c28b558a573148e00b55"
     },
     {
       "path": "examples/demo-scenes/2026-10-05.json",
-      "byteLength": 108264,
-      "sha256": "3daab247a657d744ccd0c772a35c8bc4eafc5f53d9792c62866c05ac8ca173df"
+      "byteLength": 135282,
+      "sha256": "c2b3fa3c5092b2e2110cf581320965914e17a60db3dfaba61983f13d6010b10c"
     },
     {
       "path": "examples/demo-scenes/2026-10-06.json",
-      "byteLength": 59586,
-      "sha256": "d27c0d44194444fc0293487e8734d7adee6723037ae065f58c4a32ca41a2d5d1"
+      "byteLength": 75517,
+      "sha256": "4fe0b18a0859cba7a8fbac55c6853e8bc4b578361466fc28b4b36ebc653f3836"
     },
     {
       "path": "examples/demo-scenes/2026-10-07.json",
-      "byteLength": 58025,
-      "sha256": "e0816a7c71e81e4dbbef488816fa06a69ba63a9d4916e9ab893401b45038e87c"
+      "byteLength": 106731,
+      "sha256": "b1809ee7a351bdd3f1e68c2db5b4d193fbc9c3891ff0aaf6b2d419473087c8ef"
     },
     {
       "path": "examples/demo-scenes/index.json",
-      "byteLength": 4249,
-      "sha256": "124fe857c9a348eb0de6cd1cac00e2cc6f354acec8ec08dbef465e809170cc4e"
+      "byteLength": 4250,
+      "sha256": "b5d2b0b7fce3ffac964f4df368ec086302ea3341ec8ac23a1eb984b600ef1f48"
     },
     {
       "path": "examples/manual.jot",
@@ -22864,8 +22864,8 @@
     },
     {
       "path": "site/AGENTS.md",
-      "byteLength": 23619,
-      "sha256": "c5b8d40ee701c95f170cc47a0a5619e5f80df39f5511e7bd067e5b1c4e39cd0c"
+      "byteLength": 23862,
+      "sha256": "1f336b797d2c0f5101746598aae4e955c11c5320f2c561126f404d6f389a6a8a"
     },
     {
       "path": "site/CLAUDE.md",
@@ -22994,8 +22994,8 @@
     },
     {
       "path": "site/dist/docs/Jot-Complete-Specification.pdf",
-      "byteLength": 312201,
-      "sha256": "ce2d5232ef003cdbd969e3f8864922269d5b6f28d07b2e35f9dfcd9da917971a"
+      "byteLength": 312207,
+      "sha256": "4b7609a2be4fcf0320b923b2f357d03cf46b7eb48b241d376016cdaf6ca4d316"
     },
     {
       "path": "site/dist/docs/Jot-Container-v1.md",
@@ -24085,7 +24085,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5942,
-      "sha256": "9d458ffa67ea75e5dc86110a2b708900cbdbde6fe54c48693aeeae032e049f35"
+      "sha256": "57bceae8a82dc5798ce2c4acf13e18c82b91948650dd542e74c990745ded49ad"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -24139,8 +24139,8 @@
     },
     {
       "path": "site/dist/scene-journal-core.mjs",
-      "byteLength": 16968,
-      "sha256": "fe1df2085c9f0ec134d10764a1710b9192ffabb04e0ab73187f2e22926e8f006"
+      "byteLength": 17007,
+      "sha256": "3adc0541fe66098ce27495582c7f05fd2d5451718b678f52585b305611d0f4fa"
     },
     {
       "path": "site/dist/scenes-page.mjs",
@@ -24404,8 +24404,8 @@
     },
     {
       "path": "site/dist/writer-scene-build.mjs",
-      "byteLength": 32328,
-      "sha256": "405d3207a71dda3a0526a3e3d1de1ae2bcd0f73b1db76933e834190442c48c99"
+      "byteLength": 41540,
+      "sha256": "f7258a95f68e5af706804d1b3c327530f5ee9f3f4bb96189c72250f07d3782fa"
     },
     {
       "path": "site/dist/writer-scene-parts.mjs",
@@ -24934,8 +24934,8 @@
     },
     {
       "path": "site/test-scene-journal.mjs",
-      "byteLength": 14763,
-      "sha256": "f56bdd5c58db6e5bab48d6b7a376d4d1091ad91fb5667c44ef182bc22759b411"
+      "byteLength": 14791,
+      "sha256": "c6a563af048ba0c827d8965eec3596d4d07b56d9d7a6c0e98385ee9ff9146882"
     },
     {
       "path": "site/test-scenes-page-ui.cjs",
@@ -25079,13 +25079,13 @@
     },
     {
       "path": "specification/Jot-Complete-Specification.md",
-      "byteLength": 161878,
-      "sha256": "4a4018c1b9bccf48a5bb433fcfe639dba30d74a908318d7f12d460e4cf4c421e"
+      "byteLength": 161880,
+      "sha256": "b3de624001b9009f95cf57797d0028dad1c80730ffed2e5d2234312dfec85430"
     },
     {
       "path": "specification/Jot-Complete-Specification.pdf",
-      "byteLength": 312201,
-      "sha256": "ce2d5232ef003cdbd969e3f8864922269d5b6f28d07b2e35f9dfcd9da917971a"
+      "byteLength": 312207,
+      "sha256": "4b7609a2be4fcf0320b923b2f357d03cf46b7eb48b241d376016cdaf6ca4d316"
     },
     {
       "path": "specification/Jot-Container-v1.md",
@@ -25234,8 +25234,8 @@
     },
     {
       "path": "tools/generate-demo-scenes.mjs",
-      "byteLength": 10677,
-      "sha256": "af225ca78125bd6ba65d95c24689c8a02717eee9b331751135f0bde967293295"
+      "byteLength": 10861,
+      "sha256": "4c6fbda89f372cdfc79d33aa511c492e232a5361ba24d60c8199943d825a6b0e"
     },
     {
       "path": "tools/manifest.cjs",
@@ -25284,8 +25284,8 @@
     },
     {
       "path": "tools/test-demo-scenes.mjs",
-      "byteLength": 5210,
-      "sha256": "088b6bc684e6341a1d5145f68185db020e16f398e694b8a0aab5d66f26b0d23c"
+      "byteLength": 5226,
+      "sha256": "5308ea3a63435233ac7eca9df963d0e0c8bf90d3134380d3ef01ae9873989ed4"
     },
     {
       "path": "tools/test-files.mjs",

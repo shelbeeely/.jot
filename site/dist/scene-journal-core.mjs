@@ -15,7 +15,7 @@ import { parse } from './jot/jot.mjs';
 import { PARTS } from './writer-scene-parts.mjs';
 
 export const PLACE_TYPE = 'application/vnd.jot.place+json';
-export const LIMITS = Object.freeze({ objects: 60, shapes: 8, total: 300, extent: 50, size: [0.01, 20], name: 60, title: 80, sentences: 120, moments: 6 });
+export const LIMITS = Object.freeze({ objects: 120, shapes: 12, total: 720, extent: 50, size: [0.01, 20], name: 60, title: 80, sentences: 120, moments: 6 });
 const PRIMITIVES = ['box', 'cylinder', 'sphere', 'cone', 'torus', 'plane', 'capsule'];
 // A shape is a simple solid or one of Jot's crafted parts (writer-scene-parts.mjs: a mug with a handle, an open notebook…).
 const SHAPES = [...PRIMITIVES, ...PARTS];
@@ -107,7 +107,7 @@ export function placePrompt(day, { detail = 'standard' } = {}) {
     `Give each object a motion: none for most; ${MOTIONS.filter((m) => m !== 'none').join(', ')} only where the entry suggests it`,
     '(steam from a hot drink, flicker for a candle or lamp, sway for a plant or hanging thing, drift for leaves or clouds, turn for a fan or record, bob for something floating).',
     ...(detail === 'rich' ? [
-      `Aim for 20 to 45 objects and at most ${Math.min(240, LIMITS.total)} shapes in all: a richly detailed place, built with care.`,
+      `Aim for 40 to 100 objects and at most ${Math.min(600, LIMITS.total)} shapes in all (up to ${LIMITS.shapes} per object): a richly detailed place, built with care.`,
       'Build larger things from several shapes (a shelf with its separate books, a counter with its edge and cupboard doors, a raised bed with its boards and soil),',
       'give surfaces their small supporting details (a coaster under a mug, a pencil beside a notebook, a cushion on a chair) and light the place as the entry describes.',
       'Every added detail is a quiet setting detail that fits what the entry names; check positions so things rest on their surfaces and nothing overlaps.',

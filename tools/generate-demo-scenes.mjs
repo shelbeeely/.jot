@@ -27,7 +27,7 @@ export function reusableScene(day, item, text, { model, zdr, reasoning = item?.r
 
 /** Request each missing day from the real pipeline. fetcher exists for transport-boundary tests; CLI always uses global fetch. */
 export async function generateDemoScenes({ source, directory, key, model = 'openai/gpt-6.1-sol', zdr = true, concurrency = 2, onlyDay = '',
-  reasoning = 'max', detail = 'rich', maxTokens = 100000, fetcher = fetch, report = console.log, timeoutMs = 40 * 60 * 1000 } = {}) {
+  reasoning = 'max', detail = 'rich', maxTokens = 128000, fetcher = fetch, report = console.log, timeoutMs = 40 * 60 * 1000 } = {}) {
   if (!String(key || '').trim()) throw Error('OPENROUTER_API_KEY is required. No scenes were generated and no substitute was used.');
   if (typeof model !== 'string' || !model.trim() || model.length > 200) throw Error('Choose an OpenRouter model ID.');
   model = model.trim();
@@ -64,7 +64,8 @@ export async function generateDemoScenes({ source, directory, key, model = 'open
       report(`${day.date}: sending ${day.sentences.length} numbered sentences`);
       try {
         const raw = await requestJSON({ provider: 'openrouter', model, key, zdr, structured: true, system: prompt.system, user: prompt.user,
-          schema: PLACE_SCHEMA, name: 'jot_place', maxTokens, reasoning: { effort: reasoning } }, { fetcher, signal: AbortSignal.timeout(timeoutMs) });
+          schema: PLACE_SCHEMA, name: 'jot_place', maxTokens, reasoning: { effort: reasoning, exclude: true } }, { fetcher, signal: AbortSignal.timeout(timeoutMs), limit: 4 * 1024 * 1024 });
+        // exclude: the model still thinks at this effort, but its reasoning text is left out of the reply (it can exceed Writer's reply limit).
         const place = validatePlace(raw, day.sentences);
         const moments = place.objects.flatMap((o) => o.moments);
         if (!moments.length || moments.some((text) => !day.sentences.includes(text))) throw Error('The scene has no exact entry-sentence moments.');
@@ -101,7 +102,7 @@ NODE_USE_ENV_PROXY=1 enables Node's normal environment proxy handling when requi
   --model ID             OpenRouter model (or OPENROUTER_MODEL; default openai/gpt-6.1-sol)
   --reasoning EFFORT     max, xhigh, high, medium, low, minimal or none (default max)
   --detail LEVEL         rich or standard scene prompt (default rich)
-  --max-tokens N         Output budget including reasoning, 4096..128000 (default 100000)
+  --max-tokens N         Output budget including reasoning, 4096..128000 (default 128000)
   --day YYYY-MM-DD       Only generate/recheck this day
   --concurrency 1..8     Concurrent model requests (default 2)
   --allow-retention     Explicitly turn ZDR off; data collection remains denied
@@ -113,7 +114,7 @@ No fallback scenes, models or relaxed privacy settings are used. Review the gene
 
 export function sceneArguments(args, env = process.env) {
   const options = { sourcePath: path.join(ROOT, 'examples/demo-month.jot'), directory: path.join(ROOT, 'examples/demo-scenes'),
-    key: env.OPENROUTER_API_KEY, model: env.OPENROUTER_MODEL || 'openai/gpt-6.1-sol', zdr: true, concurrency: 2, reasoning: 'max', detail: 'rich', maxTokens: 100000 };
+    key: env.OPENROUTER_API_KEY, model: env.OPENROUTER_MODEL || 'openai/gpt-6.1-sol', zdr: true, concurrency: 2, reasoning: 'max', detail: 'rich', maxTokens: 128000 };
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--help') return { help: true };

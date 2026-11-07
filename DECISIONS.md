@@ -1,5 +1,24 @@
 # Latest Jot v1 decisions
 
+## Scenes built from the book's own paper (7 November 2026)
+
+The owner said the scenes were "still not really a popup book": "The book and the scene look like 2 separate things mashed
+together", and asked for more than 20 to 45 objects and 240 shapes.
+
+- **Printed ground.** What lies flat on the ground (every shape at most 12 cm tall and resting on it: floors, rugs, paths, lawns)
+  is no longer a slab standing on the page. It is printed on the pages, split at the gutter, and its shapes stay behind unseen so
+  it can still be chosen and framed.
+- **Glued to the pages.** Every standing piece is attached to the page it stands on. As the book opens, it swings over with that
+  page, then folds up from its crease. Pieces on the ground have a paper tab and an ink crease line where they are glued.
+- **Squared to the place.** The book turns to the side of the place nearest the model's camera, in quarter turns, so walls run
+  along the page edges instead of across them at an angle. The spread is sized so the place fills both pages, and the gutter's
+  shadow lies over what is printed across it.
+- **More detail allowed** (spec 8.1.9). A place may have up to 120 objects, 12 shapes each and 720 in all (were 60, 8 and 300).
+  Writer's own prompt still asks for 8 to 20 objects. The demo's rich prompt asks for 40 to 100 objects and up to 600 shapes, at max
+  reasoning with a 128,000-token budget.
+
+This is visual design. The methods research says nothing about pop-up books or 3D scenes.
+
 ## Logging exactly what was read, watched or heard (6 November 2026)
 
 The owner asked how to log the specific pages read, episodes watched, songs as against albums, and films in a series. Asked to

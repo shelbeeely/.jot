@@ -58,8 +58,8 @@ test('a model\'s place is cleaned: clamped, limited, and its moments are the ent
   assert.deepEqual(p, { title: 'A b desk /b', sky: '#b8c7d6', ground: '#123456', weather: 'clear', time: 'night', atmosphere: 'neutral', camera: { position: [1, 2, 50], target: [0, 0.6, 0] },
     objects: [{ name: 'Mug', position: [0, 0, 0], rotation: [0, Math.PI * 2, 0], motion: 'none', moments: ['Two.'], shapes: [{ type: 'box', position: [0, 0, 0], rotation: [0, 0, 0], size: [0.01, 20, 1], color: '#9a958c', roughness: 1, glow: false }] }] });
   assert.throws(() => validatePlace({ objects: [] }, list), /nothing in it/); assert.throws(() => validatePlace('a script', list), /did not describe/);
-  const many = validatePlace({ objects: Array.from({ length: 80 }, () => ({ name: 'x', shapes: Array.from({ length: 12 }, () => shape()), moments: [] })) }, list);
-  assert.equal(many.objects.length, Math.floor(LIMITS.total / LIMITS.shapes) + 1); assert.ok(many.objects.every((o) => o.shapes.length <= LIMITS.shapes));
+  const many = validatePlace({ objects: Array.from({ length: LIMITS.objects + 10 }, () => ({ name: 'x', shapes: Array.from({ length: LIMITS.shapes + 2 }, () => shape()), moments: [] })) }, list);
+  assert.equal(many.objects.length, Math.ceil(LIMITS.total / LIMITS.shapes)); assert.ok(many.objects.every((o) => o.shapes.length <= LIMITS.shapes));
   assert.equal(many.objects.reduce((n, o) => n + o.shapes.length, 0), LIMITS.total);
 });
 test('atmosphere and motion come from fixed lists, are asked for strictly, and default for older places', () => {
@@ -80,7 +80,7 @@ test('crafted parts are shapes Jot draws: a fixed list, kept by validation, ever
   assert.match(placePrompt(journalDays(SOURCE)[0]).system, /Prefer a crafted part when one fits: mug, teapot/);
   assert.match(placePrompt(journalDays(SOURCE)[0]).system, /Aim for 8 to 20 objects and at most 80 shapes/, 'Writer keeps the standard prompt');
   const rich = placePrompt(journalDays(SOURCE)[0], { detail: 'rich' }).system;
-  assert.match(rich, /Aim for 20 to 45 objects and at most 240 shapes/); assert.match(rich, /Never add people/);
+  assert.match(rich, /Aim for 40 to 100 objects and at most 600 shapes/); assert.match(rich, /Never add people/);
   assert.throws(() => placePrompt(journalDays(SOURCE)[0], { detail: 'huge' }), /Unknown scene detail/);
   // Every part builds from three.js pieces only (a tiny stand-in records what is made).
   class Obj { constructor() { this.children = []; this.userData = {}; this.position = vec(); this.rotation = vec(); this.scale = vec(); } add(c) { this.children.push(c); return this; } }
