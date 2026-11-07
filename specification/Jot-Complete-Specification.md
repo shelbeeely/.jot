@@ -1464,9 +1464,13 @@ Let decoration carry memory or aid navigation, while functional stickers can lab
 
 Writing invitation: Is this decoration, a memory, or a symbol that carries information?
 
-Complete structured record: `path`, `media-type`, `alt`, `role`. Optional fields: `relation`, `layer`, `license`, `creator`.
+Complete structured record: `path`, `media-type`, `alt`, `role`. Optional fields: `relation`, `layer`, `license`, `creator`, `x`, `y`, `width`, `rotate`, `finish`.
 
 role is decorative or functional. Functional assets need a text equivalent; decorative assets may have a brief descriptive alternative. An example path is illustrative and not a claim that the asset is bundled.
+
+Placement. Without `x` and `y` a renderer draws the picture where the record is written. With both it is placed freely: it is anchored at the record's place in the writing and moves with it, takes no room in the flow, and may overlap the writing. `x` is the picture's left edge as a percentage of the writing's width (`0%` to `100%`); `y` is its top in em below the record's place, negative to move up (`-200em` to `200em`). `width` is in em (`1em` to `20em`, default `4em`), `rotate` in degrees (`-180deg` to `180deg`, default none), and `layer` is a whole number from -99 to 99 ordering placed pictures (higher on top). `finish` is `sticker` (default) or `stamp`; a stamp is drawn like ink on the paper (multiply blending on light paper). Units are written out and no others are accepted. A renderer MUST NOT guess a value outside its range or a place from only one of `x` and `y`: it draws the picture where written and shows a visible note naming the field. Placement changes presentation only: the picture keeps its `alt`, its reading position is where the record is written, and plain-text and Markdown exports keep the record. An editor MAY draw a placed picture where it is written, with a note of its place, when it cannot show the page. A sticker in the line of writing is an ordinary image reference (`![Rain cloud](assets/stickers/rain.png)`).
+
+A sticker pack is an ordinary `.jot` or `.jotz` whose records with this profile name its pictures; no separate pack format exists.
 
 ```jot
 :::record attachment #example-planner-sticker-and-deco-culture
@@ -1475,6 +1479,23 @@ path: assets/rain-sticker.png
 media-type: image/png
 alt: A small rain cloud
 role: decorative
+:::
+```
+
+Placed freely, as a stamp, near the right edge and a little above where it is written:
+
+```jot
+:::record attachment #example-planner-sticker-placed
+method: planner-sticker-and-deco-culture@1
+path: assets/rain-stamp.png
+media-type: image/png
+alt: A small rain cloud
+role: decorative
+finish: stamp
+x: 78%
+y: -3em
+width: 4em
+rotate: -6deg
 :::
 ```
 

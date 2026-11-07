@@ -7,6 +7,8 @@
  * A `:::record palette` becomes swatch chips (palette.mjs): each names its color and hex in text, in black or white, whichever has the
  * higher contrast; a color that is not #RRGGBB or #RGB shows a note. A `:::record moodboard` is a grid of its attached pictures (with
  * descriptions, captions and credits), and a paragraph of two or more pictures alone is drawn as the same grid.
+ * A sticker record (`:::record attachment` with `method: planner-sticker-and-deco-culture@1`, stickerOf) is its attached picture,
+ * where it is written or, with x and y, anchored there and placed freely over the writing; a stamp blends like ink.
  * A `:::record model` (model3d.mjs) is its still picture (or its description) with a caption; with opts.models3d, a Turn in 3D button
  * loads the bundled three.js (vendor/three.mjs) and the viewer (model3d-view.mjs) only then, and reads the attached file's own bytes.
  *
@@ -17,6 +19,7 @@
  *                                style: 'journal' | 'notes' | 'plain' | null (styles.mjs; a typed page only),
  *                                hand: null | { hand: 'pen', ink: 'blue', pitchMm: 5, dots: true, seed: 1, pageRows: 0 },
  *                                include(path) -> text | null, from: '', filename: '', reference(href) -> void,
+ *                                freePlacement: true (false: draw placed stickers where they are written, with a note of their place)
  *                                models3d: false (true: offer Turn in 3D for model records; the host ships model3d-view.mjs and vendor/three.mjs) })
  *     `![label](other.jot#id)` on a line of its own shows that part of another journal in place, framed and labelled with where it
  *     came from (include.mjs). The host reads the file and lends its text through opts.include (the path is already checked to stay
@@ -103,6 +106,28 @@ const PARSED = new Map(); // included files, parsed once while their text stays 
 const CHARTS = new WeakMap(), chartsOf = (a, sample) => { const k = sample ? 's' : 'r'; let m = CHARTS.get(a); if (!m) CHARTS.set(a, (m = {})); return m[k] || (m[k] = charts(a, { sample })); }; // an included file's chart models, once per text
 const parsed = (text) => { let a = PARSED.get(text); if (!a) { a = parse(text); if (PARSED.size > 32) PARSED.delete(PARSED.keys().next().value); PARSED.set(text, a); } return a; };
 const decode = (s) => String(s || '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+
+// A sticker or stamp (spec 13.31, planner-sticker-and-deco-culture@1). Without x and y it sits where it is written; with
+// both, it is anchored there and placed freely: its left edge at x percent of the writing's width, its top y em below
+// that place (negative moves it up), taking no room in the writing. A value outside its range is named, not guessed.
+export const STICKER_METHOD = 'planner-sticker-and-deco-culture@1';
+const STICKER_RANGES = { x: [/^(-?\d{1,3}(?:\.\d+)?)%$/, 0, 100, '0% to 100%'], y: [/^(-?\d{1,3}(?:\.\d+)?)em$/, -200, 200, '-200em to 200em'], width: [/^(\d{1,2}(?:\.\d+)?)em$/, 1, 20, '1em to 20em'], rotate: [/^(-?\d{1,3}(?:\.\d+)?)deg$/, -180, 180, '-180deg to 180deg'] };
+export function stickerOf(n) {
+  if (!n || n.type !== 'record' || n.recordType !== 'attachment') return null;
+  const f = new Map(); for (const x of n.fields || []) if (!f.has(x.name)) f.set(x.name, String(x.value ?? '').trim());
+  if (f.get('method') !== STICKER_METHOD) return null;
+  const s = { path: f.get('path') || '', alt: f.get('alt') || '', role: f.get('role') === 'functional' ? 'functional' : 'decorative', finish: 'sticker', width: 4, rotate: 0, x: null, y: null, layer: 0, problems: [] };
+  for (const [key, [pattern, min, max, words]] of Object.entries(STICKER_RANGES)) {
+    if (!f.has(key)) continue;
+    const m = pattern.exec(f.get(key)), v = m ? Number(m[1]) : NaN;
+    if (Number.isFinite(v) && v >= min && v <= max) s[key] = v; else s.problems.push(`${key} must be ${words}`);
+  }
+  if (f.has('finish')) { if (['sticker', 'stamp'].includes(f.get('finish'))) s.finish = f.get('finish'); else s.problems.push('finish must be sticker or stamp'); }
+  if (f.has('layer')) { const v = /^-?\d{1,2}$/.test(f.get('layer')) ? Number(f.get('layer')) : NaN; if (Number.isFinite(v)) s.layer = v; else s.problems.push('layer must be a whole number from -99 to 99'); }
+  if ((s.x === null) !== (s.y === null)) { if (!s.problems.some((p) => /^[xy] /.test(p))) s.problems.push('a free place needs both x and y'); s.x = s.y = null; }
+  s.placed = s.x !== null;
+  return s;
+}
 
 // A filename is host context, never a source of dates, metadata or paths in rendered writing.
 export function documentFilename(value) {
@@ -196,6 +221,22 @@ export function renderPreview(ast, target, opts = {}) {
     if (a && a.url && RASTER.has(a.mediaType)) { const n = el('img'); n.src = a.url; n.alt = alt || fallback; n.loading = 'lazy'; return n; }
     if (a && a.url && (AUDIO.has(typeOf(a)) || VIDEO.has(typeOf(a)))) return player(AUDIO.has(typeOf(a)) ? 'audio' : 'video', a.url, alt);
     return el('span', `[Image: ${alt || 'attachment'} · ${href}${a ? '' : ' · not attached'}]`, 'jot-missing');
+  }
+  function stickerFigure(n, s, at) { // a sticker or stamp: the attached picture, its words as its description, placed where asked
+    const free = s.placed && opts.freePlacement !== false, fig = el('figure', undefined, `jot-sticker jot-finish-${s.finish}${free ? ' jot-placed' : ''}`);
+    fig.style.width = `${s.width}em`;
+    if (s.rotate) fig.style.transform = `rotate(${s.rotate}deg)`;
+    fig.append(picture(s.path, s.alt, s.role === 'functional' ? 'Sticker' : ''));
+    if (!at.level && Number.isInteger(n.start)) fig.dataset.jotStart = String(n.start); // where its record starts in this file's source, for an editor
+    const note = s.problems.length ? el('span', `Sticker placement not used: ${s.problems.join('; ')}.`, 'jot-missing jot-sticker-note') : null;
+    if (!free) { // where it is written; a block on its own (an editor's) says where the page puts it
+      const box = el('div', undefined, 'jot-sticker-row'); box.append(fig); if (note) box.append(note);
+      if (s.placed) box.append(el('span', `Placed freely on the page: ${s.x}% across, ${s.y}em from here${s.rotate ? `, turned ${s.rotate}°` : ''}.`, 'jot-sticker-note'));
+      return box;
+    }
+    fig.style.left = `${s.x}%`; fig.style.top = `${s.y}em`; fig.style.zIndex = String(100 + s.layer);
+    const anchor = el('div', undefined, 'jot-sticker-anchor'); anchor.append(fig);
+    return anchor;
   }
   function modelFigure(n) { // a 3D model: its still (or description), what is missing or kept as written, and Turn in 3D when offered
     const s = modelOf(n), fig = el('figure', undefined, 'jot-record jot-3d'), stage = el('div', undefined, 'jot-3d-stage');
@@ -480,6 +521,7 @@ export function renderPreview(ast, target, opts = {}) {
         if (p.swatches.length || p.invalid.length) box.append(swatches(p));
         if (p.rest.length) { const dl = el('dl'); for (const f of p.rest) dl.append(el('dt', f.name), el('dd', f.value)); box.append(dl); }
         frag.append(box);
+      } else if (stickerOf(n)) { frag.append(stickerFigure(n, stickerOf(n), at));
       } else if (n.type === 'record') {
         const box = el('section', undefined, 'jot-record'); box.append(el('strong', n.recordType));
         const dl = el('dl');
@@ -549,6 +591,9 @@ export function addPageStyles(doc) {
 }
 /** Adds the chart styles to a document once. */
 export const PREVIEW_CSS = `${CHART_CSS}
+.jot-sticker-row{margin:.35em 0}.jot-sticker{display:inline-block;vertical-align:top;margin:0;line-height:0;break-inside:avoid;transform-origin:50% 50%}.jot-sticker img{display:block;width:100%;height:auto;border-radius:0}
+.jot-sticker-anchor{position:relative;height:0;margin:0;padding:0;overflow:visible}.jot-sticker.jot-placed{position:absolute;max-width:none}.jot-sticker-note{display:block;line-height:1.3;margin-top:.2em}
+.jot-finish-sticker img{filter:drop-shadow(0 .05em .08em rgba(0,0,0,.3))}.jot-finish-stamp img{mix-blend-mode:multiply;opacity:.9}
 .jot-colors{print-color-adjust:exact;-webkit-print-color-adjust:exact}
 .jot-highlighter-active{background-image:none!important;background-color:transparent!important;padding:0}
 .jot-highlight-space{opacity:var(--jot-highlight-strength,.6);background-image:var(--jot-highlight-stroke);background-size:100% 1lh;background-position:center;background-repeat:no-repeat;box-decoration-break:clone;-webkit-box-decoration-break:clone}
@@ -603,4 +648,4 @@ export function addChartStyles(doc) {
   const s = doc.createElement('style'); s.id = 'jot-chart-css'; s.textContent = PREVIEW_CSS; doc.head.append(s);
 }
 
-export default { renderPreview, addChartStyles, addHandwritingStyles, addPageStyles, drawChart, dateWords, CHART_CSS, PREVIEW_CSS };
+export default { renderPreview, stickerOf, addChartStyles, addHandwritingStyles, addPageStyles, drawChart, dateWords, CHART_CSS, PREVIEW_CSS };

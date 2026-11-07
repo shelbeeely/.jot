@@ -35,6 +35,10 @@ export async function exportHTML(page, { title = 'Journal', lang = 'en', pageCss
   [...page.querySelectorAll('input')].forEach((input, i) => { if (input.checked) boxes[i]?.setAttribute('checked', ''); });
   for (const e of clone.querySelectorAll('.hw-page-edge, script, style, [data-jot-live]')) e.remove(); // and live controls, such as a 3D model's buttons
   for (const d of clone.querySelectorAll('details')) d.open = false;
+  for (const f of clone.querySelectorAll('.jot-sticker')) { // a placed sticker as printed, without an editor's handles
+    for (const a of ['tabindex', 'role', 'aria-label', 'aria-describedby', 'aria-roledescription', 'data-jot-start']) f.removeAttribute(a);
+    f.classList.remove('jot-sticker-selected', 'jot-sticker-dragging');
+  }
   // attached images and file links: into the file itself
   for (const img of clone.querySelectorAll('img[src^="blob:"]')) { try { img.src = await dataURL(img.src, fetchImpl); } catch { img.replaceWith(doc.createTextNode(`[Image: ${img.alt}]`)); } }
   for (const m of clone.querySelectorAll('audio[src^="blob:"], video[src^="blob:"]')) { try { m.src = await dataURL(m.src, fetchImpl); } catch { m.replaceWith(doc.createTextNode(`[${m.getAttribute('aria-label') || 'Recording'}]`)); } } // recordings travel inside too

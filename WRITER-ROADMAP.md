@@ -54,6 +54,7 @@ The [security verification plan](docs/security/README.md) records the threat mod
 - [ ] Implement the finalized format layout and capabilities as they land. Preserve exact source, order, media and privacy through source/visual editing, undo, new/open/save/save-as, sharing and export.
 - [ ] Complete accessible entry/media/privacy/search workflows, responsive controls, IME and real mobile-browser verification. Keep unsupported scanner features hidden.
 - [ ] Finish the planned autocomplete, connected-source, personalization, multilingual and content-layout tracks below; retain explicit review, offline writing and opt-in external requests.
+- [x] Sticker packs and free placement (7 November 2026): Jot's functional pack, packs made from the person's pictures or opened from a `.jotz`, kept in the browser only on request; stickers and stamps placed in the line or free on the page, dragged or moved with the keyboard, sized, turned and removed in the preview with Undo; attached once and locked with the journal. Format: spec 13.31 (`specification/ROADMAP.md`, composable content). Not yet: placing inside Page view or on phones by touch-and-hold beyond pointer dragging (touch drag uses the same pointer events but is untested on physical devices), and packs synced between devices.
 
 ## Desktop application track
 

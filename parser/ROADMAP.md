@@ -142,6 +142,7 @@ All unchecked items remain planned or unverified. These are format requirements;
 | Diagrams and charts | Mermaid, Graphviz, PlantUML, D2 and Vega/Vega-Lite source | Source remains readable when a renderer is absent; no automatic remote rendering |
 | Callouts and annotations | Marginal notes, reminders, context, side notes and summaries | Keep textual labels and normal reading-order placement; color is optional |
 | Layout and spacing | Dividers, grouping, whitespace and deliberate page breaks | Presentation hints do not become observations or separate journal entries |
+| Stickers and stamps (implemented, 7 November 2026) | A `planner-sticker-and-deco-culture@1` record: a picture where written, or placed freely with `x`, `y`, `width`, `rotate`, `finish` and `layer` (spec 13.31); a pack is an ordinary `.jotz` | Reading position stays where the record is written; out-of-range values show a note; plain text keeps the record. Writer support: `../WRITER-ROADMAP.md`, web track. Not yet: `jot check` diagnostics for placement values, conformance fixtures, e-paper placement |
 
 Audio/video attachments are a later extension under the asset system, not a reason to require media players or network embeds in the first release. Unknown block types must remain preserved and show a readable fallback.
 

@@ -61,6 +61,17 @@ The current X4 tutorial captures a browser image at a moment in time. It does **
 any other specific animation frame. Preparing a chosen static frame, poster, transcoded image or PDF page is a host
 policy and additional implementation, not a feature supplied by `.jotz` packaging.
 
+## Stickers and stamps
+
+A `planner-sticker-and-deco-culture@1` attachment record (spec 13.31) is drawn as its attached picture through the same
+raster allowlist, with `alt` as its description. Without `x` and `y` it sits where the record is written. With both, the
+shared preview anchors it there in a zero-height box and positions it absolutely: left at `x` percent of the writing's width,
+top `y` em from that place, `width` em wide, turned by `rotate`, stacked by `layer`. A `finish: stamp` picture uses multiply
+blending (Writer lightens stamp ink on dark paper on screen only). Out-of-range values show a visible note and the picture
+is drawn where written. Download page, Page view and print use the same drawing; plain text and Markdown keep the record.
+`renderPreview(..., { freePlacement: false })` draws placed stickers where written with a note of their place (the live
+editor's blocks). An e-paper reader has no placement implementation yet. [Sticker drawing](../../parser/preview.mjs)
+
 ## Image and attachment syntax
 
 These examples describe references; the named files must actually exist in the opened package.

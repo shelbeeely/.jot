@@ -160,7 +160,7 @@ export function setupLiveWriter({ editor, status, getReferences = () => [], asse
         try {
           // These blocks depend on the whole document. A fragment preview would give misleading results.
           if (/^\s*(?:::.*(?:chart|query)|!include|\{\{)/mi.test(block.raw)) rendered.append(node('pre', block.raw));
-          else renderPreview(parse(block.raw), rendered, { style: 'plain', asset, reference });
+          else renderPreview(parse(block.raw), rendered, { style: 'plain', asset, reference, freePlacement: false }); // a placed sticker moves in the page preview
         } catch { rendered.append(node('pre', block.raw)); }
         const edit = node('button', 'Edit source'); edit.type = 'button'; edit.className = 'live-source-button';
         edit.onclick = () => { setMode('source'); focusSource(); selectSource(block.from, block.to); };

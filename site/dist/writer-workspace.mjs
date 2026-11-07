@@ -121,7 +121,7 @@ export function setupWriterWorkspace({ editor, status, showPreview, scenes: scen
   }
   // Chromium cannot focus or natively edit a display:none textarea. Reveal it
   // before an action captures its caret or starts an undoable edit.
-  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'scribeBtn', 'scratchpadBtn', 'marginNoteBtn', 'mediaPickerBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
+  for (const id of ['writerArchiveBtn', 'writerSourcesBtn', 'writerBrowserBtn', 'writerAnnotateBtn', 'writerAIBtn', 'writerVoiceWritingBtn', 'scribeBtn', 'scratchpadBtn', 'marginNoteBtn', 'mediaPickerBtn', 'stickersBtn', 'writerFindBtn', 'todayBtn', 'quickBtn', 'rolloverBtn', 'reviewBtn', 'methodsBtn', 'currentTimeBtn', 'locationCaptureBtn', 'entryTimezoneBtn', 'entryPenBtn', 'musicBtn', 'importHealthBtn', 'importCsvBtn', 'voiceBtn']) $(id).addEventListener('click', showWriting, { capture: true });
   function selectView(name) {
     chosenView = name;
     if (!['write', 'map', 'media', 'scenes'].includes(name)) showPreview();
@@ -389,6 +389,7 @@ export function setupWriterWorkspace({ editor, status, showPreview, scenes: scen
     ['writerSourcesBtn', 'Connected sources', 'Look up and review weather; no journal prose sent'],
     ['writerBrowserBtn', 'Offline, sharing and nearby transfer', 'Install, protect storage, share, review incoming items and pair devices'],
     ['writerAnnotateBtn', 'Annotate page', 'Draw or write by hand over a copy of a page; the strokes stay editable'],
+    ['stickersBtn', 'Stickers', 'Place a sticker at the cursor: functional icons or a pack of your own pictures'],
     ['mediaPickerBtn', 'Add media', 'A film, series or episode, book, anime, podcast, game or song, as a reference; paste a link to look it up'],
     ['marginNoteBtn', 'Margin note', 'A short note beside the passage at your cursor, without changing your words'],
     ['scratchpadBtn', 'Scratchpad for this entry', 'Rough notes beside the entry, kept in the file and off the page'],

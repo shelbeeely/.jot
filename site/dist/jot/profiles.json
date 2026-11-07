@@ -641,10 +641,15 @@
         "relation",
         "layer",
         "license",
-        "creator"
+        "creator",
+        "x",
+        "y",
+        "width",
+        "rotate",
+        "finish"
       ],
       "example": "path: assets/rain-sticker.png\nmedia-type: image/png\nalt: A small rain cloud\nrole: decorative",
-      "notes": "role is decorative or functional. Functional assets need a text equivalent; decorative assets may have a brief descriptive alternative. An example path is illustrative and not a claim that the asset is bundled."
+      "notes": "role is decorative or functional. Functional assets need a text equivalent; decorative assets may have a brief descriptive alternative. An example path is illustrative and not a claim that the asset is bundled. Without x and y the picture sits where the record is written; with both it is anchored there and placed freely: x is the left edge as a percentage of the writing's width (0% to 100%), y the top in em below that place (negative moves up, -200em to 200em). width is in em (1em to 20em, default 4em), rotate in degrees (-180deg to 180deg), finish is sticker (default) or stamp (drawn like ink), and layer is a whole number ordering placed pictures (higher on top). A value outside its range is shown as a note and not used."
     },
     {
       "id": "pomodoro-log",

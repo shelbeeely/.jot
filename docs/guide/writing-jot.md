@@ -451,6 +451,45 @@ body: Grey, wet, a little blue.
 The page lays the pictures out in a grid that fits the screen. A picture that isn't attached shows its path and description
 instead; nothing is fetched from the internet. Two or more pictures on their own in one paragraph are laid out the same way.
 
+## Stickers and stamps
+
+Choose **Tools → Stickers**. Jot's own pack is a set of plain black-and-white icons that each say something: a day or night
+shift, the bus, meds, payday, a bill, laundry, a walk, a rest day, done, moved, and a "plain day" mark for days you'd rather
+leave undecorated. Each has its words beside it, and those words go in the file, so the page still reads aloud and in any text
+editor. Stickers are optional; a page without them is a whole page.
+
+Pick one, check its words, and choose where it goes:
+
+- **Free on the page.** It goes after the paragraph your cursor is in and moves with that paragraph. In the preview, drag it
+  wherever you like, or select it and use the arrow keys (Shift for bigger steps), + and − for size, [ and ] to turn it, and
+  Delete to take it off. The small bar beside it does the same. Undo puts anything back.
+- **In the line of writing.** It goes in at your cursor, like a word.
+
+Choose **Stamp** instead of **Sticker** for an ink impression in one ink color, which blends into the paper like a pen.
+
+A placed sticker is written as a short record, so you can read and change it by hand:
+
+```jot
+:::record attachment #sticker-bus
+method: planner-sticker-and-deco-culture@1
+path: assets/stickers/jot-functional/bus.png
+media-type: image/png
+alt: Bus or transit
+role: functional
+x: 78%
+y: -3em
+width: 4em
+:::
+```
+
+`x` is how far across the page its left edge sits, `y` how far below this spot (a minus moves it up), and `width` and `rotate`
+its size and turn. `finish: stamp` makes it a stamp. The picture travels inside the `.jotz`, is attached once however often you
+place it, and is locked with the journal.
+
+**Your own packs.** Under **Packs**, make a pack from your own pictures (each is scaled to sticker size), give each sticker its
+words, and download the pack as a `.jotz` to keep or share; open one the same way. A pack stays until you close the page unless
+you tick **Keep this pack in this browser**. Kept packs aren't encrypted and stay apart from your journals.
+
 ## 3D models
 
 Attach a 3D model you made or were given, a `.glb` file, and Jot writes a model record for it:

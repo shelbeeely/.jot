@@ -73,6 +73,13 @@ Browser suites are `site/test-*-ui.cjs`. Run `npm ci` at the repository root for
 - Results are untrusted text: set with `textContent`, escaped in link labels (`escapeLabel`), and inserted only on the person's Insert, at the cursor, with Undo. Activity words (Watched, Reading…) are the person's choice; a reference alone never implies an event. Unknown links are never fetched.
 - Space requests per provider, cache briefly, cancel stale searches, and show busy/offline plainly with a paste fallback. Run `node --test site/test-media-catalog.mjs` and `node site/test-media-picker-ui.cjs` (saved real responses in `site/fixtures/media/`); report live catalog checks separately. Keep the desktop CSP `connect-src` in step with `HOSTS`.
 
+## Stickers and stamps (`site/dist/sticker-packs*.mjs`, `sticker-place.mjs`)
+
+- A sticker is the spec 13.31 record (`planner-sticker-and-deco-culture@1`), drawn by `stickerOf`/`stickerFigure` in `parser/preview.mjs`; in the line it is an ordinary image reference. Placing writes only text the spec defines, through the editor's edit path with Undo; a free sticker's record goes after the paragraph at the cursor and the cursor stays in the writing.
+- In the preview, dragging, the keyboard and the bar beside a placed picture rewrite only that record's placement fields (one edit each); nothing changes while the journal is read-only or locked. The bar is outside the page and never printed or exported; `exportHTML` strips the editor's handles. The live editor draws placed stickers where written (`freePlacement: false`) with a note of their place.
+- Jot's own pack is the research guide's functional bank: black and white, distinct shapes, words beside each icon, no reward or streak stickers. Pictures are attached once (same bytes, same path) as PNG under `assets/stickers/`; packs are ordinary `.jotz` files; packs are kept in this browser only when the person ticks Keep (unencrypted, apart from journals, and Writer says so). Nothing is fetched.
+- Run `node --test parser/sticker-test.mjs site/test-sticker-packs.mjs` and `node site/test-sticker-packs-ui.cjs`; touch dragging on physical phones is not covered.
+
 ## Media journal (`site/dist/media-shelf-core.mjs`, `writer-media.mjs`)
 
 - A read-only view like the journal map: it reads references in the prose of dated entries (never scratchpads, code or comments), fetches nothing, never edits the writing, and clears when the journal locks. Activity status comes only from the words the writer put before a link; a bare mention is "Mentioned".

@@ -1,5 +1,48 @@
 # Latest Jot v1 decisions
 
+## Sticker packs, and stickers and stamps placed freely (7 November 2026)
+
+The owner asked for sticker packs in Writer, then for stickers and stamps to be placed freely on the page. The format already
+had the sticker profile `planner-sticker-and-deco-culture@1` (spec 13.31) but nothing drew it and Writer could not make one.
+
+- **Placement is part of the sticker record** (spec 13.31). Optional `x`, `y`, `width`, `rotate` and `finish` join the
+  existing `layer`. A placed picture is anchored where its record is written and moves with that writing, like an anchored
+  picture in a word processor. Its position is relative to the writing's width and the text size (percent and em), not to a
+  printed page, because the preview reflows and Jot has no fixed page box outside handwritten pages. Units are written out
+  (`78%`, `-3em`, `4em`, `-6deg`) so the record still reads in a text editor; values outside their ranges are named in a note,
+  never guessed. Without `x` and `y` a sticker sits where written; in the line of writing it is an ordinary image reference.
+- **Stamps are a finish, not a separate profile.** A stamp is the same record with `finish: stamp`, drawn with multiply
+  blending like ink. The guide lists stamps among the core components (`docs/methods/planner-sticker-and-deco-culture.md`,
+  line 112) as "Reusable icons and boxes ... Black ink stamps suit a monochrome planner" (line 139) and suggests "stamps" for
+  people with hand pain (line 385). Writer's stamps are one ink color from a short list, with a fixed speckle where the ink
+  did not take, so the same stamp is the same bytes.
+- **Jot's own pack is the guide's functional bank.** Twenty-three black-and-white icons from section 22 ("Functional icon
+  set (B&W, shape-distinct)", line 420), including the "Sticker-free day ... to make not decorating a choice, not a failure"
+  mark (line 450). Each has its words beside it in the picker and as its `alt`: "Keep icons distinct in shape, not just
+  colour" (line 383) and "don't encode meaning in colour; use shape and icon" (line 392). Stickers are an inch wide on the
+  page by default, above the guide's "larger icons (0.5 in or more)" for low vision (line 384).
+- **Packs are ordinary `.jotz` files.** A pack's writing lists one sticker record per picture, so a pack opens in Writer as a
+  journal and passes `jot check`. People can make a pack from their own pictures (scaled to sticker size as PNG) and edit
+  each sticker's words. Packs stay in the page unless the person ticks "Keep this pack in this browser"; kept packs are stored
+  unencrypted, apart from journals, and Writer says so. A placed sticker is attached to the journal (once, however often it
+  is placed), so it travels in the `.jotz`, is locked with the journal and reads offline.
+- **What was left out.** No reward, streak or badge stickers: section 25e says "Rewards, streak stickers, badges (on paper or
+  device). Out of scope and pressuring" (line 561). No store, drops or usage counts.
+
+**Where this goes against the guide.** For its own e-ink companion the guide rates "Digital 'stickers' for fun" as no fit
+("Badge-like; out of scope", line 528), and it lists stickers "covering needed info or scan codes" as a pitfall (line 367).
+Writer adds decorative packs and free placement because the owner asked for them. Mitigations: Jot's own pack is functional;
+decoration is the person's own pictures, never pushed; a placed sticker keeps its words and its reading position, and the
+writing it covers is unchanged in the file. Jot has no scan zones in Writer pages, so the scan-code concern does not apply
+yet. The evidence is thin: the guide's claims about decorating are mostly "Claimed" (lines 340 to 345), and it notes "No research on
+whether decorating helps or hurts planner use over months" (line 567). These are design choices, not findings.
+
+Verified: parser tests for the placement fields (`parser/sticker-test.mjs`), Node tests for the pack and placement helpers
+(`site/test-sticker-packs.mjs`) and the Stickers browser suite (`site/test-sticker-packs-ui.cjs`: in the line and free on the
+page, a stamp, drag, keyboard, the bar, remove and Undo, attached once, a pack made, downloaded and reopened, kept only when
+asked, read-only, phone light/dark accessibility, no outside requests). Desktop and mobile apps load the same pages; no native
+build was run for this change.
+
 ## Logging exactly what was read, watched or heard (6 November 2026)
 
 The owner asked how to log the specific pages read, episodes watched, songs as against albums, and films in a series. Asked to
