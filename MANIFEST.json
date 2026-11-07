@@ -124,8 +124,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "byteLength": 175385,
-      "sha256": "dd2d59e039aada9c7e6899521d571a6edf8452a417c6f930dfa8420c07d5a915"
+      "byteLength": 175697,
+      "sha256": "2fe4bcfcdbf423de5a41b410a2aa945c52ba623fefadd01aea1be48d32d4ed6f"
     },
     {
       "path": "README.md",
@@ -1364,8 +1364,8 @@
     },
     {
       "path": "examples/DEMO.md",
-      "byteLength": 12388,
-      "sha256": "8dfd75ca6b056eb12cd6989b81ada975dc0a341d970be4e2813a605ddc9366c0"
+      "byteLength": 12383,
+      "sha256": "f7fd3d42f771929ee29cc988bf949dc2e5ea28dae92f55224f56d6395fa13597"
     },
     {
       "path": "examples/README.md",
@@ -1449,8 +1449,8 @@
     },
     {
       "path": "examples/demo-scenes/index.json",
-      "byteLength": 4250,
-      "sha256": "b5d2b0b7fce3ffac964f4df368ec086302ea3341ec8ac23a1eb984b600ef1f48"
+      "byteLength": 4082,
+      "sha256": "64022182ac2155bcb13b48c3a88da82e347d2b0ede0d467f37ecd48ab634000a"
     },
     {
       "path": "examples/manual.jot",
@@ -24085,7 +24085,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5942,
-      "sha256": "57bceae8a82dc5798ce2c4acf13e18c82b91948650dd542e74c990745ded49ad"
+      "sha256": "d33ed93ec1cf20e4e1f63ac61910f639b24db3e598bb414d843979a92df37b98"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -24139,8 +24139,8 @@
     },
     {
       "path": "site/dist/scene-journal-core.mjs",
-      "byteLength": 17007,
-      "sha256": "3adc0541fe66098ce27495582c7f05fd2d5451718b678f52585b305611d0f4fa"
+      "byteLength": 17001,
+      "sha256": "91d90d9ea7a980376d245dd0ad73121e7e2e8ef69007867083a7b86e166c305f"
     },
     {
       "path": "site/dist/scenes-page.mjs",
@@ -24414,8 +24414,8 @@
     },
     {
       "path": "site/dist/writer-scene.mjs",
-      "byteLength": 38995,
-      "sha256": "48cbe5126aa28bfa04049b29858ec02394b93438bc90f011419f41cd4777e5de"
+      "byteLength": 39011,
+      "sha256": "5eb63b98bbf0df5d4b026c6f7f84046f0ba6f7410ec174f73b044e46db786e7b"
     },
     {
       "path": "site/dist/writer-scenes.css",
@@ -24934,8 +24934,8 @@
     },
     {
       "path": "site/test-scene-journal.mjs",
-      "byteLength": 14791,
-      "sha256": "c6a563af048ba0c827d8965eec3596d4d07b56d9d7a6c0e98385ee9ff9146882"
+      "byteLength": 14693,
+      "sha256": "4e8941dfad7fc79c05b4190fd0829529de309e4615ad0406b56f295839687471"
     },
     {
       "path": "site/test-scenes-page-ui.cjs",
@@ -25034,8 +25034,8 @@
     },
     {
       "path": "site/test-writer-scene-ui.cjs",
-      "byteLength": 22214,
-      "sha256": "b1ec0d59060a09316a95a62ce6fcfac405e0c091ed4e6748a48d17bafbc40d37"
+      "byteLength": 22371,
+      "sha256": "0ce05c6f202965ca295ed170bd92b2c6a45f2c478d4197641310ecf6470b327d"
     },
     {
       "path": "site/test-writer-search.mjs",
@@ -25234,8 +25234,8 @@
     },
     {
       "path": "tools/generate-demo-scenes.mjs",
-      "byteLength": 10861,
-      "sha256": "4c6fbda89f372cdfc79d33aa511c492e232a5361ba24d60c8199943d825a6b0e"
+      "byteLength": 9615,
+      "sha256": "a5ac54073419fba0a60951a0eedb8f66cbd3c4b12c6e42dbbaab45da9283565c"
     },
     {
       "path": "tools/manifest.cjs",
@@ -25284,8 +25284,8 @@
     },
     {
       "path": "tools/test-demo-scenes.mjs",
-      "byteLength": 5226,
-      "sha256": "5308ea3a63435233ac7eca9df963d0e0c8bf90d3134380d3ef01ae9873989ed4"
+      "byteLength": 4894,
+      "sha256": "d49cdfaf2fbbab423b0252cef192a392b1308d4eb3ea6bbb4c32d81ea0389ab6"
     },
     {
       "path": "tools/test-files.mjs",

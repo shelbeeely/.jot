@@ -1,7 +1,7 @@
 // Journal places (scene-journal-core.mjs, spec 8.1.9): what is sent, what comes back, what is kept, and the one line that changes.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, plainText, PLACE_SCHEMA, LIMITS, ATMOSPHERES, MOTIONS } from './dist/scene-journal-core.mjs';
+import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, plainText, PLACE_SCHEMA, LIMITS, ATMOSPHERES, MOTIONS , SCENE_REQUEST } from './dist/scene-journal-core.mjs';
 import { jsonRequest, requestJSON } from './dist/ai-client.mjs';
 import { PARTS, buildPart } from './dist/writer-scene-parts.mjs';
 
@@ -78,10 +78,9 @@ test('crafted parts are shapes Jot draws: a fixed list, kept by validation, ever
   const p = validatePlace({ objects: [{ name: 'Tea', moments: [1], shapes: [shape({ type: 'mug', size: [0.12, 0.12, 0.09] }), shape({ type: 'spellbook' })] }] }, ['Tea.']);
   assert.deepEqual(p.objects[0].shapes.map((x) => x.type), ['mug'], 'an unknown part name is dropped like any unknown shape');
   assert.match(placePrompt(journalDays(SOURCE)[0]).system, /Prefer a crafted part when one fits: mug, teapot/);
-  assert.match(placePrompt(journalDays(SOURCE)[0]).system, /Aim for 8 to 20 objects and at most 80 shapes/, 'Writer keeps the standard prompt');
-  const rich = placePrompt(journalDays(SOURCE)[0], { detail: 'rich' }).system;
-  assert.match(rich, /Aim for 40 to 100 objects and at most 600 shapes/); assert.match(rich, /Never add people/);
-  assert.throws(() => placePrompt(journalDays(SOURCE)[0], { detail: 'huge' }), /Unknown scene detail/);
+  const prompt = placePrompt(journalDays(SOURCE)[0]).system;
+  assert.match(prompt, /Aim for 40 to 100 objects and at most 600 shapes/); assert.match(prompt, /Never add people/);
+  assert.deepEqual(SCENE_REQUEST, { maxTokens: 128000, reasoning: { effort: 'max', exclude: true } }, 'one way of asking, for Writer and the demo');
   // Every part builds from three.js pieces only (a tiny stand-in records what is made).
   class Obj { constructor() { this.children = []; this.userData = {}; this.position = vec(); this.rotation = vec(); this.scale = vec(); } add(c) { this.children.push(c); return this; } }
   function vec() { return { set() { return this; }, setScalar() { return this; } }; }

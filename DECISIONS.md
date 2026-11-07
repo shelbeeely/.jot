@@ -14,8 +14,10 @@ together", and asked for more than 20 to 45 objects and 240 shapes.
   along the page edges instead of across them at an angle. The spread is sized so the place fills both pages, and the gutter's
   shadow lies over what is printed across it.
 - **More detail allowed** (spec 8.1.9). A place may have up to 120 objects, 12 shapes each and 720 in all (were 60, 8 and 300).
-  Writer's own prompt still asks for 8 to 20 objects. The demo's rich prompt asks for 40 to 100 objects and up to 600 shapes, at max
-  reasoning with a 128,000-token budget.
+  The owner then said "The demo and writer need to match", so there is one scene prompt and one request (`SCENE_REQUEST`): 40 to
+  100 objects and up to 600 shapes, max reasoning with its text left out of the reply (so it stays within Writer's 512 KB reply
+  limit), and a 128,000-token budget. Writer's Make and the demo's tool both use it, and the tool has no options to ask differently.
+  A scene can now take ten minutes or more, and Writer says so; it costs more with paid models.
 
 This is visual design. The methods research says nothing about pop-up books or 3D scenes.
 

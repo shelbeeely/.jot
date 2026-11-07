@@ -18,7 +18,7 @@ test('authoring uses Writer transport, exact numbered prose and privacy settings
     requests++;
     assert.equal(url, 'https://openrouter.ai/api/v1/chat/completions');
     assert.equal(init.headers.Authorization, 'Bearer test-key');
-    const body = JSON.parse(init.body), prompt = placePrompt(journalDays(SOURCE)[0], { detail: 'rich' });
+    const body = JSON.parse(init.body), prompt = placePrompt(journalDays(SOURCE)[0]);
     assert.deepEqual(body.messages, [{ role: 'system', content: prompt.system }, { role: 'user', content: prompt.user }]);
     assert.deepEqual(body.response_format.json_schema.schema, PLACE_SCHEMA);
     assert.deepEqual(body.provider, { zdr: true, data_collection: 'deny', require_parameters: true });
@@ -40,9 +40,8 @@ test('authoring uses Writer transport, exact numbered prose and privacy settings
   assert.equal(reusableScene(journalDays(SOURCE.replace('tea', 'coffee'))[0], metadata, text, { model: 'test/model', zdr: true }), false);
   assert.equal(reusableScene(journalDays(SOURCE)[0], metadata, text + ' ', { model: 'test/model', zdr: true }), false);
   assert.equal(reusableScene(journalDays(SOURCE)[0], metadata, text, { model: 'test/model', zdr: false }), false);
-  assert.equal(metadata.reasoning, 'max'); assert.equal(metadata.detail, 'rich');
-  assert.equal(reusableScene(journalDays(SOURCE)[0], metadata, text, { model: 'test/model', zdr: true, reasoning: 'low' }), false, 'a different effort is a new request');
-  assert.equal(reusableScene(journalDays(SOURCE)[0], metadata, text, { model: 'test/model', zdr: true, detail: 'standard' }), false, 'a different prompt is a new request');
+  assert.equal(metadata.reasoning, 'max');
+  assert.equal(reusableScene(journalDays(SOURCE)[0], { ...metadata, reasoning: 'low' }, text, { model: 'test/model', zdr: true }), false, 'a scene asked for differently from Writer is made again');
 });
 
 test('missing credentials and failed requests create no substitute scenes', async (t) => {
@@ -58,6 +57,5 @@ test('privacy relaxation is explicit and CLI parsing never needs to print creden
   assert.equal(sceneArguments(['--allow-retention'], { OPENROUTER_API_KEY: 'test-key' }).zdr, false);
   assert.equal(sceneArguments(['--concurrency', '8'], {}).concurrency, 8);
   assert.throws(() => sceneArguments(['--model']), /value is required/);
-  assert.deepEqual(['reasoning', 'detail', 'maxTokens'].map((k) => sceneArguments([], {})[k]), ['max', 'rich', 128000]);
-  assert.equal(sceneArguments(['--reasoning', 'high', '--detail', 'standard', '--max-tokens', '24000'], {}).maxTokens, 24000);
+  assert.throws(() => sceneArguments(['--reasoning', 'low']), /Unknown option/, 'the demo asks exactly as Writer does');
 });

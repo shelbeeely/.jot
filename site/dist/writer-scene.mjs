@@ -7,7 +7,7 @@
 // The view is a theatre (Jot's charcoal room, light ink, cream paper): the day's own title and first sentence over the scene, the
 // things that hold moments beside it, a paper card for the chosen moment, the whole entry in a paper dialog, a pill of days below
 // and Full screen. With readOnly (the site's demo page) it only shows kept scenes: nothing is made, sent or kept.
-import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, PLACE_SCHEMA } from './scene-journal-core.mjs';
+import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, PLACE_SCHEMA, SCENE_REQUEST } from './scene-journal-core.mjs';
 import { buildPlace } from './writer-scene-build.mjs';
 import { requestJSON } from './ai-client.mjs';
 import { mediaMentions } from './media-shelf-core.mjs';
@@ -293,7 +293,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     cancel.onclick = () => { controller?.abort(); confirm.hidden = true; };
     send.onclick = async () => {
       const prompt = placePrompt(day), mine = keyOf(day); controller?.abort(); controller = new AbortController();
-      send.disabled = true; summary.textContent = 'Asking the model for this day\'s scene. Some models take a minute or two; Cancel stops it.';
+      send.disabled = true; summary.textContent = 'Asking the model for this day\'s scene. It is asked to think hard, so this can take ten minutes or more; Cancel stops it.';
       if (tokenInput?.value.trim()) tmdbToken = tokenInput.value.trim();
       const stillWanted = !!(wantStill?.checked && tmdbToken), signal = controller.signal;
       // The scene and the still are asked for together; a still that cannot be found never stops the scene.
@@ -301,7 +301,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
       const coverJob = wantCover?.checked ? (async () => { const found = await findCovers(reading.target, { signal }); if (!found.covers.length) throw new Error(`Open Library has no cover for ${found.title}`); return fetchCover({ reference: reading.target, title: found.title, list: found.covers, index: 0 }, signal); })() : null;
       try {
         const [value, still, cover] = await Promise.all([
-          requestJSON({ ...conn, system: prompt.system, user: prompt.user, schema: PLACE_SCHEMA, name: 'jot_place', maxTokens: 24000, reasoning: { effort: 'low' } }, { signal }),
+          requestJSON({ ...conn, system: prompt.system, user: prompt.user, schema: PLACE_SCHEMA, name: 'jot_place', ...SCENE_REQUEST }, { signal }),
           stillJob ? stillJob.catch((e) => ({ error: e })) : null, coverJob ? coverJob.catch((e) => ({ error: e })) : null]);
         const place = validatePlace(value, day.sentences);
         if (still?.error && /token/.test(still.error.message)) tmdbToken = '';
