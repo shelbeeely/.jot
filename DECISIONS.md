@@ -1,5 +1,33 @@
 # Latest Jot v1 decisions
 
+## Scenes as papercraft, started over (8 November 2026)
+
+The owner said the scenes were "still not quite fitting" and that "we may need to start over rather than edit". Two directions
+were sketched. Concept stills of direction A (a true pop-up: printed cut-outs standing in layers on an open book) were rendered
+from the saved café and garden scenes, and the owner chose it with this brief: "papercraft world. Build scenery from thin paper
+panels, cutouts, layered card, visible edges, and scored creases. Use real hinge-based folding animations. Opening a spread
+raises its scenery from the page. Closing or turning it folds the scenery flat before the page moves."
+
+- **A new renderer, `writer-papercraft.mjs`.** It replaces `writer-scene-build.mjs` and reads the same place data (spec 8.1.9),
+  so every saved scene, the demo's included, draws without being made again.
+- **Paper pieces.**
+  - Each thing is printed face-on from the model's shapes (Jot's crafted parts included) as one die-cut piece. The print has an
+    ink outline, a white cut margin and grain.
+  - Its cut line is traced from the print and extruded 12 mm, so the card has a printed front, a plain back and cream edges
+    that show.
+- **Mounting.**
+  - Standing pieces are glued in layers, each a little in front of the last, on panels standing on scored creases: one hinge per
+    layer and page, with a glue tab and small folded supports.
+  - Side walls stand as wings that fold outward. The floor is printed on the pages. The sky's pieces stand on folded stalks.
+- **One timeline.** Opening lands the page, then raises the scenery back to front. Closing or turning folds every piece flat,
+  front to back, and only then moves the page. `site/test-papercraft.mjs` checks the order at every step.
+- **Unchanged.** Reduced motion and Pause motion still leave everything standing, still. Choosing a thing still shows its own
+  sentences: each piece knows its object, and flat things keep unseen shapes to be chosen.
+- **Still to do.** The prompt is not yet tuned for papercraft: front-facing things at a few depths, fewer and clearer. The demo
+  week will be remade with it once the OpenRouter key has room.
+
+This is visual design. The methods research says nothing about pop-up books or papercraft.
+
 ## Scenes built from the book's own paper (7 November 2026)
 
 The owner said the scenes were "still not really a popup book": "The book and the scene look like 2 separate things mashed

@@ -5,10 +5,12 @@
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Color, HemisphereLight, DirectionalLight, AmbientLight, Box3, Vector3, Sphere,
   AnimationMixer, Timer, LoadingManager, PMREMGenerator, SRGBColorSpace, NeutralToneMapping, MathUtils, REVISION,
-  // journal places (site/dist/writer-scene-build.mjs): drawn from simple shapes, with weather, as a paper pop-up book
+  // journal places (site/dist/writer-papercraft.mjs): printed from simple shapes, as papercraft in a pop-up book
   Mesh, Group, BoxGeometry, CylinderGeometry, SphereGeometry, ConeGeometry, TorusGeometry, PlaneGeometry, CapsuleGeometry,
   MeshStandardMaterial, Raycaster, Vector2, Fog, BufferGeometry, BufferAttribute, LineSegments, LineBasicMaterial, Points,
   PointsMaterial, PointLight, DoubleSide, CanvasTexture, RepeatWrapping, EdgesGeometry, MeshBasicMaterial, Spherical, PCFSoftShadowMap,
+  // papercraft scenes (site/dist/writer-papercraft.mjs): die-cut pieces with real paper thickness, scored creases
+  Shape, Path, ExtrudeGeometry, ShapeGeometry, LineDashedMaterial, Quaternion,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -23,5 +25,7 @@ globalThis.JotThree = Object.freeze({
   Mesh, Group, BoxGeometry, CylinderGeometry, SphereGeometry, ConeGeometry, TorusGeometry, PlaneGeometry, CapsuleGeometry,
   MeshStandardMaterial, Raycaster, Vector2, Fog, BufferGeometry, BufferAttribute, LineSegments, LineBasicMaterial, Points,
   PointsMaterial, PointLight, DoubleSide, CanvasTexture, RepeatWrapping, EdgesGeometry, MeshBasicMaterial, Spherical, PCFSoftShadowMap,
+  // papercraft scenes (site/dist/writer-papercraft.mjs): die-cut pieces with real paper thickness, scored creases
+  Shape, Path, ExtrudeGeometry, ShapeGeometry, LineDashedMaterial, Quaternion,
   GLTFLoader, OrbitControls, RoomEnvironment, DRACOLoader, KTX2Loader, MeshoptDecoder,
 });

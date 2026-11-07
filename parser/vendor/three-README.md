@@ -14,7 +14,7 @@ are drawn with, unmodified. It is a classic script that sets
 three.js itself is MIT; see `three-LICENSE.md`. Upstream: https://github.com/mrdoob/three.js .
 
 SHA-256:
-- three.mjs: 53485be2ccfb0e12c784ecbd990c092e57c2322d1d9bf88b941c9e5e6dfab507
+- three.mjs: f1882eb30b55df1d53dc2b392833ec186c6c60a7089ab52187695b373b84de80
 - three-decoders/draco_wasm_wrapper.js: 8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6
 - three-decoders/draco_decoder.wasm: a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac
 - three-decoders/basis_transcoder.js: 8478b5b6d6b74e7d3082b89f6417321d8d1dc0307f2b30d4484bb11b441696a1

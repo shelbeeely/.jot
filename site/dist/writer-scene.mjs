@@ -1,6 +1,6 @@
 // The Scenes view: each dated entry as a small 3D place a model designs from the entry's words (spec 8.1.9). Drag to turn it,
 // scroll to zoom (or arrow keys and + or −), choose a thing to read the moments it holds (the writer's own sentences), switch days
-// with the tabs, and open the whole entry. Each place is drawn as a pop-up book (writer-scene-build.mjs); its look is the model's
+// with the tabs, and open the whole entry. Each place is drawn as papercraft in a pop-up book (writer-papercraft.mjs); its look is the model's
 // interpretation of the entry, and the view says so. Nothing is sent until Make this day's scene, after the writer sees exactly what goes where; a made scene is a
 // draft until Keep it, which saves it as an attachment and one `@setting:` line (with Undo). Kept scenes draw with no model.
 // It loads three.js only when shown, never edits the writing on its own, and clears when the journal locks.
@@ -8,7 +8,7 @@
 // things that hold moments beside it, a paper card for the chosen moment, the whole entry in a paper dialog, a pill of days below
 // and Full screen. With readOnly (the site's demo page) it only shows kept scenes: nothing is made, sent or kept.
 import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, PLACE_SCHEMA, SCENE_REQUEST } from './scene-journal-core.mjs';
-import { buildPlace } from './writer-scene-build.mjs';
+import { buildPlace } from './writer-papercraft.mjs';
 import { requestJSON } from './ai-client.mjs';
 import { mediaMentions } from './media-shelf-core.mjs';
 import { findStills, downloadStill, stillsTarget, TMDB_CREDIT } from './tmdb-stills.mjs';
@@ -104,7 +104,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     const under = (e) => {
       const r = canvas.getBoundingClientRect(), ray = new T.Raycaster();
       ray.setFromCamera(new T.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
-      for (const hit of ray.intersectObjects(view.built.objects, true)) { let o = hit.object; while (o && o.userData.object === undefined) o = o.parent; if (o) return o.userData.object; }
+      for (const hit of ray.intersectObjects(view.built.pickables || view.built.objects, true)) { let o = hit.object; while (o && o.userData.object === undefined) o = o.parent; if (o) return o.userData.object; }
       return -1;
     };
     canvas.addEventListener('pointermove', (e) => { if (!view || e.buttons) return; const i = under(e); canvas.style.cursor = i >= 0 ? 'pointer' : ''; view.built.hover(i); draw(); });
@@ -211,7 +211,8 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
   }
   function lookAt(index) { // closer to a chosen thing, from the side the reader is already looking from
     const { T, camera, controls } = three, g = view.built.objects[index]; if (!g) return;
-    const s = new T.Box3().expandByObject(g).getBoundingSphere(new T.Sphere()), dir = camera.position.clone().sub(controls.target).normalize();
+    const box = view.built.boxOf ? view.built.boxOf(index) : new T.Box3().expandByObject(g); if (box.isEmpty()) return;
+    const s = box.getBoundingSphere(new T.Sphere()), dir = camera.position.clone().sub(controls.target).normalize();
     const d = Math.max(controls.minDistance * 1.2, (Math.max(s.radius, 0.25) / Math.sin((camera.fov * Math.PI) / 360)) * 2.2);
     move(s.center.clone().add(dir.multiplyScalar(d)), s.center);
   }
