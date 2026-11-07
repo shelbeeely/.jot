@@ -81,7 +81,7 @@ async function verifyArchive(bytes, input, mixed) {
 }
 
 // On the site, the demo opens straight in Writer (Writer asks before it replaces any writing in this browser).
-const OPEN_LINKS = '<p class="demo-open" style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="scenes.html">See the first week as scenes</a> <a class="btn" href="../write/?open=examples/demo-month.jotz">Open the demo in Writer</a> <a class="btn" href="../write/?open=examples/demo-month-mixed.jotz">Open the protected copy</a></p>';
+const OPEN_LINKS = '<p class="demo-open" style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="scenes.html">See the first week as scenes (experimental)</a> <a class="btn" href="../write/?open=examples/demo-month.jotz">Open the demo in Writer</a> <a class="btn" href="../write/?open=examples/demo-month-mixed.jotz">Open the protected copy</a></p>';
 function guideHTML(markdown) {
   const marked = new Marked({ gfm: true });
   // Only repository-authored documentation, never journal or model output, enters this page.

@@ -20,7 +20,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
   const button = (text, attributes = {}) => el('button', text, { type: 'button', ...attributes });
   const section = el('section', undefined, { id: 'writerScenes', class: 'writer-scenes', 'aria-labelledby': 'writerScenesTitle' }); section.hidden = true;
   const summary = el('p', '', { id: 'writerScenesSummary', class: 'writer-scenes-summary', role: 'status' });
-  const head = el('div', undefined, { class: 'writer-scenes-head' }); head.append(el('h2', heading, { id: 'writerScenesTitle' }), summary);
+  const head = el('div', undefined, { class: 'writer-scenes-head' }); head.append(el('h2', heading, { id: 'writerScenesTitle' }), el('p', 'Experimental: scenes and how they are drawn may change.', { class: 'writer-scenes-badge' }), summary);
   const tabs = el('div', undefined, { class: 'writer-scenes-tabs', role: 'tablist', 'aria-label': 'Days' });
   const panel = el('div', undefined, { id: 'writerScenesPanel', class: 'writer-scenes-panel', role: 'tabpanel' });
   // Over the scene: the date, the day's own title, its first sentence (the writer's words) and what the scene is.

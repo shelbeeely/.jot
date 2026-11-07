@@ -66,6 +66,9 @@ The prose stays a journal; the examples are spread through the month.
 | An independently readable saved scene tied to the day's own sentences | 2–7 October in Scenes; the other days show how a day without a scene looks |
 | A5 page settings and a bounded block layout hint | Page-settings comment before the first entry; the monthly numbers section |
 
+Scenes are **experimental**: the place format, the prompt and how places are drawn may change, and saved scenes may need to be
+made again.
+
 The scene-generation tool uses Writer's actual scene pipeline: `journalDays` extracts the day's prose, `placePrompt`
 numbers its sentences, `requestJSON` asks OpenRouter for scene data, and `validatePlace` replaces sentence numbers with
 the entry's exact words. Scratchpads, hidden comments, code and records are excluded. Model-returned text never replaces

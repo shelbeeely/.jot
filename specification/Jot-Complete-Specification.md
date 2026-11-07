@@ -672,7 +672,7 @@ An embedded attachment reference, `![Rain on the roof](media/rain.m4a)`, to an a
 
 ### 8.1.9 Places: a day drawn as a 3D scene
 
-A dated entry MAY name a place: a small 3D scene of where the day happened, kept as an attachment.
+A dated entry MAY name a place: a small 3D scene of where the day happened, kept as an attachment. Places are **experimental**: the `jot-place` fields, limits and drawing may change before v1, and readers MUST keep ignoring what they do not draw.
 
 ```jot
 ### 2026-10-02 | Friday

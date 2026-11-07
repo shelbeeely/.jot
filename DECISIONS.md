@@ -19,6 +19,8 @@ together", and asked for more than 20 to 45 objects and 240 shapes.
   limit), and a 128,000-token budget. Writer's Make and the demo's tool both use it, and the tool has no options to ask differently.
   A scene can now take ten minutes or more, and Writer says so; it costs more with paid models.
 
+Scenes stay **experimental**, at the owner's request ("Leave this experimental"). Writer's Scenes view and the command menu say so, as do the demo's scenes page, spec 8.1.9 and both roadmaps, and saved places may need to be made again.
+
 This is visual design. The methods research says nothing about pop-up books or 3D scenes.
 
 ## Logging exactly what was read, watched or heard (6 November 2026)
