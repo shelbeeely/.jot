@@ -225,7 +225,6 @@ source: fictional demo
 :::
 
 ### 2026-10-08 | Listening at the window
-@setting: media/scene-2026-10-08.json
 
 Rain drummed on the kitchen window all afternoon. I kept the lamp on above the wooden table, moved the notebook away from a drip, and watched the garden tree shake its branches. The tea mug made a tiny round clearing in the crumbs from lunch.
 
@@ -245,7 +244,6 @@ source: fictional demo
 :::
 
 ### 2026-10-09 | Away for the afternoon
-@setting: media/scene-2026-10-09.json
 @timezone: Europe/Paris
 
 The train slid into the station under a bright glass roof. I found a seat by the window with my notebook on the little table and a mug of tea warming my hands. Trees, gardens and a red bicycle on a platform passed by in short, disconnected pictures.
@@ -269,7 +267,6 @@ source: fictional demo
 :::
 
 ### 2026-10-10 | A strip of sea
-@setting: media/scene-2026-10-10.json
 
 We walked down to the beach in the clear morning light. A blue boat rested above the waterline, a wooden bench faced the sea, and a small tree leaned away from the wind. I sat on the bench with a notebook and tried to draw the horizon without making it slope uphill.
 
@@ -283,7 +280,6 @@ source: fictional demo
 :::
 
 ### 2026-10-11 | Colors on the desk
-@setting: media/scene-2026-10-11.json
 
 Back at home, the desk was exactly as I had left it: lamp tilted down, notebook open and a dry leaf beside the tea mug. I set up the easel by the window and painted the garden tree in three colors. The sky changed before the paint had even dried.
 
@@ -317,7 +313,6 @@ source: fictional demo
 :::
 
 ### 2026-10-12 | A longer way home
-@setting: media/scene-2026-10-12.json
 
 I took the river path instead of the direct road home. The park bench under the tree had a perfect square of sunlight on one end. A person on a bicycle rang their bell, then disappeared behind the flowers beside the bridge.
 
@@ -339,7 +334,6 @@ style: line
 :::
 
 ### 2026-10-13 | Music downstairs
-@setting: media/scene-2026-10-13.json
 
 The café had moved a small piano beside the window. Robin played a slow scale while I sat at the wooden table with my notebook and tea mug. The lamp on the piano made a golden line along the keys; the garden flowers in the counter vase were starting to dry.
 
@@ -353,7 +347,6 @@ source: fictional demo
 :::
 
 ### 2026-10-14 | A film, then tea
-@setting: media/scene-2026-10-14.json
 
 Rain darkened the window as I put the last loaf of bread beside the oven. The kitchen lamp reflected in the tea mug, and the notebook lay open at a list of films Robin had mentioned. I moved everything to the little table and stayed there for the evening.
 
@@ -379,7 +372,6 @@ source: fictional demo
 :::
 
 ### 2026-10-15 | Labels in a notebook
-@setting: media/scene-2026-10-15.json
 
 I sat at the desk with the lamp on and lined up a book, a tea mug and the blue notebook. The garden tree outside the window was reflected faintly in the screen. I wanted the small labels for the shelf to stay readable, even if my handwriting got ambitious.
 
@@ -408,7 +400,6 @@ source: fictional demo
 :::
 
 ### 2026-10-16 | The gallery room
-@setting: media/scene-2026-10-16.json
 
 The gallery had one wooden bench in front of an easel holding an unfinished painting. A lamp lit the corner of the canvas, and the room's big window framed the top of a tree. I left my notebook closed for a while and looked at the same blue shape until it seemed less like a shape and more like water.
 
@@ -428,7 +419,6 @@ source: fictional demo
 :::
 
 ### 2026-10-17 | Apples at the market
-@setting: media/scene-2026-10-17.json
 
 The market stall had apples stacked in shallow wooden boxes and flowers tied in paper. I balanced a loaf of bread against my notebook while Robin found the smallest bag of pears. Behind the stall, a bicycle leaned against a tree with a basket full of folded cloth.
 
@@ -451,7 +441,6 @@ source: fictional demo
 :::
 
 ### 2026-10-18 | The small campsite
-@setting: media/scene-2026-10-18.json
 
 By evening the tent was up beneath a tree near the river. Robin set a lamp on the wooden bench while I unwrapped the bread and apples on our little camp table. A small fire glowed in the stone ring, with the blue boat pulled up safely on the bank beyond it.
 
@@ -467,7 +456,6 @@ source: fictional demo
 :::
 
 ### 2026-10-19 | A borrowed page
-@setting: media/scene-2026-10-19.json
 
 The library window was open just a crack, enough to stir the paper on the table. I chose a chair beside the bookshelf and put my tea mug far away from the book. A lamp with a green shade made a little island of light around my notebook.
 
@@ -487,7 +475,6 @@ source: fictional demo
 :::
 
 ### 2026-10-20 | Clay on the table
-@setting: media/scene-2026-10-20.json
 
 At the workshop table I rolled a little clay bowl with a rim as uneven as the river bank. Robin set a mug of tea beside the lamp, safely away from the tools. Through the window I could see the garden flowers nodding while the potter opened the back door.
 
@@ -509,7 +496,6 @@ source: fictional demo
 :::
 
 ### 2026-10-21 | The lamp stayed on
-@setting: media/scene-2026-10-21.json
 
 The desk lamp was on before the sky had quite turned dark. I opened the notebook beside a mug of tea and watched rain collect along the bottom of the window. The tree in the garden looked much thinner than it had on [the first morning](#2026-10-01).
 
@@ -527,7 +513,6 @@ source: fictional demo
 :::
 
 ### 2026-10-22 | The bicycle bell
-@setting: media/scene-2026-10-22.json
 
 I wheeled the bicycle down to the park bench beside the river. A fallen branch from the tree had caught in the flowers, and the path was patched with wet leaves. I put the notebook on the bench and tightened the little screw under the bell until it rang clearly again.
 
@@ -545,7 +530,6 @@ source: fictional demo
 :::
 
 ### 2026-10-23 | Names by the window
-@setting: media/scene-2026-10-23.json
 
 Robin had already found a café table by the window when I arrived. Two tea mugs stood beside a little vase of flowers, and the lamp behind the counter was reflected twice in the glass. I took the notebook out, then put it away again because the conversation was moving faster than my pencil.
 
@@ -559,7 +543,6 @@ source: fictional demo
 :::
 
 ### 2026-10-24 | The bench was empty
-@setting: media/scene-2026-10-24.json
 
 Fog softened the far side of the river this morning. I sat on the park bench with my notebook and tea mug, looking at the tree above the boat landing. A bicycle went past so quietly that I noticed its light before I heard its wheels.
 
@@ -581,7 +564,6 @@ source: fictional demo
 :::
 
 ### 2026-10-25 | Numbers and a loaf of bread
-@setting: media/scene-2026-10-25.json
 
 I set a loaf of bread on the kitchen table and drew a rough graph in the notebook while it cooled. The tea mug had left a pale ring near the lamp, and outside the window the garden tree was holding on to a few orange leaves. The whole room smelled like the oven.
 
@@ -603,7 +585,6 @@ style: bars
 :::
 
 ### 2026-10-26 | Before the sentences
-@setting: media/scene-2026-10-26.json
 
 Rain ran down the kitchen window while I sat with the tea mug between both hands. The notebook lay open under the lamp, with a sketch of the garden tree taking up most of the page. I jotted a few rough words before I knew what I wanted to say.
 
@@ -629,7 +610,6 @@ source: fictional demo
 :::
 
 ### 2026-10-27 | A guitar in the corner
-@setting: media/scene-2026-10-27.json
 
 Robin brought a guitar to the café and set it beside the piano under the lamp. We found a table close to the window, put our tea mugs on opposite sides of my notebook, and tried to remember a tune neither of us knew all the way through. The flowers on the counter were new, bright yellow this time.
 
@@ -651,7 +631,6 @@ source: fictional demo
 :::
 
 ### 2026-10-28 | Questions in the garden
-@setting: media/scene-2026-10-28.json
 
 The garden bench was covered in leaves from the apple tree. I brushed off a space for my notebook and tea mug, then checked the seedlings in the raised bed. The flowers along the path looked smaller in the low afternoon sun, as if the whole garden had settled back into itself.
 
@@ -675,7 +654,6 @@ source: fictional demo
 :::
 
 ### 2026-10-29 | After dark
-@setting: media/scene-2026-10-29.json
 
 The river was almost black tonight, except where the park lamp made a long yellow stripe. Robin and I sat on the bench under the tree with tea mugs from the café. A boat knocked once against the landing and then went quiet; the moon made the bicycle's metal bell look white.
 
@@ -689,7 +667,6 @@ source: fictional demo
 :::
 
 ### 2026-10-30 | Everyone brought something
-@setting: media/scene-2026-10-30.json
 
 The kitchen table was too small for all the bread, apples and tea mugs, so we moved the notebook and lamp to the window ledge. Robin put flowers in the clay bowl, which was finally dry. Outside, the garden tree was bare enough to show the blue evening sky between every branch.
 
@@ -705,7 +682,6 @@ source: fictional demo
 :::
 
 ### 2026-10-31 | A month on the table
-@setting: media/scene-2026-10-31.json
 
 In the morning I spread the notebook, the library book and the folded café napkin across the kitchen table. The lamp was on, the tea mug was warm, and sunlight came through the window onto the clay bowl. The bare tree outside made a much simpler drawing than the one I had begun with.
 

@@ -1,6 +1,7 @@
 # Small things in October
 
-A fictional journal for 1–31 October 2026, with one entry and one saved 3D scene for every day. Names, experiences,
+A fictional journal for 1–31 October 2026, with one entry for every day and a saved 3D scene for each day of
+the first week (1–7 October). Names, experiences,
 measurements and recordings are demonstration material. Nothing here describes a real person's journal.
 
 Open [demo-month.jotz](demo-month.jotz) in **Write → Open**. It carries the writing and attached files together, including
@@ -18,9 +19,9 @@ original bytes and readable names, while archive members use UUID identities.
 
 ## Look around
 
-1. Open **Scenes**, choose a day and turn its place. Choose a named thing beside it to read the sentences it holds.
+1. Open **Scenes**, choose a day from 1–7 October and turn its place. Choose a named thing beside it to read the sentences it holds.
    **Open journal** shows the corresponding entry; **Go to this entry** returns to the writing. Try a rainy day and
-   **Pause motion**, or use reduced motion in Writing preferences. [See the month as scenes](scenes.html) shows the same
+   **Pause motion**, or use reduced motion in Writing preferences. [See the first week as scenes](scenes.html) shows the same
    scenes on their own, without Writer.
 2. Open **Map** to follow the month, cross-entry links and tag threads. Choose an entry, then **Open in writing**.
 3. Open **Media** to browse the book, film, series, anime, podcast, game and music references. Compare a mention with
@@ -62,14 +63,14 @@ The prose stays a journal; the examples are spread through the month.
 | A period record and a monthly recap | 31 October |
 | Per-entry pen and ink | 6 and 7 October |
 | Margin notes, time labels, page breaks and a document filename variable | 1, 21 and 31 October; the preamble |
-| An independently readable saved scene tied to the day's own sentences | Every day in Scenes |
+| An independently readable saved scene tied to the day's own sentences | 1–7 October in Scenes; the other days show how a day without a scene looks |
 | A5 page settings and a bounded block layout hint | Page-settings comment before the first entry; the monthly numbers section |
 
 The scene-generation tool uses Writer's actual scene pipeline: `journalDays` extracts the day's prose, `placePrompt`
 numbers its sentences, `requestJSON` asks OpenRouter for scene data, and `validatePlace` replaces sentence numbers with
 the entry's exact words. Scratchpads, hidden comments, code and records are excluded. Model-returned text never replaces
 the journal's writing. Saved scenes live in [demo-scenes/](demo-scenes/) and carry the model and generation time.
-All 31 saved scenes were generated through OpenRouter with `openai/gpt-5-mini`, with Zero Data Retention required and
+The seven saved scenes were generated through OpenRouter with `openai/gpt-6.1-sol`, with Zero Data Retention required and
 data collection denied. Each scene's object, shape and exact sentence-link counts, generation time and hashes are
 recorded in [the provenance index](demo-scenes/index.json).
 
@@ -143,8 +144,8 @@ node tools/generate-demo-scenes.mjs
 node tools/build-demo-journal.mjs
 ```
 
-This explicit command sends each day's extracted prose to OpenRouter using the model selected with `--model` or
-`OPENROUTER_MODEL` (default `openai/gpt-5-mini`). Zero Data Retention is required by default and data collection is denied. It saves successful days
+This explicit command sends the extracted prose of each day whose entry has an `@setting:` line to OpenRouter using the model selected with `--model` or
+`OPENROUTER_MODEL` (default `openai/gpt-6.1-sol`). Zero Data Retention is required by default and data collection is denied. It saves successful days
 as it goes; rerunning reuses only scenes whose model, privacy policy, prompt, sentences and saved bytes still match.
 The provenance index records those hashes and generation times without credentials. Missing credentials or failed
 requests stop generation; no substitute scenes or silent model/privacy fallback is used. Review generated places in

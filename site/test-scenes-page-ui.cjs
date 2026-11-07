@@ -20,10 +20,11 @@ const server = http.createServer((req, res) => {
     const page = await context.newPage(); page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(origin + '/examples/scenes.html');
     await page.waitForSelector('#writerScenes .writer-scenes-canvas', { state: 'visible', timeout: 30000 });
-    assert.equal(await page.locator('#writerScenes [role=tab]').count(), 31, 'all 31 days');
+    assert.equal(await page.locator('#writerScenes [role=tab]').count(), 7, 'only the first week, the days with a kept scene');
+    assert.equal(await page.textContent('#writerScenesSummary'), '7 scenes from 31 days.');
     assert.equal(await page.textContent('#writerScenesTitle'), 'Small things in October');
     assert.equal(await page.textContent('.writer-scenes-headline'), 'A window to begin with', 'the day’s own title');
-    assert.equal(await page.textContent('.writer-scenes-counter'), '01 / 31');
+    assert.equal(await page.textContent('.writer-scenes-counter'), '01 / 07');
     assert.equal(await page.locator('#writerScenesMake, #writerScenesSend, #writerScenesKeep:visible').count(), 0, 'nothing is made, sent or kept here');
     const first = page.locator('.writer-scenes-things button').first(); await first.click();
     for (const line of await page.locator('.writer-scenes-moment li').allTextContents()) assert.ok(source.includes(line.trim()), `a moment is the entry’s own sentence: ${line}`);
@@ -33,7 +34,7 @@ const server = http.createServer((req, res) => {
     if (shots) await page.screenshot({ path: path.join(shots, 'scenes-page-journal.png') });
     await page.keyboard.press('Escape');
     await page.click('.writer-scenes-step[aria-label="Next day"]');
-    await page.waitForFunction(() => document.querySelector('.writer-scenes-counter')?.textContent === '02 / 31');
+    await page.waitForFunction(() => document.querySelector('.writer-scenes-counter')?.textContent === '02 / 07');
     assert.equal(await page.textContent('.writer-scenes-headline'), 'After the rain');
     await page.addScriptTag({ path: require.resolve('axe-core/axe.min.js') });
     assert.deepEqual(await page.evaluate(async () => (await axe.run(document.getElementById('writerScenes'))).violations.filter((v) => ['serious', 'critical'].includes(v.impact)).map((v) => v.id)), []);

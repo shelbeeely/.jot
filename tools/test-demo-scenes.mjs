@@ -7,7 +7,7 @@ import path from 'node:path';
 import { generateDemoScenes, reusableScene, sceneArguments } from './generate-demo-scenes.mjs';
 import { journalDays, placePrompt, PLACE_SCHEMA, readPlaceFile } from '../site/dist/scene-journal-core.mjs';
 
-const SOURCE = '### 2026-10-01 | A small morning\nA mug of tea on the desk.\n';
+const SOURCE = '### 2026-10-01 | A small morning\n@setting: media/scene-2026-10-01.json\nA mug of tea on the desk.\n\n### 2026-10-02 | No scene\nThis day is never sent.\n';
 const SHAPE = { type: 'box', position: [0, 0.5, 0], rotation: [0, 0, 0], size: [1, 1, 1], color: '#aabbcc', roughness: 0.8, glow: false };
 const quiet = () => {};
 

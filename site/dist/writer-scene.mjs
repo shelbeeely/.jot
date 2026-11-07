@@ -404,11 +404,13 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
   }
   async function compute(force = false) {
     const before = days[current] && keyOf(days[current]);
-    days = journalDays(editor.value);
+    const all = journalDays(editor.value);
+    days = readOnly ? all.filter((d) => d.setting) : all; // the read-only page shows only the days that kept a scene
     const again = days.findIndex((d) => keyOf(d) === before);
     current = again >= 0 ? again : Math.min(current, Math.max(0, days.length - 1));
     const kept = days.filter((d) => d.setting).length;
-    summary.textContent = days.length ? `${days.length} ${days.length === 1 ? 'day' : 'days'}; ${kept} with a ${readOnly ? '' : 'kept '}scene.` : 'No dated entries yet.';
+    summary.textContent = !all.length ? 'No dated entries yet.' : readOnly ? `${kept} ${kept === 1 ? 'scene' : 'scenes'} from ${all.length} ${all.length === 1 ? 'day' : 'days'}.`
+      : `${all.length} ${all.length === 1 ? 'day' : 'days'}; ${kept} with a kept scene.`;
     if (force) key = '';
     drawTabs(); await render();
   }

@@ -14,6 +14,7 @@ import { brandLink, iconLinks } from './sync-brand.mjs';
 import { siteNavigation, navigationStyles } from './sync-navigation.mjs';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
+export const SCENE_DAYS = Array.from({ length: 7 }, (_, i) => `2026-10-0${i + 1}`);
 export const DEMO_PASSPHRASE = 'jot-demo-only'; // Published fictional fixture, never a real secret.
 const sourcePath = path.join(ROOT, 'examples/demo-month.jot');
 const output = path.join(ROOT, 'site/dist/examples');
@@ -30,7 +31,9 @@ export async function demoInputs() {
   assert.deepEqual(days.map((d) => d.date), Array.from({ length: 31 }, (_, i) => `2026-10-${String(i + 1).padStart(2, '0')}`));
   const provenance = JSON.parse(fs.readFileSync(path.join(ROOT, 'examples/demo-scenes/index.json'), 'utf8'));
   const assets = await demoAssets();
-  for (const day of days) {
+  // The first week carries kept scenes; the rest of the month is writing only.
+  assert.deepEqual(days.filter((d) => d.setting).map((d) => d.date), SCENE_DAYS, 'Scenes are kept for 1–7 October only.');
+  for (const day of days.filter((d) => d.setting)) {
     const name = `scene-${day.date}.json`, text = fs.readFileSync(path.join(ROOT, 'examples/demo-scenes', day.date + '.json'), 'utf8');
     const item = provenance.scenes[day.date];
     assert.equal(item?.provider, 'openrouter', `${day.date} needs an actual OpenRouter reply.`);
@@ -77,7 +80,7 @@ async function verifyArchive(bytes, input, mixed) {
 }
 
 // On the site, the demo opens straight in Writer (Writer asks before it replaces any writing in this browser).
-const OPEN_LINKS = '<p class="demo-open" style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="scenes.html">See the month as scenes</a> <a class="btn" href="../write/?open=examples/demo-month.jotz">Open the demo in Writer</a> <a class="btn" href="../write/?open=examples/demo-month-mixed.jotz">Open the protected copy</a></p>';
+const OPEN_LINKS = '<p class="demo-open" style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="scenes.html">See the first week as scenes</a> <a class="btn" href="../write/?open=examples/demo-month.jotz">Open the demo in Writer</a> <a class="btn" href="../write/?open=examples/demo-month-mixed.jotz">Open the protected copy</a></p>';
 function guideHTML(markdown) {
   const marked = new Marked({ gfm: true });
   // Only repository-authored documentation, never journal or model output, enters this page.
@@ -118,7 +121,7 @@ export async function buildDemo({ check = false } = {}) {
   for (const name of fs.readdirSync(path.join(ROOT, 'examples/demo-scenes')).filter((n) => /^(?:index|2026-10-\d{2})\.json$/.test(n))) {
     write(path.join(output, 'demo-scenes', name), fs.readFileSync(path.join(ROOT, 'examples/demo-scenes', name)));
   }
-  console.log(`Month demo: ${check ? 'current' : 'built'}, 31 entries, 31 live-model scenes, ${input.assets.length} attachments (${Math.round(publicBytes.length / 1024)} KiB).`);
+  console.log(`Month demo: ${check ? 'current' : 'built'}, 31 entries, ${SCENE_DAYS.length} live-model scenes, ${input.assets.length} attachments (${Math.round(publicBytes.length / 1024)} KiB).`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

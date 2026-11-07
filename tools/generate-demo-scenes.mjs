@@ -23,16 +23,18 @@ export function reusableScene(day, item, text, { model, zdr }) {
 }
 
 /** Request each missing day from the real pipeline. fetcher exists for transport-boundary tests; CLI always uses global fetch. */
-export async function generateDemoScenes({ source, directory, key, model = 'openai/gpt-5-mini', zdr = true, concurrency = 2, onlyDay = '',
+export async function generateDemoScenes({ source, directory, key, model = 'openai/gpt-6.1-sol', zdr = true, concurrency = 2, onlyDay = '',
   fetcher = fetch, report = console.log, timeoutMs = 15 * 60 * 1000 } = {}) {
   if (!String(key || '').trim()) throw Error('OPENROUTER_API_KEY is required. No scenes were generated and no substitute was used.');
   if (typeof model !== 'string' || !model.trim() || model.length > 200) throw Error('Choose an OpenRouter model ID.');
   model = model.trim();
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 8) throw Error('Concurrency must be between 1 and 8.');
-  const days = journalDays(source).filter((day) => !onlyDay || day.date === onlyDay);
-  if (!days.length) throw Error('No dated entries match the requested journal/day.');
+  // Only days whose entry names a scene with an @setting: line are requested; the rest of the journal is never sent.
+  const all = journalDays(source);
+  if (new Set(all.map((day) => day.date)).size !== all.length) throw Error('The month demo needs one entry per date.');
+  const days = all.filter((day) => day.setting && (!onlyDay || day.date === onlyDay));
+  if (!days.length) throw Error('No dated entries with an @setting: line match the requested journal/day.');
   if (days.some((day) => !day.sentences.length)) throw Error('Each demo day needs prose before a scene can be requested.');
-  if (new Set(days.map((day) => day.date)).size !== days.length) throw Error('The month demo needs one entry per date.');
   fs.mkdirSync(directory, { recursive: true });
   const indexFile = path.join(directory, 'index.json');
   let index = { format: 'jot-demo-scene-provenance', version: 1, scenes: {} };
@@ -81,7 +83,7 @@ export async function generateDemoScenes({ source, directory, key, model = 'open
   return results.sort((a, b) => a.date.localeCompare(b.date));
 }
 
-const HELP = `Generate a demo month's scenes through Writer's OpenRouter pipeline.
+const HELP = `Generate the demo's scenes through Writer's OpenRouter pipeline: one for each entry with an @setting: line.
 
 OPENROUTER_API_KEY must be configured in the environment. It is never saved or printed.
 NODE_USE_ENV_PROXY=1 enables Node's normal environment proxy handling when required.
@@ -90,7 +92,7 @@ NODE_USE_ENV_PROXY=1 enables Node's normal environment proxy handling when requi
 
   --source PATH          Journal source (default examples/demo-month.jot)
   --out-dir PATH         Saved scenes (default examples/demo-scenes)
-  --model ID             OpenRouter model (or OPENROUTER_MODEL; default openai/gpt-5-mini)
+  --model ID             OpenRouter model (or OPENROUTER_MODEL; default openai/gpt-6.1-sol)
   --day YYYY-MM-DD       Only generate/recheck this day
   --concurrency 1..8     Concurrent model requests (default 2)
   --allow-retention     Explicitly turn ZDR off; data collection remains denied
@@ -102,7 +104,7 @@ No fallback scenes, models or relaxed privacy settings are used. Review the gene
 
 export function sceneArguments(args, env = process.env) {
   const options = { sourcePath: path.join(ROOT, 'examples/demo-month.jot'), directory: path.join(ROOT, 'examples/demo-scenes'),
-    key: env.OPENROUTER_API_KEY, model: env.OPENROUTER_MODEL || 'openai/gpt-5-mini', zdr: true, concurrency: 2 };
+    key: env.OPENROUTER_API_KEY, model: env.OPENROUTER_MODEL || 'openai/gpt-6.1-sol', zdr: true, concurrency: 2 };
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--help') return { help: true };
