@@ -78,6 +78,10 @@ test('crafted parts are shapes Jot draws: a fixed list, kept by validation, ever
   const p = validatePlace({ objects: [{ name: 'Tea', moments: [1], shapes: [shape({ type: 'mug', size: [0.12, 0.12, 0.09] }), shape({ type: 'spellbook' })] }] }, ['Tea.']);
   assert.deepEqual(p.objects[0].shapes.map((x) => x.type), ['mug'], 'an unknown part name is dropped like any unknown shape');
   assert.match(placePrompt(journalDays(SOURCE)[0]).system, /Prefer a crafted part when one fits: mug, teapot/);
+  assert.match(placePrompt(journalDays(SOURCE)[0]).system, /Aim for 8 to 20 objects and at most 80 shapes/, 'Writer keeps the standard prompt');
+  const rich = placePrompt(journalDays(SOURCE)[0], { detail: 'rich' }).system;
+  assert.match(rich, /Aim for 20 to 45 objects and at most 240 shapes/); assert.match(rich, /Never add people/);
+  assert.throws(() => placePrompt(journalDays(SOURCE)[0], { detail: 'huge' }), /Unknown scene detail/);
   // Every part builds from three.js pieces only (a tiny stand-in records what is made).
   class Obj { constructor() { this.children = []; this.userData = {}; this.position = vec(); this.rotation = vec(); this.scale = vec(); } add(c) { this.children.push(c); return this; } }
   function vec() { return { set() { return this; }, setScalar() { return this; } }; }

@@ -1364,8 +1364,8 @@
     },
     {
       "path": "examples/DEMO.md",
-      "byteLength": 12083,
-      "sha256": "09ffaa843936c942df26abe52ee7248ccc47032554f80d6d983cbad724b1a736"
+      "byteLength": 12344,
+      "sha256": "c5d4c825949069fcdf4c96a8ccffb9627ffbf8724e4f8fdcede19dce4c8c05ca"
     },
     {
       "path": "examples/README.md",
@@ -23124,8 +23124,8 @@
     },
     {
       "path": "site/dist/examples/demo.html",
-      "byteLength": 17801,
-      "sha256": "9f3b6146cc23f23d9dc204658b4ada855421794178c4a7eac75a57b5a7ab6e07"
+      "byteLength": 18136,
+      "sha256": "5e3763988da60e0db5938bbba2fb0bd64a2d02c35a60ec79fc0cb206f691e4a9"
     },
     {
       "path": "site/dist/examples/diaries/blunt/blunt-1870.jot",
@@ -24085,7 +24085,7 @@
     {
       "path": "site/dist/offline-files.mjs",
       "byteLength": 5942,
-      "sha256": "276d4f38e5b8733ffc4ef7a9f66560147859c2e2db7ecf9515320ea68acc2c6c"
+      "sha256": "9d458ffa67ea75e5dc86110a2b708900cbdbde6fe54c48693aeeae032e049f35"
     },
     {
       "path": "site/dist/page-view-css.mjs",
@@ -24139,8 +24139,8 @@
     },
     {
       "path": "site/dist/scene-journal-core.mjs",
-      "byteLength": 15948,
-      "sha256": "00665f8d4a2f94b6cdd06fa311960e5e69201ef018efc9d04885f038ff6fc2ea"
+      "byteLength": 16968,
+      "sha256": "fe1df2085c9f0ec134d10764a1710b9192ffabb04e0ab73187f2e22926e8f006"
     },
     {
       "path": "site/dist/scenes-page.mjs",
@@ -24934,8 +24934,8 @@
     },
     {
       "path": "site/test-scene-journal.mjs",
-      "byteLength": 14322,
-      "sha256": "6e2865f2c48fc0512e07af48522c52e502b207286b032dab96a140a0b9c6c6fc"
+      "byteLength": 14763,
+      "sha256": "f56bdd5c58db6e5bab48d6b7a376d4d1091ad91fb5667c44ef182bc22759b411"
     },
     {
       "path": "site/test-scenes-page-ui.cjs",
@@ -25234,8 +25234,8 @@
     },
     {
       "path": "tools/generate-demo-scenes.mjs",
-      "byteLength": 9276,
-      "sha256": "97a2bc8f963bedeb5047468ae3e471b8217096187eda5f16ffe426db3b4cf619"
+      "byteLength": 10677,
+      "sha256": "af225ca78125bd6ba65d95c24689c8a02717eee9b331751135f0bde967293295"
     },
     {
       "path": "tools/manifest.cjs",
@@ -25284,8 +25284,8 @@
     },
     {
       "path": "tools/test-demo-scenes.mjs",
-      "byteLength": 4454,
-      "sha256": "2efcc4df8d17825ff2a69dfd3ea5c4b8b82ae733bde00be712a63bb417ba8df4"
+      "byteLength": 5210,
+      "sha256": "088b6bc684e6341a1d5145f68185db020e16f398e694b8a0aab5d66f26b0d23c"
     },
     {
       "path": "tools/test-files.mjs",
