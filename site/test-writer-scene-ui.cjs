@@ -81,6 +81,7 @@ const server=http.createServer((req,res)=>{const url=decodeURIComponent(req.url.
   assert.equal(requests.length,0,'nothing is sent before Send');
   await page.click('#writerScenesSend');await page.waitForSelector('#writerScenes .writer-scenes-canvas');
   assert.equal(requests.length,1);const sent=requests[0];
+  assert.equal(sent.max_tokens,128000,'Writer asks as the demo does');assert.equal(sent.reasoning,undefined,'a local server never gets the reasoning hint');
   assert.equal(sent.response_format.json_schema.name,'jot_place');assert.equal(sent.messages.length,2);assert.doesNotMatch(JSON.stringify(sent),/scratch note/,'scratchpads are never sent');
   assert.deepEqual(JSON.parse(sent.messages[1].content),{date:'2026-10-01',sentences:[{n:1,text:'Papers everywhere on my desk.'},{n:2,text:'The tea went cold while I read the same page three times.'}]});
   assert.equal(await loaded(),true);

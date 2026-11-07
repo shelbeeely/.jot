@@ -7,7 +7,7 @@
 // The view is a theatre (Jot's charcoal room, light ink, cream paper): the day's own title and first sentence over the scene, the
 // things that hold moments beside it, a paper card for the chosen moment, the whole entry in a paper dialog, a pill of days below
 // and Full screen. With readOnly (the site's demo page) it only shows kept scenes: nothing is made, sent or kept.
-import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, PLACE_SCHEMA } from './scene-journal-core.mjs';
+import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, PLACE_SCHEMA, SCENE_REQUEST } from './scene-journal-core.mjs';
 import { buildPlace } from './writer-scene-build.mjs';
 import { requestJSON } from './ai-client.mjs';
 import { mediaMentions } from './media-shelf-core.mjs';
@@ -20,7 +20,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
   const button = (text, attributes = {}) => el('button', text, { type: 'button', ...attributes });
   const section = el('section', undefined, { id: 'writerScenes', class: 'writer-scenes', 'aria-labelledby': 'writerScenesTitle' }); section.hidden = true;
   const summary = el('p', '', { id: 'writerScenesSummary', class: 'writer-scenes-summary', role: 'status' });
-  const head = el('div', undefined, { class: 'writer-scenes-head' }); head.append(el('h2', heading, { id: 'writerScenesTitle' }), summary);
+  const head = el('div', undefined, { class: 'writer-scenes-head' }); head.append(el('h2', heading, { id: 'writerScenesTitle' }), el('p', 'Experimental: scenes and how they are drawn may change.', { class: 'writer-scenes-badge' }), summary);
   const tabs = el('div', undefined, { class: 'writer-scenes-tabs', role: 'tablist', 'aria-label': 'Days' });
   const panel = el('div', undefined, { id: 'writerScenesPanel', class: 'writer-scenes-panel', role: 'tabpanel' });
   // Over the scene: the date, the day's own title, its first sentence (the writer's words) and what the scene is.
@@ -293,7 +293,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
     cancel.onclick = () => { controller?.abort(); confirm.hidden = true; };
     send.onclick = async () => {
       const prompt = placePrompt(day), mine = keyOf(day); controller?.abort(); controller = new AbortController();
-      send.disabled = true; summary.textContent = 'Asking the model for this day\'s scene. Some models take a minute or two; Cancel stops it.';
+      send.disabled = true; summary.textContent = 'Asking the model for this day\'s scene. It is asked to think hard, so this can take ten minutes or more; Cancel stops it.';
       if (tokenInput?.value.trim()) tmdbToken = tokenInput.value.trim();
       const stillWanted = !!(wantStill?.checked && tmdbToken), signal = controller.signal;
       // The scene and the still are asked for together; a still that cannot be found never stops the scene.
@@ -301,7 +301,7 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
       const coverJob = wantCover?.checked ? (async () => { const found = await findCovers(reading.target, { signal }); if (!found.covers.length) throw new Error(`Open Library has no cover for ${found.title}`); return fetchCover({ reference: reading.target, title: found.title, list: found.covers, index: 0 }, signal); })() : null;
       try {
         const [value, still, cover] = await Promise.all([
-          requestJSON({ ...conn, system: prompt.system, user: prompt.user, schema: PLACE_SCHEMA, name: 'jot_place', maxTokens: 24000, reasoning: { effort: 'low' } }, { signal }),
+          requestJSON({ ...conn, system: prompt.system, user: prompt.user, schema: PLACE_SCHEMA, name: 'jot_place', ...SCENE_REQUEST }, { signal }),
           stillJob ? stillJob.catch((e) => ({ error: e })) : null, coverJob ? coverJob.catch((e) => ({ error: e })) : null]);
         const place = validatePlace(value, day.sentences);
         if (still?.error && /token/.test(still.error.message)) tmdbToken = '';
@@ -404,11 +404,13 @@ export function setupWriterScene({ editor, jumpTo = null, rewrite, placeText = (
   }
   async function compute(force = false) {
     const before = days[current] && keyOf(days[current]);
-    days = journalDays(editor.value);
+    const all = journalDays(editor.value);
+    days = readOnly ? all.filter((d) => d.setting) : all; // the read-only page shows only the days that kept a scene
     const again = days.findIndex((d) => keyOf(d) === before);
     current = again >= 0 ? again : Math.min(current, Math.max(0, days.length - 1));
     const kept = days.filter((d) => d.setting).length;
-    summary.textContent = days.length ? `${days.length} ${days.length === 1 ? 'day' : 'days'}; ${kept} with a ${readOnly ? '' : 'kept '}scene.` : 'No dated entries yet.';
+    summary.textContent = !all.length ? 'No dated entries yet.' : readOnly ? `${kept} ${kept === 1 ? 'scene' : 'scenes'} from ${all.length} ${all.length === 1 ? 'day' : 'days'}.`
+      : `${all.length} ${all.length === 1 ? 'day' : 'days'}; ${kept} with a kept scene.`;
     if (force) key = '';
     drawTabs(); await render();
   }

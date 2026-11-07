@@ -68,3 +68,6 @@
 .writer-scenes-still-choice{display:flex;gap:8px;align-items:flex-start;margin:10px 0;font-size:15px}.writer-scenes-still-choice input{width:20px;height:20px;margin-top:2px}
 .writer-scenes-token{display:grid;gap:4px;margin:8px 0;font-size:15px}.writer-scenes-token[hidden]{display:none}.writer-scenes-token input{min-height:44px;padding:6px 10px;font:inherit;border:1px solid var(--writer-border,var(--jot-edge));border-radius:8px}
 .writer-scenes-credit{font-size:13px;color:var(--writer-muted,var(--jot-muted))}
+
+/* Scenes are experimental: a quiet label under the heading. */
+.writer-scenes-badge{display:inline-block;margin:2px 0 6px;padding:2px 10px;border:1px solid currentColor;border-radius:999px;font:600 13px/1.6 "Jot Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em;opacity:.85}

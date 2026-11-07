@@ -160,7 +160,7 @@ export function setupWriterWorkspace({ editor, status, showPreview, scenes: scen
     mediaToggle.onclick = () => selectView(root.getAttribute('data-writer-view') === 'media' ? 'write' : 'media');
     mapToggle.after(mediaToggle);
     if (scenes) {
-      const scenesToggle = element('button', 'Scenes', { id: 'writerScenesToggle', type: 'button', 'aria-pressed': 'false', title: 'Each day as a small 3D place, made by your AI model when you ask' });
+      const scenesToggle = element('button', 'Scenes', { id: 'writerScenesToggle', type: 'button', 'aria-pressed': 'false', title: 'Experimental: each day as a small 3D place, made by your AI model when you ask' });
       scenesToggle.onclick = () => selectView(root.getAttribute('data-writer-view') === 'scenes' ? 'write' : 'scenes');
       mediaToggle.after(scenesToggle);
     }
@@ -408,7 +408,7 @@ export function setupWriterWorkspace({ editor, status, showPreview, scenes: scen
     ['musicPlayerBtn', 'Music player', 'Load a persistent Spotify player'], ['voiceBtn', 'Voice practice', 'Optional pitch tool'],
     ['importHealthBtn', 'Import health data', 'Review daily measurements'], ['attachBtn', 'Attach a file', 'Keep files in a .jotz'],
     ['downloadJot', 'Download journal', 'Jotz v1 archive'], ['sourceJotBtn', 'Export Jot source', 'Unencrypted writing as .jot; attachments omitted'], ['markdownBtn', 'Export Markdown', 'Writing as .md'],
-    ['printBtn', 'Print or PDF', 'Formatted pages'], ['pageViewBtn', 'Page view', 'The printed pages one sheet at a time'], ['writerScenesToggle', 'Scenes', 'Each day as a small 3D place'], ['epubBtn', 'Download EPUB', 'Fixed-layout pages for Apple Books and other EPUB readers'], ['exportPage', 'Download page', 'Standalone HTML'],
+    ['printBtn', 'Print or PDF', 'Formatted pages'], ['pageViewBtn', 'Page view', 'The printed pages one sheet at a time'], ['writerScenesToggle', 'Scenes', 'Experimental: each day as a small 3D place'], ['epubBtn', 'Download EPUB', 'Fixed-layout pages for Apple Books and other EPUB readers'], ['exportPage', 'Download page', 'Standalone HTML'],
     ['icsBtn', 'Export calendar', 'Events and tasks as .ics'], ['numbersCsvBtn', 'Export numbers', 'Measurements as CSV'],
     ['tasksCsvBtn', 'Export tasks', 'Tasks as CSV'], ['importCsvBtn', 'Import numbers CSV', 'Review measurements from a file'],
     ['paletteCssBtn', 'Copy palette CSS', 'Colors at the caret'], ['paletteJsonBtn', 'Copy palette JSON', 'Colors at the caret'],

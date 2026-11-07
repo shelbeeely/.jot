@@ -1,7 +1,7 @@
 // Journal places (scene-journal-core.mjs, spec 8.1.9): what is sent, what comes back, what is kept, and the one line that changes.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, plainText, PLACE_SCHEMA, LIMITS, ATMOSPHERES, MOTIONS } from './dist/scene-journal-core.mjs';
+import { journalDays, placePrompt, validatePlace, placeFile, readPlaceFile, settingEdit, plainText, PLACE_SCHEMA, LIMITS, ATMOSPHERES, MOTIONS , SCENE_REQUEST } from './dist/scene-journal-core.mjs';
 import { jsonRequest, requestJSON } from './dist/ai-client.mjs';
 import { PARTS, buildPart } from './dist/writer-scene-parts.mjs';
 
@@ -58,8 +58,8 @@ test('a model\'s place is cleaned: clamped, limited, and its moments are the ent
   assert.deepEqual(p, { title: 'A b desk /b', sky: '#b8c7d6', ground: '#123456', weather: 'clear', time: 'night', atmosphere: 'neutral', camera: { position: [1, 2, 50], target: [0, 0.6, 0] },
     objects: [{ name: 'Mug', position: [0, 0, 0], rotation: [0, Math.PI * 2, 0], motion: 'none', moments: ['Two.'], shapes: [{ type: 'box', position: [0, 0, 0], rotation: [0, 0, 0], size: [0.01, 20, 1], color: '#9a958c', roughness: 1, glow: false }] }] });
   assert.throws(() => validatePlace({ objects: [] }, list), /nothing in it/); assert.throws(() => validatePlace('a script', list), /did not describe/);
-  const many = validatePlace({ objects: Array.from({ length: 80 }, () => ({ name: 'x', shapes: Array.from({ length: 12 }, () => shape()), moments: [] })) }, list);
-  assert.equal(many.objects.length, Math.floor(LIMITS.total / LIMITS.shapes) + 1); assert.ok(many.objects.every((o) => o.shapes.length <= LIMITS.shapes));
+  const many = validatePlace({ objects: Array.from({ length: LIMITS.objects + 10 }, () => ({ name: 'x', shapes: Array.from({ length: LIMITS.shapes + 2 }, () => shape()), moments: [] })) }, list);
+  assert.equal(many.objects.length, Math.ceil(LIMITS.total / LIMITS.shapes)); assert.ok(many.objects.every((o) => o.shapes.length <= LIMITS.shapes));
   assert.equal(many.objects.reduce((n, o) => n + o.shapes.length, 0), LIMITS.total);
 });
 test('atmosphere and motion come from fixed lists, are asked for strictly, and default for older places', () => {
@@ -78,6 +78,9 @@ test('crafted parts are shapes Jot draws: a fixed list, kept by validation, ever
   const p = validatePlace({ objects: [{ name: 'Tea', moments: [1], shapes: [shape({ type: 'mug', size: [0.12, 0.12, 0.09] }), shape({ type: 'spellbook' })] }] }, ['Tea.']);
   assert.deepEqual(p.objects[0].shapes.map((x) => x.type), ['mug'], 'an unknown part name is dropped like any unknown shape');
   assert.match(placePrompt(journalDays(SOURCE)[0]).system, /Prefer a crafted part when one fits: mug, teapot/);
+  const prompt = placePrompt(journalDays(SOURCE)[0]).system;
+  assert.match(prompt, /Aim for 40 to 100 objects and at most 600 shapes/); assert.match(prompt, /Never add people/);
+  assert.deepEqual(SCENE_REQUEST, { maxTokens: 128000, reasoning: { effort: 'max', exclude: true } }, 'one way of asking, for Writer and the demo');
   // Every part builds from three.js pieces only (a tiny stand-in records what is made).
   class Obj { constructor() { this.children = []; this.userData = {}; this.position = vec(); this.rotation = vec(); this.scale = vec(); } add(c) { this.children.push(c); return this; } }
   function vec() { return { set() { return this; }, setScalar() { return this; } }; }

@@ -2,33 +2,33 @@
   "format": "jot-place",
   "version": 1,
   "made": {
-    "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T10:36:33.058Z"
+    "model": "openai/gpt-6.1-sol",
+    "at": "2026-11-07T02:48:59.187Z"
   },
-  "title": "Desk with drawing",
-  "sky": "#bfe9ff",
-  "ground": "#f2efe6",
+  "title": "Flower sketch nook",
+  "sky": "#e2edf0",
+  "ground": "#cbbba4",
   "weather": "clear",
   "time": "day",
-  "atmosphere": "cosy",
+  "atmosphere": "bright",
   "camera": {
     "position": [
-      1.8,
-      1.6,
-      2.8
+      4.3,
+      3.65,
+      5.25
     ],
     "target": [
-      0,
-      0.9,
-      0
+      -0.08,
+      1.08,
+      -0.46
     ]
   },
   "objects": [
     {
-      "name": "Room floor",
+      "name": "Plinth",
       "position": [
         0,
-        0,
+        0.045,
         0
       ],
       "rotation": [
@@ -40,7 +40,7 @@
       "moments": [],
       "shapes": [
         {
-          "type": "plane",
+          "type": "box",
           "position": [
             0,
             0,
@@ -52,12 +52,239 @@
             0
           ],
           "size": [
-            4,
-            0.01,
-            3.5
+            4.24,
+            0.09,
+            3.56
           ],
-          "color": "#efe6d8",
-          "roughness": 0.8,
+          "color": "#8e7960",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Oak floorboards",
+      "position": [
+        0,
+        0.105,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -1.89,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#c5ac88",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.47,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#cbb391",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.05,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#c1a680",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.63,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#cfb797",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.21,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#c7ad88",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.21,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#cdb491",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.63,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#bea37e",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.05,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#c8af8b",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.47,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#d0b898",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.89,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.412,
+            0.03,
+            3.52
+          ],
+          "color": "#c4aa84",
+          "roughness": 0.88,
           "glow": false
         }
       ]
@@ -66,8 +293,109 @@
       "name": "Back wall",
       "position": [
         0,
-        1.4,
-        -1.6
+        0,
+        -1.7
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -1.7,
+            1.445,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.8,
+            2.65,
+            0.12
+          ],
+          "color": "#eee7d6",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.15,
+            1.445,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.9,
+            2.65,
+            0.12
+          ],
+          "color": "#eee7d6",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.55,
+            0.6575,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.5,
+            1.075,
+            0.12
+          ],
+          "color": "#eee7d6",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.55,
+            2.6075,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.5,
+            0.325,
+            0.12
+          ],
+          "color": "#eee7d6",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side wall",
+      "position": [
+        -2.04,
+        1.445,
+        0
       ],
       "rotation": [
         0,
@@ -90,12 +418,88 @@
             0
           ],
           "size": [
-            4,
-            2.8,
-            0.12
+            0.12,
+            2.65,
+            3.4
           ],
-          "color": "#efe8e0",
-          "roughness": 0.9,
+          "color": "#e3dac6",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back skirting",
+      "position": [
+        0,
+        0.2,
+        -1.62
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            3.96,
+            0.16,
+            0.04
+          ],
+          "color": "#cfbda0",
+          "roughness": 0.78,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side skirting",
+      "position": [
+        -1.96,
+        0.2,
+        0.03
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.16,
+            3.26
+          ],
+          "color": "#cfbda0",
+          "roughness": 0.78,
           "glow": false
         }
       ]
@@ -103,9 +507,9 @@
     {
       "name": "Window",
       "position": [
-        -1.1,
-        1.6,
-        -1.59
+        -0.55,
+        1.82,
+        -1.7
       ],
       "rotation": [
         0,
@@ -118,7 +522,7 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "window",
           "position": [
             0,
             0,
@@ -130,43 +534,22 @@
             0
           ],
           "size": [
-            1.4,
-            1.1,
-            0.06
+            1.5,
+            1.25,
+            0.12
           ],
-          "color": "#cfe8ff",
-          "roughness": 0.2,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0.035
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.4,
-            1.1,
-            0.01
-          ],
-          "color": "#99cfff",
-          "roughness": 0.05,
+          "color": "#dddccb",
+          "roughness": 0.55,
           "glow": false
         }
       ]
     },
     {
-      "name": "Table",
+      "name": "Window sill",
       "position": [
-        0,
-        0.75,
-        0
+        -0.55,
+        1.17,
+        -1.52
       ],
       "rotation": [
         0,
@@ -175,7 +558,6 @@
       ],
       "motion": "none",
       "moments": [
-        "At the desk I pushed the lamp closer and opened my notebook to a blank page.",
         "A sprig of garden flowers stood in an old mug beside the window."
       ],
       "shapes": [
@@ -192,20 +574,39 @@
             0
           ],
           "size": [
-            1.6,
-            0.06,
-            0.9
+            1.66,
+            0.05,
+            0.36
           ],
-          "color": "#7b5236",
+          "color": "#c5b79b",
           "roughness": 0.7,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Window apron",
+      "position": [
+        -0.55,
+        1.095,
+        -1.602
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
         {
           "type": "box",
           "position": [
-            -0.7,
-            -0.39,
-            -0.35
+            0,
+            0,
+            0
           ],
           "rotation": [
             0,
@@ -213,126 +614,996 @@
             0
           ],
           "size": [
-            0.08,
-            0.72,
-            0.08
+            1.48,
+            0.1,
+            0.058
           ],
-          "color": "#5a3f2a",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5a3f2a",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5a3f2a",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#5a3f2a",
-          "roughness": 0.9,
+          "color": "#c5b79b",
+          "roughness": 0.75,
           "glow": false
         }
       ]
     },
     {
-      "name": "Notebook",
+      "name": "Left window trim",
+      "position": [
+        -1.342,
+        1.82,
+        -1.615
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.084,
+            1.3,
+            0.05
+          ],
+          "color": "#c5b79b",
+          "roughness": 0.75,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Right window trim",
+      "position": [
+        0.242,
+        1.82,
+        -1.615
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.084,
+            1.3,
+            0.05
+          ],
+          "color": "#c5b79b",
+          "roughness": 0.75,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window header",
+      "position": [
+        -0.55,
+        2.487,
+        -1.615
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.75,
+            0.084,
+            0.05
+          ],
+          "color": "#c5b79b",
+          "roughness": 0.75,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Curtain rod",
+      "position": [
+        -0.55,
+        2.6,
+        -1.39
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.013,
+            2.18,
+            0.013
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -1.11,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.028,
+            0.028,
+            0.028
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            1.11,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.028,
+            0.028,
+            0.028
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Left rod bracket",
+      "position": [
+        -1.63,
+        2.6,
+        -1.515
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            -0.1175
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.09,
+            0.015
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.03,
+            0.22
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.022,
+            0.125
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.018,
+            0.036
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Right rod bracket",
+      "position": [
+        0.53,
+        2.6,
+        -1.515
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            -0.1175
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.09,
+            0.015
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.03,
+            0.22
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.022,
+            0.125
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.018,
+            0.036
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Left curtain",
+      "position": [
+        -1.47,
+        1.86,
+        -1.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.112,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#e8e1cc",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.056,
+            0,
+            0.016
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#ddd5be",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#e8e1cc",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.056,
+            0,
+            0.016
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#ddd5be",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.112,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#e8e1cc",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            -0.112,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            -0.056,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0.056,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0.112,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Right curtain",
+      "position": [
+        0.37,
+        1.86,
+        -1.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.112,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#e8e1cc",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.056,
+            0,
+            0.016
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#ddd5be",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#e8e1cc",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.056,
+            0,
+            0.016
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#ddd5be",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.112,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.056,
+            1.42,
+            0.038
+          ],
+          "color": "#e8e1cc",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            -0.112,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            -0.056,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0.056,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0.112,
+            0.733,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.01,
+            0.022
+          ],
+          "color": "#89765c",
+          "roughness": 0.65,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Left curtain tie",
+      "position": [
+        -1.47,
+        1.51,
+        -1.354
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.028,
+            0.02
+          ],
+          "color": "#baac91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.143,
+            0,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.028,
+            0.06
+          ],
+          "color": "#baac91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.143,
+            0,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.028,
+            0.06
+          ],
+          "color": "#baac91",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Right curtain tie",
+      "position": [
+        0.37,
+        1.51,
+        -1.354
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.028,
+            0.02
+          ],
+          "color": "#baac91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.143,
+            0,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.028,
+            0.06
+          ],
+          "color": "#baac91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.143,
+            0,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.028,
+            0.06
+          ],
+          "color": "#baac91",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Desk",
       "position": [
         0,
         0.86,
-        -0.05
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "At the desk I pushed the lamp closer and opened my notebook to a blank page.",
-        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
-      ],
-      "shapes": [
-        {
-          "type": "book",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.22,
-            0.04,
-            0.3
-          ],
-          "color": "#3b6b2f",
-          "roughness": 0.6,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Pen",
-      "position": [
-        0.18,
-        0.88,
-        0.05
+        -0.75
       ],
       "rotation": [
         0,
@@ -347,6 +1618,494 @@
       ],
       "shapes": [
         {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.06,
+            0.06,
+            1.02
+          ],
+          "color": "#b8956b",
+          "roughness": 0.72,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.9,
+            -0.385,
+            -0.43
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.71,
+            0.075
+          ],
+          "color": "#947558",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.9,
+            -0.385,
+            -0.43
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.71,
+            0.075
+          ],
+          "color": "#947558",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.9,
+            -0.385,
+            0.43
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.71,
+            0.075
+          ],
+          "color": "#947558",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.9,
+            -0.385,
+            0.43
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.71,
+            0.075
+          ],
+          "color": "#947558",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.095,
+            -0.433
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.72,
+            0.13,
+            0.04
+          ],
+          "color": "#987852",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.9,
+            -0.095,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.13,
+            0.82
+          ],
+          "color": "#987852",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.9,
+            -0.095,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.13,
+            0.82
+          ],
+          "color": "#987852",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Desk edging",
+      "position": [
+        0,
+        0.86,
+        -0.75
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "At the desk I pushed the lamp closer and opened my notebook to a blank page."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.516
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.06,
+            0.06,
+            0.012
+          ],
+          "color": "#876a4d",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            -0.516
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.06,
+            0.06,
+            0.012
+          ],
+          "color": "#876a4d",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.036,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.06,
+            1.044
+          ],
+          "color": "#876a4d",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.036,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.06,
+            1.044
+          ],
+          "color": "#876a4d",
+          "roughness": 0.75,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Desk drawer",
+      "position": [
+        0,
+        0.745,
+        -0.461
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.74,
+            0.12,
+            0.37
+          ],
+          "color": "#987c5c",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.1975
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.78,
+            0.14,
+            0.025
+          ],
+          "color": "#ad8c63",
+          "roughness": 0.75,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Drawer pull",
+      "position": [
+        0,
+        0.745,
+        -0.232
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.01,
+            0.12,
+            0.01
+          ],
+          "color": "#8f866c",
+          "roughness": 0.45,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.045,
+            0,
+            -0.0095
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.019,
+            0.01
+          ],
+          "color": "#8f866c",
+          "roughness": 0.45,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.045,
+            0,
+            -0.0095
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.019,
+            0.01
+          ],
+          "color": "#8f866c",
+          "roughness": 0.45,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Desk lamp",
+      "position": [
+        0.59,
+        1.155,
+        -1.01
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "At the desk I pushed the lamp closer and opened my notebook to a blank page."
+      ],
+      "shapes": [
+        {
+          "type": "lamp",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.53,
+            0.28
+          ],
+          "color": "#c9ab64",
+          "roughness": 0.5,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.02,
+            0.02
+          ],
+          "color": "#ffe2a1",
+          "roughness": 0.3,
+          "glow": true
+        }
+      ]
+    },
+    {
+      "name": "Cork coaster",
+      "position": [
+        -0.7,
+        0.896,
+        -1.055
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
           "type": "cylinder",
           "position": [
             0,
@@ -359,50 +2118,29 @@
             0
           ],
           "size": [
-            0.01,
-            0.14,
-            0.01
+            0.088,
+            0.012,
+            0.088
           ],
-          "color": "#2f2f2f",
-          "roughness": 0.3,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.06,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.06,
-            0.01,
-            0.01
-          ],
-          "color": "#2f2f2f",
-          "roughness": 0.3,
+          "color": "#b49a73",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Mug with flowers",
+      "name": "Old mug",
       "position": [
-        -0.55,
-        0.86,
-        0.28
+        -0.7,
+        0.977,
+        -1.055
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "sway",
+      "motion": "none",
       "moments": [
         "A sprig of garden flowers stood in an old mug beside the window."
       ],
@@ -420,167 +2158,22 @@
             0
           ],
           "size": [
-            0.12,
-            0.12,
-            0.09
+            0.15,
+            0.15,
+            0.12
           ],
-          "color": "#d4b48f",
-          "roughness": 0.4,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            -0.01,
-            0.08,
-            0.01
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.22,
-            0.01
-          ],
-          "color": "#6ab067",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.03,
-            0.09,
-            -0.01
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.2,
-            0.01
-          ],
-          "color": "#6ab067",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.02,
-            0.18,
-            0.03
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.03,
-            0.03
-          ],
-          "color": "#ff8fb3",
-          "roughness": 0.5,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.03,
-            0.19,
-            -0.02
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.025,
-            0.025,
-            0.025
-          ],
-          "color": "#ffd36b",
-          "roughness": 0.5,
+          "color": "#9fbcb0",
+          "roughness": 0.72,
           "glow": false
         }
       ]
     },
     {
-      "name": "Lamp",
+      "name": "Flower stem",
       "position": [
-        0.45,
-        0.92,
-        -0.22
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "flicker",
-      "moments": [
-        "At the desk I pushed the lamp closer and opened my notebook to a blank page."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            -0.06,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.03,
-            0.18,
-            0.03
-          ],
-          "color": "#2b2b2b",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "cone",
-          "position": [
-            0,
-            0.12,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.16,
-            0.12,
-            0.16
-          ],
-          "color": "#f6f0d9",
-          "roughness": 0.2,
-          "glow": true
-        }
-      ]
-    },
-    {
-      "name": "Papers with ink sample",
-      "position": [
-        -0.05,
-        0.86,
-        0.22
+        -0.7,
+        1.05,
+        -1.055
       ],
       "rotation": [
         0,
@@ -589,103 +2182,1301 @@
       ],
       "motion": "none",
       "moments": [
-        "The attached ink sample has a picture for reading and a companion file for its pen strokes.",
-        "It is a demonstration drawing, rather than a scan of my notebook.",
-        "The words here use a different pen and green ink. #drawing #making @desk",
-        "Demonstration handwriting with stored editable pen strokes",
-        "Editable pen strokes"
+        "A sprig of garden flowers stood in an old mug beside the window.",
+        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
       ],
       "shapes": [
         {
-          "type": "papers",
+          "type": "cylinder",
           "position": [
             0,
-            0,
+            0.075,
             0
           ],
           "rotation": [
             0,
             0,
-            0
+            0.08
           ],
           "size": [
-            0.18,
             0.01,
+            0.15,
+            0.01
+          ],
+          "color": "#5c7947",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.016,
+            0.214,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
             0.14
           ],
-          "color": "#ffffff",
-          "roughness": 0.6,
+          "size": [
+            0.01,
+            0.136,
+            0.01
+          ],
+          "color": "#5c7947",
+          "roughness": 0.9,
           "glow": false
         },
         {
-          "type": "plane",
+          "type": "cylinder",
           "position": [
-            0,
-            0.003,
+            -0.032,
+            0.327,
             0
           ],
           "rotation": [
             0,
             0,
-            0
+            0.2
           ],
           "size": [
-            0.1,
             0.01,
-            0.07
+            0.096,
+            0.01
           ],
-          "color": "#e6ffe6",
-          "roughness": 0.2,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Chair",
-      "position": [
-        0,
-        0.45,
-        0.9
-      ],
-      "rotation": [
-        0,
-        0.2,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "At the desk I pushed the lamp closer and opened my notebook to a blank page."
-      ],
-      "shapes": [
-        {
-          "type": "chair",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.5,
-            0.9,
-            0.5
-          ],
-          "color": "#6a4b3a",
+          "color": "#66844e",
           "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Shelf small",
+      "name": "Flower branches",
       "position": [
-        1.3,
-        1.1,
-        -1
+        -0.7,
+        1.05,
+        -1.055
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window.",
+        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0.042,
+            0.257,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.72
+          ],
+          "size": [
+            0.01,
+            0.17,
+            0.01
+          ],
+          "color": "#66844e",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.044,
+            0.264,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.262
+          ],
+          "size": [
+            0.01,
+            0.0462,
+            0.01
+          ],
+          "color": "#66844e",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Flower leaves",
+      "position": [
+        -0.7,
+        1.05,
+        -1.055
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "capsule",
+          "position": [
+            -0.04,
+            0.172,
+            0.004
+          ],
+          "rotation": [
+            0.18,
+            0,
+            0.82
+          ],
+          "size": [
+            0.012,
+            0.08,
+            0.012
+          ],
+          "color": "#5c8755",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.007,
+            0.262,
+            -0.004
+          ],
+          "rotation": [
+            -0.12,
+            0,
+            -0.9
+          ],
+          "size": [
+            0.01,
+            0.072,
+            0.01
+          ],
+          "color": "#71965e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.063,
+            0.282,
+            -0.005
+          ],
+          "rotation": [
+            -0.16,
+            0,
+            -0.5
+          ],
+          "size": [
+            0.01,
+            0.06,
+            0.01
+          ],
+          "color": "#5c8755",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.043,
+            0.303,
+            0.003
+          ],
+          "rotation": [
+            0.15,
+            0,
+            1
+          ],
+          "size": [
+            0.01,
+            0.045,
+            0.01
+          ],
+          "color": "#71965e",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Cream flower",
+      "position": [
+        -0.741,
+        1.43,
+        -1.055
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.006,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.014,
+            0.014,
+            0.014
+          ],
+          "color": "#d4ad52",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.031,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.023,
+            0.023,
+            0.023
+          ],
+          "color": "#f1deab",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.031,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.023,
+            0.023,
+            0.023
+          ],
+          "color": "#f5e6bd",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0155,
+            0,
+            -0.027
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.023,
+            0.023,
+            0.023
+          ],
+          "color": "#f5e6bd",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0155,
+            0,
+            -0.027
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.023,
+            0.023,
+            0.023
+          ],
+          "color": "#f1deab",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0155,
+            0,
+            0.027
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.023,
+            0.023,
+            0.023
+          ],
+          "color": "#f1deab",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0155,
+            0,
+            0.027
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.023,
+            0.023,
+            0.023
+          ],
+          "color": "#f5e6bd",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            -0.025,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            3.1416
+          ],
+          "size": [
+            0.014,
+            0.025,
+            0.014
+          ],
+          "color": "#66844e",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mauve flower",
+      "position": [
+        -0.602,
+        1.371,
+        -1.055
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.005,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.011,
+            0.011,
+            0.011
+          ],
+          "color": "#c8a256",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.026,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#bd92a7",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.026,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#caa0b2",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.013,
+            0,
+            -0.0225
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#caa0b2",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.013,
+            0,
+            -0.0225
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#bd92a7",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.013,
+            0,
+            0.0225
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#bd92a7",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.013,
+            0,
+            0.0225
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#caa0b2",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            -0.018,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            3.1416
+          ],
+          "size": [
+            0.011,
+            0.025,
+            0.011
+          ],
+          "color": "#66844e",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Flower bud",
+      "position": [
+        -0.766,
+        1.321,
+        -1.055
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.016,
+            0.016
+          ],
+          "color": "#d8b9c0",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            -0.016,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.022,
+            0.01
+          ],
+          "color": "#66844e",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Open notebook",
+      "position": [
+        0.08,
+        0.899,
+        -0.58
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "At the desk I pushed the lamp closer and opened my notebook to a blank page.",
+        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river.",
+        "It is a demonstration drawing, rather than a scan of my notebook."
+      ],
+      "shapes": [
+        {
+          "type": "notebook",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.48,
+            0.018,
+            0.31
+          ],
+          "color": "#709088",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "papers",
+          "position": [
+            -0.119,
+            0.015,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.224,
+            0.012,
+            0.294
+          ],
+          "color": "#fcf7e9",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "papers",
+          "position": [
+            0.119,
+            0.015,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.224,
+            0.012,
+            0.294
+          ],
+          "color": "#fcf7e9",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.013,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.28
+          ],
+          "color": "#d9d2bc",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Stem sketch",
+      "position": [
+        0.2,
+        0.9213,
+        -0.585
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
+      ],
+      "shapes": [
+        {
+          "type": "capsule",
+          "position": [
+            0.0045,
+            0,
+            -0.0825
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0.405
+          ],
+          "size": [
+            0.01,
+            0.0381,
+            0.01
+          ],
+          "color": "#6d7070",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.0005,
+            0,
+            -0.046
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            -0.1308
+          ],
+          "size": [
+            0.01,
+            0.0383,
+            0.01
+          ],
+          "color": "#6d7070",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.0145,
+            0,
+            -0.011
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            -0.6632
+          ],
+          "size": [
+            0.01,
+            0.0406,
+            0.01
+          ],
+          "color": "#6d7070",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.028,
+            0,
+            0.022
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            -0.0588
+          ],
+          "size": [
+            0.01,
+            0.0341,
+            0.01
+          ],
+          "color": "#6d7070",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.021,
+            0,
+            0.054
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0.49
+          ],
+          "size": [
+            0.01,
+            0.034,
+            0.01
+          ],
+          "color": "#6d7070",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.0145,
+            0,
+            0.0825
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            -0.1107
+          ],
+          "size": [
+            0.01,
+            0.0272,
+            0.01
+          ],
+          "color": "#6d7070",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pencil",
+      "position": [
+        0.41,
+        0.894,
+        -0.53
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            -0.0075
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.15,
+            0.01
+          ],
+          "color": "#c29b55",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            0.0775
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.02,
+            0.01
+          ],
+          "color": "#dbc39a",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            0.089
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#494b49",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            -0.087
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#aaa99b",
+          "roughness": 0.45,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            -0.097
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.011,
+            0.01
+          ],
+          "color": "#cfaea0",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Green pen",
+      "position": [
+        0.47,
+        0.896,
+        -0.746
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The words here use a different pen and green ink. #drawing #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            -0.0075
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.135,
+            0.01
+          ],
+          "color": "#29594a",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            -0.081
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.012,
+            0.01
+          ],
+          "color": "#b9ae86",
+          "roughness": 0.35,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            0.071
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.022,
+            0.01
+          ],
+          "color": "#b9ae86",
+          "roughness": 0.35,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            0.084
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#234737",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.00675,
+            -0.035
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.045
+          ],
+          "color": "#b9ae86",
+          "roughness": 0.35,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pen cap",
+      "position": [
+        0.77,
+        0.911,
+        -0.75
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The words here use a different pen and green ink. #drawing #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.058,
+            0.01
+          ],
+          "color": "#29594a",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0.028
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#b9ae86",
+          "roughness": 0.35,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.006,
+            -0.007
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.036
+          ],
+          "color": "#b9ae86",
+          "roughness": 0.35,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Ink bottle",
+      "position": [
+        0.82,
+        0.931,
+        -0.491
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The words here use a different pen and green ink. #drawing #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "bottle",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.052,
+            0.082,
+            0.052
+          ],
+          "color": "#315943",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Eraser",
+      "position": [
+        0.857,
+        0.916,
+        -0.706
       ],
       "rotation": [
         0,
@@ -708,19 +3499,40 @@
             0
           ],
           "size": [
-            0.8,
-            0.12,
-            0.2
+            0.043,
+            0.022,
+            0.028
           ],
-          "color": "#82604a",
-          "roughness": 0.9,
+          "color": "#e8e1ce",
+          "roughness": 1,
           "glow": false
         },
         {
-          "type": "book",
+          "type": "box",
           "position": [
-            -0.28,
-            0.05,
+            0,
+            0,
+            0.0145
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.02,
+            0.01
+          ],
+          "color": "#9caa94",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0115,
             0
           ],
           "rotation": [
@@ -729,32 +3541,291 @@
             0
           ],
           "size": [
-            0.16,
-            0.03,
-            0.25
+            0.025,
+            0.01,
+            0.028
           ],
-          "color": "#c86b56",
-          "roughness": 0.7,
+          "color": "#9caa94",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Small plant pot",
+      "name": "Pencil sharpener",
       "position": [
-        1.1,
-        0.85,
-        0.6
+        0.86,
+        0.9185,
+        -0.794
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "sway",
-      "moments": [
-        "A sprig of garden flowers stood in an old mug beside the window."
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.031,
+            0.027,
+            0.025
+          ],
+          "color": "#c5aa75",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0145,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.02
+          ],
+          "color": "#a6aaa3",
+          "roughness": 0.45,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0.013
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#55534c",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.016,
+            0.005
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#777c74",
+          "roughness": 0.45,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pencil tray",
+      "position": [
+        0.8,
+        0.8975,
+        -0.75
       ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.015,
+            0.17
+          ],
+          "color": "#c7b795",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.1395,
+            0.0195,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.024,
+            0.188
+          ],
+          "color": "#ad9b77",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.1395,
+            0.0195,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.024,
+            0.188
+          ],
+          "color": "#ad9b77",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0195,
+            -0.0895
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.024,
+            0.01
+          ],
+          "color": "#ad9b77",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0195,
+            0.0895
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.024,
+            0.01
+          ],
+          "color": "#ad9b77",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Loose paper",
+      "position": [
+        -0.56,
+        0.896,
+        -0.575
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "papers",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.012,
+            0.295
+          ],
+          "color": "#f2eddf",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Paper weight",
+      "position": [
+        -0.663,
+        0.909,
+        -0.691
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
           "type": "cylinder",
@@ -769,19 +3840,36 @@
             0
           ],
           "size": [
-            0.06,
-            0.14,
-            0.06
+            0.018,
+            0.014,
+            0.018
           ],
-          "color": "#b05a3a",
-          "roughness": 0.8,
+          "color": "#aeafa0",
+          "roughness": 0.95,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Desk chair",
+      "position": [
+        0.1,
+        0.578,
+        0.32
+      ],
+      "rotation": [
+        0,
+        3.1416,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
         {
-          "type": "sphere",
+          "type": "chair",
           "position": [
             0,
-            0.12,
+            0,
             0
           ],
           "rotation": [
@@ -790,12 +3878,315 @@
             0
           ],
           "size": [
-            0.04,
-            0.04,
-            0.04
+            0.5,
+            0.88,
+            0.52
           ],
-          "color": "#5fb16b",
-          "roughness": 0.6,
+          "color": "#947756",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Woven rug",
+      "position": [
+        0.1,
+        0.129,
+        0.5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "rug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.45,
+            0.018,
+            1.35
+          ],
+          "color": "#8d9f91",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Rug fringe",
+      "position": [
+        0.1,
+        0.124,
+        1.2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.63,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.49,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.35,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.21,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.07,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.07,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.21,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.35,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.49,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.63,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.01,
+            0.05
+          ],
+          "color": "#c9d0ba",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook ribbon",
+      "position": [
+        0.08,
+        0.909,
+        -0.434
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.018
+          ],
+          "color": "#bd9468",
+          "roughness": 1,
           "glow": false
         }
       ]

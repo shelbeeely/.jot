@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { journalDays, placePrompt, PLACE_SCHEMA, validatePlace, placeFile, readPlaceFile } from '../site/dist/scene-journal-core.mjs';
+import { journalDays, placePrompt, PLACE_SCHEMA, validatePlace, placeFile, readPlaceFile, SCENE_REQUEST } from '../site/dist/scene-journal-core.mjs';
 import { requestJSON } from '../site/dist/ai-client.mjs';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
@@ -13,9 +13,9 @@ const atomicWrite = (filename, value) => { const temporary = filename + '.tmp'; 
 const promptHash = (day) => sha256(JSON.stringify({ ...placePrompt(day), schema: PLACE_SCHEMA }));
 const sourceHash = (day) => sha256(JSON.stringify({ date: day.date, sentences: day.sentences }));
 
-/** Check saved output before reusing it: its exact prompt, source sentences, model, privacy policy and bytes must match. */
+/** Check saved output before reusing it: its exact prompt (Writer's own), source sentences, model, effort, privacy policy and bytes must match. */
 export function reusableScene(day, item, text, { model, zdr }) {
-  if (!item || item.model !== model || item.zdr !== zdr || item.promptSha256 !== promptHash(day) || item.sourceSha256 !== sourceHash(day) || item.sceneSha256 !== sha256(text)) return false;
+  if (!item || item.model !== model || item.zdr !== zdr || item.reasoning !== SCENE_REQUEST.reasoning.effort || item.promptSha256 !== promptHash(day) || item.sourceSha256 !== sourceHash(day) || item.sceneSha256 !== sha256(text)) return false;
   try {
     const place = readPlaceFile(text, day), moments = place.objects.flatMap((o) => o.moments);
     return place.made.model === model && moments.length > 0 && moments.every((m) => !m.missing);
@@ -23,16 +23,18 @@ export function reusableScene(day, item, text, { model, zdr }) {
 }
 
 /** Request each missing day from the real pipeline. fetcher exists for transport-boundary tests; CLI always uses global fetch. */
-export async function generateDemoScenes({ source, directory, key, model = 'openai/gpt-5-mini', zdr = true, concurrency = 2, onlyDay = '',
-  fetcher = fetch, report = console.log, timeoutMs = 15 * 60 * 1000 } = {}) {
+export async function generateDemoScenes({ source, directory, key, model = 'openai/gpt-6.1-sol', zdr = true, concurrency = 2, onlyDay = '',
+  fetcher = fetch, report = console.log, timeoutMs = 40 * 60 * 1000 } = {}) {
   if (!String(key || '').trim()) throw Error('OPENROUTER_API_KEY is required. No scenes were generated and no substitute was used.');
   if (typeof model !== 'string' || !model.trim() || model.length > 200) throw Error('Choose an OpenRouter model ID.');
   model = model.trim();
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 8) throw Error('Concurrency must be between 1 and 8.');
-  const days = journalDays(source).filter((day) => !onlyDay || day.date === onlyDay);
-  if (!days.length) throw Error('No dated entries match the requested journal/day.');
+  // Only days whose entry names a scene with an @setting: line are requested; the rest of the journal is never sent.
+  const all = journalDays(source);
+  if (new Set(all.map((day) => day.date)).size !== all.length) throw Error('The month demo needs one entry per date.');
+  const days = all.filter((day) => day.setting && (!onlyDay || day.date === onlyDay));
+  if (!days.length) throw Error('No dated entries with an @setting: line match the requested journal/day.');
   if (days.some((day) => !day.sentences.length)) throw Error('Each demo day needs prose before a scene can be requested.');
-  if (new Set(days.map((day) => day.date)).size !== days.length) throw Error('The month demo needs one entry per date.');
   fs.mkdirSync(directory, { recursive: true });
   const indexFile = path.join(directory, 'index.json');
   let index = { format: 'jot-demo-scene-provenance', version: 1, scenes: {} };
@@ -48,7 +50,7 @@ export async function generateDemoScenes({ source, directory, key, model = 'open
       report(`${day.date}: reusing verified ${model} scene`); results.push({ date: day.date, reused: true });
     } else pending.push(day);
   }
-  if (pending.length) report(`Requesting ${pending.length} day(s) from ${model} through OpenRouter; ZDR ${zdr ? 'required' : 'off by explicit choice'}, data collection denied.`);
+  if (pending.length) report(`Requesting ${pending.length} day(s) from ${model} (Writer's own scene request: ${SCENE_REQUEST.reasoning.effort} reasoning) through OpenRouter; ZDR ${zdr ? 'required' : 'off by explicit choice'}, data collection denied.`);
   let failure = null;
   async function worker() {
     while (pending.length && !failure) {
@@ -56,7 +58,7 @@ export async function generateDemoScenes({ source, directory, key, model = 'open
       report(`${day.date}: sending ${day.sentences.length} numbered sentences`);
       try {
         const raw = await requestJSON({ provider: 'openrouter', model, key, zdr, structured: true, system: prompt.system, user: prompt.user,
-          schema: PLACE_SCHEMA, name: 'jot_place', maxTokens: 24000, reasoning: { effort: 'low' } }, { fetcher, signal: AbortSignal.timeout(timeoutMs) });
+          schema: PLACE_SCHEMA, name: 'jot_place', ...SCENE_REQUEST }, { fetcher, signal: AbortSignal.timeout(timeoutMs) }); // exactly as Writer's Make asks
         const place = validatePlace(raw, day.sentences);
         const moments = place.objects.flatMap((o) => o.moments);
         if (!moments.length || moments.some((text) => !day.sentences.includes(text))) throw Error('The scene has no exact entry-sentence moments.');
@@ -64,7 +66,7 @@ export async function generateDemoScenes({ source, directory, key, model = 'open
         // Read the exact saved bytes through the same reader Writer uses for kept @setting: scenes.
         const saved = readPlaceFile(text, day);
         if (saved.objects.some((o) => o.moments.some((m) => m.missing))) throw Error('A kept scene moment no longer matches its source.');
-        const metadata = { date: day.date, provider: 'openrouter', model, zdr, dataCollection: 'deny', at,
+        const metadata = { date: day.date, provider: 'openrouter', model, reasoning: SCENE_REQUEST.reasoning.effort, zdr, dataCollection: 'deny', at,
           promptSha256: promptHash(day), sourceSha256: sourceHash(day), sceneSha256: sha256(text),
           objects: place.objects.length, shapes: place.objects.reduce((n, o) => n + o.shapes.length, 0), moments: moments.length };
         atomicWrite(path.join(directory, day.date + '.json'), text);
@@ -81,7 +83,7 @@ export async function generateDemoScenes({ source, directory, key, model = 'open
   return results.sort((a, b) => a.date.localeCompare(b.date));
 }
 
-const HELP = `Generate a demo month's scenes through Writer's OpenRouter pipeline.
+const HELP = `Generate the demo's scenes through Writer's OpenRouter pipeline: one for each entry with an @setting: line.
 
 OPENROUTER_API_KEY must be configured in the environment. It is never saved or printed.
 NODE_USE_ENV_PROXY=1 enables Node's normal environment proxy handling when required.
@@ -90,19 +92,20 @@ NODE_USE_ENV_PROXY=1 enables Node's normal environment proxy handling when requi
 
   --source PATH          Journal source (default examples/demo-month.jot)
   --out-dir PATH         Saved scenes (default examples/demo-scenes)
-  --model ID             OpenRouter model (or OPENROUTER_MODEL; default openai/gpt-5-mini)
+  --model ID             OpenRouter model (or OPENROUTER_MODEL; default openai/gpt-6.1-sol)
   --day YYYY-MM-DD       Only generate/recheck this day
   --concurrency 1..8     Concurrent model requests (default 2)
   --allow-retention     Explicitly turn ZDR off; data collection remains denied
   --help                Show this help without making requests
 
-Existing scenes are reused only when model, privacy policy, exact prompt/source and saved bytes match.
+Scenes are asked for exactly as Writer's Make asks (SCENE_REQUEST and placePrompt in scene-journal-core.mjs).
+Existing scenes are reused only when model, reasoning effort, privacy policy, exact prompt/source and saved bytes match.
 No fallback scenes, models or relaxed privacy settings are used. Review the generated scenes in Writer.
 `;
 
 export function sceneArguments(args, env = process.env) {
   const options = { sourcePath: path.join(ROOT, 'examples/demo-month.jot'), directory: path.join(ROOT, 'examples/demo-scenes'),
-    key: env.OPENROUTER_API_KEY, model: env.OPENROUTER_MODEL || 'openai/gpt-5-mini', zdr: true, concurrency: 2 };
+    key: env.OPENROUTER_API_KEY, model: env.OPENROUTER_MODEL || 'openai/gpt-6.1-sol', zdr: true, concurrency: 2 };
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--help') return { help: true };

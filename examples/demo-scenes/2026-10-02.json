@@ -2,33 +2,33 @@
   "format": "jot-place",
   "version": 1,
   "made": {
-    "model": "openai/gpt-5-mini",
-    "at": "2026-11-06T10:35:51.461Z"
+    "model": "openai/gpt-6.1-sol",
+    "at": "2026-11-07T02:52:41.238Z"
   },
-  "title": "Riverside morning and kitchen window",
-  "sky": "#98a8b8",
-  "ground": "#6b6f74",
+  "title": "Rain by the River",
+  "sky": "#aab6c0",
+  "ground": "#718172",
   "weather": "rain",
   "time": "morning",
-  "atmosphere": "wistful",
+  "atmosphere": "calm",
   "camera": {
     "position": [
-      -2.2,
-      1.6,
-      2.8
+      6.4,
+      7.4,
+      10.5
     ],
     "target": [
-      0.6,
-      0.9,
-      0
+      -0.15,
+      1,
+      -0.1
     ]
   },
   "objects": [
     {
-      "name": "River plane",
+      "name": "Diorama base",
       "position": [
-        0.6,
         0,
+        0.06,
         0
       ],
       "rotation": [
@@ -36,9 +36,48 @@
         0,
         0
       ],
-      "motion": "drift",
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            7.6,
+            0.12,
+            7.2
+          ],
+          "color": "#758372",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Near river bank",
+      "position": [
+        0,
+        0.125,
+        0.42
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
-        "The river path was silver with puddles this morning."
+        "The river path was silver with puddles this morning.",
+        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
       ],
       "shapes": [
         {
@@ -54,22 +93,144 @@
             0
           ],
           "size": [
-            6,
+            7.6,
             0.01,
-            3
+            0.36
           ],
-          "color": "#455b63",
-          "roughness": 0.6,
+          "color": "#798778",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Puddled path",
+      "name": "Far river bank",
       "position": [
-        -1.5,
         0,
-        1.2
+        0.125,
+        -3.25
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            7.6,
+            0.01,
+            0.7
+          ],
+          "color": "#6e8173",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "River",
+      "position": [
+        0,
+        0.135,
+        -2.075
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning.",
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            7.6,
+            0.01,
+            1.65
+          ],
+          "color": "#7f969f",
+          "roughness": 0.18,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "River path",
+      "position": [
+        0,
+        0.14,
+        -0.47
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning.",
+        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            7.55,
+            0.04,
+            1.42
+          ],
+          "color": "#969e9e",
+          "roughness": 0.82,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "River edging",
+      "position": [
+        0,
+        0.205,
+        -1.215
       ],
       "rotation": [
         0,
@@ -82,7 +243,465 @@
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "box",
+          "position": [
+            -3.42,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#858e89",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -2.66,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#8c9590",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.9,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#818b87",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.14,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#89928d",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.38,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#858e89",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.38,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#8c9590",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.14,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#818b87",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.9,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#89928d",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            2.66,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#858e89",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            3.42,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.11
+          ],
+          "color": "#8c9590",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Far bank edging",
+      "position": [
+        0,
+        0.17,
+        -2.92
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -3.42,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#828d86",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -2.66,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#8b958e",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.9,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#7e8982",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.14,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#89928c",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.38,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#828d86",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.38,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#8b958e",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.14,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#7e8982",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.9,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#89928c",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            2.66,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#828d86",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            3.42,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.09,
+            0.12
+          ],
+          "color": "#8b958e",
+          "roughness": 0.94,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Long puddle",
+      "position": [
+        -2.7,
+        0.161,
+        -0.65
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
           "position": [
             0,
             0,
@@ -94,12 +713,586 @@
             0
           ],
           "size": [
-            3,
+            0.3,
             0.01,
-            1.6
+            0.3
           ],
-          "color": "#7a7f84",
-          "roughness": 0.8,
+          "color": "#bac4c9",
+          "roughness": 0.06,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.24,
+            0,
+            0.025
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.19,
+            0.01,
+            0.19
+          ],
+          "color": "#bac4c9",
+          "roughness": 0.06,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.21,
+            0,
+            -0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.01,
+            0.14
+          ],
+          "color": "#bac4c9",
+          "roughness": 0.06,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Broad puddle",
+      "position": [
+        -1.35,
+        0.161,
+        -0.23
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.01,
+            0.27
+          ],
+          "color": "#b6c1c6",
+          "roughness": 0.07,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.22,
+            0,
+            -0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.17,
+            0.01,
+            0.17
+          ],
+          "color": "#b6c1c6",
+          "roughness": 0.07,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.21,
+            0,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.16,
+            0.01,
+            0.16
+          ],
+          "color": "#b6c1c6",
+          "roughness": 0.07,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Middle puddle",
+      "position": [
+        -0.05,
+        0.161,
+        -0.83
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.01,
+            0.28
+          ],
+          "color": "#c0c8cb",
+          "roughness": 0.05,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.22,
+            0,
+            0.04
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.16,
+            0.01,
+            0.16
+          ],
+          "color": "#c0c8cb",
+          "roughness": 0.05,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.2,
+            0,
+            0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.01,
+            0.15
+          ],
+          "color": "#c0c8cb",
+          "roughness": 0.05,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tree puddle",
+      "position": [
+        3,
+        0.161,
+        -0.89
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.01,
+            0.2
+          ],
+          "color": "#afbec4",
+          "roughness": 0.07,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.16,
+            0,
+            0.04
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.13,
+            0.01,
+            0.13
+          ],
+          "color": "#afbec4",
+          "roughness": 0.07,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Edge puddle",
+      "position": [
+        3.35,
+        0.161,
+        -0.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.24,
+            0.01,
+            0.24
+          ],
+          "color": "#bcc5c9",
+          "roughness": 0.06,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.19,
+            0,
+            0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.01,
+            0.15
+          ],
+          "color": "#bcc5c9",
+          "roughness": 0.06,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.11,
+            0,
+            -0.04
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.01,
+            0.12
+          ],
+          "color": "#bcc5c9",
+          "roughness": 0.06,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small puddle",
+      "position": [
+        -0.45,
+        0.161,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.13,
+            0.01,
+            0.13
+          ],
+          "color": "#b8c3c8",
+          "roughness": 0.06,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.1,
+            0,
+            -0.015
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.1,
+            0.01,
+            0.1
+          ],
+          "color": "#b8c3c8",
+          "roughness": 0.06,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Left puddle sheen",
+      "position": [
+        -2.7,
+        0.1625,
+        -0.65
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.05,
+            0,
+            -0.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.23,
+            0.01,
+            0.012
+          ],
+          "color": "#dde2e3",
+          "roughness": 0.04,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.12,
+            0,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.31,
+            0.01,
+            0.01
+          ],
+          "color": "#d3dcdf",
+          "roughness": 0.04,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.14,
+            0,
+            0.13
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.1,
+            0.01,
+            0.01
+          ],
+          "color": "#dfe4e5",
+          "roughness": 0.04,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Middle puddle sheen",
+      "position": [
+        -0.05,
+        0.1625,
+        -0.83
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.08,
+            0,
+            -0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.01,
+            0.01
+          ],
+          "color": "#e0e4e5",
+          "roughness": 0.04,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.09,
+            0,
+            0.035
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.21,
+            0.01,
+            0.012
+          ],
+          "color": "#d8e0e2",
+          "roughness": 0.04,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.19,
+            0,
+            0.095
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.01,
+            0.01
+          ],
+          "color": "#e0e4e5",
+          "roughness": 0.04,
           "glow": false
         }
       ]
@@ -107,9 +1300,9 @@
     {
       "name": "Park bench",
       "position": [
-        -1.1,
-        0.45,
-        1.35
+        1.35,
+        0.62,
+        -0.28
       ],
       "rotation": [
         0,
@@ -122,10 +1315,10 @@
       ],
       "shapes": [
         {
-          "type": "box",
+          "type": "bench",
           "position": [
             0,
-            0.12,
+            0,
             0
           ],
           "rotation": [
@@ -134,20 +1327,20 @@
             0
           ],
           "size": [
-            1.1,
-            0.18,
-            0.35
+            1.7,
+            0.92,
+            0.6
           ],
-          "color": "#6b3f2b",
-          "roughness": 0.5,
+          "color": "#857461",
+          "roughness": 0.78,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.48,
-            -0.24,
-            0.13
+            0,
+            -0.005,
+            0.03
           ],
           "rotation": [
             0,
@@ -155,92 +1348,29 @@
             0
           ],
           "size": [
-            0.08,
-            0.5,
-            0.08
+            1.62,
+            0.05,
+            0.47
           ],
-          "color": "#3f2b22",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.48,
-            -0.24,
-            0.13
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.5,
-            0.08
-          ],
-          "color": "#3f2b22",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.48,
-            -0.24,
-            -0.13
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.5,
-            0.08
-          ],
-          "color": "#3f2b22",
-          "roughness": 0.6,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.48,
-            -0.24,
-            -0.13
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.5,
-            0.08
-          ],
-          "color": "#3f2b22",
-          "roughness": 0.6,
+          "color": "#998977",
+          "roughness": 0.74,
           "glow": false
         }
       ]
     },
     {
-      "name": "Mug of tea",
+      "name": "Bench tea mug",
       "position": [
-        -1.05,
-        0.86,
-        1.35
+        0.8,
+        0.7,
+        -0.1
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "steam",
+      "motion": "none",
       "moments": [
         "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
       ],
@@ -262,8 +1392,216 @@
             0.12,
             0.09
           ],
-          "color": "#d97b4a",
+          "color": "#d0bba3",
           "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.051,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.01,
+            0.034
+          ],
+          "color": "#8b684a",
+          "roughness": 0.15,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Boot",
+      "position": [
+        1.36,
+        0.25,
+        0.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.072,
+            0.035
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.19,
+            0.036,
+            0.36
+          ],
+          "color": "#444a47",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.022,
+            0.046
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.16,
+            0.12,
+            0.25
+          ],
+          "color": "#746754",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            -0.017,
+            0.145
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.07,
+            0.07
+          ],
+          "color": "#6d6154",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.081,
+            -0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.145,
+            0.17,
+            0.15
+          ],
+          "color": "#746754",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.17,
+            -0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.155,
+            0.028,
+            0.16
+          ],
+          "color": "#8b7e67",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0425,
+            0.037
+          ],
+          "rotation": [
+            0,
+            0.12,
+            0
+          ],
+          "size": [
+            0.12,
+            0.01,
+            0.01
+          ],
+          "color": "#bdb8a7",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0425,
+            0.057
+          ],
+          "rotation": [
+            0,
+            -0.12,
+            0
+          ],
+          "size": [
+            0.12,
+            0.01,
+            0.01
+          ],
+          "color": "#bdb8a7",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0425,
+            0.077
+          ],
+          "rotation": [
+            0,
+            0.12,
+            0
+          ],
+          "size": [
+            0.12,
+            0.01,
+            0.01
+          ],
+          "color": "#bdb8a7",
+          "roughness": 1,
           "glow": false
         }
       ]
@@ -271,16 +1609,56 @@
     {
       "name": "Big tree",
       "position": [
-        -0.6,
-        0,
-        0.9
+        2.5,
+        1.85,
+        -0.35
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "sway",
+      "motion": "none",
+      "moments": [
+        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
+      ],
+      "shapes": [
+        {
+          "type": "tree",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.5,
+            3.38,
+            2.35
+          ],
+          "color": "#78856b",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tree soil",
+      "position": [
+        2.5,
+        0.169,
+        -0.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
         "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
       ],
@@ -289,7 +1667,7 @@
           "type": "cylinder",
           "position": [
             0,
-            0.7,
+            0,
             0
           ],
           "rotation": [
@@ -298,43 +1676,588 @@
             0
           ],
           "size": [
-            0.12,
-            1.4,
-            0.12
+            0.37,
+            0.018,
+            0.37
           ],
-          "color": "#5b3a2b",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            1.6,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
-          ],
-          "color": "#2f5b3a",
-          "roughness": 0.9,
+          "color": "#6d6b59",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Wooden landing",
+      "name": "Exposed roots",
       "position": [
-        1.6,
-        0.12,
-        -0.6
+        2.5,
+        0.184,
+        -0.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I stopped at the park bench beneath the big tree and put my tea mug on the seat while I tied my boot."
+      ],
+      "shapes": [
+        {
+          "type": "capsule",
+          "position": [
+            0.22,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.022,
+            0.44,
+            0.022
+          ],
+          "color": "#766650",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.18,
+            0,
+            0.09
+          ],
+          "rotation": [
+            0,
+            0.45,
+            1.5708
+          ],
+          "size": [
+            0.024,
+            0.4,
+            0.024
+          ],
+          "color": "#7c6b54",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0,
+            0,
+            -0.2
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.024,
+            0.38,
+            0.024
+          ],
+          "color": "#71624e",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.016,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.17,
+            0.08,
+            0.17
+          ],
+          "color": "#71624e",
+          "roughness": 0.96,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Leaf scatter",
+      "position": [
+        2.5,
+        0.161,
+        -0.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.42,
+            0,
+            -0.16
+          ],
+          "rotation": [
+            0,
+            0.5,
+            0
+          ],
+          "size": [
+            0.07,
+            0.01,
+            0.04
+          ],
+          "color": "#aa9871",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.4,
+            0,
+            0.2
+          ],
+          "rotation": [
+            0,
+            -0.7,
+            0
+          ],
+          "size": [
+            0.06,
+            0.01,
+            0.035
+          ],
+          "color": "#8c9272",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.15,
+            0,
+            0.48
+          ],
+          "rotation": [
+            0,
+            0.9,
+            0
+          ],
+          "size": [
+            0.075,
+            0.01,
+            0.04
+          ],
+          "color": "#b09c76",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.28,
+            0,
+            -0.39
+          ],
+          "rotation": [
+            0,
+            -0.2,
+            0
+          ],
+          "size": [
+            0.06,
+            0.01,
+            0.035
+          ],
+          "color": "#9b916c",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.52,
+            0,
+            0.22
+          ],
+          "rotation": [
+            0,
+            0.3,
+            0
+          ],
+          "size": [
+            0.065,
+            0.01,
+            0.035
+          ],
+          "color": "#879074",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.48,
+            0,
+            -0.03
+          ],
+          "rotation": [
+            0,
+            -1.1,
+            0
+          ],
+          "size": [
+            0.07,
+            0.01,
+            0.04
+          ],
+          "color": "#a18f6c",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bank grass",
+      "position": [
+        0.34,
+        0.125,
+        0.44
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.14,
+            0.018
+          ],
+          "color": "#657d68",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.065,
+            0.055,
+            0.015
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.12
+          ],
+          "size": [
+            0.014,
+            0.11,
+            0.014
+          ],
+          "color": "#85917a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.05,
+            0.065,
+            -0.016
+          ],
+          "rotation": [
+            0,
+            0,
+            0.1
+          ],
+          "size": [
+            0.015,
+            0.13,
+            0.015
+          ],
+          "color": "#73886e",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Path grass",
+      "position": [
+        1.12,
+        0.125,
+        0.48
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.017,
+            0.12,
+            0.017
+          ],
+          "color": "#73866d",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.045,
+            0.075,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.1
+          ],
+          "size": [
+            0.014,
+            0.15,
+            0.014
+          ],
+          "color": "#899479",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.04,
+            0.05,
+            -0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0.12
+          ],
+          "size": [
+            0.013,
+            0.1,
+            0.013
+          ],
+          "color": "#657d68",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tree grass",
+      "position": [
+        3.5,
+        0.125,
+        0.42
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.085,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.019,
+            0.17,
+            0.019
+          ],
+          "color": "#6e826a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.06,
+            0.06,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.12
+          ],
+          "size": [
+            0.015,
+            0.12,
+            0.015
+          ],
+          "color": "#879478",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.055,
+            0.07,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0.1
+          ],
+          "size": [
+            0.015,
+            0.14,
+            0.015
+          ],
+          "color": "#788b71",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Far bank grass",
+      "position": [
+        -3.3,
+        0.125,
+        -3.26
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.075,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.15,
+            0.02
+          ],
+          "color": "#6d806b",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.065,
+            0.065,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.1
+          ],
+          "size": [
+            0.016,
+            0.13,
+            0.016
+          ],
+          "color": "#859377",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.055,
+            0.055,
+            -0.015
+          ],
+          "rotation": [
+            0,
+            0,
+            0.12
+          ],
+          "size": [
+            0.015,
+            0.11,
+            0.015
+          ],
+          "color": "#768a70",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Landing",
+      "position": [
+        0.75,
+        0.36,
+        -3.12
       ],
       "rotation": [
         0,
@@ -351,6 +2274,132 @@
           "position": [
             0,
             0,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.9,
+            0.055,
+            0.135
+          ],
+          "color": "#968671",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            -0.21
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.9,
+            0.055,
+            0.135
+          ],
+          "color": "#a08f78",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            -0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.9,
+            0.055,
+            0.135
+          ],
+          "color": "#92826e",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.9,
+            0.055,
+            0.135
+          ],
+          "color": "#a08f78",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.21
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.9,
+            0.055,
+            0.135
+          ],
+          "color": "#968671",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.9,
+            0.055,
+            0.135
+          ],
+          "color": "#aa977e",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.78,
+            -0.05,
             0
           ],
           "rotation": [
@@ -359,12 +2408,239 @@
             0
           ],
           "size": [
-            0.9,
-            0.08,
-            0.5
+            0.12,
+            0.045,
+            0.82
           ],
-          "color": "#6b4a36",
-          "roughness": 0.7,
+          "color": "#756652",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.78,
+            -0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.045,
+            0.82
+          ],
+          "color": "#756652",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.78,
+            -0.15625,
+            -0.28
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.1675,
+            0.11
+          ],
+          "color": "#6c604f",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.78,
+            -0.15625,
+            -0.28
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.1675,
+            0.11
+          ],
+          "color": "#6c604f",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.78,
+            -0.15625,
+            0.28
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.1675,
+            0.11
+          ],
+          "color": "#6c604f",
+          "roughness": 0.94,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.78,
+            -0.15625,
+            0.28
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.1675,
+            0.11
+          ],
+          "color": "#6c604f",
+          "roughness": 0.94,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Front mooring post",
+      "position": [
+        1.63,
+        0.5775,
+        -2.81
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.38,
+            0.055
+          ],
+          "color": "#786858",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.21,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.04,
+            0.07
+          ],
+          "color": "#9c8b73",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Rear mooring post",
+      "position": [
+        -0.03,
+        0.5775,
+        -3.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.38,
+            0.055
+          ],
+          "color": "#786858",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.21,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.04,
+            0.07
+          ],
+          "color": "#9c8b73",
+          "roughness": 0.85,
           "glow": false
         }
       ]
@@ -372,9 +2648,362 @@
     {
       "name": "Little boat",
       "position": [
-        2,
-        0.1,
-        -0.6
+        0.75,
+        0.14,
+        -2.34
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "bob",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.1,
+            -0.005,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.5,
+            0.03,
+            0.16
+          ],
+          "color": "#675b4c",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.115,
+            0.045,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.16,
+            0.055,
+            0.53
+          ],
+          "color": "#9d8d74",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            0.18,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.3,
+            0.64
+          ],
+          "color": "#89928d",
+          "roughness": 0.64,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.115,
+            0.18,
+            -0.315
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.13,
+            0.3,
+            0.055
+          ],
+          "color": "#89928d",
+          "roughness": 0.64,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.115,
+            0.18,
+            0.315
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.13,
+            0.3,
+            0.055
+          ],
+          "color": "#89928d",
+          "roughness": 0.64,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.65,
+            0.18,
+            -0.157
+          ],
+          "rotation": [
+            0,
+            -0.6,
+            0
+          ],
+          "size": [
+            0.53,
+            0.3,
+            0.055
+          ],
+          "color": "#89928d",
+          "roughness": 0.64,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.65,
+            0.18,
+            0.157
+          ],
+          "rotation": [
+            0,
+            0.6,
+            0
+          ],
+          "size": [
+            0.53,
+            0.3,
+            0.055
+          ],
+          "color": "#89928d",
+          "roughness": 0.64,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.115,
+            0.344,
+            -0.315
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.17,
+            0.028,
+            0.068
+          ],
+          "color": "#b5a58c",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.115,
+            0.344,
+            0.315
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.17,
+            0.028,
+            0.068
+          ],
+          "color": "#b5a58c",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.39,
+            0.285,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.055,
+            0.58
+          ],
+          "color": "#b0a082",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.23,
+            0.285,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.055,
+            0.58
+          ],
+          "color": "#b0a082",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.6,
+            0.045,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.35,
+            0.055,
+            0.29
+          ],
+          "color": "#9d8d74",
+          "roughness": 0.78,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Boat rim",
+      "position": [
+        0.75,
+        0.484,
+        -2.34
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "bob",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.7,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.078,
+            0.028,
+            0.69
+          ],
+          "color": "#b5a58c",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.65,
+            0,
+            -0.157
+          ],
+          "rotation": [
+            0,
+            -0.6,
+            0
+          ],
+          "size": [
+            0.55,
+            0.028,
+            0.068
+          ],
+          "color": "#b5a58c",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.65,
+            0,
+            0.157
+          ],
+          "rotation": [
+            0,
+            0.6,
+            0
+          ],
+          "size": [
+            0.55,
+            0.028,
+            0.068
+          ],
+          "color": "#b5a58c",
+          "roughness": 0.73,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Boat cleat",
+      "position": [
+        1.6,
+        0.507,
+        -2.34
       ],
       "rotation": [
         0,
@@ -399,19 +3028,19 @@
             0
           ],
           "size": [
-            0.9,
-            0.18,
-            0.35
+            0.08,
+            0.018,
+            0.025
           ],
-          "color": "#8b5a44",
-          "roughness": 0.6,
+          "color": "#6f7773",
+          "roughness": 0.5,
           "glow": false
         },
         {
-          "type": "cylinder",
+          "type": "box",
           "position": [
-            0.36,
-            0.05,
+            0,
+            0.015,
             0
           ],
           "rotation": [
@@ -420,22 +3049,43 @@
             0
           ],
           "size": [
-            0.03,
-            0.12,
-            0.03
+            0.018,
+            0.025,
+            0.018
           ],
-          "color": "#4a2d21",
-          "roughness": 0.7,
+          "color": "#6f7773",
+          "roughness": 0.5,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.034,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.1,
+            0.015,
+            0.025
+          ],
+          "color": "#8b9390",
+          "roughness": 0.5,
           "glow": false
         }
       ]
     },
     {
-      "name": "Rope against landing",
+      "name": "Mooring rope",
       "position": [
-        1.85,
-        0.12,
-        -0.55
+        1.63,
+        0.5885,
+        -2.5375
       ],
       "rotation": [
         0,
@@ -455,27 +3105,439 @@
             0
           ],
           "rotation": [
-            0,
+            -1.3396,
             0,
             0
           ],
           "size": [
             0.01,
-            0.22,
+            0.406,
             0.01
           ],
-          "color": "#bca98a",
-          "roughness": 0.9,
+          "color": "#b8a58b",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Home exterior wall",
+      "name": "Rope loop",
       "position": [
-        -2.4,
-        1,
-        0.8
+        1.63,
+        0.635,
+        -2.81
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.01,
+            0.075
+          ],
+          "color": "#b8a58b",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Boat ripples",
+      "position": [
+        0.12,
+        0.138,
+        -2.34
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.01,
+            0.27
+          ],
+          "color": "#b0bfc3",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.01,
+            0.36
+          ],
+          "color": "#a1b4bc",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            1.2,
+            0,
+            0.31
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.16,
+            0.01,
+            0.16
+          ],
+          "color": "#b0bfc3",
+          "roughness": 0.12,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Left river gleams",
+      "position": [
+        -2.37,
+        0.136,
+        -2.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning.",
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            -0.45,
+            0,
+            0.24
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.65,
+            0.01,
+            0.02
+          ],
+          "color": "#b3bec2",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.08,
+            0,
+            -0.19
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.42,
+            0.01,
+            0.013
+          ],
+          "color": "#9fb1b9",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.56,
+            0,
+            0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.74,
+            0.01,
+            0.012
+          ],
+          "color": "#b0bdc2",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            -0.72,
+            0,
+            -0.36
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.01,
+            0.016
+          ],
+          "color": "#c0c9cd",
+          "roughness": 0.12,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Right river gleams",
+      "position": [
+        2.82,
+        0.136,
+        -1.75
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river path was silver with puddles this morning.",
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            -0.46,
+            0,
+            0.04
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.48,
+            0.01,
+            0.015
+          ],
+          "color": "#abbcc2",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.26,
+            0,
+            -0.28
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.01,
+            0.018
+          ],
+          "color": "#b8c4c8",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.37,
+            0,
+            0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.34,
+            0.01,
+            0.012
+          ],
+          "color": "#9fafb5",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            -0.06,
+            0,
+            -0.62
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.4,
+            0.01,
+            0.012
+          ],
+          "color": "#b2c0c5",
+          "roughness": 0.12,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Far river gleams",
+      "position": [
+        -0.75,
+        0.136,
+        -2.58
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Across the water a little boat nudged its rope against the landing, making a soft wooden knock."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            -0.65,
+            0,
+            -0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.62,
+            0.01,
+            0.012
+          ],
+          "color": "#a9bac0",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.1,
+            0,
+            0.12
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.44,
+            0.01,
+            0.014
+          ],
+          "color": "#bbc6ca",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            -0.03,
+            0,
+            -0.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.32,
+            0.01,
+            0.01
+          ],
+          "color": "#9cafb6",
+          "roughness": 0.12,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Kitchen floor",
+      "position": [
+        -1.9,
+        0.16,
+        2
       ],
       "rotation": [
         0,
@@ -500,12 +3562,480 @@
             0
           ],
           "size": [
-            1.2,
-            2,
-            0.12
+            3.3,
+            0.08,
+            2.8
           ],
-          "color": "#cfcfd1",
-          "roughness": 0.9,
+          "color": "#b9b09d",
+          "roughness": 0.91,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Floor seams",
+      "position": [
+        -1.9,
+        0.2005,
+        2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -1.4,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.12,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.84,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.56,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.28,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.28,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.56,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.84,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.12,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.4,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            2.78
+          ],
+          "color": "#9d9788",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Kitchen walls",
+      "position": [
+        -1.9,
+        0.2,
+        0.63
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook.",
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.375,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            3.3,
+            0.75,
+            0.1
+          ],
+          "color": "#d2d1c3",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            2.315,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            3.3,
+            0.43,
+            0.1
+          ],
+          "color": "#dedccf",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.2375,
+            1.425,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.825,
+            1.35,
+            0.1
+          ],
+          "color": "#d8d6c8",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.2375,
+            1.425,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.825,
+            1.35,
+            0.1
+          ],
+          "color": "#d8d6c8",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side wall",
+      "position": [
+        -3.53,
+        1.465,
+        2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.1,
+            2.53,
+            2.8
+          ],
+          "color": "#d3d1c2",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back skirting",
+      "position": [
+        -1.9,
+        0.255,
+        0.7
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            3.2,
+            0.11,
+            0.04
+          ],
+          "color": "#928674",
+          "roughness": 0.84,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side skirting",
+      "position": [
+        -3.46,
+        0.255,
+        2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.11,
+            2.7
+          ],
+          "color": "#928674",
+          "roughness": 0.84,
           "glow": false
         }
       ]
@@ -513,18 +4043,19 @@
     {
       "name": "Kitchen window",
       "position": [
-        -2.35,
-        1.6,
-        0.8
+        -1.9,
+        1.625,
+        0.63
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "drift",
+      "motion": "none",
       "moments": [
-        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook.",
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
       ],
       "shapes": [
         {
@@ -540,22 +4071,22 @@
             0
           ],
           "size": [
-            1.4,
-            1.1,
-            0.06
+            1.65,
+            1.35,
+            0.1
           ],
-          "color": "#2b3b46",
-          "roughness": 0.2,
+          "color": "#7f8c86",
+          "roughness": 0.62,
           "glow": false
         }
       ]
     },
     {
-      "name": "Table near window",
+      "name": "Rainy glass",
       "position": [
-        -2.05,
-        0.75,
-        0.9
+        -1.9,
+        1.625,
+        0.652
       ],
       "rotation": [
         0,
@@ -565,11 +4096,11 @@
       "motion": "none",
       "moments": [
         "Back home, the kitchen window held a blurred reflection of the lamp and the notebook.",
-        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river"
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
       ],
       "shapes": [
         {
-          "type": "table",
+          "type": "box",
           "position": [
             0,
             0,
@@ -581,106 +4112,416 @@
             0
           ],
           "size": [
-            1.6,
+            1.49,
+            1.25,
+            0.012
+          ],
+          "color": "#adb7b8",
+          "roughness": 0.25,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Window sill",
+      "position": [
+        -1.9,
+        0.945,
+        0.725
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook.",
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.85,
             0.06,
-            0.9
+            0.28
           ],
-          "color": "#8b6f5a",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#6b4a36",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#6b4a36",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#6b4a36",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.7,
-            -0.39,
-            -0.35
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.08,
-            0.72,
-            0.08
-          ],
-          "color": "#6b4a36",
+          "color": "#a5a694",
           "roughness": 0.7,
           "glow": false
         }
       ]
     },
     {
-      "name": "Notebook",
+      "name": "Rain trails",
       "position": [
-        -2,
-        0.92,
-        0.75
+        -1.9,
+        1.65,
+        0.659
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.58,
+            0.37,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.05
+          ],
+          "size": [
+            0.01,
+            0.18,
+            0.01
+          ],
+          "color": "#d0d7d8",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.35,
+            0.05,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.04
+          ],
+          "size": [
+            0.01,
+            0.23,
+            0.01
+          ],
+          "color": "#c5ced0",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.08,
+            0.31,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.06
+          ],
+          "size": [
+            0.01,
+            0.25,
+            0.01
+          ],
+          "color": "#d3d9da",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.16,
+            -0.02,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.03
+          ],
+          "size": [
+            0.01,
+            0.21,
+            0.01
+          ],
+          "color": "#c5ced0",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.42,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.05
+          ],
+          "size": [
+            0.01,
+            0.16,
+            0.01
+          ],
+          "color": "#d0d7d8",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.6,
+            -0.22,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.04
+          ],
+          "size": [
+            0.01,
+            0.24,
+            0.01
+          ],
+          "color": "#c5ced0",
+          "roughness": 0.12,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.64,
+            -0.29,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.03
+          ],
+          "size": [
+            0.01,
+            0.15,
+            0.01
+          ],
+          "color": "#d0d7d8",
+          "roughness": 0.12,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Glass droplets",
+      "position": [
+        -1.9,
+        1.6,
+        0.665
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            -0.63,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#c9d3d5",
+          "roughness": 0.08,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.39,
+            0.29,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#c9d3d5",
+          "roughness": 0.08,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.12,
+            0.57,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#d4dcdc",
+          "roughness": 0.08,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.1,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#c9d3d5",
+          "roughness": 0.08,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.36,
+            0.46,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#d4dcdc",
+          "roughness": 0.08,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.63,
+            -0.37,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#c9d3d5",
+          "roughness": 0.08,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.34,
+            -0.4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#c9d3d5",
+          "roughness": 0.08,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.48,
+            -0.15,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#d4dcdc",
+          "roughness": 0.08,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lamp reflection",
+      "position": [
+        -2.51,
+        1.22,
+        0.6595
       ],
       "rotation": [
         0,
@@ -693,7 +4534,173 @@
       ],
       "shapes": [
         {
-          "type": "book",
+          "type": "box",
+          "position": [
+            0,
+            0.16,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.13,
+            0.035,
+            0.01
+          ],
+          "color": "#bcb6a7",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.12,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.05,
+            0.01
+          ],
+          "color": "#c3b79f",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.079,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.23,
+            0.03,
+            0.01
+          ],
+          "color": "#bdb5a3",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.032,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.188,
+            0.01
+          ],
+          "color": "#a5aaa3",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.134,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.025,
+            0.01
+          ],
+          "color": "#a8aba1",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.098,
+            0.115,
+            0.001
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.028,
+            0.065,
+            0.01
+          ],
+          "color": "#b7b7ad",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.098,
+            0.105,
+            0.001
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.028,
+            0.052,
+            0.01
+          ],
+          "color": "#b7b7ad",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Notebook reflection",
+      "position": [
+        -1.58,
+        1.065,
+        0.6595
+      ],
+      "rotation": [
+        0,
+        0,
+        -0.02
+      ],
+      "motion": "none",
+      "moments": [
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
+      ],
+      "shapes": [
+        {
+          "type": "box",
           "position": [
             0,
             0,
@@ -705,29 +4712,559 @@
             0
           ],
           "size": [
-            0.22,
-            0.04,
-            0.3
+            0.28,
+            0.045,
+            0.01
           ],
-          "color": "#2f4b6b",
-          "roughness": 0.6,
+          "color": "#9ca8a7",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.012,
+            0.014,
+            0.001
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.245,
+            0.01,
+            0.01
+          ],
+          "color": "#b2bbbb",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.015,
+            -0.015,
+            0.001
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.01,
+            0.01
+          ],
+          "color": "#899b9d",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Lamp",
+      "name": "Kitchen counter",
       "position": [
-        -1.95,
-        1.05,
-        1.05
+        -1.9,
+        0.905,
+        1.355
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "flicker",
+      "motion": "none",
+      "moments": [
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook.",
+        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river",
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.6,
+            0.09,
+            0.89
+          ],
+          "color": "#c3bba8",
+          "roughness": 0.62,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.01,
+            0.4625
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.64,
+            0.11,
+            0.035
+          ],
+          "color": "#a69b85",
+          "roughness": 0.73,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Cupboard carcass",
+      "position": [
+        -1.9,
+        0.52,
+        1.355
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.27,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.5,
+            0.1,
+            0.79
+          ],
+          "color": "#7e8070",
+          "roughness": 0.86,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.22,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.56,
+            0.82
+          ],
+          "color": "#919b89",
+          "roughness": 0.83,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.22,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.56,
+            0.82
+          ],
+          "color": "#919b89",
+          "roughness": 0.83,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.06,
+            -0.38
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.44,
+            0.56,
+            0.06
+          ],
+          "color": "#858f7f",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.56,
+            0.82
+          ],
+          "color": "#858f7f",
+          "roughness": 0.88,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Left cupboard",
+      "position": [
+        -2.75,
+        0.58,
+        1.787
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.8,
+            0.52,
+            0.035
+          ],
+          "color": "#9aa58f",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.024
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.65,
+            0.37,
+            0.012
+          ],
+          "color": "#a5ae9b",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.29,
+            0.01,
+            0.036
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.022,
+            0.01
+          ],
+          "color": "#797969",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.29,
+            0.01,
+            0.055
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.021,
+            0.021,
+            0.021
+          ],
+          "color": "#c0ae89",
+          "roughness": 0.55,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Middle cupboard",
+      "position": [
+        -1.9,
+        0.58,
+        1.787
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.8,
+            0.52,
+            0.035
+          ],
+          "color": "#9aa58f",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.024
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.65,
+            0.37,
+            0.012
+          ],
+          "color": "#a5ae9b",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.29,
+            0.01,
+            0.036
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.022,
+            0.01
+          ],
+          "color": "#797969",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.29,
+            0.01,
+            0.055
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.021,
+            0.021,
+            0.021
+          ],
+          "color": "#c0ae89",
+          "roughness": 0.55,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Right cupboard",
+      "position": [
+        -1.05,
+        0.58,
+        1.787
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.8,
+            0.52,
+            0.035
+          ],
+          "color": "#9aa58f",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.024
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.65,
+            0.37,
+            0.012
+          ],
+          "color": "#a5ae9b",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.29,
+            0.01,
+            0.036
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.022,
+            0.01
+          ],
+          "color": "#797969",
+          "roughness": 0.6,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.29,
+            0.01,
+            0.055
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.021,
+            0.021,
+            0.021
+          ],
+          "color": "#c0ae89",
+          "roughness": 0.55,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Counter lamp",
+      "position": [
+        -2.51,
+        1.21,
+        1.26
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
       "moments": [
         "Back home, the kitchen window held a blurred reflection of the lamp and the notebook."
       ],
@@ -745,22 +5282,63 @@
             0
           ],
           "size": [
-            0.12,
-            0.35,
-            0.12
+            0.3,
+            0.52,
+            0.3
           ],
-          "color": "#e6d8b7",
-          "roughness": 0.2,
+          "color": "#c4a47b",
+          "roughness": 0.58,
           "glow": true
         }
       ]
     },
     {
-      "name": "Picture study",
+      "name": "Notebook",
       "position": [
-        -2.15,
-        0.9,
-        0.45
+        -1.58,
+        0.9675,
+        1.34
+      ],
+      "rotation": [
+        0,
+        0.04,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Back home, the kitchen window held a blurred reflection of the lamp and the notebook.",
+        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river"
+      ],
+      "shapes": [
+        {
+          "type": "notebook",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.3,
+            0.035,
+            0.4
+          ],
+          "color": "#777e72",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pencil",
+      "position": [
+        -1.24,
+        0.954,
+        1.41
       ],
       "rotation": [
         0,
@@ -770,6 +5348,110 @@
       "motion": "none",
       "moments": [
         "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.005,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.5708
+          ],
+          "size": [
+            0.01,
+            0.17,
+            0.01
+          ],
+          "color": "#8b9a88",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.0915,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.5708
+          ],
+          "size": [
+            0.01,
+            0.023,
+            0.01
+          ],
+          "color": "#c6ae87",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.107,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.5708
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#515854",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.098,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.5708
+          ],
+          "size": [
+            0.01,
+            0.016,
+            0.01
+          ],
+          "color": "#bba597",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Picture study",
+      "position": [
+        -2.12,
+        0.9675,
+        1.36
+      ],
+      "rotation": [
+        -1.5708,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river",
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
       ],
       "shapes": [
         {
@@ -785,12 +5467,507 @@
             0
           ],
           "size": [
-            0.36,
-            0.26,
-            0.04
+            0.35,
+            0.29,
+            0.035
           ],
-          "color": "#4b3629",
-          "roughness": 0.6,
+          "color": "#807263",
+          "roughness": 0.85,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Study colors",
+      "position": [
+        -2.12,
+        0.986,
+        1.36
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river",
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.285,
+            0.01,
+            0.225
+          ],
+          "color": "#d2d0c7",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.05,
+            0.0015,
+            -0.027
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.01,
+            0.14
+          ],
+          "color": "#9aaab2",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.05,
+            0.0025,
+            -0.101
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.166,
+            0.01,
+            0.01
+          ],
+          "color": "#778681",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.128,
+            0.0025,
+            -0.027
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.16
+          ],
+          "color": "#778681",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.028,
+            0.0025,
+            -0.027
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.16
+          ],
+          "color": "#778681",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.05,
+            0.0025,
+            -0.027
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.154,
+            0.01,
+            0.01
+          ],
+          "color": "#778681",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.05,
+            0.0025,
+            0.047
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.166,
+            0.01,
+            0.01
+          ],
+          "color": "#778681",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.018,
+            0.0015,
+            0.075
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.045,
+            0.01,
+            0.034
+          ],
+          "color": "#c6b6a5",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.047,
+            0.0015,
+            0.075
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.013,
+            0.01,
+            0.019
+          ],
+          "color": "#c6b6a5",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.095,
+            0.0015,
+            0.058
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.01,
+            0.033
+          ],
+          "color": "#ac866b",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.081,
+            0.0015,
+            0.022
+          ],
+          "rotation": [
+            0,
+            -0.45,
+            0
+          ],
+          "size": [
+            0.013,
+            0.01,
+            0.045
+          ],
+          "color": "#647a67",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.111,
+            0.0015,
+            0.011
+          ],
+          "rotation": [
+            0,
+            0.38,
+            0
+          ],
+          "size": [
+            0.013,
+            0.01,
+            0.053
+          ],
+          "color": "#829480",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Study rain",
+      "position": [
+        -2.12,
+        0.9885,
+        1.36
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.1,
+            0,
+            -0.065
+          ],
+          "rotation": [
+            0,
+            0.08,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.035
+          ],
+          "color": "#c8d0d2",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.055,
+            0,
+            0.007
+          ],
+          "rotation": [
+            0,
+            -0.06,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.038
+          ],
+          "color": "#c8d0d2",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.01,
+            0,
+            -0.06
+          ],
+          "rotation": [
+            0,
+            0.06,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.036
+          ],
+          "color": "#c8d0d2",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug coaster",
+      "position": [
+        -1.03,
+        0.954,
+        1.62
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.01,
+            0.08
+          ],
+          "color": "#9d9279",
+          "roughness": 0.96,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tea mug",
+      "position": [
+        -1.03,
+        1.018,
+        1.62
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "mug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.09
+          ],
+          "color": "#c9b6a1",
+          "roughness": 0.28,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.051,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.01,
+            0.034
+          ],
+          "color": "#89664a",
+          "roughness": 0.15,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Plant saucer",
+      "position": [
+        -0.92,
+        0.953,
+        1.17
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Demo illustration of a rainy window, a tea mug and a pot of leaves"
+      ],
+      "shapes": [
+        {
+          "type": "plate",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.26,
+            0.01,
+            0.26
+          ],
+          "color": "#bb9d84",
+          "roughness": 0.75,
           "glow": false
         }
       ]
@@ -798,16 +5975,16 @@
     {
       "name": "Pot of leaves",
       "position": [
-        -1.8,
-        0.9,
-        1.05
+        -0.92,
+        1.196,
+        1.17
       ],
       "rotation": [
         0,
         0,
         0
       ],
-      "motion": "sway",
+      "motion": "none",
       "moments": [
         "Demo illustration of a rainy window, a tea mug and a pot of leaves"
       ],
@@ -825,19 +6002,36 @@
             0
           ],
           "size": [
-            0.18,
             0.3,
-            0.18
+            0.48,
+            0.3
           ],
-          "color": "#6ea07a",
-          "roughness": 0.8,
+          "color": "#b48b74",
+          "roughness": 0.85,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Tea shelf",
+      "position": [
+        -3.36,
+        1.475,
+        2.4
+      ],
+      "rotation": [
+        0,
+        1.5708,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
         {
-          "type": "box",
+          "type": "shelf",
           "position": [
             0,
-            -0.14,
+            0,
             0
           ],
           "rotation": [
@@ -846,12 +6040,246 @@
             0
           ],
           "size": [
-            0.12,
-            0.12,
-            0.12
+            0.94,
+            0.35,
+            0.24
           ],
-          "color": "#8b5a44",
-          "roughness": 0.9,
+          "color": "#8c7b66",
+          "roughness": 0.86,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Teapot",
+      "position": [
+        -3.36,
+        1.745,
+        2.23
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "teapot",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.19,
+            0.19
+          ],
+          "color": "#b6b1a4",
+          "roughness": 0.42,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Stacked saucers",
+      "position": [
+        -3.36,
+        1.656,
+        2.65
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plate",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.012,
+            0.2
+          ],
+          "color": "#d0c8b8",
+          "roughness": 0.45,
+          "glow": false
+        },
+        {
+          "type": "plate",
+          "position": [
+            0,
+            0.012,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.012,
+            0.2
+          ],
+          "color": "#c4c1b1",
+          "roughness": 0.45,
+          "glow": false
+        },
+        {
+          "type": "plate",
+          "position": [
+            0,
+            0.024,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.012,
+            0.2
+          ],
+          "color": "#d0c8b8",
+          "roughness": 0.45,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tea jar",
+      "position": [
+        -3.36,
+        1.73,
+        2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "bottle",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.105,
+            0.16,
+            0.105
+          ],
+          "color": "#9caa9c",
+          "roughness": 0.58,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Kitchen rug",
+      "position": [
+        -1.72,
+        0.204,
+        2.51
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "rug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.4,
+            0.01,
+            1.24
+          ],
+          "color": "#89958c",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Writing chair",
+      "position": [
+        -1.52,
+        0.643,
+        2.21
+      ],
+      "rotation": [
+        0,
+        3.1416,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I kept a picture study beside the writing so I could remember the colors, rather than trying to find the perfect name for gray. #walks #home @river"
+      ],
+      "shapes": [
+        {
+          "type": "chair",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.48,
+            0.87,
+            0.5
+          ],
+          "color": "#9a8066",
+          "roughness": 0.85,
           "glow": false
         }
       ]

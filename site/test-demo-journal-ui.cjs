@@ -25,7 +25,9 @@ const server = http.createServer((request, response) => {
   const original = await readDocument(new Uint8Array(fs.readFileSync(path.join(examples, 'demo-month.jotz'))));
   const source = original.source, days = journalDays(source);
   assert.equal(days.length, 31, 'the actual artifact has one dated entry for every October day');
+  assert.deepEqual(days.filter(day => day.setting).map(day => day.date), days.slice(1, 7).map(day => day.date), '2 to 7 October keep scenes; the rest is writing only');
   const places = days.map(day => {
+    if (!day.setting) return null;
     const asset = original.assets.find(a => a.path === day.setting?.path);
     assert.ok(asset, `${day.date}: its kept scene is attached`);
     const place = readPlaceFile(new TextDecoder().decode(asset.data), day);
@@ -63,25 +65,28 @@ const server = http.createServer((request, response) => {
     await page.waitForSelector('#paperPreview .jot-3d-canvas');
     await page.locator('#paperPreview .jot-3d-tools button').filter({ hasText: 'Back to the picture' }).first().click();
     await page.click('#writerScenesToggle');
-    await page.waitForSelector('#writerScenes .writer-scenes-canvas');
-    assert.match(await page.textContent('#writerScenesSummary'), /31 days; 31 with a kept scene/);
-    assert.equal(await page.locator('#writerScenes [role=tab].has-scene').count(), 31);
+    await page.waitForFunction(() => /31 days; 6 with a kept scene/.test(document.getElementById('writerScenesSummary')?.textContent || '')); // it opens on 1 October, which has no scene yet
+    assert.equal(await page.locator('#writerScenes [role=tab].has-scene').count(), 6);
     await context.setOffline(true);
 
     for (let i = 0; i < days.length; i++) {
-      const day = days[i], place = places[i], held = place.objects.filter(object => object.moments.length);
+      const day = days[i], place = places[i];
       await page.locator('#writerScenes [role=tab]').nth(i).click();
+      if (!place) { await page.waitForSelector('#writerScenesMake', { state: 'visible' }); assert.equal(await page.isVisible('.writer-scenes-canvas'), false, `${day.date}: no scene is drawn or made without asking`); continue; }
+      const held = place.objects.filter(object => object.moments.length);
       await page.waitForFunction(title => document.querySelector('.writer-scenes-about')?.textContent.startsWith(title + '.'), place.title);
       assert.equal(await page.isVisible('#writerScenesMake'), false, `${day.date}: its saved scene needs no model`);
       assert.deepEqual(await page.locator('.writer-scenes-things button').allTextContents(), held.map(object => object.name));
       await page.locator('.writer-scenes-things button').first().click();
       assert.deepEqual(await page.locator('.writer-scenes-moment li').allTextContents(), held[0].moments.map(moment => moment.text), `${day.date}: selecting an object shows exact journal sentences`);
       assert.ok(await page.locator('.writer-scenes-canvas').isVisible(), `${day.date}: the scene renders offline`);
-      if ([0, 8, 13, 17, 28, 30].includes(i)) await page.locator('#writerScenes').screenshot({ path: path.join(shots, `scene-${day.date}.png`) });
+      if ([1, 2, 4, 6].includes(i)) await page.locator('#writerScenes').screenshot({ path: path.join(shots, `scene-${day.date}.png`) });
     }
+    await page.locator('#writerScenes [role=tab]').nth(6).click();
+    await page.waitForFunction(title => document.querySelector('.writer-scenes-about')?.textContent.startsWith(title + '.'), places[6].title);
     await page.locator('.writer-scenes-things button').first().click();
     await page.locator('.writer-scenes-open').click();
-    assert.match(await page.textContent('.writer-scenes-page'), /A month on the table/);
+    assert.match(await page.textContent('.writer-scenes-page'), /What a leaf remembers/);
     await page.getByRole('button', { name: 'Close the entry', exact: true }).click();
     await page.click('#writerScenesToggle');
 
@@ -168,8 +173,8 @@ const server = http.createServer((request, response) => {
     await page.waitForFunction(() => document.getElementById('writing').value.includes('### 2026-10-31'));
     assert.equal(await page.inputValue('#writing'), source);
     await page.click('#writerScenesToggle');
-    await page.locator('#writerScenes [role=tab]').last().click();
-    await page.waitForFunction(title => document.querySelector('.writer-scenes-about')?.textContent.startsWith(title + '.'), places.at(-1).title);
+    await page.locator('#writerScenes [role=tab]').nth(6).click();
+    await page.waitForFunction(title => document.querySelector('.writer-scenes-about')?.textContent.startsWith(title + '.'), places[6].title);
     await page.locator('#writerScenes').screenshot({ path: path.join(shots, 'protected-scene-unlocked-offline.png') });
     await page.setViewportSize({ width: 390, height: 844 });
     assert.ok(await page.locator('#writerScenes').evaluate(element => element.getBoundingClientRect().right <= innerWidth + 1), 'the saved scene fits a phone viewport');
@@ -202,7 +207,7 @@ const server = http.createServer((request, response) => {
     await linked.close();
     assert.deepEqual(outside, [], 'reading the complete demo makes no provider request');
     assert.deepEqual(errors, [], 'the real journal opens and renders without page errors');
-    console.log(`PASS: real demo Read, all 31 scenes and exact moments offline, all eight media kinds, bundled recordings/model/card, save/reopen, offline mixed unlock and relock, the site's protected-copy link. Screenshots: ${shots}`);
+    console.log(`PASS: real demo Read, the 6 kept scenes and exact moments offline, the other days without one, all eight media kinds, bundled recordings/model/card, save/reopen, offline mixed unlock and relock, the site's protected-copy link. Screenshots: ${shots}`);
     await context.close();
   } finally { original.index?.close(); await browser.close(); server.close(); }
 })().catch(error => { console.error(error); server.close(); process.exitCode = 1; });

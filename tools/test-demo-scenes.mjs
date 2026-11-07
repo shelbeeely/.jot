@@ -7,7 +7,7 @@ import path from 'node:path';
 import { generateDemoScenes, reusableScene, sceneArguments } from './generate-demo-scenes.mjs';
 import { journalDays, placePrompt, PLACE_SCHEMA, readPlaceFile } from '../site/dist/scene-journal-core.mjs';
 
-const SOURCE = '### 2026-10-01 | A small morning\nA mug of tea on the desk.\n';
+const SOURCE = '### 2026-10-01 | A small morning\n@setting: media/scene-2026-10-01.json\nA mug of tea on the desk.\n\n### 2026-10-02 | No scene\nThis day is never sent.\n';
 const SHAPE = { type: 'box', position: [0, 0.5, 0], rotation: [0, 0, 0], size: [1, 1, 1], color: '#aabbcc', roughness: 0.8, glow: false };
 const quiet = () => {};
 
@@ -22,8 +22,9 @@ test('authoring uses Writer transport, exact numbered prose and privacy settings
     assert.deepEqual(body.messages, [{ role: 'system', content: prompt.system }, { role: 'user', content: prompt.user }]);
     assert.deepEqual(body.response_format.json_schema.schema, PLACE_SCHEMA);
     assert.deepEqual(body.provider, { zdr: true, data_collection: 'deny', require_parameters: true });
-    assert.deepEqual(body.reasoning, { effort: 'low' });
-    assert.equal(body.max_tokens, 24000);
+    assert.deepEqual(body.reasoning, { effort: 'max', exclude: true });
+    assert.equal(body.max_tokens, 128000);
+    assert.match(prompt.system, /Aim for 40 to 100 objects/);
     const content = JSON.stringify({ title: 'Test response', objects: [{ name: 'Desk', position: [0, 0, 0], rotation: [0, 0, 0], moments: [1], shapes: [SHAPE] }] });
     return new Response(JSON.stringify({ choices: [{ finish_reason: 'stop', message: { content } }] }), { headers: { 'Content-Type': 'application/json' } });
   };
@@ -39,6 +40,8 @@ test('authoring uses Writer transport, exact numbered prose and privacy settings
   assert.equal(reusableScene(journalDays(SOURCE.replace('tea', 'coffee'))[0], metadata, text, { model: 'test/model', zdr: true }), false);
   assert.equal(reusableScene(journalDays(SOURCE)[0], metadata, text + ' ', { model: 'test/model', zdr: true }), false);
   assert.equal(reusableScene(journalDays(SOURCE)[0], metadata, text, { model: 'test/model', zdr: false }), false);
+  assert.equal(metadata.reasoning, 'max');
+  assert.equal(reusableScene(journalDays(SOURCE)[0], { ...metadata, reasoning: 'low' }, text, { model: 'test/model', zdr: true }), false, 'a scene asked for differently from Writer is made again');
 });
 
 test('missing credentials and failed requests create no substitute scenes', async (t) => {
@@ -54,4 +57,5 @@ test('privacy relaxation is explicit and CLI parsing never needs to print creden
   assert.equal(sceneArguments(['--allow-retention'], { OPENROUTER_API_KEY: 'test-key' }).zdr, false);
   assert.equal(sceneArguments(['--concurrency', '8'], {}).concurrency, 8);
   assert.throws(() => sceneArguments(['--model']), /value is required/);
+  assert.throws(() => sceneArguments(['--reasoning', 'low']), /Unknown option/, 'the demo asks exactly as Writer does');
 });
