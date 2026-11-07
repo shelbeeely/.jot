@@ -3,76 +3,33 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-6.1-sol",
-    "at": "2026-11-07T01:02:31.608Z"
+    "at": "2026-11-07T01:34:06.680Z"
   },
-  "title": "Morning at the Café Window",
-  "sky": "#d5dce0",
-  "ground": "#b8a394",
+  "title": "Café window nook",
+  "sky": "#c7d8df",
+  "ground": "#d7c9b5",
   "weather": "clear",
   "time": "morning",
   "atmosphere": "cosy",
   "camera": {
     "position": [
-      4.7,
-      3.7,
-      5.5
+      6.4,
+      6.5,
+      7.3
     ],
     "target": [
-      0,
-      1,
-      -0.3
+      -0.15,
+      1.05,
+      -0.65
     ]
   },
   "objects": [
     {
-      "name": "Café floor",
+      "name": "Wooden floor",
       "position": [
         0,
-        0.06,
+        0.04,
         0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "The café window had steamed over, except for a clear patch just above our table.",
-        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands.",
-        "A small vase of flowers leaned toward the lamp behind the counter.",
-        "The useful part of the morning was having time to sit there. #making #friends @cafe"
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            4.6,
-            0.12,
-            3.8
-          ],
-          "color": "#b99a7d",
-          "roughness": 0.9,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Back wall",
-      "position": [
-        0,
-        1.45,
-        -1.85
       ],
       "rotation": [
         0,
@@ -95,12 +52,500 @@
             0
           ],
           "size": [
-            4.6,
-            2.66,
+            5.8,
+            0.08,
+            4.6
+          ],
+          "color": "#957455",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -2.61,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.572,
+            0.04,
+            4.56
+          ],
+          "color": "#b68f69",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -2.03,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.572,
+            0.04,
+            4.56
+          ],
+          "color": "#bd966f",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.45,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.572,
+            0.04,
+            4.56
+          ],
+          "color": "#b08963",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.87,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.572,
+            0.04,
+            4.56
+          ],
+          "color": "#ba926b",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.29,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.572,
+            0.04,
+            4.56
+          ],
+          "color": "#c09a73",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.29,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.572,
+            0.04,
+            4.56
+          ],
+          "color": "#b68f69",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.87,
+            0.06,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.572,
+            0.04,
+            4.56
+          ],
+          "color": "#bd966f",
+          "roughness": 0.78,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back wall",
+      "position": [
+        0,
+        0.12,
+        -2.24
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.06,
+            0.395,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            5.68,
+            0.79,
             0.12
           ],
-          "color": "#e1d4bf",
-          "roughness": 0.95,
+          "color": "#e7decf",
+          "roughness": 0.93,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.06,
+            2.535,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            5.68,
+            0.39,
+            0.12
+          ],
+          "color": "#e7decf",
+          "roughness": 0.93,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -2.64,
+            1.565,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            1.55,
+            0.12
+          ],
+          "color": "#e7decf",
+          "roughness": 0.93,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.2,
+            1.565,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            3.4,
+            1.55,
+            0.12
+          ],
+          "color": "#e7decf",
+          "roughness": 0.93,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side wall",
+      "position": [
+        -2.84,
+        1.485,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            2.73,
+            4.6
+          ],
+          "color": "#e3d8c5",
+          "roughness": 0.93,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Wall panelling",
+      "position": [
+        -2.7675,
+        0.12,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.37,
+            -1.8
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.66,
+            0.82
+          ],
+          "color": "#bdc7bb",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.37,
+            -0.9
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.66,
+            0.82
+          ],
+          "color": "#c2cbbf",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.37,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.66,
+            0.82
+          ],
+          "color": "#bdc7bb",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.37,
+            0.9
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.66,
+            0.82
+          ],
+          "color": "#c2cbbf",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.37,
+            1.8
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.66,
+            0.82
+          ],
+          "color": "#bdc7bb",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.0075,
+            0.7275,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.055,
+            4.42
+          ],
+          "color": "#a4b1a3",
+          "roughness": 0.72,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Skirting boards",
+      "position": [
+        0,
+        0.185,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.0725,
+            0,
+            -2.155
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            5.605,
+            0.13,
+            0.05
+          ],
+          "color": "#9caa9b",
+          "roughness": 0.76,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -2.755,
+            0,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.05,
+            0.13,
+            4.48
+          ],
+          "color": "#9caa9b",
+          "roughness": 0.76,
           "glow": false
         }
       ]
@@ -108,9 +553,9 @@
     {
       "name": "Steamed café window",
       "position": [
-        -1.05,
-        1.7,
-        -1.76
+        -1.5,
+        1.685,
+        -2.24
       ],
       "rotation": [
         0,
@@ -119,16 +564,15 @@
       ],
       "motion": "none",
       "moments": [
-        "The café window had steamed over, except for a clear patch just above our table.",
-        "| Narrow, by the window | Room for one notebook | Choosing the wood |"
+        "The café window had steamed over, except for a clear patch just above our table."
       ],
       "shapes": [
         {
-          "type": "window",
+          "type": "box",
           "position": [
             0,
             0,
-            0
+            0.012
           ],
           "rotation": [
             0,
@@ -136,20 +580,41 @@
             0
           ],
           "size": [
-            1.65,
-            1.35,
+            1.86,
+            1.41,
+            0.025
+          ],
+          "color": "#92aeb5",
+          "roughness": 0.2,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.965,
+            0,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            1.55,
             0.12
           ],
-          "color": "#786555",
-          "roughness": 0.7,
+          "color": "#879993",
+          "roughness": 0.65,
           "glow": false
         },
         {
           "type": "box",
           "position": [
+            0.965,
             0,
-            0.39,
-            0.07
+            0.01
           ],
           "rotation": [
             0,
@@ -157,20 +622,20 @@
             0
           ],
           "size": [
-            1.43,
-            0.43,
-            0.012
+            0.07,
+            1.55,
+            0.12
           ],
-          "color": "#c9d4d1",
-          "roughness": 0.95,
+          "color": "#879993",
+          "roughness": 0.65,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0,
-            -0.43,
-            0.07
+            0.74,
+            0.01
           ],
           "rotation": [
             0,
@@ -178,20 +643,20 @@
             0
           ],
           "size": [
-            1.43,
-            0.34,
-            0.012
+            1.86,
+            0.07,
+            0.12
           ],
-          "color": "#c9d4d1",
-          "roughness": 0.95,
+          "color": "#879993",
+          "roughness": 0.65,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.57,
-            -0.03,
-            0.07
+            0,
+            -0.74,
+            0.01
           ],
           "rotation": [
             0,
@@ -199,20 +664,20 @@
             0
           ],
           "size": [
-            0.29,
-            0.47,
-            0.012
+            1.86,
+            0.07,
+            0.12
           ],
-          "color": "#c9d4d1",
-          "roughness": 0.95,
+          "color": "#879993",
+          "roughness": 0.65,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.54,
-            -0.03,
-            0.07
+            0,
+            0.3075,
+            0.0275
           ],
           "rotation": [
             0,
@@ -220,22 +685,144 @@
             0
           ],
           "size": [
-            0.35,
-            0.47,
-            0.012
+            1.86,
+            0.795,
+            0.01
           ],
-          "color": "#c9d4d1",
-          "roughness": 0.95,
+          "color": "#d2d9d4",
+          "roughness": 0.84,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.5375,
+            0.0275
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.86,
+            0.335,
+            0.01
+          ],
+          "color": "#c7d2d1",
+          "roughness": 0.84,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.5725,
+            -0.23,
+            0.0275
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.715,
+            0.28,
+            0.01
+          ],
+          "color": "#cdd6d3",
+          "roughness": 0.84,
           "glow": false
         }
       ]
     },
     {
-      "name": "Window table",
+      "name": "Window ledge",
       "position": [
-        -1.05,
+        -1.5,
+        0.8875,
+        -2.03
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.1,
+            0.045,
+            0.3
+          ],
+          "color": "#a98c68",
+          "roughness": 0.72,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.72,
+            -0.10125,
+            -0.095
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.045,
+            0.1575,
+            0.11
+          ],
+          "color": "#879993",
+          "roughness": 0.72,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.72,
+            -0.10125,
+            -0.095
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.045,
+            0.1575,
+            0.11
+          ],
+          "color": "#879993",
+          "roughness": 0.72,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Café table",
+      "position": [
+        -1.38,
         0.87,
-        -0.65
+        -0.85
       ],
       "rotation": [
         0,
@@ -250,7 +837,7 @@
       ],
       "shapes": [
         {
-          "type": "table",
+          "type": "box",
           "position": [
             0,
             0,
@@ -262,31 +849,177 @@
             0
           ],
           "size": [
-            1.4,
-            0.75,
-            0.8
+            1.5,
+            0.06,
+            0.9
           ],
-          "color": "#956e4e",
-          "roughness": 0.75,
+          "color": "#b88d62",
+          "roughness": 0.63,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.62,
+            -0.39,
+            -0.33
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.72,
+            0.075
+          ],
+          "color": "#936e4c",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.62,
+            -0.39,
+            -0.33
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.72,
+            0.075
+          ],
+          "color": "#936e4c",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.62,
+            -0.39,
+            0.33
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.72,
+            0.075
+          ],
+          "color": "#936e4c",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.62,
+            -0.39,
+            0.33
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.72,
+            0.075
+          ],
+          "color": "#936e4c",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.105,
+            -0.33
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.165,
+            0.15,
+            0.045
+          ],
+          "color": "#a37b55",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.105,
+            0.33
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.165,
+            0.15,
+            0.045
+          ],
+          "color": "#a37b55",
+          "roughness": 0.73,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.62,
+            -0.105,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.045,
+            0.15,
+            0.585
+          ],
+          "color": "#a37b55",
+          "roughness": 0.73,
           "glow": false
         }
       ]
     },
     {
-      "name": "Left chair",
+      "name": "Window chair",
       "position": [
-        -1.98,
+        -1.38,
         0.57,
-        -0.54
+        -1.78
       ],
       "rotation": [
         0,
-        1.57,
+        0,
         0
       ],
       "motion": "none",
       "moments": [
-        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands.",
         "The useful part of the morning was having time to sit there. #making #friends @cafe"
       ],
       "shapes": [
@@ -303,31 +1036,30 @@
             0
           ],
           "size": [
-            0.5,
+            0.52,
             0.9,
-            0.5
+            0.54
           ],
-          "color": "#6f8077",
-          "roughness": 0.8,
+          "color": "#967650",
+          "roughness": 0.73,
           "glow": false
         }
       ]
     },
     {
-      "name": "Right chair",
+      "name": "Front chair",
       "position": [
-        -0.12,
+        -1.38,
         0.57,
-        -0.54
+        0.04
       ],
       "rotation": [
         0,
-        -1.57,
+        3.1416,
         0
       ],
       "motion": "none",
       "moments": [
-        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands.",
         "The useful part of the morning was having time to sit there. #making #friends @cafe"
       ],
       "shapes": [
@@ -344,12 +1076,50 @@
             0
           ],
           "size": [
-            0.5,
+            0.52,
             0.9,
-            0.5
+            0.54
           ],
-          "color": "#6f8077",
-          "roughness": 0.8,
+          "color": "#967650",
+          "roughness": 0.73,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tea coaster",
+      "position": [
+        -1.12,
+        0.904,
+        -0.6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.078,
+            0.01,
+            0.078
+          ],
+          "color": "#9e8967",
+          "roughness": 0.94,
           "glow": false
         }
       ]
@@ -357,9 +1127,9 @@
     {
       "name": "Mug of tea",
       "position": [
-        -0.66,
-        0.93,
-        -0.52
+        -1.12,
+        0.968,
+        -0.6
       ],
       "rotation": [
         0,
@@ -384,26 +1154,90 @@
             0
           ],
           "size": [
+            0.13,
             0.12,
-            0.12,
-            0.09
+            0.1
           ],
-          "color": "#d7b477",
+          "color": "#c6a17e",
           "roughness": 0.35,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.012,
+            0.045,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.01,
+            0.034
+          ],
+          "color": "#a16d3f",
+          "roughness": 0.2,
           "glow": false
         }
       ]
     },
     {
-      "name": "Sketch napkin",
+      "name": "Notebook",
       "position": [
-        -1.31,
-        0.873,
-        -0.6
+        -1.67,
+        0.922,
+        -0.99
       ],
       "rotation": [
         0,
-        0.12,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I took the napkin home inside my notebook, next to the question from Thursday.",
+        "| Narrow, by the window | Room for one notebook | Choosing the wood |",
+        "Measure the kitchen wall #making",
+        "Start with the space beside the window, then check where the lamp plugs in."
+      ],
+      "shapes": [
+        {
+          "type": "notebook",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.044,
+            0.32
+          ],
+          "color": "#6d837c",
+          "roughness": 0.83,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Saved sketch napkin",
+      "position": [
+        -1.69,
+        0.945,
+        -0.99
+      ],
+      "rotation": [
+        0,
+        0,
         0
       ],
       "motion": "none",
@@ -429,20 +1263,125 @@
             0
           ],
           "size": [
-            0.25,
+            0.235,
             0.01,
-            0.24
+            0.235
           ],
-          "color": "#f0e7d5",
-          "roughness": 1,
+          "color": "#f5eee0",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.098,
+            0.00125,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.214
+          ],
+          "color": "#e5dac8",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.1,
+            0.00125,
+            0.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.024,
+            0.01,
+            0.024
+          ],
+          "color": "#e8ddcb",
+          "roughness": 0.98,
           "glow": false
         },
         {
           "type": "box",
           "position": [
             0,
-            0.004,
-            -0.035
+            0.0013,
+            -0.028
+          ],
+          "rotation": [
+            0,
+            -0.024,
+            0
+          ],
+          "size": [
+            0.15,
+            0.01,
+            0.01
+          ],
+          "color": "#717974",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.048,
+            0.0013,
+            0.012
+          ],
+          "rotation": [
+            0,
+            0.05,
+            0
+          ],
+          "size": [
+            0.055,
+            0.01,
+            0.01
+          ],
+          "color": "#717974",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.008,
+            0.0013,
+            0.0095
+          ],
+          "rotation": [
+            0,
+            -0.07,
+            0
+          ],
+          "size": [
+            0.06,
+            0.01,
+            0.01
+          ],
+          "color": "#717974",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.061,
+            0.0013,
+            0.013
           ],
           "rotation": [
             0,
@@ -450,99 +1389,56 @@
             0
           ],
           "size": [
-            0.15,
+            0.046,
             0.01,
             0.01
           ],
-          "color": "#79746a",
-          "roughness": 1,
+          "color": "#717974",
+          "roughness": 0.96,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0,
-            0.004,
-            0.026
+            -0.075,
+            0.0013,
+            -0.009
           ],
           "rotation": [
             0,
-            -0.05,
-            0
-          ],
-          "size": [
-            0.15,
-            0.01,
-            0.01
-          ],
-          "color": "#79746a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.071,
-            0.004,
-            -0.005
-          ],
-          "rotation": [
-            0,
-            0,
+            -0.04,
             0
           ],
           "size": [
             0.01,
             0.01,
-            0.06
+            0.04
           ],
-          "color": "#79746a",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.071,
-            0.004,
-            -0.005
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.01,
-            0.06
-          ],
-          "color": "#79746a",
-          "roughness": 1,
+          "color": "#717974",
+          "roughness": 0.96,
           "glow": false
         }
       ]
     },
     {
-      "name": "Notebook",
+      "name": "Pencil",
       "position": [
-        -1.1,
-        0.89,
-        -0.92
+        -1.68,
+        0.904,
+        -0.731
       ],
       "rotation": [
         0,
-        -0.1,
+        0,
         0
       ],
       "motion": "none",
       "moments": [
-        "I took the napkin home inside my notebook, next to the question from Thursday.",
-        "| Narrow, by the window | Room for one notebook | Choosing the wood |"
+        "Robin drew a wobbly shelf on a paper napkin while I held a mug of tea between my hands."
       ],
       "shapes": [
         {
-          "type": "notebook",
+          "type": "cylinder",
           "position": [
             0,
             0,
@@ -551,25 +1447,88 @@
           "rotation": [
             0,
             0,
-            0
+            -1.5708
           ],
           "size": [
-            0.22,
-            0.04,
-            0.3
+            0.01,
+            0.19,
+            0.01
           ],
-          "color": "#73867b",
-          "roughness": 0.85,
+          "color": "#bfa160",
+          "roughness": 0.77,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.103,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.5708
+          ],
+          "size": [
+            0.01,
+            0.016,
+            0.01
+          ],
+          "color": "#d7a499",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.102,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.5708
+          ],
+          "size": [
+            0.01,
+            0.014,
+            0.01
+          ],
+          "color": "#d4b98a",
+          "roughness": 0.83,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.112,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.5708
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#505955",
+          "roughness": 0.83,
           "glow": false
         }
       ]
     },
     {
-      "name": "Counter",
+      "name": "Café counter",
       "position": [
-        1.26,
-        0.64,
-        -1.05
+        1.42,
+        0.12,
+        -1.31
       ],
       "rotation": [
         0,
@@ -585,7 +1544,7 @@
           "type": "box",
           "position": [
             0,
-            0,
+            0.035,
             0
           ],
           "rotation": [
@@ -594,11 +1553,11 @@
             0
           ],
           "size": [
-            1.6,
-            1.04,
-            0.65
+            2.16,
+            0.07,
+            0.7
           ],
-          "color": "#876850",
+          "color": "#687b72",
           "roughness": 0.8,
           "glow": false
         },
@@ -606,7 +1565,7 @@
           "type": "box",
           "position": [
             0,
-            0.55,
+            0.515,
             0
           ],
           "rotation": [
@@ -615,12 +1574,199 @@
             0
           ],
           "size": [
-            1.72,
-            0.06,
-            0.75
+            2.2,
+            0.89,
+            0.78
           ],
-          "color": "#dac9ab",
-          "roughness": 0.6,
+          "color": "#86958a",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.34,
+            0.08,
+            0.9
+          ],
+          "color": "#b8936b",
+          "roughness": 0.57,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.985,
+            0.4625
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.34,
+            0.035,
+            0.025
+          ],
+          "color": "#966e4d",
+          "roughness": 0.65,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Counter cupboard doors",
+      "position": [
+        1.42,
+        0.12,
+        -0.9075
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A small vase of flowers leaned toward the lamp behind the counter."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.73,
+            0.53,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.78,
+            0.025
+          ],
+          "color": "#91a096",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.53,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.78,
+            0.025
+          ],
+          "color": "#91a096",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.73,
+            0.53,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.68,
+            0.78,
+            0.025
+          ],
+          "color": "#91a096",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.52,
+            0.67,
+            0.026
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.018,
+            0.027
+          ],
+          "color": "#bc9a66",
+          "roughness": 0.35,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.21,
+            0.67,
+            0.026
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.018,
+            0.027
+          ],
+          "color": "#bc9a66",
+          "roughness": 0.35,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.94,
+            0.67,
+            0.026
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.018,
+            0.027
+          ],
+          "color": "#bc9a66",
+          "roughness": 0.35,
           "glow": false
         }
       ]
@@ -628,9 +1774,9 @@
     {
       "name": "Counter lamp",
       "position": [
-        1.69,
-        1.47,
-        -1.19
+        2.02,
+        1.48,
+        -1.43
       ],
       "rotation": [
         0,
@@ -655,33 +1801,12 @@
             0
           ],
           "size": [
-            0.32,
-            0.5,
-            0.32
+            0.33,
+            0.64,
+            0.33
           ],
-          "color": "#d9b77d",
-          "roughness": 0.65,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.12,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.055,
-            0.055,
-            0.055
-          ],
-          "color": "#ffe0a0",
-          "roughness": 0.3,
+          "color": "#f4d496",
+          "roughness": 0.68,
           "glow": true
         }
       ]
@@ -689,9 +1814,9 @@
     {
       "name": "Vase of flowers",
       "position": [
-        1.12,
-        1.22,
-        -1.02
+        1.1,
+        1.16,
+        -1.47
       ],
       "rotation": [
         0,
@@ -704,10 +1829,10 @@
       ],
       "shapes": [
         {
-          "type": "bottle",
+          "type": "cylinder",
           "position": [
             0,
-            0.09,
+            0.0075,
             0
           ],
           "rotation": [
@@ -716,83 +1841,698 @@
             0
           ],
           "size": [
-            0.13,
-            0.18,
-            0.13
+            0.065,
+            0.015,
+            0.065
           ],
-          "color": "#8faaa3",
-          "roughness": 0.4,
+          "color": "#9e725f",
+          "roughness": 0.67,
           "glow": false
         },
         {
           "type": "cylinder",
           "position": [
-            0.025,
-            0.25,
+            0,
+            0.0975,
             0
           ],
           "rotation": [
             0,
             0,
-            -0.2
+            0
+          ],
+          "size": [
+            0.07,
+            0.165,
+            0.07
+          ],
+          "color": "#b78975",
+          "roughness": 0.56,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.2125,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.045,
+            0.065,
+            0.045
+          ],
+          "color": "#b78975",
+          "roughness": 0.56,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.245,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.046,
+            0.01,
+            0.046
+          ],
+          "color": "#9e725f",
+          "roughness": 0.58,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.2465,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.037,
+            0.01,
+            0.037
+          ],
+          "color": "#5f6958",
+          "roughness": 0.28,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.04,
+            0.365,
+            -0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.27
           ],
           "size": [
             0.01,
-            0.24,
+            0.25,
             0.01
           ],
-          "color": "#71805b",
-          "roughness": 0.9,
+          "color": "#78866a",
+          "roughness": 0.86,
           "glow": false
         },
         {
           "type": "cylinder",
           "position": [
             0.055,
-            0.24,
-            0.025
+            0.343,
+            0.032
           ],
           "rotation": [
             0,
             0,
-            -0.32
+            -0.4
           ],
           "size": [
             0.01,
-            0.22,
+            0.225,
             0.01
           ],
-          "color": "#71805b",
-          "roughness": 0.9,
+          "color": "#78866a",
+          "roughness": 0.86,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.012,
+            0.332,
+            -0.045
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.16
+          ],
+          "size": [
+            0.01,
+            0.205,
+            0.01
+          ],
+          "color": "#78866a",
+          "roughness": 0.86,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Counter tray",
+      "position": [
+        0.94,
+        1.166,
+        -1.11
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            0.012,
+            0.36
+          ],
+          "color": "#806c52",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.49,
+            0.023,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.034,
+            0.36
+          ],
+          "color": "#947b5c",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.49,
+            0.023,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.034,
+            0.36
+          ],
+          "color": "#947b5c",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.023,
+            -0.17
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.96,
+            0.034,
+            0.02
+          ],
+          "color": "#947b5c",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.023,
+            0.17
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.96,
+            0.034,
+            0.02
+          ],
+          "color": "#947b5c",
+          "roughness": 0.78,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Teapot",
+      "position": [
+        0.64,
+        1.282,
+        -1.11
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "teapot",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.26,
+            0.22,
+            0.19
+          ],
+          "color": "#d5dfd4",
+          "roughness": 0.34,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Counter saucer",
+      "position": [
+        0.94,
+        1.181,
+        -1.09
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "plate",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.18,
+            0.018,
+            0.18
+          ],
+          "color": "#dce4d9",
+          "roughness": 0.34,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Counter cup",
+      "position": [
+        0.94,
+        1.25,
+        -1.09
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "mug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.095
+          ],
+          "color": "#d5dfd4",
+          "roughness": 0.34,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Paper napkins",
+      "position": [
+        2.2,
+        1.176,
+        -1.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "papers",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.22,
+            0.032,
+            0.18
+          ],
+          "color": "#f1e8d8",
+          "roughness": 0.96,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Sugar bowl",
+      "position": [
+        1.23,
+        1.172,
+        -1.13
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.04,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.052,
+            0.08,
+            0.052
+          ],
+          "color": "#e3dcc7",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.052,
+            0.01,
+            0.052
+          ],
+          "color": "#d1c6af",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.092,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.012,
+            0.055
+          ],
+          "color": "#e9e1cf",
+          "roughness": 0.4,
           "glow": false
         },
         {
           "type": "sphere",
           "position": [
+            0,
+            0.11,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.012,
+            0.012
+          ],
+          "color": "#cfbfa3",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Teaspoon",
+      "position": [
+        -0.87,
+        0.902,
+        -0.74
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.015
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.1
+          ],
+          "color": "#a7aca6",
+          "roughness": 0.28,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            -0.048
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.013,
+            0.01,
+            0.013
+          ],
+          "color": "#b9beb7",
+          "roughness": 0.28,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Café clock",
+      "position": [
+        1.42,
+        2.16,
+        -2.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "clock",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.36,
+            0.36,
+            0.06
+          ],
+          "color": "#806950",
+          "roughness": 0.63,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lamp cord and socket",
+      "position": [
+        2.02,
+        0.12,
+        -2.17
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.58,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.085,
+            0.13,
+            0.02
+          ],
+          "color": "#e3dfd2",
+          "roughness": 0.55,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.55,
+            0.0115
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
             0.05,
-            0.365,
-            0
+            0.03,
+            0.01
           ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.045,
-            0.045,
-            0.045
-          ],
-          "color": "#d7a69c",
-          "roughness": 0.9,
+          "color": "#c7c6ba",
+          "roughness": 0.65,
           "glow": false
         },
         {
-          "type": "sphere",
+          "type": "box",
           "position": [
-            0.089,
-            0.34,
-            0.025
+            0,
+            0.61,
+            0.0275
           ],
           "rotation": [
             0,
@@ -801,11 +2541,74 @@
           ],
           "size": [
             0.038,
-            0.038,
-            0.038
+            0.045,
+            0.035
           ],
-          "color": "#e5cb87",
-          "roughness": 0.9,
+          "color": "#696a60",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.048,
+            0.4925
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.215
+          ],
+          "color": "#575751",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.83,
+            0.385
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.44,
+            0.01
+          ],
+          "color": "#575751",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.61,
+            0.215
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.34
+          ],
+          "color": "#575751",
+          "roughness": 0.85,
           "glow": false
         }
       ]

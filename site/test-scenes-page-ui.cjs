@@ -14,6 +14,8 @@ const server = http.createServer((req, res) => {
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
   const origin = `http://127.0.0.1:${server.address().port}`, browser = await chromium.launch();
   const source = fs.readFileSync(path.join(__dirname, '..', 'examples', 'demo-month.jot'), 'utf8');
+  // Moments are the entry's sentences as Writer reads them (formatting marks removed), not raw source lines.
+  const { journalDays } = await import('./dist/scene-journal-core.mjs'), sentences = new Set(journalDays(source).flatMap((day) => day.sentences));
   try {
     const context = await browser.newContext({ viewport: { width: 1280, height: 860 }, reducedMotion: 'reduce', locale: 'en-GB' }), outside = [], errors = [];
     context.on('request', (r) => { if (!r.url().startsWith(origin) && !/^(data|blob):/.test(r.url())) outside.push(r.url()); });
@@ -27,7 +29,7 @@ const server = http.createServer((req, res) => {
     assert.equal(await page.textContent('.writer-scenes-counter'), '01 / 07');
     assert.equal(await page.locator('#writerScenesMake, #writerScenesSend, #writerScenesKeep:visible').count(), 0, 'nothing is made, sent or kept here');
     const first = page.locator('.writer-scenes-things button').first(); await first.click();
-    for (const line of await page.locator('.writer-scenes-moment li').allTextContents()) assert.ok(source.includes(line.trim()), `a moment is the entry’s own sentence: ${line}`);
+    for (const line of await page.locator('.writer-scenes-moment li').allTextContents()) assert.ok(sentences.has(line.trim()), `a moment is the entry’s own sentence: ${line}`);
     if (shots) await page.screenshot({ path: path.join(shots, 'scenes-page.png') });
     await page.click('#writerScenesJournal');
     assert.match(await page.textContent('.writer-scenes-page'), /window/i); assert.equal(await page.evaluate(() => document.querySelector('.writer-scenes-journal').open), true);

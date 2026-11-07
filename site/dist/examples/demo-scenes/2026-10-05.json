@@ -3,32 +3,32 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-6.1-sol",
-    "at": "2026-11-07T01:02:56.163Z"
+    "at": "2026-11-07T01:35:37.508Z"
   },
-  "title": "Morning Garden Bed",
-  "sky": "#d9e9ef",
-  "ground": "#81966b",
+  "title": "Apple Tree Garden",
+  "sky": "#e0eaf0",
+  "ground": "#87956e",
   "weather": "sun",
   "time": "morning",
   "atmosphere": "calm",
   "camera": {
     "position": [
-      5,
-      4.2,
-      6
+      6.8,
+      5.8,
+      8.4
     ],
     "target": [
-      0,
-      0.7,
-      0
+      -0.15,
+      1.1,
+      0.1
     ]
   },
   "objects": [
     {
-      "name": "Garden base",
+      "name": "Garden ground",
       "position": [
         0,
-        0.12,
+        0,
         0
       ],
       "rotation": [
@@ -37,17 +37,13 @@
         0
       ],
       "motion": "none",
-      "moments": [
-        "Sun caught the edges of the garden flowers before it reached the wooden bench.",
-        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree.",
-        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
-      ],
+      "moments": [],
       "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            0,
+            0.065,
             0
           ],
           "rotation": [
@@ -56,22 +52,758 @@
             0
           ],
           "size": [
-            5.6,
-            0.24,
-            4.6
+            6.5,
+            0.13,
+            5.7
           ],
-          "color": "#8a9c70",
+          "color": "#887354",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.145,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            6.5,
+            0.03,
+            5.7
+          ],
+          "color": "#8d9a73",
           "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Garden path",
+      "name": "Back garden fence",
       "position": [
         0,
-        0.255,
-        1.35
+        0.16,
+        -2.67
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -3,
+            0.525,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            1.05,
+            0.12
+          ],
+          "color": "#aaa58e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1,
+            0.525,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            1.05,
+            0.12
+          ],
+          "color": "#aaa58e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1,
+            0.525,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            1.05,
+            0.12
+          ],
+          "color": "#aaa58e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            3,
+            0.525,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            1.05,
+            0.12
+          ],
+          "color": "#aaa58e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -3,
+            1.0725,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.045,
+            0.15
+          ],
+          "color": "#c3baa0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1,
+            1.0725,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.045,
+            0.15
+          ],
+          "color": "#c3baa0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1,
+            1.0725,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.045,
+            0.15
+          ],
+          "color": "#c3baa0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            3,
+            1.0725,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.045,
+            0.15
+          ],
+          "color": "#c3baa0",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back fence rails",
+      "position": [
+        0,
+        0.16,
+        -2.67
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            6.1,
+            0.085,
+            0.09
+          ],
+          "color": "#b4ad94",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.8,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            6.1,
+            0.085,
+            0.09
+          ],
+          "color": "#b4ad94",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -2.625,
+            0.48,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.83,
+            0.04
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.875,
+            0.48,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.83,
+            0.04
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.125,
+            0.48,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.83,
+            0.04
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.375,
+            0.48,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.83,
+            0.04
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.375,
+            0.48,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.83,
+            0.04
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.125,
+            0.48,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.83,
+            0.04
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Back fence pickets",
+      "position": [
+        0,
+        0.16,
+        -2.67
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            1.875,
+            0.48,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.83,
+            0.04
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            2.625,
+            0.48,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.83,
+            0.04
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side garden fence",
+      "position": [
+        -3.1,
+        0.16,
+        -1.22
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.49,
+            -1.42
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.98,
+            0.12
+          ],
+          "color": "#aaa58e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.49,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.98,
+            0.12
+          ],
+          "color": "#aaa58e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.49,
+            1.42
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.98,
+            0.12
+          ],
+          "color": "#aaa58e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.0025,
+            -1.42
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.045,
+            0.15
+          ],
+          "color": "#c3baa0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.0025,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.045,
+            0.15
+          ],
+          "color": "#c3baa0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            1.0025,
+            1.42
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.15,
+            0.045,
+            0.15
+          ],
+          "color": "#c3baa0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.28,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.08,
+            2.84
+          ],
+          "color": "#b4ad94",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.75,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.08,
+            2.84
+          ],
+          "color": "#b4ad94",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side fence pickets",
+      "position": [
+        -3.1,
+        0.16,
+        -1.22
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.06,
+            0.46,
+            -1.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.8,
+            0.12
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.06,
+            0.46,
+            -0.36
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.8,
+            0.12
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.06,
+            0.46,
+            0.36
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.8,
+            0.12
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.06,
+            0.46,
+            1.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            0.8,
+            0.12
+          ],
+          "color": "#b7b099",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Stone path",
+      "position": [
+        0,
+        0.16,
+        0
       ],
       "rotation": [
         0,
@@ -86,8 +818,195 @@
         {
           "type": "box",
           "position": [
+            -0.16,
+            0.022,
+            2.58
+          ],
+          "rotation": [
+            0,
+            0.03,
+            0
+          ],
+          "size": [
+            0.66,
+            0.044,
+            0.4
+          ],
+          "color": "#c9bea2",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.13,
+            0.023,
+            2.11
+          ],
+          "rotation": [
+            0,
+            -0.04,
+            0
+          ],
+          "size": [
+            0.64,
+            0.046,
+            0.41
+          ],
+          "color": "#bfb59c",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.08,
+            0.021,
+            1.64
+          ],
+          "rotation": [
+            0,
+            0.04,
+            0
+          ],
+          "size": [
+            0.63,
+            0.042,
+            0.41
+          ],
+          "color": "#cbc2a9",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.02,
+            0.023,
+            1.16
+          ],
+          "rotation": [
+            0,
+            -0.05,
+            0
+          ],
+          "size": [
+            0.62,
+            0.046,
+            0.41
+          ],
+          "color": "#bcb49e",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.12,
+            0.022,
+            0.68
+          ],
+          "rotation": [
+            0,
+            0.06,
+            0
+          ],
+          "size": [
+            0.61,
+            0.044,
+            0.42
+          ],
+          "color": "#c8bea4",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.5,
+            0.02,
+            2.16
+          ],
+          "rotation": [
             0,
             0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.02,
+            0.02
+          ],
+          "color": "#a9a28f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.39,
+            0.018,
+            1.39
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#b8ad94",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.37,
+            0.018,
+            1.82
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#a9a28f",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Flower border",
+      "position": [
+        -2.56,
+        0.16,
+        1.44
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0225,
             0
           ],
           "rotation": [
@@ -96,12 +1015,3179 @@
             0
           ],
           "size": [
-            5.2,
-            0.03,
-            0.75
+            0.97,
+            0.045,
+            1.72
           ],
-          "color": "#c8b99a",
+          "color": "#75634c",
           "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.525,
+            0.0375,
+            -0.68
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.13,
+            0.075,
+            0.19
+          ],
+          "color": "#b5ab93",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.525,
+            0.0375,
+            -0.34
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.13,
+            0.075,
+            0.19
+          ],
+          "color": "#c1b69c",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.525,
+            0.0375,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.13,
+            0.075,
+            0.19
+          ],
+          "color": "#aea68f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.525,
+            0.0375,
+            0.34
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.13,
+            0.075,
+            0.19
+          ],
+          "color": "#c1b69c",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.525,
+            0.0375,
+            0.68
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.13,
+            0.075,
+            0.19
+          ],
+          "color": "#b5ab93",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.33,
+            0.0375,
+            -0.92
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.075,
+            0.14
+          ],
+          "color": "#b5ab93",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0375,
+            -0.92
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.075,
+            0.14
+          ],
+          "color": "#c1b69c",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Flower border stones",
+      "position": [
+        -2.56,
+        0.16,
+        1.44
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.33,
+            0.0375,
+            -0.92
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.075,
+            0.14
+          ],
+          "color": "#aea68f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.33,
+            0.0375,
+            0.92
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.075,
+            0.14
+          ],
+          "color": "#c1b69c",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0375,
+            0.92
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.075,
+            0.14
+          ],
+          "color": "#b5ab93",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.33,
+            0.0375,
+            0.92
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.075,
+            0.14
+          ],
+          "color": "#aea68f",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Amber flowers",
+      "position": [
+        -2.78,
+        0.205,
+        0.78
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.065,
+            0.15,
+            -0.025
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.3,
+            0.01
+          ],
+          "color": "#657f53",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.095,
+            0.095,
+            -0.025
+          ],
+          "rotation": [
+            0,
+            0,
+            1.02
+          ],
+          "size": [
+            0.018,
+            0.1,
+            0.018
+          ],
+          "color": "#80975e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.033,
+            0.174,
+            -0.019
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.9
+          ],
+          "size": [
+            0.018,
+            0.1,
+            0.018
+          ],
+          "color": "#708950",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.018,
+            0.313,
+            -0.025
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.0305,
+            0.0305,
+            0.0305
+          ],
+          "color": "#e1b166",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0505,
+            0.313,
+            0.0197
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.0305,
+            0.0305,
+            0.0305
+          ],
+          "color": "#d6a055",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.103,
+            0.313,
+            0.0026
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.0305,
+            0.0305,
+            0.0305
+          ],
+          "color": "#d6a055",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.103,
+            0.313,
+            -0.0526
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.0305,
+            0.0305,
+            0.0305
+          ],
+          "color": "#e1b166",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0505,
+            0.313,
+            -0.0697
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.0305,
+            0.0305,
+            0.0305
+          ],
+          "color": "#e1b166",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Amber flower centres",
+      "position": [
+        -2.78,
+        0.205,
+        0.78
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            -0.065,
+            0.322,
+            -0.025
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.025,
+            0.025
+          ],
+          "color": "#9b7848",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.11,
+            0.1175,
+            0.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.235,
+            0.01
+          ],
+          "color": "#657f53",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.087,
+            0.091,
+            0.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0.95
+          ],
+          "size": [
+            0.017,
+            0.08,
+            0.017
+          ],
+          "color": "#80975e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.15,
+            0.246,
+            0.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.026,
+            0.026
+          ],
+          "color": "#debb72",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.1224,
+            0.246,
+            0.138
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.026,
+            0.026
+          ],
+          "color": "#debb72",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0776,
+            0.246,
+            0.1235
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.026,
+            0.026
+          ],
+          "color": "#e8c98c",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0776,
+            0.246,
+            0.0765
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.026,
+            0.026
+          ],
+          "color": "#e8c98c",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.1224,
+            0.246,
+            0.062
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.026,
+            0.026
+          ],
+          "color": "#debb72",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small amber flower centre",
+      "position": [
+        -2.78,
+        0.205,
+        0.78
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0.11,
+            0.254,
+            0.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "color": "#ae8950",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Cream flowers",
+      "position": [
+        -2.34,
+        0.205,
+        1.04
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.4,
+            0.01
+          ],
+          "color": "#657f53",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.035,
+            0.139,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.85
+          ],
+          "size": [
+            0.02,
+            0.13,
+            0.02
+          ],
+          "color": "#80975e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.038,
+            0.24,
+            0.009
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.95
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#708950",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.05,
+            0.407,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "color": "#eee0ad",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0155,
+            0.407,
+            0.0475
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "color": "#eee0ad",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0405,
+            0.407,
+            0.0295
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "color": "#f2e7be",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0405,
+            0.407,
+            -0.0295
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "color": "#f2e7be",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0155,
+            0.407,
+            -0.0475
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.033,
+            0.033,
+            0.033
+          ],
+          "color": "#eee0ad",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Cream flower centre",
+      "position": [
+        -2.34,
+        0.205,
+        1.04
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.416,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.026,
+            0.026
+          ],
+          "color": "#c5a059",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Coral flowers",
+      "position": [
+        -2.72,
+        0.205,
+        1.36
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.045,
+            0.175,
+            -0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.35,
+            0.01
+          ],
+          "color": "#657f53",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.076,
+            0.133,
+            -0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0.95
+          ],
+          "size": [
+            0.02,
+            0.105,
+            0.02
+          ],
+          "color": "#80975e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.011,
+            0.223,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.88
+          ],
+          "size": [
+            0.018,
+            0.11,
+            0.018
+          ],
+          "color": "#708950",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.005,
+            0.362,
+            -0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#cb8c70",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0295,
+            0.362,
+            0.0375
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#cb8c70",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0855,
+            0.362,
+            0.0195
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#dda089",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0855,
+            0.362,
+            -0.0395
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#dda089",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0295,
+            0.362,
+            -0.0575
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#cb8c70",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Coral flower centres",
+      "position": [
+        -2.72,
+        0.205,
+        1.36
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            -0.045,
+            0.371,
+            -0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.024,
+            0.024,
+            0.024
+          ],
+          "color": "#b48754",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.12,
+            0.1375,
+            0.105
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.275,
+            0.01
+          ],
+          "color": "#657f53",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.144,
+            0.115,
+            0.105
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.93
+          ],
+          "size": [
+            0.017,
+            0.09,
+            0.017
+          ],
+          "color": "#80975e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.16,
+            0.285,
+            0.105
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.027,
+            0.027,
+            0.027
+          ],
+          "color": "#dca88e",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.1324,
+            0.285,
+            0.143
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.027,
+            0.027,
+            0.027
+          ],
+          "color": "#dca88e",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0876,
+            0.285,
+            0.1285
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.027,
+            0.027,
+            0.027
+          ],
+          "color": "#e6b59b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0876,
+            0.285,
+            0.0815
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.027,
+            0.027,
+            0.027
+          ],
+          "color": "#e6b59b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.1324,
+            0.285,
+            0.067
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.027,
+            0.027,
+            0.027
+          ],
+          "color": "#dca88e",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Small coral flower centre",
+      "position": [
+        -2.72,
+        0.205,
+        1.36
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0.12,
+            0.293,
+            0.105
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.023,
+            0.023,
+            0.023
+          ],
+          "color": "#b48754",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pink flowers",
+      "position": [
+        -2.35,
+        0.205,
+        1.77
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.215,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.43,
+            0.01
+          ],
+          "color": "#6c7e50",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.035,
+            0.15,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.92
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#80975e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.037,
+            0.27,
+            0.008
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.9
+          ],
+          "size": [
+            0.019,
+            0.12,
+            0.019
+          ],
+          "color": "#708950",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.047,
+            0.441,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#c88d8d",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0145,
+            0.441,
+            0.0447
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#c88d8d",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.038,
+            0.441,
+            0.0276
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#d8a0a0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.038,
+            0.441,
+            -0.0276
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#d8a0a0",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0145,
+            0.441,
+            -0.0447
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.032,
+            0.032
+          ],
+          "color": "#c88d8d",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pink flower centre",
+      "position": [
+        -2.35,
+        0.205,
+        1.77
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.024,
+            0.024,
+            0.024
+          ],
+          "color": "#b49a64",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Gold flowers",
+      "position": [
+        -2.73,
+        0.205,
+        2.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.145,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.29,
+            0.01
+          ],
+          "color": "#657f53",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.03,
+            0.1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.96
+          ],
+          "size": [
+            0.019,
+            0.1,
+            0.019
+          ],
+          "color": "#80975e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.029,
+            0.174,
+            0.012
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.88
+          ],
+          "size": [
+            0.018,
+            0.095,
+            0.018
+          ],
+          "color": "#708950",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.05,
+            0.3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#dabc64",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0155,
+            0.3,
+            0.0475
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#dabc64",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0405,
+            0.3,
+            0.0295
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#ecd18b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.0405,
+            0.3,
+            -0.0295
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#ecd18b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.0155,
+            0.3,
+            -0.0475
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#e6c476",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Gold flower centre",
+      "position": [
+        -2.73,
+        0.205,
+        2.1
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Sun caught the edges of the garden flowers before it reached the wooden bench."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.309,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.026,
+            0.026
+          ],
+          "color": "#9c7c45",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Tree mulch",
+      "position": [
+        -1.65,
+        0.16,
+        -1.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.011,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.44,
+            0.022,
+            0.44
+          ],
+          "color": "#72624d",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.23,
+            0.0285,
+            0.14
+          ],
+          "rotation": [
+            0,
+            0.5,
+            0
+          ],
+          "size": [
+            0.075,
+            0.013,
+            0.031
+          ],
+          "color": "#9b8461",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.22,
+            0.0285,
+            -0.12
+          ],
+          "rotation": [
+            0,
+            -0.3,
+            0
+          ],
+          "size": [
+            0.075,
+            0.013,
+            0.031
+          ],
+          "color": "#8a7353",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.16,
+            0.0285,
+            0.23
+          ],
+          "rotation": [
+            0,
+            0.1,
+            0
+          ],
+          "size": [
+            0.075,
+            0.013,
+            0.031
+          ],
+          "color": "#a48b66",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Apple tree",
+      "position": [
+        -1.65,
+        0.182,
+        -1.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
+      ],
+      "shapes": [
+        {
+          "type": "tree",
+          "position": [
+            0,
+            1.65,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.6,
+            3.3,
+            2.6
+          ],
+          "color": "#798651",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Apples",
+      "position": [
+        -1.65,
+        0.182,
+        -1.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            -0.7,
+            2.2,
+            0.83
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#b7664e",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.7,
+            2.2675,
+            0.83
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.025,
+            0.01
+          ],
+          "color": "#756244",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.52,
+            2.55,
+            1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.055,
+            0.055
+          ],
+          "color": "#c17d54",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.52,
+            2.6125,
+            1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.025,
+            0.01
+          ],
+          "color": "#756244",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.14,
+            2.9,
+            0.69
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.055,
+            0.055
+          ],
+          "color": "#b66f50",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.14,
+            2.9625,
+            0.69
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.025,
+            0.01
+          ],
+          "color": "#756244",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            1.05,
+            2.1,
+            0.42
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#c28d59",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            1.05,
+            2.1675,
+            0.42
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.025,
+            0.01
+          ],
+          "color": "#756244",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Outer apples",
+      "position": [
+        -1.65,
+        0.182,
+        -1.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            -1,
+            2.43,
+            0.39
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.055,
+            0.055
+          ],
+          "color": "#ad6950",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -1,
+            2.4925,
+            0.39
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.025,
+            0.01
+          ],
+          "color": "#756244",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.12,
+            2.12,
+            1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.06,
+            0.06,
+            0.06
+          ],
+          "color": "#b97b52",
+          "roughness": 0.75,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.12,
+            2.1875,
+            1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.025,
+            0.01
+          ],
+          "color": "#756244",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Raised bed",
+      "position": [
+        -1.15,
+        0.16,
+        -0.32
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree.",
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.21,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.1,
+            0.38,
+            1.2
+          ],
+          "color": "#5e4c39",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.105,
+            -0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.24,
+            0.2,
+            0.07
+          ],
+          "color": "#a38360",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.315,
+            -0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.24,
+            0.2,
+            0.07
+          ],
+          "color": "#b9956e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.105,
+            0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.24,
+            0.2,
+            0.07
+          ],
+          "color": "#a38360",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.315,
+            0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.24,
+            0.2,
+            0.07
+          ],
+          "color": "#b9956e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.085,
+            0.105,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.2,
+            1.21
+          ],
+          "color": "#a38360",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.085,
+            0.315,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.2,
+            1.21
+          ],
+          "color": "#b9956e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.085,
+            0.105,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.2,
+            1.21
+          ],
+          "color": "#a38360",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Raised bed edging",
+      "position": [
+        -1.15,
+        0.16,
+        -0.32
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree.",
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            1.085,
+            0.315,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.2,
+            1.21
+          ],
+          "color": "#b9956e",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.085,
+            0.235,
+            -0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.47,
+            0.09
+          ],
+          "color": "#a98b65",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.085,
+            0.235,
+            -0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.47,
+            0.09
+          ],
+          "color": "#a98b65",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.085,
+            0.235,
+            0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.47,
+            0.09
+          ],
+          "color": "#a98b65",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.085,
+            0.235,
+            0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.47,
+            0.09
+          ],
+          "color": "#a98b65",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.425,
+            -0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.28,
+            0.02,
+            0.09
+          ],
+          "color": "#c9ac7c",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.425,
+            0.64
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.28,
+            0.02,
+            0.09
+          ],
+          "color": "#c9ac7c",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.085,
+            0.425,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.02,
+            1.19
+          ],
+          "color": "#c9ac7c",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Raised bed rim",
+      "position": [
+        -1.15,
+        0.16,
+        -0.32
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree.",
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            1.085,
+            0.425,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.09,
+            0.02,
+            1.19
+          ],
+          "color": "#c9ac7c",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Seedling soil",
+      "position": [
+        -1.15,
+        0.56,
+        -0.32
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.72,
+            0.009,
+            -0.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.105,
+            0.018,
+            0.105
+          ],
+          "color": "#514331",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.02,
+            0.009,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.115,
+            0.018,
+            0.115
+          ],
+          "color": "#514331",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.68,
+            0.009,
+            -0.22
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.105,
+            0.018,
+            0.105
+          ],
+          "color": "#514331",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.4,
+            0.014,
+            0.25
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.014,
+            0.014,
+            0.014
+          ],
+          "color": "#746047",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.38,
+            0.018,
+            0.23
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.018,
+            0.018
+          ],
+          "color": "#6a553d",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.9,
+            0.015,
+            0.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.015,
+            0.015
+          ],
+          "color": "#746047",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.82,
+            0.013,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.013,
+            0.013,
+            0.013
+          ],
+          "color": "#6a553d",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.25,
+            0.014,
+            -0.43
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.014,
+            0.014,
+            0.014
+          ],
+          "color": "#746047",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "First seedling",
+      "position": [
+        -1.87,
+        0.578,
+        -0.52
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree.",
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.16,
+            0.01
+          ],
+          "color": "#6c8151",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.029,
+            0.088,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.9
+          ],
+          "size": [
+            0.018,
+            0.095,
+            0.018
+          ],
+          "color": "#8fad66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.034,
+            0.125,
+            0.003
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.95
+          ],
+          "size": [
+            0.018,
+            0.095,
+            0.018
+          ],
+          "color": "#769454",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0,
+            0.153,
+            -0.018
+          ],
+          "rotation": [
+            0.62,
+            0,
+            0
+          ],
+          "size": [
+            0.014,
+            0.065,
+            0.014
+          ],
+          "color": "#8fad66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.17,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.036,
+            0.015
+          ],
+          "color": "#55794b",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Second seedling",
+      "position": [
+        -1.13,
+        0.578,
+        -0.34
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.1025,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.205,
+            0.01
+          ],
+          "color": "#6c8151",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.041,
+            0.11,
+            0.002
+          ],
+          "rotation": [
+            0,
+            0,
+            1
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#8fad66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.044,
+            0.154,
+            0.002
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.02
+          ],
+          "size": [
+            0.02,
+            0.12,
+            0.02
+          ],
+          "color": "#769454",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0,
+            0.186,
+            -0.023
+          ],
+          "rotation": [
+            0.64,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.085,
+            0.018
+          ],
+          "color": "#8fad66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.215,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.014,
+            0.033,
+            0.014
+          ],
+          "color": "#55794b",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Third seedling",
+      "position": [
+        -0.47,
+        0.578,
+        -0.54
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.09,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.18,
+            0.01
+          ],
+          "color": "#6c8151",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.032,
+            0.095,
+            0.005
+          ],
+          "rotation": [
+            0,
+            0,
+            0.94
+          ],
+          "size": [
+            0.019,
+            0.105,
+            0.019
+          ],
+          "color": "#8fad66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.038,
+            0.139,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.98
+          ],
+          "size": [
+            0.019,
+            0.105,
+            0.019
+          ],
+          "color": "#769454",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0,
+            0.168,
+            -0.02
+          ],
+          "rotation": [
+            0.6,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.075,
+            0.016
+          ],
+          "color": "#8fad66",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.191,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.014,
+            0.032,
+            0.014
+          ],
+          "color": "#55794b",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -109,9 +4195,9 @@
     {
       "name": "Wooden bench",
       "position": [
-        1.45,
-        0.79,
-        0.65
+        1.22,
+        0.61,
+        1.4
       ],
       "rotation": [
         0,
@@ -137,525 +4223,12 @@
             0
           ],
           "size": [
-            1.65,
-            1.1,
+            1.82,
+            0.9,
             0.65
           ],
-          "color": "#9b704b",
-          "roughness": 0.85,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Raised bed",
-      "position": [
-        -0.75,
-        0.44,
-        -0.35
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree.",
-        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
-      ],
-      "shapes": [
-        {
-          "type": "box",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.9,
-            0.4,
-            1.25
-          ],
-          "color": "#9a7754",
+          "color": "#948774",
           "roughness": 0.95,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0,
-            0.18,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            1.72,
-            0.07,
-            1.07
-          ],
-          "color": "#584337",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "First seedling",
-      "position": [
-        -1.32,
-        0.76,
-        -0.35
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree.",
-        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling."
-      ],
-      "shapes": [
-        {
-          "type": "plant",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.22,
-            0.25,
-            0.22
-          ],
-          "color": "#584337",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Second seedling",
-      "position": [
-        -0.75,
-        0.76,
-        -0.35
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
-      ],
-      "shapes": [
-        {
-          "type": "plant",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.2,
-            0.25,
-            0.2
-          ],
-          "color": "#584337",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Third seedling",
-      "position": [
-        -0.18,
-        0.75,
-        -0.35
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
-      ],
-      "shapes": [
-        {
-          "type": "plant",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.21,
-            0.23,
-            0.21
-          ],
-          "color": "#584337",
-          "roughness": 1,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Apple tree",
-      "position": [
-        -0.8,
-        1.89,
-        -1.4
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Robin and I knelt beside the raised bed, planting three little seedlings under the apple tree."
-      ],
-      "shapes": [
-        {
-          "type": "tree",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            2.3,
-            3.3,
-            2.1
-          ],
-          "color": "#796044",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.6,
-            0.55,
-            0.65
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.075,
-            0.075,
-            0.075
-          ],
-          "color": "#bd6150",
-          "roughness": 0.65,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.55,
-            0.8,
-            0.55
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.07,
-            0.07
-          ],
-          "color": "#c47a50",
-          "roughness": 0.65,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Garden flowers",
-      "position": [
-        1.65,
-        0.24,
-        -1.15
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "Sun caught the edges of the garden flowers before it reached the wooden bench."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            -0.3,
-            0.22,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.018,
-            0.44,
-            0.018
-          ],
-          "color": "#617b45",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.3,
-            0.46,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.12,
-            0.12,
-            0.12
-          ],
-          "color": "#e7b76c",
-          "roughness": 0.85,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0.29,
-            -0.12
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.018,
-            0.58,
-            0.018
-          ],
-          "color": "#617b45",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.59,
-            -0.12
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.13,
-            0.13,
-            0.13
-          ],
-          "color": "#d88c8f",
-          "roughness": 0.85,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.3,
-            0.2,
-            0.1
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.018,
-            0.4,
-            0.018
-          ],
-          "color": "#617b45",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.3,
-            0.42,
-            0.1
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.11,
-            0.11,
-            0.11
-          ],
-          "color": "#eed2a0",
-          "roughness": 0.85,
-          "glow": false
-        }
-      ]
-    },
-    {
-      "name": "Watering can",
-      "position": [
-        -1.9,
-        0.43,
-        0.82
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "motion": "none",
-      "moments": [
-        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
-      ],
-      "shapes": [
-        {
-          "type": "cylinder",
-          "position": [
-            0,
-            0,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.17,
-            0.36,
-            0.17
-          ],
-          "color": "#799c98",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "torus",
-          "position": [
-            -0.2,
-            0.07,
-            0
-          ],
-          "rotation": [
-            0,
-            1.5708,
-            0
-          ],
-          "size": [
-            0.15,
-            0.025,
-            0.15
-          ],
-          "color": "#799c98",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "cylinder",
-          "position": [
-            0.24,
-            0.08,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            -0.9
-          ],
-          "size": [
-            0.035,
-            0.34,
-            0.035
-          ],
-          "color": "#799c98",
-          "roughness": 0.7,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.37,
-            0.19,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.065,
-            0.065,
-            0.065
-          ],
-          "color": "#91b0aa",
-          "roughness": 0.7,
           "glow": false
         }
       ]
@@ -663,13 +4236,13 @@
     {
       "name": "Notebook",
       "position": [
-        1.85,
-        0.74,
-        0.72
+        0.77,
+        0.657,
+        1.44
       ],
       "rotation": [
         0,
-        0.15,
+        0,
         0
       ],
       "motion": "none",
@@ -691,11 +4264,112 @@
           ],
           "size": [
             0.22,
-            0.035,
+            0.03,
             0.29
           ],
-          "color": "#b39a69",
+          "color": "#6f8586",
           "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pencil",
+      "position": [
+        0.973,
+        0.647,
+        1.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.165,
+            0.01
+          ],
+          "color": "#baa166",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            -0.092
+          ],
+          "rotation": [
+            -1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.019,
+            0.01
+          ],
+          "color": "#d5bf96",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            -0.1045
+          ],
+          "rotation": [
+            -1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#575c55",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0.0885
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.012,
+            0.01
+          ],
+          "color": "#beaaa0",
+          "roughness": 1,
           "glow": false
         }
       ]
@@ -703,9 +4377,9 @@
     {
       "name": "Garden gloves",
       "position": [
-        2.02,
-        0.74,
-        0.49
+        1.71,
+        0.657,
+        1.43
       ],
       "rotation": [
         0,
@@ -720,64 +4394,621 @@
         {
           "type": "box",
           "position": [
-            -0.05,
+            -0.095,
             0,
             0
           ],
           "rotation": [
             0,
+            0,
+            0
+          ],
+          "size": [
+            0.085,
+            0.024,
+            0.105
+          ],
+          "color": "#b6ad91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.095,
+            0,
+            -0.0675
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.024,
+            0.04
+          ],
+          "color": "#879079",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.126,
+            0.001,
+            0.07
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.055,
+            0.01
+          ],
+          "color": "#b6ad91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.105,
+            0.001,
+            0.078
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.072,
+            0.01
+          ],
+          "color": "#b6ad91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.084,
+            0.001,
+            0.076
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.068,
+            0.01
+          ],
+          "color": "#b6ad91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.063,
+            0.001,
+            0.067
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.05,
+            0.01
+          ],
+          "color": "#b6ad91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.15,
+            0.003,
+            -0.001
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            -0.4
+          ],
+          "size": [
+            0.011,
+            0.055,
+            0.011
+          ],
+          "color": "#b6ad91",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.095,
+            0,
+            0.018
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.085,
+            0.024,
+            0.105
+          ],
+          "color": "#c0b59a",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Glove fingers",
+      "position": [
+        1.71,
+        0.657,
+        1.43
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.095,
+            0,
+            -0.0495
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            0.024,
+            0.04
+          ],
+          "color": "#879079",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.064,
+            0.001,
+            0.088
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.055,
+            0.01
+          ],
+          "color": "#c0b59a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.085,
+            0.001,
+            0.096
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.072,
+            0.01
+          ],
+          "color": "#c0b59a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.106,
+            0.001,
+            0.094
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.068,
+            0.01
+          ],
+          "color": "#c0b59a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.127,
+            0.001,
+            0.085
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.05,
+            0.01
+          ],
+          "color": "#c0b59a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.151,
+            0.003,
+            0.017
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0.4
+          ],
+          "size": [
+            0.011,
+            0.055,
+            0.011
+          ],
+          "color": "#c0b59a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.111,
+            0.017,
+            -0.002
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#7f6850",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.076,
+            0.018,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#8c7659",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Dry soil on gloves",
+      "position": [
+        1.71,
+        0.657,
+        1.43
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0.094,
+            0.019,
+            0.032
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#7f6850",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.121,
+            0.017,
+            -0.006
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#8c7659",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Watering can",
+      "position": [
+        0.76,
+        0.16,
+        0.73
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I left the watering can by the path and sat on the bench with my notebook until the soil on my gloves dried."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.15,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.16,
+            0.3,
+            0.16
+          ],
+          "color": "#849b92",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.306,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.147,
+            0.012,
+            0.147
+          ],
+          "color": "#a0b3a6",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.302,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.11,
+            0.012,
+            0.11
+          ],
+          "color": "#465d55",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            -0.16,
             0.2,
             0
           ],
-          "size": [
-            0.09,
-            0.03,
-            0.19
-          ],
-          "color": "#948c68",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.045,
-            0.015,
-            0.015
-          ],
           "rotation": [
+            1.5708,
             0,
-            -0.2,
             0
           ],
           "size": [
-            0.09,
-            0.03,
-            0.19
+            0.17,
+            0.018,
+            0.17
           ],
-          "color": "#8b8260",
-          "roughness": 1,
+          "color": "#849b92",
+          "roughness": 0.65,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
-            -0.05,
-            0.017,
+            0.249,
+            0.218,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.03
+          ],
+          "size": [
+            0.027,
+            0.36,
+            0.027
+          ],
+          "color": "#849b92",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.423,
+            0.323,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.03
+          ],
+          "size": [
+            0.057,
+            0.045,
+            0.057
+          ],
+          "color": "#94a99d",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.445,
+            0.336,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.03
+          ],
+          "size": [
+            0.05,
+            0.01,
             0.05
           ],
+          "color": "#b8b7a4",
+          "roughness": 0.75,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden side table",
+      "position": [
+        2.56,
+        0.445,
+        1.23
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "table",
+          "position": [
+            0,
+            0,
+            0
+          ],
           "rotation": [
             0,
-            0.2,
+            0,
             0
           ],
           "size": [
-            0.06,
-            0.01,
-            0.055
+            0.62,
+            0.57,
+            0.56
           ],
-          "color": "#68513c",
-          "roughness": 1,
+          "color": "#9c8c70",
+          "roughness": 0.95,
           "glow": false
         }
       ]
@@ -785,9 +5016,9 @@
     {
       "name": "Laptop",
       "position": [
-        1.05,
-        0.88,
-        0.69
+        2.56,
+        0.875,
+        1.23
       ],
       "rotation": [
         0,
@@ -812,12 +5043,809 @@
             0
           ],
           "size": [
-            0.35,
-            0.3,
-            0.25
+            0.4,
+            0.29,
+            0.29
           ],
-          "color": "#697a7c",
-          "roughness": 0.6,
+          "color": "#62706b",
+          "roughness": 0.55,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bed model",
+      "position": [
+        2.56,
+        0.893,
+        1.113
+      ],
+      "rotation": [
+        -0.18,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling.",
+        "The model is its own attached object; the day's scene also comes from these sentences. #garden #making @garden"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.324,
+            0.207,
+            0.01
+          ],
+          "color": "#27382f",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.012,
+            0.004
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.211,
+            0.086,
+            0.01
+          ],
+          "color": "#776952",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.11,
+            -0.012,
+            0.007
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.105,
+            0.01
+          ],
+          "color": "#b6a180",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.11,
+            -0.012,
+            0.007
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.105,
+            0.01
+          ],
+          "color": "#b6a180",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0405,
+            0.007
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.229,
+            0.01,
+            0.01
+          ],
+          "color": "#c8b48d",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.0645,
+            0.007
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.229,
+            0.01,
+            0.01
+          ],
+          "color": "#c8b48d",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.065,
+            -0.015,
+            0.009
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.011,
+            0.011,
+            0.011
+          ],
+          "color": "#91ab71",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.001,
+            0.009
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.011,
+            0.011,
+            0.011
+          ],
+          "color": "#91ab71",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Model seedling marker",
+      "position": [
+        2.56,
+        0.893,
+        1.113
+      ],
+      "rotation": [
+        -0.18,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I made a small digital model to keep the shape of the bed, with a marker for the first seedling.",
+        "The model is its own attached object; the day's scene also comes from these sentences. #garden #making @garden"
+      ],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0.065,
+            -0.016,
+            0.009
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.011,
+            0.011,
+            0.011
+          ],
+          "color": "#91ab71",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.065,
+            0.008,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.026,
+            0.01
+          ],
+          "color": "#d5b867",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.065,
+            0.029,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#dfc779",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Trowel",
+      "position": [
+        -0.76,
+        0.18,
+        0.73
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "capsule",
+          "position": [
+            0,
+            0,
+            0.077
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.02,
+            0.17,
+            0.02
+          ],
+          "color": "#9e805c",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.011,
+            -0.033
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.017,
+            0.01,
+            0.066
+          ],
+          "color": "#8f9a91",
+          "roughness": 0.55,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.013,
+            -0.112
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.065,
+            0.014,
+            0.12
+          ],
+          "color": "#8f9a91",
+          "roughness": 0.55,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.013,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0.7854,
+            0
+          ],
+          "size": [
+            0.043,
+            0.014,
+            0.043
+          ],
+          "color": "#a4ada1",
+          "roughness": 0.55,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pathside grass",
+      "position": [
+        -1.25,
+        0.16,
+        1.42
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cone",
+          "position": [
+            -0.1,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.16,
+            0.018
+          ],
+          "color": "#748651",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.065,
+            0.063,
+            0.018
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.126,
+            0.018
+          ],
+          "color": "#889862",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.132,
+            0.054,
+            0.017
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.108,
+            0.016
+          ],
+          "color": "#748651",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.08,
+            0.058,
+            0.29
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.116,
+            0.016
+          ],
+          "color": "#889862",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.113,
+            0.07,
+            0.28
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.017,
+            0.14,
+            0.017
+          ],
+          "color": "#748651",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.058,
+            0.045,
+            0.305
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.09,
+            0.016
+          ],
+          "color": "#94a16a",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden grass",
+      "position": [
+        2.5,
+        0.16,
+        -0.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cone",
+          "position": [
+            -0.15,
+            0.06,
+            -0.12
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.12,
+            0.018
+          ],
+          "color": "#7b8c59",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.118,
+            0.07,
+            -0.106
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.017,
+            0.14,
+            0.017
+          ],
+          "color": "#899965",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.18,
+            0.045,
+            -0.101
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.09,
+            0.016
+          ],
+          "color": "#7b8c59",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.1,
+            0.05,
+            0.18
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.018,
+            0.1,
+            0.018
+          ],
+          "color": "#899965",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.13,
+            0.065,
+            0.164
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.016,
+            0.13,
+            0.016
+          ],
+          "color": "#7b8c59",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.072,
+            0.04,
+            0.191
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.015,
+            0.08,
+            0.015
+          ],
+          "color": "#94a16a",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Leaf litter",
+      "position": [
+        -1.65,
+        0.16,
+        -1.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.57,
+            0.004,
+            0.1
+          ],
+          "rotation": [
+            0,
+            0.45,
+            0
+          ],
+          "size": [
+            0.073,
+            0.01,
+            0.035
+          ],
+          "color": "#bca65e",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.49,
+            0.004,
+            0.27
+          ],
+          "rotation": [
+            0,
+            -0.35,
+            0
+          ],
+          "size": [
+            0.066,
+            0.01,
+            0.031
+          ],
+          "color": "#a78e54",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.75,
+            0.004,
+            -0.18
+          ],
+          "rotation": [
+            0,
+            0.8,
+            0
+          ],
+          "size": [
+            0.07,
+            0.01,
+            0.034
+          ],
+          "color": "#c5b178",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.62,
+            0.004,
+            -0.32
+          ],
+          "rotation": [
+            0,
+            -0.65,
+            0
+          ],
+          "size": [
+            0.063,
+            0.01,
+            0.03
+          ],
+          "color": "#b39d67",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bench cushion",
+      "position": [
+        0.485,
+        0.6645,
+        1.43
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.29,
+            0.045,
+            0.39
+          ],
+          "color": "#9fae93",
+          "roughness": 1,
           "glow": false
         }
       ]

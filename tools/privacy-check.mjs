@@ -33,7 +33,7 @@ const LICENSE_EMAILS = { 'vendor/browser/dijkstrajs-LICENSE.md.txt': { sha256: '
 // The CSV remains fully scanned. The mixed archive also has to decrypt, match its all-public companion and pass content scans.
 const PUBLIC_FIXTURES = {
   'examples/demo-numbers.csv': { sha256: 'b7bb138e8edb7664a0ee6231fe78bc7f2a9d18e29d0d4f5b8ac8132c694cd28d' },
-  'examples/demo-month-mixed.jotz': { sha256: '5b44441f5093acfa5d38cd3aae2b77cb8abbb38da7d5c7e1963f7f9a12e4e486' },
+  'examples/demo-month-mixed.jotz': { sha256: 'cc8443361d89dd39fa8a28655e2bd136d8ef7029634c3ddc6c33fc9d52d22046' },
 };
 const MIXED_DEMO = 'examples/demo-month-mixed.jotz', PUBLIC_DEMO = 'examples/demo-month.jotz';
 const ENCRYPTED_MEMBER = /^private\/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\.enc$/;

@@ -3,23 +3,23 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-6.1-sol",
-    "at": "2026-11-07T01:02:59.947Z"
+    "at": "2026-11-07T01:32:37.167Z"
   },
-  "title": "Riverside reading bench",
-  "sky": "#ccdce4",
-  "ground": "#858f68",
+  "title": "Riverside Reading Bench",
+  "sky": "#c1d5e1",
+  "ground": "#d8d2b7",
   "weather": "clear",
   "time": "day",
   "atmosphere": "calm",
   "camera": {
     "position": [
-      6,
-      4.5,
-      6
+      7.2,
+      6.4,
+      8.6
     ],
     "target": [
       0,
-      0.7,
+      1,
       0
     ]
   },
@@ -28,7 +28,7 @@
       "name": "Park ground",
       "position": [
         0,
-        0.08,
+        0,
         0
       ],
       "rotation": [
@@ -47,7 +47,7 @@
           "type": "box",
           "position": [
             0,
-            0,
+            0.06,
             0
           ],
           "rotation": [
@@ -56,11 +56,53 @@
             0
           ],
           "size": [
-            7,
-            0.16,
-            6
+            7.4,
+            0.12,
+            6.6
           ],
-          "color": "#929b70",
+          "color": "#8b7662",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.16,
+            -1.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            7.4,
+            0.08,
+            3.9
+          ],
+          "color": "#929c70",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.16,
+            2.8
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            7.4,
+            0.08,
+            1
+          ],
+          "color": "#9aa479",
           "roughness": 1,
           "glow": false
         }
@@ -70,8 +112,8 @@
       "name": "Gravel path",
       "position": [
         0,
-        0.17,
-        1.5
+        0.205,
+        -1.21
       ],
       "rotation": [
         0,
@@ -80,11 +122,12 @@
       ],
       "motion": "none",
       "moments": [
-        "The park bench was dry enough for a book and a notebook this afternoon."
+        "The park bench was dry enough for a book and a notebook this afternoon.",
+        "I picked up a yellow leaf under the tree and held it against the sky until I could see its little branches of veins."
       ],
       "shapes": [
         {
-          "type": "plane",
+          "type": "box",
           "position": [
             0,
             0,
@@ -96,11 +139,11 @@
             0
           ],
           "size": [
-            6.7,
+            7,
             0.01,
-            1.3
+            1.54
           ],
-          "color": "#c6bda5",
+          "color": "#c4b697",
           "roughness": 1,
           "glow": false
         }
@@ -109,9 +152,9 @@
     {
       "name": "Park bench",
       "position": [
-        -0.7,
-        0.66,
-        0.8
+        -0.85,
+        0.68,
+        -1.45
       ],
       "rotation": [
         0,
@@ -136,12 +179,33 @@
             0
           ],
           "size": [
-            1.8,
-            1,
-            0.65
+            1.9,
+            0.94,
+            0.64
           ],
-          "color": "#956f49",
-          "roughness": 0.85,
+          "color": "#8d6d52",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.009,
+            0.055
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.74,
+            0.02,
+            0.44
+          ],
+          "color": "#b08c67",
+          "roughness": 0.88,
           "glow": false
         }
       ]
@@ -149,13 +213,13 @@
     {
       "name": "Book",
       "position": [
-        -1.15,
-        0.73,
-        0.92
+        -1.3,
+        0.724,
+        -1.37
       ],
       "rotation": [
         0,
-        0.12,
+        0,
         0
       ],
       "motion": "none",
@@ -176,12 +240,12 @@
             0
           ],
           "size": [
-            0.22,
-            0.04,
+            0.24,
+            0.05,
             0.3
           ],
-          "color": "#657f8b",
-          "roughness": 0.8,
+          "color": "#9b6353",
+          "roughness": 0.9,
           "glow": false
         }
       ]
@@ -189,13 +253,13 @@
     {
       "name": "Notebook",
       "position": [
-        -0.65,
-        0.72,
-        0.94
+        -0.72,
+        0.714,
+        -1.37
       ],
       "rotation": [
         0,
-        -0.15,
+        0,
         0
       ],
       "motion": "none",
@@ -216,12 +280,113 @@
             0
           ],
           "size": [
-            0.2,
-            0.025,
-            0.28
+            0.25,
+            0.03,
+            0.29
           ],
-          "color": "#bca17a",
-          "roughness": 0.85,
+          "color": "#64847c",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pencil",
+      "position": [
+        -0.46,
+        0.704,
+        -1.35
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.21,
+            0.01
+          ],
+          "color": "#d5aa51",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            -0.114
+          ],
+          "rotation": [
+            -1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.018,
+            0.01
+          ],
+          "color": "#c1a57c",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            -0.127
+          ],
+          "rotation": [
+            -1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#595a53",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0.114
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.018,
+            0.01
+          ],
+          "color": "#ba8e87",
+          "roughness": 0.95,
           "glow": false
         }
       ]
@@ -229,9 +394,9 @@
     {
       "name": "Autumn tree",
       "position": [
-        -2.35,
-        1.66,
-        -0.15
+        -2.6,
+        1.975,
+        -2.25
       ],
       "rotation": [
         0,
@@ -257,25 +422,25 @@
           ],
           "size": [
             2.1,
-            3,
-            1.9
+            3.55,
+            2.05
           ],
-          "color": "#ac8a44",
-          "roughness": 1,
+          "color": "#b8a856",
+          "roughness": 0.95,
           "glow": false
         }
       ]
     },
     {
-      "name": "Yellow leaf",
+      "name": "Tree roots",
       "position": [
-        -1.85,
-        0.185,
-        0.25
+        -2.6,
+        0.2,
+        -2.25
       ],
       "rotation": [
         0,
-        0.35,
+        0,
         0
       ],
       "motion": "none",
@@ -284,97 +449,284 @@
       ],
       "shapes": [
         {
-          "type": "sphere",
+          "type": "cylinder",
           "position": [
-            0,
-            0,
+            -0.16,
+            0.026,
             0
           ],
           "rotation": [
             0,
             0,
-            0
+            1.5708
           ],
           "size": [
-            0.055,
-            0.01,
-            0.09
+            0.026,
+            0.4,
+            0.026
           ],
-          "color": "#e3bd43",
+          "color": "#775b43",
           "roughness": 1,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
-            0,
-            0.01,
-            0
+            0.16,
+            0.026,
+            0.025
           ],
           "rotation": [
             0,
             0,
-            0
+            1.5708
           ],
           "size": [
-            0.01,
-            0.01,
-            0.16
+            0.026,
+            0.4,
+            0.026
           ],
-          "color": "#a88837",
+          "color": "#775b43",
           "roughness": 1,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
-            0.017,
-            0.01,
-            -0.018
+            0,
+            0.022,
+            0.13
           ],
           "rotation": [
+            1.5708,
             0,
-            0.65,
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            0.05
+            0.022,
+            0.24,
+            0.022
           ],
-          "color": "#a88837",
+          "color": "#806047",
           "roughness": 1,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
-            -0.017,
-            0.01,
-            0.016
+            0.02,
+            0.022,
+            -0.14
           ],
           "rotation": [
+            1.5708,
             0,
-            -0.65,
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            0.05
+            0.022,
+            0.3,
+            0.022
           ],
-          "color": "#a88837",
+          "color": "#806047",
           "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Riverbank flowers",
+      "name": "Yellow leaf",
       "position": [
-        0.5,
-        0.16,
-        -0.6
+        -2.1,
+        0.213,
+        -1.42
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I picked up a yellow leaf under the tree and held it against the sky until I could see its little branches of veins."
+      ],
+      "shapes": [
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.043,
+            0.01,
+            0.043
+          ],
+          "color": "#ddc35c",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.03,
+            0,
+            -0.014
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.029,
+            0.01,
+            0.029
+          ],
+          "color": "#e1c964",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.03,
+            0,
+            -0.014
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.029,
+            0.01,
+            0.029
+          ],
+          "color": "#dfc15b",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            -0.038
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.032,
+            0.01,
+            0.032
+          ],
+          "color": "#e5cc69",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0,
+            0.025
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.03,
+            0.01,
+            0.03
+          ],
+          "color": "#d9b955",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.003,
+            0.014
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.125,
+            0.01
+          ],
+          "color": "#a98b3f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.012,
+            0.002,
+            -0.009
+          ],
+          "rotation": [
+            0,
+            0.68,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.041
+          ],
+          "color": "#a98b3f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.012,
+            0.002,
+            -0.009
+          ],
+          "rotation": [
+            0,
+            -0.68,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.041
+          ],
+          "color": "#a98b3f",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Flowerbed",
+      "position": [
+        -0.98,
+        0,
+        0.18
       ],
       "rotation": [
         0,
@@ -387,10 +739,10 @@
       ],
       "shapes": [
         {
-          "type": "plant",
+          "type": "box",
           "position": [
-            -0.7,
-            0.23,
+            0,
+            0.225,
             0
           ],
           "rotation": [
@@ -399,20 +751,20 @@
             0
           ],
           "size": [
-            0.45,
-            0.46,
-            0.4
+            3.28,
+            0.05,
+            0.52
           ],
-          "color": "#887f58",
+          "color": "#716650",
           "roughness": 1,
           "glow": false
         },
         {
-          "type": "plant",
+          "type": "box",
           "position": [
             0,
-            0.28,
-            0.1
+            0.255,
+            -0.29
           ],
           "rotation": [
             0,
@@ -420,20 +772,20 @@
             0
           ],
           "size": [
-            0.5,
-            0.56,
-            0.45
+            3.48,
+            0.11,
+            0.06
           ],
-          "color": "#8c805b",
+          "color": "#9b876b",
           "roughness": 1,
           "glow": false
         },
         {
-          "type": "plant",
+          "type": "box",
           "position": [
-            0.7,
-            0.22,
-            -0.05
+            0,
+            0.255,
+            0.29
           ],
           "rotation": [
             0,
@@ -441,20 +793,2139 @@
             0
           ],
           "size": [
-            0.42,
-            0.44,
-            0.4
+            3.48,
+            0.11,
+            0.06
           ],
-          "color": "#877653",
+          "color": "#a28c70",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.69,
+            0.255,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.1,
+            0.11,
+            0.52
+          ],
+          "color": "#9b876b",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.69,
+            0.255,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.1,
+            0.11,
+            0.52
+          ],
+          "color": "#9b876b",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Cream flowers",
+      "position": [
+        -2.3,
+        0.25,
+        0.08
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.06,
+            0.17,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.34,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.07,
+            0.125,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.25,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.09,
+            0.135,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.72
+          ],
+          "size": [
+            0.012,
+            0.09,
+            0.012
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.095,
+            0.105,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0.78
+          ],
+          "size": [
+            0.01,
+            0.075,
+            0.01
+          ],
+          "color": "#7b8b60",
           "roughness": 1,
           "glow": false
         },
         {
           "type": "sphere",
           "position": [
-            -0.7,
-            0.45,
+            -0.102,
+            0.34,
             0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#e6dec1",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.018,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#e6dec1",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            -0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#e6dec1",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#e6dec1",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Golden flowers",
+      "position": [
+        -1.75,
+        0.25,
+        0.24
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.06,
+            0.17,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.34,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.07,
+            0.125,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.25,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.09,
+            0.135,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.72
+          ],
+          "size": [
+            0.012,
+            0.09,
+            0.012
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.095,
+            0.105,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0.78
+          ],
+          "size": [
+            0.01,
+            0.075,
+            0.01
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.102,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#d3ac59",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.018,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#d3ac59",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            -0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#d3ac59",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#d3ac59",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Rose flowers",
+      "position": [
+        -1.2,
+        0.25,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.06,
+            0.17,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.34,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.07,
+            0.125,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.25,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.09,
+            0.135,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.72
+          ],
+          "size": [
+            0.012,
+            0.09,
+            0.012
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.095,
+            0.105,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0.78
+          ],
+          "size": [
+            0.01,
+            0.075,
+            0.01
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.102,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#cc8e85",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.018,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#cc8e85",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            -0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#cc8e85",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#cc8e85",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Rust flowers",
+      "position": [
+        -0.65,
+        0.25,
+        0.24
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.06,
+            0.17,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.34,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.07,
+            0.125,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.25,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.09,
+            0.135,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.72
+          ],
+          "size": [
+            0.012,
+            0.09,
+            0.012
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.095,
+            0.105,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0.78
+          ],
+          "size": [
+            0.01,
+            0.075,
+            0.01
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.102,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#b77b5b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.018,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#b77b5b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            -0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#b77b5b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#b77b5b",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Lilac flowers",
+      "position": [
+        -0.1,
+        0.25,
+        0.05
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.06,
+            0.17,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.34,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.07,
+            0.125,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.25,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.09,
+            0.135,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.72
+          ],
+          "size": [
+            0.012,
+            0.09,
+            0.012
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.095,
+            0.105,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0.78
+          ],
+          "size": [
+            0.01,
+            0.075,
+            0.01
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.102,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#b0a4b5",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.018,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#b0a4b5",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            -0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#b0a4b5",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#b0a4b5",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pale flowers",
+      "position": [
+        0.4,
+        0.25,
+        0.24
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.06,
+            0.17,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.34,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.07,
+            0.125,
+            0.07
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.25,
+            0.01
+          ],
+          "color": "#657b55",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.09,
+            0.135,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.72
+          ],
+          "size": [
+            0.012,
+            0.09,
+            0.012
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.095,
+            0.105,
+            0.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0.78
+          ],
+          "size": [
+            0.01,
+            0.075,
+            0.01
+          ],
+          "color": "#7b8b60",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.102,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#ead5b2",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.018,
+            0.34,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#ead5b2",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            -0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#ead5b2",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.06,
+            0.34,
+            0.042
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.034,
+            0.034,
+            0.034
+          ],
+          "color": "#ead5b2",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Grass by bench",
+      "position": [
+        0.45,
+        0.2,
+        -2.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "capsule",
+          "position": [
+            0,
+            0.1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.2,
+            0.012
+          ],
+          "color": "#78865b",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.028,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.38
+          ],
+          "size": [
+            0.011,
+            0.16,
+            0.011
+          ],
+          "color": "#89966a",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.028,
+            0.08,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.38
+          ],
+          "size": [
+            0.011,
+            0.16,
+            0.011
+          ],
+          "color": "#89966a",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Grass by bank",
+      "position": [
+        0.97,
+        0.2,
+        0.26
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "capsule",
+          "position": [
+            0,
+            0.11,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.013,
+            0.22,
+            0.013
+          ],
+          "color": "#71845b",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            -0.032,
+            0.09,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.4
+          ],
+          "size": [
+            0.012,
+            0.18,
+            0.012
+          ],
+          "color": "#829365",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0.032,
+            0.09,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0.4
+          ],
+          "size": [
+            0.012,
+            0.18,
+            0.012
+          ],
+          "color": "#829365",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "River",
+      "position": [
+        0,
+        0.135,
+        1.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            7.4,
+            0.03,
+            1.7
+          ],
+          "color": "#729ba0",
+          "roughness": 0.25,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Western current",
+      "position": [
+        -2.45,
+        0.152,
+        1.42
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            -0.32,
+            0,
+            -0.32
+          ],
+          "rotation": [
+            0,
+            -0.12,
+            0
+          ],
+          "size": [
+            0.53,
+            0.01,
+            0.028
+          ],
+          "color": "#bad2cd",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.25,
+            0,
+            0.05
+          ],
+          "rotation": [
+            0,
+            -0.08,
+            0
+          ],
+          "size": [
+            0.67,
+            0.01,
+            0.026
+          ],
+          "color": "#a6c6c1",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.5,
+            0,
+            0.4
+          ],
+          "rotation": [
+            0,
+            -0.12,
+            0
+          ],
+          "size": [
+            0.35,
+            0.01,
+            0.018
+          ],
+          "color": "#98bbb7",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Middle current",
+      "position": [
+        -0.65,
+        0.153,
+        1.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            -0.38,
+            0,
+            0.36
+          ],
+          "rotation": [
+            0,
+            -0.1,
+            0
+          ],
+          "size": [
+            0.55,
+            0.01,
+            0.025
+          ],
+          "color": "#a6c6c1",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.23,
+            0,
+            -0.23
+          ],
+          "rotation": [
+            0,
+            -0.12,
+            0
+          ],
+          "size": [
+            0.73,
+            0.01,
+            0.022
+          ],
+          "color": "#bad2cd",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.6,
+            0,
+            0.11
+          ],
+          "rotation": [
+            0,
+            -0.08,
+            0
+          ],
+          "size": [
+            0.3,
+            0.01,
+            0.022
+          ],
+          "color": "#98bbb7",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Eastern current",
+      "position": [
+        0.67,
+        0.152,
+        1.48
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "drift",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "plane",
+          "position": [
+            -0.14,
+            0,
+            -0.45
+          ],
+          "rotation": [
+            0,
+            -0.12,
+            0
+          ],
+          "size": [
+            0.48,
+            0.01,
+            0.024
+          ],
+          "color": "#bad2cd",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.36,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            -0.08,
+            0
+          ],
+          "size": [
+            0.62,
+            0.01,
+            0.022
+          ],
+          "color": "#a6c6c1",
+          "roughness": 0.3,
+          "glow": false
+        },
+        {
+          "type": "plane",
+          "position": [
+            0.22,
+            0,
+            0.41
+          ],
+          "rotation": [
+            0,
+            -0.1,
+            0
+          ],
+          "size": [
+            0.37,
+            0.01,
+            0.018
+          ],
+          "color": "#98bbb7",
+          "roughness": 0.3,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Footbridge",
+      "position": [
+        2.2,
+        0,
+        1.45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.5,
+            0.315,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.1,
+            0.13,
+            2.5
+          ],
+          "color": "#806d52",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.5,
+            0.315,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.1,
+            0.13,
+            2.5
+          ],
+          "color": "#806d52",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.5,
+            0.225,
+            -1.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.05,
+            0.25
+          ],
+          "color": "#8b806d",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.5,
+            0.225,
+            -1.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.05,
+            0.25
+          ],
+          "color": "#8b806d",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.5,
+            0.225,
+            1.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.05,
+            0.25
+          ],
+          "color": "#8b806d",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.5,
+            0.225,
+            1.1
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.14,
+            0.05,
+            0.25
+          ],
+          "color": "#8b806d",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.405,
+            -1.13
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.28,
+            0.05,
+            0.24
+          ],
+          "color": "#b59b73",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.405,
+            -0.88
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.28,
+            0.05,
+            0.24
+          ],
+          "color": "#c0a680",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Far bank steps",
+      "position": [
+        2.2,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.2375,
+            -0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.25,
+            0.075,
+            0.42
+          ],
+          "color": "#a89b83",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.3125,
+            0.11
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.25,
+            0.075,
+            0.18
+          ],
+          "color": "#b4a58c",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Near bank steps",
+      "position": [
+        2.2,
+        0,
+        2.9
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.2375,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.25,
+            0.075,
+            0.42
+          ],
+          "color": "#a89b83",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.3125,
+            -0.12
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.25,
+            0.075,
+            0.18
+          ],
+          "color": "#b4a58c",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bridge path",
+      "position": [
+        2.2,
+        0.205,
+        -0.33
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The river beyond the flowers was moving faster than it looked from the bridge."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.25,
+            0.01,
+            0.22
+          ],
+          "color": "#c4b697",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Bank stones",
+      "position": [
+        1.12,
+        0.2,
+        0.5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.07,
+            0.07
+          ],
+          "color": "#a6aaa0",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.14,
+            0.045,
+            0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.045,
+            0.045,
+            0.045
+          ],
+          "color": "#c0beb0",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.15,
+            0.055,
+            -0.02
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.055,
+            0.055
+          ],
+          "color": "#b4b8ad",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.29,
+            0.035,
+            0.03
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.035,
+            0.035,
+            0.035
+          ],
+          "color": "#bfbba9",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Foreground stones",
+      "position": [
+        -0.9,
+        0.2,
+        2.4
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "sphere",
+          "position": [
+            0,
+            0.12,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.12,
+            0.12,
+            0.12
+          ],
+          "color": "#b4b8b1",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -0.23,
+            0.07,
+            0.05
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.07,
+            0.07,
+            0.07
+          ],
+          "color": "#a5ada6",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            0.22,
+            0.08,
+            0.08
           ],
           "rotation": [
             0,
@@ -466,16 +2937,16 @@
             0.08,
             0.08
           ],
-          "color": "#d8ad71",
-          "roughness": 0.9,
+          "color": "#c1c2b4",
+          "roughness": 1,
           "glow": false
         },
         {
           "type": "sphere",
           "position": [
-            0,
-            0.55,
-            0.1
+            0.4,
+            0.04,
+            -0.02
           ],
           "rotation": [
             0,
@@ -483,43 +2954,22 @@
             0
           ],
           "size": [
-            0.09,
-            0.09,
-            0.09
+            0.04,
+            0.04,
+            0.04
           ],
-          "color": "#c58985",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0.7,
-            0.43,
-            -0.05
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.075,
-            0.075,
-            0.075
-          ],
-          "color": "#d5b36d",
-          "roughness": 0.9,
+          "color": "#acae9f",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "River",
+      "name": "Bank reeds",
       "position": [
-        0,
-        0.175,
-        -1.85
+        -3.3,
+        0.2,
+        0.42
       ],
       "rotation": [
         0,
@@ -527,15 +2977,13 @@
         0
       ],
       "motion": "none",
-      "moments": [
-        "The river beyond the flowers was moving faster than it looked from the bridge."
-      ],
+      "moments": [],
       "shapes": [
         {
-          "type": "plane",
+          "type": "cylinder",
           "position": [
-            0,
-            0,
+            -0.055,
+            0.24,
             0
           ],
           "rotation": [
@@ -544,85 +2992,85 @@
             0
           ],
           "size": [
-            6.8,
             0.01,
-            1.5
+            0.48,
+            0.01
           ],
-          "color": "#719ba1",
-          "roughness": 0.35,
+          "color": "#718663",
+          "roughness": 1,
           "glow": false
         },
         {
-          "type": "plane",
+          "type": "cylinder",
           "position": [
-            -1,
-            0.003,
-            0.2
+            0.05,
+            0.19,
+            0.04
           ],
           "rotation": [
             0,
-            0.08,
+            0,
             0
           ],
           "size": [
-            1,
             0.01,
-            0.035
+            0.38,
+            0.01
           ],
-          "color": "#b4d0cf",
-          "roughness": 0.4,
+          "color": "#718663",
+          "roughness": 1,
           "glow": false
         },
         {
-          "type": "plane",
+          "type": "cylinder",
           "position": [
-            0.2,
-            0.003,
-            -0.3
+            0,
+            0.29,
+            -0.04
           ],
           "rotation": [
             0,
-            -0.06,
+            0,
             0
           ],
           "size": [
-            0.8,
             0.01,
-            0.025
+            0.58,
+            0.01
           ],
-          "color": "#b4d0cf",
-          "roughness": 0.4,
+          "color": "#718663",
+          "roughness": 1,
           "glow": false
         },
         {
-          "type": "plane",
+          "type": "capsule",
           "position": [
-            -2.4,
-            0.003,
-            -0.1
+            -0.075,
+            0.15,
+            0.015
           ],
           "rotation": [
             0,
-            0.06,
-            0
+            0,
+            -0.35
           ],
           "size": [
-            0.7,
-            0.01,
-            0.03
+            0.013,
+            0.25,
+            0.013
           ],
-          "color": "#b4d0cf",
-          "roughness": 0.4,
+          "color": "#819568",
+          "roughness": 1,
           "glow": false
         }
       ]
     },
     {
-      "name": "Footbridge",
+      "name": "Near bank reeds",
       "position": [
-        2.2,
-        0.4,
-        -1.85
+        -2.75,
+        0.2,
+        2.5
       ],
       "rotation": [
         0,
@@ -630,15 +3078,13 @@
         0
       ],
       "motion": "none",
-      "moments": [
-        "The river beyond the flowers was moving faster than it looked from the bridge."
-      ],
+      "moments": [],
       "shapes": [
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
-            0,
-            0,
+            -0.055,
+            0.24,
             0
           ],
           "rotation": [
@@ -647,20 +3093,20 @@
             0
           ],
           "size": [
-            0.95,
-            0.14,
-            2.2
+            0.01,
+            0.48,
+            0.01
           ],
-          "color": "#a18a68",
-          "roughness": 0.9,
+          "color": "#718663",
+          "roughness": 1,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
-            -0.43,
-            0.5,
-            0
+            0.05,
+            0.19,
+            0.04
           ],
           "rotation": [
             0,
@@ -668,20 +3114,20 @@
             0
           ],
           "size": [
-            0.07,
-            0.07,
-            2.2
+            0.01,
+            0.38,
+            0.01
           ],
-          "color": "#806b50",
-          "roughness": 0.9,
+          "color": "#718663",
+          "roughness": 1,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "cylinder",
           "position": [
-            0.43,
-            0.5,
-            0
+            0,
+            0.29,
+            -0.04
           ],
           "rotation": [
             0,
@@ -689,96 +3135,33 @@
             0
           ],
           "size": [
-            0.07,
-            0.07,
-            2.2
+            0.01,
+            0.58,
+            0.01
           ],
-          "color": "#806b50",
-          "roughness": 0.9,
+          "color": "#718663",
+          "roughness": 1,
           "glow": false
         },
         {
-          "type": "box",
+          "type": "capsule",
           "position": [
-            -0.43,
+            -0.075,
+            0.15,
+            0.015
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.35
+          ],
+          "size": [
+            0.013,
             0.25,
-            -0.95
+            0.013
           ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.5,
-            0.07
-          ],
-          "color": "#806b50",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.43,
-            0.25,
-            -0.95
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.5,
-            0.07
-          ],
-          "color": "#806b50",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            -0.43,
-            0.25,
-            0.95
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.5,
-            0.07
-          ],
-          "color": "#806b50",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.43,
-            0.25,
-            0.95
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.07,
-            0.5,
-            0.07
-          ],
-          "color": "#806b50",
-          "roughness": 0.9,
+          "color": "#819568",
+          "roughness": 1,
           "glow": false
         }
       ]

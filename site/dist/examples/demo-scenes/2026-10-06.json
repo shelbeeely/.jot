@@ -3,33 +3,33 @@
   "version": 1,
   "made": {
     "model": "openai/gpt-6.1-sol",
-    "at": "2026-11-07T01:02:57.808Z"
+    "at": "2026-11-07T01:36:14.272Z"
   },
-  "title": "Flowers by the Drawing Desk",
-  "sky": "#cbd9de",
-  "ground": "#c3b29b",
+  "title": "Window drawing nook",
+  "sky": "#cbdde3",
+  "ground": "#b8b69f",
   "weather": "clear",
   "time": "day",
-  "atmosphere": "calm",
+  "atmosphere": "cosy",
   "camera": {
     "position": [
-      4,
-      3.3,
-      4.5
+      4.1,
+      4.5,
+      4.7
     ],
     "target": [
       0,
       1,
-      -0.35
+      -0.7
     ]
   },
   "objects": [
     {
-      "name": "Floor",
+      "name": "Wooden floor",
       "position": [
         0,
-        0.06,
-        0
+        0,
+        -0.3
       ],
       "rotation": [
         0,
@@ -43,7 +43,7 @@
           "type": "box",
           "position": [
             0,
-            0,
+            0.03,
             0
           ],
           "rotation": [
@@ -52,12 +52,159 @@
             0
           ],
           "size": [
-            3.8,
-            0.12,
-            3.2
+            4,
+            0.06,
+            3.4
           ],
-          "color": "#c8b398",
+          "color": "#a69277",
           "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.8,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.398,
+            0.02,
+            3.4
+          ],
+          "color": "#c7b394",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.4,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.398,
+            0.02,
+            3.4
+          ],
+          "color": "#ccb89a",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.398,
+            0.02,
+            3.4
+          ],
+          "color": "#c2ae8f",
+          "roughness": 0.86,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.6,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.398,
+            0.02,
+            3.4
+          ],
+          "color": "#cbb799",
+          "roughness": 0.86,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.2,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.398,
+            0.02,
+            3.4
+          ],
+          "color": "#d1bea0",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.2,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.398,
+            0.02,
+            3.4
+          ],
+          "color": "#c7b394",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.6,
+            0.07,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.398,
+            0.02,
+            3.4
+          ],
+          "color": "#cbb799",
+          "roughness": 0.86,
           "glow": false
         }
       ]
@@ -66,8 +213,8 @@
       "name": "Back wall",
       "position": [
         0,
-        1.45,
-        -1.5
+        0,
+        -1.96
       ],
       "rotation": [
         0,
@@ -80,8 +227,8 @@
         {
           "type": "box",
           "position": [
-            -1.3,
-            0,
+            -1.09,
+            1.405,
             0
           ],
           "rotation": [
@@ -90,19 +237,19 @@
             0
           ],
           "size": [
-            1.2,
-            2.66,
-            0.12
+            1.66,
+            2.65,
+            0.08
           ],
-          "color": "#eee5d6",
+          "color": "#deddd0",
           "roughness": 1,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            1.35,
-            0,
+            1.63,
+            1.405,
             0
           ],
           "rotation": [
@@ -111,19 +258,19 @@
             0
           ],
           "size": [
-            1.1,
-            2.66,
-            0.12
+            0.74,
+            2.65,
+            0.08
           ],
-          "color": "#eee5d6",
+          "color": "#deddd0",
           "roughness": 1,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.05,
-            -0.95,
+            0.5,
+            0.605,
             0
           ],
           "rotation": [
@@ -132,19 +279,19 @@
             0
           ],
           "size": [
-            1.5,
-            0.76,
-            0.12
-          ],
-          "color": "#eee5d6",
-          "roughness": 1,
-          "glow": false
-        },
-        {
-          "type": "box",
-          "position": [
-            0.05,
+            1.52,
             1.05,
+            0.08
+          ],
+          "color": "#deddd0",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.5,
+            2.555,
             0
           ],
           "rotation": [
@@ -153,12 +300,109 @@
             0
           ],
           "size": [
-            1.5,
-            0.56,
-            0.12
+            1.52,
+            0.35,
+            0.08
           ],
-          "color": "#eee5d6",
+          "color": "#deddd0",
           "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Side wall",
+      "position": [
+        -1.96,
+        1.405,
+        -0.3
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.08,
+            2.65,
+            3.4
+          ],
+          "color": "#d2d6c6",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Skirting",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0.04,
+            0.125,
+            -1.901
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            3.92,
+            0.09,
+            0.038
+          ],
+          "color": "#aa9275",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.901,
+            0.125,
+            -0.241
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.038,
+            0.09,
+            3.282
+          ],
+          "color": "#aa9275",
+          "roughness": 0.8,
           "glow": false
         }
       ]
@@ -166,9 +410,9 @@
     {
       "name": "Window",
       "position": [
-        0.05,
-        1.55,
-        -1.5
+        0.5,
+        1.78,
+        -1.96
       ],
       "rotation": [
         0,
@@ -193,20 +437,39 @@
             0
           ],
           "size": [
-            1.5,
-            1.24,
-            0.12
+            1.52,
+            1.2,
+            0.08
           ],
-          "color": "#faf3df",
-          "roughness": 0.65,
+          "color": "#e9e3d3",
+          "roughness": 0.68,
           "glow": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Window sill",
+      "position": [
+        0.5,
+        1.155,
+        -1.84
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
+      ],
+      "shapes": [
         {
           "type": "box",
           "position": [
             0,
-            -0.65,
-            0.1
+            0,
+            0
           ],
           "rotation": [
             0,
@@ -214,12 +477,298 @@
             0
           ],
           "size": [
-            1.65,
-            0.07,
-            0.3
+            1.52,
+            0.05,
+            0.32
           ],
-          "color": "#d1b591",
-          "roughness": 0.75,
+          "color": "#d3c2a5",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.035,
+            0.14
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.52,
+            0.02,
+            0.04
+          ],
+          "color": "#bca88a",
+          "roughness": 0.8,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Curtain rail",
+      "position": [
+        0.5,
+        2.46,
+        -1.815
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.014,
+            2.14,
+            0.014
+          ],
+          "color": "#8d7b62",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            -1.097,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.027,
+            0.027,
+            0.027
+          ],
+          "color": "#8d7b62",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "sphere",
+          "position": [
+            1.097,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.027,
+            0.027,
+            0.027
+          ],
+          "color": "#8d7b62",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -1.015,
+            0,
+            -0.0595
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.035,
+            0.035,
+            0.091
+          ],
+          "color": "#8d7b62",
+          "roughness": 0.7,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            1.015,
+            0,
+            -0.0595
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.035,
+            0.035,
+            0.091
+          ],
+          "color": "#8d7b62",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Curtains",
+      "position": [
+        0.5,
+        1.821,
+        -1.795
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.94,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            1.25,
+            0.03
+          ],
+          "color": "#d9d4c2",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.885,
+            0,
+            -0.025
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            1.25,
+            0.03
+          ],
+          "color": "#c7c4b1",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.83,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            1.25,
+            0.03
+          ],
+          "color": "#dfdac8",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.83,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            1.25,
+            0.03
+          ],
+          "color": "#dfdac8",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.885,
+            0,
+            -0.025
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            1.25,
+            0.03
+          ],
+          "color": "#c7c4b1",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.94,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            1.25,
+            0.03
+          ],
+          "color": "#d9d4c2",
+          "roughness": 1,
           "glow": false
         }
       ]
@@ -228,8 +777,8 @@
       "name": "Desk",
       "position": [
         0,
-        0.87,
-        -0.6
+        0.83,
+        -1.16
       ],
       "rotation": [
         0,
@@ -256,20 +805,20 @@
             0
           ],
           "size": [
-            1.6,
+            1.86,
             0.06,
-            0.9
+            0.91
           ],
-          "color": "#ae8058",
-          "roughness": 0.8,
+          "color": "#bba181",
+          "roughness": 0.65,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.7,
+            -0.79,
             -0.39,
-            -0.35
+            -0.345
           ],
           "rotation": [
             0,
@@ -277,20 +826,20 @@
             0
           ],
           "size": [
-            0.08,
+            0.07,
             0.72,
-            0.08
+            0.07
           ],
-          "color": "#926c4c",
-          "roughness": 0.8,
+          "color": "#a78b6c",
+          "roughness": 0.78,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.7,
+            0.79,
             -0.39,
-            -0.35
+            -0.345
           ],
           "rotation": [
             0,
@@ -298,20 +847,20 @@
             0
           ],
           "size": [
-            0.08,
+            0.07,
             0.72,
-            0.08
+            0.07
           ],
-          "color": "#926c4c",
-          "roughness": 0.8,
+          "color": "#a78b6c",
+          "roughness": 0.78,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            -0.7,
+            -0.79,
             -0.39,
-            0.35
+            0.345
           ],
           "rotation": [
             0,
@@ -319,20 +868,20 @@
             0
           ],
           "size": [
-            0.08,
+            0.07,
             0.72,
-            0.08
+            0.07
           ],
-          "color": "#926c4c",
-          "roughness": 0.8,
+          "color": "#a78b6c",
+          "roughness": 0.78,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.7,
+            0.79,
             -0.39,
-            0.35
+            0.345
           ],
           "rotation": [
             0,
@@ -340,22 +889,203 @@
             0
           ],
           "size": [
-            0.08,
+            0.07,
             0.72,
-            0.08
+            0.07
           ],
-          "color": "#926c4c",
-          "roughness": 0.8,
+          "color": "#a78b6c",
+          "roughness": 0.78,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.2975,
+            -0.095,
+            0.345
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.915,
+            0.13,
+            0.055
+          ],
+          "color": "#ad9171",
+          "roughness": 0.76,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.7175,
+            -0.095,
+            0.345
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.075,
+            0.13,
+            0.055
+          ],
+          "color": "#ad9171",
+          "roughness": 0.76,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            -0.095,
+            -0.345
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.51,
+            0.13,
+            0.055
+          ],
+          "color": "#ad9171",
+          "roughness": 0.76,
           "glow": false
         }
       ]
     },
     {
-      "name": "Desk chair",
+      "name": "Desk drawer",
       "position": [
+        0.42,
+        0.735,
+        -1.16
+      ],
+      "rotation": [
         0,
-        0.57,
-        0.35
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.52,
+            0.13,
+            0.59
+          ],
+          "color": "#aa8d6d",
+          "roughness": 0.8,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.33375
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.52,
+            0.13,
+            0.0775
+          ],
+          "color": "#b49a79",
+          "roughness": 0.74,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0.3815
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.085,
+            0.018,
+            0.018
+          ],
+          "color": "#7e725d",
+          "roughness": 0.5,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Rug",
+      "position": [
+        0.07,
+        0.0875,
+        0.02
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "rug",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1.08,
+            0.015,
+            1.23
+          ],
+          "color": "#97a490",
+          "roughness": 1,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Chair",
+      "position": [
+        0.07,
+        0.545,
+        -0.06
       ],
       "rotation": [
         0,
@@ -378,12 +1108,12 @@
             0
           ],
           "size": [
-            0.5,
+            0.53,
             0.9,
-            0.5
+            0.54
           ],
-          "color": "#8b735d",
-          "roughness": 0.85,
+          "color": "#a58a6e",
+          "roughness": 0.78,
           "glow": false
         }
       ]
@@ -391,9 +1121,9 @@
     {
       "name": "Desk lamp",
       "position": [
-        -0.45,
-        1.14,
-        -0.62
+        -0.61,
+        0.86,
+        -1.115
       ],
       "rotation": [
         0,
@@ -409,7 +1139,7 @@
           "type": "lamp",
           "position": [
             0,
-            0,
+            0.205,
             0
           ],
           "rotation": [
@@ -418,34 +1148,33 @@
             0
           ],
           "size": [
-            0.28,
-            0.48,
-            0.28
+            0.24,
+            0.41,
+            0.24
           ],
-          "color": "#b6c1ad",
-          "roughness": 0.55,
-          "glow": false
+          "color": "#d4c69d",
+          "roughness": 0.54,
+          "glow": true
         }
       ]
     },
     {
       "name": "Open notebook",
       "position": [
-        0.08,
-        0.922,
-        -0.43
+        -0.17,
+        0.8725,
+        -1.065
       ],
       "rotation": [
         0,
-        -0.12,
+        0,
         0
       ],
       "motion": "none",
       "moments": [
         "At the desk I pushed the lamp closer and opened my notebook to a blank page.",
         "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river.",
-        "It is a demonstration drawing, rather than a scan of my notebook.",
-        "The words here use a different pen and green ink. #drawing #making @desk"
+        "It is a demonstration drawing, rather than a scan of my notebook."
       ],
       "shapes": [
         {
@@ -461,12 +1190,241 @@
             0
           ],
           "size": [
-            0.4,
-            0.044,
-            0.29
+            0.46,
+            0.025,
+            0.32
           ],
-          "color": "#6d8b70",
-          "roughness": 0.9,
+          "color": "#5b7367",
+          "roughness": 0.83,
+          "glow": false
+        },
+        {
+          "type": "papers",
+          "position": [
+            -0.115,
+            0.0145,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.212,
+            0.01,
+            0.304
+          ],
+          "color": "#f4f0e5",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "papers",
+          "position": [
+            0.115,
+            0.0145,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.212,
+            0.01,
+            0.304
+          ],
+          "color": "#f4f0e5",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.014,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.302
+          ],
+          "color": "#9ca393",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Stem sketch",
+      "position": [
+        -0.055,
+        0.8895,
+        -1.065
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.0265,
+            0,
+            -0.098
+          ],
+          "rotation": [
+            0,
+            -0.515,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0345
+          ],
+          "color": "#77786f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.0355,
+            0,
+            -0.0665
+          ],
+          "rotation": [
+            0,
+            -0.0303,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.033
+          ],
+          "color": "#77786f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.024,
+            0,
+            -0.035
+          ],
+          "rotation": [
+            0,
+            0.675,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0384
+          ],
+          "color": "#77786f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.001,
+            0,
+            -0.007
+          ],
+          "rotation": [
+            0,
+            0.7854,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0368
+          ],
+          "color": "#77786f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.0165,
+            0,
+            0.0205
+          ],
+          "rotation": [
+            0,
+            0.1707,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0294
+          ],
+          "color": "#77786f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.014,
+            0,
+            0.0515
+          ],
+          "rotation": [
+            0,
+            -0.2942,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0345
+          ],
+          "color": "#77786f",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.0135,
+            0,
+            0.084
+          ],
+          "rotation": [
+            0,
+            0.2742,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0332
+          ],
+          "color": "#77786f",
+          "roughness": 1,
           "glow": false
         }
       ]
@@ -474,19 +1432,141 @@
     {
       "name": "Pencil",
       "position": [
-        0.34,
-        0.908,
-        -0.35
+        0.235,
+        0.8645,
+        -0.946
       ],
       "rotation": [
         0,
-        -0.25,
-        0
+        -0.22,
+        -1.5708
       ],
       "motion": "none",
       "moments": [
         "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
       ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.17,
+            0.01
+          ],
+          "color": "#c79a55",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.096,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.022,
+            0.01
+          ],
+          "color": "#dbc3a0",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.1095,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#535b54",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            -0.0905,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.011,
+            0.01
+          ],
+          "color": "#b8bab0",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            -0.102,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.012,
+            0.01
+          ],
+          "color": "#c7a8a0",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Eraser",
+      "position": [
+        0.205,
+        0.871,
+        -1.15
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
       "shapes": [
         {
           "type": "box",
@@ -501,26 +1581,350 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            0.17
+            0.044,
+            0.022,
+            0.026
           ],
-          "color": "#b99358",
+          "color": "#dfd1ba",
+          "roughness": 0.98,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0115,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.026,
+            0.01,
+            0.026
+          ],
+          "color": "#c6ceb9",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pencil cup",
+      "position": [
+        -0.69,
+        0.86,
+        -1.475
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "mug",
+          "position": [
+            0,
+            0.0525,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.105,
+            0.105,
+            0.092
+          ],
+          "color": "#b89c79",
           "roughness": 0.8,
           "glow": false
         }
       ]
     },
     {
-      "name": "Green ink pen",
+      "name": "Spare pencils",
       "position": [
-        0.39,
-        0.908,
-        -0.52
+        -0.69,
+        0.963,
+        -1.475
       ],
       "rotation": [
         0,
-        0.12,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            -0.016,
+            0.044,
+            -0.008
+          ],
+          "rotation": [
+            0,
+            0,
+            0.08
+          ],
+          "size": [
+            0.01,
+            0.158,
+            0.01
+          ],
+          "color": "#708477",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.0225,
+            0.13,
+            -0.008
+          ],
+          "rotation": [
+            0,
+            0,
+            0.08
+          ],
+          "size": [
+            0.01,
+            0.014,
+            0.01
+          ],
+          "color": "#dbc3a0",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.0233,
+            0.1385,
+            -0.008
+          ],
+          "rotation": [
+            0,
+            0,
+            0.08
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#5c615c",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.012,
+            0.028,
+            0.011
+          ],
+          "rotation": [
+            0.07,
+            0,
+            -0.05
+          ],
+          "size": [
+            0.01,
+            0.145,
+            0.01
+          ],
+          "color": "#c4a55e",
+          "roughness": 0.85,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.016,
+            0.107,
+            0.016
+          ],
+          "rotation": [
+            0.07,
+            0,
+            -0.05
+          ],
+          "size": [
+            0.01,
+            0.013,
+            0.01
+          ],
+          "color": "#dbc3a0",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.0165,
+            0.115,
+            0.0166
+          ],
+          "rotation": [
+            0.07,
+            0,
+            -0.05
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#5c615c",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Stationery tray",
+      "position": [
+        0.565,
+        0.86,
+        -1.505
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.006,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.28,
+            0.012,
+            0.15
+          ],
+          "color": "#bcad90",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.133,
+            0.021,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.014,
+            0.018,
+            0.15
+          ],
+          "color": "#a7987d",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.133,
+            0.021,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.014,
+            0.018,
+            0.15
+          ],
+          "color": "#a7987d",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.021,
+            -0.068
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.252,
+            0.018,
+            0.014
+          ],
+          "color": "#a7987d",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.021,
+            0.068
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.252,
+            0.018,
+            0.014
+          ],
+          "color": "#a7987d",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Ink bottle",
+      "position": [
+        0.62,
+        0.9095,
+        -1.505
+      ],
+      "rotation": [
+        0,
+        0,
         0
       ],
       "motion": "none",
@@ -529,6 +1933,44 @@
       ],
       "shapes": [
         {
+          "type": "bottle",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.052,
+            0.075,
+            0.052
+          ],
+          "color": "#50755d",
+          "roughness": 0.36,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pencil sharpener",
+      "position": [
+        0.48,
+        0.885,
+        -1.505
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
           "type": "box",
           "position": [
             0,
@@ -541,22 +1983,291 @@
             0
           ],
           "size": [
-            0.01,
-            0.01,
-            0.14
+            0.037,
+            0.026,
+            0.029
           ],
-          "color": "#35654e",
+          "color": "#969e98",
+          "roughness": 0.54,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.0135,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.025,
+            0.01,
+            0.019
+          ],
+          "color": "#ced0c8",
+          "roughness": 0.35,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.003,
+            0.0145,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#70776e",
           "roughness": 0.45,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0.015
+          ],
+          "rotation": [
+            1.5708,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#53594f",
+          "roughness": 0.9,
           "glow": false
         }
       ]
     },
     {
-      "name": "Old flower mug",
+      "name": "Green ink pen",
       "position": [
-        0.56,
-        0.965,
-        -0.88
+        0.49,
+        0.8668,
+        -0.841
+      ],
+      "rotation": [
+        0,
+        0.14,
+        -1.5708
+      ],
+      "motion": "none",
+      "moments": [
+        "The words here use a different pen and green ink. #drawing #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.12,
+            0.01
+          ],
+          "color": "#41694f",
+          "roughness": 0.48,
+          "glow": false
+        },
+        {
+          "type": "capsule",
+          "position": [
+            0,
+            -0.0675,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.015,
+            0.01
+          ],
+          "color": "#41694f",
+          "roughness": 0.48,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.071,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.022,
+            0.01
+          ],
+          "color": "#b69b68",
+          "roughness": 0.4,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0,
+            0.084,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#314d3c",
+          "roughness": 0.65,
+          "glow": false
+        },
+        {
+          "type": "torus",
+          "position": [
+            0,
+            0.051,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#bda673",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Pen cap",
+      "position": [
+        0.757,
+        0.8665,
+        -1.135
+      ],
+      "rotation": [
+        1.5708,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The words here use a different pen and green ink. #drawing #making @desk"
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.045,
+            0.01
+          ],
+          "color": "#466c55",
+          "roughness": 0.48,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0.025,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "color": "#466c55",
+          "roughness": 0.48,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.0075,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.027,
+            0.01
+          ],
+          "color": "#bda673",
+          "roughness": 0.4,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Ink sample",
+      "position": [
+        0.545,
+        0.862,
+        -1.215
       ],
       "rotation": [
         0,
@@ -565,8 +2276,278 @@
       ],
       "motion": "none",
       "moments": [
-        "A sprig of garden flowers stood in an old mug beside the window.",
-        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
+        "The attached ink sample has a picture for reading and a companion file for its pen strokes.",
+        "It is a demonstration drawing, rather than a scan of my notebook.",
+        "Demonstration handwriting with stored editable pen strokes",
+        "Editable pen strokes"
+      ],
+      "shapes": [
+        {
+          "type": "papers",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.01,
+            0.27
+          ],
+          "color": "#f3eddf",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Green ink strokes",
+      "position": [
+        0.545,
+        0.8645,
+        -1.215
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "The attached ink sample has a picture for reading and a companion file for its pen strokes.",
+        "The words here use a different pen and green ink. #drawing #making @desk",
+        "Demonstration handwriting with stored editable pen strokes",
+        "Editable pen strokes"
+      ],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.09,
+            0,
+            -0.0625
+          ],
+          "rotation": [
+            0,
+            -0.6747,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.032
+          ],
+          "color": "#346949",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.065,
+            0,
+            -0.0735
+          ],
+          "rotation": [
+            0,
+            1.4711,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0302
+          ],
+          "color": "#346949",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.0375,
+            0,
+            -0.0585
+          ],
+          "rotation": [
+            0,
+            0.746,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0368
+          ],
+          "color": "#346949",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.0125,
+            0,
+            -0.05
+          ],
+          "rotation": [
+            0,
+            -1.1903,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0269
+          ],
+          "color": "#346949",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.009,
+            0,
+            -0.0675
+          ],
+          "rotation": [
+            0,
+            -0.624,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0308
+          ],
+          "color": "#346949",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.029,
+            0,
+            -0.0675
+          ],
+          "rotation": [
+            0,
+            0.7217,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0333
+          ],
+          "color": "#346949",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.055,
+            0,
+            -0.05
+          ],
+          "rotation": [
+            0,
+            1.249,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0316
+          ],
+          "color": "#346949",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.085,
+            0,
+            -0.055
+          ],
+          "rotation": [
+            0,
+            -0.9828,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.0361
+          ],
+          "color": "#346949",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Mug coaster",
+      "position": [
+        0.8,
+        1.184,
+        -1.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.086,
+            0.01,
+            0.086
+          ],
+          "color": "#b99771",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Old flower mug",
+      "position": [
+        0.8,
+        1.253,
+        -1.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window."
       ],
       "shapes": [
         {
@@ -582,83 +2563,225 @@
             0
           ],
           "size": [
-            0.15,
+            0.14,
             0.13,
-            0.11
+            0.112
           ],
-          "color": "#bca18b",
-          "roughness": 0.85,
+          "color": "#b7bbaa",
+          "roughness": 0.87,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Garden flowers",
+      "position": [
+        0.8,
+        1.296,
+        -1.8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [
+        "A sprig of garden flowers stood in an old mug beside the window.",
+        "I tried drawing the curve of the stem without lifting the pencil, then laughed at how much it looked like a winding river."
+      ],
+      "shapes": [
+        {
+          "type": "cylinder",
+          "position": [
+            0.003,
+            0.027,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.08
+          ],
+          "size": [
+            0.01,
+            0.08,
+            0.01
+          ],
+          "color": "#617c5b",
+          "roughness": 0.9,
           "glow": false
         },
         {
           "type": "cylinder",
           "position": [
-            -0.012,
-            0.15,
+            0.011,
+            0.103,
             0
           ],
           "rotation": [
             0,
             0,
-            -0.16
+            -0.13
           ],
           "size": [
             0.01,
-            0.26,
+            0.08,
             0.01
           ],
-          "color": "#63825a",
+          "color": "#617c5b",
           "roughness": 0.9,
           "glow": false
         },
         {
-          "type": "sphere",
+          "type": "cylinder",
           "position": [
-            0.009,
-            0.285,
+            0.026,
+            0.18,
             0
           ],
           "rotation": [
             0,
             0,
-            0
+            -0.25
           ],
           "size": [
-            0.024,
-            0.024,
-            0.024
-          ],
-          "color": "#cba2b1",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            -0.018,
-            0.292,
+            0.01,
+            0.078,
             0.01
           ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.022,
-            0.022,
-            0.022
-          ],
-          "color": "#dbc0c8",
+          "color": "#617c5b",
           "roughness": 0.9,
           "glow": false
         },
         {
-          "type": "sphere",
+          "type": "cylinder",
           "position": [
+            0.049,
+            0.254,
+            0
+          ],
+          "rotation": [
             0,
-            0.302,
-            -0.018
+            0,
+            -0.35
+          ],
+          "size": [
+            0.01,
+            0.078,
+            0.01
+          ],
+          "color": "#617c5b",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            -0.031,
+            0.169,
+            0.008
+          ],
+          "rotation": [
+            0,
+            0,
+            0.59
+          ],
+          "size": [
+            0.01,
+            0.154,
+            0.01
+          ],
+          "color": "#6e8561",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cylinder",
+          "position": [
+            0.074,
+            0.209,
+            -0.014
+          ],
+          "rotation": [
+            0,
+            0,
+            -1.02
+          ],
+          "size": [
+            0.01,
+            0.105,
+            0.01
+          ],
+          "color": "#6e8561",
+          "roughness": 0.9,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            -0.021,
+            0.075,
+            0.013
+          ],
+          "rotation": [
+            0,
+            0,
+            0.95
+          ],
+          "size": [
+            0.011,
+            0.059,
+            0.011
+          ],
+          "color": "#7a9271",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "cone",
+          "position": [
+            0.044,
+            0.134,
+            -0.005
+          ],
+          "rotation": [
+            0,
+            0,
+            -0.9
+          ],
+          "size": [
+            0.01,
+            0.065,
+            0.01
+          ],
+          "color": "#6e8865",
+          "roughness": 0.95,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Low shelf",
+      "position": [
+        -1.54,
+        0.08,
+        -1.7
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            -0.31,
+            0.5,
+            0
           ],
           "rotation": [
             0,
@@ -666,53 +2789,495 @@
             0
           ],
           "size": [
-            0.02,
-            0.02,
+            0.04,
+            1,
+            0.36
+          ],
+          "color": "#aa9377",
+          "roughness": 0.82,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0.31,
+            0.5,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.04,
+            1,
+            0.36
+          ],
+          "color": "#aa9377",
+          "roughness": 0.82,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.5,
+            -0.17
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.58,
+            1,
             0.02
           ],
-          "color": "#e6ced0",
-          "roughness": 0.9,
-          "glow": false
-        },
-        {
-          "type": "sphere",
-          "position": [
-            0,
-            0.29,
-            0
-          ],
-          "rotation": [
-            0,
-            0,
-            0
-          ],
-          "size": [
-            0.01,
-            0.01,
-            0.01
-          ],
-          "color": "#c7a358",
+          "color": "#b3a081",
           "roughness": 0.9,
           "glow": false
         },
         {
           "type": "box",
           "position": [
-            0.019,
-            0.15,
+            0,
+            0.02,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.58,
+            0.04,
+            0.34
+          ],
+          "color": "#baa487",
+          "roughness": 0.82,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.335,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.58,
+            0.03,
+            0.34
+          ],
+          "color": "#baa487",
+          "roughness": 0.82,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.665,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.58,
+            0.03,
+            0.34
+          ],
+          "color": "#baa487",
+          "roughness": 0.82,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.98,
+            0.01
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.58,
+            0.04,
+            0.34
+          ],
+          "color": "#baa487",
+          "roughness": 0.82,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "position": [
+        -1.54,
+        0.43,
+        -1.69
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            -0.19,
+            0.12,
             0
           ],
           "rotation": [
             0,
             0,
-            -0.55
+            1.5708
           ],
           "size": [
-            0.045,
-            0.014,
-            0.021
+            0.24,
+            0.034,
+            0.24
           ],
-          "color": "#78966b",
+          "color": "#687e72",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            -0.135,
+            0.115,
+            0.005
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.23,
+            0.038,
+            0.23
+          ],
+          "color": "#bfa87d",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "book",
+          "position": [
+            -0.079,
+            0.13,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            1.5708
+          ],
+          "size": [
+            0.26,
+            0.034,
+            0.24
+          ],
+          "color": "#989289",
+          "roughness": 0.88,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Paper stack",
+      "position": [
+        -1.386,
+        0.45,
+        -1.69
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "papers",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.04,
+            0.24
+          ],
+          "color": "#e5ddc9",
+          "roughness": 0.98,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Sketchbooks",
+      "position": [
+        -1.54,
+        0.76,
+        -1.69
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "book",
+          "position": [
+            -0.07,
+            0.019,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.27,
+            0.038,
+            0.255
+          ],
+          "color": "#8e867e",
+          "roughness": 0.88,
+          "glow": false
+        },
+        {
+          "type": "notebook",
+          "position": [
+            -0.055,
+            0.055,
+            0.002
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.235,
+            0.034,
+            0.24
+          ],
+          "color": "#6b8471",
+          "roughness": 0.9,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Storage box",
+      "position": [
+        -1.54,
+        0.12,
+        -1.69
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.085,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.43,
+            0.17,
+            0.24
+          ],
+          "color": "#b2ac90",
+          "roughness": 0.96,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.1775,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.445,
+            0.015,
+            0.25
+          ],
+          "color": "#c5b99f",
+          "roughness": 0.95,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            0,
+            0.1,
+            0.124
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.055,
+            0.014,
+            0.01
+          ],
+          "color": "#716e5b",
+          "roughness": 0.7,
+          "glow": false
+        }
+      ]
+    },
+    {
+      "name": "Folded cloth",
+      "position": [
+        -1.55,
+        1.092,
+        -1.67
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "motion": "none",
+      "moments": [],
+      "shapes": [
+        {
+          "type": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.24,
+            0.024,
+            0.17
+          ],
+          "color": "#dcd7c7",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.015,
+            0.014,
+            0.015
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.2,
+            0.01,
+            0.13
+          ],
+          "color": "#e5dfce",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.07,
+            0.0165,
+            0.015
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.13
+          ],
+          "color": "#8c9d89",
+          "roughness": 1,
+          "glow": false
+        },
+        {
+          "type": "box",
+          "position": [
+            -0.054,
+            0.0165,
+            0.015
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.01,
+            0.01,
+            0.13
+          ],
+          "color": "#8c9d89",
           "roughness": 1,
           "glow": false
         }

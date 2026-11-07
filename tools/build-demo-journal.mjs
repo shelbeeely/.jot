@@ -65,7 +65,8 @@ async function verifyArchive(bytes, input, mixed) {
     for (const original of input.assets) {
       const asset = doc.assets.find((a) => a.path === original.path);
       assert.ok(asset, original.path); assert.equal(asset.id, original.id); assert.equal(asset.mediaType, original.mediaType);
-      assert.deepEqual(Buffer.from(asset.data), Buffer.from(original.data), original.path + ' must retain exact original bytes.');
+      // Compare bytes directly: a failing deepEqual on large buffers builds a diff that can exhaust memory.
+      assert.ok(Buffer.from(asset.data).equals(Buffer.from(original.data)), original.path + ' must retain exact original bytes.');
     }
   } finally { doc.index?.close(); }
   if (mixed) {
